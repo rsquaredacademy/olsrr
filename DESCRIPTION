@@ -1,12 +1,18 @@
 Package: olsrr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Tools for OLS Regression
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
+Description: A set of tools aimed at beginners for building OLS 
+    regression models.
+Depends:
+    R(>= 3.2.4)
+Suggests: 
+    testthat
+License: MIT + file LICENSE
+URL: https://github.com/rsquaredacademy/olsrr
+BugReports: https://github.com/rsquaredacademy/olsrr/issues
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
