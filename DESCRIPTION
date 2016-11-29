@@ -8,7 +8,8 @@ Description: A set of tools aimed at beginners for building OLS
 Depends:
     R(>= 3.2.4)
 Suggests:
-    testthat
+    testthat,
+    covr
 License: MIT + file LICENSE
 URL: https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues

@@ -14,6 +14,9 @@ knitr::opts_chunk$set(
 
 # olsrr
 
+[![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr)
+[![Coverage Status](https://img.shields.io/codecov/c/github/rsquaredacademy/olsrr/master.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master)
+
 The goal of olsrr is to ...
 
 ## Installation
