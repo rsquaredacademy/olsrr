@@ -1,25 +1,34 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-olsrr
-=====
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# olsrr
 
 The goal of olsrr is to ...
 
-Installation
-------------
+## Installation
 
 You can install olsrr from github with:
 
-``` r
+```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("rsquaredacademy/olsrr")
 ```
 
-Example
--------
+## Example
 
 This is a basic example which shows you how to solve a common problem:
 
-``` r
+```{r example}
 ## basic example code
 ```
