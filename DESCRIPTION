@@ -7,7 +7,7 @@ Description: A set of tools aimed at beginners for building OLS
     regression models.
 Depends:
     R(>= 3.2.4)
-Suggests: 
+Suggests:
     testthat
 License: MIT + file LICENSE
 URL: https://github.com/rsquaredacademy/olsrr
