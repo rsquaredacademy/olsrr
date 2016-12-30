@@ -1,7 +1,60 @@
-regress <- function(formula, data, conf.level = 0.95, title = 'model') UseMethod('regress')
+#' @title Ordinary Least Squares Regression
+#' @description Ordinary Least Squares Regression
+#' @param object an object of class "formula" (or one that can be coerced to
+#' that class): a symbolic description of the model to be fitted.
+#' @param ... other inputs
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return \code{regress} returns an object of class \code{"regress"}. An object
+#' of class \code{"regress"} is a list containing the following
+#' components:
+#'
+#' \item{r}{f statistic}
+#' \item{rsq}{pure error}
+#' \item{adjr}{regression sum of squares}
+#' \item{sigma}{error sum of squares}
+#' \item{cv}{total sum of squares}
+#' \item{mse}{}
+#' \item{mae}{p-value of \code{fstat}}
+#' \item{aic}{degrees of freedom}
+#' \item{sbc}{name(s) of \code{variable}}
+#' \item{sbic}{name of \code{group_var}}
+#' \item{prsq}{f statistic}
+#' \item{error_df}{p-value of \code{fstat}}
+#' \item{model_df}{degrees of freedom}
+#' \item{total_df}{name(s) of \code{variable}}
+#' \item{ess}{name of \code{group_var}}
+#' \item{rss}{f statistic}
+#' \item{tss}{p-value of \code{fstat}}
+#' \item{rms}{degrees of freedom}
+#' \item{ems}{name(s) of \code{variable}}
+#' \item{f}{name of \code{group_var}}
+#' \item{p}{name of \code{group_var}}
+#' \item{n}{p-value of \code{fstat}}
+#' \item{betas}{degrees of freedom}
+#' \item{sbetas}{name(s) of \code{variable}}
+#' \item{std_errors}{name of \code{group_var}}
+#' \item{tvalues}{f statistic}
+#' \item{pvalues}{p-value of \code{fstat}}
+#' \item{df}{degrees of freedom}
+#' \item{conf_lm}{name(s) of \code{variable}}
+#' \item{title}{name of \code{group_var}}
+#' \item{dependent}{f statistic}
+#' \item{predictors}{p-value of \code{fstat}}
+#' \item{mvars}{degrees of freedom}
+#' \item{model}{name(s) of \code{variable}}
+#' @export
+#'
+regress <- function(object, ...) UseMethod('regress')
 
-
-regress.default <- function(formula, data, conf.level = 0.95, title = 'model') {
+#' @export
+#'
+regress.default <- function(object, data, conf.level = 0.95, title = 'model', ...) {
 
   # if (!inherits(formula, 'formula')) {
   # 	stop('Please specify a valid formula.', call. = FALSE)
@@ -17,7 +70,7 @@ regress.default <- function(formula, data, conf.level = 0.95, title = 'model') {
 
   if (!is.numeric(conf.level)) {
     stop('conf.level must be numeric', call. = FALSE)
-  } 
+  }
 
   if ((conf.level < 0) | (conf.level > 1)) {
     stop('conf.level must be between 0 and 1', call. = FALSE)
@@ -27,26 +80,23 @@ regress.default <- function(formula, data, conf.level = 0.95, title = 'model') {
     stop(paste(title, 'is not a string, Please specify a string as title.'), call. = FALSE)
   }
 
-  result        <- reg_comp(formula, data, conf.level, title)
+  result        <- reg_comp(object, data, conf.level, title)
   class(result) <- 'regress'
   return(result)
 
 }
 
-
-regress.lm <- function(model, ...) {
-
-    formula <- formula(model)
-    data    <- model.frame(model)
-
+#' @rdname regress
+#' @export
+#'
+regress.lm <- function(object, ...) {
+    formula <- formula(object)
+    data    <- model.frame(object)
     regress.default(formula = formula, data = data)
-
 }
 
-
-print.regress <- function(data) {
-
-    print_reg(data)
-
+#' @export
+#'
+print.regress <- function(x, ...) {
+    print_reg(x)
 }
-

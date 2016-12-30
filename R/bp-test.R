@@ -1,7 +1,34 @@
+#' @title Breusch Pagan Test
+#' @description Test for heteroskedasticity
+#' @param model an object of class \code{lm}
+#' @param fitted.values logical; if TRUE, use fitted values of regression model
+#' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
+#' performed for the right-hand-side (explanatory) variables of the fitted
+#' regression model
+#' @param multiple logical; if TRUE, specifies that multiple testing be performed
+#' @param p.adj p value adjustment, following options are available: bonferroni,
+#' holm, sidak and none
+#' @param vars variables to be used for for heteroskedasticity test
+#' @return \code{bp_test} returns an object of class \code{"bp_test"}.
+#' An object of class \code{"bp_test"} is a list containing the
+#' following components:
+#'
+#' \item{bp}{reusch pagan statistic}
+#' \item{p}{p-value of \code{bp}}
+#' \item{fv}{fitted values of the regression model}
+#' \item{rhs}{name of explanatory variables of fitted regression model}
+#' \item{multiple}{logical value indicating if multiple tests should be performed}
+#' \item{padj}{adjusted p values}
+#' \item{vars}{variables to be used for heteroskedasticity test}
+#' \item{resp}{response variable}
+#' \item{preds}{predictors}
+#' @export
+#'
 bp_test <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
 	p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) UseMethod('bp_test')
 
-
+#' @export
+#'
 bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
 	p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) {
 
@@ -20,18 +47,18 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
     if (!is.logical(multiple)) {
     	stop('multiple must be either TRUE or FALSE')
     }
-    
+
     suppressWarnings(
     	if (!is.na(vars)) {
 
     		if (!all(vars %in% names(model$coefficients))) {
     			stop('vars must be a subset of the predictors in the model')
-    		}	
-    		
+    		}
+
 	    	fitted.values <- FALSE
 	    }
     )
-    
+
     method     <- match.arg(p.adj)
     l          <- model.frame(model)
     n          <- nrow(l)
@@ -49,19 +76,19 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 					n         <- nrow(l)
 					nam       <- names(l)[-1]
 					np        <- length(nam)
-					var_resid <- sum(residuals(model) ^ 2) / n 
+					var_resid <- sum(residuals(model) ^ 2) / n
 					ind       <- residuals(model) ^ 2 / var_resid - 1
 					l         <- cbind(l, ind)
 					tstat     <- c()
 					pvals     <- c()
 
 					for (i in seq_len(np)) {
-					    
+
 					    form     <- as.formula(paste("ind ~", nam[i]))
 					    model1   <- lm(form, data = l)
 					    tstat[i] <- sum(model1$fitted ^ 2) / 2
 					    pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = F)
-					    
+
 					}
 
 					mdata  <- l[-1]
@@ -92,17 +119,17 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 
 				} else {
 
-					p      <- c(pvals, ps)					
+					p      <- c(pvals, ps)
 
 				}
 
 			} else {
 
 				n         <- nrow(model.frame(model))
-				var_resid <- sum(residuals(model) ^ 2) / n 
+				var_resid <- sum(residuals(model) ^ 2) / n
 				ind       <- residuals(model) ^ 2 / var_resid - 1
 				mdata     <- l[-1]
-				d_f       <- ncol(mdata) 
+				d_f       <- ncol(mdata)
 				model1    <- lm(ind ~ ., data = mdata)
 				bp        <- sum(model1$fitted ^ 2) / 2
 				p         <- pchisq(bp, df = d_f, lower.tail = F)
@@ -131,19 +158,19 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 					n         <- nrow(l)
 					nam       <- names(l)[-1]
 					np        <- length(nam)
-					var_resid <- sum(residuals(model) ^ 2) / n 
+					var_resid <- sum(residuals(model) ^ 2) / n
 					ind       <- residuals(model) ^ 2 / var_resid - 1
 					l         <- cbind(l, ind)
 					tstat     <- c()
 					pvals     <- c()
 
 					for (i in seq_len(np)) {
-					    
+
 					    form     <- as.formula(paste("ind ~", nam[i]))
 					    model1   <- lm(form, data = l)
 					    tstat[i] <- sum(model1$fitted ^ 2) / 2
 					    pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = F)
-					    
+
 					}
 
 					mdata  <- l[-1]
@@ -173,7 +200,7 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 
 				} else {
 
-					p      <- c(pvals, ps)					
+					p      <- c(pvals, ps)
 
 				}
 
@@ -187,7 +214,7 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 					n         <- nrow(l)
 					nam       <- names(l)[-1]
 					np        <- length(nam)
-					var_resid <- sum(residuals(model) ^ 2) / n 
+					var_resid <- sum(residuals(model) ^ 2) / n
 					ind       <- residuals(model) ^ 2 / var_resid - 1
 					l         <- cbind(l, ind)
 					len_var   <- length(vars)
@@ -195,12 +222,12 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 					pvals     <- c()
 
 					for (i in seq_len(len_var)) {
-					    
+
 					    form     <- as.formula(paste("ind ~", vars[i]))
 					    model1   <- lm(form, data = l)
 					    tstat[i] <- sum(model1$fitted ^ 2) / 2
 					    pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = F)
-					    
+
 					}
 
 					# simultaneous
@@ -234,7 +261,7 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 
 					} else {
 
-						p      <- c(pvals, ps)					
+						p      <- c(pvals, ps)
 
 					}
 
@@ -243,7 +270,7 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 					n         <- nrow(l)
 					nam       <- names(l)[-1]
 					np        <- length(nam)
-					var_resid <- sum(residuals(model) ^ 2) / n 
+					var_resid <- sum(residuals(model) ^ 2) / n
 					ind       <- residuals(model) ^ 2 / var_resid - 1
 					l         <- cbind(l, ind)
 					mdata     <- l[-1]
@@ -265,7 +292,7 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 				n         <- nrow(l)
 				nam       <- names(l)[-1]
 				np        <- length(nam)
-				var_resid <- sum(residuals(model) ^ 2) / n 
+				var_resid <- sum(residuals(model) ^ 2) / n
 				ind       <- residuals(model) ^ 2 / var_resid - 1
 				l         <- cbind(l, ind)
 				mdata     <- l[-1]
@@ -279,7 +306,7 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 				n         <- nrow(l)
 				nam       <- names(l)[-1]
 				np        <- length(nam)
-				var_resid <- sum(residuals(model) ^ 2) / n 
+				var_resid <- sum(residuals(model) ^ 2) / n
 				ind       <- residuals(model) ^ 2 / var_resid - 1
 				l         <- cbind(l, ind)
 				mdata     <- l[-1]
@@ -299,25 +326,24 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 	}
 
 	# output
-	out <- list(bp       = round(bp, 4), 
-		          p        = round(p, 4), 
-		          fv       = fitted.values, 
-		          rhs      = rhs, 
+	out <- list(bp       = round(bp, 4),
+		          p        = round(p, 4),
+		          fv       = fitted.values,
+		          rhs      = rhs,
 		          multiple = multiple,
-							padj     = method, 
-							vars     = vars, 
-							resp     = response, 
+							padj     = method,
+							vars     = vars,
+							resp     = response,
 							preds    = predictors)
 
 	class(out) <- 'bp_test'
-	
+
 	return(out)
 
 }
 
-
-print.bp_test <- function(data) {
-
-	print_bptest(data)
-	
+#' @export
+#'
+print.bp_test <- function(x, ...) {
+	print_bp_test(x)
 }

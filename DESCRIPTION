@@ -3,13 +3,21 @@ Type: Package
 Title: Tools for OLS Regression
 Version: 0.1.0
 Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
-Description: A set of tools aimed at beginners for building OLS 
+Description: A set of tools aimed at beginners for building OLS
     regression models.
 Depends:
     R(>= 3.2.4)
+Imports:
+    graphics,
+    dplyr,
+    magrittr,
+    nortest,
+    goftest
 Suggests:
     testthat,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 License: MIT + file LICENSE
 URL: https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues

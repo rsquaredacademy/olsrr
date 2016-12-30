@@ -1,3 +1,15 @@
+#' @importFrom stats dfbetas
+#' @title DFBETAS Panel
+#' @description DFBETAS Panel
+#' @param model an object of class \code{lm}
+#' @return \code{dfbetas_panel} returns a list containing the
+#' following components:
+#'
+#' \item{dfbetas}{dfbetas}
+#' \item{threshold}{threshold for outliers}
+#' \item{outliers}{residual points that are outliers}
+#' @export
+#'
 dfbetas_panel <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -28,7 +40,7 @@ dfbetas_panel <- function(model) {
 		ymaxx      <- ifelse(ymax > threshold, ymax, threshold)
 
 		plot(seq_len(length(dbetas)), dbetas, type = "h", lwd = 1, col = "blue",
-		     xlab = "Observation", ylab = "DFBETAS", 
+		     xlab = "Observation", ylab = "DFBETAS",
 		     ylim = c(yminn, ymaxx),
 		     main = paste("Influence Diagnostics for", colnames(dfb)[i]))
 		points(dbetas, col = "blue")
@@ -37,7 +49,7 @@ dfbetas_panel <- function(model) {
 		abline(h = threshold)
 
 		if(obs > 0) {
-		    text(jitter(obs_n), outlier, obs_n, cex = 0.8)   
+		    text(jitter(obs_n), outlier, obs_n, cex = 0.8)
 		}
 
 	}
@@ -49,5 +61,3 @@ dfbetas_panel <- function(model) {
 						outliers  = obs_l)
 
 }
-
-

@@ -1,6 +1,25 @@
-stepaic_forward <- function(model, details = FALSE) UseMethod('stepaic_forward')
+#' @title Stepwise AIC Forward Regression
+#' @description Stepwise AIC Forward Regression
+#' @param model an object of class \code{lm}
+#' @param ... other arguments
+#' @return \code{stepaic_forward} returns an object of class \code{"stepaic_forward"}.
+#' An object of class \code{"stepaic_forward"} is a list containing the
+#' following components:
+#'
+#' \item{steps}{f statistic}
+#' \item{predictors}{p value of \code{score}}
+#' \item{aics}{degrees of freedom}
+#' \item{ess}{fitted values of the regression model}
+#' \item{rss}{name of explanatory variables of fitted regression model}
+#' \item{rsq}{response variable}
+#' \item{arsq}{predictors}
+#' @export
+#'
+stepaic_forward <- function(model, ...) UseMethod('stepaic_forward')
 
-stepaic_forward.default <- function(model, details = FALSE) {
+#' @export
+#'
+stepaic_forward.default <- function(model, details = FALSE, ...) {
 
     if (!all(class(model) == 'lm')) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
@@ -36,7 +55,7 @@ stepaic_forward.default <- function(model, details = FALSE) {
     for (i in seq_len(mlen_p)) {
         predictors <- all_pred[i]
         k          <- regress(paste(response, '~', paste(predictors, collapse = ' + ')), data = l)
-        aics[i]    <- aic(k$model)  
+        aics[i]    <- aic(k$model)
         ess[i]     <- k$ess
         rss[i]     <- k$rss
         rsq[i]     <- k$rsq
@@ -47,7 +66,7 @@ stepaic_forward.default <- function(model, details = FALSE) {
     da2 <- arrange(da, desc(rss))
 
     if(details == TRUE) {
-        
+
         w1 <- max(nchar('Predictor'), nchar(all_pred))
         w2 <- 2
         w3 <- max(nchar('AIC'), nchar(aics))
@@ -71,8 +90,8 @@ stepaic_forward.default <- function(model, details = FALSE) {
         }
 
         cat(rep("-", w), sep = "", '\n')
-    }      
-    
+    }
+
     minc     <- which(aics == min(aics))
     laic     <- aics[minc]
     less     <- ess[minc]
@@ -84,9 +103,9 @@ stepaic_forward.default <- function(model, details = FALSE) {
     all_pred <- all_pred[-minc]
     len_p    <- length(all_pred)
     step     <- 1
-    
+
     while (step < mlen_p) {
-        
+
         aics <- c()
         ess  <- c()
         rss  <- c()
@@ -142,15 +161,15 @@ stepaic_forward.default <- function(model, details = FALSE) {
         }
 
         minaic <- which(aics == min(aics))
-        
+
         if (aics[minaic] < laic[lpreds]) {
-            
+
             preds    <- c(preds, all_pred[minaic])
             minc     <- aics[minaic]
             mess     <- ess[minaic]
-            mrss     <- round(rsst[minaic], 3) 
+            mrss     <- round(rsst[minaic], 3)
             mrsq     <- rsq[minaic]
-            marsq    <- arsq[minaic]                    
+            marsq    <- arsq[minaic]
             laic     <- c(laic, minc)
             less     <- c(less, mess)
             lrss     <- c(lrss, mrss)
@@ -160,20 +179,20 @@ stepaic_forward.default <- function(model, details = FALSE) {
             all_pred <- all_pred[-minaic]
             len_p    <- length(all_pred)
             step     <- step + 1
-            
+
         } else {
-            
+
             if (details == TRUE) {
                 message("No more variables to be added.\n\n")
             }
-            
+
             break
-            
+
         }
-        
-        
+
+
     }
-    
+
     if(details == TRUE) {
 
         fi <- regress(paste(response, '~', paste(preds, collapse = ' + ')), data = l)
@@ -181,52 +200,50 @@ stepaic_forward.default <- function(model, details = FALSE) {
 
     }
 
-    out <- list(steps = step, 
-                predictors = preds, 
-                aics = laic, 
-                ess = less, 
-                rss = lrss,  
-                rsq = lrsq, 
+    out <- list(steps = step,
+                predictors = preds,
+                aics = laic,
+                ess = less,
+                rss = lrss,
+                rsq = lrsq,
                 arsq = larsq)
 
     class(out) <- 'stepaic_forward'
-    
+
     return(out)
 
 
 }
 
-
-print.stepaic_forward <- function(data) {
-
-    print_stepaic_forward(data)
-
+#' @export
+#'
+print.stepaic_forward <- function(x, ...) {
+    print_stepaic_forward(x)
 }
 
+#' @export
+#'
+plot.stepaic_forward <- function(x, ...) {
 
-plot.stepaic_forward <- function(data, ...) {
+    y    <- seq_len(x$steps)
+    xloc <- y - 0.1
+    yloc <- x$aics - 0.2
+    xmin <- min(y) - 1
+    xmax <- max(y) + 1
+    ymin <- min(x$aics) - 1
+    ymax <- max(x$aics) + 1
 
-    x    <- seq_len(data$steps)
-    xloc <- x - 0.1
-    yloc <- data$aics - 0.2
-    xmin <- min(x) - 1
-    xmax <- max(x) + 1
-    ymin <- min(data$aics) - 1
-    ymax <- max(data$aics) + 1
-
-    plot(x, data$aics, 
-         type = "b", 
-         col  = "blue", 
-         xlab = "Steps", 
+    plot(y, x$aics,
+         type = "b",
+         col  = "blue",
+         xlab = "Steps",
          ylab = "AIC",
-         xlim = c(xmin, xmax), 
+         xlim = c(xmin, xmax),
          ylim = c(ymin, ymax),
          main = "Step AIC: Variable Selection")
-    
-    text(xloc, yloc, data$predictors, 
-         col  = "red", 
+
+    text(xloc, yloc, x$predictors,
+         col  = "red",
          cex  = 0.9)
 
 }
-
-

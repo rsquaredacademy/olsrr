@@ -1,3 +1,8 @@
+#' @title Diagnostics Panel
+#' @description Diagnostics Panel
+#' @param model an object of class \code{lm}
+#' @export
+#'
 diag_panel <- function(model) {
 
     if (!all(class(model) == 'lm')) {
@@ -12,14 +17,13 @@ diag_panel <- function(model) {
 
     rvsp_plot(model)
     dsrvsp_plot(model)
-    studlev_plot(model)
+    studvslev_plot(model)
     qqresid(model)
     ovsp_plot(model)
     cooksd_chart(model)
     fm_plot(model)
-    rsd_plot(model)    
-    hist_resid(model)   
+    rsd_plot(model)
+    hist_resid(model)
     resid_boxplot(model)
-    
-}
 
+}

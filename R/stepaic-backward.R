@@ -1,11 +1,30 @@
-stepaic_backward <- function(model, details = FALSE) UseMethod('stepaic_backward')
+#' @title Stepwise AIC Backward Regression
+#' @description Stepwise AIC Backward Regression
+#' @param model an object of class \code{lm}
+#' @param ... other arguments
+#' @return \code{step_backward} returns an object of class \code{"step_backward"}.
+#' An object of class \code{"step_backward"} is a list containing the
+#' following components:
+#'
+#' \item{steps}{f statistic}
+#' \item{predictors}{p value of \code{score}}
+#' \item{aics}{degrees of freedom}
+#' \item{ess}{fitted values of the regression model}
+#' \item{rss}{name of explanatory variables of fitted regression model}
+#' \item{rsq}{response variable}
+#' \item{arsq}{predictors}
+#' @export
+#'
+stepaic_backward <- function(model, ...) UseMethod('stepaic_backward')
 
-stepaic_backward.default <- function(model, details = FALSE) {
+#' @export
+#'
+stepaic_backward.default <- function(model, details = FALSE, ...) {
 
     if (!all(class(model) == 'lm')) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
-    
+
     if (!is.logical(details)) {
       stop('details must be either TRUE or FALSE', call. = FALSE)
     }
@@ -42,7 +61,7 @@ stepaic_backward.default <- function(model, details = FALSE) {
     arsq  <- c()
 
         for (i in seq_len(ilp)) {
-            
+
             predictors <- preds[-i]
             m          <- regress(paste(response, '~', paste(predictors, collapse = ' + ')), data = l)
             aics[i]    <- round(aic(m$model), 3)
@@ -56,7 +75,7 @@ stepaic_backward.default <- function(model, details = FALSE) {
         da2 <- arrange(da, rss)
 
         if(details == TRUE) {
-            
+
             w1 <- max(nchar('Predictor'), nchar(predictors))
             w2 <- 2
             w3 <- max(nchar('AIC'), nchar(format(aics, nsmall = 3)))
@@ -66,7 +85,7 @@ stepaic_backward.default <- function(model, details = FALSE) {
             w7 <- max(nchar('Adj. R-Sq'), nchar(format(arsq, nsmall = 3)))
             w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
             ln <- length(aics)
-            
+
             cat(rep("-", w), sep = "", '\n')
             cat(fl('Variable', w1), fs(), fc('DF', w2), fs(), fc('AIC', w3), fs(),
                 fc('Sum Sq', w4), fs(), fc('RSS', w5), fs(), fc('R-Sq', w6), fs(),
@@ -81,13 +100,13 @@ stepaic_backward.default <- function(model, details = FALSE) {
 
             cat(rep("-", w), sep = "", '\n\n')
         }
-    
+
     while (!end) {
 
         minc <- which(aics == min(aics))
 
         if (aics[minc] < aic_f) {
-            
+
             rpred <- c(rpred, preds[minc])
             preds <- preds[-minc]
             ilp   <- length(preds)
@@ -107,7 +126,7 @@ stepaic_backward.default <- function(model, details = FALSE) {
             arsq  <- c()
 
             for (i in seq_len(ilp)) {
-                    
+
                     predictors <- preds[-i]
                     m          <- regress(paste(response, '~', paste(predictors, collapse = ' + ')), data = l)
                     aics[i]    <- round(aic(m$model), 3)
@@ -116,11 +135,11 @@ stepaic_backward.default <- function(model, details = FALSE) {
                     rsq[i]     <- round(m$rsq, 3)
                     arsq[i]    <- round(m$adjr, 3)
                 }
-            
-            
+
+
             if (details == TRUE) {
                 cat(' Step', step, ': AIC =', aic_f, '\n', paste(response, '~', paste(preds, collapse = ' + '), '\n\n'))
-                
+
 
                 da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
                 da2 <- arrange(da, rss)
@@ -133,7 +152,7 @@ stepaic_backward.default <- function(model, details = FALSE) {
                 w7  <- max(nchar('Adj. R-Sq'), nchar(format(arsq, nsmall = 3)))
                 w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
                 ln  <- length(aics)
-                    
+
                 cat(rep("-", w), sep = "", '\n')
                 cat(fl('Variable', w1), fs(), fc('DF', w2), fs(), fc('AIC', w3), fs(),
                     fc('Sum Sq', w4), fs(), fc('RSS', w5), fs(), fc('R-Sq', w6), fs(),
@@ -145,82 +164,69 @@ stepaic_backward.default <- function(model, details = FALSE) {
                         fg(da2[i, 4], w4), fs(), fg(da2[i, 3], w5), fs(), fg(da2[i, 5], w6), fs(),
                         fg(da2[i, 6], w7), '\n')
                 }
-                
+
                 cat(rep("-", w), sep = "", '\n\n')
-                
+
             }
-            
+
         } else {
 
             end <- TRUE
 
             if (details == TRUE) {
-                message(paste("No more variables to be removed."))    
+                message(paste("No more variables to be removed."))
             }
-            
+
         }
 
     }
-    
-    out <- list(steps      = step, 
-                predictors = rpred, 
-                aics       = laic, 
-                ess        = less, 
-                rss        = lrss, 
-                rsq        = lrsq, 
+
+    out <- list(steps      = step,
+                predictors = rpred,
+                aics       = laic,
+                ess        = less,
+                rss        = lrss,
+                rsq        = lrsq,
                 arsq       = larsq)
 
     class(out) <- 'stepaic_backward'
-    
+
     return(out)
 
 
 }
 
-
-print.stepaic_backward <- function(data) {
-
-    print_stepaic_backward(data)
-
+#' @export
+#'
+print.stepaic_backward <- function(x, ...) {
+    print_stepaic_backward(x)
 }
 
+#' @export
+#'
+plot.stepaic_backward <- function(x, ...) {
 
-plot.stepaic_backward <- function(data) {
+    y          <- c(0, seq_len(x$steps))
+    xloc       <- y - 0.1
+    yloc       <- x$aics - 0.2
+    xmin       <- min(y) - 0.4
+    xmax       <- max(y) + 1
+    ymin       <- min(x$aics) - 1
+    ymax       <- max(x$aics) + 1
+    predictors <- c('Full Model', x$predictors)
 
-    x          <- c(0, seq_len(data$steps))
-    xloc       <- x - 0.1
-    yloc       <- data$aics - 0.2
-    xmin       <- min(x) - 0.4
-    xmax       <- max(x) + 1
-    ymin       <- min(data$aics) - 1
-    ymax       <- max(data$aics) + 1
-    predictors <- c('Full Model', data$predictors)
-
-    plot(x, data$aics, 
-        type = "b", 
-        col  = "blue", 
-        xlab = "Steps", 
+    plot(y, x$aics,
+        type = "b",
+        col  = "blue",
+        xlab = "Steps",
         ylab = "AIC",
-        xlim = c(xmin, xmax), 
+        xlim = c(xmin, xmax),
         ylim = c(ymin, ymax),
         main = "Step AIC: Backward Elimination")
 
-    text(xloc, yloc, predictors, 
-        col = "red", 
+    text(xloc, yloc, predictors,
+        col = "red",
         cex = 0.9)
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-    

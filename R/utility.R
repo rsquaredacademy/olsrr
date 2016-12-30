@@ -61,7 +61,7 @@ formats_t <- function() {
 # helper functions: fitted line properties
 l <- function(x) {
     x <- as.character(x)
-    k <- grep("\\$", x) 
+    k <- grep("\\$", x)
     if (length(k) == 1) {
         temp <- strsplit(x, "\\$")
         out <- temp[[1]][2]

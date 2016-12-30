@@ -1,3 +1,20 @@
+#' @importFrom stats dnorm sd
+#' @title Residual Histogram
+#' @description Residual Histogram
+#' @param model an object of class \code{lm}
+#' @return \code{hist_resid} returns a list containing the
+#' following components:
+#'
+#' \item{residuals}{f cook's d statistic}
+#' \item{breaks}{f cook's d statistic}
+#' \item{counts}{threshold for outliers}
+#' \item{density}{f cook's d statistic}
+#' \item{mids}{threshold for outliers}
+#' \item{xname}{f cook's d statistic}
+#' \item{equidist}{f cook's d statistic}
+#' \item{norm}{f cook's d statistic}
+#' @export
+#'
 hist_resid <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -9,22 +26,18 @@ hist_resid <- function(model) {
 	maxx  <- max(resid) + 1
 	h     <- hist(resid, xlim = c(minx, maxx))
 
-	xfit  <- seq(min(resid), max(resid), length = 80) 
-	yfit  <- dnorm(xfit, mean = mean(resid), sd = sd(resid)) 
-	yfit  <- yfit * diff(h$mids[1:2]) * length(resid) 
+	xfit  <- seq(min(resid), max(resid), length = 80)
+	yfit  <- dnorm(xfit, mean = mean(resid), sd = sd(resid))
+	yfit  <- yfit * diff(h$mids[1:2]) * length(resid)
 	lines(xfit, yfit, col = "blue", lwd = 2)
 
 	z <- list(residuals = resid,
 						breaks    = h$breaks,
-						counts    = h$counts, 
-						density   = h$density, 
-						mids      = h$mids, 
-						xname     = h$xname, 
+						counts    = h$counts,
+						density   = h$density,
+						mids      = h$mids,
+						xname     = h$xname,
 						equidist  = h$equidist,
 						norm      = yfit)
 
 }
-
-
-
-

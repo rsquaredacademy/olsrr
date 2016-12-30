@@ -1,6 +1,42 @@
-best_subset <- function(model) UseMethod('best_subset')
+#' @importFrom graphics layout
+#' @title Best Subsets Regression
+#' @description Select the subset of predictors that do the best at meeting some
+#' well-defined objective criterion, such as having the largest R2 value or the
+#' smallest MSE.
+#' @param model an object of class \code{lm}
+#' @param ... other inputs
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return \code{best_subset} returns an object of class \code{"best_subset"}.
+#' An object of class \code{"best_subset"} is a data frame containing the
+#' following components:
+#'
+#' \item{n}{model number}
+#' \item{predictors}{predictors in the model}
+#' \item{rsquare}{rsquare of the model}
+#' \item{adjr}{adjusted rsquare of the model}
+#' \item{predrsq}{predicted rsquare of the model}
+#' \item{cp}{Mallow's Cp}
+#' \item{aic}{Akaike Information Criteria}
+#' \item{sbic}{Sawa Bayesian Information Criteria}
+#' \item{sbc}{Schwarz Bayes Information Criteria}
+#' \item{gmsep}{estimated MSE of prediction, assuming multivariate normality}
+#' \item{jp}{final prediction error}
+#' \item{pc}{Amemiya Prediction Criteria}
+#' \item{sp}{Hocking's Sp}
+#'
+#' @export
+#'
+best_subset <- function(model, ...) UseMethod('best_subset')
 
-best_subset.default <- function(model) {
+#' @export
+#'
+best_subset.default <- function(model, ...) {
 
     if (!all(class(model) == 'lm')) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
@@ -75,26 +111,27 @@ best_subset.default <- function(model) {
         }
     }
 
-    ui <- data.frame(n = lpreds, 
-                     predictors       = unlist(preds), 
-                     rsquare          = unlist(rsq), 
-                     adjr             = unlist(adjr), 
-                     predrsq          = unlist(predrsq), 
-                     cp               = unlist(cp), 
-                     aic              = unlist(aic), 
-                     sbic             = unlist(sbic), 
-                     sbc              = unlist(sbc), 
-                     gmsep            = unlist(gmsep), 
-                     jp               = unlist(jp), 
-                     pc               = unlist(pc), 
-                     sp               = unlist(sp), 
+    ui <- data.frame(n = lpreds,
+                     predictors       = unlist(preds),
+                     rsquare          = unlist(rsq),
+                     adjr             = unlist(adjr),
+                     predrsq          = unlist(predrsq),
+                     cp               = unlist(cp),
+                     aic              = unlist(aic),
+                     sbic             = unlist(sbic),
+                     sbc              = unlist(sbc),
+                     gmsep            = unlist(gmsep),
+                     jp               = unlist(jp),
+                     pc               = unlist(pc),
+                     sp               = unlist(sp),
                      stringsAsFactors = F)
 
     sorted <- c()
-    
+
     for (i in seq_len(lc)) {
         temp   <- ui[q[i]:t[i], ]
-        temp   <- arrange(temp, desc(rsquare))
+        temp   <- temp[order(temp$rsquare, decreasing = TRUE), ]
+        # temp   <- arrange(temp, desc(rsquare))
         sorted <- rbind(sorted, temp[1, ])
     }
 
@@ -106,49 +143,37 @@ best_subset.default <- function(model) {
     return(sorted)
 }
 
-
-print.best_subset <- function(data) {
-
-    print_best_subset(data)
-
+#' @export
+#'
+print.best_subset <- function(x, ...) {
+    print_best_subset(x)
 }
 
-
-plot.best_subset <- function(data, ...) {
+#' @export
+#'
+plot.best_subset <- function(x, model = NA, ...) {
 
     op <- par(no.readonly = TRUE)
     on.exit(par(op))
     m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
     layout(mat = m, heights = c(2, 2))
 
-    plot(data$mindex, data$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
+    plot(x$mindex, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
      main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-    
-    plot(data$mindex, data$adjr, type = 'b', col = 'blue', xlab = '', ylab = '', 
+
+    plot(x$mindex, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
         main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-    
-    plot(data$mindex, data$cp, type = 'b', col = 'blue', xlab = '', ylab = '', 
+
+    plot(x$mindex, x$cp, type = 'b', col = 'blue', xlab = '', ylab = '',
         main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
-    
-    plot(data$mindex, data$aic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '', 
+
+    plot(x$mindex, x$aic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
         main = 'AIC', cex.main = 1, yaxt = 'n')
-    
-    plot(data$mindex, data$sbic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '', 
+
+    plot(x$mindex, x$sbic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
         main = 'SBIC', cex.main = 1, yaxt = 'n')
-    
-    plot(data$mindex, data$sbc, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '', 
+
+    plot(x$mindex, x$sbc, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
         main = 'SBC', cex.main = 1, yaxt = 'n')
-    
+
 }
-
-
-
-
-
-
-
-
-
-
-
-

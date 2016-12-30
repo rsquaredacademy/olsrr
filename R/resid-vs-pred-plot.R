@@ -1,3 +1,8 @@
+#' @title Residual vs Predictor Plot
+#' @description Residual vs Predictor Plot
+#' @param model an object of class \code{lm}
+#' @export
+#'
 rvsp_plot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -6,7 +11,7 @@ rvsp_plot <- function(model) {
 
 	resid     <- residuals(model)
 	predicted <- fitted(model)
-	
+
 	plot(predicted, resid, col = "blue",
 	     xlab = "Predicted Value", ylab = "Residual",
 	     main = "Residual vs Predicted Values")
@@ -14,4 +19,3 @@ rvsp_plot <- function(model) {
 
 
 }
-

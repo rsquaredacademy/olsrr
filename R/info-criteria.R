@@ -9,7 +9,22 @@
 # 8. Sp: Hocking 1976
 
 
-# AIC: Akaike Information Criteria
+#' @importFrom stats logLik
+#' @title AIC
+#' @description Akaike Information Criteria
+#' @param model an object of class \code{lm}
+#' @param method a character vector; specify the method to compute AIC. Valid
+#' options include R, STATA and SAS
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return Akaike Information Criteria
+#' @export
+#'
 aic <- function(model, method = c("R", "STATA", "SAS")) {
 
 	if (!all(class(model) == 'lm')) {
@@ -18,18 +33,18 @@ aic <- function(model, method = c("R", "STATA", "SAS")) {
 
 	method <- match.arg(method)
 	n      <- nrow(model.frame(model))
-	p      <- length(model$coefficients) 
+	p      <- length(model$coefficients)
 
 	if (method == "R") {
 
 		p      <- p + 1
 		lk     <- logLik(model)
-		akaike <- -2 * lk[1] + 2 * p 		
+		akaike <- -2 * lk[1] + 2 * p
 
 	} else if (method == "STATA") {
 
 		lk     <- logLik(model)
-		akaike <- -2 * lk[1] + 2 * p 
+		akaike <- -2 * lk[1] + 2 * p
 
 	} else if (method == 'SAS') {
 
@@ -41,14 +56,29 @@ aic <- function(model, method = c("R", "STATA", "SAS")) {
 		message("Please specify a valid method.")
 
 	}
-    
+
 	akaike <- round(akaike, 4)
 	return(akaike)
-	
+
 }
 
 
 # bayesian information criterion (sbc in sas)
+#' @title SBC
+#' @description Bayesian Information Criteria
+#' @param model an object of class \code{lm}
+#' @param method a character vector; specify the method to compute AIC. Valid
+#' options include R, STATA and SAS
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return Bayesian Information Criteria
+#' @export
+#'
 sbc <- function(model, method = c("R", "STATA", "SAS")) {
 
 	if (!all(class(model) == 'lm')) {
@@ -56,7 +86,7 @@ sbc <- function(model, method = c("R", "STATA", "SAS")) {
   }
 
 	n      <- nrow(model.frame(model))
-	p      <- length(model$coefficients) 
+	p      <- length(model$coefficients)
 	method <- match.arg(method)
 
 	if (method == "R") {
@@ -66,7 +96,7 @@ sbc <- function(model, method = c("R", "STATA", "SAS")) {
 		bayesian <- -2 * lk[1] + log(n) * p
 
 	} else if (method == "STATA") {
-  	
+
 		lk       <- logLik(model)
 		bayesian <- -2 * lk[1] + log(n) * p
 
@@ -80,40 +110,69 @@ sbc <- function(model, method = c("R", "STATA", "SAS")) {
 		message("Please specify a valid method.")
 
 	}
-	
+
 	bayesian <- round(bayesian, 4)
 	return(bayesian)
 }
 
 
 # sawa's bayesian information criteria
+#' @title SBIC
+#' @description Sawa's Bayesian Information Criteria
+#' @param model an object of class \code{lm}
+#' @param full_model an object of class \code{lm}
+#' options include R, STATA and SAS
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return Sawa's Bayesian Information Criteria
+#' @export
+#'
 sbic <- function(model, full_model) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-  if (!all(class(fullmodel) == 'lm')) {
+  if (!all(class(full_model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
   # if (!all(names(model$coefficients) %in% names(fullmodel$coefficients))) {
   # 	stop('model must be a subset of full model')
-  # } 
+  # }
 
 	n   <- nrow(model.frame(model))
 	p   <- length(model$coefficients)
 	r   <- length(full_model$coefficients)
-	q   <- n * (anova(fullmodel)$`Mean Sq`[r] / anova(model)$`Sum Sq`[p])
+	q   <- n * (anova(full_model)$`Mean Sq`[r] / anova(model)$`Sum Sq`[p])
 	sbc <- n * log(sum(residuals(model) ^ 2) / n) +
 	     (2 * (p + 2) * q) - (2 * (q ^ 2))
-	
+
 	return(sbc)
 
 }
 
 
 # mallow's cp
+#' @title Mallow's Cp
+#' @description Mallow's Cp
+#' @param model an object of class \code{lm}
+#' @param fullmodel an object of class \code{lm}
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return Mallow's Cp
+#' @export
+#'
 mallow_cp <- function(model, fullmodel) {
 
 	if (!all(class(model) == 'lm')) {
@@ -129,8 +188,8 @@ mallow_cp <- function(model, fullmodel) {
   }
 
 	n   <- nrow(model.frame(model))
-	p   <- length(model$coefficients) 
-	q   <- length(fullmodel$coefficients) 
+	p   <- length(model$coefficients)
+	q   <- length(fullmodel$coefficients)
 	sse <- sum(residuals(model) ^ 2)
 	mse <- anova(fullmodel)$`Mean Sq`[q]
 	mcp <- round((sse / mse) - (n - (2 * p)), 4)
@@ -142,6 +201,19 @@ mallow_cp <- function(model, fullmodel) {
 
 
 # gmsep : estimated error of prediction, assuming multivariate normality
+#' @title GMSEP
+#' @description Estimated error of prediction, assuming multivariate normality
+#' @param model an object of class \code{lm}
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return GMSEP
+#' @export
+#'
 gmsep <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -152,12 +224,25 @@ gmsep <- function(model) {
 	p      <- length(model$coefficients)
 	mse 	 <- anova(model)$`Mean Sq`[p]
 	result <- round((mse * (n + 1) * (n - 2)) / (n * (n - p -1)), 5)
-	
+
 	return(result)
 
 }
 
 # jp: final prediction error
+#' @title JP
+#' @description Final prediction error
+#' @param model an object of class \code{lm}
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return JP
+#' @export
+#'
 jp <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -174,6 +259,19 @@ jp <- function(model) {
 }
 
 # pc: amemiya's prediction error
+#' @title PC
+#' @description Amemiya's prediction error
+#' @param model an object of class \code{lm}
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return PC
+#' @export
+#'
 pc <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -201,7 +299,7 @@ pc2 <- function(model) {
 	sse <- sum(residuals(model) ^ 2)
 	sst <- sum(anova(model)$`Sum Sq`)
 	ape <- ((n + p) / (n * (n - p))) * (sse / sst)
-	
+
 	ape <- round(ape, 5)
 	return(ape)
 
@@ -209,6 +307,19 @@ pc2 <- function(model) {
 
 
 # sp: average prediction mean squared error
+#' @title SP
+#' @description Average prediction mean squared error
+#' @param model an object of class \code{lm}
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return SP
+#' @export
+#'
 sp <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -217,10 +328,9 @@ sp <- function(model) {
 
 	n     <- nrow(model.frame(model))
 	p     <- length(model$coefficients)
-	mse 	<- anova(model)$`Mean Sq`[p] 
+	mse 	<- anova(model)$`Mean Sq`[p]
 	apmse <- round(mse / (n - p - 1), 5)
-	
-	return(apmse)
-	
-}
 
+	return(apmse)
+
+}

@@ -1,6 +1,29 @@
-step_forward <- function(model, penter = 0.3, details = FALSE) UseMethod('step_forward')
+#' @importFrom stats qt
+#' @title Stepwise Forward Regression
+#' @description Stepwise Forward Regression
+#' @param model an object of class \code{lm}
+#' @param ... other arguments
+#' @return \code{step_forward} returns an object of class \code{"step_forward"}.
+#' An object of class \code{"step_forward"} is a list containing the
+#' following components:
+#'
+#' \item{steps}{f statistic}
+#' \item{predictors}{p value of \code{score}}
+#' \item{rsquare}{degrees of freedom}
+#' \item{aic}{fitted values of the regression model}
+#' \item{sbc}{name of explanatory variables of fitted regression model}
+#' \item{sbic}{response variable}
+#' \item{adjr}{predictors}
+#' \item{rmse}{predictors}
+#' \item{mallows_cp}{predictors}
+#' \item{indvar}{predictors}
+#' @export
+#'
+step_forward <- function(model, ...) UseMethod('step_forward')
 
-step_forward.default <- function(model, penter = 0.3, details = FALSE) {
+#' @export
+#'
+step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) {
 
     if (!all(class(model) == 'lm')) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
@@ -38,7 +61,7 @@ step_forward.default <- function(model, penter = 0.3, details = FALSE) {
     aic      <- c()
     bic      <- c()
     cp       <- c()
-    
+
     for (i in seq_len(mlen_p)) {
         predictors <- all_pred[i]
         m          <- regress(paste(response, '~', paste(predictors, collapse = ' + ')), l)
@@ -61,7 +84,7 @@ step_forward.default <- function(model, penter = 0.3, details = FALSE) {
     rmse   <- sqrt(fr$ems)
     message(paste(lpreds, "variable(s) added...."))
 
-    
+
     if (details == TRUE) {
 
         cat("Variable Selection Procedure\n", paste("Dependent Variable:", response), "\n\n",
@@ -71,7 +94,7 @@ step_forward.default <- function(model, penter = 0.3, details = FALSE) {
         cat("\n\n")
 
     }
-    
+
     while (step < mlen_p) {
 
         all_pred <- all_pred[-maxt]
@@ -95,7 +118,7 @@ step_forward.default <- function(model, penter = 0.3, details = FALSE) {
 
             step   <- step + 1
             message(paste(length(maxt), "variable(s) added..."))
-            preds  <- c(preds, all_pred[maxt])  
+            preds  <- c(preds, all_pred[maxt])
             lpreds <- length(preds)
             fr     <- regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
             rsq    <- c(rsq, fr$rsq)
@@ -111,118 +134,93 @@ step_forward.default <- function(model, penter = 0.3, details = FALSE) {
                 cat(paste("Forward Selection: Step", step, "\n\n"), paste("Variable", preds[lpreds], "Entered"), "\n\n")
                 m <- regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
                 print(m)
-                cat("\n\n")  
+                cat("\n\n")
 
             }
-            
+
         } else {
 
             message(paste("No more variables satisfy the condition of penter:", penter))
             break
-            
+
         }
-        
+
 
     }
 
     prsq <- c(rsq[1], diff(rsq))
 
-    out  <- list(steps = step, 
-                 predictors = preds, 
-                 rsquare = rsq, 
-                 aic = aic, 
-                 sbc = sbc, 
-                 sbic = sbic, 
-                 adjr = adjrsq, 
+    out  <- list(steps = step,
+                 predictors = preds,
+                 rsquare = rsq,
+                 aic = aic,
+                 sbc = sbc,
+                 sbic = sbic,
+                 adjr = adjrsq,
                  rmse = rmse,
-                 mallows_cp = cp, 
+                 mallows_cp = cp,
                  indvar = cterms)
 
     class(out) <- 'step_forward'
-    
+
     return(out)
 
 }
 
-
-print.step_forward <- function(data) {
-
-    print_step_forward(data)
-
+#' @export
+#'
+print.step_forward <- function(x, ...) {
+    print_step_forward(x)
 }
 
+#' @export
+#'
+plot.step_forward <- function(x, ...) {
 
-plot.step_forward <- function(data) {
-
-    x        <- seq_len(length(data$rsquare))
-    rmax     <- max(data$rsquare)
-    rstep    <- which(data$rsquare == rmax)
-    adjrmax  <- max(data$adjr)
-    adjrstep <- which(data$adjr == adjrmax)
-    cpdiff   <- data$mallows_cp - x
+    y        <- seq_len(length(x$rsquare))
+    rmax     <- max(x$rsquare)
+    rstep    <- which(x$rsquare == rmax)
+    adjrmax  <- max(x$adjr)
+    adjrstep <- which(x$adjr == adjrmax)
+    cpdiff   <- x$mallows_cp - y
     cpdifmin <- min(cpdiff)
     cpdifi   <- which(cpdiff == cpdifmin)
-    cpval    <- data$mallows_cp[cpdifi]
-    aicmin   <- min(data$aic)
-    aicstep  <- which(data$aic == aicmin)
-    sbicmin  <- min(data$sbic)
-    sbicstep <- which(data$sbic == sbicmin)
-    sbcmin   <- min(data$sbc)
-    sbcstep  <- which(data$sbc == sbcmin)
+    cpval    <- x$mallows_cp[cpdifi]
+    aicmin   <- min(x$aic)
+    aicstep  <- which(x$aic == aicmin)
+    sbicmin  <- min(x$sbic)
+    sbicstep <- which(x$sbic == sbicmin)
+    sbcmin   <- min(x$sbc)
+    sbcstep  <- which(x$sbc == sbcmin)
 
     op <- par(no.readonly = TRUE)
     on.exit(par(op))
     m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2,ncol = 3,byrow = TRUE)
     layout(mat = m,heights = c(2, 2))
 
-    plot(x, data$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
+    plot(y, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
      main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
     points(rstep, rmax, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$adjr, type = 'b', col = 'blue', xlab = '', ylab = '', 
+    plot(y, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
         main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
     points(adjrstep, adjrmax, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$mallows_cp, type = 'b', col = 'blue', xlab = '', ylab = '', 
+    plot(y, x$mallows_cp, type = 'b', col = 'blue', xlab = '', ylab = '',
         main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
     points(cpdifi, cpval, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$aic, type = 'b', col = 'blue', xlab = 'Step', ylab = '', 
+    plot(y, x$aic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
         main = 'AIC', cex.main = 1, yaxt = 'n')
     points(aicstep, aicmin, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$sbic, type = 'b', col = 'blue', xlab = 'Step', ylab = '', 
+    plot(y, x$sbic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
         main = 'SBIC', cex.main = 1, yaxt = 'n')
     points(sbicstep, sbicmin, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$sbc, type = 'b', col = 'blue', xlab = 'Step', ylab = '', 
+    plot(y, x$sbc, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
         main = 'SBC', cex.main = 1, yaxt = 'n')
     points(sbcstep, sbcmin, pch = 2, col = "red", cex = 2.5)
 
-    
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

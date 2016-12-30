@@ -1,5 +1,18 @@
+#' @title Collinearity Diagnostics
+#' @description Test if k samples have equal variances
+#' @param model an object of class \code{lm}
+#' @return \code{coll_diag} returns an object of class \code{"coll_diag"}.
+#' An object of class \code{"coll_diag"} is a list containing the
+#' following components:
+#'
+#' \item{vif_t}{tolerance and variance inflation factors}
+#' \item{eig_cindex}{eigen values and condition index}
+#' @export
+#'
 coll_diag <- function(model) UseMethod('coll_diag')
 
+#' @export
+#'
 coll_diag.default <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -14,20 +27,23 @@ coll_diag.default <- function(model) {
 	return(result)
 }
 
-
-print.coll_diag <- function(data) {
+#' @export
+#'
+print.coll_diag <- function(x, ...) {
 
 	cat('Tolerance and Variance Inflation Factor\n')
 	cat('---------------------------------------\n')
-	print(data$vif_t)
+	print(x$vif_t)
 	cat('\n\n')
 	cat('Eigenvalue and Condition Index\n')
 	cat('------------------------------\n')
-	print(data$eig_cindex)
+	print(x$eig_cindex)
 
 }
 
-
+#' @rdname coll_diag
+#' @export
+#'
 vif_tol <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -46,17 +62,19 @@ vif_tol <- function(model) {
 		rsq     <- summary(m1)$r.squared
 		tol[i]  <- 1 - rsq
 		vifs[i] <- 1 / tol[i]
-		
+
 	}
 
-	viftol <- data.frame(Variables = names(m), 
+	viftol <- data.frame(Variables = names(m),
 		                   Tolerance = round(tol, 3),
 	                     VIF       = round(vifs, 3))
 
 	return(viftol)
 }
 
-
+#' @rdname coll_diag
+#' @export
+#'
 eigen_cindex <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -64,10 +82,10 @@ eigen_cindex <- function(model) {
   }
 
 	x          		 <- model$model[, -1]
-	x          		 <- cbind(1,x) 
+	x          		 <- cbind(1,x)
 	colnames(x)[1] <- "intercept"
 	x              <- scale(x, scale = T, center = F)
-	tu             <- t(x) %*% x 
+	tu             <- t(x) %*% x
 	e              <- eigen(tu / diag(tu))$ values
 	cindex         <- sqrt(e[1] / e)
 	svdx           <- svd(x)
@@ -78,4 +96,3 @@ eigen_cindex <- function(model) {
 	names(out)     <- c("Eigenvalue", "Condition Index", colnames(x))
 	return(out)
 }
-

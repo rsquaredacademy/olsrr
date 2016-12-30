@@ -1,13 +1,35 @@
-step_backward <- function(model, prem = 0.3, details = FALSE) UseMethod('step_backward')
+#' @title Stepwise Backward Regression
+#' @description Stepwise Backward Regression
+#' @param model an object of class \code{lm}
+#' @param ... other inputs
+#' @return \code{step_backward} returns an object of class \code{"step_backward"}.
+#' An object of class \code{"step_backward"} is a list containing the
+#' following components:
+#'
+#' \item{steps}{f statistic}
+#' \item{removed}{p value of \code{score}}
+#' \item{rsquare}{degrees of freedom}
+#' \item{aic}{fitted values of the regression model}
+#' \item{sbc}{name of explanatory variables of fitted regression model}
+#' \item{sbic}{response variable}
+#' \item{adjr}{predictors}
+#' \item{rmse}{predictors}
+#' \item{mallows_cp}{predictors}
+#' \item{indvar}{predictors}
+#' @export
+#'
+step_backward <- function(model, ...) UseMethod('step_backward')
 
-step_backward.default <- function(model, prem = 0.3, details = FALSE) {
+#' @export
+#'
+step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
 
     if (!all(class(model) == 'lm')) {
         stop('Please specify a OLS regression model.', call. = FALSE)
     }
 
     if ((prem < 0) | (prem > 1)) {
-      stop('penter must be between 0 and 1.', call. = FALSE)
+      stop('prem must be between 0 and 1.', call. = FALSE)
     }
 
     if (!is.logical(details)) {
@@ -41,7 +63,7 @@ step_backward.default <- function(model, prem = 0.3, details = FALSE) {
 		m     <- regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
 		pvals <- m$pvalues[-1]
 		maxp  <- which(pvals == max(pvals))
-		
+
 		if (pvals[maxp] > prem) {
 
 			step   <- step + 1
@@ -69,20 +91,20 @@ step_backward.default <- function(model, prem = 0.3, details = FALSE) {
 		} else {
 
 			end <- TRUE
-			message(paste("No more variables satisfy the condition of prem:", penter))
+			message(paste("No more variables satisfy the condition of prem:", prem))
 		}
 
 	}
 
-	out <- list(steps      = step, 
-                removed    = rpred, 
-                rsquare    = rsq, 
-                aic        = aic, 
-                sbc        = sbc, 
-                sbic       = sbic, 
-                adjr       = adjrsq, 
+	out <- list(steps      = step,
+                removed    = rpred,
+                rsquare    = rsq,
+                aic        = aic,
+                sbc        = sbc,
+                sbic       = sbic,
+                adjr       = adjrsq,
                 rmse       = rmse,
-                mallows_cp = cp, 
+                mallows_cp = cp,
                 indvar     = cterms)
 
 	class(out) <- 'step_backward'
@@ -91,33 +113,33 @@ step_backward.default <- function(model, prem = 0.3, details = FALSE) {
 
 }
 
-
-print.step_backward <- function(data) {
-
-    print_step_backward(data)
-
+#' @export
+#'
+print.step_backward <- function(x, ...) {
+    print_step_backward(x)
 }
 
 
 
-# plot method
-plot.step_backward <- function(data) {
+#' @export
+#'
+plot.step_backward <- function(x, ...) {
 
-    x        <- seq_len(data$steps)
-    rmax     <- max(data$rsquare)
-    rstep    <- which(data$rsquare == rmax)
-    adjrmax  <- max(data$adjr)
-    adjrstep <- which(data$adjr == adjrmax)
-    cpdiff   <- data$mallows_cp - x
+    y        <- seq_len(x$steps)
+    rmax     <- max(x$rsquare)
+    rstep    <- which(x$rsquare == rmax)
+    adjrmax  <- max(x$adjr)
+    adjrstep <- which(x$adjr == adjrmax)
+    cpdiff   <- x$mallows_cp - y
     cpdifmin <- min(cpdiff)
     cpdifi   <- which(cpdiff == cpdifmin)
-    cpval    <- data$mallows_cp[cpdifi]
-    aicmin   <- min(data$aic)
-    aicstep  <- which(data$aic == aicmin)
-    sbicmin  <- min(data$sbic)
-    sbicstep <- which(data$sbic == sbicmin)
-    sbcmin   <- min(data$sbc)
-    sbcstep  <- which(data$sbc == sbcmin)
+    cpval    <- x$mallows_cp[cpdifi]
+    aicmin   <- min(x$aic)
+    aicstep  <- which(x$aic == aicmin)
+    sbicmin  <- min(x$sbic)
+    sbicstep <- which(x$sbic == sbicmin)
+    sbcmin   <- min(x$sbc)
+    sbcstep  <- which(x$sbc == sbcmin)
 
     op <- par(no.readonly = TRUE)
     on.exit(par(op))
@@ -125,43 +147,29 @@ plot.step_backward <- function(data) {
     m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
     layout(mat = m,heights = c(2, 2))
 
-    plot(x, data$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
+    plot(y, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
      main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
     points(rstep, rmax, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$adjr, type = 'b', col = 'blue', xlab = '', ylab = '', 
+    plot(y, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
         main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
     points(adjrstep, adjrmax, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$mallows_cp, type = 'b', col = 'blue', xlab = '', ylab = '', 
+    plot(y, x$mallows_cp, type = 'b', col = 'blue', xlab = '', ylab = '',
         main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
     points(cpdifi, cpval, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$aic, type = 'b', col = 'blue', xlab = 'Step', ylab = '', 
+    plot(y, x$aic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
         main = 'AIC', cex.main = 1, yaxt = 'n')
     points(aicstep, aicmin, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$sbic, type = 'b', col = 'blue', xlab = 'Step', ylab = '', 
+    plot(y, x$sbic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
         main = 'SBIC', cex.main = 1, yaxt = 'n')
     points(sbicstep, sbicmin, pch = 2, col = "red", cex = 2.5)
 
-    plot(x, data$sbc, type = 'b', col = 'blue', xlab = 'Step', ylab = '', 
+    plot(y, x$sbc, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
         main = 'SBC', cex.main = 1, yaxt = 'n')
     points(sbcstep, sbcmin, pch = 2, col = "red", cex = 2.5)
-   
-    
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

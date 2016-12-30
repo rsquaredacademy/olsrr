@@ -1,3 +1,8 @@
+#' @title Residual Box Plot
+#' @description Residual Box Plot
+#' @param model an object of class \code{lm}
+#' @export
+#'
 resid_boxplot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {

@@ -1,3 +1,17 @@
+#' @title Residual Fit Spread Plot
+#' @description Residual Fit Spread Plot
+#' @param model an object of class \code{lm}
+#' @return \code{rfs_plot} returns a list containing the
+#' following components:
+#'
+#' \item{residuals}{f cook's d statistic}
+#' \item{fitted_values}{f cook's d statistic}
+#' \item{avg_fitted}{threshold for outliers}
+#' \item{dev_fitted}{f cook's d statistic}
+#' \item{ecdf_avg_fitted}{threshold for outliers}
+#' \item{ecdf_resid}{f cook's d statistic}
+#' @export
+#'
 rfs_plot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -14,38 +28,38 @@ rfs_plot <- function(model) {
 	ymax       <- max(pred_s) + (0.25 * max(pred_s))
 	op         <- par(no.readonly = TRUE)
 	on.exit(par(op))
-	
+
 	par(mfrow   = c(1, 2))
 
-	plot(percentile(pred_s), pred_s, 
-			 ylim   = c(ymin, ymax), 
-			 col    = "blue", 
+	plot(percentile(pred_s), pred_s,
+			 ylim   = c(ymin, ymax),
+			 col    = "blue",
 			 xaxt   = "n",
-	     xlim   = c(-0.2, 1.2), 
-	     ylab   = "", 
-	     xlab   = "", 
+	     xlim   = c(-0.2, 1.2),
+	     ylab   = "",
+	     xlab   = "",
 	     main   = "Fit - Mean")
 
-	axis(side   = 1, 
+	axis(side   = 1,
 		   at     = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
 	     labels = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0))
-	
-	mtext("Proportion Less", 
-		    side  = 1, 
-		    line  = 3, 
+
+	mtext("Proportion Less",
+		    side  = 1,
+		    line  = 3,
 		    at    = 1.4)
 
-	plot(residtile(resid), resid, 
-		   ylim   = c(ymin, ymax), 
-		   col    = "blue", 
+	plot(residtile(resid), resid,
+		   ylim   = c(ymin, ymax),
+		   col    = "blue",
 		   xaxt   = "n",
-	     xlim   = c(-0.2, 1.2), 
-	     ylab   = "", 
-	     xlab   = "", 
-	     main   = "Residual", 
+	     xlim   = c(-0.2, 1.2),
+	     ylab   = "",
+	     xlab   = "",
+	     main   = "Residual",
 	     yaxt   = "n")
 
-	axis(side   = 1, 
+	axis(side   = 1,
 		   at     = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
 	     labels = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0))
 
@@ -57,7 +71,20 @@ rfs_plot <- function(model) {
 		        ecdf_resid      = residtile)
 }
 
-
+#' @importFrom stats ecdf
+#' @importFrom graphics axis
+#' @title Fit Mean Plot
+#' @description Fit Mean Plot
+#' @param model an object of class \code{lm}
+#' @return \code{fm_plot} returns a list containing the
+#' following components:
+#'
+#' \item{fitted_values}{f cook's d statistic}
+#' \item{avg_fitted}{threshold for outliers}
+#' \item{dev_fitted}{f cook's d statistic}
+#' \item{ecdf_avg_fitted}{threshold for outliers}
+#' @export
+#'
 fm_plot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -71,17 +98,17 @@ fm_plot <- function(model) {
 	ymin       <- min(pred_s) + (0.25 * min(pred_s))
 	ymax       <- max(pred_s) + (0.25 * max(pred_s))
 
-	
-	plot(percentile(pred_s), pred_s, 
-		   ylim   = c(ymin, ymax), 
-		   col    = "blue", 
-		   xaxt   = "n", 
-		   xlim   = c(-0.2, 1.2), 
-		   ylab   = "Fit - Mean", 
-		   xlab   = "Proportion Less", 
+
+	plot(percentile(pred_s), pred_s,
+		   ylim   = c(ymin, ymax),
+		   col    = "blue",
+		   xaxt   = "n",
+		   xlim   = c(-0.2, 1.2),
+		   ylab   = "Fit - Mean",
+		   xlab   = "Proportion Less",
 		   main   = "Residual Fit Spread Plot")
-	
-	axis(side   = 1, 
+
+	axis(side   = 1,
 		   at     = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
 	     labels = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0))
 
@@ -93,7 +120,16 @@ fm_plot <- function(model) {
 }
 
 
-
+#' @title Residual Spread Plot
+#' @description Residual Spread Plot
+#' @param model an object of class \code{lm}
+#' @return \code{rsd_plot} returns a list containing the
+#' following components:
+#'
+#' \item{residuals}{f cook's d statistic}
+#' \item{ecdf_resid}{threshold for outliers}
+#' @export
+#'
 rsd_plot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -105,17 +141,17 @@ rsd_plot <- function(model) {
 	ymin      <- min(resid) + (0.25 * min(resid))
 	ymax      <- max(resid) + (0.25 * max(resid))
 
-	plot(residtile(resid), resid, 
-		   ylim   = c(ymin, ymax), 
-		   col    = "blue", 
-		   xaxt   = "n", 
-		   xlim   = c(-0.2, 1.2), 
-		   ylab   = "Residual", 
-		   xlab   = "Proportion Less", 
+	plot(residtile(resid), resid,
+		   ylim   = c(ymin, ymax),
+		   col    = "blue",
+		   xaxt   = "n",
+		   xlim   = c(-0.2, 1.2),
+		   ylab   = "Residual",
+		   xlab   = "Proportion Less",
 		   main   = "Residual Fit Spread Plot",
 		   yaxt   = "n")
 
-	axis(side   = 1, 
+	axis(side   = 1,
 		   at     = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
 	     labels = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0))
 

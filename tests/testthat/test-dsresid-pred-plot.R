@@ -2,12 +2,13 @@ context("dsrvsp_plot")
 
 test_that('observations are correctly classified as normal and outlier', {
 
-	model <- lm(formula = Nitrogen ~ ComIndl + Agr + Forest + Rsdntial, data = rivers)
+	model <- lm(formula = Nitrogen ~ ComIndl + Agr + Forest + Rsdntial,
+	            data = rivers)
 	k <- dsrvsp_plot(model)
 	expect_equal(k$threshold, 2)
 	expect_equivalent(k$normal, c(1, 2, 3, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20))
 	expect_equivalent(k$outlier, c(4, 5, 7, 19))
-	
+
 })
 
 

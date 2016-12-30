@@ -1,3 +1,15 @@
+#' @importFrom stats dffits
+#' @title DFFITS Plot
+#' @description DFFITS Plot
+#' @param model an object of class \code{lm}
+#' @return \code{dffits_plot} returns a list containing the
+#' following components:
+#'
+#' \item{dffits}{dffits}
+#' \item{threshold}{threshold for outliers}
+#' \item{outliers}{residual points that are outliers}
+#' @export
+#'
 dffits_plot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -17,7 +29,7 @@ dffits_plot <- function(model) {
 	}
 
 	plot(seq_len(length(dffitsm)), dffitsm, type = "h", lwd = 1, col = "blue",
-	     xlab = "Observation", ylab = "DFFITS", 
+	     xlab = "Observation", ylab = "DFFITS",
 	     main = paste("Influence Diagnostics for", names(model.frame(model))[1]))
 	points(dffitsm, col = "blue")
 	abline(h = 0, col = "blue")
@@ -25,7 +37,7 @@ dffits_plot <- function(model) {
 	abline(h = dffits_t)
 
 	if(obs > 0) {
-		text(jitter(obs_n), outlier, obs_n, cex = 0.8)   
+		text(jitter(obs_n), outlier, obs_n, cex = 0.8)
 	}
 
 	z <- list(dffits    = dffitsm,
@@ -33,6 +45,3 @@ dffits_plot <- function(model) {
 						outliers  = obs_n)
 
 }
-
-
-

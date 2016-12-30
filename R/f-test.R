@@ -1,6 +1,31 @@
-f_test <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL) UseMethod('f_test')
+#' @importFrom stats pf
+#' @title f Test for heteroskedasticity
+#' @description Test for heteroskedasticity
+#' @param model an object of class \code{lm}
+#' @param fitted.values logical; if TRUE, use fitted values of regression model
+#' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
+#' performed for the right-hand-side (explanatory) variables of the fitted
+#' regression model
+#' @param vars variables to be used for for heteroskedasticity test
+#' @param ... other arguments
+#' @return \code{f_test} returns an object of class \code{"f_test"}.
+#' An object of class \code{"f_test"} is a list containing the
+#' following components:
+#'
+#' \item{f}{f statistic}
+#' \item{p}{p-value of \code{f}}
+#' \item{fv}{fitted values of the regression model}
+#' \item{rhs}{name of explanatory variables of fitted regression model}
+#' \item{numdf}{numerator degrees of freedom}
+#' \item{dendf}{denominator degrees of freedom}
+#' \item{vars}{variables to be used for heteroskedasticity test}
+#' \item{resp}{response variable}
+#' \item{preds}{predictors}
+#' @export
+#'
+f_test <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL, ...) UseMethod('f_test')
 
-f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL) {
+f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL, ...) {
 
     if (!all(class(model) == 'lm')) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
@@ -31,7 +56,7 @@ f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL
     	fitted.values <- FALSE
     	nam           <- names(l)[-1]
     	np            <- length(nam)
-    	var_resid     <- sum(residuals(model) ^ 2) / n 
+    	var_resid     <- sum(residuals(model) ^ 2) / n
 			ind           <- residuals(model) ^ 2 / var_resid - 1
 			l             <- cbind(l, ind)
 			mdata         <- l[-1]
@@ -60,7 +85,7 @@ f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL
 
     	} else {
 
-				var_resid <- sum(residuals(model) ^ 2) / n 
+				var_resid <- sum(residuals(model) ^ 2) / n
 				ind       <- residuals(model) ^ 2 / var_resid - 1
 				mdata     <- l[-1]
 				dl        <- mdata[, vars]
@@ -77,25 +102,24 @@ f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL
 
     }
 
-    out <- list(f     = round(f, 3), 
-    	          p     = round(p, 3), 
-    	          numdf = numdf, 
-    	          dendf = dendf, 
-    	          fv    = fitted.values, 
-    	          rhs   = rhs, 
-    	          vars  = vars, 
-    	          resp  = resp, 
+    out <- list(f     = round(f, 3),
+    	          p     = round(p, 3),
+    	          numdf = numdf,
+    	          dendf = dendf,
+    	          fv    = fitted.values,
+    	          rhs   = rhs,
+    	          vars  = vars,
+    	          resp  = resp,
     	          preds = nam)
-    
+
     class(out) <- 'f_test'
-    
+
     return(out)
 
 }
 
-
-print.f_test <- function(data) {
-
-	print_ftest(data)
-
+#' @export
+#'
+print.f_test <- function(x, ...) {
+	print_ftest(x)
 }

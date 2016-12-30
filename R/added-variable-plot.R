@@ -1,3 +1,15 @@
+#' @importFrom stats model.frame residuals lm as.formula
+#' @importFrom graphics plot abline
+#' @title Added Variable Plot
+#' @description Show the effect of adding another variable to a model already
+#' having one or more independent variables.
+#' @param model an object of class \code{lm}
+#'
+#' @examples
+#' model <- lm(mpg ~ ., data = mtcars)
+#' addvar_plot(model)
+#' @export
+#'
 addvar_plot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -21,11 +33,11 @@ addvar_plot <- function(model) {
 	    fla2 <- as.formula(paste(k2[j], "~ ."))
 	    x    <- residuals(lm(fla2, data = dat2))
 
-	    plot(x, y, col = "blue", 
+	    plot(x, y, col = "blue",
 	         xlab = paste(xnames[i], " | Others"),
 	         ylab = paste(xnames[1], " | Others"))
 	    abdat <- data.frame(y, x)
 	    abline(lm(y ~ x, data = abdat), col = "gray")
 	}
-	
+
 }

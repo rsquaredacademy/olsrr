@@ -1,14 +1,26 @@
+#' @importFrom graphics text
+#' @title Cooks' d Chart
+#' @description Cooks' d Chart
+#' @param model an object of class \code{lm}
+#' @return \code{cooksd_chart} returns a list containing the
+#' following components:
+#'
+#' \item{cooks_d}{f cook's d statistic}
+#' \item{threshold}{threshold for outliers}
+#' \item{outliers}{residual points that are outliers}
+#' @export
+#'
 cooksd_chart <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	ckd <- cooks_d(model)
+	ckd <- cooks.distance(model)
 	ts  <- 4 / length(ckd)
 
 	plot(seq_len(length(ckd)), ckd, type = "h", lwd = 1, col = "blue",
-	     xlab = "Observation", ylab = "Cook's D", 
+	     xlab = "Observation", ylab = "Cook's D",
 	     main = paste("Cook's D for", names(model.frame(model))[1]))
 	points(ckd, col = "blue")
 	abline(h = ts, col = "gray")
@@ -21,5 +33,5 @@ cooksd_chart <- function(model) {
 	z <- list(cooks_d   = ckd,
 						threshold = round(ts, 4),
 						outliers  = obs)
-	
+
 }

@@ -1,12 +1,15 @@
+#' @title Residual vs Regressors Plot
+#' @description Residual vs Regressors Plot
+#' @param model an object of class \code{lm}
+#' @param panel logical; if TRUE, creates a panel of plots
+#' @export
+#'
 rvsr_plot <- function(model, panel = TRUE) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-  if (!is.logical(panel)) {
-    stop('panel must be either TRUE or FALSE', call. = FALSE)
-  }
 
 	np     <- length(model$coefficients) - 1
 	dat    <- model.frame(model)[-1]
@@ -14,7 +17,7 @@ rvsr_plot <- function(model, panel = TRUE) {
 	dnames <- colnames(model.frame(model))[1]
 
 	if (panel) {
-	
+
 		ncols  <- 2
 		nrows  <- ceiling(np / 2 )
 		op     <- par(no.readonly = TRUE)
@@ -32,11 +35,11 @@ rvsr_plot <- function(model, panel = TRUE) {
 
 		for (i in seq_len(np)) {
 		    plot(unlist(dat[i]), model$residuals, col = "blue",
-		         xlab = paste(pnames[i]), ylab = "Residual", 
+		         xlab = paste(pnames[i]), ylab = "Residual",
 		         main = paste("Residual vs", pnames[i]))
 		    abline(h = 0)
 		}
 
 	}
-	
+
 }

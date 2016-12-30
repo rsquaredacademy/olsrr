@@ -1,5 +1,30 @@
-bartlett_test <- function(variable, ..., group_var = NA) UseMethod('bartlett_test')
+#' @importFrom stats complete.cases pchisq formula var
+#' @title Bartlett Test
+#' @description Test if k samples have equal variances
+#' @param variable a numeric vector
+#' @param ... numeric vectors
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return \code{bartlett_test} returns an object of class \code{"bartlett_test"}.
+#' An object of class \code{"bartlett_test"} is a list containing the
+#' following components:
+#'
+#' \item{fstat}{f statistic}
+#' \item{pval}{p-value of \code{fstat}}
+#' \item{df}{degrees of freedom}
+#' \item{var_c}{name(s) of \code{variable}}
+#' \item{g_var}{name of \code{group_var}}
+#' @export
+#'
+bartlett_test <- function(variable, ...) UseMethod('bartlett_test')
 
+#' @export
+#'
 bartlett_test.default <- function(variable, ..., group_var = NA) {
 
 	var_c <- deparse(substitute(variable))
@@ -7,9 +32,9 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
 		if (is.na(group_var)) {
 			dots  <- substitute(list(...))[-1]
 	    var_c <- c(var_c, sapply(dots, deparse))
-	  	g_var <- NA	
+	  	g_var <- NA
 		} else {
-			g_var <- deparse(substitute(group_var))	
+			g_var <- deparse(substitute(group_var))
 		}
 	)
 
@@ -17,7 +42,7 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
 
   suppressWarnings(
     if (is.na(group_var)) {
-    
+
     	z   <- list(variable, ...)
     	ln  <- lapply(z, length)
     	ly  <- length(z)
@@ -27,14 +52,14 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
     	}
 
     	out <- list()
-    	
+
     	for (i in seq_len(ly)) {
     	  out[[i]] <- as.factor(rep(i, ln[i]))
     	}
-    	    
+
     	variable <- unlist(z)
     	grp_var  <- unlist(out)
-    
+
     } else {
 
     	if (length(variable) != length(group_var)) {
@@ -66,15 +91,15 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
 	    ps[i] <- ((lens[i] - 1) * vars[i]) / (n - k)
 	}
 
-	pvar  <- sum(ps) 
+	pvar  <- sum(ps)
 	fstat <- ((1 / c) * (sumv * log10(pvar) - n2)) * 2.3026
 	pval  <- pchisq(fstat, df, lower.tail = FALSE)
 
-	out <- list(fstat = round(fstat, 3), 
-		          pval  = round(pval, 3), 
-		          df    = df, 
-		          var_c = var_c, 
-			        g_var = g_var)	
+	out <- list(fstat = round(fstat, 3),
+		          pval  = round(pval, 3),
+		          df    = df,
+		          var_c = var_c,
+			        g_var = g_var)
 
 	class(out) <- 'bartlett_test'
 
@@ -82,26 +107,25 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
 
 }
 
-
-bartlett_test.lm <- function(model) {
-	
-	bartlett_test.formula(formula(model), data=model.frame(model), ...)
-
+#' @export
+#'
+bartlett_test.lm <- function(variable, ...) {
+	bartlett_test.formula(formula(variable), data=model.frame(variable), ...)
 }
 
+#' @export
+#'
+bartlett_test.formula <- function(variable, data, ...) {
 
-bartlett_test.formula <- function(formula, data) {
-	
-	dat       <- model.frame(formula, data)
-	variable  <- dat[, 1]
+	dat       <- model.frame(variable, data)
+	var  <- dat[, 1]
 	group_var <- dat[, 2]
-	bartlett_test.default(variable = variable, group_var = group_var)
+	bartlett_test.default(variable = var, group_var = group_var)
 
 }
 
-
-print.bartlett_test <- function(data) {
-
-	print_bartlett_test(data)
-
+#' @export
+#'
+print.bartlett_test <- function(x, ...) {
+	print_bartlett_test(x)
 }

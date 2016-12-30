@@ -18,11 +18,6 @@ test_that('regress returns all the model validation metrics', {
 
 })
 
-test_that('regress fails when input for formula is other than formula', {
-	expect_error(regress('mpg ~ disp + hp', data = mtcars),
-		'Please specify a valid formula.')
-})
-
 test_that('regress fails when input for data is missing', {
 	expect_error(regress(mpg ~ disp + hp + wt + drat + qsec),
 		'data missing')
@@ -42,13 +37,13 @@ test_that('regress fails when input for conf.level is non-numeric', {
 
 test_that('regress fails when input for conf.level is negative', {
 	cl <- -0.95
-	expect_error(regress(mpg ~ disp + hp + wt + drat + qsec, data = mtcars, 
+	expect_error(regress(mpg ~ disp + hp + wt + drat + qsec, data = mtcars,
 		conf.level = cl), 'conf.level must be between 0 and 1')
 })
 
 test_that('regress fails when input for conf.level is negative', {
 	cl <- 1.95
-	expect_error(regress(mpg ~ disp + hp + wt + drat + qsec, data = mtcars, 
+	expect_error(regress(mpg ~ disp + hp + wt + drat + qsec, data = mtcars,
 		conf.level = cl), 'conf.level must be between 0 and 1')
 })
 
@@ -58,7 +53,7 @@ test_that('regress fails when input for title is not a string/character', {
 	 title = title), '0.95 is not a string, Please specify a string as title.')
 
 	title <- TRUE
-	expect_error(regress(mpg ~ disp + hp + wt + drat + qsec, data = mtcars, 
+	expect_error(regress(mpg ~ disp + hp + wt + drat + qsec, data = mtcars,
 		title = title), 'TRUE is not a string, Please specify a string as title.')
 
 })

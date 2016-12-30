@@ -1,56 +1,91 @@
+#' @importFrom stats qnorm
+#' @title Correlation Test
+#' @description Correlation Test
+#' @param model an object of class \code{lm}
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return correlation between fitted regression model residuals and expected
+#' values of residuals
+#' @export
+#'
 corr_test <- function(model) {
 
 		if (!all(class(model) == 'lm')) {
       stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
-    
+
     n       <- nrow(model.frame(model))
     stderr  <- summary(model)$sigma
     expvals <- sapply(1:n, function(k) stderr * qnorm((k - 0.375) / (n + 0.25)))
     out     <- cor(expvals, sort(model$residuals))
     return(out)
-    
+
 }
 
+#' @importFrom stats ks.test shapiro.test
+#' @importFrom goftest cvm.test
+#' @importFrom nortest ad.test
+#' @title Normality Test
+#' @description Normality Test
+#' @param y a numeric vector
+#' @param ... other arguments
+#' @details Some statistical tests, for example the analysis of variance, assume
+#' that variances are equal across groups or samples. The Bartlett test can be
+#' used to verify that assumption. Bartlett's test is sensitive to departures
+#' from normality. That is, if your samples come from non-normal distributions,
+#' then Bartlett's test may simply be testing for non-normality. The Levene test
+#' is an alternative to the Bartlett test that is less sensitive to departures
+#' from normality.
+#' @return \code{norm_test} returns an object of class \code{"norm_test"}.
+#' An object of class \code{"norm_test"} is a list containing the
+#' following components:
+#'
+#' \item{kolmogorv}{kolmogorv smirnov statistic}
+#' \item{shapiro}{shapiro wilk statistic}
+#' \item{cramer}{cramer von mises statistic}
+#' \item{anderson}{anderson darling statistic}
+#' @export
+#'
+norm_test <- function(y, ...) UseMethod('norm_test')
 
-norm_test <- function(y) UseMethod('norm_test')
-
-norm_test.default <- function(y) {
+#' @export
+#'
+norm_test.default <- function(y, ...) {
 
 	if (!is.numeric(y)) {
 		stop('y must be numeric')
 	}
-	
-	ks  <- ks.test(y, "pnorm", mean(y), sd(y))            
-	sw  <- shapiro.test(y)                                
-	cvm <- goftest::cvm.test(y, "pnorm", mean(y), sd(y))  
-	ad  <- nortest::ad.test(y)                            
 
-	result <- list(kolmogorv = ks, 
+	ks  <- ks.test(y, "pnorm", mean(y), sd(y))
+	sw  <- shapiro.test(y)
+	cvm <- cvm.test(y, "pnorm", mean(y), sd(y))
+	ad  <- ad.test(y)
+
+	result <- list(kolmogorv = ks,
 								 shapiro   = sw,
-								 cramer    = cvm, 
+								 cramer    = cvm,
 								 anderson  = ad)
 
 	class(result) <- 'norm_test'
-
 	return(result)
-
 }
 
-
-norm_test.lm <- function(model) {
-
-	if (!all(class(model) == 'lm')) {
+#' @export
+#'
+norm_test.lm <- function(y, ...) {
+	if (!all(class(y) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
-
-	norm_test.default(residuals(model))
-
+	norm_test.default(residuals(y))
 }
 
-
-print.norm_test <- function(data) {
-
-	print_norm_test(data)
-	
+#' @export
+#'
+print.norm_test <- function(x, ...) {
+	print_norm_test(x)
 }

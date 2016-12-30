@@ -1,3 +1,18 @@
+#' @importFrom stats fitted rstudent
+#' @importFrom dplyr mutate
+#' @title Deleted Studentized Residual vs Predictor Plot
+#' @description Deleted Studentized Residual vs Predictor Plot
+#' @param model an object of class \code{lm}
+#' @return \code{dsrvsp_plot} returns a list containing the
+#' following components:
+#'
+#' \item{fitted}{fitted values of the regression model}
+#' \item{dstudresid}{deleted studentized residuals}
+#' \item{threshold}{threshold for outliers}
+#' \item{normal}{normal residual points}
+#' \item{outliers}{residual points that are outliers}
+#' @export
+#'
 dsrvsp_plot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -7,9 +22,9 @@ dsrvsp_plot <- function(model) {
 	pred    <- fitted(model)
 	dsresid <- unname(rstudent(model))
 	n       <- length(dsresid)
-	
+
 	dsr   <- data.frame(obs = seq_len(n), dsr = dsresid)
-	
+
 	dsr <- dsr %>%
     mutate(color = ifelse((abs(dsr) >= 2), "outlier", "normal"))
 
@@ -21,14 +36,14 @@ dsrvsp_plot <- function(model) {
 	cminx   <- ifelse(minx < -2, minx, -2.5)
 	cmaxx   <- ifelse(maxx > 2, maxx, 2.5)
 
-	plot(pred, dsr$dsr, 
+	plot(pred, dsr$dsr,
 		   col = color[dsr$color2],
-	     xlab = "Predicted Value", 
+	     xlab = "Predicted Value",
 	     ylab = "RStudent",
 	     ylim = c(cminx, cmaxx),
 	     main = "Deleted Studentized Residual vs Predicted Values")
-	
-	abline(h  = c(-2, 2), 
+
+	abline(h  = c(-2, 2),
 		    col = "gray")
 
 	z <- list(fitted     = pred,
@@ -37,5 +52,3 @@ dsrvsp_plot <- function(model) {
 				    normal     = dsr$obs[dsr$color == "normal"],
 		        outlier    = dsr$obs[dsr$color == "outlier"])
 }
-
-

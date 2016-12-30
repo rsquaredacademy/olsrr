@@ -1,3 +1,15 @@
+#' @title Studentized Residual Plot
+#' @description Studentized Residual Plot
+#' @param model an object of class \code{lm}
+#' @return \code{srplot} returns a list containing the
+#' following components:
+#'
+#' \item{dstudresid}{f cook's d statistic}
+#' \item{threshold}{threshold for outliers}
+#' \item{normal}{threshold for outliers}
+#' \item{outlier}{f cook's d statistic}
+#' @export
+#'
 srplot <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
@@ -7,9 +19,9 @@ srplot <- function(model) {
 	dstud <- unname(rstudent(model))
 	n     <- length(dstud)
 	dsr   <- data.frame(obs = seq_len(n), dsr = dstud)
-	
+
 	dsr <- dsr %>%
-    mutate(color = ifelse((abs(dsr) >= 3), "outlier", "normal"))
+        mutate(color = ifelse((abs(dsr) >= 3), "outlier", "normal"))
 
 	dsr$color1 <- factor(dsr$color)
 	dsr$color2 <- ordered(dsr$color1, levels = c("normal", "outlier"))
@@ -18,11 +30,11 @@ srplot <- function(model) {
 	maxx       <- max(dsr$dsr) + 1
 	ln         <- length(dsr$dsr)
 
-	barplot(dsr$dsr, col = color[dsr$color2], 
-	        axes = T, xlim = c(minx, maxx), width = 0.5, 
+	barplot(dsr$dsr, col = color[dsr$color2],
+	        axes = T, xlim = c(minx, maxx), width = 0.5,
 	        space = 1, horiz = T, names.arg = seq_len(ln),
 	        cex.names = 0.5, main = "Studentized Residuals",
-	        xlab = "Deleted Studentized Residuals", 
+	        xlab = "Deleted Studentized Residuals",
 	        ylab = "Observation")
 	abline(v = 0)
 	abline(v = ceiling(minx))
@@ -35,7 +47,7 @@ srplot <- function(model) {
 	abline(v = nseq, lwd = 0.1, col = "gray")
 	abline(v = pseq, lwd = 0.1, col = "gray")
 
-	z <- list(dstudresid = dsr$dsr, 
+	z <- list(dstudresid = dsr$dsr,
 		        threshold  = 3,
 		        normal     = dsr$obs[dsr$color == "normal"],
 		        outlier    = dsr$obs[dsr$color == "outlier"])

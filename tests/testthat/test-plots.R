@@ -14,12 +14,6 @@ test_that("rvsr_plot fails when model inherits other than 'lm'", {
     expect_error(rvsr_plot(m), 'Please specify a OLS linear regression model.')
 })
 
-test_that("rvsr_plot fails when input for fitted.values is not logical", {
-    expect_error(rvsr_plot(model, panel = 'TRUE'), 
-    	'panel must be either TRUE or FALSE')
-    expect_error(rvsr_plot(model, panel = 0), 
-    	'panel must be either TRUE or FALSE')
-})
 
 test_that("rvsp_plot fails when model inherits other than 'lm'", {
     y <- sample(c(1:4), 100, replace = T)

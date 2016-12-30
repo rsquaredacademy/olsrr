@@ -1,7 +1,28 @@
-# generic function
+#' @title Score Test for heteroskedasticity
+#' @description Test for heteroskedasticity
+#' @param model an object of class \code{lm}
+#' @param fitted.values logical; if TRUE, use fitted values of regression model
+#' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
+#' performed for the right-hand-side (explanatory) variables of the fitted
+#' regression model
+#' @param vars variables to be used for for heteroskedasticity test
+#' @return \code{score_test} returns an object of class \code{"score_test"}.
+#' An object of class \code{"score_test"} is a list containing the
+#' following components:
+#'
+#' \item{score}{f statistic}
+#' \item{p}{p value of \code{score}}
+#' \item{df}{degrees of freedom}
+#' \item{fv}{fitted values of the regression model}
+#' \item{rhs}{name of explanatory variables of fitted regression model}
+#' \item{resp}{response variable}
+#' \item{preds}{predictors}
+#' @export
+#'
 score_test <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL) UseMethod('score_test')
 
-# default method
+#' @export
+#'
 score_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL) {
 
     if (!all(class(model) == 'lm')) {
@@ -32,7 +53,7 @@ score_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = 
     fitted.values <- FALSE
     nam           <- names(l)[-1]
     np            <- length(nam)
-    var_resid     <- sum(residuals(model) ^ 2) / n 
+    var_resid     <- sum(residuals(model) ^ 2) / n
 	ind           <- residuals(model) ^ 2 / var_resid - 1
 	l             <- cbind(l, ind)
 	mdata         <- l[-1]
@@ -58,7 +79,7 @@ score_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = 
 
     	} else {
 
-				var_resid <- sum(residuals(model) ^ 2) / n 
+				var_resid <- sum(residuals(model) ^ 2) / n
 				ind       <- residuals(model) ^ 2 / var_resid - 1
 				mdata     <- l[-1]
 				dl        <- mdata[, vars]
@@ -74,24 +95,23 @@ score_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = 
 
     }
 
-    out <- list(score = round(score, 3), 
-    	                  p     = round(p, 3), 
-    	                  df    = np,
-    					  fv    = fitted.values, 
-    					  rhs   = rhs, 
-    					  preds = preds, 
+    out <- list(score = round(score, 3),
+    	          p     = round(p, 3),
+    	          df    = np,
+    					  fv    = fitted.values,
+    					  rhs   = rhs,
+    					  preds = preds,
     					  resp  = resp)
-    
+
     class(out) <- 'score_test'
-    
+
     return(out)
 
 
 }
 
-
-print.score_test <- function(data) {
-
-	print_score_test(data)
-
+#' @export
+#'
+print.score_test <- function(x, ...) {
+	print_score_test(x, ...)
 }
