@@ -8,4 +8,5 @@
 ^appveyor\.yml$
 ^CONDUCT\.md$
 ^olsrr\.jpg$
-s
+^_pkgdown\.yml$
+^docs$
