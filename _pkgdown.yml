@@ -1,0 +1,99 @@
+templates:
+  params:
+    bootswatch: cerulean
+
+home:
+  links:
+  - text: Learn more
+    href: http://www.rsquaredacademy.com
+
+
+reference:
+- title: Regression
+
+  contents:
+  - regress
+
+- title: Model Selection
+
+  contents:
+  - all_subset
+  - best_subset
+  - step_backward
+  - step_forward
+  - stepwise
+  - stepaic_backward
+  - stepaic_forward
+
+- title: Pre/Post Estimation Tests
+
+  contents:
+  - bartlett_test
+  - bp_test
+  - correlations
+  - f_test
+  - corr_test
+  - norm_test
+  - pure_error_anova
+  - score_test
+
+- title: Diagnostics
+
+  contents:
+  - coll_diag
+  - vif_tol
+  - eigen_cindex
+  - leverage
+  - hadi
+  - press
+  - pred_rsq
+  - aic
+  - sbc
+  - sbic
+  - gmsep
+  - mallow_cp
+  - jp
+  - pc
+  - sp
+
+- title: Plots
+
+  contents:
+  - addvar_plot
+  - box_resid
+  - cplusr_plot
+  - cooksd_bplot
+  - cooksd_chart
+  - dfbetas_panel
+  - diag_panel
+  - dsrvsp_plot
+  - hadi_plot
+  - ovsp_plot
+  - poten_resid_plot
+  - pred_diag
+  - rfs_plot
+  - rvsp_plot
+  - rvsr_plot
+  - resid_boxplot
+  - hist_resid
+  - qqresid
+  - studvslev_plot
+  - srplot
+  - studres_chart
+
+- title: Fitted Line Properties
+
+  contents:
+  - reg_line
+  - conf_line
+
+
+- title: Data
+  desc: >
+    olsrr comes with a built-in datasets which are used to
+    illustrate the functions as well as for running tests.
+  contents:
+  - hsb
+  - fitness
+  - cement
+  - rivers
