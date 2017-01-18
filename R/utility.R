@@ -172,3 +172,28 @@ cpout <- function(model) {
   out <- list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)
   return(out)
 }
+
+# cook's d bar plot
+cdplot <- function(model){
+
+           cooksd <- cooks.distance(model)
+            	  n <- length(cooksd)
+	            ckd <- tibble(obs = seq_len(n), cd = cooksd)
+	      ckd$color <- ifelse(ckd$cd >= ts, c("outlier"), c("normal"))
+	     ckd$color1 <- factor(ckd$color)
+	ckd$Observation <- ordered(ckd$color1, levels = c("normal", "outlier"))
+               ts <- 4 / length(ckd$cd)
+	           maxx <- max(ckd$cd) + 0.1
+           result <- list(ckd = ckd, maxx = maxx, ts = ts)
+  return(result)
+
+}
+
+# cook's d chart
+cdchart <- function(model) {
+  ckd <- cooks.distance(model)
+	 ts <- 4 / length(ckd)
+	  d <- tibble(obs = seq_len(length(ckd)), ckd = ckd)
+  out <- list(d = d, ts = ts)
+  return(out)
+}

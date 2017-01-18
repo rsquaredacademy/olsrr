@@ -16,21 +16,13 @@ cooksd_chart <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	ckd <- cooks.distance(model)
-	ts  <- 4 / length(ckd)
-
-	d <- data.frame(obs = seq_len(length(ckd)), ckd = ckd)
-	p <- ggplot(d, aes(obs, ckd, ymin = min(ckd), ymax = ckd))
+	k <- cdchart(model)
+	p <- ggplot(k$d, aes(obs, ckd, ymin = min(ckd), ymax = ckd))
 	p <- p + geom_linerange(colour = 'blue')
 	p <- p + geom_point(shape = 1, colour = 'blue')
-	p <- p + geom_hline(yintercept = ts, colour = 'red')
+	p <- p + geom_hline(yintercept = k$ts, colour = 'red')
 	p <- p + xlab('Observation') + ylab("Cook's D") + ggtitle("Cook's D Chart")
 	print(p)
-
-
-	z <- list(cooks_d   = ckd,
-						threshold = round(ts, 4),
-						outliers  = obs)
 
 }
 

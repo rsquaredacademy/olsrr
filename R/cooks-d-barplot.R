@@ -18,33 +18,15 @@ cooksd_bplot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	cooksd <- cooks.distance(model)
-	n      <- length(cooksd)
-	ckd    <- data.frame(obs = seq_len(n), cd = cooksd)
-	ts     <- 4 / length(ckd$cd)
-
-	ckd$color <- ifelse(ckd$cd >= ts, c("outlier"), c("normal"))
-	# ckd <- ckd %>%
-	#     mutate(color = ifelse((cd >= ts), "outlier", "normal"))
-
-	ckd$color1 <- factor(ckd$color)
-	ckd$Observation <- ordered(ckd$color1, levels = c("normal", "outlier"))
-	color      <- c(NA, "blue")
-	maxx       <- max(ckd$cd) + 0.1
-	ln         <- length(ckd$cd)
-
-	p <- ggplot(ckd, aes(obs, cd)) + geom_bar(width = 0.5, stat = 'identity', aes(fill = Observation))
+	k <- cdplot(model)
+	p <- ggplot(k$ckd, aes(obs, cd)) + geom_bar(width = 0.5, stat = 'identity', aes(fill = Observation))
 	p <- p + coord_flip()
-	p <- p + ylim(0, maxx)
+	p <- p + ylim(0, k$maxx)
 	p <- p + ylab("Cook's D") + xlab('Observation') + ggtitle("Cook's D Bar Plot")
 	p <- p + geom_hline(yintercept = 0)
-	p <- p + geom_hline(yintercept = ts, colour = 'red')
+	p <- p + geom_hline(yintercept = k$ts, colour = 'red')
 	print(p)
 
-	z <- list(cooks_d   = ckd$cd,
-					  threshold = round(ts, 4),
-					  normal    = ckd$obs[ckd$color == "normal"],
-					  outlier   = ckd$obs[ckd$color == "outlier"])
 }
 
 
