@@ -1,3 +1,4 @@
+#' @importFrom stats anova
 #' @title Breusch Pagan Test
 #' @description Test for heteroskedasticity
 #' @param model an object of class \code{lm}

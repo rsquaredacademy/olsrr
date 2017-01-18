@@ -73,9 +73,9 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
 		grp_var <- as.factor(grp_var)
 	}
 
+	df    <- nlevels(grp_var) - 1
 	n     <- length(variable)
 	k     <- nlevels(grp_var)
-	df    <- k - 1
 	comp  <- complete.cases(variable, grp_var)
 	vars  <- tapply(variable[comp], grp_var[comp], var)
 	lens  <- tapply(variable[comp], grp_var[comp], length)
@@ -117,8 +117,8 @@ bartlett_test.lm <- function(variable, ...) {
 #'
 bartlett_test.formula <- function(variable, data, ...) {
 
-	dat       <- model.frame(variable, data)
-	var  <- dat[, 1]
+				dat <- model.frame(variable, data)
+				var <- dat[, 1]
 	group_var <- dat[, 2]
 	bartlett_test.default(variable = var, group_var = group_var)
 

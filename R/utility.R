@@ -76,3 +76,20 @@ l <- function(x) {
 combinations <- function(n, r) {
     factorial(n) / (factorial(n - r) * factorial(r))
 }
+
+# added variable Plot
+advarx <- function(data , i) {
+    j <- i - 1
+    k <- names(data)
+  fla <- as.formula(paste(k[j], "~ ."))
+  out <- residuals(lm(fla, data = data))
+  return(out)
+}
+
+advary <- function(data, i) {
+  dat <- data[-i]
+    k <- names(dat)
+  fla <- as.formula(paste(k[1], "~ ."))
+  out <- residuals(lm(fla, data = dat))
+  return(out)
+}

@@ -1,12 +1,19 @@
 #' @importFrom stats residuals
-#' @importFrom graphics boxplot
+#' @importFrom ggplot2 geom_boxplot
 #' @title Residual Box Plot
 #' @description Box plot of residuals from a linear regression model
 #' @param model an object of class \code{lm}
 #' @export
 #'
 box_resid <- function(model) {
-	resid <- residuals(model)
-	boxplot(resid, xlab = 'Residuals',
-	        main = "Residual Box Plot")
+
+	k <- tibble(resid = residuals(model)) %>%
+	    ggplot(., aes(x = factor(0), y = resid)) +
+	    geom_boxplot(outlier.color = 'green', outlier.size = 3,
+	        fill = 'grey80', colour = '#3366FF') +
+	    xlab(' ') +
+	    ylab('Residuals') +
+	    ggtitle('Residual Box Plot')
+
+	print(k)
 }

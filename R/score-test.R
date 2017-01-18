@@ -75,7 +75,7 @@ score_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = 
 				score        <- summary(model1)$r.squared * n
 				np           <- 1
 				p            <- pchisq(score, 1, lower.tail = F)
-                preds        <- paste('fitted values of', resp)
+        preds        <- paste('fitted values of', resp)
 
     	} else {
 
@@ -89,7 +89,7 @@ score_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = 
 				score     <- summary(model1)$r.squared * n
 				p         <- pchisq(score, nd, lower.tail = F)
 				np        <- nd
-                preds     <- vars
+        preds     <- vars
 
     	}
 

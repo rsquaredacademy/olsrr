@@ -21,7 +21,8 @@ leverage <- function(model) {
     return(unname(hatvalues(model)))
 
 }
-#' @importFrom stats anova
+
+
 #' @title Hadi's Measure
 #' @description Hadi's Measure
 #' @param model an object of class \code{lm}

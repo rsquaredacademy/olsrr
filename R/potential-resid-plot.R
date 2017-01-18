@@ -20,7 +20,26 @@ poten_resid_plot <- function(model) {
     hi  <- hadi(model)
     pot <- unname(hi$potential)
     res <- unname(hi$residual)
-    plot(res, pot, col = "blue", xlab = "Residual", ylab = "Potential",
-         main = "Potential-Residual Plot")
+    d   <- data.frame(res = res, pot = pot)
 
+    p <- ggplot(d, aes(x = res, y = pot))
+    p <- p + geom_point(colour = 'blue', shape = 1)
+    p <- p + xlab('Residual') + ylab('Potential')
+    p <- p + ggtitle('Potential-Residual Plot')
+    print(p)
 }
+
+
+# poten_resid_plot <- function(model) {
+#
+#     if (!all(class(model) == 'lm')) {
+#         stop('Please specify a OLS linear regression model.', call. = FALSE)
+#     }
+#
+#     hi  <- hadi(model)
+#     pot <- unname(hi$potential)
+#     res <- unname(hi$residual)
+#     plot(res, pot, col = "blue", xlab = "Residual", ylab = "Potential",
+#          main = "Potential-Residual Plot")
+#
+# }
