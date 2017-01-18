@@ -145,3 +145,30 @@ pveindex <- function(z) {
 	  pv <- prop.table(ph %*% diag(rowSums(ph, 1)), 2)
     return(pv)
 }
+
+# vif tol
+fmrsq <- function(nam, data, i) {
+   fm <- as.formula(paste(nam[i], "~ ."))
+   m1 <- lm(fm, data = data)
+  rsq <- 1 - (summary(m1)$r.squared)
+  return(rsq)
+}
+
+# component plus residual plot
+cpdata <- function(data, mc, e, i) {
+  x <- data[i]
+  y <- (mc[i] * data[i]) + e
+  d <- tibble(x = x[[1]], y = y[[1]])
+  return(d)
+}
+
+cpout <- function(model) {
+  e      <- residuals(model)
+	mc     <- model$coefficients[-1]
+	data   <- model.frame(model)[-1]
+	lmc    <- length(mc)
+	nam    <- names(data)
+	indvar <- names(model.frame(model))[1]
+  out <- list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)
+  return(out)
+}

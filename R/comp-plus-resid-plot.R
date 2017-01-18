@@ -9,21 +9,14 @@ cplusr_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	e      <- residuals(model)
-	mc     <- model$coefficients[-1]
-	data   <- model.frame(model)[-1]
-	lmc    <- length(mc)
-	nam    <- names(data)
-	indvar <- names(model.frame(model))[1]
+	pl <- cpout(model)
 
-	for (i in seq_len(lmc)) {
+	for (i in seq_len(pl$lmc)) {
 
-	    x <- data[i]
-	    y <- (mc[i] * data[i]) + e
-			d <- data.frame(x = x[[1]], y = y[[1]])
-			k <- ggplot(d, aes(x = x, y = y)) +
-				geom_point(colour = 'blue', size = 2) + xlab(nam[i]) +
-				ylab(paste0("Component + Residual (", indvar, ")")) +
+			k <- cpdata(pl$data, pl$mc, pl$e, i) %>%
+				ggplot(d, aes(x = x, y = y)) +
+				geom_point(colour = 'blue', size = 2) + xlab(pl$nam[i]) +
+				ylab(paste0("Component + Residual (", pl$indvar, ")")) +
 				stat_smooth(method="lm", se=FALSE)
 
 			print(k)

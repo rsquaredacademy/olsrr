@@ -57,12 +57,8 @@ vif_tol <- function(model) {
 	tol  <- c()
 
 	for (i in seq_len(p)) {
-		fm      <- as.formula(paste(nam[i], "~ ."))
-		m1      <- lm(fm, data = m)
-		rsq     <- summary(m1)$r.squared
-		tol[i]  <- 1 - rsq
+		tol[i]  <- fmrsq(nam, m, i)
 		vifs[i] <- 1 / tol[i]
-
 	}
 
 	viftol <- tibble(Variables = names(m),
