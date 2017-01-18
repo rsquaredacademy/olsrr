@@ -1,4 +1,6 @@
-#' @importFrom stats complete.cases pchisq formula var
+#' @importFrom stats pchisq formula
+#' @useDynLib olsrr
+#' @importFrom Rcpp sourceCpp
 #' @title Bartlett Test
 #' @description Test if k samples have equal variances
 #' @param variable a numeric vector
@@ -43,20 +45,15 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
   suppressWarnings(
     if (is.na(group_var)) {
 
-    	z   <- list(variable, ...)
-    	ln  <- lapply(z, length)
-    	ly  <- length(z)
+    	 z <- list(variable, ...)
+			ln <- z %>% map_int(length)
+			ly <- seq_len(length(z))
 
     	if (ly < 2) {
     		stop('Please specify at least two variables.', call. = FALSE)
     	}
 
-    	out <- list()
-
-    	for (i in seq_len(ly)) {
-    	  out[[i]] <- as.factor(rep(i, ln[i]))
-    	}
-
+    	     out <- gvar(ln, ly)
     	variable <- unlist(z)
     	grp_var  <- unlist(out)
 
@@ -74,25 +71,7 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
 	}
 
 	df    <- nlevels(grp_var) - 1
-	n     <- length(variable)
-	k     <- nlevels(grp_var)
-	comp  <- complete.cases(variable, grp_var)
-	vars  <- tapply(variable[comp], grp_var[comp], var)
-	lens  <- tapply(variable[comp], grp_var[comp], length)
-	v     <- lens - 1
-	sumv  <- sum(v)
-	isumv <- sum(1 / v)
-	c     <- 1 + (1 / (3 * (k - 1))) * (isumv - (1 / sumv))
-	n2    <- sum(v * log10(vars))
-	l     <- length(vars)
-	ps    <- c()
-
-	for (i in seq_len(l)) {
-	    ps[i] <- ((lens[i] - 1) * vars[i]) / (n - k)
-	}
-
-	pvar  <- sum(ps)
-	fstat <- ((1 / c) * (sumv * log10(pvar) - n2)) * 2.3026
+	fstat <- bartlett_fstat(variable, grp_var)
 	pval  <- pchisq(fstat, df, lower.tail = FALSE)
 
 	out <- list(fstat = round(fstat, 3),

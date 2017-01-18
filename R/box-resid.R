@@ -16,4 +16,5 @@ box_resid <- function(model) {
 	    ggtitle('Residual Box Plot')
 
 	print(k)
+
 }

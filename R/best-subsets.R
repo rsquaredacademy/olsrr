@@ -62,11 +62,7 @@ best_subset.default <- function(model, ...) {
     gap       <- len_preds - 1
     space     <- sum(nchar(predicts)) + gap
     data      <- model.frame(model)
-    colas     <- c()
-
-    for(i in seq_len(lc)) {
-        colas[i] <- ncol(combs[[i]])
-    }
+    colas     <- combs %>% map_int(ncol)
 
     response <- varnames[1]
     p        <- colas

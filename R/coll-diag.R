@@ -65,9 +65,9 @@ vif_tol <- function(model) {
 
 	}
 
-	viftol <- data.frame(Variables = names(m),
-		                   Tolerance = round(tol, 3),
-	                     VIF       = round(vifs, 3))
+	viftol <- tibble(Variables = names(m),
+		               Tolerance = round(tol, 3),
+	                       VIF = round(vifs, 3))
 
 	return(viftol)
 }
@@ -81,18 +81,24 @@ eigen_cindex <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	x          		 <- model$model[, -1]
-	x          		 <- cbind(1,x)
-	colnames(x)[1] <- "intercept"
-	x              <- scale(x, scale = T, center = F)
-	tu             <- t(x) %*% x
-	e              <- eigen(tu / diag(tu))$ values
-	cindex         <- sqrt(e[1] / e)
-	svdx           <- svd(x)
-	phi            <- svdx$v %*% diag(1/svdx$d)
-	phi            <- t(phi ^ 2)
-	pv             <- prop.table(phi %*% diag(rowSums(phi, 1)), 2)
-	out            <- data.frame(cbind(round(e, 3), round(cindex, 3), round(pv, 2)))
-	names(out)     <- c("Eigenvalue", "Condition Index", colnames(x))
+	     x <- model$model[, -1]
+	     e <- evalue(x)$e
+	cindex <- cindx(e)
+	    pv <- pveindex(e$pvdata)
+	   out <- tibble(Eigenvalue = cbind(round(e, 3), round(cindex, 3),
+		 					round(pv, 2)))
+	colnames(out) <- c("Eigenvalue", "Condition Index", colnames(e$z))
 	return(out)
 }
+
+
+# x          		 <- cbind(1,x)
+# colnames(x)[1] <- "intercept"
+# x              <- scale(x, scale = T, center = F)
+# tu             <- t(x) %*% x
+# e              <- eigen(tu / diag(tu))$values
+# cindex         <- sqrt(e[1] / e)
+# svdx           <- svd(x)
+# phi            <- svdx$v %*% diag(1/svdx$d)
+# phi            <- t(phi ^ 2)
+# pv             <- prop.table(phi %*% diag(rowSums(phi, 1)), 2)

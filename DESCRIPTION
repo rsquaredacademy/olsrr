@@ -16,7 +16,8 @@ Imports:
     purrr,
     tibble,
     nortest,
-    goftest
+    goftest,
+    Rcpp
 Suggests:
     testthat,
     covr,
@@ -29,3 +30,4 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
+LinkingTo: Rcpp

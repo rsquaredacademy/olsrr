@@ -93,3 +93,55 @@ advary <- function(data, i) {
   out <- residuals(lm(fla, data = dat))
   return(out)
 }
+
+# bartlett test
+#' @importFrom stats complete.cases var
+bartlett_fstat <- function(variable, grp_var) {
+
+  n     <- length(variable)
+	k     <- nlevels(grp_var)
+	comp  <- complete.cases(variable, grp_var)
+	vars  <- tapply(variable[comp], grp_var[comp], var)
+	lens  <- tapply(variable[comp], grp_var[comp], length)
+	v     <- lens - 1
+	sumv  <- sum(v)
+	isumv <- sum(1 / v)
+	c     <- 1 + (1 / (3 * (k - 1))) * (isumv - (1 / sumv))
+	n2    <- sum(v * log10(vars))
+	l     <- length(vars)
+	ps    <- ((lens - 1) * vars) / (n - k)
+
+	pvar  <- sum(ps)
+  result <- ((1 / c) * (sumv * log10(pvar) - n2)) * 2.3026
+  return(result)
+}
+
+
+# eigen cindex
+evalue <- function(x) {
+
+               y <- cbind(1,x)
+	colnames(y)[1] <- "intercept"
+	             z <- scale(y, scale = T, center = F)
+	            tu <- t(z) %*% z
+	             e <- eigen(tu / diag(tu))$values
+
+          result <- list(e = e, pvdata = z)
+
+  return(result)
+
+}
+
+
+cindx <- function(e) {
+  return(sqrt(e[1] / e))
+}
+
+
+pveindex <- function(z) {
+  svdx <- svd(z)
+	 phi <- svdx$v %*% diag(1/svdx$d)
+	  ph <- t(phi ^ 2)
+	  pv <- prop.table(ph %*% diag(rowSums(ph, 1)), 2)
+    return(pv)
+}
