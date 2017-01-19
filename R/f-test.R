@@ -23,15 +23,15 @@
 #' \item{preds}{predictors}
 #' @export
 #'
-f_test <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL, ...) UseMethod('f_test')
+f_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) UseMethod('f_test')
 
-f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL, ...) {
+f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
 
     if (!all(class(model) == 'lm')) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    if (!is.logical(fitted.values)) {
+    if (!is.logical(fitted_values)) {
     	stop('fitted.values must be either TRUE or FALSE')
     }
 
@@ -43,7 +43,7 @@ f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL
     	if (!all(vars %in% names(model$coefficients))) {
     		stop('vars must be a subset of the predictors in the model')
     	}
-    	fitted.values <- FALSE
+    	fitted_values <- FALSE
     }
 
     l    <- model.frame(model)
@@ -52,51 +52,31 @@ f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL
     n    <- nrow(l)
 
     if (rhs) {
-
-    	fitted.values <- FALSE
-    	nam           <- names(l)[-1]
-    	np            <- length(nam)
-    	var_resid     <- sum(residuals(model) ^ 2) / n
-			ind           <- residuals(model) ^ 2 / var_resid - 1
-			l             <- cbind(l, ind)
-			mdata         <- l[-1]
-			model1        <- lm(ind ~ ., data = mdata)
-			k             <- summary(model1)
-			f             <- as.vector(k$fstatistic[1])
-			numdf         <- as.vector(k$fstatistic[2])
-			dendf         <- as.vector(k$fstatistic[3])
-			p             <- pf(f, numdf, dendf, lower.tail = F)
+      fitted_values <- FALSE
+			    k <- frhs(nam, model)
+			    f <- k[[1]]
+			numdf <- k[[2]]
+			dendf <- k[[3]]
+			    p <- pf(f, numdf, dendf, lower.tail = F)
 
     } else {
 
-    	if (fitted.values) {
+    	if (fitted_values) {
 
-				pred         <- model$fitted.values
-				resid        <- model$residuals ^ 2
-				avg_resid    <- sum(resid) / length(pred)
-				scaled_resid <- resid / avg_resid
-				model1       <- lm(scaled_resid ~ pred)
-				k            <- summary(model1)
-				f            <- as.vector(k$fstatistic[1])
-				numdf        <- as.vector(k$fstatistic[2])
-				dendf        <- as.vector(k$fstatistic[3])
-				p            <- pf(f, numdf, dendf, lower.tail = F)
+				k <- ffit(model)
+        f <- k[[1]]
+    numdf <- k[[2]]
+    dendf <- k[[3]]
+				p <- pf(f, numdf, dendf, lower.tail = F)
 
 
     	} else {
 
-				var_resid <- sum(residuals(model) ^ 2) / n
-				ind       <- residuals(model) ^ 2 / var_resid - 1
-				mdata     <- l[-1]
-				dl        <- mdata[, vars]
-				dk        <- as.data.frame(cbind(ind, dl))
-				nd        <- ncol(dk) - 1
-				model1    <- lm(ind ~ ., data = dk)
-				k         <- summary(model1)
-				f         <- as.vector(k$fstatistic[1])
-				numdf     <- as.vector(k$fstatistic[2])
-				dendf     <- as.vector(k$fstatistic[3])
-				p         <- pf(f, numdf, dendf, lower.tail = F)
+			     	k <- fvar(n, l, model, vars)
+            f <- k[[1]]
+  			numdf <- k[[2]]
+  			dendf <- k[[3]]
+				    p <- pf(f, numdf, dendf, lower.tail = F)
 
     	}
 
@@ -106,7 +86,7 @@ f_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL
     	          p     = round(p, 3),
     	          numdf = numdf,
     	          dendf = dendf,
-    	          fv    = fitted.values,
+    	          fv    = fitted_values,
     	          rhs   = rhs,
     	          vars  = vars,
     	          resp  = resp,

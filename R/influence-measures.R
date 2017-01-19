@@ -18,7 +18,8 @@ leverage <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    return(unname(hatvalues(model)))
+    lev <- model %>% hatvalues() %>% unname()
+    return(lev)
 
 }
 

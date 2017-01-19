@@ -9,17 +9,15 @@ hadi_plot <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    hi  <- hadi(model)
-    hdi <- unname(hi$hadi)
-    d   <- data.frame(obs = seq_len(length(hdi)), hdi = hdi)
+    hdi <- model %>% hadi() %>% `$`(hadi) %>% unname()
+      d <- tibble(obs = seq_len(length(hdi)), hdi = hdi) %>%
+        ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
+        geom_linerange(colour = 'blue') +
+        geom_point(shape = 1, colour = 'blue') +
+        xlab('Observation') + ylab("Hadi's Measure") +
+        ggtitle("Hadi's Influence Measure")
 
-    p <- ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi))
-  	p <- p + geom_linerange(colour = 'blue')
-  	p <- p + geom_point(shape = 1, colour = 'blue')
-  	p <- p + xlab('Observation') + ylab("Hadi's Measure")
-    p <- p + ggtitle("Hadi's Influence Measure")
-  	print(p)
-
+    print(d)
 }
 
 # hadi_plot <- function(model) {

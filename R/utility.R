@@ -280,3 +280,37 @@ dpred <- function(model) {
         out <- list(ds = ds, cminx = cminx, cmaxx = cmaxx)
       return(out)
 }
+
+# f test
+frhs <- function(nam, model) {
+         np <- length(nam)
+  var_resid <- sum(residuals(model) ^ 2) / n
+        ind <- residuals(model) ^ 2 / var_resid - 1
+          l <- cbind(l, ind)
+      mdata <- l[-1]
+     model1 <- lm(ind ~ ., data = mdata)
+          k <- summary(model1)
+    return(k$fstatistic)
+}
+
+fvar <- function(n, l, model, vars) {
+  var_resid <- sum(residuals(model) ^ 2) / n
+        ind <- residuals(model) ^ 2 / var_resid - 1
+      mdata <- l[-1]
+         dl <- mdata[, vars]
+         dk <- as.data.frame(cbind(ind, dl))
+         nd <- ncol(dk) - 1
+     model1 <- lm(ind ~ ., data = dk)
+          k <- summary(model1)
+  return(k$fstatistic)
+}
+
+ffit <- function(model) {
+          pred <- model$fitted.values
+         resid <- model$residuals ^ 2
+     avg_resid <- sum(resid) / length(pred)
+  scaled_resid <- resid / avg_resid
+        model1 <- lm(scaled_resid ~ pred)
+             k <- summary(model1)
+  return(k$fstatistic)
+}
