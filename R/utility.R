@@ -314,3 +314,21 @@ ffit <- function(model) {
              k <- summary(model1)
   return(k$fstatistic)
 }
+
+
+hadipot <- function(model) {
+  lev       <- leverage(model)
+  pii       <- 1 - lev
+  potential <- lev / pii
+  return(potential)
+}
+
+hadires <- function(model) {
+  pii       <- 1 - leverage(model)
+  q         <- model$rank
+  p         <- q - 1
+  aov_m     <- anova(model)
+  dii       <- (model$residuals / sqrt(aov_m[q, 2])) ^ 2
+  residual  <- ((p + 1) / pii) * (dii / (1 - dii))
+  return(residual)
+}

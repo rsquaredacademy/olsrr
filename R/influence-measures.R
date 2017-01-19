@@ -43,15 +43,9 @@ hadi <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    lev       <- unname(hatvalues(model))
-    pii       <- 1 - lev
-    q         <- model$rank
-    p         <- q - 1
-    aov_m     <- anova(model)
-    dii       <- (model$residuals / sqrt(aov_m[q, 2])) ^ 2
-    potential <- lev / pii
-    residual  <- ((p + 1) / pii) * (dii / (1 - dii))
-    hi        <- potential + residual
+    potential <- hadipot(model)
+     residual <- hadires(model)
+           hi <- potential + residual
 
     result <- list(hadi      = hi,
                    potential = potential,
@@ -79,11 +73,17 @@ press <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    hm  <- unname(hatvalues(model))
-    pr  <- residuals(model) / (1 - hm)
-    pr2 <- sum(pr ^ 2)
+  k <- 1 %>%
+    `-`(model %>% leverage())
 
-    return(pr2)
+  out <- model %>%
+          residuals %>%
+          `/`(k) %>%
+          `^`(2) %>%
+          sum()
+
+
+    return(out)
 
 }
 
@@ -106,9 +106,18 @@ pred_rsq <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    tss     <- sum(anova(model)$`Sum Sq`)
-    prs     <- press(model)
-    predrsq <- round(1 - (prs / tss), 4)
+    tss <- model %>%
+      anova() %>%
+      `$`(`Sum Sq`) %>%
+      sum()
+
+    prts <- model %>%
+      press() %>%
+      `/`(tss)
+
+    predrsq <- 1 %>%
+      `-`(prts) %>%
+      round(4)
 
     return(predrsq)
 
