@@ -19,38 +19,16 @@ dsrvsp_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	pred    <- fitted(model)
-	dsresid <- unname(rstudent(model))
-	n       <- length(dsresid)
-
-	dsr   <- data.frame(obs = seq_len(n), dsr = dsresid)
-
-	dsr <- dsr %>%
-    mutate(color = ifelse((abs(dsr) >= 2), "outlier", "normal"))
-
-	dsr$color1 <- factor(dsr$color)
-	dsr$color2 <- ordered(dsr$color1, levels = c("normal", "outlier"))
-	color      <- c("blue", "red")
-	minx       <- min(dsr$dsr) - 1
-	maxx       <- max(dsr$dsr) + 1
-	cminx      <- ifelse(minx < -2, minx, -2.5)
-	cmaxx      <- ifelse(maxx > 2, maxx, 2.5)
-	d          <- data.frame(pred = pred, dsr = dsr$dsr, Observation = dsr$color2)
-
-	p <- ggplot(d, aes(x = pred, y = dsr))
+	k <- dpred(model)
+	p <- ggplot(k$ds, aes(x = pred, y = dsr))
 	p <- p + geom_point(aes(colour = Observation))
 	p <- p + scale_color_manual(values = c('blue', 'red'))
-	p <- p + ylim(cminx, cmaxx)
+	p <- p + ylim(k$cminx, k$cmaxx)
 	p <- p + xlab('Predicted Value') + ylab('Deleted Studentized Residual')
 	p <- p + ggtitle("Deleted Studentized Residual vs Predicted Values")
 	p <- p + geom_hline(yintercept = c(-2, 2), colour = 'red')
 	print(p)
 
-	z <- list(fitted     = pred,
-				    dstudresid = dsresid,
-				    threshold  = 2,
-				    normal     = dsr$obs[dsr$color == "normal"],
-		        outlier    = dsr$obs[dsr$color == "outlier"])
 }
 
 

@@ -16,32 +16,20 @@ dffits_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	dffitsm  <- unlist(dffits(model))
-	k        <- length(model$coefficients)
-	n        <- nrow(model.frame(model))
+	dffitsm  <- model %>% dffits() %>% unlist()
+				 k <- length(model$coefficients)
+				 n <- model %>% model.frame() %>% nrow()
 	dffits_t <- 2 * sqrt(k / n)
-	outlier  <- dffitsm[abs(dffitsm) > dffits_t]
-	obs      <- length(outlier)
-	obs_n    <- c()
 
-	for (i in seq_len(obs)) {
-		obs_n[i] <- which(dffitsm == outlier[i])
-	}
-	d <- data.frame(obs = seq_len(n), dbetas = dffitsm)
+	d <- tibble(obs = seq_len(n), dbetas = dffitsm) %>%
+		ggplot(., aes(obs, dffitsm, ymin = 0, max = dffitsm)) +
+		geom_linerange(colour = 'blue') +
+		geom_hline(yintercept = c(0, dffits_t, -dffits_t), colour = 'red') +
+		geom_point(colour = 'blue', shape = 1) +
+		xlab('Observation') + ylab('DFFITS') +
+		ggtitle(paste("Influence Diagnostics for", names(model.frame(model))[1]))
 
-	p <- ggplot(d, aes(obs, dffitsm, ymin = 0, max = dffitsm))
-	p <- p + geom_linerange(colour = 'blue')
-	p <- p + geom_hline(yintercept = c(0, dffits_t, -dffits_t), colour = 'red')
-	p <- p + geom_point(colour = 'blue', shape = 1)
-	p <- p + xlab('Observation') + ylab('DFFITS')
-	p <- p + ggtitle(paste("Influence Diagnostics for", names(model.frame(model))[1]))
-	print(p)
-
-
-	z <- list(dffits    = dffitsm,
-						threshold = round(dffits_t, 4),
-						outliers  = obs_n)
-
+	print(d)
 }
 
 

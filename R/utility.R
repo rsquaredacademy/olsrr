@@ -257,3 +257,26 @@ corm2 <- function(model) {
 
   return(r2)
 }
+
+
+# deleted studentized residu vs Predicted
+dpred <- function(model) {
+
+       pred <- model %>% fitted()
+  	dsresid <- model %>% rstudent() %>% unname()
+  	      n <- length(dsresid)
+	       ds <- tibble(obs = seq_len(n), dsr = dsresid)
+	       ds <- ds %>%
+           mutate(color = ifelse((abs(dsr) >= 2), "outlier", "normal"))
+  ds$color1 <- factor(ds$color)
+	ds$color2 <- ordered(dr$color1, levels = c("normal", "outlier"))
+	       d  <- tibble(pred = pred, dsr = ds$dsr, Observation = ds$color2)
+
+    	 minx <- min(ds$dsr) - 1
+      cminx <- ifelse(minx < -2, minx, -2.5)
+    	 maxx <- max(ds$dsr) + 1
+    	cmaxx <- ifelse(maxx > 2, maxx, 2.5)
+
+        out <- list(ds = ds, cminx = cminx, cmaxx = cmaxx)
+      return(out)
+}

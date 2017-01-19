@@ -20,36 +20,21 @@ dfbetas_panel <- function(model) {
 	n         <- nrow(dfb)
 	np        <- ncol(dfb)
 	threshold <- 2 / sqrt(n)
-	obs_l     <- list()
 
 	for (i in seq_len(np)) {
 
-		dbetas  <- dfb[, i]
-		outlier <- dbetas[abs(dbetas) > threshold]
-		obs     <- length(outlier)
-		obs_n   <- c()
+		dbetas <- dfb[, i]
 
-		for (j in seq_len(obs)) {
-			obs_n[j] <- which(dbetas == outlier[j])
-		}
+		d <- tibble(obs = seq_len(n), dbetas = dbetas) %>%
+			ggplot(., aes(obs, dbetas, ymin = 0, max = dbetas)) +
+			geom_linerange(colour = 'blue') +
+			geom_hline(yintercept = c(0, threshold, -threshold), colour = 'red') +
+			geom_point(colour = 'blue', shape = 1) +
+			xlab('Observation') + ylab('DFBETAS') +
+			ggtitle(paste("Influence Diagnostics for", colnames(dfb)[i]))
 
-		obs_l[[i]] <- obs_n
-		ymin       <- min(dbetas)
-		ymax       <- max(dbetas)
-		yminn      <- ifelse(ymin < -threshold, ymin, -threshold)
-		ymaxx      <- ifelse(ymax > threshold, ymax, threshold)
-		d <- data.frame(obs = seq_len(n), dbetas = dbetas)
-
-		p <- ggplot(d, aes(obs, dbetas, ymin = 0, max = dbetas))
-		p <- p + geom_linerange(colour = 'blue')
-		p <- p + geom_hline(yintercept = c(0, threshold, -threshold), colour = 'red')
-		p <- p + geom_point(colour = 'blue', shape = 1)
-		p <- p + xlab('Observation') + ylab('DFBETAS')
-		p <- p + ggtitle(paste("Influence Diagnostics for", colnames(dfb)[i]))
-		print(p)
-
+		print(d)
 	}
-
 }
 
 
@@ -104,3 +89,23 @@ dfbetas_panel <- function(model) {
 # 						outliers  = obs_l)
 #
 # }
+
+# dfbetas panel
+# dfbp <- function(dfb) {
+#   d <- dfb %>% `[`(, 1) %>%
+#     `[`(abs(dbetas) > threshold) %>%
+#     length()
+#   return(d)
+# }
+
+
+# obs <- dfb %>% `[`(, 1) %>%
+#     `[`(abs(dbetas) > threshold) %>%
+#     length()
+#
+# obs <- dfb %>% `[`(, 1) %>%
+#     abs() %>%
+#     `>`(threshold) %>%
+#     match(TRUE) %>%
+#     na.omit() %>%
+#     length()
