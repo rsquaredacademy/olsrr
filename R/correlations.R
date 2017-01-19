@@ -21,43 +21,10 @@ correlations.default <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    mdata     <- model.frame(model)
-    mdata2    <- as.data.frame(lapply(mdata, as.numeric))
-    cor_mdata <- cor(mdata2)[-1, 1]
-    r1        <- summary(model)$r.squared
-    n         <- ncol(mdata2)
-    r2        <- c()
+    result <- corout(model, corm2(model))
+    class(result) <- c('correlations', 'data.frame')
+    return(result)
 
-    for (i in 2:n) {
-        dat   <- mdata2[, c(-1, -i)]
-        model <- lm(mdata2[[1]] ~ ., data = dat)
-        k     <- summary(model)
-        out   <- k$r.squared
-        r2    <- c(r2, out)
-    }
-
-    ksign <- as.vector(sign(cor_mdata))
-    n2    <- n - 1
-    parts <- c()
-
-    for (i in seq_len(n2)) {
-        part  <- ksign[i] * sqrt(r1 - r2[i])
-        parts <- c(parts, part)
-    }
-
-    partials <- c()
-
-    for (i in seq_len(n2)) {
-        partial  <- parts[i] / sqrt(1 - r2[i])
-        partials <- c(partials, partial)
-    }
-
-    result        <- data.frame(cor_mdata, partials, parts)
-    names(result) <- c("Zero-order", "Partial", "Part")
-    out           <- t(apply(result, 1, round, 3))
-    class(out)    <- 'correlations'
-
-    return(out)
 }
 
 #' @export

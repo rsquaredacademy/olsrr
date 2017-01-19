@@ -50,12 +50,6 @@ dfbetas_panel <- function(model) {
 
 	}
 
-	names(obs_l) <- names(dfb)
-
-	z <- list(dfbetas   = dfb,
-						threshold = threshold,
-						outliers  = obs_l)
-
 }
 
 
