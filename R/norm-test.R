@@ -19,11 +19,7 @@ corr_test <- function(model) {
       stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    n       <- nrow(model.frame(model))
-    stderr  <- summary(model)$sigma
-    expvals <- sapply(1:n, function(k) stderr * qnorm((k - 0.375) / (n + 0.25)))
-    out     <- cor(expvals, sort(model$residuals))
-    return(out)
+    return(corout(model))
 
 }
 

@@ -332,3 +332,292 @@ hadires <- function(model) {
   residual  <- ((p + 1) / pii) * (dii / (1 - dii))
   return(residual)
 }
+
+
+# influence measures
+q1 <- function(full_model) {
+    out <- full_model %>%
+        anova() %>%
+        `$`(`Mean Sq`) %>%
+        `[`(r)
+    return(out)
+}
+
+q2 <- function(full_model) {
+    out <- model %>%
+        anova() %>%
+        `$`(`Sum Sq`) %>%
+        `[`(p)
+    return(out)
+}
+
+sbicout <- function(model, n, p, q) {
+    a <- (2 * (p + 2) * q)
+    b <- (2 * (q ^ 2))
+    out <- model %>%
+        residuals() %>%
+        `^`(2) %>%
+        sum() %>%
+        `/`(n) %>%
+        log() %>%
+        `*`(n) %>%
+        `+`(a) %>%
+        `-`(b)
+    return(out)
+}
+
+mcpout <- function(model, fullmodel, n, p, q) {
+    sse <- model %>%
+        residuals() %>%
+        `^`(2) %>%
+        sum()
+
+    mse <- fullmodel %>%
+        anova() %>%
+        `$`(`Mean Sq`) %>%
+        `[`(q)
+
+    sec <- (n - (2 * p))
+
+    out <- sse %>%
+        `/`(mse) %>%
+        `-`(sec) %>%
+        round(4)
+
+    return(out)
+}
+
+
+sepout <- function(model) {
+
+    n <- model %>% model.frame() %>% nrow()
+    p <- model %>% coefficients() %>% length()
+
+    mse <- model %>%
+        anova() %>%
+        `$`(`Mean Sq`) %>%
+        `[`(p)
+
+    num <- (n + 1) %>%
+        `*`(n - 2) %>%
+        `*`(mse)
+
+    den <- n * (n - p -1)
+
+    out <- num %>%
+        `/`(den) %>%
+        round(5)
+
+    return(out)
+}
+
+jpout <- function(model) {
+
+    n <- model %>% model.frame() %>% nrow()
+    p <- model %>% coefficients() %>% length()
+
+    mse <- model %>%
+        anova() %>%
+        `$`(`Mean Sq`) %>%
+        `[`(p)
+
+    out <- (n + p) %>%
+        `/`(n) %>%
+        `*`(mse) %>%
+        round(5)
+
+    return(out)
+}
+
+
+pcout <- function(model) {
+
+    n <- model %>% model.frame() %>% nrow()
+    p <- model %>% coefficients() %>% length()
+
+    rse <- model %>%
+        summary() %>%
+        `$`(r.square)
+
+    out <- (n + p) %>%
+        `/`(n - p) %>%
+        `*`(1 - rsq) %>%
+        round(5)
+
+    return(out)
+}
+
+spout <- function(model) {
+
+    n <- model %>% model.frame() %>% nrow()
+    p <- model %>% coefficients() %>% length()
+
+    mse <- model %>%
+        anova() %>%
+        `$`(`Mean Sq`) %>%
+        `[`(p)
+
+    out <- mse %>%
+        `/`(n - p - 1) %>%
+        round(5)
+
+    return(out)
+}
+
+
+pc2out <- function(model) {
+
+    n <- model %>% model.frame() %>% nrow()
+    p <- model %>% coefficients() %>% length()
+
+    sse <- model %>%
+        residuals() %>%
+        `^`(2) %>%
+        sum()
+
+    sst <- model %>%
+        anova() %>%
+        `$`(`Sum Sq`) %>%
+        sum()
+
+    out <- (n + p) %>%
+        `/`(n * (n - p)) %>%
+        `*`(sse) %>%
+        `/`(sst) %>%
+        round(5)
+
+    return(out)
+}
+
+corout <- function(model) {
+    n <- model %>% model.frame() %>% nrow()
+    stderr <- model %>% summary() %>% `$`(sigma)
+    h <- n %>% seq_len() %>% ka(., stderr, n)
+    out <- model %>% residuals() %>% sort()
+    result <- cor(h, out)
+    return(result)
+}
+
+# observed vs predicted plot
+obspred <- function(model) {
+    x <- model %>% fitted.values()
+    y <- model %>% model.frame() %>% `$`(mpg)
+    d <- tibble(x, y)
+    return(d)
+}
+
+# hadi plot
+hadio <- function(model, n) {
+    model %>% hadi() %>% `[[`(n)
+}
+
+# residual fit spread plot
+rsdata <- function(model) {
+        y <- model %>% residuals()
+residtile <- y %>% ecdf()
+        x <- y %>% residtile
+        d <- tibble(x, y)
+  return(d)
+}
+
+fmdata <- function(model){
+  predicted <- model %>% fitted.values()
+     pred_m <- predicted %>% mean()
+          y <- predicted - pred_m
+   percenti <- pred_s %>% ecdf()
+          x <- y %>% percentile()
+          d <- tibble(x, y)
+  return(d)
+}
+
+# residual vs predicted plot
+rvspdata <- function(model){
+      resid <- residuals(model)
+  predicted <- fitted(model)
+          d <- tibble(predicted = predicted, resid = resid)
+  return(d)
+}
+
+# residual vs regressor plot
+rvsrdata <- function(model){
+      np <- length(model$coefficients) - 1
+	   dat <- model.frame(model)[-1]
+	pnames <- names(model$coefficients)[-1]
+  result <- list(np = np, dat = dat, pnames = pnames)
+  return(result)
+}
+
+# score test
+rhsout <- function(model) {
+          l <- model.frame(model)
+          n <- nrow(l)
+        nam <- names(l)[-1]
+         np <- length(nam)
+  var_resid <- sum(residuals(model) ^ 2) / n
+        ind <- residuals(model) ^ 2 / var_resid - 1
+          l <- cbind(l, ind)
+      mdata <- l[-1]
+     model1 <- lm(ind ~ ., data = mdata)
+      score <- summary(model1)$r.squared * n
+          p <- pchisq(score, np, lower.tail = F)
+      preds <- nam
+     result <- list(score = score, p = p, np = np, preds = preds)
+ return(result)
+}
+
+fitout <- function(model) {
+
+             l <- model.frame(model)
+             n <- nrow(l)
+          pred <- model$fitted.values
+         resid <- model$residuals ^ 2
+     avg_resid <- sum(resid) / length(pred)
+  scaled_resid <- resid / avg_resid
+        model1 <- lm(scaled_resid ~ pred)
+         score <- summary(model1)$r.squared * n
+            np <- 1
+             p <- pchisq(score, 1, lower.tail = F)
+         preds <- paste('fitted values of', resp)
+        result <- list(score = score, p = p, np = np, preds = preds)
+  return(result)
+}
+
+varout <- function(model, vars) {
+          l <- model.frame(model)
+          n <- nrow(l)
+  var_resid <- sum(residuals(model) ^ 2) / n
+  ind       <- residuals(model) ^ 2 / var_resid - 1
+  mdata     <- l[-1]
+  dl        <- mdata[, vars]
+  dk        <- as.data.frame(cbind(ind, dl))
+  nd        <- ncol(dk) - 1
+  model1    <- lm(ind ~ ., data = dk)
+  score     <- summary(model1)$r.squared * n
+  p         <- pchisq(score, nd, lower.tail = F)
+  np        <- nd
+  preds     <- vars
+     result <- list(score = score, p = p, np = np, preds = preds)
+  return(result)
+
+}
+
+
+# studentized residual plot
+srdata <- function(model) {
+
+  dstud <- unname(rstudent(model))
+	n     <- length(dstud)
+	dsr   <- tibble(obs = seq_len(n), dsr = dstud)
+	dsr <- dsr %>%
+        mutate(color = ifelse((abs(dsr) >= 3), "outlier", "normal"))
+
+	dsr$color1 <- factor(dsr$color)
+	dsr$Observation <- ordered(dsr$color1, levels = c("normal", "outlier"))
+  cminx <- dsr$dsr %>% min() %>% `-`(1) %>% floor()
+  cmaxx <- dsr$dsr %>% max() %>% `-`(1) %>% floor()
+	nseq  <- seq_len(abs(0 + cminx + 1)) * -1
+	pseq  <- seq_len(0 + cmaxx - 1)
+
+  result <- list(dsr = dsr, cminx = cminx, cmaxx = cmaxx, nseq = nseq, pseq = pseq)
+  return(result)
+}

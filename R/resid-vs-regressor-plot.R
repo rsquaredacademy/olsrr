@@ -10,17 +10,14 @@ rvsr_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	np     <- length(model$coefficients) - 1
-	dat    <- model.frame(model)[-1]
-	pnames <- names(model$coefficients)[-1]
-	dnames <- colnames(model.frame(model))[1]
+	d <- rvsrdata(model)
 
-		for (i in seq_len(np)) {
-				d <- data.frame(x = unlist(dat[i]), y = model$residuals)
+		for (i in seq_len(d$np)) {
+				d <- data.frame(x = unlist(d$dat[i]), y = model$residuals)
 				p <- ggplot(d, aes(x = x, y = y))
 				p <- p + geom_point(shape = 1, colour = 'blue')
-				p <- p + xlab(paste(pnames[i])) + ylab('Residual')
-				p <- p + ggtitle(paste("Residual vs", pnames[i]))
+				p <- p + xlab(paste(d$pnames[i])) + ylab('Residual')
+				p <- p + ggtitle(paste("Residual vs", d$pnames[i]))
 				p <- p + geom_hline(yintercept = 0, colour = 'red')
 				print(p)
 		}

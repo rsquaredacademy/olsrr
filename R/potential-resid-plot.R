@@ -17,11 +17,7 @@ poten_resid_plot <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    hi  <- hadi(model)
-    pot <- unname(hi$potential)
-    res <- unname(hi$residual)
-    d   <- data.frame(res = res, pot = pot)
-
+    d   <- tibble(res = hadio(model, 3), pot = hadio(model, 2))
     p <- ggplot(d, aes(x = res, y = pot))
     p <- p + geom_point(colour = 'blue', shape = 1)
     p <- p + xlab('Residual') + ylab('Potential')

@@ -146,14 +146,13 @@ sbic <- function(model, full_model) {
   # 	stop('model must be a subset of full model')
   # }
 
-	n   <- nrow(model.frame(model))
-	p   <- length(model$coefficients)
-	r   <- length(full_model$coefficients)
-	q   <- n * (anova(full_model)$`Mean Sq`[r] / anova(model)$`Sum Sq`[p])
-	sbc <- n * log(sum(residuals(model) ^ 2) / n) +
-	     (2 * (p + 2) * q) - (2 * (q ^ 2))
+	n <- model %>% model.frame() %>% nrow()
+	p <- model %>% coefficients() %>% length()
+	r <- full_model %>% coefficients() %>% length()
+	q <- n * (q1(full_model) / q2(model))
+	result <- sbicout(model, n, p, q)
 
-	return(sbc)
+	return(result)
 
 }
 
@@ -187,13 +186,10 @@ mallow_cp <- function(model, fullmodel) {
   	stop('model must be a subset of full model')
   }
 
-	n   <- nrow(model.frame(model))
-	p   <- length(model$coefficients)
-	q   <- length(fullmodel$coefficients)
-	sse <- sum(residuals(model) ^ 2)
-	mse <- anova(fullmodel)$`Mean Sq`[q]
-	mcp <- round((sse / mse) - (n - (2 * p)), 4)
-
+		n <- model %>% model.frame() %>% nrow()
+		p <- model %>% coefficients() %>% length()
+		q <- full_model %>% coefficients() %>% length()
+	mcp <- mcpout(model, fullmodel, n, p, q)
 	return(mcp)
 
 }
@@ -220,13 +216,8 @@ gmsep <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	n      <- nrow(model.frame(model))
-	p      <- length(model$coefficients)
-	mse 	 <- anova(model)$`Mean Sq`[p]
-	result <- round((mse * (n + 1) * (n - 2)) / (n * (n - p -1)), 5)
-
+	result <- sepout(model)
 	return(result)
-
 }
 
 # jp: final prediction error
@@ -249,12 +240,7 @@ jp <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	n <- nrow(model.frame(model))
-	p <- length(model$coefficients)
-	mse <- anova(model)$`Mean Sq`[p]
-	fpe <- round(((n + p) / n) * mse, 5)
-
-	return(fpe)
+	return(jpout(model))
 
 }
 
@@ -278,30 +264,14 @@ pc <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	n   <- nrow(model.frame(model))
-	p   <- length(model$coefficients)
-	rsq <- summary(model)$r.square
-	ape <- round(((n + p) / (n - p)) * (1 - rsq), 5)
-
-	return(ape)
+	return(pcout(model))
 
 }
 
 # pc2: based on formula ((n + p) / (n - p)) * (SSE / n)
 pc2 <- function(model) {
 
-	# n: number of observations
-	# p: number of predictors including intercept
-	n <- nrow(model.frame(model))
-	p <- length(model$coefficients)
-
-	# pc = ((n + p) / (n - p)) * (SSE / n)
-	sse <- sum(residuals(model) ^ 2)
-	sst <- sum(anova(model)$`Sum Sq`)
-	ape <- ((n + p) / (n * (n - p))) * (sse / sst)
-
-	ape <- round(ape, 5)
-	return(ape)
+	return(pc2out(model))
 
 }
 
@@ -326,11 +296,6 @@ sp <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	n     <- nrow(model.frame(model))
-	p     <- length(model$coefficients)
-	mse 	<- anova(model)$`Mean Sq`[p]
-	apmse <- round(mse / (n - p - 1), 5)
-
-	return(apmse)
+	return(spout(model))
 
 }

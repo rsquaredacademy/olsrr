@@ -20,14 +20,9 @@ rfs_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	predicted  <- fitted.values(model)
-	pred_m     <- mean(predicted)
-	pred_s     <- predicted - pred_m
-	percentile <- ecdf(pred_s)
-	ymin1       <- min(pred_s) + (0.25 * min(pred_s))
-	ymax1       <- max(pred_s) + (0.25 * max(pred_s))
-
-	d1 <- data.frame(x = percentile(pred_s), y = pred_s)
+		 d1 <- fmdata(model)
+	ymin1 <- min(d1$y) + (0.25 * min(d1$y))
+	ymax1 <- max(d1$y) + (0.25 * max(d1$y))
 
 	p1 <- ggplot(d1, aes(x = x, y = y))
 	p1 <- p1 + geom_point(shape = 1, color = 'blue')
@@ -35,13 +30,9 @@ rfs_plot <- function(model) {
 	p1 <- p1 + xlab('Proportion Less') + ylab('')
 	p1 <- p1 + ggtitle('Fit - Mean')
 
-
-
-	resid     <- residuals(model)
-	residtile <- ecdf(resid)
-	ymin2      <- min(resid) + (0.25 * min(resid))
-	ymax2      <- max(resid) + (0.25 * max(resid))
-	d2         <- data.frame(x = residtile(resid), y = resid)
+	   d2 <- rsdata(model)
+	ymin2 <- min(d2$y) + (0.25 * min(d2$y))
+	ymax2 <- max(d2$y) + (0.25 * max(d2$y))
 
 	p2 <- ggplot(d2, aes(x = x, y = y))
 	p2 <- p2 + geom_point(color = 'blue', shape = 1)
@@ -74,14 +65,9 @@ fm_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	predicted  <- fitted.values(model)
-	pred_m     <- mean(predicted)
-	pred_s     <- predicted - pred_m
-	percentile <- ecdf(pred_s)
-	ymin       <- min(pred_s) + (0.25 * min(pred_s))
-	ymax       <- max(pred_s) + (0.25 * max(pred_s))
-
-	d <- data.frame(x = percentile(pred_s), y = pred_s)
+	   d <- fmdata(model)
+	ymin <- min(d$y) + (0.25 * min(d$y))
+	ymax <- max(d$y) + (0.25 * max(d$y))
 
 	p <- ggplot(d, aes(x = x, y = y))
 	p <- p + geom_point(shape = 1, color = 'blue')
@@ -89,11 +75,6 @@ fm_plot <- function(model) {
 	p <- p + xlab('Proportion Less') + ylab('Fit - Mean')
 	p <- p + ggtitle('Residual Fit Spread Plot')
 	print(p)
-
-	# z <- list(fitted_values   = predicted,
-	# 	        avg_fitted      = pred_m,
-	# 	        dev_fitted      = pred_s,
-	# 	        ecdf_avg_fitted = percentile)
 
 }
 
@@ -114,11 +95,9 @@ rsd_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	resid     <- residuals(model)
-	residtile <- ecdf(resid)
-	ymin      <- min(resid) + (0.25 * min(resid))
-	ymax      <- max(resid) + (0.25 * max(resid))
-	d         <- data.frame(x = residtile(resid), y = resid)
+	   d <- rsdata(model)
+	ymin <- min(d$y) + (0.25 * min(d$y))
+	ymax <- max(d$y) + (0.25 * max(d$y))
 
 	p <- ggplot(d, aes(x = x, y = y))
 	p <- p + geom_point(color = 'blue', shape = 1)

@@ -9,10 +9,7 @@ rvsp_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	resid     <- residuals(model)
-	predicted <- fitted(model)
-	d         <- data.frame(predicted = predicted, resid = resid)
-
+  d <- rvspdata(model)
 	p <- ggplot(d, aes(x = predicted, y = resid))
 	p <- p + geom_point(shape = 1, colour = 'blue')
 	p <- p + xlab('Predicted Value') + ylab('Residual')

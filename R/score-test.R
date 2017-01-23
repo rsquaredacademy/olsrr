@@ -19,18 +19,18 @@
 #' \item{preds}{predictors}
 #' @export
 #'
-score_test <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL) UseMethod('score_test')
+score_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) UseMethod('score_test')
 
 #' @export
 #'
-score_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = NULL) {
+score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) {
 
     if (!all(class(model) == 'lm')) {
         stop('Please specify a OLS regression model.', call. = FALSE)
     }
 
-    if (!is.logical(fitted.values)) {
-        stop('fitted.values must be either TRUE or FALSE')
+    if (!is.logical(fitted_values)) {
+        stop('fitted_values must be either TRUE or FALSE')
     }
 
     if (!is.logical(rhs)) {
@@ -41,72 +41,35 @@ score_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, vars = 
         if (!all(vars %in% names(model$coefficients))) {
             stop('vars must be a subset of the predictors in the model')
         }
-    	fitted.values <- FALSE
+    	fitted_values <- FALSE
     }
 
-    l    <- model.frame(model)
-    resp <- names(l)[1]
-    n    <- nrow(l)
+    resp <- model %>% model.frame() %>% names() %>% `[`(1)
 
     if (rhs) {
 
-    fitted.values <- FALSE
-    nam           <- names(l)[-1]
-    np            <- length(nam)
-    var_resid     <- sum(residuals(model) ^ 2) / n
-	ind           <- residuals(model) ^ 2 / var_resid - 1
-	l             <- cbind(l, ind)
-	mdata         <- l[-1]
-	model1        <- lm(ind ~ ., data = mdata)
-	score         <- summary(model1)$r.squared * n
-	p             <- pchisq(score, np, lower.tail = F)
-    preds         <- nam
-
+    fitted_values <- FALSE
+    d <- rhsout(model)
 
     } else {
 
-    	if (fitted.values) {
-
-				pred         <- model$fitted.values
-				resid        <- model$residuals ^ 2
-				avg_resid    <- sum(resid) / length(pred)
-				scaled_resid <- resid / avg_resid
-				model1       <- lm(scaled_resid ~ pred)
-				score        <- summary(model1)$r.squared * n
-				np           <- 1
-				p            <- pchisq(score, 1, lower.tail = F)
-        preds        <- paste('fitted values of', resp)
-
+    	if (fitted_values) {
+				d <- fitout(model)
     	} else {
-
-				var_resid <- sum(residuals(model) ^ 2) / n
-				ind       <- residuals(model) ^ 2 / var_resid - 1
-				mdata     <- l[-1]
-				dl        <- mdata[, vars]
-				dk        <- as.data.frame(cbind(ind, dl))
-				nd        <- ncol(dk) - 1
-				model1    <- lm(ind ~ ., data = dk)
-				score     <- summary(model1)$r.squared * n
-				p         <- pchisq(score, nd, lower.tail = F)
-				np        <- nd
-        preds     <- vars
-
+        d <- varout(model, vars)
     	}
-
     }
 
-    out <- list(score = round(score, 3),
-    	          p     = round(p, 3),
-    	          df    = np,
-    					  fv    = fitted.values,
+    out <- list(score = round(d$score, 3),
+    	          p     = round(d$p, 3),
+    	          df    = d$np,
+    					  fv    = fitted_values,
     					  rhs   = rhs,
-    					  preds = preds,
+    					  preds = d$preds,
     					  resp  = resp)
 
     class(out) <- 'score_test'
-
     return(out)
-
 
 }
 

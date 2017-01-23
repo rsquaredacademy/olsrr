@@ -17,39 +17,17 @@ srplot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	dstud <- unname(rstudent(model))
-	n     <- length(dstud)
-	dsr   <- data.frame(obs = seq_len(n), dsr = dstud)
-
-	dsr <- dsr %>%
-        mutate(color = ifelse((abs(dsr) >= 3), "outlier", "normal"))
-
-	dsr$color1 <- factor(dsr$color)
-	dsr$Observation <- ordered(dsr$color1, levels = c("normal", "outlier"))
-	color      <- c(NA, "red")
-	minx       <- min(dsr$dsr) - 1
-	maxx       <- max(dsr$dsr) + 1
-	ln         <- length(dsr$dsr)
-	cminx <- floor(minx)
-	cmaxx <- floor(maxx)
-	nseq  <- seq_len(abs(0 + cminx + 1)) * -1
-	pseq  <- seq_len(0 + cmaxx - 1)
-
-	p <- ggplot(dsr, aes(obs, dsr))
+	d <- srdata(model)
+	p <- ggplot(d$dsr, aes(obs, dsr))
 	p <- p + geom_bar(width = 0.5, stat = 'identity', aes(fill = Observation))
 	p <- p + scale_fill_manual(values = c('blue', 'red'))
-	p <- p + ylim(cminx, cmaxx)
+	p <- p + ylim(d$cminx, d$cmaxx)
 	p <- p + coord_flip()
 	p <- p + xlab('Observation') + ylab('Deleted Studentized Residuals')
 	p <- p + ggtitle('Studentized Residuals')
-	p <- p + geom_hline(yintercept = c(cminx, cmaxx), color = 'red')
-	p <- p + geom_hline(yintercept = c(0, nseq, pseq))
+	p <- p + geom_hline(yintercept = c(d$cminx, d$cmaxx), color = 'red')
+	p <- p + geom_hline(yintercept = c(0, d$nseq, d$pseq))
 	print(p)
-
-	z <- list(dstudresid = dsr$dsr,
-		        threshold  = 3,
-		        normal     = dsr$obs[dsr$color == "normal"],
-		        outlier    = dsr$obs[dsr$color == "outlier"])
 
 }
 

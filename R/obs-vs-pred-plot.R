@@ -18,11 +18,12 @@ ovsp_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	x     <- fitted.values(model)
-	y     <- unlist(model.frame(model)[1])
-	oname <- names(model.frame(model))[1]
-	d     <- data.frame(x = x, y = y)
+	oname <- model %>%
+    model.frame() %>%
+    names() %>%
+    `[`(1)
 
+	d <- obspred(model)
 	p <- ggplot(d, aes(x = x, y = y))
 	p <- p + geom_point(color = 'blue', shape = 1)
 	p <- p + xlab('Predicted Value') + ylab(paste(oname))

@@ -2,7 +2,7 @@ context('score_test')
 
 model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 
-test_that('when fitted.values == TRUE, fitted values from the regression 
+test_that('when fitted.values == TRUE, fitted values from the regression
 	are used for the test', {
 
 		b <- score_test(model)
@@ -17,7 +17,7 @@ test_that('when fitted.values == TRUE, fitted values from the regression
 
 })
 
-test_that('when fitted.values == TRUE and rhs == TRUE, predictors from the 
+test_that('when fitted.values == TRUE and rhs == TRUE, predictors from the
 	model are used for the test', {
 
 		b <- score_test(model, rhs = TRUE)
@@ -29,11 +29,11 @@ test_that('when fitted.values == TRUE and rhs == TRUE, predictors from the
 		expect_true(b$rhs)
 		expect_equivalent(b$preds, c("disp", "hp", "wt", "drat", "qsec"))
 		expect_match(b$resp, "mpg")
-		
+
 })
 
 
-test_that('when vars != NULL, variables specified from the are 
+test_that('when vars != NULL, variables specified from the are
 	used for the test', {
 
 		b <- score_test(model, vars = c("disp", "hp"))
@@ -49,7 +49,7 @@ test_that('when vars != NULL, variables specified from the are
 })
 
 
-test_that('when vars != NULL and rhs == TRUE, predictors in the model are 
+test_that('when vars != NULL and rhs == TRUE, predictors in the model are
 	used for the test', {
 
 		b <- score_test(model, rhs = TRUE, vars = c("disp", "hp"))
@@ -74,22 +74,22 @@ test_that("score_test fails when model inherits other than 'lm'", {
 
 
 test_that("score_test fails when input for fitted.values is not logical", {
-    expect_error(score_test(model, fitted.values = 'TRUE'), 
-    	'fitted.values must be either TRUE or FALSE')
-    expect_error(score_test(model, fitted.values = 0), 
-    	'fitted.values must be either TRUE or FALSE')
+    expect_error(score_test(model, fitted_values = 'TRUE'),
+    	'fitted_values must be either TRUE or FALSE')
+    expect_error(score_test(model, fitted_values = 0),
+    	'fitted_values must be either TRUE or FALSE')
 })
 
 
 test_that("score_test fails when input for rhs is not logical", {
-    expect_error(score_test(model, rhs = 'TRUE'), 
+    expect_error(score_test(model, rhs = 'TRUE'),
     	'rhs must be either TRUE or FALSE')
-    expect_error(score_test(model, rhs = 0), 
+    expect_error(score_test(model, rhs = 0),
     	'rhs must be either TRUE or FALSE')
 })
 
 
 test_that("score_test fails when input for vars are not a subset of predictors", {
-    expect_error(score_test(model, vars = c("gear", "carb")), 
+    expect_error(score_test(model, vars = c("gear", "carb")),
     	'vars must be a subset of the predictors in the model')
 })
