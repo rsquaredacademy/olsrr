@@ -154,6 +154,22 @@ fmrsq <- function(nam, data, i) {
   return(rsq)
 }
 
+viftol <- function(model) {
+    m    <- model.frame(model)[-1]
+    nam  <- names(m)
+    p    <- length(model$coefficients) - 1
+    tol  <- c()
+
+    for (i in seq_len(p)) {
+        tol[i]  <- fmrsq(nam, m, i)
+    }
+
+    vifs <- 1 / tol
+
+    result <- list(nam = names(m), tol = tol, vifs = vifs)
+    return(result)
+}
+
 # component plus residual plot
 cpdata <- function(data, mc, e, i) {
   x <- data[i]
@@ -619,5 +635,23 @@ srdata <- function(model) {
 	pseq  <- seq_len(0 + cmaxx - 1)
 
   result <- list(dsr = dsr, cminx = cminx, cmaxx = cmaxx, nseq = nseq, pseq = pseq)
+  return(result)
+}
+
+
+# residual Histogram
+histdata <- function(model) {
+  resid <- residuals(model)
+	minx  <- min(resid) - 1
+	maxx  <- max(resid) + 1
+  result <- list(resid = resid, minx = minx, maxx = maxx)
+  return(result)
+}
+
+histn <- function(resid, h) {
+  xfit  <- seq(min(resid), max(resid), length = 80)
+	yfit  <- dnorm(xfit, mean = mean(resid), sd = sd(resid))
+	yfit1  <- yfit * diff(h$mids[1:2]) * length(resid)
+  result <- list(xfit = xfit, yfit = yfit1)
   return(result)
 }

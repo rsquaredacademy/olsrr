@@ -188,7 +188,7 @@ mallow_cp <- function(model, fullmodel) {
 
 		n <- model %>% model.frame() %>% nrow()
 		p <- model %>% coefficients() %>% length()
-		q <- full_model %>% coefficients() %>% length()
+		q <- fullmodel %>% coefficients() %>% length()
 	mcp <- mcpout(model, fullmodel, n, p, q)
 	return(mcp)
 

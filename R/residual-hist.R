@@ -21,15 +21,11 @@ hist_resid <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	resid <- residuals(model)
-	minx  <- min(resid) - 1
-	maxx  <- max(resid) + 1
-	h     <- hist(resid, xlim = c(minx, maxx))
-
-	xfit  <- seq(min(resid), max(resid), length = 80)
-	yfit  <- dnorm(xfit, mean = mean(resid), sd = sd(resid))
-	yfit  <- yfit * diff(h$mids[1:2]) * length(resid)
-	lines(xfit, yfit, col = "blue", lwd = 2)
+	k <- histdata(model)
+	h <- hist(k$resid, xlim = c(k$minx, k$maxx), border = 'blue',
+		main = 'Residual Histogram', xlab = 'Residuals')
+	l <- histn(k$resid, h)
+	lines(l$xfit, l$yfit, col = "blue", lwd = 2)
 
 	z <- list(residuals = resid,
 						breaks    = h$breaks,

@@ -243,34 +243,108 @@ plot.stepwise <- function(x, ...) {
     sbcmin   <- min(x$sbc)
     sbcstep  <- which(x$sbc == sbcmin)
 
-    op <- par(no.readonly = TRUE)
-    on.exit(par(op))
-    m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
-    layout(mat = m,heights = c(2, 2))
+    d1 <- tibble(a = y, b = x$rsquare) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('R-Square') +
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
 
-    plot(y, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
-     main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-    points(rstep, rmax, pch = 2, col = "red", cex = 2.5)
+    d2 <- tibble(a = y, b = x$adjr) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('Adj. R-Square') +
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
 
-    plot(y, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
-        main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-    points(adjrstep, adjrmax, pch = 2, col = "red", cex = 2.5)
+    d3 <- tibble(a = y, b = x$mallows_cp) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('C(p)') +
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
 
-    plot(y, x$mallows_cp, type = 'b', col = 'blue', xlab = '', ylab = '',
-        main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
-    points(cpdifi, cpval, pch = 2, col = "red", cex = 2.5)
+    d4 <- tibble(a = y, b = x$aic) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('AIC') +
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
 
-    plot(y, x$aic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-        main = 'AIC', cex.main = 1, yaxt = 'n')
-    points(aicstep, aicmin, pch = 2, col = "red", cex = 2.5)
+    d5 <- tibble(a = y, b = x$sbic) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('SBIC') +
+    theme(
+        axis.ticks = element_blank())
 
-    plot(y, x$sbic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-        main = 'SBIC', cex.main = 1, yaxt = 'n')
-    points(sbicstep, sbicmin, pch = 2, col = "red", cex = 2.5)
+    d6 <- tibble(a = y, b = x$sbc) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('SBC') +
+    theme(
+        axis.ticks = element_blank())
 
-    plot(y, x$sbc, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-        main = 'SBC', cex.main = 1, yaxt = 'n')
-    points(sbcstep, sbcmin, pch = 2, col = "red", cex = 2.5)
-
+    grid.arrange(d1, d2, d3, d4, d5, d6, ncol = 2, top = 'Stepwise Regression')
 
 }
+
+# plot.stepwise <- function(x, ...) {
+#
+#   y        <- seq_len(x$steps)
+#   rmax     <- max(x$rsquare)
+#   rstep    <- which(x$rsquare == rmax)
+#   adjrmax  <- max(x$adjr)
+#   adjrstep <- which(x$adjr == adjrmax)
+#   cpdiff   <- abs(x$mallows_cp - y)
+#   cpdifmin <- min(cpdiff)
+#   cpdifi   <- which(cpdiff == cpdifmin)
+#   cpval    <- x$mallows_cp[cpdifi]
+#   aicmin   <- min(x$aic)
+#   aicstep  <- which(x$aic == aicmin)
+#   sbicmin  <- min(x$sbic)
+#   sbicstep <- which(x$sbic == sbicmin)
+#   sbcmin   <- min(x$sbc)
+#   sbcstep  <- which(x$sbc == sbcmin)
+#
+#   op <- par(no.readonly = TRUE)
+#   on.exit(par(op))
+#   m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
+#   layout(mat = m,heights = c(2, 2))
+#
+#   plot(y, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
+#   main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
+#   points(rstep, rmax, pch = 2, col = "red", cex = 2.5)
+#
+#   plot(y, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
+#   main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
+#   points(adjrstep, adjrmax, pch = 2, col = "red", cex = 2.5)
+#
+#   plot(y, x$mallows_cp, type = 'b', col = 'blue', xlab = '', ylab = '',
+#   main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
+#   points(cpdifi, cpval, pch = 2, col = "red", cex = 2.5)
+#
+#   plot(y, x$aic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
+#   main = 'AIC', cex.main = 1, yaxt = 'n')
+#   points(aicstep, aicmin, pch = 2, col = "red", cex = 2.5)
+#
+#   plot(y, x$sbic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
+#   main = 'SBIC', cex.main = 1, yaxt = 'n')
+#   points(sbicstep, sbicmin, pch = 2, col = "red", cex = 2.5)
+#
+#   plot(y, x$sbc, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
+#   main = 'SBC', cex.main = 1, yaxt = 'n')
+#   points(sbcstep, sbcmin, pch = 2, col = "red", cex = 2.5)
+#
+#
+# }

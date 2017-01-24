@@ -232,18 +232,42 @@ plot.stepaic_forward <- function(x, ...) {
     xmax <- max(y) + 1
     ymin <- min(x$aics) - 1
     ymax <- max(x$aics) + 1
+    predictors <- x$predictors
 
-    plot(y, x$aics,
-         type = "b",
-         col  = "blue",
-         xlab = "Steps",
-         ylab = "AIC",
-         xlim = c(xmin, xmax),
-         ylim = c(ymin, ymax),
-         main = "Step AIC: Variable Selection")
 
-    text(xloc, yloc, x$predictors,
-         col  = "red",
-         cex  = 0.9)
+    d2 <- tibble(x = xloc, y = yloc, tx = predictors)
+    d <- tibble(a = y, b = x$aics)
+    p <- ggplot(d, aes(x = a, y = b)) +
+      geom_line(color = 'blue') +
+      geom_point(color = 'blue', shape = 1, size = 2) +
+      xlim(c(xmin, xmax)) + ylim(c(ymin, ymax)) +
+      xlab('Step') + ylab('AIC') + ggtitle('Stepwise AIC Forward Selection') +
+      geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
+    print(p)
 }
+
+# plot.stepaic_forward <- function(x, ...) {
+#
+#     y    <- seq_len(x$steps)
+#     xloc <- y - 0.1
+#     yloc <- x$aics - 0.2
+#     xmin <- min(y) - 1
+#     xmax <- max(y) + 1
+#     ymin <- min(x$aics) - 1
+#     ymax <- max(x$aics) + 1
+#
+#     plot(y, x$aics,
+#          type = "b",
+#          col  = "blue",
+#          xlab = "Steps",
+#          ylab = "AIC",
+#          xlim = c(xmin, xmax),
+#          ylim = c(ymin, ymax),
+#          main = "Step AIC: Variable Selection")
+#
+#     text(xloc, yloc, x$predictors,
+#          col  = "red",
+#          cex  = 0.9)
+#
+# }

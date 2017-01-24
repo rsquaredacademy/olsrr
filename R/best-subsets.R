@@ -149,27 +149,74 @@ print.best_subset <- function(x, ...) {
 #'
 plot.best_subset <- function(x, model = NA, ...) {
 
-    op <- par(no.readonly = TRUE)
-    on.exit(par(op))
-    m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
-    layout(mat = m, heights = c(2, 2))
+    # op <- par(no.readonly = TRUE)
+    # on.exit(par(op))
+    # m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
+    # layout(mat = m, heights = c(2, 2))
 
-    plot(x$mindex, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
-     main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
+    d1 <- tibble(a = x$mindex, b = x$rsquare) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('R-Square') +
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+    # plot(x$mindex, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
+    #  main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
 
-    plot(x$mindex, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
-        main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
+    d2 <- tibble(a = x$mindex, b = x$adjr) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('Adj. R-Square') +
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+    # plot(x$mindex, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
+    #     main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
 
-    plot(x$mindex, x$cp, type = 'b', col = 'blue', xlab = '', ylab = '',
-        main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
+    d3 <- tibble(a = x$mindex, b = x$cp) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('C(p)') +
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+    # plot(x$mindex, x$cp, type = 'b', col = 'blue', xlab = '', ylab = '',
+    #     main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
 
-    plot(x$mindex, x$aic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
-        main = 'AIC', cex.main = 1, yaxt = 'n')
+    d4 <- tibble(a = x$mindex, b = x$aic) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('AIC') +
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+    # plot(x$mindex, x$aic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
+    #     main = 'AIC', cex.main = 1, yaxt = 'n')
 
-    plot(x$mindex, x$sbic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
-        main = 'SBIC', cex.main = 1, yaxt = 'n')
+    d5 <- tibble(a = x$mindex, b = x$sbic) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('SBIC') +
+    theme(
+        axis.ticks = element_blank())
+    # plot(x$mindex, x$sbic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
+    #     main = 'SBIC', cex.main = 1, yaxt = 'n')
 
-    plot(x$mindex, x$sbc, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
-        main = 'SBC', cex.main = 1, yaxt = 'n')
+    d6 <- tibble(a = x$mindex, b = x$sbc) %>%
+    ggplot(., aes(x = a, y = b)) +
+    geom_line(color = 'blue') +
+    geom_point(color = 'blue', shape = 1, size = 2) +
+    xlab('') + ylab('') + ggtitle('SBC') +
+    theme(
+        axis.ticks = element_blank())
+    # plot(x$mindex, x$sbc, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
+    #     main = 'SBC', cex.main = 1, yaxt = 'n')
 
+    grid.arrange(d1, d2, d3, d4, d5, d6, ncol = 2, top = 'Best Subsets Regression')
 }

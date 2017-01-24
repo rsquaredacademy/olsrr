@@ -206,27 +206,51 @@ print.stepaic_backward <- function(x, ...) {
 #'
 plot.stepaic_backward <- function(x, ...) {
 
-    y          <- c(0, seq_len(x$steps))
-    xloc       <- y - 0.1
-    yloc       <- x$aics - 0.2
-    xmin       <- min(y) - 0.4
-    xmax       <- max(y) + 1
-    ymin       <- min(x$aics) - 1
-    ymax       <- max(x$aics) + 1
+             y <- c(0, seq_len(x$steps))
+          xloc <- y - 0.1
+          yloc <- x$aics - 0.2
+          xmin <- min(y) - 0.4
+          xmax <- max(y) + 1
+          ymin <- min(x$aics) - 1
+          ymax <- max(x$aics) + 1
     predictors <- c('Full Model', x$predictors)
 
-    plot(y, x$aics,
-        type = "b",
-        col  = "blue",
-        xlab = "Steps",
-        ylab = "AIC",
-        xlim = c(xmin, xmax),
-        ylim = c(ymin, ymax),
-        main = "Step AIC: Backward Elimination")
+    d2 <- tibble(x = xloc, y = yloc, tx = predictors)
+    d <- tibble(a = y, b = x$aics)
+    p <- ggplot(d, aes(x = a, y = b)) +
+      geom_line(color = 'blue') +
+      geom_point(color = 'blue', shape = 1, size = 2) +
+      xlim(c(xmin, xmax)) + ylim(c(ymin, ymax)) +
+      xlab('Step') + ylab('AIC') + ggtitle('Stepwise AIC Backward Elimination') +
+      geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
-    text(xloc, yloc, predictors,
-        col = "red",
-        cex = 0.9)
-
-
+    print(p)
 }
+
+
+# plot.stepaic_backward <- function(x, ...) {
+#
+#     y          <- c(0, seq_len(x$steps))
+#     xloc       <- y - 0.1
+#     yloc       <- x$aics - 0.2
+#     xmin       <- min(y) - 0.4
+#     xmax       <- max(y) + 1
+#     ymin       <- min(x$aics) - 1
+#     ymax       <- max(x$aics) + 1
+#     predictors <- c('Full Model', x$predictors)
+#
+#     plot(y, x$aics,
+#         type = "b",
+#         col  = "blue",
+#         xlab = "Steps",
+#         ylab = "AIC",
+#         xlim = c(xmin, xmax),
+#         ylim = c(ymin, ymax),
+#         main = "Step AIC: Backward Elimination")
+#
+#     text(xloc, yloc, predictors,
+#         col = "red",
+#         cex = 0.9)
+#
+#
+# }

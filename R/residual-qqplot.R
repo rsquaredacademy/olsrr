@@ -11,7 +11,7 @@ qqresid <- function(model) {
   }
 
 	resid <- residuals(model)
-	qqnorm(resid)
-	qqline(resid)
+	qqnorm(resid, col = 'blue')
+	qqline(resid, col = 'red')
 
 }

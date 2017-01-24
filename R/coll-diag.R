@@ -50,22 +50,12 @@ vif_tol <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	m    <- model.frame(model)[-1]
-	nam  <- names(m)
-	p    <- length(model$coefficients) - 1
-	vifs <- c()
-	tol  <- c()
-
-	for (i in seq_len(p)) {
-		tol[i]  <- fmrsq(nam, m, i)
-		vifs[i] <- 1 / tol[i]
-	}
-
-	viftol <- tibble(Variables = names(m),
+			vt <- viftol(model)
+	result <- tibble(Variables = names(m),
 		               Tolerance = round(tol, 3),
 	                       VIF = round(vifs, 3))
 
-	return(viftol)
+	return(result)
 }
 
 #' @rdname coll_diag

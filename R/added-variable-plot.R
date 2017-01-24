@@ -71,4 +71,3 @@ addvar_plot <- function(model) {
 # 	}
 #
 # }
-#
