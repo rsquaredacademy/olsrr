@@ -1,7 +1,6 @@
 #' @title Residual vs Regressors Plot
 #' @description Residual vs Regressors Plot
 #' @param model an object of class \code{lm}
-#' @param panel logical; if TRUE, creates a panel of plots
 #' @export
 #'
 rvsr_plot <- function(model) {
@@ -10,11 +9,13 @@ rvsr_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
+	x <- NULL
+	y <- NULL
 	d <- rvsrdata(model)
 
 		for (i in seq_len(d$np)) {
-				d <- data.frame(x = unlist(d$dat[i]), y = model$residuals)
-				p <- ggplot(d, aes(x = x, y = y))
+				k <- data.frame(x = unlist(d$dat[i]), y = model$residuals)
+				p <- ggplot(k, aes(x = x, y = y))
 				p <- p + geom_point(shape = 1, colour = 'blue')
 				p <- p + xlab(paste(d$pnames[i])) + ylab('Residual')
 				p <- p + ggtitle(paste("Residual vs", d$pnames[i]))

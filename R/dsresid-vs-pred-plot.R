@@ -19,8 +19,12 @@ dsrvsp_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
+	dsr <- NULL
+	pred <- NULL
+	Observation <- NULL
 	k <- dpred(model)
-	p <- ggplot(k$ds, aes(x = pred, y = dsr))
+	d <- k$ds
+	p <- ggplot(d, aes(x = pred, y = dsr))
 	p <- p + geom_point(aes(colour = Observation))
 	p <- p + scale_color_manual(values = c('blue', 'red'))
 	p <- p + ylim(k$cminx, k$cmaxx)

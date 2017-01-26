@@ -16,8 +16,11 @@ cooksd_chart <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
+	obs <- NULL
+	ckd <- NULL
 	k <- cdchart(model)
-	p <- ggplot(k$d, aes(obs, ckd, ymin = min(ckd), ymax = ckd))
+	d <- k$d
+	p <- ggplot(d, aes(x = obs, y = ckd, ymin = min(ckd), ymax = ckd))
 	p <- p + geom_linerange(colour = 'blue')
 	p <- p + geom_point(shape = 1, colour = 'blue')
 	p <- p + geom_hline(yintercept = k$ts, colour = 'red')

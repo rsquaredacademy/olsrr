@@ -20,20 +20,20 @@ dfbetas_panel <- function(model) {
 	n         <- nrow(dfb)
 	np        <- ncol(dfb)
 	threshold <- 2 / sqrt(n)
-
+			 obs <- NULL
 	for (i in seq_len(np)) {
 
 		dbetas <- dfb[, i]
 
-		d <- tibble(obs = seq_len(n), dbetas = dbetas) %>%
-			ggplot(., aes(obs, dbetas, ymin = 0, max = dbetas)) +
+		d <- tibble(obs = seq_len(n), dbetas = dbetas)
+		p <- ggplot(d, aes(x = obs, y = dbetas, ymin = 0, ymax = dbetas)) +
 			geom_linerange(colour = 'blue') +
 			geom_hline(yintercept = c(0, threshold, -threshold), colour = 'red') +
 			geom_point(colour = 'blue', shape = 1) +
 			xlab('Observation') + ylab('DFBETAS') +
 			ggtitle(paste("Influence Diagnostics for", colnames(dfb)[i]))
 
-		print(d)
+		print(p)
 	}
 }
 

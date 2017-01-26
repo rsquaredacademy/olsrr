@@ -14,7 +14,7 @@ Show the effect of adding another variable to a model already
 having one or more independent variables.
 }
 \examples{
-model <- lm(mpg ~ ., data = mtcars)
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 addvar_plot(model)
 }
 

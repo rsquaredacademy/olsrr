@@ -149,7 +149,7 @@ sbic <- function(model, full_model) {
 	n <- model %>% model.frame() %>% nrow()
 	p <- model %>% coefficients() %>% length()
 	r <- full_model %>% coefficients() %>% length()
-	q <- n * (q1(full_model) / q2(model))
+	q <- n * (q1(full_model, r) / q2(model, p))
 	result <- sbicout(model, n, p, q)
 
 	return(result)

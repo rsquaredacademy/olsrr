@@ -112,3 +112,4 @@ test_that("f_test fails when input for vars are not a subset of predictors", {
     expect_error(f_test(model, vars = c("gear", "carb")),
     	'vars must be a subset of the predictors in the model')
 })
+

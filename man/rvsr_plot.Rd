@@ -4,12 +4,10 @@
 \alias{rvsr_plot}
 \title{Residual vs Regressors Plot}
 \usage{
-rvsr_plot(model, panel = TRUE)
+rvsr_plot(model)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
-
-\item{panel}{logical; if TRUE, creates a panel of plots}
 }
 \description{
 Residual vs Regressors Plot

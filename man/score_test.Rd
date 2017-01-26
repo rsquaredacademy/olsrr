@@ -4,12 +4,12 @@
 \alias{score_test}
 \title{Score Test for heteroskedasticity}
 \usage{
-score_test(model, fitted.values = TRUE, rhs = FALSE, vars = NULL)
+score_test(model, fitted_values = TRUE, rhs = FALSE, vars = NULL)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
-\item{fitted.values}{logical; if TRUE, use fitted values of regression model}
+\item{fitted_values}{logical; if TRUE, use fitted values of regression model}
 
 \item{rhs}{logical; if TRUE, specifies that tests for heteroskedasticity be
 performed for the right-hand-side (explanatory) variables of the fitted

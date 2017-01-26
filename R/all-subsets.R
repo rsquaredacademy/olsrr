@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 ggtitle scale_shape_manual scale_size_manual scale_color_manual ggtitle
+#' @importFrom ggplot2 ggtitle scale_shape_manual scale_size_manual scale_color_manual ggtitle geom_text
 #' @importFrom utils combn
 #' @importFrom purrr map_int
 #' @title All Subsets Regression
@@ -24,13 +24,9 @@
 #' \item{sp}{Hocking's Sp}
 #'
 #' @examples
-#' model <- lm(mpg ~ disp + hp + drat, data = mtcars)
+#' model <- lm(mpg ~ disp + hp, data = mtcars)
 #' all_subset(model)
 #'
-#' # plot
-#' model <- lm(mpg ~ disp + hp + drat, data = mtcars)
-#' k <- all_subset(model)
-#' plot(k)
 #' @export
 #'
 all_subset <- function(model, ...) UseMethod('all_subset')
@@ -213,7 +209,13 @@ plot.all_subset <- function(x, ...) {
         index4[i] <- which(x$sbc == maxs4[i])
     }
 
-    d1 <- data.frame(x = k$n, y = k$rsquare)
+    shape <- NULL
+    size <- NULL
+    tx <- NULL
+    y <- NULL
+    k <- NULL
+
+    d1 <- data.frame(x = x$n, y = x$rsquare)
     d2 <- data.frame(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
     p1 <- ggplot(d1, aes(x = x, y = y)) +
       geom_point(color = 'blue', size = 2) +

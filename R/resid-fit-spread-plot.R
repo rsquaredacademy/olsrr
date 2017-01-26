@@ -19,7 +19,8 @@ rfs_plot <- function(model) {
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
-
+		  x <- NULL
+			y <- NULL
 		 d1 <- fmdata(model)
 	ymin1 <- min(d1$y) + (0.25 * min(d1$y))
 	ymax1 <- max(d1$y) + (0.25 * max(d1$y))
@@ -64,7 +65,8 @@ fm_plot <- function(model) {
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
-
+		 x <- NULL
+		 y <- NULL	
 	   d <- fmdata(model)
 	ymin <- min(d$y) + (0.25 * min(d$y))
 	ymax <- max(d$y) + (0.25 * max(d$y))
@@ -95,6 +97,8 @@ rsd_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
+		 x <- NULL
+		 y <- NULL
 	   d <- rsdata(model)
 	ymin <- min(d$y) + (0.25 * min(d$y))
 	ymax <- max(d$y) + (0.25 * max(d$y))

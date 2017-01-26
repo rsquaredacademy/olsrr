@@ -8,7 +8,7 @@
 #' @param model an object of class \code{lm}
 #'
 #' @examples
-#' model <- lm(mpg ~ ., data = mtcars)
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' addvar_plot(model)
 #' @export
 #'
@@ -27,14 +27,14 @@ addvar_plot <- function(model) {
 
 			x <- advarx(dat2, i)
 			y <- advary(data, i)
-			d <- tibble(x, y) %>%
-				ggplot(., aes(x = x, y = y)) +
+			d <- tibble(x, y)
+			p <- ggplot(d, aes(x = x, y = y)) +
 				geom_point(colour = 'blue', size = 2) +
 				xlab(paste(xnames[i], " | Others")) +
 				ylab(paste(xnames[1], " | Others")) +
 				stat_smooth(method="lm", se=FALSE)
 
-			print(d)
+			print(p)
 
 	}
 

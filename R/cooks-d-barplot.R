@@ -18,8 +18,12 @@ cooksd_bplot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
+	obs <- NULL
+	cd <- NULL
+	Observation <- NULL
 	k <- cdplot(model)
-	p <- ggplot(k$ckd, aes(obs, cd)) + geom_bar(width = 0.5, stat = 'identity', aes(fill = Observation))
+	d <- k$ckd
+	p <- ggplot(d, aes(x = obs, y = cd)) + geom_bar(width = 0.5, stat = 'identity', aes(fill = Observation))
 	p <- p + coord_flip()
 	p <- p + ylim(0, k$maxx)
 	p <- p + ylab("Cook's D") + xlab('Observation') + ggtitle("Cook's D Bar Plot")

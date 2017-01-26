@@ -1,3 +1,4 @@
+#' @importFrom ggplot2 geom_text
 #' @title Stepwise AIC Backward Regression
 #' @description Stepwise AIC Backward Regression
 #' @param model an object of class \code{lm}
@@ -214,7 +215,10 @@ plot.stepaic_backward <- function(x, ...) {
           ymin <- min(x$aics) - 1
           ymax <- max(x$aics) + 1
     predictors <- c('Full Model', x$predictors)
-
+             a <- NULL
+             b <- NULL
+            tx <- NULL
+            
     d2 <- tibble(x = xloc, y = yloc, tx = predictors)
     d <- tibble(a = y, b = x$aics)
     p <- ggplot(d, aes(x = a, y = b)) +

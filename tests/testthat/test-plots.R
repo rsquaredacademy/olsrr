@@ -36,13 +36,6 @@ test_that("hist_resid fails when model inherits other than 'lm'", {
     expect_error(hist_resid(m), 'Please specify a OLS linear regression model.')
 })
 
-test_that("resid_boxplot fails when model inherits other than 'lm'", {
-    y <- sample(c(1:4), 100, replace = T)
-    x <- sample(c(1, 2), 100, replace = T)
-    m <- glm(x ~ y)
-    expect_error(resid_boxplot(m), 'Please specify a OLS linear regression model.')
-})
-
 test_that("diag_panel fails when model inherits other than 'lm'", {
     y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)

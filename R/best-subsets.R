@@ -1,4 +1,4 @@
-#' @importFrom graphics layout
+#' @importFrom ggplot2 geom_line theme element_blank
 #' @title Best Subsets Regression
 #' @description Select the subset of predictors that do the best at meeting some
 #' well-defined objective criterion, such as having the largest R2 value or the
@@ -153,9 +153,11 @@ plot.best_subset <- function(x, model = NA, ...) {
     # on.exit(par(op))
     # m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
     # layout(mat = m, heights = c(2, 2))
+    a <- NULL
+    b <- NULL
 
-    d1 <- tibble(a = x$mindex, b = x$rsquare) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d1 <- tibble(a = x$mindex, b = x$rsquare)
+    p1 <- ggplot(d1, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('R-Square') +
@@ -165,8 +167,8 @@ plot.best_subset <- function(x, model = NA, ...) {
     # plot(x$mindex, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
     #  main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
 
-    d2 <- tibble(a = x$mindex, b = x$adjr) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d2 <- tibble(a = x$mindex, b = x$adjr)
+    p2 <- ggplot(d2, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('Adj. R-Square') +
@@ -176,8 +178,8 @@ plot.best_subset <- function(x, model = NA, ...) {
     # plot(x$mindex, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
     #     main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
 
-    d3 <- tibble(a = x$mindex, b = x$cp) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d3 <- tibble(a = x$mindex, b = x$cp)
+    p3 <- ggplot(d3, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('C(p)') +
@@ -187,8 +189,8 @@ plot.best_subset <- function(x, model = NA, ...) {
     # plot(x$mindex, x$cp, type = 'b', col = 'blue', xlab = '', ylab = '',
     #     main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
 
-    d4 <- tibble(a = x$mindex, b = x$aic) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d4 <- tibble(a = x$mindex, b = x$aic)
+    p4 <- ggplot(d4, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('AIC') +
@@ -198,8 +200,8 @@ plot.best_subset <- function(x, model = NA, ...) {
     # plot(x$mindex, x$aic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
     #     main = 'AIC', cex.main = 1, yaxt = 'n')
 
-    d5 <- tibble(a = x$mindex, b = x$sbic) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d5 <- tibble(a = x$mindex, b = x$sbic)
+    p5 <- ggplot(d5, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('SBIC') +
@@ -208,8 +210,8 @@ plot.best_subset <- function(x, model = NA, ...) {
     # plot(x$mindex, x$sbic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
     #     main = 'SBIC', cex.main = 1, yaxt = 'n')
 
-    d6 <- tibble(a = x$mindex, b = x$sbc) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d6 <- tibble(a = x$mindex, b = x$sbc)
+    p6 <- ggplot(d6, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('SBC') +
@@ -218,5 +220,5 @@ plot.best_subset <- function(x, model = NA, ...) {
     # plot(x$mindex, x$sbc, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
     #     main = 'SBC', cex.main = 1, yaxt = 'n')
 
-    grid.arrange(d1, d2, d3, d4, d5, d6, ncol = 2, top = 'Best Subsets Regression')
+    grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = 'Best Subsets Regression')
 }

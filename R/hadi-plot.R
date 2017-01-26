@@ -9,9 +9,10 @@ hadi_plot <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
+    obs <- NULL
     hdi <- model %>% hadi() %>% `$`(hadi) %>% unname()
-      d <- tibble(obs = seq_len(length(hdi)), hdi = hdi) %>%
-        ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
+      d <- tibble(obs = seq_len(length(hdi)), hdi = hdi)
+      p <- ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
         geom_linerange(colour = 'blue') +
         geom_point(shape = 1, colour = 'blue') +
         xlab('Observation') + ylab("Hadi's Measure") +

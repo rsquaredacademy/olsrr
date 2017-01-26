@@ -20,9 +20,11 @@ dffits_plot <- function(model) {
 				 k <- length(model$coefficients)
 				 n <- model %>% model.frame() %>% nrow()
 	dffits_t <- 2 * sqrt(k / n)
+	     obs <- NULL
+		dbetas <- NULL
 
-	d <- tibble(obs = seq_len(n), dbetas = dffitsm) %>%
-		ggplot(., aes(obs, dffitsm, ymin = 0, max = dffitsm)) +
+	d <- tibble(obs = seq_len(n), dbetas = dffitsm)
+	p <- ggplot(d, aes(x = obs, y = dbetas, ymin = 0, ymax = dffitsm)) +
 		geom_linerange(colour = 'blue') +
 		geom_hline(yintercept = c(0, dffits_t, -dffits_t), colour = 'red') +
 		geom_point(colour = 'blue', shape = 1) +

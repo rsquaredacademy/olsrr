@@ -49,7 +49,7 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
 			ln <- z %>% map_int(length)
 			ly <- seq_len(length(z))
 
-    	if (ly < 2) {
+    	if (length(z) < 2) {
     		stop('Please specify at least two variables.', call. = FALSE)
     	}
 

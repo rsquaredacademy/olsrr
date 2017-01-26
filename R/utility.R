@@ -195,6 +195,7 @@ cdplot <- function(model){
            cooksd <- cooks.distance(model)
             	  n <- length(cooksd)
 	            ckd <- tibble(obs = seq_len(n), cd = cooksd)
+               ts <- 4 / length(ckd$cd)
 	      ckd$color <- ifelse(ckd$cd >= ts, c("outlier"), c("normal"))
 	     ckd$color1 <- factor(ckd$color)
 	ckd$Observation <- ordered(ckd$color1, levels = c("normal", "outlier"))
@@ -215,6 +216,8 @@ cdchart <- function(model) {
 }
 
 # correlations
+#' @importFrom tibble as_data_frame
+#' @importFrom purrr map_df
 cordata <- function(model) {
   d <- model %>%
     model.frame() %>%
@@ -234,7 +237,7 @@ rtwo <- function(i, mdata) {
   dat <- mdata[, c(-1, -i)]
   out <- lm(mdata[[1]] ~ ., data = dat) %>%
     summary() %>%
-    `$`(r.squared)
+    `[[`(8)
   return(out)
 }
 
@@ -281,24 +284,25 @@ dpred <- function(model) {
        pred <- model %>% fitted()
   	dsresid <- model %>% rstudent() %>% unname()
   	      n <- length(dsresid)
+        dsr <- NULL
 	       ds <- tibble(obs = seq_len(n), dsr = dsresid)
 	       ds <- ds %>%
            mutate(color = ifelse((abs(dsr) >= 2), "outlier", "normal"))
   ds$color1 <- factor(ds$color)
-	ds$color2 <- ordered(dr$color1, levels = c("normal", "outlier"))
-	       d  <- tibble(pred = pred, dsr = ds$dsr, Observation = ds$color2)
+	ds$color2 <- ordered(ds$color1, levels = c("normal", "outlier"))
+	      ds2  <- tibble(pred = pred, dsr = ds$dsr, Observation = ds$color2)
 
-    	 minx <- min(ds$dsr) - 1
+    	 minx <- min(ds2$dsr) - 1
       cminx <- ifelse(minx < -2, minx, -2.5)
-    	 maxx <- max(ds$dsr) + 1
+    	 maxx <- max(ds2$dsr) + 1
     	cmaxx <- ifelse(maxx > 2, maxx, 2.5)
 
-        out <- list(ds = ds, cminx = cminx, cmaxx = cmaxx)
+        out <- list(ds = ds2, cminx = cminx, cmaxx = cmaxx)
       return(out)
 }
 
 # f test
-frhs <- function(nam, model) {
+frhs <- function(nam, model, n, l) {
          np <- length(nam)
   var_resid <- sum(residuals(model) ^ 2) / n
         ind <- residuals(model) ^ 2 / var_resid - 1
@@ -351,18 +355,18 @@ hadires <- function(model) {
 
 
 # influence measures
-q1 <- function(full_model) {
+q1 <- function(full_model, r) {
     out <- full_model %>%
         anova() %>%
-        `$`(`Mean Sq`) %>%
+        `[[`(3) %>%
         `[`(r)
     return(out)
 }
 
-q2 <- function(full_model) {
+q2 <- function(model, p) {
     out <- model %>%
         anova() %>%
-        `$`(`Sum Sq`) %>%
+        `[[`(2) %>%
         `[`(p)
     return(out)
 }
@@ -390,7 +394,7 @@ mcpout <- function(model, fullmodel, n, p, q) {
 
     mse <- fullmodel %>%
         anova() %>%
-        `$`(`Mean Sq`) %>%
+        `[[`(3) %>%
         `[`(q)
 
     sec <- (n - (2 * p))
@@ -411,7 +415,7 @@ sepout <- function(model) {
 
     mse <- model %>%
         anova() %>%
-        `$`(`Mean Sq`) %>%
+        `[[`(3) %>%
         `[`(p)
 
     num <- (n + 1) %>%
@@ -434,7 +438,7 @@ jpout <- function(model) {
 
     mse <- model %>%
         anova() %>%
-        `$`(`Mean Sq`) %>%
+        `[[`(3) %>%
         `[`(p)
 
     out <- (n + p) %>%
@@ -453,11 +457,11 @@ pcout <- function(model) {
 
     rse <- model %>%
         summary() %>%
-        `$`(r.square)
+        `[[`(8)
 
     out <- (n + p) %>%
         `/`(n - p) %>%
-        `*`(1 - rsq) %>%
+        `*`(1 - rse) %>%
         round(5)
 
     return(out)
@@ -470,7 +474,7 @@ spout <- function(model) {
 
     mse <- model %>%
         anova() %>%
-        `$`(`Mean Sq`) %>%
+        `[[`(3) %>%
         `[`(p)
 
     out <- mse %>%
@@ -493,7 +497,7 @@ pc2out <- function(model) {
 
     sst <- model %>%
         anova() %>%
-        `$`(`Sum Sq`) %>%
+        `[[`(2) %>%
         sum()
 
     out <- (n + p) %>%
@@ -505,10 +509,17 @@ pc2out <- function(model) {
     return(out)
 }
 
-corout <- function(model) {
+ka <- function(k, stderr, n) {
+  out <- stderr * qnorm((k - 0.375) / (n + 0.25))
+  return(out)
+}
+
+
+corrout <- function(model) {
     n <- model %>% model.frame() %>% nrow()
-    stderr <- model %>% summary() %>% `$`(sigma)
-    h <- n %>% seq_len() %>% ka(., stderr, n)
+    stderr <- model %>% summary() %>% `[[`(6)
+    h1 <- n %>% seq_len()
+    h <- ka(h1, stderr, n)
     out <- model %>% residuals() %>% sort()
     result <- cor(h, out)
     return(result)
@@ -517,7 +528,7 @@ corout <- function(model) {
 # observed vs predicted plot
 obspred <- function(model) {
     x <- model %>% fitted.values()
-    y <- model %>% model.frame() %>% `$`(mpg)
+    y <- model %>% model.frame() %>% `[[`(1)
     d <- tibble(x, y)
     return(d)
 }
@@ -540,8 +551,8 @@ fmdata <- function(model){
   predicted <- model %>% fitted.values()
      pred_m <- predicted %>% mean()
           y <- predicted - pred_m
-   percenti <- pred_s %>% ecdf()
-          x <- y %>% percentile()
+   percenti <- y %>% ecdf()
+          x <- y %>% percenti
           d <- tibble(x, y)
   return(d)
 }
@@ -581,7 +592,7 @@ rhsout <- function(model) {
  return(result)
 }
 
-fitout <- function(model) {
+fitout <- function(model, resp) {
 
              l <- model.frame(model)
              n <- nrow(l)
@@ -653,5 +664,111 @@ histn <- function(resid, h) {
 	yfit  <- dnorm(xfit, mean = mean(resid), sd = sd(resid))
 	yfit1  <- yfit * diff(h$mids[1:2]) * length(resid)
   result <- list(xfit = xfit, yfit = yfit1)
+  return(result)
+}
+
+# pure error anova
+#' @importFrom dplyr arrange
+peanova <- function(model) {
+
+  data      <- model.frame(model)
+	dep       <- data[[1]]
+	pred      <- data[[2]]
+	n         <- nrow(data)
+	nam       <- names(data)
+	dep_name  <- nam[1]
+	pred_name <- nam[2]
+	yhat      <- model$fitted.values
+	pred_u    <- table(pred)
+	nd        <- length(pred_u)
+
+	mean_pred <- data %>%
+	    group_by_(pred_name) %>%
+	    select_(dep_name, pred_name) %>%
+	    summarise_each(funs(mean))
+
+	mean_rep        <- rep(mean_pred[[2]], as.vector(pred_u))
+	fin             <- data.frame(dep, yhat, pred)
+	finl            <- arrange(fin, pred)
+	final           <- cbind(finl, mean_rep)
+	colnames(final) <- c("y", "yhat", "pred", "ybar")
+
+	final$lfit <- (final$ybar - final$yhat) ^ 2
+	final$rerror <- (final$y - final$ybar) ^ 2
+	# final <- mutate(final,
+	#   lfit   = (ybar - yhat) ^ 2,
+	#   rerror = (y - ybar) ^ 2
+	# )
+
+	lackoffit    <- sum(final$lfit)
+	random_error <- sum(final$rerror)
+	rss          <- anova(model)[1, 2]
+	ess          <- sum(lackoffit, random_error)
+	total        <- sum(ess, rss)
+	df_rss       <- 1
+	df_lof       <- nd - 2
+	df_error     <- n - nd
+	df_ess       <- sum(df_lof, df_error)
+	rms          <- rss / df_rss
+	ems          <- ess / df_ess
+	lms          <- lackoffit / df_lof
+	pms          <- random_error / df_error
+	rf           <- rms / pms
+	lf           <- lms / pms
+	pr           <- pf(rf, df_rss, df_ess, lower.tail = F)
+	pl           <- pf(lf, df_lof, df_error, lower.tail = F)
+
+  result <- list(lackoffit  = round(lackoffit, 2),
+		             pure_error = round(random_error, 2),
+		             rss        = round(rss, 2),
+		             ess        = round(ess, 2),
+		             total      = round(total, 2),
+		             rms        = round(rms, 2),
+		             ems        = round(ems, 2),
+		             lms        = round(lms, 2),
+		             pms        = round(pms, 2),
+		             rf         = round(rf, 2),
+		             lf         = round(lf, 2),
+		             pr         = round(pr, 2),
+		             pl         = round(pl, 2),
+		             mpred      = round(mean_pred, 2),
+		             df_rss     = df_rss,
+		             df_ess     = df_ess,
+		             df_lof     = df_lof,
+		             df_error   = df_error,
+		             final      = final,
+		             resp       = dep_name,
+		             preds      = pred_name)
+  return(result)
+}
+
+
+# studentized residuals vs leverage plot
+rstudlev <- function(model) {
+
+  leverage  <- unname(hatvalues(model))
+  rstudent  <- unname(rstudent(model))
+  k         <- length(model$coefficients)
+  n         <- nrow(model.frame(model))
+  lev_thrsh <- ((2 * k) + 2) / n
+  rst_thrsh <- 2
+  miny      <- min(rstudent) - 3
+  maxy      <- max(rstudent) + 3
+  minx      <- min(leverage)
+  maxx      <- ifelse((max(leverage) > lev_thrsh), max(leverage), (lev_thrsh + 0.05))
+  levrstud  <- data.frame(obs = seq_len(n), leverage, rstudent)
+
+
+  levrstud$color[(leverage < lev_thrsh & abs(rstudent) < 2)] <- "normal"
+  levrstud$color[(leverage > lev_thrsh & abs(rstudent) < 2)] <- "leverage"
+  levrstud$color[(leverage < lev_thrsh & abs(rstudent) > 2)] <- "outlier"
+  levrstud$color[(leverage > lev_thrsh & abs(rstudent) > 2)] <- "outlier & leverage"
+  levrstud$color3 <- factor(levrstud$color)
+  levrstud$Observation <- ordered(levrstud$color3,
+   	                           levels = c("normal", "leverage", "outlier",
+   	                                      "outlier & leverage"))
+
+  result <- list(levrstud = levrstud, lev_thrsh = lev_thrsh, minx = minx,
+    miny = miny, maxx = maxx, maxy = maxy)
   return(result)
 }

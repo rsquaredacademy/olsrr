@@ -140,18 +140,20 @@ plot.step_backward <- function(x, ...) {
     sbicstep <- which(x$sbic == sbicmin)
     sbcmin   <- min(x$sbc)
     sbcstep  <- which(x$sbc == sbcmin)
+           a <- NULL
+           b <- NULL
 
-    d1 <- tibble(a = y, b = x$rsquare) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d1 <- tibble(a = y, b = x$rsquare)
+    p1 <- ggplot(d1, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('R-Square') +
     theme(
         axis.text.x = element_blank(),
         axis.ticks = element_blank())
-    
-    d2 <- tibble(a = y, b = x$adjr) %>%
-    ggplot(., aes(x = a, y = b)) +
+
+    d2 <- tibble(a = y, b = x$adjr)
+    p2 <- ggplot(d2, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('Adj. R-Square') +
@@ -159,8 +161,8 @@ plot.step_backward <- function(x, ...) {
         axis.text.x = element_blank(),
         axis.ticks = element_blank())
 
-    d3 <- tibble(a = y, b = x$mallows_cp) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d3 <- tibble(a = y, b = x$mallows_cp)
+    p3 <- ggplot(d3, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('C(p)') +
@@ -168,8 +170,8 @@ plot.step_backward <- function(x, ...) {
         axis.text.x = element_blank(),
         axis.ticks = element_blank())
 
-    d4 <- tibble(a = y, b = x$aic) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d4 <- tibble(a = y, b = x$aic)
+    p4 <- ggplot(d4, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('AIC') +
@@ -177,23 +179,23 @@ plot.step_backward <- function(x, ...) {
         axis.text.x = element_blank(),
         axis.ticks = element_blank())
 
-    d5 <- tibble(a = y, b = x$sbic) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d5 <- tibble(a = y, b = x$sbic)
+    p5 <- ggplot(d5, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('SBIC') +
     theme(
         axis.ticks = element_blank())
 
-    d6 <- tibble(a = y, b = x$sbc) %>%
-    ggplot(., aes(x = a, y = b)) +
+    d6 <- tibble(a = y, b = x$sbc)
+    p6 <- ggplot(d6, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
     geom_point(color = 'blue', shape = 1, size = 2) +
     xlab('') + ylab('') + ggtitle('SBC') +
     theme(
         axis.ticks = element_blank())
 
-    grid.arrange(d1, d2, d3, d4, d5, d6, ncol = 2, top = 'Stepwise Backward Regression')
+    grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = 'Stepwise Backward Regression')
 
 }
 

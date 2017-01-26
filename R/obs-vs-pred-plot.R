@@ -23,13 +23,15 @@ ovsp_plot <- function(model) {
     names() %>%
     `[`(1)
 
+	x <- NULL
+	y <- NULL
 	d <- obspred(model)
 	p <- ggplot(d, aes(x = x, y = y))
 	p <- p + geom_point(color = 'blue', shape = 1)
 	p <- p + xlab('Predicted Value') + ylab(paste(oname))
 	p <- p + ggtitle(paste("Observed by Predicted for", oname))
 	p <- p + geom_abline(intercept = 0, slope = 1, color = 'blue')
-	p <- p + geom_segment(aes(x = min(x), y = min(y), xend = max(x), yend = max(y)),
+	p <- p + geom_segment(data = d, aes(x = min(x), y = min(y), xend = max(x), yend = max(y)),
 		colour = 'red')
 	print(p)
 }

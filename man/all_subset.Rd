@@ -34,12 +34,8 @@ following components:
 Performs all subset regression for a linear regression model.
 }
 \examples{
-model <- lm(mpg ~ disp + hp + drat, data = mtcars)
+model <- lm(mpg ~ disp + hp, data = mtcars)
 all_subset(model)
 
-# plot
-model <- lm(mpg ~ disp + hp + drat, data = mtcars)
-k <- all_subset(model)
-plot(k)
 }
 

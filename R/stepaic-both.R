@@ -177,14 +177,17 @@ print.stepaic_both <- function(data) {
 
 plot.stepaic_both <- function(x, ...) {
 
-    y    <- seq_len(length(x$aic))
-    xloc <- y - 0.1
-    yloc <- x$aic - 0.2
-    xmin <- min(y) - 0.4
-    xmax <- max(y) + 1
-    ymin <- min(x$aic) - 1
-    ymax <- max(x$aic) + 1
+             y <- seq_len(length(x$aic))
+          xloc <- y - 0.1
+          yloc <- x$aic - 0.2
+          xmin <- min(y) - 0.4
+          xmax <- max(y) + 1
+          ymin <- min(x$aic) - 1
+          ymax <- max(x$aic) + 1
     predictors <- x$predictors
+             a <- NULL
+             b <- NULL
+            tx <- NULL 
 
     d2 <- tibble(x = xloc, y = yloc, tx = predictors)
     d <- tibble(a = y, b = x$aic)

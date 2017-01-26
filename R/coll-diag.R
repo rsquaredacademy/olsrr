@@ -51,9 +51,9 @@ vif_tol <- function(model) {
   }
 
 			vt <- viftol(model)
-	result <- tibble(Variables = names(m),
-		               Tolerance = round(tol, 3),
-	                       VIF = round(vifs, 3))
+	result <- tibble(Variables = vt$nam,
+		               Tolerance = round(vt$tol, 3),
+	                       VIF = round(vt$vifs, 3))
 
 	return(result)
 }
@@ -67,14 +67,15 @@ eigen_cindex <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	     x <- model$model[, -1]
-	     e <- evalue(x)$e
+	x <- model$model[, -1]
+	e <- evalue(x)$e
 	cindex <- cindx(e)
-	    pv <- pveindex(e$pvdata)
-	   out <- tibble(Eigenvalue = cbind(round(e, 3), round(cindex, 3),
-		 					round(pv, 2)))
-	colnames(out) <- c("Eigenvalue", "Condition Index", colnames(e$z))
+	pv <- pveindex(evalue(x)$pvdata)
+	out <- data.frame(Eigenvalue = cbind(round(e, 3), round(cindex, 3),
+															round(pv, 2)))
+	colnames(out) <- c("Eigenvalue", "Condition Index", colnames(evalue(x)$pvdata))
 	return(out)
+
 }
 
 

@@ -10,16 +10,17 @@ cplusr_plot <- function(model) {
   }
 
 	pl <- cpout(model)
-
+	 x <- NULL
+	 y <- NULL
 	for (i in seq_len(pl$lmc)) {
 
-			k <- cpdata(pl$data, pl$mc, pl$e, i) %>%
-				ggplot(d, aes(x = x, y = y)) +
+			k <- cpdata(pl$data, pl$mc, pl$e, i)
+			p <- ggplot(k, aes(x = x, y = y)) +
 				geom_point(colour = 'blue', size = 2) + xlab(pl$nam[i]) +
 				ylab(paste0("Component + Residual (", pl$indvar, ")")) +
 				stat_smooth(method="lm", se=FALSE)
 
-			print(k)
+			print(p)
 
 	}
 

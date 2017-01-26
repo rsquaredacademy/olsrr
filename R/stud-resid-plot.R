@@ -17,16 +17,20 @@ srplot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	d <- srdata(model)
-	p <- ggplot(d$dsr, aes(obs, dsr))
+	obs <- NULL
+	dsr <- NULL
+	Observation <- NULL
+	g <- srdata(model)
+	d <- g$dsr
+	p <- ggplot(d, aes(x = obs, y = dsr))
 	p <- p + geom_bar(width = 0.5, stat = 'identity', aes(fill = Observation))
 	p <- p + scale_fill_manual(values = c('blue', 'red'))
-	p <- p + ylim(d$cminx, d$cmaxx)
+	p <- p + ylim(g$cminx, g$cmaxx)
 	p <- p + coord_flip()
 	p <- p + xlab('Observation') + ylab('Deleted Studentized Residuals')
 	p <- p + ggtitle('Studentized Residuals')
-	p <- p + geom_hline(yintercept = c(d$cminx, d$cmaxx), color = 'red')
-	p <- p + geom_hline(yintercept = c(0, d$nseq, d$pseq))
+	p <- p + geom_hline(yintercept = c(g$cminx, g$cmaxx), color = 'red')
+	p <- p + geom_hline(yintercept = c(0, g$nseq, g$pseq))
 	print(p)
 
 }

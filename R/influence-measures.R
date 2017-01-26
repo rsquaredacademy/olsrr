@@ -108,7 +108,7 @@ pred_rsq <- function(model) {
 
     tss <- model %>%
       anova() %>%
-      `$`(`Sum Sq`) %>%
+      `[[`(2) %>%
       sum()
 
     prts <- model %>%

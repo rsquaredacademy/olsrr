@@ -1,3 +1,4 @@
+#' @importFrom dplyr desc
 #' @title Stepwise AIC Forward Regression
 #' @description Stepwise AIC Forward Regression
 #' @param model an object of class \code{lm}
@@ -225,15 +226,17 @@ print.stepaic_forward <- function(x, ...) {
 #'
 plot.stepaic_forward <- function(x, ...) {
 
-    y    <- seq_len(x$steps)
-    xloc <- y - 0.1
-    yloc <- x$aics - 0.2
-    xmin <- min(y) - 1
-    xmax <- max(y) + 1
-    ymin <- min(x$aics) - 1
-    ymax <- max(x$aics) + 1
+             y <- seq_len(x$steps)
+          xloc <- y - 0.1
+          yloc <- x$aics - 0.2
+          xmin <- min(y) - 1
+          xmax <- max(y) + 1
+          ymin <- min(x$aics) - 1
+          ymax <- max(x$aics) + 1
     predictors <- x$predictors
-
+             a <- NULL
+             b <- NULL
+            tx <- NULL
 
     d2 <- tibble(x = xloc, y = yloc, tx = predictors)
     d <- tibble(a = y, b = x$aics)

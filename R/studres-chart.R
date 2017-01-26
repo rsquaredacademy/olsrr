@@ -1,4 +1,4 @@
-#' @importFrom graphics text
+#' @importFrom stats rstandard
 #' @title Studentized Residual Chart
 #' @description Studentized Residual Chart
 #' @param model an object of class \code{lm}
@@ -16,9 +16,10 @@ studres_chart <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	sdres   <- rstandard(model)
+	    obs <- NULL
+	  sdres <- rstandard(model)
 	outlier <- sdres[abs(sdres) > 2]
-	d       <- data.frame(obs = seq_len(length(sdres)), sdres = sdres)
+	      d <- data.frame(obs = seq_len(length(sdres)), sdres = sdres)
 
 	p <- ggplot(d, aes(x = obs, y = sdres, ymin = 0, ymax = sdres))
 	p <- p + geom_linerange(colour = 'blue')
@@ -31,7 +32,7 @@ studres_chart <- function(model) {
 
 	z <- list(studresid = sdres,
 						threshold = 2,
-						outliers  = obs)
+						outliers  = d$obs)
 }
 
 

@@ -1,7 +1,7 @@
 #' @title Score Test for heteroskedasticity
 #' @description Test for heteroskedasticity
 #' @param model an object of class \code{lm}
-#' @param fitted.values logical; if TRUE, use fitted values of regression model
+#' @param fitted_values logical; if TRUE, use fitted values of regression model
 #' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
 #' performed for the right-hand-side (explanatory) variables of the fitted
 #' regression model
@@ -54,7 +54,7 @@ score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
     } else {
 
     	if (fitted_values) {
-				d <- fitout(model)
+				d <- fitout(model, resp)
     	} else {
         d <- varout(model, vars)
     	}

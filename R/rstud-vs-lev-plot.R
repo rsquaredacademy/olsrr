@@ -22,15 +22,17 @@ studvslev_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	d <- rstudlev(model)
-	p <- ggplot(d$levrstud, aes(leverage, rstudent))
+	Observation <- NULL
+	g <- rstudlev(model)
+	d <- g$levrstud
+	p <- ggplot(d, aes(leverage, rstudent))
 	p <- p + geom_point(shape = 1, aes(colour = Observation))
 	p <- p + scale_color_manual(values = c("blue", "red", "green", "violet"))
-	p <- p + xlim(d$minx, d$maxx) + ylim(d$miny, d$maxy)
+	p <- p + xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy)
 	p <- p + xlab('Leverage') + ylab('RStudent')
-	p <- p + ggtitle(paste("Outlier and Leverage Diagnostics for", d$nam[1]))
+	p <- p + ggtitle(paste("Outlier and Leverage Diagnostics for", g$nam[1]))
 	p <- p + geom_hline(yintercept = c(2, -2), colour = 'maroon')
-	p <- p + geom_vline(xintercept = d$lev_thrsh, colour = 'maroon')
+	p <- p + geom_vline(xintercept = g$lev_thrsh, colour = 'maroon')
 	print(p)
 
 }

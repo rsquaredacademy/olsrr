@@ -4,12 +4,12 @@
 \alias{f_test}
 \title{f Test for heteroskedasticity}
 \usage{
-f_test(model, fitted.values = TRUE, rhs = FALSE, vars = NULL, ...)
+f_test(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
-\item{fitted.values}{logical; if TRUE, use fitted values of regression model}
+\item{fitted_values}{logical; if TRUE, use fitted values of regression model}
 
 \item{rhs}{logical; if TRUE, specifies that tests for heteroskedasticity be
 performed for the right-hand-side (explanatory) variables of the fitted

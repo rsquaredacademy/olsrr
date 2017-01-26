@@ -1,5 +1,5 @@
 #' @importFrom stats model.frame model.response
-#' @importFrom graphics hist boxplot mtext
+#' @importFrom ggplot2 geom_dotplot geom_histogram
 #' @title Predictor Diagnostics
 #' @description Predictor Diagnostics
 #' @param model an object of class \code{lm}
@@ -18,34 +18,36 @@ pred_diag <- function(model) {
         stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    nam       <- names(model.frame(model))
+          nam <- names(model.frame(model))
     predictor <- model.response(model.frame(model))
-    xval <- predictor %>% length() %>% seq_len()
+         xval <- predictor %>% length() %>% seq_len()
+            x <- NULL
+            y <- NULL
 
 
-    d1 <- tibble(x = predictor) %>%
-        ggplot(., aes(x = x)) +
+    d1 <- tibble(x = predictor)
+    p1 <- ggplot(d1, aes(x = x)) +
         geom_dotplot(binwidth = 1, fill = 'blue') +
         xlab(nam[1]) + ggtitle(paste('Dot Plot of', nam[1]))
 
 
 
-    d2 <- tibble(x = xval, y = predictor) %>%
-        ggplot(., aes(x = x, y = y)) +
+    d2 <- tibble(x = xval, y = predictor)
+    p2 <- ggplot(d2, aes(x = x, y = y)) +
         geom_point(color = 'blue') +
         geom_line(color = 'blue') +
         xlab('Observation') + ylab(nam[1]) +
         ggtitle(paste('Trend Plot of', nam[1]))
 
 
-    d3 <- tibble(x = predictor) %>%
-        ggplot(., aes(x = x)) +
+    d3 <- tibble(x = predictor)
+    p3 <- ggplot(d3, aes(x = x)) +
         geom_histogram(bins = 5, color = 'black', fill = 'blue') +
         xlab(nam[1]) + ggtitle(paste('Histogram of', nam[1]))
 
 
-    d4 <- tibble(x = predictor) %>%
-        ggplot(., aes(x = factor(0), y = x)) +
+    d4 <- tibble(x = predictor)
+    p4 <- ggplot(d4, aes(x = factor(0), y = x)) +
         geom_boxplot(fill = 'blue') +
         xlab('') + ylab(nam[1]) +
         ggtitle(paste('Boxplot of', nam[1])) +

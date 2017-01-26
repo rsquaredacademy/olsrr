@@ -19,7 +19,7 @@ corr_test <- function(model) {
       stop('Please specify a OLS linear regression model.', call. = FALSE)
     }
 
-    return(corout(model))
+    return(corrout(model))
 
 }
 
@@ -59,7 +59,7 @@ norm_test.default <- function(y, ...) {
 
 	ks  <- ks.test(y, "pnorm", mean(y), sd(y))
 	sw  <- shapiro.test(y)
-	cvm <- cvm.test(y, "pnorm", mean(y), sd(y))
+	cvm <- cvm.test(y)
 	ad  <- ad.test(y)
 
 	result <- list(kolmogorv = ks,

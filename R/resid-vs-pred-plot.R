@@ -9,6 +9,9 @@ rvsp_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
+	predicted <- NULL
+	resid <- NULL
+
   d <- rvspdata(model)
 	p <- ggplot(d, aes(x = predicted, y = resid))
 	p <- p + geom_point(shape = 1, colour = 'blue')
