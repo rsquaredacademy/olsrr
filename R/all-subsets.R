@@ -156,138 +156,139 @@ print.all_subset <- function(x, ...) {
 #'
 plot.all_subset <- function(x, ...) {
 
-    maxs  <- tapply(x$rsquare, x$n, max)
-    lmaxs <- seq_len(length(maxs))
-    index <- c()
+  maxs  <- tapply(x$rsquare, x$n, max)
+  lmaxs <- seq_len(length(maxs))
+  index <- c()
 
-    suppressWarnings(
-        for (i in lmaxs) {
-            index[i] <- which(x$rsquare == maxs[i])
-        }
-    )
-
-    maxs1  <- tapply(x$adjr, x$n, max)
-    lmaxs1 <- seq_len(length(maxs1))
-    index1 <- c()
-
-    suppressWarnings(
-        for (i in lmaxs1) {
-            index1[i] <- which(x$adjr == maxs1[i])
-        }
-    )
-
-    cps   <- abs(x$n - x$cp)
-    mcps  <- tapply(cps, x$n, min)
-    lmcps <- seq_len(length(mcps))
-    imcps <- c()
-
-    for (i in lmcps) {
-        imcps[i] <- which(cps == mcps[i])
+  suppressWarnings(
+    for (i in lmaxs) {
+        index[i] <- which(x$rsquare == maxs[i])
     }
+  )
 
-    maxs2  <- tapply(x$aic, x$n, min)
-    lmaxs2 <- seq_len(length(maxs2))
-    index2 <- c()
+  maxs1  <- tapply(x$adjr, x$n, max)
+  lmaxs1 <- seq_len(length(maxs1))
+  index1 <- c()
 
-    for (i in lmaxs2) {
-        index2[i] <- which(x$aic == maxs2[i])
+  suppressWarnings(
+    for (i in lmaxs1) {
+        index1[i] <- which(x$adjr == maxs1[i])
     }
+  )
 
-    maxs3  <- tapply(x$sbic, x$n, min)
-    lmaxs3 <- seq_len(length(maxs3))
-    index3 <- c()
+  cps   <- abs(x$n - x$cp)
+  mcps  <- tapply(cps, x$n, min)
+  lmcps <- seq_len(length(mcps))
+  imcps <- c()
 
-    for (i in lmaxs3) {
-        index3[i] <- which(x$sbic == maxs3[i])
-    }
+  for (i in lmcps) {
+    imcps[i] <- which(cps == mcps[i])
+  }
 
-    maxs4  <- tapply(x$sbc, x$n, min)
-    lmaxs4 <- seq_len(length(maxs4))
-    index4 <- c()
+  maxs2  <- tapply(x$aic, x$n, min)
+  lmaxs2 <- seq_len(length(maxs2))
+  index2 <- c()
 
-    for (i in lmaxs4) {
-        index4[i] <- which(x$sbc == maxs4[i])
-    }
+  for (i in lmaxs2) {
+    index2[i] <- which(x$aic == maxs2[i])
+  }
 
-    shape <- NULL
-    size <- NULL
-    tx <- NULL
-    y <- NULL
-    k <- NULL
+  maxs3  <- tapply(x$sbic, x$n, min)
+  lmaxs3 <- seq_len(length(maxs3))
+  index3 <- c()
 
-    d1 <- data.frame(x = x$n, y = x$rsquare)
-    d2 <- data.frame(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
-    p1 <- ggplot(d1, aes(x = x, y = y)) +
-      geom_point(color = 'blue', size = 2) +
-      xlab('') + ylab('') + ggtitle('R-Square') +
-      geom_point(data = d2, aes(x = x, y = y, shape = factor(shape),
-        color = factor(shape), size = factor(size))) +
-      scale_shape_manual(values = c(2), guide = FALSE) +
-      scale_size_manual(values = c(4), guide = FALSE) +
-      scale_color_manual(values = c('red'), guide = FALSE) +
-      geom_text(data = d2, aes(label = tx), hjust = 0, nudge_x = 0.1)
+  for (i in lmaxs3) {
+    index3[i] <- which(x$sbic == maxs3[i])
+  }
 
-    d3 <- data.frame(x = k$n, y = k$adjr)
-    d4 <- data.frame(x = lmaxs1, y = maxs1, tx = index1, shape = 6, size = 4)
-    p2 <- ggplot(d3, aes(x = x, y = y)) +
-      geom_point(color = 'blue', size = 2) +
-      xlab('') + ylab('') + ggtitle('Adj R-Square') +
-      geom_point(data = d4, aes(x = x, y = y, shape = factor(shape),
-        color = factor(shape), size = factor(size))) +
-      scale_shape_manual(values = c(2), guide = FALSE) +
-      scale_size_manual(values = c(4), guide = FALSE) +
-      scale_color_manual(values = c('red'), guide = FALSE) +
-      geom_text(data = d4, aes(label = tx), hjust = 0, nudge_x = 0.1)
+  maxs4  <- tapply(x$sbc, x$n, min)
+  lmaxs4 <- seq_len(length(maxs4))
+  index4 <- c()
 
-    d5 <- data.frame(x = k$n, y = k$cp)
-    d6 <- data.frame(x = lmcps, y = x$cp[imcps], tx = imcps,  shape = 6, size = 4)
-    p3 <- ggplot(d5, aes(x = x, y = y)) +
-      geom_point(color = 'blue', size = 2) +
-      xlab('') + ylab('') + ggtitle('C(p)') +
-      geom_point(data = d6, aes(x = x, y = y, shape = factor(shape),
-        color = factor(shape), size = factor(size))) +
-      scale_shape_manual(values = c(2), guide = FALSE) +
-      scale_size_manual(values = c(4), guide = FALSE) +
-      scale_color_manual(values = c('red'), guide = FALSE) +
-      geom_text(data = d6, aes(label = tx), hjust = 0, nudge_x = 0.1)
+  for (i in lmaxs4) {
+    index4[i] <- which(x$sbc == maxs4[i])
+  }
 
-    d7 <- data.frame(x = k$n, y = k$aic)
-    d8 <- data.frame(x = lmaxs2, y = maxs2, tx = index2, shape = 6, size = 4)
-    p4 <- ggplot(d7, aes(x = x, y = y)) +
-      geom_point(color = 'blue', size = 2) +
-      xlab('') + ylab('') + ggtitle('AIC') +
-      geom_point(data = d8, aes(x = x, y = y, shape = factor(shape),
-        color = factor(shape), size = factor(size))) +
-      scale_shape_manual(values = c(2), guide = FALSE) +
-      scale_size_manual(values = c(4), guide = FALSE) +
-      scale_color_manual(values = c('red'), guide = FALSE) +
-      geom_text(data = d8, aes(label = tx), hjust = 0, nudge_x = 0.1)
+  shape <- NULL
+  size <- NULL
+  tx <- NULL
+  y <- NULL
+  k <- NULL
 
-    d9 <- data.frame(x = k$n, y = k$sbic)
-    d10 <- data.frame(x = lmaxs3, y = maxs3, tx = index3, shape = 6, size = 4)
-    p5 <- ggplot(d9, aes(x = x, y = y)) +
-      geom_point(color = 'blue', size = 2) +
-      xlab('Number of Predictors') + ylab('') + ggtitle('SBIC') +
-      geom_point(data = d10, aes(x = x, y = y, shape = factor(shape),
-        color = factor(shape), size = factor(size))) +
-      scale_shape_manual(values = c(2), guide = FALSE) +
-      scale_size_manual(values = c(4), guide = FALSE) +
-      scale_color_manual(values = c('red'), guide = FALSE) +
-      geom_text(data = d10, aes(label = tx), hjust = 0, nudge_x = 0.1)
+  d1 <- data.frame(x = x$n, y = x$rsquare)
+  d2 <- data.frame(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
+  p1 <- ggplot(d1, aes(x = x, y = y)) +
+    geom_point(color = 'blue', size = 2) +
+    xlab('') + ylab('') + ggtitle('R-Square') +
+    geom_point(data = d2, aes(x = x, y = y, shape = factor(shape),
+                              color = factor(shape), size = factor(size))) +
+    scale_shape_manual(values = c(2), guide = FALSE) +
+    scale_size_manual(values = c(4), guide = FALSE) +
+    scale_color_manual(values = c('red'), guide = FALSE) +
+    geom_text(data = d2, aes(label = tx), hjust = 0, nudge_x = 0.1)
 
-    d11 <- data.frame(x = k$n, y = k$sbc)
-    d12 <- data.frame(x = lmaxs4, y = maxs4, tx = index4, shape = 6, size = 4)
-    p6 <- ggplot(d11, aes(x = x, y = y)) +
-      geom_point(color = 'blue', size = 2) +
-      xlab('Number of Predictors') + ylab('') + ggtitle('SBC') +
-      geom_point(data = d12, aes(x = x, y = y, shape = factor(shape),
-        color = factor(shape), size = factor(size))) +
-      scale_shape_manual(values = c(2), guide = FALSE) +
-      scale_size_manual(values = c(4), guide = FALSE) +
-      scale_color_manual(values = c('red'), guide = FALSE) +
-      geom_text(data = d12, aes(label = tx), hjust = 0, nudge_x = 0.1)
+  d3 <- data.frame(x = x$n, y = x$adjr)
+  d4 <- data.frame(x = lmaxs1, y = maxs1, tx = index1, shape = 6, size = 4)
+  p2 <- ggplot(d3, aes(x = x, y = y)) +
+    geom_point(color = 'blue', size = 2) +
+    xlab('') + ylab('') + ggtitle('Adj R-Square') +
+    geom_point(data = d4, aes(x = x, y = y, shape = factor(shape),
+                              color = factor(shape), size = factor(size))) +
+    scale_shape_manual(values = c(2), guide = FALSE) +
+    scale_size_manual(values = c(4), guide = FALSE) +
+    scale_color_manual(values = c('red'), guide = FALSE) +
+    geom_text(data = d4, aes(label = tx), hjust = 0, nudge_x = 0.1)
 
-    grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = 'All Subset Regression')
+  d5 <- data.frame(x = x$n, y = x$cp)
+  d6 <- data.frame(x = lmcps, y = x$cp[imcps], tx = imcps,  shape = 6, size = 4)
+  p3 <- ggplot(d5, aes(x = x, y = y)) +
+    geom_point(color = 'blue', size = 2) +
+    xlab('') + ylab('') + ggtitle('C(p)') +
+    geom_point(data = d6, aes(x = x, y = y, shape = factor(shape),
+                              color = factor(shape), size = factor(size))) +
+    scale_shape_manual(values = c(2), guide = FALSE) +
+    scale_size_manual(values = c(4), guide = FALSE) +
+    scale_color_manual(values = c('red'), guide = FALSE) +
+    geom_text(data = d6, aes(label = tx), hjust = 0, nudge_x = 0.1)
+
+  d7 <- data.frame(x = x$n, y = x$aic)
+  d8 <- data.frame(x = lmaxs2, y = maxs2, tx = index2, shape = 6, size = 4)
+  p4 <- ggplot(d7, aes(x = x, y = y)) +
+    geom_point(color = 'blue', size = 2) +
+    xlab('') + ylab('') + ggtitle('AIC') +
+    geom_point(data = d8, aes(x = x, y = y, shape = factor(shape),
+                              color = factor(shape), size = factor(size))) +
+    scale_shape_manual(values = c(2), guide = FALSE) +
+    scale_size_manual(values = c(4), guide = FALSE) +
+    scale_color_manual(values = c('red'), guide = FALSE) +
+    geom_text(data = d8, aes(label = tx), hjust = 0, nudge_x = 0.1)
+
+  d9 <- data.frame(x = x$n, y = x$sbic)
+  d10 <- data.frame(x = lmaxs3, y = maxs3, tx = index3, shape = 6, size = 4)
+  p5 <- ggplot(d9, aes(x = x, y = y)) +
+    geom_point(color = 'blue', size = 2) +
+    xlab('Number of Predictors') + ylab('') + ggtitle('SBIC') +
+    geom_point(data = d10, aes(x = x, y = y, shape = factor(shape),
+                               color = factor(shape), size = factor(size))) +
+    scale_shape_manual(values = c(2), guide = FALSE) +
+    scale_size_manual(values = c(4), guide = FALSE) +
+    scale_color_manual(values = c('red'), guide = FALSE) +
+    geom_text(data = d10, aes(label = tx), hjust = 0, nudge_x = 0.1)
+
+  d11 <- data.frame(x = x$n, y = x$sbc)
+  d12 <- data.frame(x = lmaxs4, y = maxs4, tx = index4, shape = 6, size = 4)
+  p6 <- ggplot(d11, aes(x = x, y = y)) +
+    geom_point(color = 'blue', size = 2) +
+    xlab('Number of Predictors') + ylab('') + ggtitle('SBC') +
+    geom_point(data = d12, aes(x = x, y = y, shape = factor(shape),
+                               color = factor(shape), size = factor(size))) +
+    scale_shape_manual(values = c(2), guide = FALSE) +
+    scale_size_manual(values = c(4), guide = FALSE) +
+    scale_color_manual(values = c('red'), guide = FALSE) +
+    geom_text(data = d12, aes(label = tx), hjust = 0, nudge_x = 0.1)
+
+  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = 'All Subset Regression')
+
 
 }
 
