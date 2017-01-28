@@ -34,7 +34,7 @@ stepaic_backward.default <- function(model, details = FALSE, ...) {
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    l        <- model.frame(model)
+    l        <- mod_sel_data(model)
     nam      <- names(l)
     response <- nam[1]
     preds    <- nam[-1]
@@ -218,7 +218,7 @@ plot.stepaic_backward <- function(x, ...) {
              a <- NULL
              b <- NULL
             tx <- NULL
-            
+
     d2 <- tibble(x = xloc, y = yloc, tx = predictors)
     d <- tibble(a = y, b = x$aics)
     p <- ggplot(d, aes(x = a, y = b)) +

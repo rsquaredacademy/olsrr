@@ -1,4 +1,4 @@
-#' @importFrom stats qt 
+#' @importFrom stats qt
 #' @title Stepwise Forward Regression
 #' @description Stepwise Forward Regression
 #' @param model an object of class \code{lm}
@@ -42,7 +42,7 @@ step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) {
     }
 
     message("We are selecting variables based on p value...")
-    l        <- model.frame(model)
+    l        <- mod_sel_data(model)
     df       <- nrow(l) - 2
     tenter   <- qt(1 - (penter) / 2, df)
     n        <- ncol(l)

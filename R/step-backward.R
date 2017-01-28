@@ -41,22 +41,22 @@ step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
     }
 
     message("We are eliminating variables based on p value...")
-	l        <- model.frame(model)
+	l        <- mod_sel_data(model)
 	nam      <- names(l)
 	response <- nam[1]
 	preds    <- nam[-1]
-    cterms   <- preds
+  cterms   <- preds
 	ilp      <- length(preds)
 	end      <- FALSE
 	step     <- 0
 	rpred    <- c()
 	rsq      <- c()
-    adjrsq   <- c()
-    aic      <- c()
-    sbic     <- c()
-    sbc      <- c()
-    cp       <- c()
-    rmse     <- c()
+  adjrsq   <- c()
+  aic      <- c()
+  sbic     <- c()
+  sbc      <- c()
+  cp       <- c()
+  rmse     <- c()
 
 	while (!end) {
 

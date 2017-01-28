@@ -47,7 +47,7 @@ stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE, ...
     }
 
     message("We are selecting variables based on p value...")
-    l        <- model.frame(model)
+    l        <- mod_sel_data(model)
     df       <- nrow(l) - 2
     tenter   <- qt(1 - (pent) / 2, df)
     trem     <- qt(1 - (prem) / 2, df)

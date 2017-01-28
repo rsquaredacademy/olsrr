@@ -58,7 +58,7 @@ all_subset.default <- function(model, ...) {
     len_preds <- length(predicts)
     gap       <- len_preds - 1
     space     <- sum(nchar(predicts)) + gap
-    data      <- model.frame(model)
+    data      <- mod_sel_data(model)
     colas     <- combs %>% map_int(ncol)
     # colas     <- c()
     # for(i in seq_len(lc)) {
