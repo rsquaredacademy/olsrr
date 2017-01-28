@@ -772,3 +772,14 @@ rstudlev <- function(model) {
     miny = miny, maxx = maxx, maxy = maxy)
   return(result)
 }
+
+# model selection data
+mod_sel_data <- function(model) {
+    mf <- model.frame(model)
+    nf <- mf[[1]]
+    nam <- names(mf)
+    mtrix <- model.matrix(model)[, -1]
+    d <- as.data.frame(cbind(nf, mtrix))
+    colnames(d)[1] <- nam[1]
+    return(d)
+}

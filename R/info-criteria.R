@@ -148,7 +148,7 @@ sbic <- function(model, full_model) {
 
 	n <- model %>% model.frame() %>% nrow()
 	p <- model %>% coefficients() %>% length()
-	r <- full_model %>% coefficients() %>% length()
+	r <- full_model %>% model.frame() %>% length()
 	q <- n * (q1(full_model, r) / q2(model, p))
 	result <- sbicout(model, n, p, q)
 
@@ -188,7 +188,7 @@ mallow_cp <- function(model, fullmodel) {
 
 		n <- model %>% model.frame() %>% nrow()
 		p <- model %>% coefficients() %>% length()
-		q <- fullmodel %>% coefficients() %>% length()
+		q <- fullmodel %>% model.frame() %>% length()
 	mcp <- mcpout(model, fullmodel, n, p, q)
 	return(mcp)
 

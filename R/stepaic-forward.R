@@ -34,7 +34,7 @@ stepaic_forward.default <- function(model, details = FALSE, ...) {
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    l        <- model.frame(model)
+    l        <- mod_sel_data(model)
     nam      <- names(l)
     response <- nam[1]
     all_pred <- nam[-1]

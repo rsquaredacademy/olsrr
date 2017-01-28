@@ -14,7 +14,7 @@ stepaic_both.default <- function(model, details = FALSE) {
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    l          <- model.frame(model)
+    l          <- mod_sel_data(model)
     nam        <- names(l)
     response   <- nam[1]
     predictors <- nam[-1]
@@ -187,7 +187,7 @@ plot.stepaic_both <- function(x, ...) {
     predictors <- x$predictors
              a <- NULL
              b <- NULL
-            tx <- NULL 
+            tx <- NULL
 
     d2 <- tibble(x = xloc, y = yloc, tx = predictors)
     d <- tibble(a = y, b = x$aic)
