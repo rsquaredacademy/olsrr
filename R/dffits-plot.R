@@ -31,7 +31,7 @@ dffits_plot <- function(model) {
 		xlab('Observation') + ylab('DFFITS') +
 		ggtitle(paste("Influence Diagnostics for", names(model.frame(model))[1]))
 
-	print(d)
+	print(p)
 }
 
 

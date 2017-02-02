@@ -18,7 +18,7 @@ hadi_plot <- function(model) {
         xlab('Observation') + ylab("Hadi's Measure") +
         ggtitle("Hadi's Influence Measure")
 
-    print(d)
+    print(p)
 }
 
 # hadi_plot <- function(model) {

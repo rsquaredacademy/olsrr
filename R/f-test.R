@@ -25,6 +25,8 @@
 #'
 f_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) UseMethod('f_test')
 
+#' @export
+#'
 f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
 
     if (!all(class(model) == 'lm')) {

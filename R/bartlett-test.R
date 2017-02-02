@@ -32,8 +32,12 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
 	var_c <- deparse(substitute(variable))
 	suppressWarnings(
 		if (is.na(group_var)) {
-			dots  <- substitute(list(...))[-1]
-	    var_c <- c(var_c, sapply(dots, deparse))
+			if (is.data.frame(variable)) {
+				var_c <- names(variable)
+			} else {
+				dots  <- substitute(list(...))[-1]
+		    var_c <- c(var_c, sapply(dots, deparse))
+			}
 	  	g_var <- NA
 		} else {
 			g_var <- deparse(substitute(group_var))
@@ -45,7 +49,11 @@ bartlett_test.default <- function(variable, ..., group_var = NA) {
   suppressWarnings(
     if (is.na(group_var)) {
 
-    	 z <- list(variable, ...)
+			if(is.data.frame(variable)) {
+				z <- as.list(variable)
+			} else {
+				z <- list(variable, ...)
+			}
 			ln <- z %>% map_int(length)
 			ly <- seq_len(length(z))
 
