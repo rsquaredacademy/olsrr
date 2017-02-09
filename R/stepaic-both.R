@@ -1,5 +1,25 @@
+#' @title Stepwise AIC Regression
+#' @description Stepwise AIC Regression
+#' @param model an object of class \code{lm}
+#' @param details logical; if TRUE details of variable selection will be printed on screen
+#' @return \code{stepaic_both} returns an object of class \code{"stepaic_both"}.
+#' An object of class \code{"stepaic_both"} is a list containing the
+#' following components:
+#'
+#' \item{predictors}{variables retained in the model}
+#' \item{method}{addition/deletion}
+#' \item{aics}{akaike information criteria}
+#' \item{ess}{error sum of squares}
+#' \item{rss}{regression sum of squares}
+#' \item{rsq}{rsquare}
+#' \item{arsq}{adjusted rsquare}
+#' \item{steps}{total number of steps}
+#' @export
+#'
 stepaic_both <- function(model, details = FALSE) UseMethod('stepaic_both')
 
+#' @export
+#'
 stepaic_both.default <- function(model, details = FALSE) {
 
     if (!all(class(model) == 'lm')) {
@@ -168,13 +188,16 @@ stepaic_both.default <- function(model, details = FALSE) {
 
 }
 
-print.stepaic_both <- function(data) {
+#' @export
+#'
+print.stepaic_both <- function(x, ...) {
 
-    print_stepaic_both(data)
+    print_stepaic_both(x)
 
 }
 
-
+#' @export
+#'
 plot.stepaic_both <- function(x, ...) {
 
              y <- seq_len(length(x$aic))

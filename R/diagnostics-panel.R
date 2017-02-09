@@ -19,7 +19,7 @@ diag_panel <- function(model) {
     Observation <- NULL
 
     d1 <- rvspdata(model)
-    p1 <- ggplot(d, aes(x = predicted, y = resid)) +
+    p1 <- ggplot(d1, aes(x = predicted, y = resid)) +
       geom_point(shape = 1, colour = 'blue') +
   	  xlab('Predicted Value') + ylab('Residual') +
   	  ggtitle('Residual vs Predicted Values') +

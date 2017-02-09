@@ -82,6 +82,8 @@ pure_error_anova.default <- function(model, ...) {
 
 }
 
+#' @export
+#'
 print.pure_error_anova <- function(x, ...) {
 	print_pure_error_anova(x)
 }

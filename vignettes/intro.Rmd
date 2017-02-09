@@ -1,0 +1,360 @@
+---
+title: "Introduction to olsrr"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to olsrr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+When building a regression model, you must:
+
+- Obtain adequate sample data
+- Perform exploratory data analysis
+- Select a initial set of variables
+- Build and recalibrate the model
+- Validate model assumptions
+- and finally validate the model on a different sample
+
+The olsrr package makes some of the above steps easy by:
+
+- generating comprehensive regression output
+- demonstrating multiple model selection methods
+- providing multiple residual diagnostics
+- validating various model assumptions
+
+```{r, echo=FALSE, message=FALSE}
+library(olsrr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(purrr)
+library(tibble)
+library(nortest)
+library(goftest)
+```
+
+## Regression
+
+```{r regress}
+regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
+```
+
+## Regression Diagnostics
+
+### Residual Diagnostics
+
+#### Residual QQ Plot
+
+```{r qqresid, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+qqresid(model)
+```
+
+#### Residual Histogram
+
+```{r residhist, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+hist_resid(model)
+```
+
+#### Residual Normality Test
+
+```{r normtest}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+norm_test(model)
+```
+
+#### Residual vs Regressor Plots
+
+```{r rvsrplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+rvsr_plot(model)
+```
+
+#### Residual vs Fitted Values Plot
+
+```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+rvsp_plot(model)
+```
+
+### Measure of Influence
+
+#### Cook's D Bar Plot
+
+```{r ckdbp, fig.width=7, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+cooksd_bplot(model)
+```
+
+#### Cook's D Chart
+
+```{r ckchart, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+cooksd_chart(model)
+```
+
+#### DFBETAS Panel
+
+```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+dfbetas_panel(model)
+```
+
+#### DFFITS Plot
+
+```{r dfitsplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+dffits_plot(model)
+```
+
+#### Studentized Residual Plot
+
+```{r srplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+srplot(model)
+```
+
+#### Studentized Residual Chart
+
+```{r srchart, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+studres_chart(model)
+```
+
+#### Studentized Residuals vs Leverage Plot
+
+```{r studlev, fig.width=7, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+studvslev_plot(model)
+```
+
+#### Deleted Studentized Residual vs Predicted Plot
+
+```{r dsrvsp, fig.width=7, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+dsrvsp_plot(model)
+```
+
+#### Hadi Plot
+
+```{r hadiplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+hadi_plot(model)
+```
+
+#### Potential Residual Plot
+
+```{r potres, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+poten_resid_plot(model)
+```
+
+### Model Fit Assessment
+
+#### Residual Fit Spread Plot
+
+```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+rfs_plot(model)
+```
+
+#### Part & Partial Correlations
+
+```{r partcor}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+correlations(model)
+```
+
+#### Observed vs Predicted Plot
+
+```{r obspred, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ovsp_plot(model)
+```
+
+#### Lack of Fit F Test
+
+```{r lackfit}
+model <- lm(mpg ~ disp, data = mtcars)
+pure_error_anova(model)
+```
+
+### Diagnostics Panel
+
+```{r diagpanel}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+diag_panel(model)
+```
+
+
+### Variable Contributions
+
+#### Added Variable Plot
+
+```{r avplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+addvar_plot(model)
+```
+
+#### Residual Plus Component Plot
+
+```{r cplusr, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+cplusr_plot(model)
+```
+
+### Heteroskedasticity
+
+#### Bartlett Test
+
+```{r bartlett}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+bartlett_test(model)
+```
+
+#### Breusch Pagan Test
+
+```{r bpagan}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+bp_test(model)
+```
+
+#### Score Test
+
+```{r score}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+score_test(model)
+```
+
+#### F Test
+
+```{r ftest}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+f_test(model)
+```
+
+### Collinearity Diagnostics
+
+#### VIF & Tolerance
+
+```{r viftol}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+vif_tol(model)
+```
+
+#### Condition Index
+
+```{r cindex}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+eigen_cindex(model)
+```
+
+#### Collinearity Diagnostics
+
+```{r colldiag}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+coll_diag(model)
+```
+
+### Variable Selection Procedures
+
+#### All Subset Regression
+
+```{r allsub}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+all_subset(model)
+```
+
+```{r allsubplot, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- all_subset(model)
+plot(k)
+```
+
+#### Best Subset Regression
+
+```{r bestsub, size='tiny'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+best_subset(model)
+```
+
+```{r bestsubplot, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- best_subset(model)
+plot(k)
+```
+
+#### Stepwise Forward Regression
+
+```{r stepf, fig.width=10, fig.height=15, fig.align='center'}
+# stepwise forward regression
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- step_forward(model)
+k
+
+# plot
+plot(k)
+```
+
+#### Stepwise Backward Regression
+
+```{r stepb, fig.width=10, fig.height=15, fig.align='center'}
+# stepwise backward regression
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- step_backward(model)
+k
+
+# plot
+plot(k)
+```
+
+#### Stepwise Regression
+
+```{r stepwise, fig.width=10, fig.height=15, fig.align='center'}
+# stepwise regression
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- stepwise(model)
+k
+
+# plot
+plot(k)
+```
+
+#### Stepwise AIC Forward Regression
+
+```{r stepaicf, fig.width=5, fig.height=5, fig.align='center'}
+# stepwise aic forward regression
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- stepaic_forward(model)
+k
+
+# plot
+plot(k)
+```
+
+#### Stepwise AIC Backward Regression
+
+```{r stepaicb, fig.width=5, fig.height=5, fig.align='center'}
+# stepwise aic backward regression
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- stepaic_backward(model)
+k
+
+# plot
+plot(k)
+```
+
+#### Stepwise AIC Regression
+
+```{r stepwiseaic, fig.width=5, fig.height=5, fig.align='center'}
+# stepwise aic backward regression
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- stepaic_both(model)
+k
+
+# plot
+plot(k)
+```
