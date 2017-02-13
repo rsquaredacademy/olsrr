@@ -13,15 +13,11 @@ pred_rsq(model)
 Predicted Rsquare
 }
 \description{
-Predicted Rsquare
+Use predicted rsquared to determine how well the model predicts responses for new observations. 
+Larger values of predicted R2 indicate models of greater predictive ability.
 }
-\details{
-Some statistical tests, for example the analysis of variance, assume
-that variances are equal across groups or samples. The Bartlett test can be
-used to verify that assumption. Bartlett's test is sensitive to departures
-from normality. That is, if your samples come from non-normal distributions,
-then Bartlett's test may simply be testing for non-normality. The Levene test
-is an alternative to the Bartlett test that is less sensitive to departures
-from normality.
+\examples{
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+pred_rsq(model)
 }
 

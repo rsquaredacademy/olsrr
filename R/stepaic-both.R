@@ -1,5 +1,6 @@
 #' @title Stepwise AIC Regression
-#' @description Stepwise AIC Regression
+#' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+#' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
 #' @param model an object of class \code{lm}
 #' @param details logical; if TRUE details of variable selection will be printed on screen
 #' @return \code{stepaic_both} returns an object of class \code{"stepaic_both"}.
@@ -14,6 +15,16 @@
 #' \item{rsq}{rsquare}
 #' \item{arsq}{adjusted rsquare}
 #' \item{steps}{total number of steps}
+#' @examples
+#' stepwise regression
+#' model <- lm(y ~ ., data = surgical)
+#' stepaic_both(model)
+#'
+#' stepwise regression plot
+#' model <- lm(y ~ ., data = surgical)
+#' k <- stepaic_both(model)
+#' plot(k)
+#'
 #' @export
 #'
 stepaic_both <- function(model, details = FALSE) UseMethod('stepaic_both')

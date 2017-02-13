@@ -3,13 +3,6 @@
 #' @param object an object of class "formula" (or one that can be coerced to
 #' that class): a symbolic description of the model to be fitted.
 #' @param ... other inputs
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return \code{regress} returns an object of class \code{"regress"}. An object
 #' of class \code{"regress"} is a list containing the following
 #' components:
@@ -48,6 +41,8 @@
 #' \item{predictors}{p-value of \code{fstat}}
 #' \item{mvars}{degrees of freedom}
 #' \item{model}{name(s) of \code{variable}}
+#' @examples
+#' regress(mpg ~ disp + hp + wt, data = mtcars)
 #' @export
 #'
 regress <- function(object, ...) UseMethod('regress')

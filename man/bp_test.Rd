@@ -39,6 +39,38 @@ following components:
 \item{preds}{predictors}
 }
 \description{
-Test for heteroskedasticity
+Test for constant variance. It assumes that the error terms are normally distributed.
+}
+\examples{
+# Use fitted values of the model
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+bp_test(model)
+
+# Use independent variables of the model
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+bp_test(model, rhs = TRUE)
+
+# Use independent variables of the model and perform multiple tests
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+bp_test(model, rhs = TRUE, multiple = TRUE)
+
+# Bonferroni p value Adjustment
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
+
+# Sidak p value Adjustment
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
+
+# Holm's p value Adjustment
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
+
+}
+\references{
+T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and 
+Random Coefficient Variation. Econometrica 47, 1287–1294
+
+Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 }
 

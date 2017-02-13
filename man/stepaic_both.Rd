@@ -26,6 +26,18 @@ following components:
 \item{steps}{total number of steps}
 }
 \description{
-Stepwise AIC Regression
+Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
+}
+\examples{
+stepwise regression
+model <- lm(y ~ ., data = surgical)
+stepaic_both(model)
+
+stepwise regression plot
+model <- lm(y ~ ., data = surgical)
+k <- stepaic_both(model)
+plot(k)
+
 }
 

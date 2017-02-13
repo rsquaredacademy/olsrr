@@ -2,7 +2,8 @@
 #' @importFrom utils combn
 #' @importFrom purrr map_int
 #' @title All Subsets Regression
-#' @description Performs all subset regression for a linear regression model.
+#' @description Fits all regressions involving one regressor, two regressors, three regressors, and so on.
+#' It tests all possible subsets of the set of potential independent variables.
 #' @param model an object of class \code{lm}
 #' @param ... other arguments
 #' @return \code{all_subset} returns an object of class \code{"all_subset"}.
@@ -23,6 +24,8 @@
 #' \item{pc}{Amemiya Prediction Criteria}
 #' \item{sp}{Hocking's Sp}
 #'
+#' @references Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition). 
+#' Prentice Hall
 #' @examples
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
 #' all_subset(model)

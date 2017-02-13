@@ -1,16 +1,12 @@
 #' @importFrom stats qnorm
-#' @title Correlation Test
-#' @description Correlation Test
+#' @title Correlation Test For Normality
+#' @description Correlation between observed residuals and expected residuals under normality.
 #' @param model an object of class \code{lm}
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return correlation between fitted regression model residuals and expected
 #' values of residuals
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' corr_test(model)
 #' @export
 #'
 corr_test <- function(model) {
@@ -26,17 +22,10 @@ corr_test <- function(model) {
 #' @importFrom stats ks.test shapiro.test
 #' @importFrom goftest cvm.test
 #' @importFrom nortest ad.test
-#' @title Normality Test
-#' @description Normality Test
+#' @title Test for normality
+#' @description Test for detecting violation of normality assumption.
 #' @param y a numeric vector
 #' @param ... other arguments
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return \code{norm_test} returns an object of class \code{"norm_test"}.
 #' An object of class \code{"norm_test"} is a list containing the
 #' following components:
@@ -45,6 +34,9 @@ corr_test <- function(model) {
 #' \item{shapiro}{shapiro wilk statistic}
 #' \item{cramer}{cramer von mises statistic}
 #' \item{anderson}{anderson darling statistic}
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' norm_test(model)
 #' @export
 #'
 norm_test <- function(y, ...) UseMethod('norm_test')

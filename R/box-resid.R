@@ -1,7 +1,7 @@
 #' @importFrom stats residuals
 #' @importFrom ggplot2 geom_boxplot theme element_blank
 #' @title Residual Box Plot
-#' @description Box plot of residuals from a linear regression model
+#' @description Box plot of residuals to detect violation of homoscedasticity assumption.
 #' @param model an object of class \code{lm}
 #' @export
 #'

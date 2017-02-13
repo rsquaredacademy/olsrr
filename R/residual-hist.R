@@ -1,19 +1,11 @@
 #' @importFrom stats dnorm sd
 #' @importFrom graphics hist
 #' @title Residual Histogram
-#' @description Residual Histogram
+#' @description Histogram of residuals for detecting violation of normality assumption.
 #' @param model an object of class \code{lm}
-#' @return \code{hist_resid} returns a list containing the
-#' following components:
-#'
-#' \item{residuals}{f cook's d statistic}
-#' \item{breaks}{f cook's d statistic}
-#' \item{counts}{threshold for outliers}
-#' \item{density}{f cook's d statistic}
-#' \item{mids}{threshold for outliers}
-#' \item{xname}{f cook's d statistic}
-#' \item{equidist}{f cook's d statistic}
-#' \item{norm}{f cook's d statistic}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' hist_resid(model)
 #' @export
 #'
 hist_resid <- function(model) {

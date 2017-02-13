@@ -25,6 +25,18 @@ following components:
 \item{arsq}{predictors}
 }
 \description{
-Stepwise AIC Backward Regression
+Build regression model from a set of candidate predictor variables by removing predictors based on 
+Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
+}
+\examples{
+stepwise backward regression
+model <- lm(y ~ ., data = surgical)
+stepaic_backward(model)
+
+stepwise backward regression plot
+model <- lm(y ~ ., data = surgical)
+k <- stepaic_backward(model)
+plot(k)
+
 }
 

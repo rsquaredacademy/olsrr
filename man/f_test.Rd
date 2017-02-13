@@ -2,7 +2,8 @@
 % Please edit documentation in R/f-test.R
 \name{f_test}
 \alias{f_test}
-\title{f Test for heteroskedasticity}
+\title{F Test for heteroskedasticity under the assumption that
+the errors are independent and identically distributed (i.i.d.).}
 \usage{
 f_test(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...)
 }
@@ -35,6 +36,22 @@ following components:
 \item{preds}{predictors}
 }
 \description{
-Test for heteroskedasticity
+Test for constant variance
+}
+\examples{
+# using fitted values
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+f_test(model)
+
+# using all predictors of the model
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+f_test(model, rhs = TRUE)
+
+# using fitted values
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+f_test(model, vars = c('disp', 'hp'))
+}
+\references{
+Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
 }
 

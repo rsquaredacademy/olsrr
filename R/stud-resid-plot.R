@@ -1,14 +1,10 @@
 #' @importFrom ggplot2 scale_fill_manual
 #' @title Studentized Residual Plot
-#' @description Studentized Residual Plot
+#' @description Graph for identifying outliers
 #' @param model an object of class \code{lm}
-#' @return \code{srplot} returns a list containing the
-#' following components:
-#'
-#' \item{dstudresid}{f cook's d statistic}
-#' \item{threshold}{threshold for outliers}
-#' \item{normal}{threshold for outliers}
-#' \item{outlier}{f cook's d statistic}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' srplot(model)
 #' @export
 #'
 srplot <- function(model) {

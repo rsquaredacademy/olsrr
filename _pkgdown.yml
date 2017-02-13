@@ -24,6 +24,7 @@ reference:
   - stepwise
   - stepaic_backward
   - stepaic_forward
+  - stepaic_both
 
 - title: Pre/Post Estimation Tests
 
@@ -65,6 +66,7 @@ reference:
   - cooksd_bplot
   - cooksd_chart
   - dfbetas_panel
+  - dffits_plot
   - diag_panel
   - dsrvsp_plot
   - hadi_plot
@@ -72,6 +74,8 @@ reference:
   - poten_resid_plot
   - pred_diag
   - rfs_plot
+  - fm_plot
+  - rsd_plot
   - rvsp_plot
   - rvsr_plot
   - resid_boxplot
@@ -93,7 +97,4 @@ reference:
     olsrr comes with a built-in datasets which are used to
     illustrate the functions as well as for running tests.
   contents:
-  - hsb
-  - fitness
-  - cement
-  - rivers
+  - surgical

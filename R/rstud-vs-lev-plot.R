@@ -1,19 +1,11 @@
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 geom_vline
-#' @title Studentized Residuals vs Leverage Plot
-#' @description Studentized Residuals vs Leverage Plot
+#' @title Studentized Residuals vs Leverage Plot 
+#' @description Graph for detecting influential observations
 #' @param model an object of class \code{lm}
-#' @return \code{studvslev_plot} returns a list containing the
-#' following components:
-#'
-#' \item{leverage}{f cook's d statistic}
-#' \item{studresid}{f cook's d statistic}
-#' \item{lev_threshold}{threshold for outliers}
-#' \item{rstud_threshold}{f cook's d statistic}
-#' \item{normal}{threshold for outliers}
-#' \item{outliers}{f cook's d statistic}
-#' \item{leverages}{f cook's d statistic}
-#' \item{out_lev}{f cook's d statistic}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' studvslev_plot(model)
 #' @export
 #'
 studvslev_plot <- function(model) {

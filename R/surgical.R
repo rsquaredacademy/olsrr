@@ -1,0 +1,20 @@
+#' Surgical Unit Data Set
+#'
+#' A dataset containing data about survival of patients undergoing liver operation.
+#'
+#' @format A data frame with 54 rows and 9 variables:
+#' \describe{
+#'   \item{bcs}{blood clotting score}
+#'   \item{pindex}{prognostic index}
+#'   \item{enzyme_test}{enzyme function test score}
+#'   \item{liver_test}{liver function test score}
+#'   \item{age}{age, in years}
+#'   \item{gender}{indicator variable for gender (0 = male, 1 = female)}
+#'   \item{alc_mod}{indicator variable for history of alcohol use (0 = None, 1 = Moderate)}
+#'   \item{alc_heavy}{indicator variable for history of alcohol use (0 = None, 1 = Heavy)}
+#'   \item{y}{Survival Time}
+#' }
+#'
+#' @source Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+#' Chicago, IL., McGraw Hill/Irwin.
+"surgical"

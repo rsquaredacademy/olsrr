@@ -1,6 +1,7 @@
 #' @importFrom ggplot2 geom_text
 #' @title Stepwise AIC Backward Regression
-#' @description Stepwise AIC Backward Regression
+#' @description Build regression model from a set of candidate predictor variables by removing predictors based on 
+#' Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
 #' @param model an object of class \code{lm}
 #' @param ... other arguments
 #' @return \code{step_backward} returns an object of class \code{"step_backward"}.
@@ -14,6 +15,16 @@
 #' \item{rss}{name of explanatory variables of fitted regression model}
 #' \item{rsq}{response variable}
 #' \item{arsq}{predictors}
+#' @examples
+#' stepwise backward regression
+#' model <- lm(y ~ ., data = surgical)
+#' stepaic_backward(model)
+#'
+#' stepwise backward regression plot
+#' model <- lm(y ~ ., data = surgical)
+#' k <- stepaic_backward(model)
+#' plot(k)
+#'
 #' @export
 #'
 stepaic_backward <- function(model, ...) UseMethod('stepaic_backward')

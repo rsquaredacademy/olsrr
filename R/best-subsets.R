@@ -2,16 +2,9 @@
 #' @title Best Subsets Regression
 #' @description Select the subset of predictors that do the best at meeting some
 #' well-defined objective criterion, such as having the largest R2 value or the
-#' smallest MSE.
+#' smallest MSE, Mallow's Cp or AIC.
 #' @param model an object of class \code{lm}
 #' @param ... other inputs
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return \code{best_subset} returns an object of class \code{"best_subset"}.
 #' An object of class \code{"best_subset"} is a data frame containing the
 #' following components:
@@ -30,6 +23,16 @@
 #' \item{pc}{Amemiya Prediction Criteria}
 #' \item{sp}{Hocking's Sp}
 #'
+#' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+#' Chicago, IL., McGraw Hill/Irwin.
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' best_subset(model)
+#' 
+#' # plot
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' k <- best_subset(model)
+#' plot(k)
 #' @export
 #'
 best_subset <- function(model, ...) UseMethod('best_subset')

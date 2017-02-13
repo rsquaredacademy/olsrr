@@ -18,13 +18,9 @@ Sawa's Bayesian Information Criteria
 \description{
 Sawa's Bayesian Information Criteria
 }
-\details{
-Some statistical tests, for example the analysis of variance, assume
-that variances are equal across groups or samples. The Bartlett test can be
-used to verify that assumption. Bartlett's test is sensitive to departures
-from normality. That is, if your samples come from non-normal distributions,
-then Bartlett's test may simply be testing for non-normality. The Levene test
-is an alternative to the Bartlett test that is less sensitive to departures
-from normality.
+\examples{
+full_model <- lm(mpg ~ ., data = mtcars)
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+sbic(model, full_model)
 }
 

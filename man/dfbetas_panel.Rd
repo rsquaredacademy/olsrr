@@ -2,22 +2,18 @@
 % Please edit documentation in R/dfbetas-panel.R
 \name{dfbetas_panel}
 \alias{dfbetas_panel}
-\title{DFBETAS Panel}
+\title{DFBETAs Panel}
 \usage{
 dfbetas_panel(model)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
-\value{
-\code{dfbetas_panel} returns a list containing the
-following components:
-
-\item{dfbetas}{dfbetas}
-\item{threshold}{threshold for outliers}
-\item{outliers}{residual points that are outliers}
-}
 \description{
-DFBETAS Panel
+Panel of plots to detect influential observations using DFBETAs.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+dfbetas_panel(model)
 }
 

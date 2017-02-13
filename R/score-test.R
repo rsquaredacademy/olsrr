@@ -1,5 +1,6 @@
 #' @title Score Test for heteroskedasticity
-#' @description Test for heteroskedasticity
+#' @description Test for heteroskedasticity under the assumption that
+#' the errors are independent and identically distributed (i.i.d.).
 #' @param model an object of class \code{lm}
 #' @param fitted_values logical; if TRUE, use fitted values of regression model
 #' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
@@ -17,6 +18,15 @@
 #' \item{rhs}{name of explanatory variables of fitted regression model}
 #' \item{resp}{response variable}
 #' \item{preds}{predictors}
+#' @references Breusch, T. S. and Pagan, A. R. (1979) A simple test for heteroscedasticity and random coefficient variation. Econometrica 47, 1287–1294.
+#' 
+#' Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regression. Biometrika 70, 1–10.
+#' 
+#' Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
+#' 
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' score_test(model)
 #' @export
 #'
 score_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) UseMethod('score_test')

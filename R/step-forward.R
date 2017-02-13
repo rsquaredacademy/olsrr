@@ -1,6 +1,7 @@
 #' @importFrom stats qt
 #' @title Stepwise Forward Regression
-#' @description Stepwise Forward Regression
+#' @description Build regression model from a set of candidate predictor variables by entering predictors based on 
+#' p values, in a stepwise manner until there is no variable left to enter any more.
 #' @param model an object of class \code{lm}
 #' @param ... other arguments
 #' @return \code{step_forward} returns an object of class \code{"step_forward"}.
@@ -17,6 +18,16 @@
 #' \item{rmse}{predictors}
 #' \item{mallows_cp}{predictors}
 #' \item{indvar}{predictors}
+#' @examples
+#' stepwise forward regression
+#' model <- lm(y ~ ., data = surgical)
+#' step_forward(model)
+#'
+#' stepwise forward regression plot
+#' model <- lm(y ~ ., data = surgical)
+#' k <- step_forward(model)
+#' plot(k)
+#'
 #' @export
 #'
 step_forward <- function(model, ...) UseMethod('step_forward')

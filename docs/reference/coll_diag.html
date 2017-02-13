@@ -81,7 +81,13 @@
     </div>
 
     
-    <p>Test if k samples have equal variances</p>
+    <p>Collinearity implies two variables are near perfect linear combinations of one
+another. Multicollinearity involves more than two variables. In the presence of multicollinearity, 
+regression estimates are unstable and have high standard errors. <code>coll_diag</code>  
+returns variance inflation factor, tolerance and condition indices. Collinearity is spotted by 
+finding 2 or more variables that have large proportions of variance (.50 or more) that correspond 
+to large condition indices. A rule of thumb is to label as large those condition indices in the range of 30 or larger.
+Big values of VIF and small values of Tolerance indicate multicollinearity.</p>
     
 
     <pre><span class='fu'>coll_diag</span>(<span class='no'>model</span>)
@@ -102,6 +108,11 @@
 An object of class <code>&quot;coll_diag&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Belsley, D. A., Kuh, E., and Welsch, R. E. (1980). Regression Diagnostics: Identifying Influential Data and
+Sources of Collinearity. New York: John Wiley &amp; Sons.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -110,6 +121,8 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
           </ul>
 
   </div>

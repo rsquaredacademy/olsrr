@@ -1,17 +1,11 @@
 #' @importFrom stats ecdf
 #' @importFrom gridExtra grid.arrange
 #' @title Residual Fit Spread Plot
-#' @description Residual Fit Spread Plot
+#' @description Plot to detect non-linearity, influential observations and outliers.
 #' @param model an object of class \code{lm}
-#' @return \code{rfs_plot} returns a list containing the
-#' following components:
-#'
-#' \item{residuals}{f cook's d statistic}
-#' \item{fitted_values}{f cook's d statistic}
-#' \item{avg_fitted}{threshold for outliers}
-#' \item{dev_fitted}{f cook's d statistic}
-#' \item{ecdf_avg_fitted}{threshold for outliers}
-#' \item{ecdf_resid}{f cook's d statistic}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' rfs_plot(model)
 #' @export
 #'
 rfs_plot <- function(model) {

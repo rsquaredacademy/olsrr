@@ -9,16 +9,11 @@ srplot(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
-\value{
-\code{srplot} returns a list containing the
-following components:
-
-\item{dstudresid}{f cook's d statistic}
-\item{threshold}{threshold for outliers}
-\item{normal}{threshold for outliers}
-\item{outlier}{f cook's d statistic}
-}
 \description{
-Studentized Residual Plot
+Graph for identifying outliers
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+srplot(model)
 }
 

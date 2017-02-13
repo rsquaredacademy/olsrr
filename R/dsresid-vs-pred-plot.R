@@ -1,16 +1,11 @@
 #' @importFrom stats fitted rstudent
 #' @importFrom dplyr mutate
-#' @title Deleted Studentized Residual vs Predictor Plot
-#' @description Deleted Studentized Residual vs Predictor Plot
+#' @title Deleted Studentized Residual vs Fitted Values Plot
+#' @description Deleted Studentized Residual vs Fitted Values Plot
 #' @param model an object of class \code{lm}
-#' @return \code{dsrvsp_plot} returns a list containing the
-#' following components:
-#'
-#' \item{fitted}{fitted values of the regression model}
-#' \item{dstudresid}{deleted studentized residuals}
-#' \item{threshold}{threshold for outliers}
-#' \item{normal}{normal residual points}
-#' \item{outliers}{residual points that are outliers}
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' dsrvsp_plot(model)
 #' @export
 #'
 dsrvsp_plot <- function(model) {

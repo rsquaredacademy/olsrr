@@ -1,13 +1,9 @@
 #' @importFrom stats dffits
 #' @title DFFITS Plot
-#' @description DFFITS Plot
-#' @param model an object of class \code{lm}
-#' @return \code{dffits_plot} returns a list containing the
-#' following components:
-#'
-#' \item{dffits}{dffits}
-#' \item{threshold}{threshold for outliers}
-#' \item{outliers}{residual points that are outliers}
+#' @description Plot for detecting influential observations using DFFITS.
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' dffits_panel(model)
 #' @export
 #'
 dffits_plot <- function(model) {

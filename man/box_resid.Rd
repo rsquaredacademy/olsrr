@@ -10,6 +10,6 @@ box_resid(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Box plot of residuals from a linear regression model
+Box plot of residuals to detect violation of homoscedasticity assumption.
 }
 

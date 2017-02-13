@@ -1,8 +1,11 @@
 #' @importFrom ggplot2 xlim stat_qq geom_histogram geom_line theme element_blank
 #' @importFrom stats quantile
 #' @title Diagnostics Panel
-#' @description Diagnostics Panel
+#' @description Panel of plots for regression diagnostics
 #' @param model an object of class \code{lm}
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' diag_panel(model)
 #' @export
 #'
 diag_panel <- function(model) {

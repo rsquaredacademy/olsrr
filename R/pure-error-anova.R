@@ -1,16 +1,9 @@
 #' @importFrom stats coefficients
 #' @importFrom dplyr group_by_ select_ summarise_each funs
 #' @title Lack  of Fit F Test
-#' @description Lack of Fit F Test
+#' @description Assess how much of the error in prediction is due to lack of model fit.
 #' @param model an object of class \code{lm}
 #' @param ... other parameters
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return \code{pure_error_anova} returns an object of class
 #' \code{"pure_error_anova"}. An object of class \code{"pure_error_anova"} is a
 #' list containing the following components:
@@ -36,6 +29,11 @@
 #' \item{final}{name(s) of \code{variable}}
 #' \item{resp}{name of \code{group_var}}
 #' \item{preds}{name of \code{group_var}}
+#' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+#' Chicago, IL., McGraw Hill/Irwin.
+#' @examples
+#' model <- lm(mpg ~ disp, data = mtcars)
+#' pure_error_anova(model)
 #' @export
 #'
 pure_error_anova <- function(model, ...) UseMethod('pure_error_anova')

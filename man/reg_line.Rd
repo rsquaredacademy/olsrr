@@ -11,15 +11,7 @@ reg_line(response, predictor)
 
 \item{predictor}{explanatory variable}
 }
-\value{
-\code{reg_line} returns  a list containing the
-following components:
-
-\item{mean_pred}{mean of \code{predictor}}
-\item{mean_resp}{mean of \code{response}}
-\item{model}{an object of class \code{lm}}
-}
 \description{
-regression line always passes through xbar and ybar
+Regression line always passes through xbar and ybar
 }
 

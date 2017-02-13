@@ -5,13 +5,9 @@
 #' @description Test if k samples have equal variances
 #' @param variable a numeric vector
 #' @param ... numeric vectors
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
+#' @details Bartlett's test is used to test if variances across samples is equal. 
+#' It is sensitive to departures from normality. The Levene test
+#' is an alternative test that is less sensitive to departures from normality.
 #' @return \code{bartlett_test} returns an object of class \code{"bartlett_test"}.
 #' An object of class \code{"bartlett_test"} is a list containing the
 #' following components:
@@ -21,6 +17,27 @@
 #' \item{df}{degrees of freedom}
 #' \item{var_c}{name(s) of \code{variable}}
 #' \item{g_var}{name of \code{group_var}}
+#'
+#' @references Snedecor, George W. and Cochran, William G. (1989), Statistical Methods, 
+#' Eighth Edition, Iowa State University Press.
+#' @examples
+#' # using grouping variable
+#' model <- lm(mpg ~ disp + hp, data = mtcars)
+#' resid <- residuals(model)
+#' cyl <- as.factor(mtcars$cyl)
+#' bartlett_test(resid, group_var = cyl)
+#' 
+#' # using variables
+#' bartlett_test(hsb$read, hsb$write)
+#' 
+#' # using formula
+#' mt <- mtcars
+#' mt$cyl <- as.factor(mt$cyl)
+#' bartlett_test(mpg ~ cyl, data = mt)
+#' 
+#' # using model
+#' model <- lm(mpg ~ cyl, data = mt)
+#' bartlett_test(model)
 #' @export
 #'
 bartlett_test <- function(variable, ...) UseMethod('bartlett_test')

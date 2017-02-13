@@ -1,5 +1,6 @@
 #' @title Stepwise Backward Regression
-#' @description Stepwise Backward Regression
+#' @description Build regression model from a set of candidate predictor variables by removing predictors based on 
+#' p values, in a stepwise manner until there is no variable left to remove any more.
 #' @param model an object of class \code{lm}
 #' @param ... other inputs
 #' @return \code{step_backward} returns an object of class \code{"step_backward"}.
@@ -16,6 +17,16 @@
 #' \item{rmse}{predictors}
 #' \item{mallows_cp}{predictors}
 #' \item{indvar}{predictors}
+#' @examples
+#' stepwise backward regression
+#' model <- lm(y ~ ., data = surgical)
+#' step_backward(model)
+#'
+#' stepwise backward regression plot
+#' model <- lm(y ~ ., data = surgical)
+#' k <- step_backward(model)
+#' plot(k)
+#'
 #' @export
 #'
 step_backward <- function(model, ...) UseMethod('step_backward')

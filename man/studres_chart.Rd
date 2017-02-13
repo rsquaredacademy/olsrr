@@ -9,15 +9,11 @@ studres_chart(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
-\value{
-\code{studres_chart} returns a list containing the
-following components:
-
-\item{studresid}{f cook's d statistic}
-\item{threshold}{threshold for outliers}
-\item{outliers}{f cook's d statistic}
-}
 \description{
-Studentized Residual Chart
+Chart for identifying outliers
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+studres_chart(model)
 }
 

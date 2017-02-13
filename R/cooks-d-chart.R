@@ -1,13 +1,10 @@
 #' @importFrom ggplot2 geom_linerange
-#' @title Cooks' d Chart
-#' @description Cooks' d Chart
+#' @title Cooks' D Chart
+#' @description Chart of Cook's distance to detect observations that strongly influence fitted values of the model.
 #' @param model an object of class \code{lm}
-#' @return \code{cooksd_chart} returns a list containing the
-#' following components:
-#'
-#' \item{cooks_d}{f cook's d statistic}
-#' \item{threshold}{threshold for outliers}
-#' \item{outliers}{residual points that are outliers}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' cooksd_chart(model)
 #' @export
 #'
 cooksd_chart <- function(model) {

@@ -13,15 +13,12 @@ leverage(model)
 leverage of the fitted model
 }
 \description{
-Leverage
+The leverage of an observation is based on how much the observation's value on the predictor variable 
+differs from the mean of the predictor variable. The greater an observation's leverage, the more potential it has 
+to be an influential observation.
 }
-\details{
-Some statistical tests, for example the analysis of variance, assume
-that variances are equal across groups or samples. The Bartlett test can be
-used to verify that assumption. Bartlett's test is sensitive to departures
-from normality. That is, if your samples come from non-normal distributions,
-then Bartlett's test may simply be testing for non-normality. The Levene test
-is an alternative to the Bartlett test that is less sensitive to departures
-from normality.
+\examples{
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+leverage(model)
 }
 

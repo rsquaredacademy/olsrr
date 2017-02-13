@@ -1,6 +1,7 @@
 #' @importFrom dplyr desc
 #' @title Stepwise AIC Forward Regression
-#' @description Stepwise AIC Forward Regression
+#' @description Build regression model from a set of candidate predictor variables by entering predictors based on 
+#' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
 #' @param model an object of class \code{lm}
 #' @param ... other arguments
 #' @return \code{stepaic_forward} returns an object of class \code{"stepaic_forward"}.
@@ -14,6 +15,16 @@
 #' \item{rss}{name of explanatory variables of fitted regression model}
 #' \item{rsq}{response variable}
 #' \item{arsq}{predictors}
+#' @examples
+#' stepwise forward regression
+#' model <- lm(y ~ ., data = surgical)
+#' stepaic_forward(model)
+#'
+#' stepwise forward regression plot
+#' model <- lm(y ~ ., data = surgical)
+#' k <- stepaic_forward(model)
+#' plot(k)
+#'
 #' @export
 #'
 stepaic_forward <- function(model, ...) UseMethod('stepaic_forward')

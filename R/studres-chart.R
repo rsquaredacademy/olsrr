@@ -1,13 +1,10 @@
 #' @importFrom stats rstandard
 #' @title Studentized Residual Chart
-#' @description Studentized Residual Chart
+#' @description Chart for identifying outliers 
 #' @param model an object of class \code{lm}
-#' @return \code{studres_chart} returns a list containing the
-#' following components:
-#'
-#' \item{studresid}{f cook's d statistic}
-#' \item{threshold}{threshold for outliers}
-#' \item{outliers}{f cook's d statistic}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' studres_chart(model)
 #' @export
 #'
 studres_chart <- function(model) {

@@ -15,16 +15,10 @@
 # round(sum(fitted.values(model) * residuals(model))) == 0
 
 #' @importFrom ggplot2 labs geom_smooth
-#' @title Regression Line
-#' @description regression line always passes through xbar and ybar
+#' @title Regression Line 
+#' @description Regression line always passes through xbar and ybar
 #' @param response response variable
 #' @param predictor explanatory variable
-#' @return \code{reg_line} returns  a list containing the
-#' following components:
-#'
-#' \item{mean_pred}{mean of \code{predictor}}
-#' \item{mean_resp}{mean of \code{response}}
-#' \item{model}{an object of class \code{lm}}
 #' @export
 #'
 reg_line <- function(response, predictor) {

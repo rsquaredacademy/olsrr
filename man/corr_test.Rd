@@ -2,7 +2,7 @@
 % Please edit documentation in R/norm-test.R
 \name{corr_test}
 \alias{corr_test}
-\title{Correlation Test}
+\title{Correlation Test For Normality}
 \usage{
 corr_test(model)
 }
@@ -14,15 +14,10 @@ correlation between fitted regression model residuals and expected
 values of residuals
 }
 \description{
-Correlation Test
+Correlation between observed residuals and expected residuals under normality.
 }
-\details{
-Some statistical tests, for example the analysis of variance, assume
-that variances are equal across groups or samples. The Bartlett test can be
-used to verify that assumption. Bartlett's test is sensitive to departures
-from normality. That is, if your samples come from non-normal distributions,
-then Bartlett's test may simply be testing for non-normality. The Levene test
-is an alternative to the Bartlett test that is less sensitive to departures
-from normality.
+\examples{
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+corr_test(model)
 }
 

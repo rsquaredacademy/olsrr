@@ -1,5 +1,6 @@
 #' @title Stepwise Regression
-#' @description Stepwise Regression
+#' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+#' p values, in a stepwise manner until there is no variable left to enter or remove any more.
 #' @param model an object of class \code{lm}
 #' @param ... other arguments
 #' @return \code{stepwise} returns an object of class \code{"stepwise"}.
@@ -18,6 +19,16 @@
 #' \item{rmse}{predictors}
 #' \item{mallows_cp}{predictors}
 #' \item{indvar}{predictors}
+#' @examples
+#' stepwise regression
+#' model <- lm(y ~ ., data = surgical)
+#' stepwise(model)
+#'
+#' stepwise regression plot
+#' model <- lm(y ~ ., data = surgical)
+#' k <- stepwise(model)
+#' plot(k)
+#'
 #' @export
 #'
 stepwise <- function(model, ...)  UseMethod('stepwise')

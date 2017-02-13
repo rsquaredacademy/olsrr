@@ -1,13 +1,10 @@
 #' @importFrom stats dfbetas
-#' @title DFBETAS Panel
-#' @description DFBETAS Panel
+#' @title DFBETAs Panel
+#' @description Panel of plots to detect influential observations using DFBETAs.
 #' @param model an object of class \code{lm}
-#' @return \code{dfbetas_panel} returns a list containing the
-#' following components:
-#'
-#' \item{dfbetas}{dfbetas}
-#' \item{threshold}{threshold for outliers}
-#' \item{outliers}{residual points that are outliers}
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' dfbetas_panel(model)
 #' @export
 #'
 dfbetas_panel <- function(model) {

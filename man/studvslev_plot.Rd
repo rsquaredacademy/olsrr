@@ -9,20 +9,11 @@ studvslev_plot(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
-\value{
-\code{studvslev_plot} returns a list containing the
-following components:
-
-\item{leverage}{f cook's d statistic}
-\item{studresid}{f cook's d statistic}
-\item{lev_threshold}{threshold for outliers}
-\item{rstud_threshold}{f cook's d statistic}
-\item{normal}{threshold for outliers}
-\item{outliers}{f cook's d statistic}
-\item{leverages}{f cook's d statistic}
-\item{out_lev}{f cook's d statistic}
-}
 \description{
-Studentized Residuals vs Leverage Plot
+Graph for detecting influential observations
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+studvslev_plot(model)
 }
 

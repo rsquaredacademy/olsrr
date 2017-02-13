@@ -1,7 +1,10 @@
 #' @importFrom stats qqnorm qqline
 #' @title Residual QQ Plot
-#' @description Residual QQ Plot
+#' @description Graph for detecting violation of normality assumption.
 #' @param model an object of class \code{lm}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' qqresid(model)
 #' @export
 #'
 qqresid <- function(model) {

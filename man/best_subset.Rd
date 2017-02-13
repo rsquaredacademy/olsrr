@@ -33,15 +33,19 @@ following components:
 \description{
 Select the subset of predictors that do the best at meeting some
 well-defined objective criterion, such as having the largest R2 value or the
-smallest MSE.
+smallest MSE, Mallow's Cp or AIC.
 }
-\details{
-Some statistical tests, for example the analysis of variance, assume
-that variances are equal across groups or samples. The Bartlett test can be
-used to verify that assumption. Bartlett's test is sensitive to departures
-from normality. That is, if your samples come from non-normal distributions,
-then Bartlett's test may simply be testing for non-normality. The Levene test
-is an alternative to the Bartlett test that is less sensitive to departures
-from normality.
+\examples{
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+best_subset(model)
+
+# plot
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- best_subset(model)
+plot(k)
+}
+\references{
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Chicago, IL., McGraw Hill/Irwin.
 }
 

@@ -104,17 +104,38 @@ that class): a symbolic description of the model to be fitted.</dd>
 of class <code>&quot;regress&quot;</code> is a list containing the following
 components:</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Some statistical tests, for example the analysis of variance, assume
-that variances are equal across groups or samples. The Bartlett test can be
-used to verify that assumption. Bartlett&#39;s test is sensitive to departures
-from normality. That is, if your samples come from non-normal distributions,
-then Bartlett&#39;s test may simply be testing for non-normality. The Levene test
-is an alternative to the Bartlett test that is less sensitive to departures
-from normality.</p>
-    
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>regress</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)</div><div class='output co'>#&gt;                         Model Summary                          
+#&gt; --------------------------------------------------------------
+#&gt; R                       0.909       RMSE                2.639 
+#&gt; R-Squared               0.827       Coef. Var          13.135 
+#&gt; Adj. R-Squared          0.808       MSE                 6.964 
+#&gt; Pred R-Squared          0.768       MAE                 1.907 
+#&gt; --------------------------------------------------------------
+#&gt;  RMSE: Root Mean Square Error 
+#&gt;  MSE: Mean Square Error 
+#&gt;  MAE: Mean Absolute Error 
+#&gt; 
+#&gt;                              ANOVA                               
+#&gt; ----------------------------------------------------------------
+#&gt;                 Sum of                                          
+#&gt;                Squares    DF    Mean Square      F         Sig. 
+#&gt; ----------------------------------------------------------------
+#&gt; Regression     931.056     3        310.352    44.565    0.0000 
+#&gt; Residual       194.991    28          6.964                     
+#&gt; Total         1126.047    31                                    
+#&gt; ----------------------------------------------------------------
+#&gt; 
+#&gt;                                   Parameter Estimates                                    
+#&gt; ----------------------------------------------------------------------------------------
+#&gt;       model      Beta    Std. Error    Std. Beta      t        Sig      lower     upper 
+#&gt; ----------------------------------------------------------------------------------------
+#&gt; (Intercept)    37.106         2.111                 17.579    0.000    32.782    41.429 
+#&gt;        disp    -0.001         0.010       -0.019    -0.091    0.929    -0.022     0.020 
+#&gt;          hp    -0.031         0.011       -0.354    -2.724    0.011    -0.055    -0.008 
+#&gt;          wt    -3.801         1.066       -0.617    -3.565    0.001    -5.985    -1.617 
+#&gt; ----------------------------------------------------------------------------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -122,9 +143,9 @@ from normality.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

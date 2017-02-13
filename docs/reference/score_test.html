@@ -81,7 +81,8 @@
     </div>
 
     
-    <p>Test for heteroskedasticity</p>
+    <p>Test for heteroskedasticity under the assumption that
+the errors are independent and identically distributed (i.i.d.).</p>
     
 
     <pre><span class='fu'>score_test</span>(<span class='no'>model</span>, <span class='kw'>fitted_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -106,7 +107,28 @@ regression model</dd>
 An object of class <code>&quot;score_test&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    <p>Breusch, T. S. and Pagan, A. R. (1979) A simple test for heteroscedasticity and random coefficient variation. Econometrica 47, 1287–1294.</p>
+    <p>Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regression. Biometrika 70, 1–10.</p>
+    <p>Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>score_test</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
+#&gt;  Score Test for Heteroskedasticity
+#&gt;  ---------------------------------
+#&gt;  Ho: Variance is homogenous
+#&gt;  Ha: Variance is not homogenous
+#&gt; 
+#&gt;  Variables: fitted values of mpg 
+#&gt; 
+#&gt;       Test Summary       
+#&gt;  ------------------------
+#&gt;  DF            =    1 
+#&gt;  Chi2          =    0.645 
+#&gt;  Prob &gt; Chi2   =    0.422 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -114,7 +136,11 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#references">References</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

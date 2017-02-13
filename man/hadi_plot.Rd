@@ -10,6 +10,15 @@ hadi_plot(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Hadi Plot
+Hadi's measure of influence based on the fact that influential observations can be present in either
+the response variable or in the predictors or both. The plot is used to detect influential observations
+based on Hadi's measure.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+hadi_plot(model)
+}
+\references{
+Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
 

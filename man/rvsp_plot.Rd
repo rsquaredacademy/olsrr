@@ -2,7 +2,7 @@
 % Please edit documentation in R/resid-vs-pred-plot.R
 \name{rvsp_plot}
 \alias{rvsp_plot}
-\title{Residual vs Predictor Plot}
+\title{Residual vs Fitted Plot}
 \usage{
 rvsp_plot(model)
 }
@@ -10,6 +10,10 @@ rvsp_plot(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Residual vs Predictor Plot
+Plot to detect non-linearity, unequal error variances, and outliers.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+rvsp_plot(model)
 }
 

@@ -81,7 +81,7 @@
     </div>
 
     
-    <p>Test for heteroskedasticity</p>
+    <p>Test for constant variance. It assumes that the error terms are normally distributed.</p>
     
 
     <pre><span class='fu'>bp_test</span>(<span class='no'>model</span>, <span class='kw'>fitted.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -112,7 +112,147 @@ holm, sidak and none</dd>
 An object of class <code>&quot;bp_test&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    <p>T.S. Breusch &amp; A.R. Pagan (1979), A Simple Test for Heteroscedasticity and 
+Random Coefficient Variation. Econometrica 47, 1287–1294</p>
+    <p>Cook, R. D.; Weisberg, S. (1983). &quot;Diagnostics for Heteroskedasticity in Regression&quot;. Biometrika. 70 (1): 1–10.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Use fitted values of the model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>bp_test</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;              Data               
+#&gt;  -------------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: fitted values of mpg 
+#&gt; 
+#&gt;       Test Summary        
+#&gt;  -------------------------
+#&gt;  DF            =    1 
+#&gt;  Chi2          =    1.4297 
+#&gt;  Prob &gt; Chi2   =    0.2318 </div><div class='input'>
+<span class='co'># Use independent variables of the model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;       Test Summary        
+#&gt;  -------------------------
+#&gt;  DF            =    4 
+#&gt;  Chi2          =    1.5138 
+#&gt;  Prob &gt; Chi2   =    0.8242 </div><div class='input'>
+<span class='co'># Use independent variables of the model and perform multiple tests</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;      Test Summary (Unadjusted p values)    
+#&gt;  ----------------------------------------
+#&gt;   Variable          chi2     df      p    
+#&gt;  ----------------------------------------
+#&gt;   disp             1.2355     1    0.2663 
+#&gt;   hp               0.9210     1    0.3372 
+#&gt;   wt               1.2530     1    0.2630 
+#&gt;   drat             1.1668     1    0.2800 
+#&gt;  ----------------------------------------
+#&gt;   simultaneous     1.5138     4    0.8242 
+#&gt;  ----------------------------------------</div><div class='input'>
+<span class='co'># Bonferroni p value Adjustment</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'bonferroni'</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;      Test Summary (Bonferroni p values)    
+#&gt;  ----------------------------------------
+#&gt;   Variable          chi2     df      p    
+#&gt;  ----------------------------------------
+#&gt;   disp             1.2355     1    1.0000 
+#&gt;   hp               0.9210     1    1.0000 
+#&gt;   wt               1.2530     1    1.0000 
+#&gt;   drat             1.1668     1    1.0000 
+#&gt;  ----------------------------------------
+#&gt;   simultaneous     1.5138     4    0.8242 
+#&gt;  ----------------------------------------</div><div class='input'>
+<span class='co'># Sidak p value Adjustment</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'sidak'</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;        Test Summary (Sidak p values)       
+#&gt;  ----------------------------------------
+#&gt;   Variable          chi2     df      p    
+#&gt;  ----------------------------------------
+#&gt;   disp             1.2355     1    0.7103 
+#&gt;   hp               0.9210     1    0.8070 
+#&gt;   wt               1.2530     1    0.7049 
+#&gt;   drat             1.1668     1    0.7313 
+#&gt;  ----------------------------------------
+#&gt;   simultaneous     1.5138     4    0.8242 
+#&gt;  ----------------------------------------</div><div class='input'>
+<span class='co'># Holm's p value Adjustment</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'holm'</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;        Test Summary (Holm&#39;s p values)      
+#&gt;  ----------------------------------------
+#&gt;   Variable          chi2     df      p    
+#&gt;  ----------------------------------------
+#&gt;   disp             1.2355     1    0.7990 
+#&gt;   hp               0.9210     1    0.3372 
+#&gt;   wt               1.2530     1    1.0000 
+#&gt;   drat             1.1668     1    0.5601 
+#&gt;  ----------------------------------------
+#&gt;   simultaneous     1.5138     4    0.8242 
+#&gt;  ----------------------------------------</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -120,7 +260,11 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#references">References</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

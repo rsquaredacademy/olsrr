@@ -10,6 +10,10 @@ qqresid(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Residual QQ Plot
+Graph for detecting violation of normality assumption.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+qqresid(model)
 }
 

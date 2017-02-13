@@ -10,6 +10,10 @@ diag_panel(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Diagnostics Panel
+Panel of plots for regression diagnostics
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+diag_panel(model)
 }
 

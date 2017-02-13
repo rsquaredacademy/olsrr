@@ -2,22 +2,18 @@
 % Please edit documentation in R/cooks-d-chart.R
 \name{cooksd_chart}
 \alias{cooksd_chart}
-\title{Cooks' d Chart}
+\title{Cooks' D Chart}
 \usage{
 cooksd_chart(model)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
-\value{
-\code{cooksd_chart} returns a list containing the
-following components:
-
-\item{cooks_d}{f cook's d statistic}
-\item{threshold}{threshold for outliers}
-\item{outliers}{residual points that are outliers}
-}
 \description{
-Cooks' d Chart
+Chart of Cook's distance to detect observations that strongly influence fitted values of the model.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+cooksd_chart(model)
 }
 

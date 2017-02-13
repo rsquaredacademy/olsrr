@@ -25,6 +25,18 @@ following components:
 \item{arsq}{predictors}
 }
 \description{
-Stepwise AIC Forward Regression
+Build regression model from a set of candidate predictor variables by entering predictors based on 
+Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
+}
+\examples{
+stepwise forward regression
+model <- lm(y ~ ., data = surgical)
+stepaic_forward(model)
+
+stepwise forward regression plot
+model <- lm(y ~ ., data = surgical)
+k <- stepaic_forward(model)
+plot(k)
+
 }
 

@@ -1,6 +1,7 @@
 #' @importFrom stats pf
-#' @title f Test for heteroskedasticity
-#' @description Test for heteroskedasticity
+#' @title F Test for heteroskedasticity under the assumption that
+#' the errors are independent and identically distributed (i.i.d.).
+#' @description Test for constant variance 
 #' @param model an object of class \code{lm}
 #' @param fitted_values logical; if TRUE, use fitted values of regression model
 #' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
@@ -21,6 +22,19 @@
 #' \item{vars}{variables to be used for heteroskedasticity test}
 #' \item{resp}{response variable}
 #' \item{preds}{predictors}
+#' @references Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
+#' @examples 
+#' # using fitted values
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' f_test(model)
+#' 
+#' # using all predictors of the model
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' f_test(model, rhs = TRUE)
+#' 
+#' # using fitted values
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' f_test(model, vars = c('disp', 'hp'))
 #' @export
 #'
 f_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) UseMethod('f_test')

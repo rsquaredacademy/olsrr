@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Normality Test — norm_test â€¢ olsrr</title>
+<title>Test for normality — norm_test â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,11 +77,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Normality Test</h1>
+    <h1>Test for normality</h1>
     </div>
 
     
-    <p>Normality Test</p>
+    <p>Test for detecting violation of normality assumption.</p>
     
 
     <pre><span class='fu'>norm_test</span>(<span class='no'>y</span>, <span class='no'>...</span>)</pre>
@@ -100,17 +100,17 @@
 An object of class <code>&quot;norm_test&quot;</code> is a list containing the
 following components:</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Some statistical tests, for example the analysis of variance, assume
-that variances are equal across groups or samples. The Bartlett test can be
-used to verify that assumption. Bartlett&#39;s test is sensitive to departures
-from normality. That is, if your samples come from non-normal distributions,
-then Bartlett&#39;s test may simply be testing for non-normality. The Levene test
-is an alternative to the Bartlett test that is less sensitive to departures
-from normality.</p>
-    
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>norm_test</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; -----------------------------------------------
+#&gt;        Test           Statistic         pvalue  
+#&gt; -----------------------------------------------
+#&gt; Shapiro-Wilk              0.9366         0.06   
+#&gt; Kolmogorov-Smirnov        0.1152        0.7464  
+#&gt; Cramer-von Mises          2.8122           0    
+#&gt; Anderson-Darling          0.5859        0.1188  
+#&gt; -----------------------------------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -118,9 +118,9 @@ from normality.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

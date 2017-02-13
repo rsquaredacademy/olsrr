@@ -1,15 +1,11 @@
 #' @importFrom stats cooks.distance
 #' @importFrom ggplot2 geom_bar coord_flip ylim geom_hline
-#' @title Cooks' d Bar Plot
-#' @description Cooks' d Bar Plot
+#' @title Cooks' D Bar Plot
+#' @description Bar Plot of Cook's distance to detect observations that strongly influence fitted values of the model.
 #' @param model an object of class \code{lm}
-#' @return \code{cooksd_bplot} returns a list containing the
-#' following components:
-#'
-#' \item{cooks_d}{f cook's d statistic}
-#' \item{threshold}{threshold for outliers}
-#' \item{normal}{normal residual points}
-#' \item{outlier}{residual points that are outliers}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' cooksd_bplot(model)
 #' @export
 #'
 cooksd_bplot <- function(model) {

@@ -31,6 +31,18 @@ following components:
 \item{preds}{predictors}
 }
 \description{
-Test for heteroskedasticity
+Test for heteroskedasticity under the assumption that
+the errors are independent and identically distributed (i.i.d.).
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+score_test(model)
+}
+\references{
+Breusch, T. S. and Pagan, A. R. (1979) A simple test for heteroscedasticity and random coefficient variation. Econometrica 47, 1287–1294.
+
+Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regression. Biometrika 70, 1–10.
+
+Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
 }
 

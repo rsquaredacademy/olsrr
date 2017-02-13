@@ -1,6 +1,6 @@
 #' @importFrom stats anova
 #' @title Breusch Pagan Test
-#' @description Test for heteroskedasticity
+#' @description Test for constant variance. It assumes that the error terms are normally distributed.
 #' @param model an object of class \code{lm}
 #' @param fitted.values logical; if TRUE, use fitted values of regression model
 #' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
@@ -23,6 +23,35 @@
 #' \item{vars}{variables to be used for heteroskedasticity test}
 #' \item{resp}{response variable}
 #' \item{preds}{predictors}
+#' @references T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and 
+#' Random Coefficient Variation. Econometrica 47, 1287–1294
+#'
+#' Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
+#' @examples
+#' # Use fitted values of the model
+#' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+#' bp_test(model)
+#' 
+#' # Use independent variables of the model
+#' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+#' bp_test(model, rhs = TRUE)
+#' 
+#' # Use independent variables of the model and perform multiple tests
+#' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+#' bp_test(model, rhs = TRUE, multiple = TRUE)
+#' 
+#' # Bonferroni p value Adjustment
+#' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+#' bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
+#' 
+#' # Sidak p value Adjustment
+#' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+#' bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
+#' 
+#' # Holm's p value Adjustment
+#' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+#' bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
+#'
 #' @export
 #'
 bp_test <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,

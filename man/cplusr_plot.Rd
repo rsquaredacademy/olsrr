@@ -2,7 +2,7 @@
 % Please edit documentation in R/comp-plus-resid-plot.R
 \name{cplusr_plot}
 \alias{cplusr_plot}
-\title{Component Plus Residual Plot}
+\title{Residual Plus Component Plot}
 \usage{
 cplusr_plot(model)
 }
@@ -10,6 +10,17 @@ cplusr_plot(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Component plus residual plot
+The residual plus component plot indicates whether any non-linearity is present
+in the relationship between response and predictor variables and can suggest possible transformations
+for linearizing the data.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+cplusr_plot(model)
+}
+\references{
+Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Chicago, IL., McGraw Hill/Irwin.
 }
 

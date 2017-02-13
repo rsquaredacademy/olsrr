@@ -6,18 +6,11 @@
 \usage{
 dffits_plot(model)
 }
-\arguments{
-\item{model}{an object of class \code{lm}}
-}
-\value{
-\code{dffits_plot} returns a list containing the
-following components:
-
-\item{dffits}{dffits}
-\item{threshold}{threshold for outliers}
-\item{outliers}{residual points that are outliers}
-}
 \description{
-DFFITS Plot
+Plot for detecting influential observations using DFFITS.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+dffits_panel(model)
 }
 

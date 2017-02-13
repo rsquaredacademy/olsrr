@@ -98,7 +98,27 @@
 An object of class <code>&quot;correlations&quot;</code> is a data frame containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p><code>correlations</code> returns the relative importance of independent variables in determining response variable. 
+How much each variable uniquely contributes to rsquare over and above that which can be accounted for by the other predictors?
+Zero order correlation is the Pearson correlation coefficient between the dependent variable and the
+independent variables. Part correlations indicates how much rsquare will decrease if that variable is removed from the model
+and partial correlations indicates amount of variance in response variable, which is not estimated by the other
+independent variables in the model, but is estimated by the specific variable.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='fu'>correlations</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt;                Correlations                 
+#&gt; -------------------------------------------
+#&gt; Variable    Zero Order    Partial     Part  
+#&gt; -------------------------------------------
+#&gt; disp            -0.848     -0.048    -0.019 
+#&gt; hp              -0.776     -0.224    -0.093 
+#&gt; wt              -0.868     -0.574    -0.285 
+#&gt; qsec             0.419      0.219     0.091 
+#&gt; -------------------------------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -106,7 +126,11 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -1,15 +1,13 @@
 #' @importFrom stats hatvalues
 #' @title Leverage
-#' @description Leverage
+#' @description The leverage of an observation is based on how much the observation's value on the predictor variable 
+#' differs from the mean of the predictor variable. The greater an observation's leverage, the more potential it has 
+#' to be an influential observation.
 #' @param model an object of class \code{lm}
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return leverage of the fitted model
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' leverage(model)
 #' @export
 #'
 leverage <- function(model) {
@@ -25,16 +23,13 @@ leverage <- function(model) {
 
 
 #' @title Hadi's Measure
-#' @description Hadi's Measure
+#' @description Measure of influence based on the fact that influential observations in either
+#' the response variable or in the predictors or both.
 #' @param model an object of class \code{lm}
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return hadi's measure
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' hadi_plot(model)
 #' @export
 #'
 hadi <- function(model) {
@@ -55,16 +50,12 @@ hadi <- function(model) {
 }
 
 #' @title PRESS Statistic
-#' @description PRESS Statistic
+#' @description PRESS tells you how well the model will predict new data.
 #' @param model an object of class \code{lm}
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return PRESS Statistic
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' press(model)
 #' @export
 #'
 press <- function(model) {
@@ -88,16 +79,13 @@ press <- function(model) {
 }
 
 #' @title Predicted Rsquare
-#' @description Predicted Rsquare
+#' @description Use predicted rsquared to determine how well the model predicts responses for new observations. 
+#' Larger values of predicted R2 indicate models of greater predictive ability.
 #' @param model an object of class \code{lm}
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
 #' @return Predicted Rsquare
+#' @examples 
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' pred_rsq(model)
 #' @export
 #'
 pred_rsq <- function(model) {

@@ -9,18 +9,11 @@ rfs_plot(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
-\value{
-\code{rfs_plot} returns a list containing the
-following components:
-
-\item{residuals}{f cook's d statistic}
-\item{fitted_values}{f cook's d statistic}
-\item{avg_fitted}{threshold for outliers}
-\item{dev_fitted}{f cook's d statistic}
-\item{ecdf_avg_fitted}{threshold for outliers}
-\item{ecdf_resid}{f cook's d statistic}
-}
 \description{
-Residual Fit Spread Plot
+Plot to detect non-linearity, influential observations and outliers.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+rfs_plot(model)
 }
 

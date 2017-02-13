@@ -31,11 +31,16 @@ following components:
 \item{sp}{Hocking's Sp}
 }
 \description{
-Performs all subset regression for a linear regression model.
+Fits all regressions involving one regressor, two regressors, three regressors, and so on.
+It tests all possible subsets of the set of potential independent variables.
 }
 \examples{
 model <- lm(mpg ~ disp + hp, data = mtcars)
 all_subset(model)
 
+}
+\references{
+Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition). 
+Prentice Hall
 }
 

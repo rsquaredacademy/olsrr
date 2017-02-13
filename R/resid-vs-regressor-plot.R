@@ -1,9 +1,15 @@
 #' @title Residual vs Regressors Plot
-#' @description Residual vs Regressors Plot
+#' @description Graph to determine whether we should add a new predictor to the model already containing other predictors.
+#' The residuals from the model is regressed on the new predictor and if the plot shows non random pattern, 
+#' you should consider adding the new predictor to the model.
 #' @param model an object of class \code{lm}
+#' @param variable new predictor to be added to the \code{model}
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' rvsr_plot(model, mtcars$drat)
 #' @export
 #'
-rvsr_plot <- function(model) {
+rvsr_plot <- function(model, variable) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
@@ -13,17 +19,38 @@ rvsr_plot <- function(model) {
 	y <- NULL
 	d <- rvsrdata(model)
 
-		for (i in seq_len(d$np)) {
-				k <- data.frame(x = unlist(d$dat[i]), y = model$residuals)
+				v <- l(deparse(substitute(variable)))
+				k <- data.frame(x = variable, y = model$residuals)
 				p <- ggplot(k, aes(x = x, y = y))
 				p <- p + geom_point(shape = 1, colour = 'blue')
-				p <- p + xlab(paste(d$pnames[i])) + ylab('Residual')
-				p <- p + ggtitle(paste("Residual vs", d$pnames[i]))
+				p <- p + xlab(paste(v)) + ylab('Residual')
+				p <- p + ggtitle(paste("Residual vs", v))
 				p <- p + geom_hline(yintercept = 0, colour = 'red')
 				print(p)
-		}
 
 }
+
+# rvsr_plot <- function(model) {
+
+# 	if (!all(class(model) == 'lm')) {
+#     stop('Please specify a OLS linear regression model.', call. = FALSE)
+#   }
+
+# 	x <- NULL
+# 	y <- NULL
+# 	d <- rvsrdata(model)
+
+# 		for (i in seq_len(d$np)) {
+# 				k <- data.frame(x = unlist(d$dat[i]), y = model$residuals)
+# 				p <- ggplot(k, aes(x = x, y = y))
+# 				p <- p + geom_point(shape = 1, colour = 'blue')
+# 				p <- p + xlab(paste(d$pnames[i])) + ylab('Residual')
+# 				p <- p + ggtitle(paste("Residual vs", d$pnames[i]))
+# 				p <- p + geom_hline(yintercept = 0, colour = 'red')
+# 				print(p)
+# 		}
+
+# }
 
 
 # rvsr_plot <- function(model, panel = TRUE) {

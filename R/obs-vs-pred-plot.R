@@ -1,15 +1,11 @@
 #' @importFrom stats fitted.values
 #' @importFrom ggplot2 geom_abline geom_segment
 #' @title Observed vs Predicted Plot
-#' @description Plot of observed vs fitted values of the regression model
+#' @description Plot of observed vs fitted values to assess the fit of the model.
 #' @param model an object of class \code{lm}
-#' @details Some statistical tests, for example the analysis of variance, assume
-#' that variances are equal across groups or samples. The Bartlett test can be
-#' used to verify that assumption. Bartlett's test is sensitive to departures
-#' from normality. That is, if your samples come from non-normal distributions,
-#' then Bartlett's test may simply be testing for non-normality. The Levene test
-#' is an alternative to the Bartlett test that is less sensitive to departures
-#' from normality.
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' ovsp_plot(model)
 #' @export
 #'
 ovsp_plot <- function(model) {

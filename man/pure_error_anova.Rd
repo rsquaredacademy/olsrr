@@ -39,15 +39,14 @@ list containing the following components:
 \item{preds}{name of \code{group_var}}
 }
 \description{
-Lack of Fit F Test
+Assess how much of the error in prediction is due to lack of model fit.
 }
-\details{
-Some statistical tests, for example the analysis of variance, assume
-that variances are equal across groups or samples. The Bartlett test can be
-used to verify that assumption. Bartlett's test is sensitive to departures
-from normality. That is, if your samples come from non-normal distributions,
-then Bartlett's test may simply be testing for non-normality. The Levene test
-is an alternative to the Bartlett test that is less sensitive to departures
-from normality.
+\examples{
+model <- lm(mpg ~ disp, data = mtcars)
+pure_error_anova(model)
+}
+\references{
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Chicago, IL., McGraw Hill/Irwin.
 }
 
