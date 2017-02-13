@@ -49,7 +49,7 @@ pred_diag <- function(model) {
         ggtitle(paste('Boxplot of', nam[1])) +
         theme(axis.text.x = element_blank())
 
-    grid.arrange(d1, d2, d3, d4, ncol = 2, top = 'Response Diagnostics')
+    grid.arrange(p1, p2, p3, p4, ncol = 2, top = 'Response Diagnostics')
 
 }
 

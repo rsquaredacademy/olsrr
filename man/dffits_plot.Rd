@@ -6,11 +6,14 @@
 \usage{
 dffits_plot(model)
 }
+\arguments{
+\item{model}{an object of class \code{lm}}
+}
 \description{
 Plot for detecting influential observations using DFFITS.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-dffits_panel(model)
+dffits_plot(model)
 }
 

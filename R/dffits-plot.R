@@ -1,9 +1,10 @@
 #' @importFrom stats dffits
 #' @title DFFITS Plot
 #' @description Plot for detecting influential observations using DFFITS.
+#' @param model an object of class \code{lm}
 #' @examples 
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' dffits_panel(model)
+#' dffits_plot(model)
 #' @export
 #'
 dffits_plot <- function(model) {
