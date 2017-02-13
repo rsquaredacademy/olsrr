@@ -20,11 +20,11 @@
 #' \item{mallows_cp}{predictors}
 #' \item{indvar}{predictors}
 #' @examples
-#' stepwise regression
+#' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
 #' stepwise(model)
 #'
-#' stepwise regression plot
+#' # stepwise regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- stepwise(model)
 #' plot(k)

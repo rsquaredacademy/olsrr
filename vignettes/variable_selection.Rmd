@@ -1,0 +1,189 @@
+---
+title: "Variable Selection Methods"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Variable Selection Methods}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(olsrr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(purrr)
+library(tibble)
+library(nortest)
+library(goftest)
+```
+
+<style type="text/css">
+#best-subset-regression pre { /* Code block */
+  font-size: 10px
+}
+</style>
+
+# Variable Selection Procedures
+
+## All Subset Regression
+
+All subset regression tests all possible subsets of the set of potential independent variables. If there are K potential independent variables (besides the constant), then there are $2^{k}$ distinct subsets of them to be tested. For example, if you have 10 candidate independent variables, the number of subsets to be tested is $2^{10}$, which is 1024, and if you have 20 candidate variables, the number is $2^{20}$, which is more than one million.
+
+```{r allsub}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+all_subset(model)
+```
+
+The `plot` method shows the panel of fit criteria for all possible regression methods. 
+
+```{r allsubplot, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- all_subset(model)
+plot(k)
+```
+
+## Best Subset Regression
+
+Select the subset of predictors that do the best at meeting some well-defined objective criterion, 
+such as having the largest R2 value or the smallest MSE, Mallow's Cp or AIC.
+
+```{r bestsub, size='tiny'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+best_subset(model)
+```
+
+The `plot` method shows the panel of fit criteria for best subset regression methods. 
+
+```{r bestsubplot, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+k <- best_subset(model)
+plot(k)
+```
+
+## Stepwise Forward Regression
+
+Build regression model from a set of candidate predictor variables by entering predictors based on 
+p values, in a stepwise manner until there is no variable left to enter any more.
+
+### Variable Selection
+
+```{r stepf1}
+# stepwise forward regression
+model <- lm(y ~ ., data = surgical)
+step_forward(model)
+```
+
+### Plot
+
+```{r stepf2, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- step_forward(model)
+plot(k)
+```
+
+## Stepwise Backward Regression
+
+Build regression model from a set of candidate predictor variables by removing predictors based on 
+p values, in a stepwise manner until there is no variable left to remove any more.
+
+### Variable Selection
+
+```{r stepb, fig.width=10, fig.height=15, fig.align='center'}
+# stepwise backward regression
+model <- lm(y ~ ., data = surgical)
+step_backward(model)
+```
+
+### Plot
+
+```{r stepb2, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- step_backward(model)
+plot(k)
+```
+
+## Stepwise Regression
+
+Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+p values, in a stepwise manner until there is no variable left to enter or remove any more.
+
+### Variable Selection
+
+```{r stepwise1}
+# stepwise regression
+model <- lm(y ~ ., data = surgical)
+stepwise(model)
+```
+
+### Plot
+
+```{r stepwise2, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- stepwise(model)
+plot(k)
+```
+
+## Stepwise AIC Forward Regression
+
+Build regression model from a set of candidate predictor variables by entering predictors based on 
+Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
+
+### Variable Selection
+
+```{r stepaicf1}
+# stepwise aic forward regression
+model <- lm(y ~ ., data = surgical)
+stepaic_forward(model)
+```
+
+### Plot
+
+```{r stepaicf2, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- stepaic_forward(model)
+plot(k)
+```
+
+## Stepwise AIC Backward Regression
+
+Build regression model from a set of candidate predictor variables by removing predictors based on 
+Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
+
+### Variable Selection
+
+```{r stepaicb1}
+# stepwise aic backward regression
+model <- lm(y ~ ., data = surgical)
+k <- stepaic_backward(model)
+k
+
+### Plot
+
+```{r stepaicb2, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- stepaic_backward(model)
+plot(k)
+```
+
+## Stepwise AIC Regression
+
+Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
+
+### Variable Selection
+
+```{r stepwiseaic1}
+# stepwise aic backward regression
+model <- lm(y ~ ., data = surgical)
+stepaic_both(model)
+```
+
+### Plot
+
+```{r stepwiseaic2, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- stepaic_both(model)
+plot(k)
+```

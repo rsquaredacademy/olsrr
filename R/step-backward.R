@@ -18,11 +18,11 @@
 #' \item{mallows_cp}{predictors}
 #' \item{indvar}{predictors}
 #' @examples
-#' stepwise backward regression
+#' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
 #' step_backward(model)
 #'
-#' stepwise backward regression plot
+#' # stepwise backward regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- step_backward(model)
 #' plot(k)

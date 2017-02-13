@@ -16,11 +16,11 @@
 #' \item{rsq}{response variable}
 #' \item{arsq}{predictors}
 #' @examples
-#' stepwise forward regression
+#' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
 #' stepaic_forward(model)
 #'
-#' stepwise forward regression plot
+#' # stepwise forward regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- stepaic_forward(model)
 #' plot(k)

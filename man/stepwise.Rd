@@ -34,11 +34,11 @@ Build regression model from a set of candidate predictor variables by entering a
 p values, in a stepwise manner until there is no variable left to enter or remove any more.
 }
 \examples{
-stepwise regression
+# stepwise regression
 model <- lm(y ~ ., data = surgical)
 stepwise(model)
 
-stepwise regression plot
+# stepwise regression plot
 model <- lm(y ~ ., data = surgical)
 k <- stepwise(model)
 plot(k)

@@ -16,11 +16,11 @@
 #' \item{arsq}{adjusted rsquare}
 #' \item{steps}{total number of steps}
 #' @examples
-#' stepwise regression
+#' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
 #' stepaic_both(model)
 #'
-#' stepwise regression plot
+#' # stepwise regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- stepaic_both(model)
 #' plot(k)

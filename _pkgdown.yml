@@ -26,70 +26,62 @@ reference:
   - stepaic_forward
   - stepaic_both
 
-- title: Pre/Post Estimation Tests
+- title: Residual Diagnostics
+
+  contents:
+  - qqresid
+  - hist_resid
+  - box_resid
+  - norm_test
+  - corr_test
+  - rvsp_plot
+
+- title: Heteroskedasticity
 
   contents:
   - bartlett_test
   - bp_test
-  - correlations
-  - f_test
-  - corr_test
-  - norm_test
-  - pure_error_anova
   - score_test
+  - f_test
 
-- title: Diagnostics
+- title: Collinearity Diagnostics
 
   contents:
   - coll_diag
   - vif_tol
   - eigen_cindex
-  - leverage
-  - hadi
-  - press
-  - pred_rsq
-  - aic
-  - sbc
-  - sbic
-  - gmsep
-  - mallow_cp
-  - jp
-  - pc
-  - sp
 
-- title: Plots
+- title: Measures of Influence
 
   contents:
-  - addvar_plot
-  - box_resid
-  - cplusr_plot
   - cooksd_bplot
   - cooksd_chart
   - dfbetas_panel
   - dffits_plot
-  - diag_panel
+  - srplot
+  - studres_chart
+  - studvslev_plot
   - dsrvsp_plot
   - hadi_plot
-  - ovsp_plot
   - poten_resid_plot
-  - pred_diag
+
+- title: Model Fit Assessment
+
+  contents:
   - rfs_plot
   - fm_plot
   - rsd_plot
-  - rvsp_plot
-  - rvsr_plot
-  - resid_boxplot
-  - hist_resid
-  - qqresid
-  - studvslev_plot
-  - srplot
-  - studres_chart
-
-- title: Fitted Line Properties
+  - correlations
+  - ovsp_plot
+  - pure_error_anova
+  - diag_panel
+  
+- title: Variable Importance
 
   contents:
-  - reg_line
-  - conf_line
+  - rvsr_plot
+  - addvar_plot
+  - cplusr_plot
 
 
 - title: Data

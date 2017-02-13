@@ -103,18 +103,25 @@ following components:</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>stepwise regression
-model <- lm(y ~ ., data = surgical)
-stepaic_both(model)
-
-stepwise regression plot
-model <- lm(y ~ ., data = surgical)
-k <- stepaic_both(model)
-plot(k)
-
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:1:10: unexpected symbol</span>
-#&gt; <span class='error'>1: stepwise regression</span>
-#&gt; <span class='error'>             ^</span></div></pre>
+    <pre class="examples"><div class='input'><span class='co'># stepwise regression</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>surgical</span>)
+<span class='fu'>stepaic_both</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; <span class='message'>No more variables to be added or removed.</span></div><div class='output co'>#&gt; 
+#&gt; 
+#&gt;                                     Stepwise Summary                                    
+#&gt; --------------------------------------------------------------------------------------
+#&gt; Variable        Method       AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq 
+#&gt; --------------------------------------------------------------------------------------
+#&gt; liver_test     addition    771.875     4565248.06    3804272.477    0.455        0.444 
+#&gt; alc_heavy      addition    761.439    3626170.761    4743349.776    0.567         0.55 
+#&gt; enzyme_test    addition    750.509    2854006.401    5515514.136    0.659        0.639 
+#&gt; pindex         addition    735.715    2091160.477     6278360.06     0.75         0.73 
+#&gt; bcs            addition     730.62    1833716.447     6535804.09    0.781        0.758 
+#&gt; --------------------------------------------------------------------------------------
+#&gt; </div><div class='input'>
+<span class='co'># stepwise regression plot</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>surgical</span>)
+<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>stepaic_both</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; <span class='message'>No more variables to be added or removed.</span></div><div class='input'><span class='fu'>plot</span>(<span class='no'>k</span>)</div><img src='stepaic_both-7.png' alt='' width='540' height='400' /><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
