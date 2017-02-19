@@ -75,7 +75,7 @@ eigen_cindex <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	x <- model$model[, -1]
+	x <- tibble::as_data_frame(model.matrix(model))
 	e <- evalue(x)$e
 	cindex <- cindx(e)
 	pv <- pveindex(evalue(x)$pvdata)

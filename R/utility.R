@@ -120,7 +120,7 @@ bartlett_fstat <- function(variable, grp_var) {
 # eigen cindex
 evalue <- function(x) {
 
-               y <- cbind(1,x)
+               y <- x
 	colnames(y)[1] <- "intercept"
 	             z <- scale(y, scale = T, center = F)
 	            tu <- t(z) %*% z
@@ -148,14 +148,14 @@ pveindex <- function(z) {
 
 # vif tol
 fmrsq <- function(nam, data, i) {
-   fm <- as.formula(paste(nam[i], "~ ."))
+   fm <- as.formula(paste0('`', nam[i], '` ', "~ ."))
    m1 <- lm(fm, data = data)
   rsq <- 1 - (summary(m1)$r.squared)
   return(rsq)
 }
 
 viftol <- function(model) {
-    m    <- model.frame(model)[-1]
+    m    <- tibble::as_data_frame(model.matrix(model))[-1]
     nam  <- names(m)
     p    <- length(model$coefficients) - 1
     tol  <- c()
@@ -180,11 +180,11 @@ cpdata <- function(data, mc, e, i) {
 
 cpout <- function(model) {
   e      <- residuals(model)
-	mc     <- model$coefficients[-1]
-	data   <- model.frame(model)[-1]
-	lmc    <- length(mc)
-	nam    <- names(data)
-	indvar <- names(model.frame(model))[1]
+  mc     <- model$coefficients[-1]
+  data   <- tibble::as_data_frame(model.matrix(model))[-1]
+  lmc    <- length(mc)
+  nam    <- names(data)
+  indvar <- names(model.frame(model))[1]
   out <- list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)
   return(out)
 }
@@ -345,10 +345,11 @@ hadipot <- function(model) {
 
 hadires <- function(model) {
   pii       <- 1 - leverage(model)
-  q         <- model$rank
+  q         <- model$rank - 1
   p         <- q - 1
   aov_m     <- anova(model)
-  dii       <- (model$residuals / sqrt(aov_m[q, 2])) ^ 2
+  j         <- length(aov_m$Df)
+  dii       <- (model$residuals / sqrt(aov_m[j, 2])) ^ 2
   residual  <- ((p + 1) / pii) * (dii / (1 - dii))
   return(residual)
 }
