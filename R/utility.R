@@ -345,7 +345,7 @@ hadipot <- function(model) {
 
 hadires <- function(model) {
   pii       <- 1 - leverage(model)
-  q         <- model$rank - 1
+  q         <- model$rank 
   p         <- q - 1
   aov_m     <- anova(model)
   j         <- length(aov_m$Df)

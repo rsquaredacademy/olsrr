@@ -79,7 +79,7 @@ f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL
 
     	if (fitted_values) {
 
-				k <- ffit(model)
+		k <- ffit(model)
         f <- k[[1]]
     numdf <- k[[2]]
     dendf <- k[[3]]
@@ -88,7 +88,7 @@ f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL
 
     	} else {
 
-			     	k <- fvar(n, l, model, vars)
+			k <- fvar(n, l, model, vars)
             f <- k[[1]]
   			numdf <- k[[2]]
   			dendf <- k[[3]]

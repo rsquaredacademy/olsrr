@@ -894,7 +894,7 @@ print_score_test <- function(data) {
 
 	} else {
 
-		cat(' Variables:', data$vars, '\n\n')
+		cat(' Variables:', data$preds, '\n\n')
 
 	}
 
