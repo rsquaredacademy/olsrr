@@ -202,9 +202,11 @@ stepaic_both.default <- function(model, details = FALSE) {
 #' @export
 #'
 print.stepaic_both <- function(x, ...) {
-
-    print_stepaic_both(x)
-
+    if (x$steps > 0) {
+      print_stepaic_both(x)
+    } else {
+      print('No variables have been added to or removed from the model.')
+    }
 }
 
 #' @export

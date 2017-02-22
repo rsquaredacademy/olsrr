@@ -230,7 +230,11 @@ stepaic_forward.default <- function(model, details = FALSE, ...) {
 #' @export
 #'
 print.stepaic_forward <- function(x, ...) {
-    print_stepaic_forward(x)
+    if (x$steps > 0) {
+      print_stepaic_forward(x)
+    } else {
+      print('No variables have been added to the model.')
+    }
 }
 
 #' @export

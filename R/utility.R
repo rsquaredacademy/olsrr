@@ -81,7 +81,7 @@ combinations <- function(n, r) {
 advarx <- function(data , i) {
     j <- i - 1
     k <- names(data)
-  fla <- as.formula(paste(k[j], "~ ."))
+  fla <- as.formula(paste0('`', k[j], '`', " ~ ."))
   out <- residuals(lm(fla, data = data))
   return(out)
 }
@@ -219,11 +219,14 @@ cdchart <- function(model) {
 #' @importFrom tibble as_data_frame
 #' @importFrom purrr map_df
 cordata <- function(model) {
-  d <- model %>%
-    model.frame() %>%
-    as_data_frame() %>%
-    map_df(as.numeric)
-  return(d)
+  m1 <- tibble::as_data_frame(model.frame(model))
+  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+   l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+  # d <- model %>%
+  #   model.frame() %>%
+  #   as_data_frame() %>%
+  #   map_df(as.numeric)
+  return(l)
 }
 
 cmdata <- function(mdata) {
@@ -412,7 +415,8 @@ mcpout <- function(model, fullmodel, n, p, q) {
 sepout <- function(model) {
 
     n <- model %>% model.frame() %>% nrow()
-    p <- model %>% coefficients() %>% length()
+    # p <- model %>% coefficients() %>% length()
+    p <- model %>% anova() %>% `[[`(1) %>% length()
 
     mse <- model %>%
         anova() %>%
@@ -435,7 +439,8 @@ sepout <- function(model) {
 jpout <- function(model) {
 
     n <- model %>% model.frame() %>% nrow()
-    p <- model %>% coefficients() %>% length()
+    # p <- model %>% coefficients() %>% length()
+    p <- model %>% anova() %>% `[[`(1) %>% length()
 
     mse <- model %>%
         anova() %>%
@@ -454,7 +459,8 @@ jpout <- function(model) {
 pcout <- function(model) {
 
     n <- model %>% model.frame() %>% nrow()
-    p <- model %>% coefficients() %>% length()
+    # p <- model %>% coefficients() %>% length()
+    p <- model %>% anova() %>% `[[`(1) %>% length()
 
     rse <- model %>%
         summary() %>%
@@ -471,7 +477,8 @@ pcout <- function(model) {
 spout <- function(model) {
 
     n <- model %>% model.frame() %>% nrow()
-    p <- model %>% coefficients() %>% length()
+    # p <- model %>% coefficients() %>% length()
+    p <- model %>% anova() %>% `[[`(1) %>% length()
 
     mse <- model %>%
         anova() %>%
@@ -577,7 +584,10 @@ rvsrdata <- function(model){
 
 # score test
 rhsout <- function(model) {
-          l <- model.frame(model)
+          # l <- model.frame(model)
+         m1 <- tibble::as_data_frame(model.frame(model))
+         m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+          l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
           n <- nrow(l)
         nam <- names(l)[-1]
          np <- length(nam)
@@ -595,7 +605,10 @@ rhsout <- function(model) {
 
 fitout <- function(model, resp) {
 
-             l <- model.frame(model)
+             # l <- model.frame(model)
+            m1 <- tibble::as_data_frame(model.frame(model))
+            m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+             l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
              n <- nrow(l)
           pred <- model$fitted.values
          resid <- model$residuals ^ 2
@@ -611,7 +624,10 @@ fitout <- function(model, resp) {
 }
 
 varout <- function(model, vars) {
-          l <- model.frame(model)
+          # l <- model.frame(model)
+         m1 <- tibble::as_data_frame(model.frame(model))
+         m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+          l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
           n <- nrow(l)
   var_resid <- sum(residuals(model) ^ 2) / n
   ind       <- residuals(model) ^ 2 / var_resid - 1

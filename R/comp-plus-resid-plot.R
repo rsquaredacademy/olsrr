@@ -20,17 +20,21 @@ cplusr_plot <- function(model) {
 	pl <- cpout(model)
 	 x <- NULL
 	 y <- NULL
+	 myplots <- list()
 	for (i in seq_len(pl$lmc)) {
 
 			k <- cpdata(pl$data, pl$mc, pl$e, i)
-			p <- ggplot(k, aes(x = x, y = y)) +
+			p <- eval(substitute(ggplot(k, aes(x = x, y = y)) +
 				geom_point(colour = 'blue', size = 2) + xlab(pl$nam[i]) +
 				ylab(paste0("Residual + Component (", pl$indvar, ")")) +
-				stat_smooth(method="lm", se=FALSE)
+				stat_smooth(method="lm", se=FALSE), list(i = i)))
 
 			print(p)
+			myplots[[i]] <- p
 
 	}
+
+	do.call(grid.arrange, c(myplots, list(ncol = 2)))
 
 }
 

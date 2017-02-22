@@ -22,25 +22,33 @@ addvar_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	data   <- model.frame(model)
-	xnames <- colnames(data)
-	nl     <- ncol(data)
-	dat2   <- data[-1]
+	# data   <- model.frame(model)
+	     m1 <- tibble::as_data_frame(model.frame(model))
+	     m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+	   data <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+	 xnames <- colnames(data)
+	     nl <- ncol(data)
+	   dat2 <- data[-1]
+	myplots <- list()
 
 	for(i in 2:nl) {
 
 			x <- advarx(dat2, i)
 			y <- advary(data, i)
 			d <- tibble(x, y)
-			p <- ggplot(d, aes(x = x, y = y)) +
+			p <- eval(substitute(ggplot(d, aes(x = x, y = y)) +
 				geom_point(colour = 'blue', size = 2) +
 				xlab(paste(xnames[i], " | Others")) +
 				ylab(paste(xnames[1], " | Others")) +
-				stat_smooth(method="lm", se=FALSE)
+				stat_smooth(method="lm", se=FALSE), list(i = i)))
 
 			print(p)
+			j <- i - 1
+			myplots[[j]] <- p
 
 	}
+
+	do.call(grid.arrange, c(myplots, list(ncol = 2)))
 
 }
 

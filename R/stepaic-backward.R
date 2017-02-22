@@ -211,7 +211,12 @@ stepaic_backward.default <- function(model, details = FALSE, ...) {
 #' @export
 #'
 print.stepaic_backward <- function(x, ...) {
-    print_stepaic_backward(x)
+    if (x$steps > 0) {
+      print_stepaic_backward(x)
+    } else {
+      print('No variables have been removed from the model.')
+    }
+    
 }
 
 #' @export

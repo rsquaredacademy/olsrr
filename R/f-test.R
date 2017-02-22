@@ -62,7 +62,10 @@ f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL
     	fitted_values <- FALSE
     }
 
-    l    <- model.frame(model)
+    # l    <- model.frame(model)
+    m1 <- tibble::as_data_frame(model.frame(model))
+    m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+    l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
     nam  <- names(l)[-1]
     resp <- names(l)[1]
     n    <- nrow(l)

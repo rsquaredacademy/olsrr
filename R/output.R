@@ -913,6 +913,10 @@ print_step_backward <- function(data) {
 
     n <- data$steps
 
+    if (n < 1) {
+    	stop('No variables have been removed from the model based on p-values.')
+    }
+
     # width
     w1 <- nchar('Step')
     w2 <- max(nchar('Variable'), nchar(data$removed))
@@ -1017,6 +1021,10 @@ print_step_forward <- function(data) {
 
     n <- length(data$predictors)
 
+    if (n < 1) {
+    	stop('No variables have been added to the model based on p-values.')
+    }
+
     # width
     w1 <- nchar('Step')
     w2 <- max(nchar('Variable'), nchar(data$predictors))
@@ -1060,6 +1068,10 @@ print_step_forward <- function(data) {
 print_stepwise <- function(data) {
 
     n <- data$steps
+
+    if (n < 1) {
+    	stop('No variables have been added to or removed from the model based on p-values.')
+    }
 
     # width
     w1 <- nchar('Step')
@@ -1105,6 +1117,10 @@ print_stepwise <- function(data) {
 
 print_stepaic_forward <- function(data) {
 
+	if (data$steps < 1) {
+		stop('No variables have been added to the model.')
+	}
+
         # width
         w1 <- max(nchar('Predictor'), nchar(data$predictors))
         w2 <- max(nchar('AIC'), nchar(data$aics))
@@ -1133,6 +1149,10 @@ print_stepaic_forward <- function(data) {
 
 
 print_stepaic_backward <- function(data) {
+
+	if (data$steps < 1) {
+		stop('No variables have been removed from the model.')
+	}
 
     # width
     w1 <- max(nchar('Full Model'), nchar(data$predictors))
@@ -1165,6 +1185,10 @@ print_stepaic_backward <- function(data) {
 
 
 print_stepaic_both <- function(data) {
+
+	if (data$steps < 1) {
+		stop('No variables have been added to or removed from the model.')
+	}
 
     # width
     w1 <- max(nchar('Variable'), nchar(data$predictors))

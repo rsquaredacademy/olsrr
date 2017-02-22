@@ -75,35 +75,38 @@ step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
 		pvals <- m$pvalues[-1]
 		maxp  <- which(pvals == max(pvals))
 
-		if (pvals[maxp] > prem) {
+        suppressWarnings(
 
-			step   <- step + 1
-			rpred  <- c(rpred, preds[maxp])
-			preds  <- preds[-maxp]
-			lp     <- length(rpred)
-			fr     <- regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
-            rsq    <- c(rsq, fr$rsq)
-            adjrsq <- c(adjrsq, fr$adjr)
-            aic    <- c(aic, aic(fr$model))
-            sbc    <- c(sbc, sbc(fr$model))
-            sbic   <- c(sbic, sbic(fr$model, model))
-            cp     <- c(cp, mallow_cp(fr$model, model))
-            rmse   <- c(rmse, sqrt(fr$ems))
+    		if (pvals[maxp] > prem) {
 
-            if (details == TRUE) {
+    			step   <- step + 1
+    			rpred  <- c(rpred, preds[maxp])
+    			preds  <- preds[-maxp]
+    			lp     <- length(rpred)
+    			fr     <- regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
+                rsq    <- c(rsq, fr$rsq)
+                adjrsq <- c(adjrsq, fr$adjr)
+                aic    <- c(aic, aic(fr$model))
+                sbc    <- c(sbc, sbc(fr$model))
+                sbic   <- c(sbic, sbic(fr$model, model))
+                cp     <- c(cp, mallow_cp(fr$model, model))
+                rmse   <- c(rmse, sqrt(fr$ems))
 
-            	cat(paste("Backward Elimination: Step", step, "\n\n"), paste("Variable", rpred[lp], "Removed"), "\n\n")
-                m <- regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
-                print(m)
-                cat("\n\n")
+                if (details == TRUE) {
 
-            }
+                	cat(paste("Backward Elimination: Step", step, "\n\n"), paste("Variable", rpred[lp], "Removed"), "\n\n")
+                    m <- regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
+                    print(m)
+                    cat("\n\n")
 
-		} else {
+                }
 
-			end <- TRUE
-			message(paste("No more variables satisfy the condition of prem:", prem))
-		}
+    		} else {
+
+    			end <- TRUE
+    			message(paste("No more variables satisfy the condition of prem:", prem))
+    		}
+        )
 
 	}
 
@@ -127,7 +130,12 @@ step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
 #' @export
 #'
 print.step_backward <- function(x, ...) {
-    print_step_backward(x)
+    if (x$steps > 0) {
+      print_step_backward(x)    
+    } else {
+      print('No variables have been removed from the model.')
+    }
+    
 }
 
 

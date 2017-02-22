@@ -64,7 +64,7 @@ score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
     } else {
 
     	if (fitted_values) {
-				d <- fitout(model, resp)
+		d <- fitout(model, resp)
     	} else {
         d <- varout(model, vars)
     	}

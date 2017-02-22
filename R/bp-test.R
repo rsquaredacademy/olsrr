@@ -89,10 +89,13 @@ bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple =
 	    }
     )
 
-    method     <- match.arg(p.adj)
-    l          <- model.frame(model)
-    n          <- nrow(l)
-    response   <- names(l)[1]
+        method <- match.arg(p.adj)
+    # l          <- model.frame(model)
+            m1 <- tibble::as_data_frame(model.frame(model))
+	          m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+	           l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+             n <- nrow(l)
+      response <- names(l)[1]
     predictors <- names(l)[-1]
 
 	if (fitted.values) {

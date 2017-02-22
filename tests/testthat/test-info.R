@@ -9,11 +9,11 @@ test_that('aic output matches expected result', {
 
 	model     <- lm(y ~ x1 + x2 + x4, data = cement)
 	expect_equal(aic(model, method = 'R'), round(AIC(model), 4))
-	expect_equal(aic(model, method = 'STATA'), 61.8663)	
+	expect_equal(aic(model, method = 'STATA'), 61.8663)
 
 	model     <- lm(y ~ x2 + x4, data = cement)
 	expect_equal(aic(model, method = 'R'), round(AIC(model), 4))
-	expect_equal(aic(model, method = 'STATA'), 97.5217)	
+	expect_equal(aic(model, method = 'STATA'), 97.5217)
 
 
 })
@@ -26,11 +26,11 @@ test_that('sbc output matches expected result', {
 
 	model     <- lm(y ~ x1 + x2 + x4, data = cement)
 	expect_equal(sbc(model, method = 'R'), round(BIC(model), 4))
-	expect_equal(sbc(model, method = 'STATA'), 64.1261)	
+	expect_equal(sbc(model, method = 'STATA'), 64.1261)
 
 	model     <- lm(y ~ x2 + x4, data = cement)
 	expect_equal(sbc(model, method = 'R'), round(BIC(model), 4))
-	expect_equal(sbc(model, method = 'STATA'), 99.2166)	
+	expect_equal(sbc(model, method = 'STATA'), 99.2166)
 
 
 })
@@ -53,14 +53,14 @@ test_that('sbc output matches expected result', {
 
 	model     <- lm(y ~ x2 + x4, data = cement)
 	expect_equal(round(pc(model), 3), 0.512)
-	
+
 
 
 })
 
 
 test_that("mallow's cp output matches expected result", {
-	
+
 	model     <- lm(y ~ x1, data = cement)
 	act       <- round(mallow_cp(model, fullmodel), 2)
 	exp       <- 202.55
@@ -91,3 +91,4 @@ test_that("mallow's cp output matches expected result", {
 	exp       <- 3.50
 	expect_equal(act, exp)
 })
+

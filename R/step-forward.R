@@ -181,7 +181,12 @@ step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) {
 #' @export
 #'
 print.step_forward <- function(x, ...) {
-    print_step_forward(x)
+    if (x$steps > 0) {
+      print_step_forward(x)
+    } else {
+      print('No variables have been added to the model.')
+    }
+    
 }
 
 #' @export

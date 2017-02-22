@@ -231,7 +231,12 @@ stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE, ...
 #' @export
 #'
 print.stepwise <- function(x, ...) {
-    print_stepwise(x)
+    if (x$steps > 0) {
+      print_stepwise(x)
+    } else {
+      print('No variables have been added to or removed from the model.')
+    }
+    
 }
 
 #' @export
