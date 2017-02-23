@@ -2,7 +2,7 @@ context('stepaic_backward')
 
 test_that('output from stepaic_backward matches the expected outptu', {
     model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-    k <- stepaic_backward(model)
+    k <- ols_stepaic_backward(model)
     expect_equal(k$steps, 2)
     expect_equivalent(k$predictors, c("disp", "drat"))
     expect_equivalent(round(k$aics, 3), c(158.584, 156.731, 156.652))

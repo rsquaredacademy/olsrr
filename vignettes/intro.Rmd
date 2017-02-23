@@ -29,7 +29,7 @@ library(goftest)
 ## Regression
 
 ```{r regress}
-regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ```
 
 

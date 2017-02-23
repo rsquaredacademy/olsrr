@@ -12,76 +12,75 @@ reference:
 - title: Regression
 
   contents:
-  - regress
+  - ols_regress
 
 - title: Model Selection
 
   contents:
-  - all_subset
-  - best_subset
-  - step_backward
-  - step_forward
-  - stepwise
-  - stepaic_backward
-  - stepaic_forward
-  - stepaic_both
+  - ols_all_subset
+  - ols_best_subset
+  - ols_step_backward
+  - ols_step_forward
+  - ols_stepwise
+  - ols_stepaic_backward
+  - ols_stepaic_forward
+  - ols_stepaic_both
 
 - title: Residual Diagnostics
 
   contents:
-  - qqresid
-  - hist_resid
-  - box_resid
-  - norm_test
-  - corr_test
-  - rvsp_plot
+  - ols_rsd_qqplot
+  - ols_resid_hist
+  - ols_rsd_boxplot
+  - ols_norm_test
+  - ols_rvsp_plot
 
 - title: Heteroskedasticity
 
   contents:
-  - bartlett_test
-  - bp_test
-  - score_test
-  - f_test
+  - ols_bartlett_test
+  - ols_bp_test
+  - ols_score_test
+  - ols_f_test
 
 - title: Collinearity Diagnostics
 
   contents:
-  - coll_diag
-  - vif_tol
-  - eigen_cindex
+  - ols_coll_diag
+  - ols_vif_tol
+  - ols_eigen_cindex
 
 - title: Measures of Influence
 
   contents:
-  - cooksd_bplot
-  - cooksd_chart
-  - dfbetas_panel
-  - dffits_plot
-  - srplot
-  - studres_chart
-  - studvslev_plot
-  - dsrvsp_plot
-  - hadi_plot
-  - poten_resid_plot
+  - ols_cooksd_barplot
+  - ols_cooksd_chart
+  - ols_dfbetas_panel
+  - ols_dffits_plot
+  - ols_srsd_plot
+  - ols_srsd_chart
+  - ols_rsdlev_plot
+  - ols_dsrvsp_plot
+  - ols_hadi_plot
+  - ols_potrsd_plot
 
 - title: Model Fit Assessment
 
   contents:
-  - rfs_plot
-  - fm_plot
-  - rsd_plot
-  - correlations
-  - ovsp_plot
-  - pure_error_anova
-  - diag_panel
+  - ols_rfs_plot
+  - ols_fm_plot
+  - ols_rsd_plot
+  - ols_correlations
+  - ols_ovsp_plot
+  - ols_pure_error_anova
+  - ols_diagnostic_panel
   
 - title: Variable Importance
 
   contents:
-  - rvsr_plot
-  - addvar_plot
-  - cplusr_plot
+  - ols_rvsr_plot
+  - ols_avplots
+  - ols_rpc_plot
 
 
 - title: Data

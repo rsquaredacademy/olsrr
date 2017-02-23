@@ -11,7 +11,7 @@ model <- lm(write ~ read + math + science + race_2 + race_3 + race_4,
 
 test_that("output from vif_tol matches expected result", {
 
-	act       <- vif_tol(model)
+	act       <- ols_vif_tol(model)
 	Variables <- c("read", "math", "science", "race_2", "race_3", "race_4")
 	Tolerance <- c(0.482, 0.469, 0.475, 0.692, 0.602, 0.467)
 	VIF       <- c(2.074, 2.132, 2.104, 1.446, 1.662, 2.141)
@@ -23,7 +23,7 @@ test_that("output from vif_tol matches expected result", {
 
 test_that("output from eigen_cindex matches expected result", {
 
-	act  <- eigen_cindex(model)
+	act  <- ols_eigen_cindex(model)
 	col1 <- c(4.865, 1.002, 1.000, 0.091, 0.018, 0.013, 0.011)
 	col2 <- c(1.000, 2.203, 2.205, 7.298, 16.263, 19.583, 21.447)
 	col3 <- c(0.000, 0.000, 0.000, 0.010,  0.870,  0.050,  0.070)
@@ -44,7 +44,7 @@ test_that("vif_tol fails when model inherits other than 'lm'", {
 		y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)
     m <- glm(x ~ y)
-    expect_error(vif_tol(m), 'Please specify a OLS linear regression model.')
+    expect_error(ols_vif_tol(m), 'Please specify a OLS linear regression model.')
 })
 
 
@@ -52,7 +52,7 @@ test_that("eigen_cindex fails when model inherits other than 'lm'", {
 		y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)
     m <- glm(x ~ y)
-    expect_error(eigen_cindex(m), 'Please specify a OLS linear regression model.')
+    expect_error(ols_eigen_cindex(m), 'Please specify a OLS linear regression model.')
 })
 
 
@@ -60,5 +60,5 @@ test_that("coll_diag fails when model inherits other than 'lm'", {
 		y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)
     m <- glm(x ~ y)
-    expect_error(coll_diag(m), 'Please specify a OLS linear regression model.')
+    expect_error(ols_coll_diag(m), 'Please specify a OLS linear regression model.')
 })

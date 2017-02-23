@@ -33,14 +33,14 @@ All subset regression tests all possible subsets of the set of potential indepen
 
 ```{r allsub}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-all_subset(model)
+ols_all_subset(model)
 ```
 
 The `plot` method shows the panel of fit criteria for all possible regression methods. 
 
 ```{r allsubplot, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-k <- all_subset(model)
+k <- ols_all_subset(model)
 plot(k)
 ```
 
@@ -51,14 +51,14 @@ such as having the largest R2 value or the smallest MSE, Mallow's Cp or AIC.
 
 ```{r bestsub, size='tiny'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-best_subset(model)
+ols_best_subset(model)
 ```
 
 The `plot` method shows the panel of fit criteria for best subset regression methods. 
 
 ```{r bestsubplot, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-k <- best_subset(model)
+k <- ols_best_subset(model)
 plot(k)
 ```
 
@@ -72,14 +72,14 @@ p values, in a stepwise manner until there is no variable left to enter any more
 ```{r stepf1}
 # stepwise forward regression
 model <- lm(y ~ ., data = surgical)
-step_forward(model)
+ols_step_forward(model)
 ```
 
 ### Plot
 
 ```{r stepf2, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- step_forward(model)
+k <- ols_step_forward(model)
 plot(k)
 ```
 
@@ -93,14 +93,14 @@ p values, in a stepwise manner until there is no variable left to remove any mor
 ```{r stepb, fig.width=10, fig.height=15, fig.align='center'}
 # stepwise backward regression
 model <- lm(y ~ ., data = surgical)
-step_backward(model)
+ols_step_backward(model)
 ```
 
 ### Plot
 
 ```{r stepb2, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- step_backward(model)
+k <- ols_step_backward(model)
 plot(k)
 ```
 
@@ -114,14 +114,14 @@ p values, in a stepwise manner until there is no variable left to enter or remov
 ```{r stepwise1}
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
-stepwise(model)
+ols_stepwise(model)
 ```
 
 ### Plot
 
 ```{r stepwise2, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- stepwise(model)
+k <- ols_stepwise(model)
 plot(k)
 ```
 
@@ -135,14 +135,14 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 ```{r stepaicf1}
 # stepwise aic forward regression
 model <- lm(y ~ ., data = surgical)
-stepaic_forward(model)
+ols_stepaic_forward(model)
 ```
 
 ### Plot
 
 ```{r stepaicf2, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- stepaic_forward(model)
+k <- ols_stepaic_forward(model)
 plot(k)
 ```
 
@@ -156,14 +156,14 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 ```{r stepaicb1}
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
-k <- stepaic_backward(model)
+k <- ols_stepaic_backward(model)
 k
 
 ### Plot
 
 ```{r stepaicb2, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- stepaic_backward(model)
+k <- ols_stepaic_backward(model)
 plot(k)
 ```
 
@@ -177,13 +177,13 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 ```{r stepwiseaic1}
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
-stepaic_both(model)
+ols_stepaic_both(model)
 ```
 
 ### Plot
 
 ```{r stepwiseaic2, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- stepaic_both(model)
+k <- ols_stepaic_both(model)
 plot(k)
 ```
