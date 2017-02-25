@@ -9,6 +9,10 @@
 #'
 ols_rsd_boxplot <- function(model) {
 
+	if (!all(class(model) == 'lm')) {
+        stop('Please specify a OLS linear regression model.', call. = FALSE)
+  }
+
 	resid <- NULL
 	d <- tibble(resid = residuals(model))
 	p <- ggplot(d, aes(x = factor(0), y = resid)) +

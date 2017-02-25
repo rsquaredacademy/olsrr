@@ -41,7 +41,7 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
     }
 
     if ((penter < 0) | (penter > 1)) {
-      stop('penter must be between 0 and 1.', call. = FALSE)
+      stop('p value for entering variables into the model must be between 0 and 1.', call. = FALSE)
     }
 
     if (!is.logical(details)) {

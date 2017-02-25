@@ -40,7 +40,7 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
     }
 
     if ((prem < 0) | (prem > 1)) {
-      stop('prem must be between 0 and 1.', call. = FALSE)
+      stop('p value for removing variables from the model must be between 0 and 1.', call. = FALSE)
     }
 
     if (!is.logical(details)) {

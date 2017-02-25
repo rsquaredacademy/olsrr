@@ -113,7 +113,7 @@ test_that('output from rsdata matches the expected output', {
     expect_equal(round(max(k$y), 3), 5.688)
 })
 
-test_that('output from rsdata matches the expected output', {
+test_that('output from fmdata matches the expected output', {
     model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
     k <- fmdata(model)
     expect_equal(round(mean(k$x), 3), 0.517)
@@ -160,4 +160,9 @@ test_that('output from rstudlev matches the expected result', {
     expect_equal(round(k$miny, 3), -4.44)
     expect_equal(round(k$maxx, 3), 0.508)
     expect_equal(round(k$maxy, 3), 5.516)
+})
+
+test_that('output from corrout matches the expected result', {
+    model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+    expect_equal(round(corrout(model), 3), 0.96)
 })

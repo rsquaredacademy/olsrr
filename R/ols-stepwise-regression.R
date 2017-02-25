@@ -42,11 +42,11 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     }
 
     if ((pent < 0) | (pent > 1)) {
-      stop('pent must be between 0 and 1.', call. = FALSE)
+      stop('p value for entering variables into the model must be between 0 and 1.', call. = FALSE)
     }
 
     if ((prem < 0) | (prem > 1)) {
-      stop('pent must be between 0 and 1.', call. = FALSE)
+      stop('p value for removing variables from the model must be between 0 and 1.', call. = FALSE)
     }
 
     if (!is.logical(details)) {

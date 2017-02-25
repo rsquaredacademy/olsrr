@@ -11,3 +11,16 @@ test_that('output from stepaic_forward matches the expected outptu', {
     expect_equivalent(round(k$rsq, 3), c(0.753, 0.827))
     expect_equivalent(round(k$arsq, 3), c(0.745, 0.815))
 })
+
+
+test_that("forward selection fails when model inherits other than 'lm'", {
+    y <- sample(c(1:4), 100, replace = T)
+    x <- sample(c(1, 2), 100, replace = T)
+    m <- glm(x ~ y)
+    expect_error(ols_stepaic_forward(m), 'Please specify a OLS linear regression model.')
+})
+
+test_that("forward selection fails when model contains less than 2 predictors", {
+	model <- lm(y ~ x1, data = cement)
+  expect_error(ols_stepaic_forward(model), 'Please specify a model with at least 2 predictors.')
+})
