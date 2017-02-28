@@ -3,8 +3,10 @@
 #' @importFrom Rcpp sourceCpp
 #' @title Bartlett Test
 #' @description Test if k samples have equal variances
-#' @param variable a numeric vector
+#' @param variable a numeric vector/an object of class \code{formula} or \code{lm}
 #' @param ... numeric vectors
+#' @param group_var grouping variable
+#' @param data a data frame
 #' @details Bartlett's test is used to test if variances across samples is equal. 
 #' It is sensitive to departures from normality. The Levene test
 #' is an alternative test that is less sensitive to departures from normality.
@@ -43,6 +45,7 @@
 ols_bartlett_test <- function(variable, ...) UseMethod('ols_bartlett_test')
 
 #' @export
+#' @rdname ols_bartlett_test
 #'
 ols_bartlett_test.default <- function(variable, ..., group_var = NA) {
 
@@ -112,12 +115,14 @@ ols_bartlett_test.default <- function(variable, ..., group_var = NA) {
 }
 
 #' @export
+#' @rdname ols_bartlett_test
 #'
 ols_bartlett_test.lm <- function(variable, ...) {
 	ols_bartlett_test.formula(formula(variable), data=model.frame(variable), ...)
 }
 
 #' @export
+#' @rdname ols_bartlett_test
 #'
 ols_bartlett_test.formula <- function(variable, data, ...) {
 

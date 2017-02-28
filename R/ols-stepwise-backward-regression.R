@@ -2,6 +2,7 @@
 #' @description Build regression model from a set of candidate predictor variables by removing predictors based on 
 #' p values, in a stepwise manner until there is no variable left to remove any more.
 #' @param model an object of class \code{lm}
+#' @param x an object of class \code{ols_step_backward}
 #' @param ... other inputs
 #' @return \code{ols_step_backward} returns an object of class \code{"ols_step_backward"}.
 #' An object of class \code{"ols_step_backward"} is a list containing the
@@ -17,6 +18,9 @@
 #' \item{rmse}{predictors}
 #' \item{mallows_cp}{predictors}
 #' \item{indvar}{predictors}
+#'
+#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
 #' @examples
 #' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
@@ -56,18 +60,18 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
 	nam      <- names(l)
 	response <- nam[1]
 	preds    <- nam[-1]
-  cterms   <- preds
+    cterms   <- preds
 	ilp      <- length(preds)
 	end      <- FALSE
 	step     <- 0
 	rpred    <- c()
 	rsq      <- c()
-  adjrsq   <- c()
-  aic      <- c()
-  sbic     <- c()
-  sbc      <- c()
-  cp       <- c()
-  rmse     <- c()
+    adjrsq   <- c()
+    aic      <- c()
+    sbic     <- c()
+    sbc      <- c()
+    cp       <- c()
+    rmse     <- c()
 
 	while (!end) {
 
@@ -141,8 +145,9 @@ print.ols_step_backward <- function(x, ...) {
 
 
 #' @export
+#' @rdname ols_step_backward
 #'
-plot.ols_step_backward <- function(x, ...) {
+plot.ols_step_backward <- function(x, model = NA, ...) {
 
     y        <- seq_len(x$steps)
     rmax     <- max(x$rsquare)
@@ -219,53 +224,3 @@ plot.ols_step_backward <- function(x, ...) {
 }
 
 
-# plot.step_backward <- function(x, ...) {
-#
-#     y        <- seq_len(x$steps)
-#     rmax     <- max(x$rsquare)
-#     rstep    <- which(x$rsquare == rmax)
-#     adjrmax  <- max(x$adjr)
-#     adjrstep <- which(x$adjr == adjrmax)
-#     cpdiff   <- x$mallows_cp - y
-#     cpdifmin <- min(cpdiff)
-#     cpdifi   <- which(cpdiff == cpdifmin)
-#     cpval    <- x$mallows_cp[cpdifi]
-#     aicmin   <- min(x$aic)
-#     aicstep  <- which(x$aic == aicmin)
-#     sbicmin  <- min(x$sbic)
-#     sbicstep <- which(x$sbic == sbicmin)
-#     sbcmin   <- min(x$sbc)
-#     sbcstep  <- which(x$sbc == sbcmin)
-#
-#     op <- par(no.readonly = TRUE)
-#     on.exit(par(op))
-#
-#     m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
-#     layout(mat = m,heights = c(2, 2))
-#
-#     plot(y, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
-#      main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-#     points(rstep, rmax, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
-#         main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-#     points(adjrstep, adjrmax, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$mallows_cp, type = 'b', col = 'blue', xlab = '', ylab = '',
-#         main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
-#     points(cpdifi, cpval, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$aic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-#         main = 'AIC', cex.main = 1, yaxt = 'n')
-#     points(aicstep, aicmin, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$sbic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-#         main = 'SBIC', cex.main = 1, yaxt = 'n')
-#     points(sbicstep, sbicmin, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$sbc, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-#         main = 'SBC', cex.main = 1, yaxt = 'n')
-#     points(sbcstep, sbcmin, pch = 2, col = "red", cex = 2.5)
-#
-#
-# }

@@ -2,14 +2,19 @@
 % Please edit documentation in R/ols-best-subsets-regression.R
 \name{ols_best_subset}
 \alias{ols_best_subset}
+\alias{plot.ols_best_subset}
 \title{Best Subsets Regression}
 \usage{
 ols_best_subset(model, ...)
+
+\method{plot}{ols_best_subset}(x, model = NA, ...)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
 \item{...}{other inputs}
+
+\item{x}{an object of class \code{ols_best_subset}}
 }
 \value{
 \code{ols_best_subset} returns an object of class \code{"ols_best_subset"}.

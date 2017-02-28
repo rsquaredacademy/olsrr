@@ -2,14 +2,19 @@
 % Please edit documentation in R/ols-stepwise-backward-regression.R
 \name{ols_step_backward}
 \alias{ols_step_backward}
+\alias{plot.ols_step_backward}
 \title{Stepwise Backward Regression}
 \usage{
 ols_step_backward(model, ...)
+
+\method{plot}{ols_step_backward}(x, model = NA, ...)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
 \item{...}{other inputs}
+
+\item{x}{an object of class \code{ols_step_backward}}
 }
 \value{
 \code{ols_step_backward} returns an object of class \code{"ols_step_backward"}.
@@ -41,5 +46,8 @@ model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward(model)
 plot(k)
 
+}
+\references{
+Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
 

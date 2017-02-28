@@ -35,24 +35,24 @@ test_that('sbc output matches expected result', {
 
 })
 
-test_that('sbc output matches expected result', {
+test_that('apc output matches expected result', {
 
-	expect_equal(round(ols_pc(fullmodel), 3), 0.04)
+	expect_equal(round(ols_apc(fullmodel), 3), 0.04)
 
 	model     <- lm(y ~ x1, data = cement)
-	expect_equal(round(ols_pc(model), 3), 0.636)
+	expect_equal(round(ols_apc(model), 3), 0.636)
 
 	model     <- lm(y ~ x4, data = cement)
-	expect_equal(round(ols_pc(model), 3), 0.444)
+	expect_equal(round(ols_apc(model), 3), 0.444)
 
 	model     <- lm(y ~ x1 + x2 + x4, data = cement)
-	expect_equal(round(ols_pc(model), 3), 0.033)
+	expect_equal(round(ols_apc(model), 3), 0.033)
 
 	model     <- lm(y ~ x1 + x3 + x4, data = cement)
-	expect_equal(round(ols_pc(model), 3), 0.035)
+	expect_equal(round(ols_apc(model), 3), 0.035)
 
 	model     <- lm(y ~ x2 + x4, data = cement)
-	expect_equal(round(ols_pc(model), 3), 0.512)
+	expect_equal(round(ols_apc(model), 3), 0.512)
 
 
 

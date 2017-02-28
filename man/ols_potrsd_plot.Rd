@@ -17,4 +17,7 @@ outliers, or a combination of both.
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_potrsd_plot(model)
 }
+\references{
+Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+}
 

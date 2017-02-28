@@ -4,6 +4,7 @@
 #' well-defined objective criterion, such as having the largest R2 value or the
 #' smallest MSE, Mallow's Cp or AIC.
 #' @param model an object of class \code{lm}
+#' @param x an object of class \code{ols_best_subset}
 #' @param ... other inputs
 #' @return \code{ols_best_subset} returns an object of class \code{"ols_best_subset"}.
 #' An object of class \code{"ols_best_subset"} is a data frame containing the
@@ -101,10 +102,10 @@ ols_best_subset.default <- function(model, ...) {
                 aic[[mcount]]     <- ols_aic(out$model)
                 sbic[[mcount]]    <- ols_sbic(out$model, model)
                 sbc[[mcount]]     <- ols_sbc(out$model)
-                gmsep[[mcount]]   <- ols_gmsep(out$model)
-                jp[[mcount]]      <- ols_jp(out$model)
-                pc[[mcount]]      <- ols_pc(out$model)
-                sp[[mcount]]      <- ols_sp(out$model)
+                gmsep[[mcount]]   <- ols_msep(out$model)
+                jp[[mcount]]      <- ols_fpe(out$model)
+                pc[[mcount]]      <- ols_apc(out$model)
+                sp[[mcount]]      <- ols_hsp(out$model)
                 predrsq[[mcount]] <- ols_pred_rsq(out$model)
                 preds[[mcount]]   <- paste(predictors, collapse = " ")
         }
@@ -149,13 +150,10 @@ print.ols_best_subset <- function(x, ...) {
 }
 
 #' @export
+#' @rdname ols_best_subset
 #'
 plot.ols_best_subset <- function(x, model = NA, ...) {
 
-    # op <- par(no.readonly = TRUE)
-    # on.exit(par(op))
-    # m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3, byrow = TRUE)
-    # layout(mat = m, heights = c(2, 2))
     a <- NULL
     b <- NULL
 
@@ -167,9 +165,7 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
     theme(
         axis.text.x = element_blank(),
         axis.ticks = element_blank())
-    # plot(x$mindex, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
-    #  main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-
+    
     d2 <- tibble(a = x$mindex, b = x$adjr)
     p2 <- ggplot(d2, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
@@ -178,9 +174,7 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
     theme(
         axis.text.x = element_blank(),
         axis.ticks = element_blank())
-    # plot(x$mindex, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
-    #     main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-
+    
     d3 <- tibble(a = x$mindex, b = x$cp)
     p3 <- ggplot(d3, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
@@ -189,9 +183,7 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
     theme(
         axis.text.x = element_blank(),
         axis.ticks = element_blank())
-    # plot(x$mindex, x$cp, type = 'b', col = 'blue', xlab = '', ylab = '',
-    #     main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
-
+    
     d4 <- tibble(a = x$mindex, b = x$aic)
     p4 <- ggplot(d4, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
@@ -200,9 +192,7 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
     theme(
         axis.text.x = element_blank(),
         axis.ticks = element_blank())
-    # plot(x$mindex, x$aic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
-    #     main = 'AIC', cex.main = 1, yaxt = 'n')
-
+    
     d5 <- tibble(a = x$mindex, b = x$sbic)
     p5 <- ggplot(d5, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
@@ -210,9 +200,7 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
     xlab('') + ylab('') + ggtitle('SBIC') +
     theme(
         axis.ticks = element_blank())
-    # plot(x$mindex, x$sbic, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
-    #     main = 'SBIC', cex.main = 1, yaxt = 'n')
-
+    
     d6 <- tibble(a = x$mindex, b = x$sbc)
     p6 <- ggplot(d6, aes(x = a, y = b)) +
     geom_line(color = 'blue') +
@@ -220,8 +208,6 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
     xlab('') + ylab('') + ggtitle('SBC') +
     theme(
         axis.ticks = element_blank())
-    # plot(x$mindex, x$sbc, type = 'b', col = 'blue', xlab = 'Predictors', ylab = '',
-    #     main = 'SBC', cex.main = 1, yaxt = 'n')
-
+    
     grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = 'Best Subsets Regression')
 }

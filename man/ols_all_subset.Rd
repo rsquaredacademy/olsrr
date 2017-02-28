@@ -2,14 +2,19 @@
 % Please edit documentation in R/ols-all-possible-regression.R
 \name{ols_all_subset}
 \alias{ols_all_subset}
+\alias{plot.ols_all_subset}
 \title{All Subsets Regression}
 \usage{
 ols_all_subset(model, ...)
+
+\method{plot}{ols_all_subset}(x, model = NA, ...)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
 \item{...}{other arguments}
+
+\item{x}{an object of class \code{ols_best_subset}}
 }
 \value{
 \code{ols_all_subset} returns an object of class \code{"ols_all_subset"}.

@@ -64,6 +64,7 @@ ols_norm_test.default <- function(y, ...) {
 }
 
 #' @export
+#' @rdname ols_norm_test
 #'
 ols_norm_test.lm <- function(y, ...) {
 	if (!all(class(y) == 'lm')) {

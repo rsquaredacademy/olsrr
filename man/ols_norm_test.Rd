@@ -2,9 +2,12 @@
 % Please edit documentation in R/ols-normality-tests.R
 \name{ols_norm_test}
 \alias{ols_norm_test}
+\alias{ols_norm_test.lm}
 \title{Test for normality}
 \usage{
 ols_norm_test(y, ...)
+
+\method{ols_norm_test}{lm}(y, ...)
 }
 \arguments{
 \item{y}{a numeric vector}

@@ -30,25 +30,3 @@ ols_resid_hist <- function(model) {
 }
 
 
-# hist_resid <- function(model) {
-#
-# 	if (!all(class(model) == 'lm')) {
-#     stop('Please specify a OLS linear regression model.', call. = FALSE)
-#   }
-#
-# 	k <- histdata(model)
-# 	h <- hist(k$resid, xlim = c(k$minx, k$maxx), border = 'blue',
-# 		main = 'Residual Histogram', xlab = 'Residuals')
-# 	l <- histn(k$resid, h)
-# 	lines(l$xfit, l$yfit, col = "blue", lwd = 2)
-#
-# 	z <- list(residuals = resid,
-# 						breaks    = h$breaks,
-# 						counts    = h$counts,
-# 						density   = h$density,
-# 						mids      = h$mids,
-# 						xname     = h$xname,
-# 						equidist  = h$equidist,
-# 						norm      = l$yfit)
-#
-# }

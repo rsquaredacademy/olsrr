@@ -25,8 +25,17 @@
 #' Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
 #' 
 #' @examples
+#' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#'
+#' # using fitted values of the model
 #' ols_score_test(model)
+#'
+#' # using predictors from the model
+#' ols_score_test(model, rhs = TRUE)
+#'
+#' # specify predictors from the model
+#' ols_score_test(model, vars = c('disp', 'wt'))
 #' @export
 #'
 ols_score_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) UseMethod('ols_score_test')

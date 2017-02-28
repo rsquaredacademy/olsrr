@@ -2,14 +2,27 @@
 % Please edit documentation in R/ols-bartlett-test.R
 \name{ols_bartlett_test}
 \alias{ols_bartlett_test}
+\alias{ols_bartlett_test.default}
+\alias{ols_bartlett_test.formula}
+\alias{ols_bartlett_test.lm}
 \title{Bartlett Test}
 \usage{
 ols_bartlett_test(variable, ...)
+
+\method{ols_bartlett_test}{default}(variable, ..., group_var = NA)
+
+\method{ols_bartlett_test}{lm}(variable, ...)
+
+\method{ols_bartlett_test}{formula}(variable, data, ...)
 }
 \arguments{
-\item{variable}{a numeric vector}
+\item{variable}{a numeric vector/an object of class \code{formula} or \code{lm}}
 
 \item{...}{numeric vectors}
+
+\item{group_var}{grouping variable}
+
+\item{data}{a data frame}
 }
 \value{
 \code{ols_bartlett_test} returns an object of class \code{"ols_bartlett_test"}.

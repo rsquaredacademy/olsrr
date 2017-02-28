@@ -15,6 +15,7 @@
 #' \item{rsq}{rsquare}
 #' \item{arsq}{adjusted rsquare}
 #' \item{steps}{total number of steps}
+#' @references Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #' @examples
 #' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
@@ -237,30 +238,3 @@ plot.ols_stepaic_both <- function(x, ...) {
     print(p)
 
 }
-
-
-# plot.stepaic_both <- function(data, ...) {
-#
-#     x    <- seq_len(length(data$aic))
-#     xloc <- x - 0.1
-#     yloc <- data$aic - 0.2
-#     xmin <- min(x) - 0.4
-#     xmax <- max(x) + 1
-#     ymin <- min(data$aic) - 1
-#     ymax <- max(data$aic) + 1
-#
-#     plot(x, data$aic,
-#          type = "b",
-#          col  = "blue",
-#          xlab = "Steps",
-#          ylab = "AIC",
-#          xlim = c(xmin, xmax),
-#          ylim = c(ymin, ymax),
-#          main = "Step AIC: Stepwise Regression")
-#
-#     text(xloc, yloc, data$predictors,
-#          col = "red",
-#          cex = 0.9)
-#
-#
-# }

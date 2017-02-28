@@ -12,7 +12,7 @@
 #' \item{adjr}{regression sum of squares}
 #' \item{sigma}{error sum of squares}
 #' \item{cv}{total sum of squares}
-#' \item{mse}{}
+#' \item{mse}{mean squared error}
 #' \item{mae}{p-value of \code{fstat}}
 #' \item{aic}{degrees of freedom}
 #' \item{sbc}{name(s) of \code{variable}}
@@ -51,9 +51,6 @@ ols_regress <- function(object, ...) UseMethod('ols_regress')
 #'
 ols_regress.default <- function(object, data, conf.level = 0.95, title = 'model', ...) {
 
-  # if (!inherits(formula, 'formula')) {
-  # 	stop('Please specify a valid formula.', call. = FALSE)
-  # }
 
   if (missing(data)) {
     stop('data missing', call. = FALSE)

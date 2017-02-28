@@ -2,14 +2,19 @@
 % Please edit documentation in R/ols-stepwise-forward-regression.R
 \name{ols_step_forward}
 \alias{ols_step_forward}
+\alias{plot.ols_step_forward}
 \title{Stepwise Forward Regression}
 \usage{
 ols_step_forward(model, ...)
+
+\method{plot}{ols_step_forward}(x, model = NA, ...)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
 \item{...}{other arguments}
+
+\item{x}{an object of class \code{ols_step_forward}}
 }
 \value{
 \code{ols_step_forward} returns an object of class \code{"ols_step_forward"}.
@@ -41,5 +46,11 @@ model <- lm(y ~ ., data = surgical)
 k <- ols_step_forward(model)
 plot(k)
 
+}
+\references{
+Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Chicago, IL., McGraw Hill/Irwin.
 }
 

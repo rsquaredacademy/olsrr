@@ -2,6 +2,7 @@
 #' @description Plot to aid in classifying unusual observations as high-leverage points,
 #' outliers, or a combination of both.
 #' @param model an object of class \code{lm}
+#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_potrsd_plot(model)
@@ -24,16 +25,3 @@ ols_potrsd_plot <- function(model) {
 }
 
 
-# poten_resid_plot <- function(model) {
-#
-#     if (!all(class(model) == 'lm')) {
-#         stop('Please specify a OLS linear regression model.', call. = FALSE)
-#     }
-#
-#     hi  <- hadi(model)
-#     pot <- unname(hi$potential)
-#     res <- unname(hi$residual)
-#     plot(res, pot, col = "blue", xlab = "Residual", ylab = "Potential",
-#          main = "Potential-Residual Plot")
-#
-# }

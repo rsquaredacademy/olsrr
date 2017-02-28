@@ -22,4 +22,10 @@ full_model <- lm(mpg ~ ., data = mtcars)
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_mallows_cp(model, full_model)
 }
+\references{
+Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
+32:1–50.
+
+Mallows, C. L. (1973). “Some Comments on Cp.” Technometrics 15:661–675.
+}
 

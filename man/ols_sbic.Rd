@@ -23,4 +23,11 @@ full_model <- lm(mpg ~ ., data = mtcars)
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_sbic(model, full_model)
 }
+\references{
+Sawa, T. (1978). “Information Criteria for Discriminating among Alternative Regression Models.” Econometrica
+46:1273–1282.
+
+Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
+New York: John Wiley & Sons.
+}
 

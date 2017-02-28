@@ -15,6 +15,7 @@
 #' \item{rss}{name of explanatory variables of fitted regression model}
 #' \item{rsq}{response variable}
 #' \item{arsq}{predictors}
+#' @references Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #' @examples
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
@@ -265,27 +266,3 @@ plot.ols_stepaic_forward <- function(x, ...) {
     print(p)
 }
 
-# plot.stepaic_forward <- function(x, ...) {
-#
-#     y    <- seq_len(x$steps)
-#     xloc <- y - 0.1
-#     yloc <- x$aics - 0.2
-#     xmin <- min(y) - 1
-#     xmax <- max(y) + 1
-#     ymin <- min(x$aics) - 1
-#     ymax <- max(x$aics) + 1
-#
-#     plot(y, x$aics,
-#          type = "b",
-#          col  = "blue",
-#          xlab = "Steps",
-#          ylab = "AIC",
-#          xlim = c(xmin, xmax),
-#          ylim = c(ymin, ymax),
-#          main = "Step AIC: Variable Selection")
-#
-#     text(xloc, yloc, x$predictors,
-#          col  = "red",
-#          cex  = 0.9)
-#
-# }

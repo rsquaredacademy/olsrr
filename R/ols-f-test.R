@@ -1,7 +1,7 @@
 #' @importFrom stats pf
-#' @title F Test for heteroskedasticity under the assumption that
+#' @title F Test for Constant Variance 
+#' @description Test for heteroskedasticity under the assumption that
 #' the errors are independent and identically distributed (i.i.d.).
-#' @description Test for constant variance 
 #' @param model an object of class \code{lm}
 #' @param fitted_values logical; if TRUE, use fitted values of regression model
 #' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
@@ -24,16 +24,16 @@
 #' \item{preds}{predictors}
 #' @references Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
 #' @examples 
-#' # using fitted values
+#' # model
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#'
+#' # using fitted values
 #' ols_f_test(model)
 #' 
 #' # using all predictors of the model
-#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_f_test(model, rhs = TRUE)
 #' 
 #' # using fitted values
-#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_f_test(model, vars = c('disp', 'hp'))
 #' @export
 #'

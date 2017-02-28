@@ -19,4 +19,8 @@ PRESS tells you how well the model will predict new data.
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_press(model)
 }
+\references{
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Chicago, IL., McGraw Hill/Irwin.
+}
 

@@ -69,30 +69,30 @@ test_that("ols_mallows_cp fails when model inherits other than 'lm'", {
     expect_error(ols_mallows_cp(m2, fm), 'model must be a subset of full model')
 })
 
-test_that("ols_gmsep fails when model inherits other than 'lm'", {
+test_that("ols_msep fails when model inherits other than 'lm'", {
     y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)
     m <- glm(x ~ y)
-    expect_error(ols_gmsep(m), 'Please specify a OLS linear regression model.')
+    expect_error(ols_msep(m), 'Please specify a OLS linear regression model.')
 })
 
-test_that("ols_jp fails when model inherits other than 'lm'", {
+test_that("ols_fpe fails when model inherits other than 'lm'", {
     y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)
     m <- glm(x ~ y)
-    expect_error(ols_jp(m), 'Please specify a OLS linear regression model.')
+    expect_error(ols_fpe(m), 'Please specify a OLS linear regression model.')
 })
 
-test_that("ols_pc fails when model inherits other than 'lm'", {
+test_that("ols_apc fails when model inherits other than 'lm'", {
     y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)
     m <- glm(x ~ y)
-    expect_error(ols_pc(m), 'Please specify a OLS linear regression model.')
+    expect_error(ols_apc(m), 'Please specify a OLS linear regression model.')
 })
 
-test_that("ols_sp fails when model inherits other than 'lm'", {
+test_that("ols_hsp fails when model inherits other than 'lm'", {
     y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)
     m <- glm(x ~ y)
-    expect_error(ols_sp(m), 'Please specify a OLS linear regression model.')
+    expect_error(ols_hsp(m), 'Please specify a OLS linear regression model.')
 })

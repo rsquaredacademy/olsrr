@@ -25,7 +25,7 @@ components:
 \item{adjr}{regression sum of squares}
 \item{sigma}{error sum of squares}
 \item{cv}{total sum of squares}
-\item{mse}{}
+\item{mse}{mean squared error}
 \item{mae}{p-value of \code{fstat}}
 \item{aic}{degrees of freedom}
 \item{sbc}{name(s) of \code{variable}}

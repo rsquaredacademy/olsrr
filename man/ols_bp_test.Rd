@@ -42,28 +42,25 @@ following components:
 Test for constant variance. It assumes that the error terms are normally distributed.
 }
 \examples{
-# Use fitted values of the model
+# model
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+
+# Use fitted values of the model
 ols_bp_test(model)
 
 # Use independent variables of the model
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 ols_bp_test(model, rhs = TRUE)
 
 # Use independent variables of the model and perform multiple tests
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 ols_bp_test(model, rhs = TRUE, multiple = TRUE)
 
 # Bonferroni p value Adjustment
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
 
 # Sidak p value Adjustment
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
 
 # Holm's p value Adjustment
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 
 }

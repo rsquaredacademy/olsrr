@@ -5,6 +5,7 @@
 #' @description Fits all regressions involving one regressor, two regressors, three regressors, and so on.
 #' It tests all possible subsets of the set of potential independent variables.
 #' @param model an object of class \code{lm}
+#' @param x an object of class \code{ols_best_subset}
 #' @param ... other arguments
 #' @return \code{ols_all_subset} returns an object of class \code{"ols_all_subset"}.
 #' An object of class \code{"ols_all_subset"} is a data frame containing the
@@ -102,10 +103,10 @@ ols_all_subset.default <- function(model, ...) {
                 aic[[mcount]]     <- ols_aic(out$model)
                 sbic[[mcount]]    <- ols_sbic(out$model, model)
                 sbc[[mcount]]     <- ols_sbc(out$model)
-                gmsep[[mcount]]   <- ols_gmsep(out$model)
-                jp[[mcount]]      <- ols_jp(out$model)
-                pc[[mcount]]      <- ols_pc(out$model)
-                sp[[mcount]]      <- ols_sp(out$model)
+                gmsep[[mcount]]   <- ols_msep(out$model)
+                jp[[mcount]]      <- ols_fpe(out$model)
+                pc[[mcount]]      <- ols_apc(out$model)
+                sp[[mcount]]      <- ols_hsp(out$model)
                 preds[[mcount]]   <- paste(predictors, collapse = " ")
 
         }
@@ -156,8 +157,9 @@ print.ols_all_subset <- function(x, ...) {
 }
 
 #' @export
+#' @rdname ols_all_subset
 #'
-plot.ols_all_subset <- function(x, ...) {
+plot.ols_all_subset <- function(x, model = NA, ...) {
 
   maxs  <- tapply(x$rsquare, x$n, max)
   lmaxs <- seq_len(length(maxs))
@@ -297,99 +299,3 @@ plot.ols_all_subset <- function(x, ...) {
 
 
 
-# plot.all_subset <- function(x, ...) {
-#
-#     maxs  <- tapply(x$rsquare, x$n, max)
-#     lmaxs <- seq_len(length(maxs))
-#     index <- c()
-#
-#     suppressWarnings(
-#         for (i in lmaxs) {
-#             index[i] <- which(x$rsquare == maxs[i])
-#         }
-#     )
-#
-#     maxs1  <- tapply(x$adjr, x$n, max)
-#     lmaxs1 <- seq_len(length(maxs1))
-#     index1 <- c()
-#
-#     suppressWarnings(
-#         for (i in lmaxs1) {
-#             index1[i] <- which(x$adjr == maxs1[i])
-#         }
-#     )
-#
-#     cps   <- abs(x$n - x$cp)
-#     mcps  <- tapply(cps, x$n, min)
-#     lmcps <- seq_len(length(mcps))
-#     imcps <- c()
-#
-#     for (i in lmcps) {
-#         imcps[i] <- which(cps == mcps[i])
-#     }
-#
-#     maxs2  <- tapply(x$aic, x$n, min)
-#     lmaxs2 <- seq_len(length(maxs2))
-#     index2 <- c()
-#
-#     for (i in lmaxs2) {
-#         index2[i] <- which(x$aic == maxs2[i])
-#     }
-#
-#     maxs3  <- tapply(x$sbic, x$n, min)
-#     lmaxs3 <- seq_len(length(maxs3))
-#     index3 <- c()
-#
-#     for (i in lmaxs3) {
-#         index3[i] <- which(x$sbic == maxs3[i])
-#     }
-#
-#     maxs4  <- tapply(x$sbc, x$n, min)
-#     lmaxs4 <- seq_len(length(maxs4))
-#     index4 <- c()
-#
-#     for (i in lmaxs4) {
-#         index4[i] <- which(x$sbc == maxs4[i])
-#     }
-#
-#     op <- par(no.readonly = TRUE)
-#     on.exit(par(op))
-#     par(mfrow = c(2, 3))
-#
-#     plot(x$n, x$rsquare, col = "#0000A0", xlab = '', ylab = '', cex = 1.5,
-#      main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-#     abline(v = lmaxs, col = "gray")
-#     points(lmaxs, maxs, pch = 2, col = "red", cex = 2)
-#     text(x = lmaxs + 0.1, y = maxs, labels = index)
-#
-#     plot(x$n, x$adjr, col = "#0000A0", xlab = '', ylab = '', cex = 1.5,
-#      main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-#     abline(v = lmaxs1, col = "gray")
-#     points(lmaxs1, maxs1, pch = 2, col = "red", cex = 2)
-#     text(x = lmaxs1 + 0.1, y = maxs1, labels = index1)
-#
-#     plot(x$n, x$cp, col = "#0000A0", ylim = c(-20, max(cps)), xlab = '', ylab = '', cex = 1.5,
-#         main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
-#     abline(v = lmcps, col = "gray")
-#     points(lmcps, x$cp[imcps], pch = 2, col = "red", cex = 2)
-#     text(x = lmcps + 0.1, y = x$cp[imcps], labels = imcps)
-#
-#     plot(x$n, x$aic, col = "#0000A0", xlab = 'Step', ylab = '', cex = 1.5,
-#      main = 'AIC', cex.main = 1, yaxt = 'n')
-#     abline(v = lmaxs2, col = "gray")
-#     points(lmaxs2, maxs2, pch = 2, col = "red", cex = 2)
-#     text(x = lmaxs2 + 0.1, y = maxs2, labels = index2)
-#
-#     plot(x$n, x$sbic, col = "#0000A0", xlab = 'Step', ylab = '', cex = 1.5,
-#      main = 'SBIC', cex.main = 1, yaxt = 'n')
-#     abline(v = lmaxs3, col = "gray")
-#     points(lmaxs3, maxs3, pch = 2, col = "red", cex = 2)
-#     text(x = lmaxs3 + 0.1, y = maxs3, labels = index3)
-#
-#     plot(x$n, x$sbc, col = "#0000A0", xlab = 'Step', ylab = '', cex = 1.5,
-#      main = 'SBC', cex.main = 1, yaxt = 'n')
-#     abline(v = lmaxs4, col = "gray")
-#     points(lmaxs4, maxs4, pch = 2, col = "red", cex = 2)
-#     text(x = lmaxs4 + 0.1, y = maxs4, labels = index4)
-#
-# }

@@ -3,6 +3,7 @@
 #' @description Build regression model from a set of candidate predictor variables by entering predictors based on 
 #' p values, in a stepwise manner until there is no variable left to enter any more.
 #' @param model an object of class \code{lm}
+#' @param x an object of class \code{ols_step_forward}
 #' @param ... other arguments
 #' @return \code{ols_step_forward} returns an object of class \code{"ols_step_forward"}.
 #' An object of class \code{"ols_step_forward"} is a list containing the
@@ -18,6 +19,11 @@
 #' \item{rmse}{predictors}
 #' \item{mallows_cp}{predictors}
 #' \item{indvar}{predictors}
+#'
+#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
+#' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+#' Chicago, IL., McGraw Hill/Irwin.
 #' @examples
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
@@ -190,8 +196,9 @@ print.ols_step_forward <- function(x, ...) {
 }
 
 #' @export
+#' @rdname ols_step_forward
 #'
-plot.ols_step_forward <- function(x, ...) {
+plot.ols_step_forward <- function(x, model = NA, ...) {
 
     y        <- seq_len(length(x$rsquare))
     rmax     <- max(x$rsquare)
@@ -268,52 +275,3 @@ plot.ols_step_forward <- function(x, ...) {
 }
 
 
-# plot.step_forward <- function(x, ...) {
-#
-#     y        <- seq_len(length(x$rsquare))
-#     rmax     <- max(x$rsquare)
-#     rstep    <- which(x$rsquare == rmax)
-#     adjrmax  <- max(x$adjr)
-#     adjrstep <- which(x$adjr == adjrmax)
-#     cpdiff   <- x$mallows_cp - y
-#     cpdifmin <- min(cpdiff)
-#     cpdifi   <- which(cpdiff == cpdifmin)
-#     cpval    <- x$mallows_cp[cpdifi]
-#     aicmin   <- min(x$aic)
-#     aicstep  <- which(x$aic == aicmin)
-#     sbicmin  <- min(x$sbic)
-#     sbicstep <- which(x$sbic == sbicmin)
-#     sbcmin   <- min(x$sbc)
-#     sbcstep  <- which(x$sbc == sbcmin)
-#
-#     op <- par(no.readonly = TRUE)
-#     on.exit(par(op))
-#     m <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2,ncol = 3,byrow = TRUE)
-#     layout(mat = m,heights = c(2, 2))
-#
-#     plot(y, x$rsquare, type = 'b', col = 'blue', xlab = '', ylab = '',
-#      main = 'R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-#     points(rstep, rmax, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$adjr, type = 'b', col = 'blue', xlab = '', ylab = '',
-#         main = 'Adj. R-Square', cex.main = 1, axes = FALSE, frame.plot = T)
-#     points(adjrstep, adjrmax, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$mallows_cp, type = 'b', col = 'blue', xlab = '', ylab = '',
-#         main = 'C(p)', cex.main = 1, axes = FALSE, frame.plot = T)
-#     points(cpdifi, cpval, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$aic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-#         main = 'AIC', cex.main = 1, yaxt = 'n')
-#     points(aicstep, aicmin, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$sbic, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-#         main = 'SBIC', cex.main = 1, yaxt = 'n')
-#     points(sbicstep, sbicmin, pch = 2, col = "red", cex = 2.5)
-#
-#     plot(y, x$sbc, type = 'b', col = 'blue', xlab = 'Step', ylab = '',
-#         main = 'SBC', cex.main = 1, yaxt = 'n')
-#     points(sbcstep, sbcmin, pch = 2, col = "red", cex = 2.5)
-#
-#
-# }

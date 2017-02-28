@@ -4,7 +4,9 @@
 #' differs from the mean of the predictor variable. The greater an observation's leverage, the more potential it has 
 #' to be an influential observation.
 #' @param model an object of class \code{lm}
-#' @return leverage of the fitted model
+#' @return leverage 
+#' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+#' Chicago, IL., McGraw Hill/Irwin.
 #' @examples 
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_leverage(model)
@@ -27,6 +29,7 @@ ols_leverage <- function(model) {
 #' the response variable or in the predictors or both.
 #' @param model an object of class \code{lm}
 #' @return hadi's measure
+#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #' @examples 
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_hadi(model)
@@ -53,6 +56,8 @@ ols_hadi <- function(model) {
 #' @description PRESS tells you how well the model will predict new data.
 #' @param model an object of class \code{lm}
 #' @return PRESS Statistic
+#' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+#' Chicago, IL., McGraw Hill/Irwin.
 #' @examples 
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_press(model)

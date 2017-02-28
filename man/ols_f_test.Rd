@@ -2,8 +2,7 @@
 % Please edit documentation in R/ols-f-test.R
 \name{ols_f_test}
 \alias{ols_f_test}
-\title{F Test for heteroskedasticity under the assumption that
-the errors are independent and identically distributed (i.i.d.).}
+\title{F Test for Constant Variance}
 \usage{
 ols_f_test(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...)
 }
@@ -36,19 +35,20 @@ following components:
 \item{preds}{predictors}
 }
 \description{
-Test for constant variance
+Test for heteroskedasticity under the assumption that
+the errors are independent and identically distributed (i.i.d.).
 }
 \examples{
-# using fitted values
+# model
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+
+# using fitted values
 ols_f_test(model)
 
 # using all predictors of the model
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_f_test(model, rhs = TRUE)
 
 # using fitted values
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_f_test(model, vars = c('disp', 'hp'))
 }
 \references{

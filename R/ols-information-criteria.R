@@ -1,14 +1,3 @@
-# information criteria for model selection
-# 1. AIC: Akaike Information Criteria
-# 2. SBIC: Sawa Bayesian Information Criteria
-# 3. SBC: Schwarz Bayes Criteria
-# 4. Mallow's Cp
-# 5. PC: Amemiya Prediction Criteria
-# 6. GMSEP: Estimated MSE of prediction, assuming multivariate normality
-# 7. Jp: Final prediction error
-# 8. Sp: Hocking 1976
-
-
 #' @importFrom stats logLik
 #' @title AIC
 #' @description Akaike Information Criteria
@@ -16,6 +5,11 @@
 #' @param method a character vector; specify the method to compute AIC. Valid
 #' options include R, STATA and SAS
 #' @return Akaike Information Criteria
+#' @references Akaike, H. (1969). “Fitting Autoregressive Models for Prediction.” Annals of the Institute of Statistical
+#' Mathematics 21:243–247.
+#'
+#' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
+#' New York: John Wiley & Sons.
 #' @examples 
 #' # using R computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -75,6 +69,10 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 #' @param method a character vector; specify the method to compute AIC. Valid
 #' options include R, STATA and SAS
 #' @return Bayesian Information Criteria
+#' @references Schwarz, G. (1978). “Estimating the Dimension of a Model.” Annals of Statistics 6:461–464.
+#'
+#' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
+#' New York: John Wiley & Sons.
 #' @examples 
 #' # using R computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -133,6 +131,11 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 #' @param full_model an object of class \code{lm}
 #' options include R, STATA and SAS
 #' @return Sawa's Bayesian Information Criteria
+#' @references Sawa, T. (1978). “Information Criteria for Discriminating among Alternative Regression Models.” Econometrica
+#' 46:1273–1282.
+#'
+#' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
+#' New York: John Wiley & Sons.
 #' @examples
 #' full_model <- lm(mpg ~ ., data = mtcars)
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -171,6 +174,10 @@ ols_sbic <- function(model, full_model) {
 #' @param model an object of class \code{lm}
 #' @param fullmodel an object of class \code{lm}
 #' @return Mallow's Cp
+#' @references Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
+#' 32:1–50.
+#'
+#' Mallows, C. L. (1973). “Some Comments on Cp.” Technometrics 15:661–675.
 #' @examples
 #' full_model <- lm(mpg ~ ., data = mtcars)
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -203,16 +210,22 @@ ols_mallows_cp <- function(model, fullmodel) {
 
 
 # gmsep : estimated error of prediction, assuming multivariate normality
-#' @title GMSEP
+#' @title MSEP
 #' @description Estimated error of prediction, assuming multivariate normality
 #' @param model an object of class \code{lm}
-#' @return GMSEP
+#' @return MSEP
+#' @references Stein, C. (1960). “Multiple Regression.” In Contributions to Probability and Statistics: Essays in Honor
+#' of Harold Hotelling, edited by I. Olkin, S. G. Ghurye, W. Hoeffding, W. G. Madow, and H. B. Mann,
+#' 264–305. Stanford, CA: Stanford University Press.
+#'
+#' Darlington, R. B. (1968). “Multiple Regression in Psychological Research and Practice.” Psychological
+#' Bulletin 69:161–182.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_gmsep(model)
+#' ols_msep(model)
 #' @export
 #'
-ols_gmsep <- function(model) {
+ols_msep <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
@@ -222,17 +235,22 @@ ols_gmsep <- function(model) {
 	return(result)
 }
 
-# jp: final prediction error
-#' @title JP
+
+#' @title Final Prediction Error
 #' @description Final prediction error
 #' @param model an object of class \code{lm}
-#' @return JP
+#' @return fpe 
+#' @references Akaike, H. (1969). “Fitting Autoregressive Models for Prediction.” Annals of the Institute of Statistical
+#' Mathematics 21:243–247.
+#'
+#' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
+#' New York: John Wiley & Sons.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_jp(model)
+#' ols_fpe(model)
 #' @export
 #'
-ols_jp <- function(model) {
+ols_fpe <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
@@ -242,17 +260,21 @@ ols_jp <- function(model) {
 
 }
 
-# pc: amemiya's prediction error
-#' @title PC
+
+#' @title Amemiya's Prediction Criteria
 #' @description Amemiya's prediction error
 #' @param model an object of class \code{lm}
-#' @return PC
+#' @return Amemiya's prediction error
+#' @references Amemiya, T. (1976). Selection of Regressors. Technical Report 225, Stanford University, Stanford, CA.
+#'
+#' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
+#' New York: John Wiley & Sons.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_pc(model)
+#' ols_apc(model)
 #' @export
 #'
-ols_pc <- function(model) {
+ols_apc <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
@@ -262,25 +284,19 @@ ols_pc <- function(model) {
 
 }
 
-# # pc2: based on formula ((n + p) / (n - p)) * (SSE / n)
-# pc2 <- function(model) {
 
-# 	return(pc2out(model))
-
-# }
-
-
-# sp: average prediction mean squared error
-#' @title SP
+#' @title Hocking's SP
 #' @description Average prediction mean squared error
 #' @param model an object of class \code{lm}
-#' @return SP
+#' @return Hocking's SP
+#' @references Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
+#' 32:1–50.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_sp(model)
+#' ols_hsp(model)
 #' @export
 #'
-ols_sp <- function(model) {
+ols_hsp <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)

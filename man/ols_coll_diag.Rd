@@ -24,13 +24,21 @@ following components:
 \item{eig_cindex}{eigen values and condition index}
 }
 \description{
-Collinearity implies two variables are near perfect linear combinations of one
-another. Multicollinearity involves more than two variables. In the presence of multicollinearity, 
-regression estimates are unstable and have high standard errors. \code{ols_coll_diag}  
-returns variance inflation factor, tolerance and condition indices. Collinearity is spotted by 
-finding 2 or more variables that have large proportions of variance (.50 or more) that correspond 
-to large condition indices. A rule of thumb is to label as large those condition indices in the range of 30 or larger.
-Big values of VIF and small values of Tolerance indicate multicollinearity.
+Variance inflation factor, tolerance, eigenvalues and condition indices.
+}
+\examples{
+# model
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+
+# vif and tolerance
+ols_vif_tol(model)
+
+# eigenvalues and condition indices
+ols_eigen_cindex(model)
+
+# collinearity diagnostics
+ols_coll_diag(model)
+
 }
 \references{
 Belsley, D. A., Kuh, E., and Welsch, R. E. (1980). Regression Diagnostics: Identifying Influential Data and

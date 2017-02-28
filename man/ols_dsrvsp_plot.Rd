@@ -10,7 +10,7 @@ ols_dsrvsp_plot(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Deleted Studentized Residual vs Fitted Values Plot
+Plot for detecting outliers.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

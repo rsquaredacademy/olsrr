@@ -31,4 +31,10 @@ ols_sbc(model, method = 'STATA')
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_sbc(model, method = 'SAS')
 }
+\references{
+Schwarz, G. (1978). “Estimating the Dimension of a Model.” Annals of Statistics 6:461–464.
+
+Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
+New York: John Wiley & Sons.
+}
 
