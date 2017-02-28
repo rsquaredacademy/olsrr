@@ -2,6 +2,7 @@
 #' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
 #' @param model an object of class \code{lm}
+#' @param x an object of class \code{ols_stepaic_both}
 #' @param details logical; if TRUE details of variable selection will be printed on screen
 #' @return \code{ols_stepaic_both} returns an object of class \code{"ols_stepaic_both"}.
 #' An object of class \code{"ols_stepaic_both"} is a list containing the
@@ -210,6 +211,7 @@ print.ols_stepaic_both <- function(x, ...) {
     }
 }
 
+#' @rdname ols_stepaic_both
 #' @export
 #'
 plot.ols_stepaic_both <- function(x, ...) {

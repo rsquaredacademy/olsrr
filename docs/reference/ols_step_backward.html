@@ -85,7 +85,10 @@
 p values, in a stepwise manner until there is no variable left to remove any more.</p>
     
 
-    <pre><span class='fu'>ols_step_backward</span>(<span class='no'>model</span>, <span class='no'>...</span>)</pre>
+    <pre><span class='fu'>ols_step_backward</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for ols_step_backward</span>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -93,6 +96,8 @@ p values, in a stepwise manner until there is no variable left to remove any mor
       <dd>an object of class <code>lm</code></dd>
       <dt>...</dt>
       <dd>other inputs</dd>
+      <dt>x</dt>
+      <dd>an object of class <code>ols_step_backward</code></dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -100,6 +105,10 @@ p values, in a stepwise manner until there is no variable left to remove any mor
     <p><code>ols_step_backward</code> returns an object of class <code>&quot;ols_step_backward&quot;</code>.
 An object of class <code>&quot;ols_step_backward&quot;</code> is a list containing the
 following components:</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley &amp; Sons, 2012. Print.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -139,6 +148,8 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

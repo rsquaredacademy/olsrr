@@ -40,7 +40,7 @@
     <div class="page-header toc-ignore">
       <h1>Regression Diagnostics</h1>
             
-            <h4 class="date">2017-02-23</h4>
+            <h4 class="date">2017-02-28</h4>
           </div>
 
     
@@ -118,7 +118,7 @@
 <p>DFBETAs measure the difference in each parameter estimate with and without the influential observation. <code>dfbetas_panel</code> creates plots to detect influential observations using DFBETAs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_dfbetas_panel.html">ols_dfbetas_panel</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/dfbpanel-1.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/dfbpanel-2.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/dfbpanel-3.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/dfbpanel-4.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/dfbpanel-5.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="regression_diagnostics_files/figure-html/dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="dffits-plot" class="section level3">
 <h3 class="hasAnchor"><html><body><a href="#dffits-plot" class="anchor"> </a></body></html>DFFITS Plot</h3>
@@ -259,14 +259,14 @@
 <p>Added variable plot provides information about the marginal importance of a predictor variable <span class="math inline">\(X_{k}\)</span>, given the other predictor variables already in the model. It shows the marginal importance of the variable in reducing the residual variability.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_avplots.html">ols_avplots</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/avplot-1.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/avplot-2.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/avplot-3.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/avplot-4.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/avplot-5.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="regression_diagnostics_files/figure-html/avplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="residual-plus-component-plot" class="section level3">
 <h3 class="hasAnchor"><html><body><a href="#residual-plus-component-plot" class="anchor"> </a></body></html>Residual Plus Component Plot</h3>
 <p>The residual plus component plot indicates whether any non-linearity is present in the relationship between response and predictor variables and can suggest possible transformations for linearizing the data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_rpc_plot.html">ols_rpc_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/cplusr-1.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/cplusr-2.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/cplusr-3.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/cplusr-4.png" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/cplusr-5.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="regression_diagnostics_files/figure-html/cplusr-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div id="heteroskedasticity" class="section level2">

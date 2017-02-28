@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Leverage — ols_leverage â€¢ olsrr</title>
+<title>Hocking&#39;s SP — ols_hsp â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,16 +77,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Leverage</h1>
+    <h1>Hocking&#39;s SP</h1>
     </div>
 
     
-    <p>The leverage of an observation is based on how much the observation&#39;s value on the predictor variable 
-differs from the mean of the predictor variable. The greater an observation&#39;s leverage, the more potential it has 
-to be an influential observation.</p>
+    <p>Average prediction mean squared error</p>
     
 
-    <pre><span class='fu'>ols_leverage</span>(<span class='no'>model</span>)</pre>
+    <pre><span class='fu'>ols_hsp</span>(<span class='no'>model</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -96,22 +94,17 @@ to be an influential observation.</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>leverage</p>
+    <p>Hocking&#39;s SP</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
-Chicago, IL., McGraw Hill/Irwin.</p>
+    <p>Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
+32:1–50.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_leverage</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt;  [1] 0.14830256 0.12992351 0.06317600 0.11598460 0.17187869 0.09986745
-#&gt;  [7] 0.14720085 0.12912656 0.45839085 0.13597113 0.11541159 0.10343044
-#&gt; [13] 0.04684167 0.05527722 0.20578392 0.21066328 0.19546860 0.08593044
-#&gt; [19] 0.14685385 0.14389010 0.11957800 0.11051613 0.08002229 0.10635592
-#&gt; [25] 0.19566514 0.09324142 0.15093650 0.16467565 0.23978580 0.21863752
-#&gt; [31] 0.53168134 0.07953098</div></pre>
+<span class='fu'>ols_hsp</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] 0.26444</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

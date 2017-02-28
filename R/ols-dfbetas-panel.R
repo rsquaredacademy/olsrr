@@ -31,7 +31,7 @@ ols_dfbetas_panel <- function(model) {
 			xlab('Observation') + ylab('DFBETAS') +
 			ggtitle(paste("Influence Diagnostics for", colnames(dfb)[i])),
 			list(i = i)))
-		print(p)
+		# print(p)
 		myplots[[i]] <- p
 	}
 

@@ -3,6 +3,7 @@
 #' @description Build regression model from a set of candidate predictor variables by removing predictors based on 
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
 #' @param model an object of class \code{lm}
+#' @param x an object of class \code{ols_stepaic_backward}
 #' @param ... other arguments
 #' @return \code{ols_stepaic_backward} returns an object of class \code{"ols_stepaic_backward"}.
 #' An object of class \code{"ols_stepaic_backward"} is a list containing the
@@ -220,6 +221,7 @@ print.ols_stepaic_backward <- function(x, ...) {
     
 }
 
+#' @rdname ols_stepaic_backward
 #' @export
 #'
 plot.ols_stepaic_backward <- function(x, ...) {

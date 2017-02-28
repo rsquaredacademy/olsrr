@@ -29,7 +29,7 @@ ols_rpc_plot <- function(model) {
 				ylab(paste0("Residual + Component (", pl$indvar, ")")) +
 				stat_smooth(method="lm", se=FALSE), list(i = i)))
 
-			print(p)
+			# print(p)
 			myplots[[i]] <- p
 
 	}

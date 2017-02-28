@@ -14,7 +14,7 @@ reference:
   contents:
   - ols_regress
 
-- title: Model Selection
+- title: Variable Selection Procedures
 
   contents:
   - ols_all_subset
@@ -63,6 +63,23 @@ reference:
   - ols_dsrvsp_plot
   - ols_hadi_plot
   - ols_potrsd_plot
+  - ols_leverage
+  - ols_hadi 
+  - ols_press
+  - ols_pred_rsq
+
+- title: Information Criteria
+
+  contents:
+  - ols_aic 
+  - ols_sbc 
+  - ols_sbic
+  - ols_mallows_cp
+  - ols_msep
+  - ols_fpe 
+  - ols_apc 
+  - ols_hsp
+
 
 - title: Model Fit Assessment
 
@@ -75,12 +92,18 @@ reference:
   - ols_pure_error_anova
   - ols_diagnostic_panel
   
-- title: Variable Importance
+- title: Variable Contribution
 
   contents:
   - ols_rvsr_plot
   - ols_avplots
   - ols_rpc_plot
+
+- title: Miscellaneous
+  
+  contents:
+  - ols_resp_viz
+  - ols_reg_line
 
 
 - title: Data

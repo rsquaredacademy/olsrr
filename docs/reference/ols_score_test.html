@@ -115,7 +115,10 @@ following components:</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+    <pre class="examples"><div class='input'><span class='co'># model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+
+<span class='co'># using fitted values of the model</span>
 <span class='fu'>ols_score_test</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
 #&gt;  Score Test for Heteroskedasticity
 #&gt;  ---------------------------------
@@ -128,7 +131,35 @@ following components:</p>
 #&gt;  ------------------------
 #&gt;  DF            =    1 
 #&gt;  Chi2          =    0.645 
-#&gt;  Prob &gt; Chi2   =    0.422 </div></pre>
+#&gt;  Prob &gt; Chi2   =    0.422 </div><div class='input'>
+<span class='co'># using predictors from the model</span>
+<span class='fu'>ols_score_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt;  Score Test for Heteroskedasticity
+#&gt;  ---------------------------------
+#&gt;  Ho: Variance is homogenous
+#&gt;  Ha: Variance is not homogenous
+#&gt; 
+#&gt;  Variables: disp hp wt 
+#&gt; 
+#&gt;       Test Summary       
+#&gt;  ------------------------
+#&gt;  DF            =    3 
+#&gt;  Chi2          =    0.946 
+#&gt;  Prob &gt; Chi2   =    0.814 </div><div class='input'>
+<span class='co'># specify predictors from the model</span>
+<span class='fu'>ols_score_test</span>(<span class='no'>model</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>'disp'</span>, <span class='st'>'wt'</span>))</div><div class='output co'>#&gt; 
+#&gt;  Score Test for Heteroskedasticity
+#&gt;  ---------------------------------
+#&gt;  Ho: Variance is homogenous
+#&gt;  Ha: Variance is not homogenous
+#&gt; 
+#&gt;  Variables: disp wt 
+#&gt; 
+#&gt;       Test Summary       
+#&gt;  ------------------------
+#&gt;  DF            =    2 
+#&gt;  Chi2          =    0.535 
+#&gt;  Prob &gt; Chi2   =    0.765 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

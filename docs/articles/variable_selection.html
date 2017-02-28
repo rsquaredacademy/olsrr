@@ -40,7 +40,7 @@
     <div class="page-header toc-ignore">
       <h1>Variable Selection Methods</h1>
             
-            <h4 class="date">2017-02-23</h4>
+            <h4 class="date">2017-02-28</h4>
           </div>
 
     
@@ -52,8 +52,8 @@
 }
 </style><div id="variable-selection-procedures" class="section level1">
 <h1 class="hasAnchor"><html><body><a href="#variable-selection-procedures" class="anchor"> </a></body></html>Variable Selection Procedures</h1>
-<div id="all-subset-regression" class="section level2">
-<h2 class="hasAnchor"><html><body><a href="#all-subset-regression" class="anchor"> </a></body></html>All Subset Regression</h2>
+<div id="all-possible-regression" class="section level2">
+<h2 class="hasAnchor"><html><body><a href="#all-possible-regression" class="anchor"> </a></body></html>All Possible Regression</h2>
 <p>All subset regression tests all possible subsets of the set of potential independent variables. If there are K potential independent variables (besides the constant), then there are <span class="math inline">\(2^{k}\)</span> distinct subsets of them to be tested. For example, if you have 10 candidate independent variables, the number of subsets to be tested is <span class="math inline">\(2^{10}\)</span>, which is 1024, and if you have 20 candidate variables, the number is <span class="math inline">\(2^{20}\)</span>, which is more than one million.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_all_subset.html">ols_all_subset</a></span>(model)</code></pre></div>
@@ -357,7 +357,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepa
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
       <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked"><li><a href="#variable-selection-procedures">Variable Selection Procedures</a><ul class="nav nav-pills nav-stacked"><li><a href="#all-subset-regression">All Subset Regression</a></li>
+      <ul class="nav nav-pills nav-stacked"><li><a href="#variable-selection-procedures">Variable Selection Procedures</a><ul class="nav nav-pills nav-stacked"><li><a href="#all-possible-regression">All Possible Regression</a></li>
       <li><a href="#best-subset-regression">Best Subset Regression</a></li>
       <li><a href="#stepwise-forward-regression">Stepwise Forward Regression</a></li>
       <li><a href="#stepwise-backward-regression">Stepwise Backward Regression</a></li>

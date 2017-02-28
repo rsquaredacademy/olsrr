@@ -84,14 +84,27 @@
     <p>Test if k samples have equal variances</p>
     
 
-    <pre><span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)</pre>
+    <pre><span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
+
+<span class='co'># S3 method for lm</span>
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for formula</span>
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>data</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>variable</dt>
-      <dd>a numeric vector</dd>
+      <dd>a numeric vector/an object of class <code>formula</code> or <code>lm</code></dd>
       <dt>...</dt>
       <dd>numeric vectors</dd>
+      <dt>group_var</dt>
+      <dd>grouping variable</dd>
+      <dt>data</dt>
+      <dd>a data frame</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>

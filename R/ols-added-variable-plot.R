@@ -41,7 +41,7 @@ ols_avplots <- function(model) {
 				ylab(paste(xnames[1], " | Others")) +
 				stat_smooth(method="lm", se=FALSE), list(i = i)))
 
-			print(p)
+			# print(p)
 			j <- i - 1
 			myplots[[j]] <- p
 

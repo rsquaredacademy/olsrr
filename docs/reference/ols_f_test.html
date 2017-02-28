@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>F Test for heteroskedasticity under the assumption that
- — ols_f_test â€¢ olsrr</title>
+<title>F Test for Constant Variance — ols_f_test â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -78,12 +77,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>F Test for heteroskedasticity under the assumption that
-</h1>
+    <h1>F Test for Constant Variance</h1>
     </div>
 
     
-    <p>Test for constant variance</p>
+    <p>Test for heteroskedasticity under the assumption that
+the errors are independent and identically distributed (i.i.d.).</p>
     
 
     <pre><span class='fu'>ols_f_test</span>(<span class='no'>model</span>, <span class='kw'>fitted_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
@@ -116,8 +115,10 @@ following components:</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># using fitted values</span>
+    <pre class="examples"><div class='input'><span class='co'># model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+
+<span class='co'># using fitted values</span>
 <span class='fu'>ols_f_test</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
 #&gt;  F Test for Heteroskedasticity
 #&gt;  -----------------------------
@@ -133,7 +134,6 @@ following components:</p>
 #&gt;  F          =    0.492 
 #&gt;  Prob &gt; F   =    0.488 </div><div class='input'>
 <span class='co'># using all predictors of the model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='fu'>ols_f_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt;  F Test for Heteroskedasticity
 #&gt;  -----------------------------
@@ -149,7 +149,6 @@ following components:</p>
 #&gt;  F          =    0.459 
 #&gt;  Prob &gt; F   =    0.765 </div><div class='input'>
 <span class='co'># using fitted values</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='fu'>ols_f_test</span>(<span class='no'>model</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>'disp'</span>, <span class='st'>'hp'</span>))</div><div class='output co'>#&gt; 
 #&gt;  F Test for Heteroskedasticity
 #&gt;  -----------------------------

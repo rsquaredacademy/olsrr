@@ -86,7 +86,10 @@ well-defined objective criterion, such as having the largest R2 value or the
 smallest MSE, Mallow&#39;s Cp or AIC.</p>
     
 
-    <pre><span class='fu'>ols_best_subset</span>(<span class='no'>model</span>, <span class='no'>...</span>)</pre>
+    <pre><span class='fu'>ols_best_subset</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for ols_best_subset</span>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -94,6 +97,8 @@ smallest MSE, Mallow&#39;s Cp or AIC.</p>
       <dd>an object of class <code>lm</code></dd>
       <dt>...</dt>
       <dd>other inputs</dd>
+      <dt>x</dt>
+      <dd>an object of class <code>ols_best_subset</code></dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>

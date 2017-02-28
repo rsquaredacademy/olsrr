@@ -27,7 +27,7 @@ library(goftest)
 
 # Variable Selection Procedures
 
-## All Subset Regression
+## All Possible Regression
 
 All subset regression tests all possible subsets of the set of potential independent variables. If there are K potential independent variables (besides the constant), then there are $2^{k}$ distinct subsets of them to be tested. For example, if you have 10 candidate independent variables, the number of subsets to be tested is $2^{10}$, which is 1024, and if you have 20 candidate variables, the number is $2^{20}$, which is more than one million.
 

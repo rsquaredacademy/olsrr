@@ -3,6 +3,7 @@
 #' @description Build regression model from a set of candidate predictor variables by entering predictors based on 
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
 #' @param model an object of class \code{lm}
+#' @param x an object of class \code{ols_stepaic_forward}
 #' @param ... other arguments
 #' @return \code{ols_stepaic_forward} returns an object of class \code{"ols_stepaic_forward"}.
 #' An object of class \code{"ols_stepaic_forward"} is a list containing the
@@ -238,6 +239,7 @@ print.ols_stepaic_forward <- function(x, ...) {
     }
 }
 
+#' @rdname ols_stepaic_forward
 #' @export
 #'
 plot.ols_stepaic_forward <- function(x, ...) {

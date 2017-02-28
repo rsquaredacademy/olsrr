@@ -8,12 +8,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The olsrr package makes some part of model building process easy by:
+## Introduction
 
-- generating comprehensive regression output
-- demonstrating multiple model selection methods
-- providing multiple residual diagnostics
-- validating various model assumptions
+The olsrr package provides following tools for teaching and learning OLS regression using R:
+
+- comprehensive regression output
+- residual diagnostics
+- measures of influence
+- heteroskedasticity tests
+- collinearity diagnostics
+- model fit assessment
+- variable contribution assessment
+- variable selection procedures
 
 ```{r, echo=FALSE, message=FALSE}
 library(olsrr)
@@ -26,10 +32,114 @@ library(nortest)
 library(goftest)
 ```
 
+This document is a quickstart guide to the tools offered by **olsrr**. Other vignettes provide more details on specific topics:
+
+- Regression Diagnostics: Includes residual diagnostics, detection of influential observations, heteroskedasticity tests, collinearity diagnostics and model fit assessment.
+
+- Variable selection: Differnt variable selection procedures such as all possible regression, best subset regression, 
+stepwise regression, stepwise forward regression and stepwise backward regression.
+
 ## Regression
 
 ```{r regress}
 ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ```
 
+## Residual vs Fitted Values Plot
 
+Plot to detect non-linearity, unequal error variances, and outliers.
+
+```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rvsp_plot(model)
+```
+
+## DFBETAs Panel
+
+DFBETAs measure the difference in each parameter estimate with and without the influential observation.
+`dfbetas_panel` creates plots to detect influential observations using DFBETAs.
+
+```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+ols_dfbetas_panel(model)
+```
+
+## Residual Fit Spread Plot
+
+Plot to detect non-linearity, influential observations and outliers.
+
+```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rfs_plot(model)
+```
+
+## Added Variable Plot
+
+Added variable plot provides information about the marginal importance of a 
+predictor variable $X_{k}$, given the other predictor variables already in 
+the model. It shows the marginal importance of the variable in reducing the
+residual variability. 
+
+```{r avplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_avplots(model)
+```
+
+## Breusch Pagan Test
+
+Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a $\chi^{2}$ test.
+
+```{r bp1}
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+ols_bp_test(model)
+```
+
+## Collinearity Diagnostics
+
+```{r colldiag}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_coll_diag(model)
+```
+
+## Stepwise Regression
+
+Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+p values, in a stepwise manner until there is no variable left to enter or remove any more.
+
+### Variable Selection
+
+```{r stepwise1}
+# stepwise regression
+model <- lm(y ~ ., data = surgical)
+ols_stepwise(model)
+```
+
+### Plot
+
+```{r stepwise2, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- ols_stepwise(model)
+plot(k)
+```
+
+
+## Stepwise AIC Backward Regression
+
+Build regression model from a set of candidate predictor variables by removing predictors based on 
+Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
+
+### Variable Selection
+
+```{r stepaicb1}
+# stepwise aic backward regression
+model <- lm(y ~ ., data = surgical)
+k <- ols_stepaic_backward(model)
+k
+
+### Plot
+
+```{r stepaicb2, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- ols_stepaic_backward(model)
+plot(k)
+```
