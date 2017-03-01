@@ -18,6 +18,7 @@ ols_dfbetas_panel <- function(model) {
 	       np <- ncol(dfb)
 	threshold <- 2 / sqrt(n)
 			  obs <- NULL
+			  txt <- NULL
 	Observation <- NULL
 		myplots <- list()
 		outliers <- list()

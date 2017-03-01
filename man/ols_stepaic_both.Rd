@@ -15,6 +15,8 @@ ols_stepaic_both(model, details = FALSE)
 \item{details}{logical; if TRUE details of variable selection will be printed on screen}
 
 \item{x}{an object of class \code{ols_stepaic_both}}
+
+\item{...}{other arguments}
 }
 \value{
 \code{ols_stepaic_both} returns an object of class \code{"ols_stepaic_both"}.

@@ -16,6 +16,7 @@ ols_cooksd_barplot <- function(model) {
   }
 
 	obs <- NULL
+	txt <- NULL
 	cd <- NULL
 	Observation <- NULL
 	k <- cdplot(model)

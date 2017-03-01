@@ -18,6 +18,7 @@ ols_dffits_plot <- function(model) {
 				 n <- model %>% model.frame() %>% nrow()
 	dffits_t <- 2 * sqrt(k / n)
 	     obs <- NULL
+	     txt <- NULL
 		dbetas <- NULL
 		Observation <- NULL
 

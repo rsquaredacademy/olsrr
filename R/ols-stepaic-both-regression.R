@@ -4,6 +4,7 @@
 #' @param model an object of class \code{lm}
 #' @param x an object of class \code{ols_stepaic_both}
 #' @param details logical; if TRUE details of variable selection will be printed on screen
+#' @param ... other arguments
 #' @return \code{ols_stepaic_both} returns an object of class \code{"ols_stepaic_both"}.
 #' An object of class \code{"ols_stepaic_both"} is a list containing the
 #' following components:

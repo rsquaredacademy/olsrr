@@ -14,6 +14,7 @@ ols_srsd_chart <- function(model) {
   }
 
 	    obs <- NULL
+	    txt <- NULL
 	Observation <- NULL
 	  sdres <- rstandard(model)
 	outlier <- sdres[abs(sdres) > 2]

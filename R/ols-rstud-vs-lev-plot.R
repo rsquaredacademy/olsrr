@@ -16,6 +16,8 @@ ols_rsdlev_plot <- function(model) {
 
 	Observation <- NULL
 	leverage <- NULL
+	txt <- NULL
+	obs <- NULL
 	resp <- model %>% model.frame() %>% names() %>% `[`(1)
 	g <- rstudlev(model)
 	d <- g$levrstud

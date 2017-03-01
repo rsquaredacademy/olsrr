@@ -16,6 +16,8 @@ ols_dsrvsp_plot <- function(model) {
 
 	dsr <- NULL
 	pred <- NULL
+	txt <- NULL
+	obs <- NULL
 	Observation <- NULL
 	k <- dpred(model)
 	d <- k$ds

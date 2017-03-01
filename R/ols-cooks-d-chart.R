@@ -15,6 +15,7 @@ ols_cooksd_chart <- function(model) {
 
 	obs <- NULL
 	ckd <- NULL
+	txt <- NULL
 	Observation <- NULL
 	k <- cdchart(model)
 	d <- k$d

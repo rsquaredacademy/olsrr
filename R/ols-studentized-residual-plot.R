@@ -15,6 +15,7 @@ ols_srsd_plot <- function(model) {
 
 	obs <- NULL
 	dsr <- NULL
+	txt <- NULL
 	Observation <- NULL
 	g <- srdata(model)
 	d <- g$dsr
