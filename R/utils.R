@@ -211,6 +211,9 @@ cdchart <- function(model) {
   ckd <- cooks.distance(model)
 	 ts <- 4 / length(ckd)
 	  d <- tibble(obs = seq_len(length(ckd)), ckd = ckd)
+  d$color <- ifelse(d$ckd >= ts, c("outlier"), c("normal"))
+  d$color1 <- factor(d$color)
+  d$Observation <- ordered(d$color1, levels = c("normal", "outlier"))
   out <- list(d = d, ts = ts)
   return(out)
 }
@@ -293,7 +296,7 @@ dpred <- function(model) {
            mutate(color = ifelse((abs(dsr) >= 2), "outlier", "normal"))
   ds$color1 <- factor(ds$color)
 	ds$color2 <- ordered(ds$color1, levels = c("normal", "outlier"))
-	      ds2  <- tibble(pred = pred, dsr = ds$dsr, Observation = ds$color2)
+	      ds2  <- tibble(obs = seq_len(n), pred = pred, dsr = ds$dsr, Observation = ds$color2)
 
     	 minx <- min(ds2$dsr) - 1
       cminx <- ifelse(minx < -2, minx, -2.5)

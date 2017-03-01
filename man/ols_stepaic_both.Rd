@@ -2,14 +2,19 @@
 % Please edit documentation in R/ols-stepaic-both-regression.R
 \name{ols_stepaic_both}
 \alias{ols_stepaic_both}
+\alias{plot.ols_stepaic_both}
 \title{Stepwise AIC Regression}
 \usage{
 ols_stepaic_both(model, details = FALSE)
+
+\method{plot}{ols_stepaic_both}(x, ...)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
 \item{details}{logical; if TRUE details of variable selection will be printed on screen}
+
+\item{x}{an object of class \code{ols_stepaic_both}}
 }
 \value{
 \code{ols_stepaic_both} returns an object of class \code{"ols_stepaic_both"}.

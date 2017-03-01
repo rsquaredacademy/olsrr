@@ -2,14 +2,19 @@
 % Please edit documentation in R/ols-stepaic-backward-regression.R
 \name{ols_stepaic_backward}
 \alias{ols_stepaic_backward}
+\alias{plot.ols_stepaic_backward}
 \title{Stepwise AIC Backward Regression}
 \usage{
 ols_stepaic_backward(model, ...)
+
+\method{plot}{ols_stepaic_backward}(x, ...)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
 \item{...}{other arguments}
+
+\item{x}{an object of class \code{ols_stepaic_backward}}
 }
 \value{
 \code{ols_stepaic_backward} returns an object of class \code{"ols_stepaic_backward"}.

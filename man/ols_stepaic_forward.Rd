@@ -2,14 +2,19 @@
 % Please edit documentation in R/ols-stepaic-forward-regression.R
 \name{ols_stepaic_forward}
 \alias{ols_stepaic_forward}
+\alias{plot.ols_stepaic_forward}
 \title{Stepwise AIC Forward Regression}
 \usage{
 ols_stepaic_forward(model, ...)
+
+\method{plot}{ols_stepaic_forward}(x, ...)
 }
 \arguments{
 \item{model}{an object of class \code{lm}}
 
 \item{...}{other arguments}
+
+\item{x}{an object of class \code{ols_stepaic_forward}}
 }
 \value{
 \code{ols_stepaic_forward} returns an object of class \code{"ols_stepaic_forward"}.

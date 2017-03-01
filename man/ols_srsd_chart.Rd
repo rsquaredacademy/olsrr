@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-studentized-residual-chart.R
 \name{ols_srsd_chart}
 \alias{ols_srsd_chart}
-\title{Studentized Residual Chart}
+\title{Standardized Residual Chart}
 \usage{
 ols_srsd_chart(model)
 }
