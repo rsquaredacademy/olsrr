@@ -13,7 +13,8 @@ ols_rsdlev_plot(model)
 Graph for detecting influential observations
 }
 \examples{
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+model <- lm(read ~ write + math + science, data = hsb)
+ols_rsdlev_plot(model)
 ols_rsdlev_plot(model)
 }
 

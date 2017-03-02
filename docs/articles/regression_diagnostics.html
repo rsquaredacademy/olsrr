@@ -40,235 +40,12 @@
     <div class="page-header toc-ignore">
       <h1>Regression Diagnostics</h1>
             
-            <h4 class="date">2017-02-28</h4>
+            <h4 class="date">2017-03-02</h4>
           </div>
 
     
     
 <div class="contents">
-<div id="regression-diagnostics" class="section level1">
-<h1 class="hasAnchor"><html><body><a href="#regression-diagnostics" class="anchor"> </a></body></html>Regression Diagnostics</h1>
-<div id="residual-diagnostics" class="section level2">
-<h2 class="hasAnchor"><html><body><a href="#residual-diagnostics" class="anchor"> </a></body></html>Residual Diagnostics</h2>
-<div id="residual-qq-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#residual-qq-plot" class="anchor"> </a></body></html>Residual QQ Plot</h3>
-<p>Graph for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rsd_qqplot.html">ols_rsd_qqplot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/qqresid-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="residual-histogram" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#residual-histogram" class="anchor"> </a></body></html>Residual Histogram</h3>
-<p>Histogram of residuals for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_resid_hist.html">ols_resid_hist</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/residhist-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="residual-box-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#residual-box-plot" class="anchor"> </a></body></html>Residual Box Plot</h3>
-<p>A box plot of residuals is used to detect violation of the homoscedasticity assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rsd_boxplot.html">ols_rsd_boxplot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/residbox-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="residual-normality-test" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#residual-normality-test" class="anchor"> </a></body></html>Residual Normality Test</h3>
-<p>Test for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_norm_test.html">ols_norm_test</a></span>(model)</code></pre></div>
-<pre><code>## -----------------------------------------------
-##        Test           Statistic         pvalue  
-## -----------------------------------------------
-## Shapiro-Wilk              0.9366         0.06   
-## Kolmogorov-Smirnov        0.1152        0.7464  
-## Cramer-von Mises          2.8122           0    
-## Anderson-Darling          0.5859        0.1188  
-## -----------------------------------------------</code></pre>
-<p>Correlation between observed residuals and expected residuals under normality.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_corr_test.html">ols_corr_test</a></span>(model)</code></pre></div>
-<pre><code>## [1] 0.970066</code></pre>
-<div id="residual-vs-fitted-values-plot" class="section level4">
-<h4 class="hasAnchor"><html><body><a href="#residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Residual vs Fitted Values Plot</h4>
-<p>Plot to detect non-linearity, unequal error variances, and outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rvsp_plot.html">ols_rvsp_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/rvsfplot-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-</div>
-</div>
-<div id="measures-of-influence" class="section level2">
-<h2 class="hasAnchor"><html><body><a href="#measures-of-influence" class="anchor"> </a></body></html>Measures of Influence</h2>
-<div id="cooks-d-bar-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#cooks-d-bar-plot" class="anchor"> </a></body></html>Cook&rsquo;s D Bar Plot</h3>
-<p>Bar Plot of Cook&rsquo;s distance to detect observations that strongly influence fitted values of the model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_cooksd_barplot.html">ols_cooksd_barplot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/ckdbp-1.png" width="672" style="display: block; margin: auto;"></p>
-</div>
-<div id="cooks-d-chart" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#cooks-d-chart" class="anchor"> </a></body></html>Cook&rsquo;s D Chart</h3>
-<p>Chart of Cook&rsquo;s distance to detect observations that strongly influence fitted values of the model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_cooksd_chart.html">ols_cooksd_chart</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/ckchart-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="dfbetas-panel" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#dfbetas-panel" class="anchor"> </a></body></html>DFBETAs Panel</h3>
-<p>DFBETAs measure the difference in each parameter estimate with and without the influential observation. <code>dfbetas_panel</code> creates plots to detect influential observations using DFBETAs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_dfbetas_panel.html">ols_dfbetas_panel</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="dffits-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#dffits-plot" class="anchor"> </a></body></html>DFFITS Plot</h3>
-<p>Proposed by Welsch and Kuh (1977). It is the scaled difference between the <span class="math inline">\(i^{th}\)</span> fitted value obtained from the full data and the <span class="math inline">\(i^{th}\)</span> fitted value obtained by deleting the <span class="math inline">\(i^{th}\)</span> observation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_dffits_plot.html">ols_dffits_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/dfitsplot-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="studentized-residual-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#studentized-residual-plot" class="anchor"> </a></body></html>Studentized Residual Plot</h3>
-<p>Plot for detecting outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_srsd_plot.html">ols_srsd_plot</a></span>(model)</code></pre></div>
-<pre><code>## Warning: Removed 5 rows containing missing values (position_stack).</code></pre>
-<pre><code>## Warning: Stacking not well defined when ymin != 0</code></pre>
-<p><img src="regression_diagnostics_files/figure-html/srplot-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="studentized-residual-chart" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#studentized-residual-chart" class="anchor"> </a></body></html>Studentized Residual Chart</h3>
-<p>Chart for detecting outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_srsd_chart.html">ols_srsd_chart</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/srchart-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="studentized-residuals-vs-leverage-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#studentized-residuals-vs-leverage-plot" class="anchor"> </a></body></html>Studentized Residuals vs Leverage Plot</h3>
-<p>Graph for detecting influential observations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rsdlev_plot.html">ols_rsdlev_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/studlev-1.png" width="672" style="display: block; margin: auto;"></p>
-</div>
-<div id="deleted-studentized-residual-vs-fitted-values-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#deleted-studentized-residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Deleted Studentized Residual vs Fitted Values Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_dsrvsp_plot.html">ols_dsrvsp_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/dsrvsp-1.png" width="672" style="display: block; margin: auto;"></p>
-</div>
-<div id="hadi-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#hadi-plot" class="anchor"> </a></body></html>Hadi Plot</h3>
-<p>Hadi&rsquo;s measure of influence based on the fact that influential observations can be present in either the response variable or in the predictors or both. The plot is used to detect influential observations based on Hadi&rsquo;s measure.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_hadi_plot.html">ols_hadi_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/hadiplot-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="potential-residual-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#potential-residual-plot" class="anchor"> </a></body></html>Potential Residual Plot</h3>
-<p>Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_potrsd_plot.html">ols_potrsd_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/potres-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-</div>
-<div id="model-fit-assessment" class="section level2">
-<h2 class="hasAnchor"><html><body><a href="#model-fit-assessment" class="anchor"> </a></body></html>Model Fit Assessment</h2>
-<div id="residual-fit-spread-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#residual-fit-spread-plot" class="anchor"> </a></body></html>Residual Fit Spread Plot</h3>
-<p>Plot to detect non-linearity, influential observations and outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rfs_plot.html">ols_rfs_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/rfsplot-1.png" width="960" style="display: block; margin: auto;"></p>
-</div>
-<div id="part-partial-correlations" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#part-partial-correlations" class="anchor"> </a></body></html>Part &amp; Partial Correlations</h3>
-<div id="correlations" class="section level4">
-<h4 class="hasAnchor"><html><body><a href="#correlations" class="anchor"> </a></body></html>Correlations</h4>
-<p>Relative importance of independent variables in determining <strong>Y</strong>. How much each variable uniquely contributes to <span class="math inline">\(R^{2}\)</span> over and above that which can be accounted for by the other predictors.</p>
-<div id="zero-order" class="section level5">
-<h5 class="hasAnchor"><html><body><a href="#zero-order" class="anchor"> </a></body></html>Zero Order</h5>
-<p>Pearson correlation coefficient between the dependent variable and the independent variables.</p>
-</div>
-<div id="part" class="section level5">
-<h5 class="hasAnchor"><html><body><a href="#part" class="anchor"> </a></body></html>Part</h5>
-<p>Unique contribution of independent variables. How much <span class="math inline">\(R^{2}\)</span> will decrease if that variable is removed from the model?</p>
-</div>
-<div id="partial" class="section level5">
-<h5 class="hasAnchor"><html><body><a href="#partial" class="anchor"> </a></body></html>Partial</h5>
-<p>How much of the variance in <strong>Y</strong>, which is not estimated by the other independent variables in the model, is estimated by the specific variable?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_correlations.html">ols_correlations</a></span>(model)</code></pre></div>
-<pre><code>##                Correlations                 
-## -------------------------------------------
-## Variable    Zero Order    Partial     Part  
-## -------------------------------------------
-## disp            -0.848     -0.048    -0.019 
-## hp              -0.776     -0.224    -0.093 
-## wt              -0.868     -0.574    -0.285 
-## qsec             0.419      0.219     0.091 
-## -------------------------------------------</code></pre>
-</div>
-</div>
-</div>
-<div id="observed-vs-predicted-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#observed-vs-predicted-plot" class="anchor"> </a></body></html>Observed vs Predicted Plot</h3>
-<p>Plot of observed vs fitted values to assess the fit of the model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_ovsp_plot.html">ols_ovsp_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/obspred-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="lack-of-fit-f-test" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#lack-of-fit-f-test" class="anchor"> </a></body></html>Lack of Fit F Test</h3>
-<p>Assess how much of the error in prediction is due to lack of model fit.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_pure_error_anova.html">ols_pure_error_anova</a></span>(model)</code></pre></div>
-<pre><code>## Lack of Fit F Test 
-## -----------------
-## Response :   mpg 
-## Predictor:   disp 
-## 
-##                  Analysis of Variance Table                  
-## ------------------------------------------------------------
-##                 DF    Sum Sq    Mean Sq    F Value    Pr(&gt;F) 
-## ------------------------------------------------------------
-## disp             1    808.89     808.89     314.01      0.00 
-## Residual        30    317.16      10.57                      
-##  Lack of fit    25    304.28      12.17       4.72      0.05 
-##  Pure Error      5     12.88       2.58                      
-## ------------------------------------------------------------</code></pre>
-</div>
-<div id="diagnostics-panel" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#diagnostics-panel" class="anchor"> </a></body></html>Diagnostics Panel</h3>
-<p>Panel of plots for regression diagnostics</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_diagnostic_panel.html">ols_diagnostic_panel</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/diagpanel-1.png" width="960" style="display: block; margin: auto;"></p>
-</div>
-</div>
-<div id="variable-contributions" class="section level2">
-<h2 class="hasAnchor"><html><body><a href="#variable-contributions" class="anchor"> </a></body></html>Variable Contributions</h2>
-<div id="residual-vs-regressor-plots" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#residual-vs-regressor-plots" class="anchor"> </a></body></html>Residual vs Regressor Plots</h3>
-<p>Graph to determine whether we should add a new predictor to the model already containing other predictors. The residuals from the model is regressed on the new predictor and if the plot shows non random pattern, you should consider adding the new predictor to the model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rvsr_plot.html">ols_rvsr_plot</a></span>(model, mtcars$drat)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/rvsrplot-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="added-variable-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#added-variable-plot" class="anchor"> </a></body></html>Added Variable Plot</h3>
-<p>Added variable plot provides information about the marginal importance of a predictor variable <span class="math inline">\(X_{k}\)</span>, given the other predictor variables already in the model. It shows the marginal importance of the variable in reducing the residual variability.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_avplots.html">ols_avplots</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/avplot-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div id="residual-plus-component-plot" class="section level3">
-<h3 class="hasAnchor"><html><body><a href="#residual-plus-component-plot" class="anchor"> </a></body></html>Residual Plus Component Plot</h3>
-<p>The residual plus component plot indicates whether any non-linearity is present in the relationship between response and predictor variables and can suggest possible transformations for linearizing the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rpc_plot.html">ols_rpc_plot</a></span>(model)</code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/cplusr-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-</div>
 <div id="heteroskedasticity" class="section level2">
 <h2 class="hasAnchor"><html><body><a href="#heteroskedasticity" class="anchor"> </a></body></html>Heteroskedasticity</h2>
 <div id="bartlett-test" class="section level3">
@@ -699,6 +476,218 @@ mt$cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mt$cyl)
 ## 5      0.001          57.481      0.97 0.06 0.52 0.26 0.99</code></pre>
 </div>
 </div>
+<div id="measures-of-influence" class="section level2">
+<h2 class="hasAnchor"><html><body><a href="#measures-of-influence" class="anchor"> </a></body></html>Measures of Influence</h2>
+<div id="cooks-d-bar-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#cooks-d-bar-plot" class="anchor"> </a></body></html>Cook&rsquo;s D Bar Plot</h3>
+<p>Bar Plot of Cook&rsquo;s distance to detect observations that strongly influence fitted values of the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_cooksd_barplot.html">ols_cooksd_barplot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/ckdbp-1.png" width="672" style="display: block; margin: auto;"></p>
+</div>
+<div id="cooks-d-chart" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#cooks-d-chart" class="anchor"> </a></body></html>Cook&rsquo;s D Chart</h3>
+<p>Chart of Cook&rsquo;s distance to detect observations that strongly influence fitted values of the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_cooksd_chart.html">ols_cooksd_chart</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/ckchart-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="dfbetas-panel" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#dfbetas-panel" class="anchor"> </a></body></html>DFBETAs Panel</h3>
+<p>DFBETAs measure the difference in each parameter estimate with and without the influential observation. <code>dfbetas_panel</code> creates plots to detect influential observations using DFBETAs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_dfbetas_panel.html">ols_dfbetas_panel</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="dffits-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#dffits-plot" class="anchor"> </a></body></html>DFFITS Plot</h3>
+<p>Proposed by Welsch and Kuh (1977). It is the scaled difference between the <span class="math inline">\(i^{th}\)</span> fitted value obtained from the full data and the <span class="math inline">\(i^{th}\)</span> fitted value obtained by deleting the <span class="math inline">\(i^{th}\)</span> observation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_dffits_plot.html">ols_dffits_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/dfitsplot-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="studentized-residual-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#studentized-residual-plot" class="anchor"> </a></body></html>Studentized Residual Plot</h3>
+<p>Plot for detecting outliers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_srsd_plot.html">ols_srsd_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/srplot-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="studentized-residual-chart" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#studentized-residual-chart" class="anchor"> </a></body></html>Studentized Residual Chart</h3>
+<p>Chart for detecting outliers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_srsd_chart.html">ols_srsd_chart</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/srchart-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="studentized-residuals-vs-leverage-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#studentized-residuals-vs-leverage-plot" class="anchor"> </a></body></html>Studentized Residuals vs Leverage Plot</h3>
+<p>Graph for detecting influential observations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(read ~<span class="st"> </span>write +<span class="st"> </span>math +<span class="st"> </span>science, <span class="dt">data =</span> hsb)
+<span class="kw"><a href="../reference/ols_rsdlev_plot.html">ols_rsdlev_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/studlev-1.png" width="672" style="display: block; margin: auto;"></p>
+</div>
+<div id="deleted-studentized-residual-vs-fitted-values-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#deleted-studentized-residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Deleted Studentized Residual vs Fitted Values Plot</h3>
+<p>Graph for detecting outliers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_dsrvsp_plot.html">ols_dsrvsp_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/dsrvsp-1.png" width="672" style="display: block; margin: auto;"></p>
+</div>
+<div id="hadi-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#hadi-plot" class="anchor"> </a></body></html>Hadi Plot</h3>
+<p>Hadi&rsquo;s measure of influence based on the fact that influential observations can be present in either the response variable or in the predictors or both. The plot is used to detect influential observations based on Hadi&rsquo;s measure.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_hadi_plot.html">ols_hadi_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/hadiplot-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="potential-residual-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#potential-residual-plot" class="anchor"> </a></body></html>Potential Residual Plot</h3>
+<p>Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_potrsd_plot.html">ols_potrsd_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/potres-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div id="residual-diagnostics" class="section level2">
+<h2 class="hasAnchor"><html><body><a href="#residual-diagnostics" class="anchor"> </a></body></html>Residual Diagnostics</h2>
+<div id="residual-qq-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#residual-qq-plot" class="anchor"> </a></body></html>Residual QQ Plot</h3>
+<p>Graph for detecting violation of normality assumption.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_rsd_qqplot.html">ols_rsd_qqplot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/qqresid-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="residual-normality-test" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#residual-normality-test" class="anchor"> </a></body></html>Residual Normality Test</h3>
+<p>Test for detecting violation of normality assumption.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_norm_test.html">ols_norm_test</a></span>(model)</code></pre></div>
+<pre><code>## -----------------------------------------------
+##        Test           Statistic         pvalue  
+## -----------------------------------------------
+## Shapiro-Wilk              0.9366         0.06   
+## Kolmogorov-Smirnov        0.1152        0.7464  
+## Cramer-von Mises          2.8122           0    
+## Anderson-Darling          0.5859        0.1188  
+## -----------------------------------------------</code></pre>
+<p>Correlation between observed residuals and expected residuals under normality.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_corr_test.html">ols_corr_test</a></span>(model)</code></pre></div>
+<pre><code>## [1] 0.970066</code></pre>
+</div>
+<div id="residual-vs-fitted-values-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Residual vs Fitted Values Plot</h3>
+<p>Plot to detect non-linearity, unequal error variances, and outliers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_rvsp_plot.html">ols_rvsp_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/rvsfplot-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="residual-histogram" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#residual-histogram" class="anchor"> </a></body></html>Residual Histogram</h3>
+<p>Histogram of residuals for detecting violation of normality assumption.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_rsd_hist.html">ols_rsd_hist</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/residhist-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div id="model-fit-assessment" class="section level2">
+<h2 class="hasAnchor"><html><body><a href="#model-fit-assessment" class="anchor"> </a></body></html>Model Fit Assessment</h2>
+<div id="residual-fit-spread-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#residual-fit-spread-plot" class="anchor"> </a></body></html>Residual Fit Spread Plot</h3>
+<p>Plot to detect non-linearity, influential observations and outliers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_rfs_plot.html">ols_rfs_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/rfsplot-1.png" width="960" style="display: block; margin: auto;"></p>
+</div>
+<div id="part-partial-correlations" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#part-partial-correlations" class="anchor"> </a></body></html>Part &amp; Partial Correlations</h3>
+<div id="correlations" class="section level4">
+<h4 class="hasAnchor"><html><body><a href="#correlations" class="anchor"> </a></body></html>Correlations</h4>
+<p>Relative importance of independent variables in determining <strong>Y</strong>. How much each variable uniquely contributes to <span class="math inline">\(R^{2}\)</span> over and above that which can be accounted for by the other predictors.</p>
+<div id="zero-order" class="section level5">
+<h5 class="hasAnchor"><html><body><a href="#zero-order" class="anchor"> </a></body></html>Zero Order</h5>
+<p>Pearson correlation coefficient between the dependent variable and the independent variables.</p>
+</div>
+<div id="part" class="section level5">
+<h5 class="hasAnchor"><html><body><a href="#part" class="anchor"> </a></body></html>Part</h5>
+<p>Unique contribution of independent variables. How much <span class="math inline">\(R^{2}\)</span> will decrease if that variable is removed from the model?</p>
+</div>
+<div id="partial" class="section level5">
+<h5 class="hasAnchor"><html><body><a href="#partial" class="anchor"> </a></body></html>Partial</h5>
+<p>How much of the variance in <strong>Y</strong>, which is not estimated by the other independent variables in the model, is estimated by the specific variable?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_correlations.html">ols_correlations</a></span>(model)</code></pre></div>
+<pre><code>##                Correlations                 
+## -------------------------------------------
+## Variable    Zero Order    Partial     Part  
+## -------------------------------------------
+## disp            -0.848     -0.048    -0.019 
+## hp              -0.776     -0.224    -0.093 
+## wt              -0.868     -0.574    -0.285 
+## qsec             0.419      0.219     0.091 
+## -------------------------------------------</code></pre>
+</div>
+</div>
+</div>
+<div id="observed-vs-predicted-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#observed-vs-predicted-plot" class="anchor"> </a></body></html>Observed vs Predicted Plot</h3>
+<p>Plot of observed vs fitted values to assess the fit of the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_ovsp_plot.html">ols_ovsp_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/obspred-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="lack-of-fit-f-test" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#lack-of-fit-f-test" class="anchor"> </a></body></html>Lack of Fit F Test</h3>
+<p>Assess how much of the error in prediction is due to lack of model fit.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_pure_error_anova.html">ols_pure_error_anova</a></span>(model)</code></pre></div>
+<pre><code>## Lack of Fit F Test 
+## -----------------
+## Response :   mpg 
+## Predictor:   disp 
+## 
+##                  Analysis of Variance Table                  
+## ------------------------------------------------------------
+##                 DF    Sum Sq    Mean Sq    F Value    Pr(&gt;F) 
+## ------------------------------------------------------------
+## disp             1    808.89     808.89     314.01      0.00 
+## Residual        30    317.16      10.57                      
+##  Lack of fit    25    304.28      12.17       4.72      0.05 
+##  Pure Error      5     12.88       2.58                      
+## ------------------------------------------------------------</code></pre>
+</div>
+<div id="diagnostics-panel" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#diagnostics-panel" class="anchor"> </a></body></html>Diagnostics Panel</h3>
+<p>Panel of plots for regression diagnostics</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_diagnostic_panel.html">ols_diagnostic_panel</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/diagpanel-1.png" width="960" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div id="variable-contributions" class="section level2">
+<h2 class="hasAnchor"><html><body><a href="#variable-contributions" class="anchor"> </a></body></html>Variable Contributions</h2>
+<div id="residual-vs-regressor-plots" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#residual-vs-regressor-plots" class="anchor"> </a></body></html>Residual vs Regressor Plots</h3>
+<p>Graph to determine whether we should add a new predictor to the model already containing other predictors. The residuals from the model is regressed on the new predictor and if the plot shows non random pattern, you should consider adding the new predictor to the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_rvsr_plot.html">ols_rvsr_plot</a></span>(model, mtcars$drat)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/rvsrplot-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="added-variable-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#added-variable-plot" class="anchor"> </a></body></html>Added Variable Plot</h3>
+<p>Added variable plot provides information about the marginal importance of a predictor variable <span class="math inline">\(X_{k}\)</span>, given the other predictor variables already in the model. It shows the marginal importance of the variable in reducing the residual variability.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_avplots.html">ols_avplots</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/avplot-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="residual-plus-component-plot" class="section level3">
+<h3 class="hasAnchor"><html><body><a href="#residual-plus-component-plot" class="anchor"> </a></body></html>Residual Plus Component Plot</h3>
+<p>The residual plus component plot indicates whether any non-linearity is present in the relationship between response and predictor variables and can suggest possible transformations for linearizing the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_rpc_plot.html">ols_rpc_plot</a></span>(model)</code></pre></div>
+<p><img src="regression_diagnostics_files/figure-html/cplusr-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
 </div>
 </div>
   </div>
@@ -706,13 +695,12 @@ mt$cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mt$cyl)
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
       <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked"><li><a href="#regression-diagnostics">Regression Diagnostics</a><ul class="nav nav-pills nav-stacked"><li><a href="#residual-diagnostics">Residual Diagnostics</a></li>
+      <ul class="nav nav-pills nav-stacked"><li><a href="#heteroskedasticity">Heteroskedasticity</a></li>
+      <li><a href="#collinearity-diagnostics">Collinearity Diagnostics</a></li>
       <li><a href="#measures-of-influence">Measures of Influence</a></li>
+      <li><a href="#residual-diagnostics">Residual Diagnostics</a></li>
       <li><a href="#model-fit-assessment">Model Fit Assessment</a></li>
       <li><a href="#variable-contributions">Variable Contributions</a></li>
-      <li><a href="#heteroskedasticity">Heteroskedasticity</a></li>
-      <li><a href="#collinearity-diagnostics">Collinearity Diagnostics</a></li>
-      </ul></li>
       </ul></div>
       </div>
 

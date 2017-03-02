@@ -29,11 +29,11 @@ test_that("qqresid fails when model inherits other than 'lm'", {
     expect_error(ols_rsd_qqplot(m), 'Please specify a OLS linear regression model.')
 })
 
-test_that("hist_resid fails when model inherits other than 'lm'", {
+test_that("residual histogram fails when model inherits other than 'lm'", {
     y <- sample(c(1:4), 100, replace = T)
     x <- sample(c(1, 2), 100, replace = T)
     m <- glm(x ~ y)
-    expect_error(ols_resid_hist(m), 'Please specify a OLS linear regression model.')
+    expect_error(ols_rsd_hist(m), 'Please specify a OLS linear regression model.')
 })
 
 test_that("diag_panel fails when model inherits other than 'lm'", {

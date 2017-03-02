@@ -30,9 +30,10 @@ reference:
 
   contents:
   - ols_rsd_qqplot
-  - ols_resid_hist
+  - ols_rsd_hist
   - ols_rsd_boxplot
   - ols_norm_test
+  - ols_corr_test
   - ols_rvsp_plot
 
 - title: Heteroskedasticity

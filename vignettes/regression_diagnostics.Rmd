@@ -19,262 +19,6 @@ library(nortest)
 library(goftest)
 ```
 
-# Regression Diagnostics
-
-## Residual Diagnostics
-
-### Residual QQ Plot
-
-Graph for detecting violation of normality assumption.
-
-```{r qqresid, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsd_qqplot(model)
-```
-
-### Residual Histogram
-
-Histogram of residuals for detecting violation of normality assumption.
-
-```{r residhist, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_resid_hist(model)
-```
-
-### Residual Box Plot
-
-A box plot of residuals is used to detect violation of the homoscedasticity assumption.
-
-```{r residbox, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsd_boxplot(model)
-```
-
-
-### Residual Normality Test
-
-Test for detecting violation of normality assumption.
-
-```{r normtest}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_norm_test(model)
-```
-
-Correlation between observed residuals and expected residuals under normality.
-
-```{r corrtest}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_corr_test(model)
-```
-
-
-#### Residual vs Fitted Values Plot
-
-Plot to detect non-linearity, unequal error variances, and outliers.
-
-```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
-```
-
-## Measures of Influence
-
-### Cook's D Bar Plot
-
-Bar Plot of Cook's distance to detect observations that strongly influence fitted values of the model.
-
-```{r ckdbp, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_cooksd_barplot(model)
-```
-
-### Cook's D Chart
-
-Chart of Cook's distance to detect observations that strongly influence fitted values of the model.
-
-```{r ckchart, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_cooksd_chart(model)
-```
-
-### DFBETAs Panel
-
-DFBETAs measure the difference in each parameter estimate with and without the influential observation.
-`dfbetas_panel` creates plots to detect influential observations using DFBETAs.
-
-```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
-```
-
-### DFFITS Plot
-
-Proposed by Welsch and Kuh (1977). It is the scaled difference between the
-$i^{th}$ fitted value obtained from the full data and the $i^{th}$ fitted
-value obtained by deleting the $i^{th}$ observation.
-
-```{r dfitsplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_dffits_plot(model)
-```
-
-### Studentized Residual Plot
-
-Plot for detecting outliers.
-
-```{r srplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_srsd_plot(model)
-```
-
-### Studentized Residual Chart
-
-Chart for detecting outliers.
-
-```{r srchart, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_srsd_chart(model)
-```
-
-### Studentized Residuals vs Leverage Plot
-
-Graph for detecting influential observations.
-
-```{r studlev, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsdlev_plot(model)
-```
-
-### Deleted Studentized Residual vs Fitted Values Plot
-
-```{r dsrvsp, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_dsrvsp_plot(model)
-```
-
-### Hadi Plot
-
-Hadi's measure of influence based on the fact that influential observations can be present in either
-the response variable or in the predictors or both. The plot is used to detect influential observations
-based on Hadi's measure.
-
-```{r hadiplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_hadi_plot(model)
-```
-
-### Potential Residual Plot
-
-Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.
-
-```{r potres, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_potrsd_plot(model)
-```
-
-## Model Fit Assessment
-
-### Residual Fit Spread Plot
-
-Plot to detect non-linearity, influential observations and outliers.
-
-```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rfs_plot(model)
-```
-
-### Part & Partial Correlations
-
-#### Correlations
-
-Relative importance of independent variables in determining **Y**. How much each
-variable uniquely contributes to $R^{2}$ over and above that which can be
-accounted for by the other predictors.
-
-##### Zero Order
-
-Pearson correlation coefficient between the dependent variable and the
-independent variables.
-
-##### Part
-
-Unique contribution of independent variables. How much $R^{2}$ will decrease if
-that variable is removed from the model?
-
-##### Partial
-
-How much of the variance in **Y**, which is not estimated by the other
-independent variables in the model, is estimated by the specific variable?
-
-```{r partcor}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_correlations(model)
-```
-
-### Observed vs Predicted Plot
-
-Plot of observed vs fitted values to assess the fit of the model.
-
-```{r obspred, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_ovsp_plot(model)
-```
-
-### Lack of Fit F Test
-
-Assess how much of the error in prediction is due to lack of model fit.
-
-```{r lackfit}
-model <- lm(mpg ~ disp, data = mtcars)
-ols_pure_error_anova(model)
-```
-
-### Diagnostics Panel
-
-Panel of plots for regression diagnostics
-
-```{r diagpanel, fig.width=10, fig.height=25, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_diagnostic_panel(model)
-```
-
-
-## Variable Contributions
-
-### Residual vs Regressor Plots
-
-Graph to determine whether we should add a new predictor to the model already containing other predictors.
-The residuals from the model is regressed on the new predictor and if the plot shows non random pattern, 
-you should consider adding the new predictor to the model.
-
-```{r rvsrplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_rvsr_plot(model, mtcars$drat)
-```
-
-
-### Added Variable Plot
-
-Added variable plot provides information about the marginal importance of a 
-predictor variable $X_{k}$, given the other predictor variables already in 
-the model. It shows the marginal importance of the variable in reducing the
-residual variability. 
-
-```{r avplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_avplots(model)
-```
-
-### Residual Plus Component Plot
-
-The residual plus component plot indicates whether any non-linearity is present in the relationship between 
-response and predictor variables and can suggest possible transformations for linearizing the data.
-
-```{r cplusr, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rpc_plot(model)
-```
-
 ## Heteroskedasticity
 
 ### Bartlett Test
@@ -464,3 +208,251 @@ ols_eigen_cindex(model)
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_coll_diag(model)
 ```
+
+## Measures of Influence
+
+### Cook's D Bar Plot
+
+Bar Plot of Cook's distance to detect observations that strongly influence fitted values of the model.
+
+```{r ckdbp, fig.width=7, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_cooksd_barplot(model)
+```
+
+### Cook's D Chart
+
+Chart of Cook's distance to detect observations that strongly influence fitted values of the model.
+
+```{r ckchart, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_cooksd_chart(model)
+```
+
+### DFBETAs Panel
+
+DFBETAs measure the difference in each parameter estimate with and without the influential observation.
+`dfbetas_panel` creates plots to detect influential observations using DFBETAs.
+
+```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+ols_dfbetas_panel(model)
+```
+
+### DFFITS Plot
+
+Proposed by Welsch and Kuh (1977). It is the scaled difference between the
+$i^{th}$ fitted value obtained from the full data and the $i^{th}$ fitted
+value obtained by deleting the $i^{th}$ observation.
+
+```{r dfitsplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_dffits_plot(model)
+```
+
+### Studentized Residual Plot
+
+Plot for detecting outliers.
+
+```{r srplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_srsd_plot(model)
+```
+
+### Studentized Residual Chart
+
+Chart for detecting outliers.
+
+```{r srchart, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_srsd_chart(model)
+```
+
+### Studentized Residuals vs Leverage Plot
+
+Graph for detecting influential observations.
+
+```{r studlev, fig.width=7, fig.height=5, fig.align='center'}
+model <- lm(read ~ write + math + science, data = hsb)
+ols_rsdlev_plot(model)
+```
+
+### Deleted Studentized Residual vs Fitted Values Plot
+
+Graph for detecting outliers.
+
+```{r dsrvsp, fig.width=7, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_dsrvsp_plot(model)
+```
+
+### Hadi Plot
+
+Hadi's measure of influence based on the fact that influential observations can be present in either
+the response variable or in the predictors or both. The plot is used to detect influential observations
+based on Hadi's measure.
+
+```{r hadiplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_hadi_plot(model)
+```
+
+### Potential Residual Plot
+
+Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.
+
+```{r potres, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_potrsd_plot(model)
+```
+
+
+## Residual Diagnostics
+
+### Residual QQ Plot
+
+Graph for detecting violation of normality assumption.
+
+```{r qqresid, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rsd_qqplot(model)
+```
+
+### Residual Normality Test
+
+Test for detecting violation of normality assumption.
+
+```{r normtest}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_norm_test(model)
+```
+
+Correlation between observed residuals and expected residuals under normality.
+
+```{r corrtest}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_corr_test(model)
+```
+
+### Residual vs Fitted Values Plot
+
+Plot to detect non-linearity, unequal error variances, and outliers.
+
+```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rvsp_plot(model)
+```
+
+
+### Residual Histogram
+
+Histogram of residuals for detecting violation of normality assumption.
+
+```{r residhist, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rsd_hist(model)
+```
+
+## Model Fit Assessment
+
+### Residual Fit Spread Plot
+
+Plot to detect non-linearity, influential observations and outliers.
+
+```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rfs_plot(model)
+```
+
+### Part & Partial Correlations
+
+#### Correlations
+
+Relative importance of independent variables in determining **Y**. How much each
+variable uniquely contributes to $R^{2}$ over and above that which can be
+accounted for by the other predictors.
+
+##### Zero Order
+
+Pearson correlation coefficient between the dependent variable and the
+independent variables.
+
+##### Part
+
+Unique contribution of independent variables. How much $R^{2}$ will decrease if
+that variable is removed from the model?
+
+##### Partial
+
+How much of the variance in **Y**, which is not estimated by the other
+independent variables in the model, is estimated by the specific variable?
+
+```{r partcor}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_correlations(model)
+```
+
+### Observed vs Predicted Plot
+
+Plot of observed vs fitted values to assess the fit of the model.
+
+```{r obspred, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_ovsp_plot(model)
+```
+
+### Lack of Fit F Test
+
+Assess how much of the error in prediction is due to lack of model fit.
+
+```{r lackfit}
+model <- lm(mpg ~ disp, data = mtcars)
+ols_pure_error_anova(model)
+```
+
+### Diagnostics Panel
+
+Panel of plots for regression diagnostics
+
+```{r diagpanel, fig.width=10, fig.height=25, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_diagnostic_panel(model)
+```
+
+
+## Variable Contributions
+
+### Residual vs Regressor Plots
+
+Graph to determine whether we should add a new predictor to the model already containing other predictors.
+The residuals from the model is regressed on the new predictor and if the plot shows non random pattern, 
+you should consider adding the new predictor to the model.
+
+```{r rvsrplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+ols_rvsr_plot(model, mtcars$drat)
+```
+
+
+### Added Variable Plot
+
+Added variable plot provides information about the marginal importance of a 
+predictor variable $X_{k}$, given the other predictor variables already in 
+the model. It shows the marginal importance of the variable in reducing the
+residual variability. 
+
+```{r avplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_avplots(model)
+```
+
+### Residual Plus Component Plot
+
+The residual plus component plot indicates whether any non-linearity is present in the relationship between 
+response and predictor variables and can suggest possible transformations for linearizing the data.
+
+```{r cplusr, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rpc_plot(model)
+```
+

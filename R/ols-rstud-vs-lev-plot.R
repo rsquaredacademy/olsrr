@@ -4,7 +4,8 @@
 #' @description Graph for detecting influential observations
 #' @param model an object of class \code{lm}
 #' @examples
-#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' model <- lm(read ~ write + math + science, data = hsb)
+#' ols_rsdlev_plot(model)
 #' ols_rsdlev_plot(model)
 #' @export
 #'

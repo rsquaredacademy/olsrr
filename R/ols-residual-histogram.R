@@ -5,10 +5,10 @@
 #' @param model an object of class \code{lm}
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_resid_hist(model)
+#' ols_rsd_hist(model)
 #' @export
 #'
-ols_resid_hist <- function(model) {
+ols_rsd_hist <- function(model) {
 
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
