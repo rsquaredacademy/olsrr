@@ -2,7 +2,7 @@
 #' @title Stepwise AIC Backward Regression
 #' @description Build regression model from a set of candidate predictor variables by removing predictors based on 
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
-#' @param model an object of class \code{lm}
+#' @param model an object of class \code{lm}; the model should include all candidate predictor variables
 #' @param x an object of class \code{ols_stepaic_backward}
 #' @param ... other arguments
 #' @return \code{ols_stepaic_backward} returns an object of class \code{"ols_stepaic_backward"}.

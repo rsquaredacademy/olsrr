@@ -16,11 +16,13 @@ ols_potrsd_plot <- function(model) {
 
     res <- NULL
     pot <- NULL
-    d <- tibble(res = hadio(model, 3), pot = hadio(model, 2))
-    p <- ggplot(d, aes(x = res, y = pot))
-    p <- p + geom_point(colour = 'blue', shape = 1)
-    p <- p + xlab('Residual') + ylab('Potential')
-    p <- p + ggtitle('Potential-Residual Plot')
+      d <- tibble(res = hadio(model, 3), pot = hadio(model, 2))
+      
+      p <- ggplot(d, aes(x = res, y = pot)) +
+        geom_point(colour = 'blue', shape = 1) +
+        xlab('Residual') + ylab('Potential') +
+        ggtitle('Potential-Residual Plot')
+        
     print(p)
 }
 

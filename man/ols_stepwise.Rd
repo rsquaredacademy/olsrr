@@ -10,7 +10,7 @@ ols_stepwise(model, ...)
 \method{plot}{ols_stepwise}(x, model = NA, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{an object of class \code{lm}; the model should include all candidate predictor variables}
 
 \item{...}{other arguments}
 

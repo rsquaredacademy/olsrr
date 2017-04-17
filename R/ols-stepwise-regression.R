@@ -1,7 +1,7 @@
 #' @title Stepwise Regression
 #' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
 #' p values, in a stepwise manner until there is no variable left to enter or remove any more.
-#' @param model an object of class \code{lm}
+#' @param model an object of class \code{lm}; the model should include all candidate predictor variables
 #' @param x an object of class \code{ols_stepwise}
 #' @param ... other arguments
 #' @return \code{ols_stepwise} returns an object of class \code{"ols_stepwise"}.

@@ -1,7 +1,7 @@
 #' @importFrom ggplot2 ggtitle scale_shape_manual scale_size_manual scale_color_manual ggtitle geom_text
 #' @importFrom utils combn
 #' @importFrom purrr map_int
-#' @title All Subsets Regression
+#' @title All Possible Regression
 #' @description Fits all regressions involving one regressor, two regressors, three regressors, and so on.
 #' It tests all possible subsets of the set of potential independent variables.
 #' @param model an object of class \code{lm}
@@ -29,7 +29,11 @@
 #' Prentice Hall
 #' @examples
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
-#' ols_all_subset(model)
+#' k <- ols_all_subset(model)
+#' k
+#'
+#' # plot
+#' plot(k)
 #'
 #' @export
 #'

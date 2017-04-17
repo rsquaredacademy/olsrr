@@ -7,6 +7,7 @@
 #'
 #' \item{vif_t}{tolerance and variance inflation factors}
 #' \item{eig_cindex}{eigen values and condition index}
+#' 
 #' @references Belsley, D. A., Kuh, E., and Welsch, R. E. (1980). Regression Diagnostics: Identifying Influential Data and
 #' Sources of Collinearity. New York: John Wiley & Sons.
 #' @examples

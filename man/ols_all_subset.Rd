@@ -3,7 +3,7 @@
 \name{ols_all_subset}
 \alias{ols_all_subset}
 \alias{plot.ols_all_subset}
-\title{All Subsets Regression}
+\title{All Possible Regression}
 \usage{
 ols_all_subset(model, ...)
 
@@ -41,7 +41,11 @@ It tests all possible subsets of the set of potential independent variables.
 }
 \examples{
 model <- lm(mpg ~ disp + hp, data = mtcars)
-ols_all_subset(model)
+k <- ols_all_subset(model)
+k
+
+# plot
+plot(k)
 
 }
 \references{

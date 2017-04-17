@@ -65,7 +65,7 @@ plot(k)
 ## Stepwise Forward Regression
 
 Build regression model from a set of candidate predictor variables by entering predictors based on 
-p values, in a stepwise manner until there is no variable left to enter any more.
+p values, in a stepwise manner until there is no variable left to enter any more. The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
 
 ### Variable Selection
 
@@ -83,10 +83,18 @@ k <- ols_step_forward(model)
 plot(k)
 ```
 
+### Detailed Output
+
+```{r stepwisefdetails}
+# stepwise forward regression
+model <- lm(y ~ ., data = surgical)
+ols_step_forward(model, details = TRUE)
+```
+
 ## Stepwise Backward Regression
 
 Build regression model from a set of candidate predictor variables by removing predictors based on 
-p values, in a stepwise manner until there is no variable left to remove any more.
+p values, in a stepwise manner until there is no variable left to remove any more. The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
 
 ### Variable Selection
 
@@ -104,10 +112,18 @@ k <- ols_step_backward(model)
 plot(k)
 ```
 
+### Detailed Output
+
+```{r stepwisebdetails}
+# stepwise backward regression
+model <- lm(y ~ ., data = surgical)
+ols_step_backward(model, details = TRUE)
+```
+
 ## Stepwise Regression
 
 Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
-p values, in a stepwise manner until there is no variable left to enter or remove any more.
+p values, in a stepwise manner until there is no variable left to enter or remove any more. The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
 
 ### Variable Selection
 
@@ -125,10 +141,19 @@ k <- ols_stepwise(model)
 plot(k)
 ```
 
+### Detailed Output
+
+```{r stepwisedetails}
+# stepwise regression
+model <- lm(y ~ ., data = surgical)
+ols_stepwise(model, details = TRUE)
+```
+
 ## Stepwise AIC Forward Regression
 
 Build regression model from a set of candidate predictor variables by entering predictors based on 
 Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
+The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
 
 ### Variable Selection
 
@@ -146,10 +171,19 @@ k <- ols_stepaic_forward(model)
 plot(k)
 ```
 
+### Detailed Output
+
+```{r stepwiseaicfdetails}
+# stepwise aic forward regression
+model <- lm(y ~ ., data = surgical)
+ols_stepaic_forward(model, details = TRUE)
+```
+
 ## Stepwise AIC Backward Regression
 
 Build regression model from a set of candidate predictor variables by removing predictors based on 
 Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
+The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
 
 ### Variable Selection
 
@@ -167,15 +201,24 @@ k <- ols_stepaic_backward(model)
 plot(k)
 ```
 
+### Detailed Output
+
+```{r stepwiseaicbdetails}
+# stepwise aic backward regression
+model <- lm(y ~ ., data = surgical)
+ols_stepaic_backward(model, details = TRUE)
+```
+
 ## Stepwise AIC Regression
 
 Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
 Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
+The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
 
 ### Variable Selection
 
 ```{r stepwiseaic1}
-# stepwise aic backward regression
+# stepwise aic regression
 model <- lm(y ~ ., data = surgical)
 ols_stepaic_both(model)
 ```
@@ -186,4 +229,12 @@ ols_stepaic_both(model)
 model <- lm(y ~ ., data = surgical)
 k <- ols_stepaic_both(model)
 plot(k)
+```
+
+### Detailed Output
+
+```{r stepwiseaicdetails}
+# stepwise aic regression
+model <- lm(y ~ ., data = surgical)
+ols_stepaic_both(model, details = TRUE)
 ```

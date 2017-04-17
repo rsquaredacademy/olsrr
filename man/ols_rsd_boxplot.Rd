@@ -12,6 +12,6 @@ model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rsd_boxplot(model)}
 }
 \description{
-Box plot of residuals to detect violation of homoscedasticity assumption.
+Box plot of residuals
 }
 

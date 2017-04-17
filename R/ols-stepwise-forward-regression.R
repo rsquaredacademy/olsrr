@@ -2,7 +2,7 @@
 #' @title Stepwise Forward Regression
 #' @description Build regression model from a set of candidate predictor variables by entering predictors based on 
 #' p values, in a stepwise manner until there is no variable left to enter any more.
-#' @param model an object of class \code{lm}
+#' @param model an object of class \code{lm}; the model should include all candidate predictor variables
 #' @param x an object of class \code{ols_step_forward}
 #' @param ... other arguments
 #' @return \code{ols_step_forward} returns an object of class \code{"ols_step_forward"}.

@@ -13,21 +13,22 @@ ols_dffits_plot <- function(model) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-	dffitsm  <- model %>% dffits() %>% unlist()
-				 k <- length(model$coefficients)
-				 n <- model %>% model.frame() %>% nrow()
-	dffits_t <- 2 * sqrt(k / n)
-	     obs <- NULL
-	     txt <- NULL
-		dbetas <- NULL
+			 dffitsm  <- model %>% dffits() %>% unlist()
+							k <- length(model$coefficients)
+		 				  n <- model %>% model.frame() %>% nrow()
+			 dffits_t <- 2 * sqrt(k / n)
+				    obs <- NULL
+				    txt <- NULL
+		     dbetas <- NULL
 		Observation <- NULL
 
-	d <- tibble(obs = seq_len(n), dbetas = dffitsm)
-	d$color <- ifelse(((d$dbetas >= dffits_t) | (d$dbetas <= -dffits_t)), c("outlier"), c("normal"))
-  d$color1 <- factor(d$color)
+	            d <- tibble(obs = seq_len(n), dbetas = dffitsm)
+	      d$color <- ifelse(((d$dbetas >= dffits_t) | (d$dbetas <= -dffits_t)), c("outlier"), c("normal"))
+       d$color1 <- factor(d$color)
   d$Observation <- ordered(d$color1, levels = c("normal", "outlier"))
-  d <- d %>% mutate(txt = ifelse(Observation == 'outlier', obs, NA))
-	f <- d %>% filter(., Observation == 'outlier') %>% select(obs, dbetas)
+  						d <- d %>% mutate(txt = ifelse(Observation == 'outlier', obs, NA))
+							f <- d %>% filter(., Observation == 'outlier') %>% select(obs, dbetas)
+
 	p <- ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dffitsm)) +
 		geom_linerange(colour = 'blue') +
 		geom_hline(yintercept = c(0, dffits_t, -dffits_t), colour = 'red') +
@@ -40,5 +41,6 @@ ols_dffits_plot <- function(model) {
                   label = paste('Threshold:', round(dffits_t, 2)))
 
 	suppressWarnings(print(p))
+	colnames(f) <- c("Observation", "DFFITs")
 	invisible(f)
 }

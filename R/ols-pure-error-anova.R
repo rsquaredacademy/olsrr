@@ -52,27 +52,27 @@ ols_pure_error_anova.default <- function(model, ...) {
 	}
 
 	k <- peanova(model)
-	result <- list(lackoffit  = k$lackoffit,
+	result <- list( lackoffit = k$lackoffit,
 		             pure_error = k$pure_error,
-		             rss        = k$rss,
-		             ess        = k$ess,
-		             total      = k$total,
-		             rms        = k$rms,
-		             ems        = k$ems,
-		             lms        = k$lms,
-		             pms        = k$pms,
-		             rf         = k$rf,
-		             lf         = k$lf,
-		             pr         = k$pr,
-		             pl         = k$pl,
-		             mpred      = k$mpred,
-		             df_rss     = k$df_rss,
-		             df_ess     = k$df_ess,
-		             df_lof     = k$df_lof,
-		             df_error   = k$df_error,
-		             final      = k$final,
-		             resp       = k$resp,
-		             preds      = k$preds)
+					              rss = k$rss,
+					              ess = k$ess,
+		             			total = k$total,
+					              rms = k$rms,
+					              ems = k$ems,
+					              lms = k$lms,
+					              pms = k$pms,
+						             rf = k$rf,
+						             lf = k$lf,
+						             pr = k$pr,
+						             pl = k$pl,
+		                  mpred = k$mpred,
+				             df_rss = k$df_rss,
+				             df_ess = k$df_ess,
+				             df_lof = k$df_lof,
+		               df_error = k$df_error,
+		                  final = k$final,
+		                   resp = k$resp,
+		                  preds = k$preds)
 
 	class(result) <- 'ols_pure_error_anova'
 

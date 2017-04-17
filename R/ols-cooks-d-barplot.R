@@ -23,17 +23,18 @@ ols_cooksd_barplot <- function(model) {
 	d <- k$ckd
 	d <- d %>% mutate(txt = ifelse(Observation == 'outlier', obs, NA))
 	f <- d %>% filter(., Observation == 'outlier') %>% select(obs, cd)
-	p <- ggplot(d, aes(x = obs, y = cd, label = txt)) + geom_bar(width = 0.5, stat = 'identity', aes(fill = Observation))
-	p <- p + scale_fill_manual(values = c('blue', 'red'))
-	p <- p + coord_flip()
-	p <- p + ylim(0, k$maxx)
-	p <- p + ylab("Cook's D") + xlab('Observation') + ggtitle("Cook's D Bar Plot")
-	p <- p + geom_hline(yintercept = 0)
-	p <- p + geom_hline(yintercept = k$ts, colour = 'red')
-	p <- p + geom_text(hjust = -0.2, nudge_x = 0.05, size = 2)
-	p <- p + annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2, 
+
+	p <- ggplot(d, aes(x = obs, y = cd, label = txt)) + 
+		geom_bar(width = 0.5, stat = 'identity', aes(fill = Observation)) +
+		scale_fill_manual(values = c('blue', 'red')) + coord_flip() +
+		ylim(0, k$maxx) + ylab("Cook's D") + xlab('Observation') + 
+		ggtitle("Cook's D Bar Plot") + geom_hline(yintercept = 0) +
+		geom_hline(yintercept = k$ts, colour = 'red') +
+		geom_text(hjust = -0.2, nudge_x = 0.05, size = 2) +
+		annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2, 
                   family="serif", fontface="italic", colour="darkred", 
                   label = paste('Threshold:', k$ts))
+	
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Cook's Distance")
 	invisible(f)

@@ -18,14 +18,15 @@ ols_rvsr_plot <- function(model, variable) {
 	x <- NULL
 	y <- NULL
 	d <- rvsrdata(model)
+	v <- l(deparse(substitute(variable)))
+	k <- data.frame(x = variable, y = model$residuals)
 
-				v <- l(deparse(substitute(variable)))
-				k <- data.frame(x = variable, y = model$residuals)
-				p <- ggplot(k, aes(x = x, y = y))
-				p <- p + geom_point(shape = 1, colour = 'blue')
-				p <- p + xlab(paste(v)) + ylab('Residual')
-				p <- p + ggtitle(paste("Residual vs", v))
-				p <- p + geom_hline(yintercept = 0, colour = 'red')
-				print(p)
+	p <- ggplot(k, aes(x = x, y = y)) +
+		geom_point(shape = 1, colour = 'blue') +
+		xlab(paste(v)) + ylab('Residual') +
+		ggtitle(paste("Residual vs", v)) +
+		geom_hline(yintercept = 0, colour = 'red')
+		
+	print(p)
 
 }
