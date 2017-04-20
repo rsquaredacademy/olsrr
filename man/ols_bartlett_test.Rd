@@ -36,7 +36,7 @@ following components:
 \item{g_var}{name of \code{group_var}}
 }
 \description{
-Test if k samples have equal variances
+Test if k samples are from populations with equal variances.
 }
 \details{
 Bartlett's test is used to test if variances across samples is equal. 

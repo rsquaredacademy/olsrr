@@ -15,6 +15,8 @@
 #' independent variables. Part correlations indicates how much rsquare will decrease if that variable is removed from the model
 #' and partial correlations indicates amount of variance in response variable, which is not estimated by the other
 #' independent variables in the model, but is estimated by the specific variable.
+#'
+#' @references Morrison, D. F. 1976. Multivariate statistical methods. New York: McGraw-Hill.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_correlations(model)

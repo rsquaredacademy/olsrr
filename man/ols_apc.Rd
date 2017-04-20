@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-information-criteria.R
 \name{ols_apc}
 \alias{ols_apc}
-\title{Amemiya's Prediction Criteria}
+\title{Amemiya's Prediction Criterion}
 \usage{
 ols_apc(model)
 }
@@ -14,6 +14,16 @@ Amemiya's prediction error
 }
 \description{
 Amemiya's prediction error
+}
+\details{
+Amemiya's Prediction Criterion penalizes R-squared more heavily than does adjusted R-squared for 
+each addition degree of freedom used on the right-hand-side of the equation.  The higher the better for 
+this criterion.
+
+\deqn{((n + p) / (n - p))(1 - (R^2))}
+
+where \emph{n} is the sample size, \emph{p} is the number of predictors including the intercept and
+\emph{R^2} is the coefficient of determination.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

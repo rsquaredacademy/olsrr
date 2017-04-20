@@ -10,6 +10,25 @@
 #' @param p.adj p value adjustment, following options are available: bonferroni,
 #' holm, sidak and none
 #' @param vars variables to be used for for heteroskedasticity test
+#' @details Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
+#' test for heteroskedasticity in a linear regression model. It test whether variance of errors from a 
+#' regression is dependent on the values of a independent variable. 
+#'
+#' \itemize{
+#' \item Null Hypothesis: Equal/constant variances
+#' \item Alternative Hypothesis: Unequal/non-constant variances
+#' }
+#'
+#' Computation
+#'
+#' \itemize{
+#'   \item Fit a regression model
+#'   \item Regress the squared residuals from the above model on the independent variables
+#'   \item Compute \eqn{nR^2}. It follows a chi square distribution with p -1 degrees of 
+#'         freedom, where p is the number of independent variables, n is the sample size and
+#'				 \eqn{R^2} is the coefficient of determination from the regression in step 2.
+#' }
+#'
 #' @return \code{ols_bp_test} returns an object of class \code{"ols_bp_test"}.
 #' An object of class \code{"ols_bp_test"} is a list containing the
 #' following components:

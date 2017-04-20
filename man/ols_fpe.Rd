@@ -15,6 +15,14 @@ fpe
 \description{
 Final prediction error
 }
+\details{
+Computes the estimated mean square error of prediction for each model selected
+assuming that the values of the regressors are fixed and that the model is correct.
+
+\deqn{MSE((n + p) / n)}
+
+where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_fpe(model)

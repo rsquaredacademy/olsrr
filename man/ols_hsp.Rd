@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-information-criteria.R
 \name{ols_hsp}
 \alias{ols_hsp}
-\title{Hocking's SP}
+\title{Hocking's Sp}
 \usage{
 ols_hsp(model)
 }
@@ -10,10 +10,17 @@ ols_hsp(model)
 \item{model}{an object of class \code{lm}}
 }
 \value{
-Hocking's SP
+Hocking's Sp
 }
 \description{
 Average prediction mean squared error
+}
+\details{
+Hocking's Sp criterion is an adjustment of the residual sum of Squares. Minimize this criterion.
+
+\deqn{MSE / (n - p - 1)}
+
+where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

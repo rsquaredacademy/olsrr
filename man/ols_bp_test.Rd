@@ -41,6 +41,26 @@ following components:
 \description{
 Test for constant variance. It assumes that the error terms are normally distributed.
 }
+\details{
+Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
+test for heteroskedasticity in a linear regression model. It test whether variance of errors from a 
+regression is dependent on the values of a independent variable. 
+
+\itemize{
+\item Null Hypothesis: Equal/constant variances
+\item Alternative Hypothesis: Unequal/non-constant variances
+}
+
+Computation
+
+\itemize{
+  \item Fit a regression model
+  \item Regress the squared residuals from the above model on the independent variables
+  \item Compute \eqn{nR^2}. It follows a chi square distribution with p -1 degrees of 
+        freedom, where p is the number of independent variables, n is the sample size and
+			 \eqn{R^2} is the coefficient of determination from the regression in step 2.
+}
+}
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)

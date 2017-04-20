@@ -1,8 +1,12 @@
 #' @importFrom stats fitted.values
 #' @importFrom ggplot2 geom_abline geom_segment
-#' @title Observed vs Predicted Plot
-#' @description Plot of observed vs fitted values to assess the fit of the model.
+#' @title Actual vs Fitted Values Plot
+#' @description Plot of actual vs fitted values to assess the fit of the model.
 #' @param model an object of class \code{lm}
+#' @details  Ideally, all your points should be close to a regressed diagonal line. Draw such a diagonal line 
+#' within your graph and check out where the points lie. If your model had a high R Square, all the points would 
+#' be close to this diagonal line. The lower the R Square, the weaker the Goodness of fit of your model, the more 
+#' foggy or dispersed your points are from this diagonal line.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_ovsp_plot(model)
@@ -24,8 +28,8 @@ ols_ovsp_plot <- function(model) {
 	d <- obspred(model)
 	p <- ggplot(d, aes(x = x, y = y))
 	p <- p + geom_point(color = 'blue', shape = 1)
-	p <- p + xlab('Predicted Value') + ylab(paste(oname))
-	p <- p + ggtitle(paste("Observed by Predicted for", oname))
+	p <- p + ylab('Fitted Value') + xlab(paste(oname))
+	p <- p + ggtitle(paste("Actual vs Fitted for", oname))
 	p <- p + geom_abline(intercept = 0, slope = 1, color = 'blue')
 	p <- p + geom_segment(data = d, aes(x = min(x), y = min(y), xend = max(x), yend = max(y)),
 		colour = 'red')

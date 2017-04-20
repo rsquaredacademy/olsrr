@@ -15,6 +15,14 @@ MSEP
 \description{
 Estimated error of prediction, assuming multivariate normality
 }
+\details{
+Computes the estimated mean square error of prediction assuming that both independent
+and dependent variables are multivariate normal.
+
+\deqn{MSE(n + 1)(n - 2) / n(n - p - 1)}
+
+where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_msep(model)

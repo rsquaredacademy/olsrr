@@ -2,7 +2,7 @@
 #' @useDynLib olsrr
 #' @importFrom Rcpp sourceCpp
 #' @title Bartlett Test
-#' @description Test if k samples have equal variances
+#' @description Test if k samples are from populations with equal variances.
 #' @param variable a numeric vector/an object of class \code{formula} or \code{lm}
 #' @param ... numeric vectors
 #' @param group_var grouping variable

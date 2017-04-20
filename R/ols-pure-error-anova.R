@@ -1,9 +1,22 @@
 #' @importFrom stats coefficients
 #' @importFrom dplyr group_by_ select_ summarise_each funs
-#' @title Lack  of Fit F Test
+#' @title Lack of Fit F Test
 #' @description Assess how much of the error in prediction is due to lack of model fit.
 #' @param model an object of class \code{lm}
 #' @param ... other parameters
+#' @details The residual sum of squares resulting from a regression can be decomposed into 2 components:
+#'
+#' \itemize{
+#'   \item Due to lack of fit
+#'   \item Due to random variation
+#' }
+#'
+#' If most of the error is due to lack of fit and not just random error, the model should be discarded and
+#' a new model must be built. 
+#'
+#' @note The lack of fit F test works only with simple linear regression. Moreover, it is important that the 
+#' data contains repeat observations i.e. replicates for at least one of the values of the predictor x. This 
+#' test generally only applies to datasets with plenty of replicates.
 #' @return \code{ols_pure_error_anova} returns an object of class
 #' \code{"ols_pure_error_anova"}. An object of class \code{"ols_pure_error_anova"} is a
 #' list containing the following components:

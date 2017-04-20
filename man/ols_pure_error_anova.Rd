@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-pure-error-anova.R
 \name{ols_pure_error_anova}
 \alias{ols_pure_error_anova}
-\title{Lack  of Fit F Test}
+\title{Lack of Fit F Test}
 \usage{
 ols_pure_error_anova(model, ...)
 }
@@ -40,6 +40,22 @@ list containing the following components:
 }
 \description{
 Assess how much of the error in prediction is due to lack of model fit.
+}
+\details{
+The residual sum of squares resulting from a regression can be decomposed into 2 components:
+
+\itemize{
+  \item Due to lack of fit
+  \item Due to random variation
+}
+
+If most of the error is due to lack of fit and not just random error, the model should be discarded and
+a new model must be built.
+}
+\note{
+The lack of fit F test works only with simple linear regression. Moreover, it is important that the 
+data contains repeat observations i.e. replicates for at least one of the values of the predictor x. This 
+test generally only applies to datasets with plenty of replicates.
 }
 \examples{
 model <- lm(mpg ~ disp, data = mtcars)

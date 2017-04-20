@@ -9,14 +9,27 @@ ols_sbc(model, method = c("R", "STATA", "SAS"))
 \arguments{
 \item{model}{an object of class \code{lm}}
 
-\item{method}{a character vector; specify the method to compute AIC. Valid
+\item{method}{a character vector; specify the method to compute BIC. Valid
 options include R, STATA and SAS}
 }
 \value{
-Bayesian Information Criteria
+Bayesian Information Criterion
 }
 \description{
-Bayesian Information Criteria
+Bayesian Information Criterion
+}
+\details{
+SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the 
+quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute SBC. SAS
+uses residual sum of squares. Below is the formula in each case:
+
+\emph{R & STATA}
+\deqn{AIC = -2(loglikelihood) + ln(n) * 2p}
+
+\emph{SAS}
+\deqn{AIC = n * ln(SSE / n) + p * ln(n)}
+
+where \emph{n} is the sample size and \emph{p} is the number of model parameters including intercept.
 }
 \examples{
 # using R computation method

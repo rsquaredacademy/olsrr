@@ -33,4 +33,7 @@ independent variables in the model, but is estimated by the specific variable.
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_correlations(model)
 }
+\references{
+Morrison, D. F. 1976. Multivariate statistical methods. New York: McGraw-Hill.
+}
 

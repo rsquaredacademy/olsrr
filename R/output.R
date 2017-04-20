@@ -974,10 +974,10 @@ print_best_subset <- function(data) {
     w7 <- max(nchar('AIC'), nchar(round(data$aic, 4)))
     w8 <- max(nchar('SBIC'), nchar(round(data$sbic, 4)))
     w9 <- max(nchar('SBC'), nchar(round(data$sbc, 4)))
-    w10 <- max(nchar('GMSEP'), nchar(round(data$gmsep, 4)))
-    w11 <- max(nchar('Jp'), nchar(round(data$jp, 4)))
-    w12 <- max(nchar('Sp'), nchar(round(data$sp, 4)))
-    w13 <- max(nchar('PC'), nchar(round(data$pc, 4)))
+    w10 <- max(nchar('MSEP'), nchar(round(data$gmsep, 4)))
+    w11 <- max(nchar('FPE'), nchar(round(data$jp, 4)))
+    w12 <- max(nchar('HSP'), nchar(round(data$sp, 4)))
+    w13 <- max(nchar('APC'), nchar(round(data$pc, 4)))
 
     v <- sum(w3, w4, w4, w4, w6, w7, w8, w9, w10, w11, w12, w13, 44)
 
@@ -1003,8 +1003,8 @@ print_best_subset <- function(data) {
         format('R-Square', width = w4, justify = 'centre'), fs(), format('R-Square', width = w4, justify = 'centre'), fs(),
         format('C(p)', width = w6, justify = 'centre'), fs(), format('AIC', width = w7, justify = 'centre'), fs(),
         format('SBIC', width = w8, justify = 'centre'), fs(), format('SBC', width = w9, justify = 'centre'), fs(),
-        format('GMSEP', width = w10, justify = 'centre'), fs(), format('Jp', width = w11, justify = 'centre'), fs(),
-        format('Sp', width = w12, justify = 'centre'), fs(), format('PC', width = w13, justify = 'centre'))
+        format('MSEP', width = w10, justify = 'centre'), fs(), format('FPE', width = w11, justify = 'centre'), fs(),
+        format('HSP', width = w12, justify = 'centre'), fs(), format('APC', width = w13, justify = 'centre'))
     cat("\n", rep("-", v), sep = "", '\n')
     for (i in data$mindex) {
         cat(format(as.character(data$mindex[i]), width = w3, justify = 'centre'), fs(), format(data$rsquare[i], nsmall = 4, width = w4, justify = 'centre'), fs(),
@@ -1015,6 +1015,10 @@ print_best_subset <- function(data) {
         format(round(data$sp[i], 4), nsmall = 4, width = w12, justify = 'centre'), fs(), format(round(data$pc[i], 4), nsmall = 4, width = w13, justify = 'centre'), "\n")
     }
     cat(rep("-", v), sep = "", '\n')
+    cat("AIC: Akaike Information Criteria", "\n", "SBIC: Sawa's Bayesian Information Criteria", "\n", 
+    	"SBC: Schwarz Bayesian Criteria", "\n",  "MSEP: Estimated error of prediction, assuming multivariate normality", 
+    	"\n", "FPE: Final Prediction Error", "\n", "HSP: Hocking's Sp", "\n", "APC: Amemiya Prediction Criteria", 
+    	"\n\n")
 
 }
 

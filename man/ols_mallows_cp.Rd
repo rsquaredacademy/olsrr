@@ -17,6 +17,11 @@ Mallow's Cp
 \description{
 Mallow's Cp
 }
+\details{
+Mallows' Cp statistic estimates the size of the bias that is introduced into the predicted responses 
+by having an underspecified model. Use Mallows' Cp to choose between multiple regression models. Look for 
+models where Mallows' Cp is small and close to the number of predictors in the model plus the constant (p).
+}
 \examples{
 full_model <- lm(mpg ~ ., data = mtcars)
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

@@ -13,10 +13,23 @@ ols_aic(model, method = c("R", "STATA", "SAS"))
 options include R, STATA and SAS}
 }
 \value{
-Akaike Information Criteria
+Akaike Information Criterion
 }
 \description{
-Akaike Information Criteria
+Akaike Information Criterion
+}
+\details{
+AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the 
+quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute AIC. SAS
+uses residual sum of squares. Below is the formula in each case:
+
+\emph{R & STATA}
+\deqn{AIC = -2(loglikelihood) + 2p}
+
+\emph{SAS}
+\deqn{AIC = n * ln(SSE / n) + 2p}
+
+where \emph{n} is the sample size and \emph{p} is the number of model parameters including intercept.
 }
 \examples{
 # using R computation method

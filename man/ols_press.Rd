@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-influence-measures.R
 \name{ols_press}
 \alias{ols_press}
-\title{PRESS Statistic}
+\title{PRESS (Prediction Sum of Squares)}
 \usage{
 ols_press(model)
 }
@@ -10,10 +10,16 @@ ols_press(model)
 \item{model}{an object of class \code{lm}}
 }
 \value{
-PRESS Statistic
+Predicted Sum of Squares
 }
 \description{
 PRESS tells you how well the model will predict new data.
+}
+\details{
+The prediction sum of squares (PRESS) is the sum of squares of the prediction error. Each fitted 
+value for PRESS is obtained from the remaining n – 1 observations, then using the fitted regression function 
+to obtain the predicted value for the ith observation. Use PRESS to assess your model's predictive ability. 
+Usually, the smaller the PRESS value, the better the model's predictive ability.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

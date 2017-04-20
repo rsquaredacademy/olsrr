@@ -538,8 +538,8 @@ corrout <- function(model) {
 
 # observed vs predicted plot
 obspred <- function(model) {
-    x <- model %>% fitted.values()
-    y <- model %>% model.frame() %>% `[[`(1)
+    y <- model %>% fitted.values()
+    x <- model %>% model.frame() %>% `[[`(1)
     d <- tibble(x, y)
     return(d)
 }

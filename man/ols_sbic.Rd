@@ -9,14 +9,24 @@ ols_sbic(model, full_model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 
-\item{full_model}{an object of class \code{lm}
-options include R, STATA and SAS}
+\item{full_model}{an object of class \code{lm}}
 }
 \value{
-Sawa's Bayesian Information Criteria
+Sawa's Bayesian Information Criterion
 }
 \description{
-Sawa's Bayesian Information Criteria
+Sawa's Bayesian Information Criterion
+}
+\details{
+Sawa (1978) developed a model selection criterion that was derived from a Bayesian modification of 
+the AIC criterion. Sawa's Bayesian Information Criteria (BIC) is a function of the number of observations n, 
+the SSE, the pure error variance fitting the full model, and the number of independent variables including 
+the intercept.
+
+\deqn{SBIC = n * ln(SSE / n) + 2(p + 2)q - 2(q^2)}
+
+where \eqn{q = n(\sigma^2)/SSE}, \emph{n} is the sample size, \emph{p} is the number of model parameters including intercept
+\emph{SSE} is the residual sum of squares.
 }
 \examples{
 full_model <- lm(mpg ~ ., data = mtcars)
