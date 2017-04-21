@@ -81,7 +81,8 @@
     </div>
 
     
-    <p>Plot to detect non-linearity, unequal error variances, and outliers.</p>
+    <p>It is a scatter plot of residuals on the y axis and fitted values on the x axis to 
+detect non-linearity, unequal error variances, and outliers.</p>
     
 
     <pre><span class='fu'>ols_rvsp_plot</span>(<span class='no'>model</span>)</pre>
@@ -89,7 +90,18 @@
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>model</dt>
-      <dd>an object of class <code>lm</code></dd>
+      <dd>an object of class <code>lm</code>
+details Characteristics of a well behaved residual vs fitted plot:
+
+<ul>
+<li> The residuals spread randomly around the 0 line indicating that the relationship is linear.
+  </li>
+<li> The residuals form an approximate horizontal band around the 0 line indicating homogeneity of error variance.
+  </li>
+<li> No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.
+</li>
+</ul>
+</dd>
     </dl>
     
 

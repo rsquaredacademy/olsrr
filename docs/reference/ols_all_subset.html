@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All Subsets Regression — ols_all_subset â€¢ olsrr</title>
+<title>All Possible Regression — ols_all_subset â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,7 +77,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>All Subsets Regression</h1>
+    <h1>All Possible Regression</h1>
     </div>
 
     
@@ -114,10 +114,13 @@ Prentice Hall</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_all_subset</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt;   Index N Predictors R-Square Adj. R-Square Mallow&#39;s Cp
+<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_all_subset</span>(<span class='no'>model</span>)
+<span class='no'>k</span></div><div class='output co'>#&gt;   Index N Predictors R-Square Adj. R-Square Mallow&#39;s Cp
 #&gt; 1     1 1       disp    0.718         0.709      4.4438
 #&gt; 2     2 1         hp    0.602         0.589     17.7949
 #&gt; 3     3 2    disp hp    0.748         0.731           3</div><div class='input'>
+<span class='co'># plot</span>
+<span class='fu'>plot</span>(<span class='no'>k</span>)</div><img src='ols_all_subset-4.png' alt='' width='540' height='400' /><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

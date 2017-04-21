@@ -10,7 +10,7 @@ ols_rsdlev_plot(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Graph for detecting influential observations
+Graph for detecting outliers and/or observations with high leverage.
 }
 \examples{
 model <- lm(read ~ write + math + science, data = hsb)

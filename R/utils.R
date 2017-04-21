@@ -660,8 +660,12 @@ srdata <- function(model) {
 
 	dsr$color1 <- factor(dsr$color)
 	dsr$Observation <- ordered(dsr$color1, levels = c("normal", "outlier"))
-  cminx <- dsr$dsr %>% min() %>% `-`(1) %>% floor()
-  cmaxx <- dsr$dsr %>% max() %>% `-`(1) %>% floor()
+  cminxx <- dsr$dsr %>% min() %>% `-`(1) %>% floor() 
+  cmaxxx <- dsr$dsr %>% max() %>% `-`(1) %>% floor()
+  # cminx <- dsr$dsr %>% min() %>% `-`(1) %>% floor()
+  # cmaxx <- dsr$dsr %>% max() %>% `-`(1) %>% floor()
+  cminx <- ifelse(cminxx > -3, -3, cminxx)
+  cmaxx <- ifelse(cmaxxx < 3, 3, cmaxxx)
 	nseq  <- seq_len(abs(0 + cminx + 1)) * -1
 	pseq  <- seq_len(0 + cmaxx - 1)
 

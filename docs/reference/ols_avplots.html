@@ -95,6 +95,31 @@ residual variability.</p>
       <dd>an object of class <code>lm</code></dd>
     </dl>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The added variable plot was introduced by Mosteller and Tukey (1977). It enables
+us to visualize the regression coefficient of a new variable being considered to
+be included in a model. The plot can be constructed for each predictor variable.</p>
+    <p>Let us assume we want to test the effect of adding/removing variable <em>X</em> from a
+model. Let the response variable of the model be <em>Y</em></p>
+    <p>Steps to construct an added variable plot:</p>
+    <p><ul>
+<li> Regress <em>Y</em> on all variables other than <em>X</em> and store the residuals (<em>Y</em> residuals).
+  </li>
+<li> Regress <em>X</em> on all the other variables included in the model (<em>X</em> residuals).
+  </li>
+<li> Construct a scatter plot of <em>Y</em> residuals and <em>X</em> residuals.
+</li>
+</ul></p>
+    <p>What do the <em>Y</em> and <em>X</em> residuals represent? The <em>Y</em> residuals represent the part
+of <strong>Y</strong> not explained by all the variables other than X. The <em>X</em> residuals
+represent the part of <strong>X</strong> not explained by other variables. The slope of the line
+fitted to the points in the added variable plot is equal to the regression
+coefficient when <strong>Y</strong> is regressed on all variables including <strong>X</strong>.</p>
+    <p>A strong linear relationship in the added variable plot indicates the increased
+importance of the contribution of <strong>X</strong> to the model already containing the
+other predictors.</p>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley &amp; Sons, 2012. Print.</p>
@@ -111,6 +136,8 @@ Chicago, IL., McGraw Hill/Irwin.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>

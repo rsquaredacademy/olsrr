@@ -1,9 +1,9 @@
 ---
-title: "Regression Diagnostics"
+title: "Collinearity Diagnostics, Model Fit & Variable Contribution"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Regression Diagnostics}
+  %\VignetteIndexEntry{Collinearity Diagnostics, Model Fit & Variable Contribution}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,136 +17,6 @@ library(purrr)
 library(tibble)
 library(nortest)
 library(goftest)
-```
-
-## Heteroskedasticity
-
-### Bartlett Test
-
-Bartlett's test is used to test if variances across samples is equal. It is sensitive to 
-departures from normality. The Levene test is an alternative test that is less sensitive 
-to departures from normality.
-
-#### Use grouping variable
-```{r bartlett1}
-model <- lm(mpg ~ disp + hp, data = mtcars)
-resid <- residuals(model)
-cyl <- as.factor(mtcars$cyl)
-ols_bartlett_test(resid, group_var = cyl)
-```
-
-#### Using variables
-```{r bartlett2}
-ols_bartlett_test(hsb$read, hsb$write)
-```
-
-#### Using formula
-```{r bartlett3}
-mt <- mtcars
-mt$cyl <- as.factor(mt$cyl)
-ols_bartlett_test(mpg ~ cyl, data = mt)
-```
-
-#### Using linear model
-```{r bartlett4}
-model <- lm(mpg ~ cyl, data = mt)
-ols_bartlett_test(model)
-```
-
-### Breusch Pagan Test
-
-Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a $\chi^{2}$ test.
-
-#### Use fitted values of the model
-
-```{r bp1}
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
-```
-
-#### Use independent variables of the model
-
-```{r bp2}
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE)
-```
-
-#### Use independent variables of the model and perform multiple tests
-
-```{r bp3}
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE, multiple = TRUE)
-```
-
-#### Bonferroni p value Adjustment
-
-```{r bp4}
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
-```
-
-#### Sidak p value Adjustment
-
-```{r bp5}
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
-```
-
-#### Holm's p value Adjustment
-
-```{r bp6}
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
-```
-
-### Score Test
-
-Test for heteroskedasticity under the assumption that the errors are independent and identically distributed (i.i.d.).
-
-#### Use fitted values of the model
-
-```{r score1}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_score_test(model)
-```
-
-#### Use independent variables of the model
-
-```{r score2}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_score_test(model, rhs = TRUE)
-```
-
-#### Specify variables
-
-```{r score3}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_score_test(model, vars = c('disp', 'hp'))
-```
-
-### F Test
-
-F Test for heteroskedasticity under the assumption that the errors are independent and identically distributed (i.i.d.).
-
-#### Use fitted values of the model
-
-```{r ftest1}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_f_test(model)
-```
-
-#### Use independent variables of the model
-
-```{r ftest2}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_f_test(model, rhs = TRUE)
-```
-
-#### Specify variables
-
-```{r ftest3}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_f_test(model, vars = c('disp', 'hp'))
 ```
 
 ## Collinearity Diagnostics
@@ -209,155 +79,11 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_coll_diag(model)
 ```
 
-## Measures of Influence
-
-### Cook's D Bar Plot
-
-Bar Plot of Cook's distance to detect observations that strongly influence fitted values of the model.
-
-```{r ckdbp, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_cooksd_barplot(model)
-```
-
-### Cook's D Chart
-
-Chart of Cook's distance to detect observations that strongly influence fitted values of the model.
-
-```{r ckchart, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_cooksd_chart(model)
-```
-
-### DFBETAs Panel
-
-DFBETAs measure the difference in each parameter estimate with and without the influential observation.
-`dfbetas_panel` creates plots to detect influential observations using DFBETAs.
-
-```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
-```
-
-### DFFITS Plot
-
-Proposed by Welsch and Kuh (1977). It is the scaled difference between the
-$i^{th}$ fitted value obtained from the full data and the $i^{th}$ fitted
-value obtained by deleting the $i^{th}$ observation.
-
-```{r dfitsplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_dffits_plot(model)
-```
-
-### Studentized Residual Plot
-
-Plot for detecting outliers.
-
-```{r srplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_srsd_plot(model)
-```
-
-### Studentized Residual Chart
-
-Chart for detecting outliers.
-
-```{r srchart, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_srsd_chart(model)
-```
-
-### Studentized Residuals vs Leverage Plot
-
-Graph for detecting influential observations.
-
-```{r studlev, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(read ~ write + math + science, data = hsb)
-ols_rsdlev_plot(model)
-```
-
-### Deleted Studentized Residual vs Fitted Values Plot
-
-Graph for detecting outliers.
-
-```{r dsrvsp, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_dsrvsp_plot(model)
-```
-
-### Hadi Plot
-
-Hadi's measure of influence based on the fact that influential observations can be present in either
-the response variable or in the predictors or both. The plot is used to detect influential observations
-based on Hadi's measure.
-
-```{r hadiplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_hadi_plot(model)
-```
-
-### Potential Residual Plot
-
-Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.
-
-```{r potres, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_potrsd_plot(model)
-```
-
-
-## Residual Diagnostics
-
-### Residual QQ Plot
-
-Graph for detecting violation of normality assumption.
-
-```{r qqresid, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsd_qqplot(model)
-```
-
-### Residual Normality Test
-
-Test for detecting violation of normality assumption.
-
-```{r normtest}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_norm_test(model)
-```
-
-Correlation between observed residuals and expected residuals under normality.
-
-```{r corrtest}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_corr_test(model)
-```
-
-### Residual vs Fitted Values Plot
-
-Plot to detect non-linearity, unequal error variances, and outliers.
-
-```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
-```
-
-
-### Residual Histogram
-
-Histogram of residuals for detecting violation of normality assumption.
-
-```{r residhist, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsd_hist(model)
-```
-
 ## Model Fit Assessment
 
 ### Residual Fit Spread Plot
 
-Plot to detect non-linearity, influential observations and outliers.
+Plot to detect non-linearity, influential observations and outliers. Consists of side-by-side quantile plots of the centered fit and the residuals. It shows how much variation in the data is explained by the fit and how much remains in the residuals. For inappropriate models, the spread of the residuals in such a plot is often greater than the spread of the centered fit.
 
 ```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -394,7 +120,7 @@ ols_correlations(model)
 
 ### Observed vs Predicted Plot
 
-Plot of observed vs fitted values to assess the fit of the model.
+Plot of observed vs fitted values to assess the fit of the model. Ideally, all your points should be close to a regressed diagonal line. Draw such a diagonal line within your graph and check out where the points lie. If your model had a high R Square, all the points would be close to this diagonal line. The lower the R Square, the weaker the Goodness of fit of your model, the more foggy or dispersed your points are from this diagonal line.
 
 ```{r obspred, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -403,7 +129,12 @@ ols_ovsp_plot(model)
 
 ### Lack of Fit F Test
 
-Assess how much of the error in prediction is due to lack of model fit.
+Assess how much of the error in prediction is due to lack of model fit. The residual sum of squares resulting from a regression can be decomposed into 2 components:
+
+- Due to lack of fit
+- Due to random variation
+
+If most of the error is due to lack of fit and not just random error, the model should be discarded and a new model must be built. The lack of fit F test works only with simple linear regression. Moreover, it is important that the data contains repeat observations i.e. replicates for at least one of the values of the predictor x. This test generally only applies to datasets with plenty of replicates.
 
 ```{r lackfit}
 model <- lm(mpg ~ disp, data = mtcars)
@@ -418,7 +149,7 @@ Panel of plots for regression diagnostics
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_diagnostic_panel(model)
 ```
-
+ 
 
 ## Variable Contributions
 
@@ -441,6 +172,29 @@ predictor variable $X_{k}$, given the other predictor variables already in
 the model. It shows the marginal importance of the variable in reducing the
 residual variability. 
 
+The added variable plot was introduced by Mosteller and Tukey (1977). It enables
+us to visualize the regression coefficient of a new variable being considered to
+be included in a model. The plot can be constructed for each predictor variable.
+
+Let us assume we want to test the effect of adding/removing variable *X* from a
+model. Let the response variable of the model be *Y*
+
+Steps to construct an added variable plot:
+
+- Regress *Y* on all variables other than *X* and store the residuals (*Y* residuals).
+- Regress *X* on all the other variables included in the model (*X* residuals).
+- Construct a scatter plot of *Y* residuals and *X* residuals.
+
+What do the *Y* and *X* residuals represent? The *Y* residuals represent the part
+of **Y** not explained by all the variables other than X. The *X* residuals
+represent the part of **X** not explained by other variables. The slope of the line
+fitted to the points in the added variable plot is equal to the regression
+coefficient when **Y** is regressed on all variables including **X**.
+
+A strong linear relationship in the added variable plot indicates the increased
+importance of the contribution of **X** to the model already containing the
+other predictors.
+
 ```{r avplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_avplots(model)
@@ -448,8 +202,19 @@ ols_avplots(model)
 
 ### Residual Plus Component Plot
 
-The residual plus component plot indicates whether any non-linearity is present in the relationship between 
-response and predictor variables and can suggest possible transformations for linearizing the data.
+The residual plus component plot was introduced by Ezekeil (1924). It was called
+as Partial Residual Plot by Larsen and McCleary (1972). Hadi and Chatterjee (2012)
+called it the residual plus component plot.
+
+Steps to construct the plot:
+
+- Regress **Y** on all variables including **X** and store the residuals (**e**).
+- Multiply **e** with regression coefficient of **X** (**eX**).
+- Construct scatter plot of **eX** and **X**
+
+The residual plus component plot indicates whether any non-linearity is present
+in the relationship between **Y** and **X** and can suggest possible transformations
+for linearizing the data.
 
 ```{r cplusr, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

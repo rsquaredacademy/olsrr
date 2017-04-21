@@ -112,6 +112,29 @@ holm, sidak and none</dd>
 An object of class <code>&quot;ols_bp_test&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
+test for heteroskedasticity in a linear regression model. It test whether variance of errors from a 
+regression is dependent on the values of a independent variable.</p>
+    <p><ul>
+<li> Null Hypothesis: Equal/constant variances
+</li>
+<li> Alternative Hypothesis: Unequal/non-constant variances
+</li>
+</ul></p>
+    <p>Computation</p>
+    <p><ul>
+<li> Fit a regression model
+  </li>
+<li> Regress the squared residuals from the above model on the independent variables
+  </li>
+<li> Compute \(nR^2\). It follows a chi square distribution with p -1 degrees of 
+        freedom, where p is the number of independent variables, n is the sample size and
+			 \(R^2\) is the coefficient of determination from the regression in step 2.
+</li>
+</ul></p>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>T.S. Breusch &amp; A.R. Pagan (1979), A Simple Test for Heteroscedasticity and 
@@ -257,6 +280,8 @@ Random Coefficient Variation. Econometrica 47, 1287–1294</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
       

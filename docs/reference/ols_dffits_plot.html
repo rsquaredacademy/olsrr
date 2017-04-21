@@ -81,7 +81,7 @@
     </div>
 
     
-    <p>Plot for detecting influential observations using DFFITS.</p>
+    <p>Plot for detecting influential observations using DFFITs.</p>
     
 
     <pre><span class='fu'>ols_dffits_plot</span>(<span class='no'>model</span>)</pre>
@@ -92,6 +92,30 @@
       <dd>an object of class <code>lm</code></dd>
     </dl>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>DFFIT - difference in fits, is used to identify influential data points. It quantifies 
+the number of standard deviations that the fitted value changes when the ith data point is omitted.</p>
+    <p>Steps to compute DFFITs:</p>
+    <p><ul>
+<li> Delete observations one at a time.
+  </li>
+<li> Refit the regression model on remaining \(n - 1\) observations
+  </li>
+<li> examine how much all of the fitted values change when the ith observation is deleted.
+</li>
+</ul></p>
+    <p>An observation is deemed influential if the absolute value of its DFFITS value is greater than:
+$$2\sqrt(p + 1) / (n - p -1)$$</p>
+    <p>where n is the number of observations and p is the number of predictors including intercept.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression 
+Diagnostics: Identifying Influential Data and Sources of Collinearity. 
+Wiley Series in Probability and Mathematical Statistics. 
+New York: John Wiley &amp; Sons. ISBN 0-471-05856-4.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
@@ -101,7 +125,11 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -1,0 +1,80 @@
+---
+title: "Residual Diagnostics"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Residual Diagnostics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(olsrr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(purrr)
+library(tibble)
+library(nortest)
+library(goftest)
+```
+
+## Introduction
+
+olsrr offers tools for detecting violation of standard regression assumptions. Here we take a look 
+at residual diagnostics. The standard regression assumptions include the following about residuals/errors:
+
+- The error has a normal distribution (normality assumption).
+- The errors have mean zero.
+- The errors have same but unknown variance (homoscedasticity assumption).
+- The error are independent of each other (independent errors assumption). 
+
+### Residual QQ Plot
+
+Graph for detecting violation of normality assumption.
+
+```{r qqresid, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rsd_qqplot(model)
+```
+
+### Residual Normality Test
+
+Test for detecting violation of normality assumption.
+
+```{r normtest}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_norm_test(model)
+```
+
+Correlation between observed residuals and expected residuals under normality.
+
+```{r corrtest}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_corr_test(model)
+```
+
+### Residual vs Fitted Values Plot
+
+It is a scatter plot of residuals on the y axis and fitted values on the x axis to detect non-linearity, unequal error variances, and outliers. 
+
+**Characteristics of a well behaved residual vs fitted plot:**
+
+- The residuals spread randomly around the 0 line indicating that the relationship is linear.
+- The residuals form an approximate horizontal band around the 0 line indicating homogeneity of error variance.
+- No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.
+
+```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rvsp_plot(model)
+```
+
+
+### Residual Histogram
+
+Histogram of residuals for detecting violation of normality assumption.
+
+```{r residhist, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rsd_hist(model)
+```

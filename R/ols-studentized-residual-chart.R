@@ -2,6 +2,8 @@
 #' @title Standardized Residual Chart
 #' @description Chart for identifying outliers 
 #' @param model an object of class \code{lm}
+#' @details Standardized residual (internally studentized) is the residual divided by estimated 
+#' standard deviation.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_srsd_chart(model)

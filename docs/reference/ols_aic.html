@@ -81,7 +81,7 @@
     </div>
 
     
-    <p>Akaike Information Criteria</p>
+    <p>Akaike Information Criterion</p>
     
 
     <pre><span class='fu'>ols_aic</span>(<span class='no'>model</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"R"</span>, <span class='st'>"STATA"</span>, <span class='st'>"SAS"</span>))</pre>
@@ -97,7 +97,18 @@ options include R, STATA and SAS</dd>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Akaike Information Criteria</p>
+    <p>Akaike Information Criterion</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the 
+quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute AIC. SAS
+uses residual sum of squares. Below is the formula in each case:</p>
+    <p><em>R &amp; STATA</em>
+$$AIC = -2(loglikelihood) + 2p$$</p>
+    <p><em>SAS</em>
+$$AIC = n * ln(SSE / n) + 2p$$</p>
+    <p>where <em>n</em> is the sample size and <em>p</em> is the number of model parameters including intercept.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -124,6 +135,8 @@ New York: John Wiley &amp; Sons.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
       

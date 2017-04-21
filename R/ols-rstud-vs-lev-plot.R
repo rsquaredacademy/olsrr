@@ -1,7 +1,7 @@
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 geom_vline
 #' @title Studentized Residuals vs Leverage Plot 
-#' @description Graph for detecting influential observations
+#' @description Graph for detecting outliers and/or observations with high leverage.
 #' @param model an object of class \code{lm}
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
