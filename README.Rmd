@@ -60,7 +60,7 @@ The olsrr package provides following tools for teaching and learning OLS regress
 	- DFBETAs Panel
 	- DFFITS Plot
 	- Studentized Residual Plot
-	- Studentized Residual Chart
+	- Standardized Residual Chart
 	- Studentized Residuals vs Leverage Plot
 	- Deleted Studentized Residuals vs Fitted Values Plot
 	- Hadi Plot
