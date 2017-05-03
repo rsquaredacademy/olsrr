@@ -1,6 +1,6 @@
 Package: olsrr
 Type: Package
-Title: Tools For Teaching And Learning OLS Regression
+Title: Tools for Teaching and Learning OLS Regression
 Version: 0.1.0
 Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
 Description: Tools for teaching and learning ordinary least squares regression. Includes 
