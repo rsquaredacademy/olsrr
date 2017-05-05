@@ -1247,12 +1247,12 @@ print_norm_test <- function(data) {
 
 	# print
 	cat(rep("-", w), sep = "", '\n')
-	cat(format("Test", width = w1, justify = "centre"), fs(), format("Statistic", width = w2),
+	cat(format("Test", width = w1, justify = "centre"), fs(), format("Statistic", width = w2, justify = 'centre'),
 		fs(), format("pvalue", width = 7, justify = "centre"), "\n")
 	cat(rep("-", w), sep = "", '\n')
 	for (i in seq_len(n)) {
 		cat(format(tests[i], width = w1), fs(), format(as.character(round(stats[i], 4)), width = w2, justify = "centre"),
-		fs(), format(as.character(round(pvals[i], 4)), width = 7, justify = "centre"), "\n")
+		fs(), format(round(pvals[i], 4), nsmall = 4, width = 7, justify = "centre"), "\n")
 	}
 	cat(rep("-", w), sep = "", '\n')
 
