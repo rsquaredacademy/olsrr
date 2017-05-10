@@ -166,8 +166,8 @@ print.ols_all_subset <- function(x, ...) {
 #'
 plot.ols_all_subset <- function(x, model = NA, ...) {
 
-  # maxs  <- tapply(x$rsquare, x$n, max)
-  # lmaxs <- seq_len(length(maxs))
+  maxs  <- tapply(x$rsquare, x$n, max)
+  lmaxs <- seq_len(length(maxs))
   # index <- c()
 
   # suppressWarnings(
