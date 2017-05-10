@@ -59,15 +59,15 @@
     <div class="page-header toc-ignore">
       <h1>Heteroscedasticity</h1>
             
-            <h4 class="date">2017-05-03</h4>
+            <h4 class="date">2017-05-10</h4>
           </div>
 
     
     
 <div class="contents">
-<div id="heteroscedasticity" class="section level2">
-<h2 class="hasAnchor">
-<html><body><a href="#heteroscedasticity" class="anchor"> </a></body></html>Heteroscedasticity</h2>
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<html><body><a href="#introduction" class="anchor"> </a></body></html>Introduction</h1>
 <p>One of the assumptions made about residuals/errors in OLS regression is that the errors have the same but unknown variance. This is known as constant variance or homoscedasticity. When this assumption is violated, the problem is known as heteroscedasticity.</p>
 <div id="consequences-of-heteroscedasticity" class="section level5">
 <h5 class="hasAnchor">
@@ -85,9 +85,9 @@
 <li>F Test</li>
 </ul>
 </div>
-<div id="bartlett-test" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#bartlett-test" class="anchor"> </a></body></html>Bartlett Test</h3>
+<div id="bartlett-test" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#bartlett-test" class="anchor"> </a></body></html>Bartlett Test</h2>
 <p>Bartlett’s test is used to test if variances across samples is equal. It is sensitive to departures from normality. The Levene test is an alternative test that is less sensitive to departures from normality.</p>
 <p>You can perform the test using 2 continuous variables, one continuous and one grouping variable, a formula or a linear model.</p>
 <div id="use-grouping-variable" class="section level4">
@@ -165,9 +165,9 @@ mt$cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mt$cyl)
 ##  Prob &gt; Chi2   =    0.015</code></pre>
 </div>
 </div>
-<div id="breusch-pagan-test" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#breusch-pagan-test" class="anchor"> </a></body></html>Breusch Pagan Test</h3>
+<div id="breusch-pagan-test" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#breusch-pagan-test" class="anchor"> </a></body></html>Breusch Pagan Test</h2>
 <p>Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to test for heteroskedasticity in a linear regression model and assumes that the error terms are normally distributed. It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a <span class="math inline">\(\chi^{2}\)</span> test.</p>
 <p>You can perform the test using the fitted values of the model, the predictors in the model and a subset of the independent variables. It includes options to perform multiple tests and p value adjustments. The options for p value adjustments include Bonferroni, Sidak and Holm’s method.</p>
 <div id="use-fitted-values-of-the-model" class="section level4">
@@ -327,9 +327,9 @@ mt$cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mt$cyl)
 ##  ----------------------------------------</code></pre>
 </div>
 </div>
-<div id="score-test" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#score-test" class="anchor"> </a></body></html>Score Test</h3>
+<div id="score-test" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#score-test" class="anchor"> </a></body></html>Score Test</h2>
 <p>Test for heteroskedasticity under the assumption that the errors are independent and identically distributed (i.i.d.). You can perform the test using the fitted values of the model, the predictors in the model and a subset of the independent variables.</p>
 <div id="use-fitted-values-of-the-model-1" class="section level4">
 <h4 class="hasAnchor">
@@ -389,9 +389,9 @@ mt$cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mt$cyl)
 ##  Prob &gt; Chi2   =    0.607</code></pre>
 </div>
 </div>
-<div id="f-test" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#f-test" class="anchor"> </a></body></html>F Test</h3>
+<div id="f-test" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#f-test" class="anchor"> </a></body></html>F Test</h2>
 <p>F Test for heteroskedasticity under the assumption that the errors are independent and identically distributed (i.i.d.). You can perform the test using the fitted values of the model, the predictors in the model and a subset of the independent variables.</p>
 <div id="use-fitted-values-of-the-model-2" class="section level4">
 <h4 class="hasAnchor">
@@ -462,7 +462,14 @@ mt$cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mt$cyl)
         <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#heteroscedasticity">Heteroscedasticity</a></li>
+<li>
+<a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#bartlett-test">Bartlett Test</a></li>
+      <li><a href="#breusch-pagan-test">Breusch Pagan Test</a></li>
+      <li><a href="#score-test">Score Test</a></li>
+      <li><a href="#f-test">F Test</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

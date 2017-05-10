@@ -19,7 +19,7 @@ library(nortest)
 library(goftest)
 ```
 
-## Measures of Influence
+# Introduction
 
 It is possible for a single observation to have a great influence on the results of a regression analysis. It is therefore important to detect influential observations and to take them into consideration when interpreting the results.
 
@@ -36,7 +36,7 @@ It is possible for a single observation to have a great influence on the results
 - Hadi Plot
 - Potential Residual Plot
 
-### Cook's D Bar Plot
+## Cook's D Bar Plot
 
 Bar Plot of Cook's distance to detect observations that strongly influence fitted values of the model. Cook's distance was introduced by American statistician R Dennis Cook in 1977. It is used to identify influential data points. It depends on both the residual and leverage i.e it takes it account both the **x** value and **y** value of the observation.
 
@@ -53,7 +53,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_cooksd_barplot(model)
 ```
 
-### Cook's D Chart
+## Cook's D Chart
 
 Chart of Cook's distance to detect observations that strongly influence fitted values of the model.
 
@@ -62,7 +62,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_cooksd_chart(model)
 ```
 
-### DFBETAs Panel
+## DFBETAs Panel
 
 DFBETA measures the difference in each parameter estimate with and without the influential point. There is a DFBETA for each data point i.e if there are n observations and k variables, there will be $n * k$ DFBETAs. In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a general cutoff value to indicate influential observations and 
 $\frac{2}{\sqrt{n}}$ as a size-adjusted cutoff.
@@ -72,7 +72,7 @@ model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_dfbetas_panel(model)
 ```
 
-### DFFITS Plot
+## DFFITS Plot
 
 Proposed by Welsch and Kuh (1977). It is the scaled difference between the $i^{th}$ fitted value obtained from the full data and the $i^{th}$ fitted value obtained by deleting the $i^{th}$ observation. DFFIT - difference in fits, is used to identify influential data points. It quantifies the number of standard deviations that the fitted value changes when the ith data point is omitted.
  
@@ -93,7 +93,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_dffits_plot(model)
 ```
 
-### Studentized Residual Plot
+## Studentized Residual Plot
 
 Plot for detecting outliers. Studentized deleted residuals (or externally studentized residuals) is the deleted residual divided by its estimated standard deviation. Studentized residuals are going to be more effective for  detecting outlying Y observations than standardized residuals. If an observation has an externally studentized residual that is larger than 3 (in absolute value) we can call it an outlier.
 
@@ -102,7 +102,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_srsd_plot(model)
 ```
 
-### Standardized Residual Chart
+## Standardized Residual Chart
 
 Chart for detecting outliers. Standardized residual (internally studentized) is the residual divided by estimated standard deviation.
 
@@ -111,7 +111,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_srsd_chart(model)
 ```
 
-### Studentized Residuals vs Leverage Plot
+## Studentized Residuals vs Leverage Plot
 
 Graph for detecting influential observations.
 
@@ -120,7 +120,7 @@ model <- lm(read ~ write + math + science, data = hsb)
 ols_rsdlev_plot(model)
 ```
 
-### Deleted Studentized Residual vs Fitted Values Plot
+## Deleted Studentized Residual vs Fitted Values Plot
 
 Graph for detecting outliers.
 
@@ -129,7 +129,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_dsrvsp_plot(model)
 ```
 
-### Hadi Plot
+## Hadi Plot
 
 Hadi's measure of influence based on the fact that influential observations can be present in either
 the response variable or in the predictors or both. The plot is used to detect influential observations
@@ -140,7 +140,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_hadi_plot(model)
 ```
 
-### Potential Residual Plot
+## Potential Residual Plot
 
 Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.
 

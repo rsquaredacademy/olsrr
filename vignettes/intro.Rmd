@@ -34,10 +34,17 @@ library(goftest)
 
 This document is a quickstart guide to the tools offered by **olsrr**. Other vignettes provide more details on specific topics:
 
-- Regression Diagnostics: Includes residual diagnostics, detection of influential observations, heteroskedasticity tests, collinearity diagnostics and model fit assessment.
+- Residual Diagnostics: Includes plots to examine residuals to validate OLS assumptions
 
-- Variable selection: Differnt variable selection procedures such as all possible regression, best subset regression, 
-stepwise regression, stepwise forward regression and stepwise backward regression.
+- Variable selection: Differnt variable selection procedures such as all possible regression, best subset regression, stepwise regression, stepwise forward regression and stepwise backward regression
+
+- Heteroskedasticity: Tests for heteroskedasticity include bartlett test, breusch pagan test,
+score test and f test
+
+- Measures of influence: Includes 10 different plots to detect and identify influential observations
+
+- Collinearity diagnostics: VIF, Tolerance and condition indices to detect collinearity and plots for assessing mode fit and contributions of variables
+
 
 ## Regression
 

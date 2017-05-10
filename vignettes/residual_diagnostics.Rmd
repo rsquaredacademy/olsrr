@@ -19,7 +19,7 @@ library(nortest)
 library(goftest)
 ```
 
-## Introduction
+# Introduction
 
 olsrr offers tools for detecting violation of standard regression assumptions. Here we take a look 
 at residual diagnostics. The standard regression assumptions include the following about residuals/errors:
@@ -29,7 +29,7 @@ at residual diagnostics. The standard regression assumptions include the followi
 - The errors have same but unknown variance (homoscedasticity assumption).
 - The error are independent of each other (independent errors assumption). 
 
-### Residual QQ Plot
+## Residual QQ Plot
 
 Graph for detecting violation of normality assumption.
 
@@ -38,7 +38,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_rsd_qqplot(model)
 ```
 
-### Residual Normality Test
+## Residual Normality Test
 
 Test for detecting violation of normality assumption.
 
@@ -54,7 +54,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_corr_test(model)
 ```
 
-### Residual vs Fitted Values Plot
+## Residual vs Fitted Values Plot
 
 It is a scatter plot of residuals on the y axis and fitted values on the x axis to detect non-linearity, unequal error variances, and outliers. 
 
@@ -70,7 +70,7 @@ ols_rvsp_plot(model)
 ```
 
 
-### Residual Histogram
+## Residual Histogram
 
 Histogram of residuals for detecting violation of normality assumption.
 

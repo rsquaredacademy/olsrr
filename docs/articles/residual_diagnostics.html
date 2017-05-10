@@ -59,15 +59,15 @@
     <div class="page-header toc-ignore">
       <h1>Residual Diagnostics</h1>
             
-            <h4 class="date">2017-05-03</h4>
+            <h4 class="date">2017-05-10</h4>
           </div>
 
     
     
 <div class="contents">
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<html><body><a href="#introduction" class="anchor"> </a></body></html>Introduction</h2>
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<html><body><a href="#introduction" class="anchor"> </a></body></html>Introduction</h1>
 <p>olsrr offers tools for detecting violation of standard regression assumptions. Here we take a look at residual diagnostics. The standard regression assumptions include the following about residuals/errors:</p>
 <ul>
 <li>The error has a normal distribution (normality assumption).</li>
@@ -75,36 +75,36 @@
 <li>The errors have same but unknown variance (homoscedasticity assumption).</li>
 <li>The error are independent of each other (independent errors assumption).</li>
 </ul>
-<div id="residual-qq-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#residual-qq-plot" class="anchor"> </a></body></html>Residual QQ Plot</h3>
+<div id="residual-qq-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#residual-qq-plot" class="anchor"> </a></body></html>Residual QQ Plot</h2>
 <p>Graph for detecting violation of normality assumption.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_rsd_qqplot.html">ols_rsd_qqplot</a></span>(model)</code></pre></div>
 <p><img src="residual_diagnostics_files/figure-html/qqresid-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="residual-normality-test" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#residual-normality-test" class="anchor"> </a></body></html>Residual Normality Test</h3>
+<div id="residual-normality-test" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#residual-normality-test" class="anchor"> </a></body></html>Residual Normality Test</h2>
 <p>Test for detecting violation of normality assumption.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_norm_test.html">ols_norm_test</a></span>(model)</code></pre></div>
 <pre><code>## -----------------------------------------------
-##        Test           Statistic         pvalue  
+##        Test             Statistic       pvalue  
 ## -----------------------------------------------
-## Shapiro-Wilk              0.9366         0.06   
-## Kolmogorov-Smirnov        0.1152        0.7464  
-## Cramer-von Mises          2.8122           0    
-## Anderson-Darling          0.5859        0.1188  
+## Shapiro-Wilk              0.9366         0.0600 
+## Kolmogorov-Smirnov        0.1152         0.7464 
+## Cramer-von Mises          2.8122         0.0000 
+## Anderson-Darling          0.5859         0.1188 
 ## -----------------------------------------------</code></pre>
 <p>Correlation between observed residuals and expected residuals under normality.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_corr_test.html">ols_corr_test</a></span>(model)</code></pre></div>
 <pre><code>## [1] 0.970066</code></pre>
 </div>
-<div id="residual-vs-fitted-values-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Residual vs Fitted Values Plot</h3>
+<div id="residual-vs-fitted-values-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Residual vs Fitted Values Plot</h2>
 <p>It is a scatter plot of residuals on the y axis and fitted values on the x axis to detect non-linearity, unequal error variances, and outliers.</p>
 <p><strong>Characteristics of a well behaved residual vs fitted plot:</strong></p>
 <ul>
@@ -116,9 +116,9 @@
 <span class="kw"><a href="../reference/ols_rvsp_plot.html">ols_rvsp_plot</a></span>(model)</code></pre></div>
 <p><img src="residual_diagnostics_files/figure-html/rvsfplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="residual-histogram" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#residual-histogram" class="anchor"> </a></body></html>Residual Histogram</h3>
+<div id="residual-histogram" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#residual-histogram" class="anchor"> </a></body></html>Residual Histogram</h2>
 <p>Histogram of residuals for detecting violation of normality assumption.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_rsd_hist.html">ols_rsd_hist</a></span>(model)</code></pre></div>
@@ -132,7 +132,14 @@
         <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
+<li>
+<a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#residual-qq-plot">Residual QQ Plot</a></li>
+      <li><a href="#residual-normality-test">Residual Normality Test</a></li>
+      <li><a href="#residual-vs-fitted-values-plot">Residual vs Fitted Values Plot</a></li>
+      <li><a href="#residual-histogram">Residual Histogram</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

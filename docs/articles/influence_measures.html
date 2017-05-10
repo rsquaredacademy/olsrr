@@ -59,15 +59,15 @@
     <div class="page-header toc-ignore">
       <h1>Measures of Influence</h1>
             
-            <h4 class="date">2017-05-03</h4>
+            <h4 class="date">2017-05-10</h4>
           </div>
 
     
     
 <div class="contents">
-<div id="measures-of-influence" class="section level2">
-<h2 class="hasAnchor">
-<html><body><a href="#measures-of-influence" class="anchor"> </a></body></html>Measures of Influence</h2>
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<html><body><a href="#introduction" class="anchor"> </a></body></html>Introduction</h1>
 <p>It is possible for a single observation to have a great influence on the results of a regression analysis. It is therefore important to detect influential observations and to take them into consideration when interpreting the results.</p>
 <p><strong>olsrr</strong> offers the following tools to detect influential observations:</p>
 <ul>
@@ -82,9 +82,9 @@
 <li>Hadi Plot</li>
 <li>Potential Residual Plot</li>
 </ul>
-<div id="cooks-d-bar-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#cooks-d-bar-plot" class="anchor"> </a></body></html>Cook’s D Bar Plot</h3>
+<div id="cooks-d-bar-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#cooks-d-bar-plot" class="anchor"> </a></body></html>Cook’s D Bar Plot</h2>
 <p>Bar Plot of Cook’s distance to detect observations that strongly influence fitted values of the model. Cook’s distance was introduced by American statistician R Dennis Cook in 1977. It is used to identify influential data points. It depends on both the residual and leverage i.e it takes it account both the <strong>x</strong> value and <strong>y</strong> value of the observation.</p>
 <p><strong>Steps to compute Cook’s distance:</strong></p>
 <ul>
@@ -97,25 +97,25 @@
 <span class="kw"><a href="../reference/ols_cooksd_barplot.html">ols_cooksd_barplot</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/ckdbp-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
-<div id="cooks-d-chart" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#cooks-d-chart" class="anchor"> </a></body></html>Cook’s D Chart</h3>
+<div id="cooks-d-chart" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#cooks-d-chart" class="anchor"> </a></body></html>Cook’s D Chart</h2>
 <p>Chart of Cook’s distance to detect observations that strongly influence fitted values of the model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_cooksd_chart.html">ols_cooksd_chart</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/ckchart-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="dfbetas-panel" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#dfbetas-panel" class="anchor"> </a></body></html>DFBETAs Panel</h3>
+<div id="dfbetas-panel" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#dfbetas-panel" class="anchor"> </a></body></html>DFBETAs Panel</h2>
 <p>DFBETA measures the difference in each parameter estimate with and without the influential point. There is a DFBETA for each data point i.e if there are n observations and k variables, there will be <span class="math inline">\(n * k\)</span> DFBETAs. In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a general cutoff value to indicate influential observations and <span class="math inline">\(\frac{2}{\sqrt{n}}\)</span> as a size-adjusted cutoff.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_dfbetas_panel.html">ols_dfbetas_panel</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="dffits-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#dffits-plot" class="anchor"> </a></body></html>DFFITS Plot</h3>
+<div id="dffits-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#dffits-plot" class="anchor"> </a></body></html>DFFITS Plot</h2>
 <p>Proposed by Welsch and Kuh (1977). It is the scaled difference between the <span class="math inline">\(i^{th}\)</span> fitted value obtained from the full data and the <span class="math inline">\(i^{th}\)</span> fitted value obtained by deleting the <span class="math inline">\(i^{th}\)</span> observation. DFFIT - difference in fits, is used to identify influential data points. It quantifies the number of standard deviations that the fitted value changes when the ith data point is omitted.</p>
 <p><strong>Steps to compute DFFITs:</strong></p>
 <ul>
@@ -130,49 +130,49 @@
 <span class="kw"><a href="../reference/ols_dffits_plot.html">ols_dffits_plot</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/dfitsplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="studentized-residual-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#studentized-residual-plot" class="anchor"> </a></body></html>Studentized Residual Plot</h3>
+<div id="studentized-residual-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#studentized-residual-plot" class="anchor"> </a></body></html>Studentized Residual Plot</h2>
 <p>Plot for detecting outliers. Studentized deleted residuals (or externally studentized residuals) is the deleted residual divided by its estimated standard deviation. Studentized residuals are going to be more effective for detecting outlying Y observations than standardized residuals. If an observation has an externally studentized residual that is larger than 3 (in absolute value) we can call it an outlier.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_srsd_plot.html">ols_srsd_plot</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/srplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="standardized-residual-chart" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#standardized-residual-chart" class="anchor"> </a></body></html>Standardized Residual Chart</h3>
+<div id="standardized-residual-chart" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#standardized-residual-chart" class="anchor"> </a></body></html>Standardized Residual Chart</h2>
 <p>Chart for detecting outliers. Standardized residual (internally studentized) is the residual divided by estimated standard deviation.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_srsd_chart.html">ols_srsd_chart</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/srchart-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="studentized-residuals-vs-leverage-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#studentized-residuals-vs-leverage-plot" class="anchor"> </a></body></html>Studentized Residuals vs Leverage Plot</h3>
+<div id="studentized-residuals-vs-leverage-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#studentized-residuals-vs-leverage-plot" class="anchor"> </a></body></html>Studentized Residuals vs Leverage Plot</h2>
 <p>Graph for detecting influential observations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(read ~<span class="st"> </span>write +<span class="st"> </span>math +<span class="st"> </span>science, <span class="dt">data =</span> hsb)
 <span class="kw"><a href="../reference/ols_rsdlev_plot.html">ols_rsdlev_plot</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/studlev-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
-<div id="deleted-studentized-residual-vs-fitted-values-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#deleted-studentized-residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Deleted Studentized Residual vs Fitted Values Plot</h3>
+<div id="deleted-studentized-residual-vs-fitted-values-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#deleted-studentized-residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Deleted Studentized Residual vs Fitted Values Plot</h2>
 <p>Graph for detecting outliers.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_dsrvsp_plot.html">ols_dsrvsp_plot</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/dsrvsp-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
-<div id="hadi-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#hadi-plot" class="anchor"> </a></body></html>Hadi Plot</h3>
+<div id="hadi-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#hadi-plot" class="anchor"> </a></body></html>Hadi Plot</h2>
 <p>Hadi’s measure of influence based on the fact that influential observations can be present in either the response variable or in the predictors or both. The plot is used to detect influential observations based on Hadi’s measure.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_hadi_plot.html">ols_hadi_plot</a></span>(model)</code></pre></div>
 <p><img src="influence_measures_files/figure-html/hadiplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="potential-residual-plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#potential-residual-plot" class="anchor"> </a></body></html>Potential Residual Plot</h3>
+<div id="potential-residual-plot" class="section level2">
+<h2 class="hasAnchor">
+<html><body><a href="#potential-residual-plot" class="anchor"> </a></body></html>Potential Residual Plot</h2>
 <p>Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_potrsd_plot.html">ols_potrsd_plot</a></span>(model)</code></pre></div>
@@ -186,7 +186,20 @@
         <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#measures-of-influence">Measures of Influence</a></li>
+<li>
+<a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#cooks-d-bar-plot">Cook’s D Bar Plot</a></li>
+      <li><a href="#cooks-d-chart">Cook’s D Chart</a></li>
+      <li><a href="#dfbetas-panel">DFBETAs Panel</a></li>
+      <li><a href="#dffits-plot">DFFITS Plot</a></li>
+      <li><a href="#studentized-residual-plot">Studentized Residual Plot</a></li>
+      <li><a href="#standardized-residual-chart">Standardized Residual Chart</a></li>
+      <li><a href="#studentized-residuals-vs-leverage-plot">Studentized Residuals vs Leverage Plot</a></li>
+      <li><a href="#deleted-studentized-residual-vs-fitted-values-plot">Deleted Studentized Residual vs Fitted Values Plot</a></li>
+      <li><a href="#hadi-plot">Hadi Plot</a></li>
+      <li><a href="#potential-residual-plot">Potential Residual Plot</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

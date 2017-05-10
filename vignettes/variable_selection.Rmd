@@ -25,7 +25,7 @@ library(goftest)
 }
 </style>
 
-# Variable Selection Procedures
+## Introduction
 
 ## All Possible Regression
 

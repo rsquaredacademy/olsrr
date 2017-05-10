@@ -165,14 +165,33 @@ print.ols_all_subset <- function(x, ...) {
 #'
 plot.ols_all_subset <- function(x, model = NA, ...) {
 
-  maxs  <- tapply(x$rsquare, x$n, max)
-  lmaxs <- seq_len(length(maxs))
+  # maxs  <- tapply(x$rsquare, x$n, max)
+  # lmaxs <- seq_len(length(maxs))
+  # index <- c()
+
+  # suppressWarnings(
+  #   for (i in lmaxs) {
+  #       index[i] <- which(x$rsquare == maxs[i])
+  #   }
+  # )
+
   index <- c()
 
+  d <- tibble(index = x$mindex, n = x$n, rsquare = x$rsquare)
+
+  m <- d %>%
+      group_by(n) %>%
+      select(n, rsquare) %>%
+      summarise_all(max) 
+
+  k <- d %>%
+      group_by(n) %>%
+      nest()
+
   suppressWarnings(
-    for (i in lmaxs) {
-        index[i] <- which(x$rsquare == maxs[i])
-    }
+      for (i in m$n) {
+          index[i] <- k[[2]][[i]]$index[which(m$rsquare[i] == k[[2]][[i]]$rsquare)]
+      }
   )
 
   maxs1  <- tapply(x$adjr, x$n, max)

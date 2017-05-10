@@ -19,7 +19,7 @@ library(nortest)
 library(goftest)
 ```
 
-## Heteroscedasticity
+# Introduction
 
 One of the assumptions made about residuals/errors in OLS regression is that the errors have the
 same but unknown variance. This is known as constant variance or homoscedasticity. When this 
@@ -38,7 +38,7 @@ assumption is violated, the problem is known as heteroscedasticity.
 - Score Test
 - F Test
 
-### Bartlett Test
+## Bartlett Test
 
 Bartlett's test is used to test if variances across samples is equal. It is sensitive to 
 departures from normality. The Levene test is an alternative test that is less sensitive 
@@ -73,7 +73,7 @@ model <- lm(mpg ~ cyl, data = mt)
 ols_bartlett_test(model)
 ```
 
-### Breusch Pagan Test
+## Breusch Pagan Test
 
 Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
 test for heteroskedasticity in a linear regression model and assumes that the error terms are 
@@ -126,7 +126,7 @@ model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 ```
 
-### Score Test
+## Score Test
 
 Test for heteroskedasticity under the assumption that the errors are independent and identically distributed (i.i.d.). You can perform the test using the fitted values of the model, the predictors in the model and a
 subset of the independent variables.
@@ -152,7 +152,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_score_test(model, vars = c('disp', 'hp'))
 ```
 
-### F Test
+## F Test
 
 F Test for heteroskedasticity under the assumption that the errors are independent and identically distributed (i.i.d.). You can perform the test using the fitted values of the model, the predictors in the model and a
 subset of the independent variables.
