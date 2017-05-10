@@ -1,5 +1,5 @@
 #' @importFrom stats coefficients
-#' @importFrom dplyr group_by_ select_ summarise_each funs
+#' @importFrom dplyr group_by_ select_ funs
 #' @title Lack of Fit F Test
 #' @description Assess how much of the error in prediction is due to lack of model fit.
 #' @param model an object of class \code{lm}

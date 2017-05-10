@@ -709,7 +709,7 @@ peanova <- function(model) {
 	mean_pred <- data %>%
 	    group_by_(pred_name) %>%
 	    select_(dep_name, pred_name) %>%
-	    summarise_each(funs(mean))
+	    summarise_all(funs(mean))
 
 	mean_rep        <- rep(mean_pred[[2]], as.vector(pred_u))
 	fin             <- data.frame(dep, yhat, pred)

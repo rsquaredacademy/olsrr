@@ -1,5 +1,6 @@
 #' @importFrom ggplot2 ggtitle scale_shape_manual scale_size_manual scale_color_manual ggtitle geom_text
 #' @importFrom utils combn
+#' @importFrom dplyr group_by summarise_all
 #' @importFrom purrr map_int
 #' @importFrom tidyr nest
 #' @title All Possible Regression
@@ -175,7 +176,9 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
   #       index[i] <- which(x$rsquare == maxs[i])
   #   }
   # )
-
+  
+  n <- NULL
+  rsquare <- NULL
   index <- c()
 
   d <- tibble(index = x$mindex, n = x$n, rsquare = x$rsquare)
