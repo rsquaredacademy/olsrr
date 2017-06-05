@@ -4,13 +4,13 @@
 #' @param model an object of class \code{lm}
 #' @param method a character vector; specify the method to compute AIC. Valid
 #' options include R, STATA and SAS
-#' @details AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the 
+#' @details AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the
 #' quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute AIC. SAS
 #' uses residual sum of squares. Below is the formula in each case:
 #'
 #' \emph{R & STATA}
 #' \deqn{AIC = -2(loglikelihood) + 2p}
-#'	
+#'
 #' \emph{SAS}
 #' \deqn{AIC = n * ln(SSE / n) + 2p}
 #'
@@ -21,15 +21,15 @@
 #'
 #' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 #' New York: John Wiley & Sons.
-#' @examples 
+#' @examples
 #' # using R computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_aic(model)
-#' 
+#'
 #' # using STATA computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_aic(model, method = 'STATA')
-#' 
+#'
 #' # using SAS computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_aic(model, method = 'SAS')
@@ -78,13 +78,13 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 #' @param model an object of class \code{lm}
 #' @param method a character vector; specify the method to compute BIC. Valid
 #' options include R, STATA and SAS
-#' @details SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the 
+#' @details SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the
 #' quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute SBC. SAS
 #' uses residual sum of squares. Below is the formula in each case:
 #'
 #' \emph{R & STATA}
 #' \deqn{AIC = -2(loglikelihood) + ln(n) * 2p}
-#'	
+#'
 #' \emph{SAS}
 #' \deqn{AIC = n * ln(SSE / n) + p * ln(n)}
 #'
@@ -95,15 +95,15 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 #'
 #' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 #' New York: John Wiley & Sons.
-#' @examples 
+#' @examples
 #' # using R computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_sbc(model)
-#' 
+#'
 #' # using STATA computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_sbc(model, method = 'STATA')
-#' 
+#'
 #' # using SAS computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_sbc(model, method = 'SAS')
@@ -151,9 +151,9 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 #' @description Sawa's Bayesian Information Criterion
 #' @param model an object of class \code{lm}
 #' @param full_model an object of class \code{lm}
-#' @details Sawa (1978) developed a model selection criterion that was derived from a Bayesian modification of 
-#' the AIC criterion. Sawa's Bayesian Information Criteria (BIC) is a function of the number of observations n, 
-#' the SSE, the pure error variance fitting the full model, and the number of independent variables including 
+#' @details Sawa (1978) developed a model selection criterion that was derived from a Bayesian modification of
+#' the AIC criterion. Sawa's Bayesian Information Criteria (BIC) is a function of the number of observations n,
+#' the SSE, the pure error variance fitting the full model, and the number of independent variables including
 #' the intercept.
 #'
 #' \deqn{SBIC = n * ln(SSE / n) + 2(p + 2)q - 2(q^2)}
@@ -203,8 +203,8 @@ ols_sbic <- function(model, full_model) {
 #' @description Mallow's Cp
 #' @param model an object of class \code{lm}
 #' @param fullmodel an object of class \code{lm}
-#' @details Mallows' Cp statistic estimates the size of the bias that is introduced into the predicted responses 
-#' by having an underspecified model. Use Mallows' Cp to choose between multiple regression models. Look for 
+#' @details Mallows' Cp statistic estimates the size of the bias that is introduced into the predicted responses
+#' by having an underspecified model. Use Mallows' Cp to choose between multiple regression models. Look for
 #' models where Mallows' Cp is small and close to the number of predictors in the model plus the constant (p).
 #' @return Mallow's Cp
 #' @references Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
@@ -231,9 +231,9 @@ ols_mallows_cp <- function(model, fullmodel) {
   # 	stop('model must be a subset of full model')
   # }
 
-	if (!all(names(eval(model$call$data)) %in% names(eval(fullmodel$call$data)))) {
-	 	stop('model must be a subset of full model')
-  }
+# 	if (!all(names(eval(model$call$data)) %in% names(eval(fullmodel$call$data)))) {
+# 	 	stop('model must be a subset of full model')
+#   }
 
  # if (!all(colnames(attr(model$terms, 'factors')) %in% colnames(attr(fullmodel$terms, 'factors')))) {
  #  	stop('model must be a subset of full model')
@@ -258,7 +258,7 @@ ols_mallows_cp <- function(model, fullmodel) {
 #'
 #' \deqn{MSE(n + 1)(n - 2) / n(n - p - 1)}
 #'
-#' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept 
+#' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
 #' @return MSEP
 #' @references Stein, C. (1960). “Multiple Regression.” In Contributions to Probability and Statistics: Essays in Honor
 #' of Harold Hotelling, edited by I. Olkin, S. G. Ghurye, W. Hoeffding, W. G. Madow, and H. B. Mann,
@@ -290,7 +290,7 @@ ols_msep <- function(model) {
 #'
 #' \deqn{MSE((n + p) / n)}
 #'
-#' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept 
+#' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
 #' @return Final Prediction Error
 #' @references Akaike, H. (1969). “Fitting Autoregressive Models for Prediction.” Annals of the Institute of Statistical
 #' Mathematics 21:243–247.
@@ -316,8 +316,8 @@ ols_fpe <- function(model) {
 #' @title Amemiya's Prediction Criterion
 #' @description Amemiya's prediction error
 #' @param model an object of class \code{lm}
-#' @details Amemiya's Prediction Criterion penalizes R-squared more heavily than does adjusted R-squared for 
-#' each addition degree of freedom used on the right-hand-side of the equation.  The higher the better for 
+#' @details Amemiya's Prediction Criterion penalizes R-squared more heavily than does adjusted R-squared for
+#' each addition degree of freedom used on the right-hand-side of the equation.  The higher the better for
 #' this criterion.
 #'
 #' \deqn{((n + p) / (n - p))(1 - (R^2))}
@@ -352,7 +352,7 @@ ols_apc <- function(model) {
 #'
 #' \deqn{MSE / (n - p - 1)}
 #'
-#' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept 
+#' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
 #' @return Hocking's Sp
 #' @references Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
 #' 32:1–50.
