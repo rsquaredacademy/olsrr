@@ -3,21 +3,23 @@
 #' @description Build regression model from a set of candidate predictor variables by entering predictors based on 
 #' p values, in a stepwise manner until there is no variable left to enter any more.
 #' @param model an object of class \code{lm}; the model should include all candidate predictor variables
+#' @param penter p value; variables with p value less than \code{penter} will enter into the model
+#' @param details logical; if \code{TRUE}, will print the regression result at each step
 #' @param x an object of class \code{ols_step_forward}
 #' @param ... other arguments
 #' @return \code{ols_step_forward} returns an object of class \code{"ols_step_forward"}.
 #' An object of class \code{"ols_step_forward"} is a list containing the
 #' following components:
 #'
-#' \item{steps}{f statistic}
-#' \item{predictors}{p value of \code{score}}
-#' \item{rsquare}{degrees of freedom}
-#' \item{aic}{fitted values of the regression model}
-#' \item{sbc}{name of explanatory variables of fitted regression model}
-#' \item{sbic}{response variable}
-#' \item{adjr}{predictors}
-#' \item{rmse}{predictors}
-#' \item{mallows_cp}{predictors}
+#' \item{steps}{number of steps}
+#' \item{predictors}{variables added to the model}
+#' \item{rsquare}{coefficient of determination}
+#' \item{aic}{akaike information criteria}
+#' \item{sbc}{bayesian information criteria}
+#' \item{sbic}{sawa's bayesian information criteria}
+#' \item{adjr}{adjusted r-square}
+#' \item{rmse}{root mean square error}
+#' \item{mallows_cp}{mallow's Cp}
 #' \item{indvar}{predictors}
 #'
 #' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -39,6 +41,7 @@
 ols_step_forward <- function(model, ...) UseMethod('ols_step_forward')
 
 #' @export
+#' @rdname ols_step_forward
 #'
 ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) {
 
@@ -63,9 +66,12 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
     df       <- nrow(l) - 2
     tenter   <- qt(1 - (penter) / 2, df)
     n        <- ncol(l)
-    nam      <- names(l)
-    response <- nam[1]
-    all_pred <- nam[-1]
+    nam      <- colnames(attr(model$terms, 'factors'))
+    response <- names(model$model)[1]
+    all_pred <- nam
+    # nam      <- names(l)
+    # response <- nam[1]
+    # all_pred <- nam[-1]
     cterms   <- all_pred
     mlen_p   <- length(all_pred)
     preds    <- c()
