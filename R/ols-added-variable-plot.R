@@ -47,10 +47,12 @@ ols_avplots <- function(model) {
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
-	     m1 <- tibble::as_data_frame(model.frame(model))
-	     m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-	   data <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
-	 xnames <- colnames(data)
+	   #   m1 <- tibble::as_data_frame(model.frame(model))
+	   #   m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+	   # data <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+	 # xnames <- colnames(data)
+	 	 data <- eval(model$call$data)
+	 xnames <- colnames(attr(model$terms, 'factors'))
 	     nl <- ncol(data)
 	   dat2 <- data[-1]
 	myplots <- list()
