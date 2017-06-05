@@ -1183,7 +1183,8 @@ print_stepaic_backward <- function(data) {
     cat(rep("-", w), sep = "", '\n')
     for (i in seq_len(ln)) {
         cat(fl(predictors[i], w1), fs(), fg(data$aics[i], w2), fs(),
-            fg(data$ess[i], w3), fs(), fg(data$rss[i], w4), fs(),
+            fg(format(data$ess[i], nsmall = 3), w3), fs(), 
+            fg(format(data$rss[i], nsmall = 3), w4), fs(),
             fg(data$rsq[i], w5), fs(), fg(data$arsq[i], w6), '\n')
     }
     cat(rep("-", w), sep = "", '\n\n')
@@ -1219,7 +1220,8 @@ print_stepaic_both <- function(data) {
     for (i in seq_len(ln)) {
         cat(fl(data$predictors[i], w1), fs(), fl(data$method[i], w7), fs(),
             fg(data$aic[i], w2), fs(),
-            fg(data$ess[i], w3), fs(), fg(data$rss[i], w4), fs(),
+            fg(format(data$ess[i], nsmall = 3), w3), fs(), 
+            fg(format(data$rss[i], nsmall = 3), w4), fs(),
             fg(data$rsq[i], w5), fs(), fg(data$arsq[i], w6), '\n')
     }
     cat(rep("-", w), sep = "", '\n\n')
