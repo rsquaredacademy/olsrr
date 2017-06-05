@@ -3,13 +3,13 @@
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
 #' @param model an object of class \code{lm}
 #' @param x an object of class \code{ols_stepaic_both}
-#' @param details logical; if TRUE details of variable selection will be printed on screen
+#' @param details logical; if \code{TRUE}, details of variable selection will be printed on screen
 #' @param ... other arguments
 #' @return \code{ols_stepaic_both} returns an object of class \code{"ols_stepaic_both"}.
 #' An object of class \code{"ols_stepaic_both"} is a list containing the
 #' following components:
 #'
-#' \item{predictors}{variables retained in the model}
+#' \item{predictors}{variables added/removed from the model}
 #' \item{method}{addition/deletion}
 #' \item{aics}{akaike information criteria}
 #' \item{ess}{error sum of squares}
@@ -49,9 +49,12 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
     }
 
     l          <- mod_sel_data(model)
-    nam        <- names(l)
-    response   <- nam[1]
-    predictors <- nam[-1]
+    nam        <- colnames(attr(model$terms, 'factors'))
+    response   <- names(model$model)[1]
+    predictors <- nam
+    # nam        <- names(l)
+    # response   <- nam[1]
+    # predictors <- nam[-1]
     mlen_p     <- length(predictors)
     tech       <- c('addition', 'removal')
     mo         <- lm(paste(response, '~', 1), data = l)

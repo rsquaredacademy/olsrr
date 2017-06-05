@@ -12,7 +12,7 @@ ols_stepaic_both(model, details = FALSE)
 \arguments{
 \item{model}{an object of class \code{lm}}
 
-\item{details}{logical; if TRUE details of variable selection will be printed on screen}
+\item{details}{logical; if \code{TRUE}, details of variable selection will be printed on screen}
 
 \item{x}{an object of class \code{ols_stepaic_both}}
 
@@ -23,7 +23,7 @@ ols_stepaic_both(model, details = FALSE)
 An object of class \code{"ols_stepaic_both"} is a list containing the
 following components:
 
-\item{predictors}{variables retained in the model}
+\item{predictors}{variables added/removed from the model}
 \item{method}{addition/deletion}
 \item{aics}{akaike information criteria}
 \item{ess}{error sum of squares}
