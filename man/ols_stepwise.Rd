@@ -2,10 +2,14 @@
 % Please edit documentation in R/ols-stepwise-regression.R
 \name{ols_stepwise}
 \alias{ols_stepwise}
+\alias{ols_stepwise.default}
 \alias{plot.ols_stepwise}
 \title{Stepwise Regression}
 \usage{
 ols_stepwise(model, ...)
+
+\method{ols_stepwise}{default}(model, pent = 0.1, prem = 0.3,
+  details = FALSE, ...)
 
 \method{plot}{ols_stepwise}(x, model = NA, ...)
 }
@@ -14,6 +18,12 @@ ols_stepwise(model, ...)
 
 \item{...}{other arguments}
 
+\item{pent}{p value; variables with p value less than \code{pent} will enter into the model}
+
+\item{prem}{p value; variables with p more than \code{prem} will be removed from the model}
+
+\item{details}{logical; if \code{TRUE}, will print the regression result at each step}
+
 \item{x}{an object of class \code{ols_stepwise}}
 }
 \value{
@@ -21,17 +31,17 @@ ols_stepwise(model, ...)
 An object of class \code{"ols_stepwise"} is a list containing the
 following components:
 
-\item{orders}{f statistic}
-\item{method}{f statistic}
-\item{steps}{f statistic}
-\item{predictors}{p value of \code{score}}
-\item{rsquare}{degrees of freedom}
-\item{aic}{fitted values of the regression model}
-\item{sbc}{name of explanatory variables of fitted regression model}
-\item{sbic}{response variable}
-\item{adjr}{predictors}
-\item{rmse}{predictors}
-\item{mallows_cp}{predictors}
+\item{orders}{candidate predictor variables according to the order by which they were added or removed from the model}
+\item{method}{addition/deletion}
+\item{steps}{total number of steps}
+\item{predictors}{variables retained in the model (after addition)}
+\item{rsquare}{coefficient of determination}
+\item{aic}{akaike information criteria}
+\item{sbc}{bayesian information criteria}
+\item{sbic}{sawa's bayesian information criteria}
+\item{adjr}{adjusted r-square}
+\item{rmse}{root mean square error}
+\item{mallows_cp}{mallow's Cp}
 \item{indvar}{predictors}
 }
 \description{

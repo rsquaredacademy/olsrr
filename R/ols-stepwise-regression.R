@@ -2,23 +2,26 @@
 #' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
 #' p values, in a stepwise manner until there is no variable left to enter or remove any more.
 #' @param model an object of class \code{lm}; the model should include all candidate predictor variables
+#' @param pent p value; variables with p value less than \code{pent} will enter into the model
+#' @param prem p value; variables with p more than \code{prem} will be removed from the model
+#' @param details logical; if \code{TRUE}, will print the regression result at each step
 #' @param x an object of class \code{ols_stepwise}
 #' @param ... other arguments
 #' @return \code{ols_stepwise} returns an object of class \code{"ols_stepwise"}.
 #' An object of class \code{"ols_stepwise"} is a list containing the
 #' following components:
 #'
-#' \item{orders}{f statistic}
-#' \item{method}{f statistic}
-#' \item{steps}{f statistic}
-#' \item{predictors}{p value of \code{score}}
-#' \item{rsquare}{degrees of freedom}
-#' \item{aic}{fitted values of the regression model}
-#' \item{sbc}{name of explanatory variables of fitted regression model}
-#' \item{sbic}{response variable}
-#' \item{adjr}{predictors}
-#' \item{rmse}{predictors}
-#' \item{mallows_cp}{predictors}
+#' \item{orders}{candidate predictor variables according to the order by which they were added or removed from the model}
+#' \item{method}{addition/deletion}
+#' \item{steps}{total number of steps}
+#' \item{predictors}{variables retained in the model (after addition)}
+#' \item{rsquare}{coefficient of determination}
+#' \item{aic}{akaike information criteria}
+#' \item{sbc}{bayesian information criteria}
+#' \item{sbic}{sawa's bayesian information criteria}
+#' \item{adjr}{adjusted r-square}
+#' \item{rmse}{root mean square error}
+#' \item{mallows_cp}{mallow's Cp}
 #' \item{indvar}{predictors}
 #'
 #' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -38,6 +41,7 @@
 ols_stepwise <- function(model, ...)  UseMethod('ols_stepwise')
 
 #' @export
+#' @rdname ols_stepwise
 #'
 ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE, ...) {
 
@@ -67,9 +71,12 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     tenter   <- qt(1 - (pent) / 2, df)
     trem     <- qt(1 - (prem) / 2, df)
     n        <- ncol(l)
-    nam      <- names(l)
-    response <- nam[1]
-    all_pred <- nam[-1]
+    nam      <- colnames(attr(model$terms, 'factors'))
+    response <- names(model$model)[1]
+    all_pred <- nam
+    # nam      <- names(l)
+    # response <- nam[1]
+    # all_pred <- nam[-1]
     cterms   <- all_pred
     mlen_p   <- length(all_pred)
     preds    <- c()
