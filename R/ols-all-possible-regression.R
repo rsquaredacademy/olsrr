@@ -18,14 +18,14 @@
 #' \item{rsquare}{rsquare of the model}
 #' \item{adjr}{adjusted rsquare of the model}
 #' \item{predrsq}{predicted rsquare of the model}
-#' \item{cp}{Mallow's Cp}
-#' \item{aic}{Akaike Information Criteria}
-#' \item{sbic}{Sawa Bayesian Information Criteria}
-#' \item{sbc}{Schwarz Bayes Information Criteria}
+#' \item{cp}{mallow's Cp}
+#' \item{aic}{akaike information criteria}
+#' \item{sbic}{sawa bayesian information criteria}
+#' \item{sbc}{schwarz bayes information criteria}
 #' \item{gmsep}{estimated MSE of prediction, assuming multivariate normality}
 #' \item{jp}{final prediction error}
-#' \item{pc}{Amemiya Prediction Criteria}
-#' \item{sp}{Hocking's Sp}
+#' \item{pc}{amemiya prediction criteria}
+#' \item{sp}{hocking's Sp}
 #'
 #' @references Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition). 
 #' Prentice Hall
@@ -62,7 +62,8 @@ ols_all_subset.default <- function(model, ...) {
     }
 
     lc        <- length(combs)
-    nam       <- names(model$coefficients)[-1]
+    nam       <- colnames(attr(model$terms, 'factors'))
+    # nam       <- names(model$coefficients)[-1]
     varnames  <- names(model.frame(model))
     predicts  <- varnames[-1]
     len_preds <- length(predicts)

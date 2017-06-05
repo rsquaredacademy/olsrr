@@ -26,14 +26,14 @@ following components:
 \item{rsquare}{rsquare of the model}
 \item{adjr}{adjusted rsquare of the model}
 \item{predrsq}{predicted rsquare of the model}
-\item{cp}{Mallow's Cp}
-\item{aic}{Akaike Information Criteria}
-\item{sbic}{Sawa Bayesian Information Criteria}
-\item{sbc}{Schwarz Bayes Information Criteria}
+\item{cp}{mallow's Cp}
+\item{aic}{akaike information criteria}
+\item{sbic}{sawa bayesian information criteria}
+\item{sbc}{schwarz bayes information criteria}
 \item{gmsep}{estimated MSE of prediction, assuming multivariate normality}
 \item{jp}{final prediction error}
-\item{pc}{Amemiya Prediction Criteria}
-\item{sp}{Hocking's Sp}
+\item{pc}{amemiya prediction criteria}
+\item{sp}{hocking's Sp}
 }
 \description{
 Fits all regressions involving one regressor, two regressors, three regressors, and so on.
