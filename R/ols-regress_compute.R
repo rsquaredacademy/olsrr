@@ -1,7 +1,7 @@
 #' @importFrom stats model.matrix confint.lm
 reg_comp <- function(formula, data, conf.level = 0.95, title = 'model') {
 
-	  model      <- lm(formula =  formula, data = data)
+	model      <- lm(formula = formula, data = data)
     nam        <- names(model.frame(model))
     response   <- nam[1]
     predictors <- nam[-1]

@@ -11,49 +11,48 @@ ols_regress(object, ...)
 }
 \arguments{
 \item{object}{an object of class "formula" (or one that can be coerced to
-that class): a symbolic description of the model to be fitted.}
+that class): a symbolic description of the model to be fitted or class \code{lm}}
 
 \item{...}{other inputs}
 }
 \value{
 \code{ols_regress} returns an object of class \code{"ols_regress"}. An object
-of class \code{"ols_regress"} is a list containing the following
-components:
+of class \code{"ols_regress"} is a list containing the following components:
 
-\item{r}{f statistic}
-\item{rsq}{pure error}
-\item{adjr}{regression sum of squares}
-\item{sigma}{error sum of squares}
-\item{cv}{total sum of squares}
+\item{r}{square root of rsquare, correlation between observed and predicted values of dependent variable}
+\item{rsq}{coefficient of determination or r-square}
+\item{adjr}{adjusted rsquare}
+\item{sigma}{root mean squared error}
+\item{cv}{coefficient of variation}
 \item{mse}{mean squared error}
-\item{mae}{p-value of \code{fstat}}
-\item{aic}{degrees of freedom}
-\item{sbc}{name(s) of \code{variable}}
-\item{sbic}{name of \code{group_var}}
-\item{prsq}{f statistic}
-\item{error_df}{p-value of \code{fstat}}
-\item{model_df}{degrees of freedom}
-\item{total_df}{name(s) of \code{variable}}
-\item{ess}{name of \code{group_var}}
-\item{rss}{f statistic}
-\item{tss}{p-value of \code{fstat}}
-\item{rms}{degrees of freedom}
-\item{ems}{name(s) of \code{variable}}
-\item{f}{name of \code{group_var}}
-\item{p}{name of \code{group_var}}
-\item{n}{p-value of \code{fstat}}
-\item{betas}{degrees of freedom}
-\item{sbetas}{name(s) of \code{variable}}
-\item{std_errors}{name of \code{group_var}}
-\item{tvalues}{f statistic}
-\item{pvalues}{p-value of \code{fstat}}
-\item{df}{degrees of freedom}
-\item{conf_lm}{name(s) of \code{variable}}
-\item{title}{name of \code{group_var}}
-\item{dependent}{f statistic}
-\item{predictors}{p-value of \code{fstat}}
-\item{mvars}{degrees of freedom}
-\item{model}{name(s) of \code{variable}}
+\item{mae}{mean absolute error}
+\item{aic}{akaike information criteria}
+\item{sbc}{bayesian information criteria}
+\item{sbic}{sawa bayesian information criteria}
+\item{prsq}{predicted rsquare}
+\item{error_df}{residual degrees of freedom}
+\item{model_df}{regression degrees of freedom}
+\item{total_df}{total degrees of freedom}
+\item{ess}{error sum of squares}
+\item{rss}{regression sum of squares}
+\item{tss}{total sum of squares}
+\item{rms}{regression mean square}
+\item{ems}{error mean square}
+\item{f}{f statistis}
+\item{p}{p-value for \code{f}}
+\item{n}{number of predictors including intercept}
+\item{betas}{betas; estimated coefficients}
+\item{sbetas}{standardized betas}
+\item{std_errors}{standard errors}
+\item{tvalues}{t values}
+\item{pvalues}{p-value of \code{tvalues}}
+\item{df}{degrees of freedom of \code{betas}}
+\item{conf_lm}{confidence intervals for coefficients}
+\item{title}{title for the model}
+\item{dependent}{character vector; name of the dependent variable}
+\item{predictors}{character vector; name of the predictor variables}
+\item{mvars}{character vector; name of the predictor variables including intercept}
+\item{model}{input model for \code{ols_regress}}
 }
 \description{
 Ordinary Least Squares Regression
