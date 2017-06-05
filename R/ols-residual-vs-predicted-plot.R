@@ -2,7 +2,7 @@
 #' @description It is a scatter plot of residuals on the y axis and fitted values on the x axis to 
 #' detect non-linearity, unequal error variances, and outliers.
 #' @param model an object of class \code{lm}
-#' details Characteristics of a well behaved residual vs fitted plot:
+#' @details Characteristics of a well behaved residual vs fitted plot:
 #'
 #' \itemize{
 #'   \item The residuals spread randomly around the 0 line indicating that the relationship is linear.
