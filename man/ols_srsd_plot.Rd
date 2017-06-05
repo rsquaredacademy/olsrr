@@ -9,6 +9,14 @@ ols_srsd_plot(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
+\value{
+\code{ols_srsd_plot} returns  a list containing the
+following components:
+
+\item{outliers}{a tibble with observation number and \code{studentized residuals} that 
+exceed \code{threshold}} for classifying an observation as an outlier
+\item{threshold}{\code{threshold} for classifying an observation as an outlier}
+}
 \description{
 Graph for identifying outliers
 }
