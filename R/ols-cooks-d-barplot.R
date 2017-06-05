@@ -2,7 +2,7 @@
 #' @importFrom dplyr filter select
 #' @importFrom ggplot2 geom_bar coord_flip ylim geom_hline geom_label
 #' @title Cooks' D Bar Plot
-#' @description Bar Plot of cooks distance to detect observations that strongly influence fitted values of the model.
+#' @description Bar Plot of cook's distance to detect observations that strongly influence fitted values of the model.
 #' @param model an object of class \code{lm}
 #' @details Cook's distance was introduced by American statistician R Dennis Cook in 1977. It is used 
 #' to identify influential data points. It depends on both the residual and leverage i.e it takes it account
@@ -16,7 +16,7 @@
 #'   \item examine how much all of the fitted values change when the ith observation is deleted.
 #' }
 #' 
-#' A data point having a large cooks d indicates that the data point strongly influences the fitted values.
+#' A data point having a large cook's d indicates that the data point strongly influences the fitted values.
 #'
 #' @return \code{ols_cooksd_barplot} returns  a list containing the
 #' following components:

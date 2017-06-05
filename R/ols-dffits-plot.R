@@ -69,5 +69,5 @@ ols_dffits_plot <- function(model) {
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "DFFITs")
 	result <- list(outliers = f, threshold = round(dffits_t, 2))
-	invisible(f)
+	invisible(result)
 }

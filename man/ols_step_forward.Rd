@@ -2,10 +2,14 @@
 % Please edit documentation in R/ols-stepwise-forward-regression.R
 \name{ols_step_forward}
 \alias{ols_step_forward}
+\alias{ols_step_forward.default}
 \alias{plot.ols_step_forward}
 \title{Stepwise Forward Regression}
 \usage{
 ols_step_forward(model, ...)
+
+\method{ols_step_forward}{default}(model, penter = 0.3, details = FALSE,
+  ...)
 
 \method{plot}{ols_step_forward}(x, model = NA, ...)
 }
@@ -14,11 +18,11 @@ ols_step_forward(model, ...)
 
 \item{...}{other arguments}
 
-\item{x}{an object of class \code{ols_step_forward}}
-
 \item{penter}{p value; variables with p value less than \code{penter} will enter into the model}
 
 \item{details}{logical; if \code{TRUE}, will print the regression result at each step}
+
+\item{x}{an object of class \code{ols_step_forward}}
 }
 \value{
 \code{ols_step_forward} returns an object of class \code{"ols_step_forward"}.

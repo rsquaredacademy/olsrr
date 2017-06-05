@@ -17,7 +17,7 @@ following components:
 \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 }
 \description{
-Chart of cooks distance to detect observations that strongly influence fitted values of the model.
+Chart of cook's distance to detect observations that strongly influence fitted values of the model.
 }
 \details{
 Cook's distance was introduced by American statistician R Dennis Cook in 1977. It is used 
@@ -32,7 +32,7 @@ Steps to compute Cook's distance:
   \item exmine how much all of the fitted values change when the ith observation is deleted.
 }
 
-A data point having a large cooks d indicates that the data point strongly influences the fitted values.
+A data point having a large cook's d indicates that the data point strongly influences the fitted values.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
