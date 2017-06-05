@@ -36,10 +36,11 @@ ols_rsdlev_plot <- function(model) {
 		geom_text(vjust = -1, size = 3, family="serif", fontface="italic", colour="darkred") +
 		annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2, 
       family="serif", fontface="italic", colour="darkred", 
-      label = paste('Threshold:', g$lev_thrsh))
+      label = paste('Threshold:', round(g$lev_thrsh, 3)))
 
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Leverage", "Studentized Residuals")
-	invisible(f)
+	result <- list(leverage = f, threshold = round(g$lev_thrsh, 3))
+	invisible(result)
 
 }
