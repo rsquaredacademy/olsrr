@@ -2,10 +2,13 @@
 % Please edit documentation in R/ols-stepaic-backward-regression.R
 \name{ols_stepaic_backward}
 \alias{ols_stepaic_backward}
+\alias{ols_stepaic_backward.default}
 \alias{plot.ols_stepaic_backward}
 \title{Stepwise AIC Backward Regression}
 \usage{
 ols_stepaic_backward(model, ...)
+
+\method{ols_stepaic_backward}{default}(model, details = FALSE, ...)
 
 \method{plot}{ols_stepaic_backward}(x, ...)
 }
@@ -14,6 +17,8 @@ ols_stepaic_backward(model, ...)
 
 \item{...}{other arguments}
 
+\item{details}{logical; if \code{TRUE}, will print the regression result at each step}
+
 \item{x}{an object of class \code{ols_stepaic_backward}}
 }
 \value{
@@ -21,13 +26,13 @@ ols_stepaic_backward(model, ...)
 An object of class \code{"ols_stepaic_backward"} is a list containing the
 following components:
 
-\item{steps}{f statistic}
-\item{predictors}{p value of \code{score}}
-\item{aics}{degrees of freedom}
-\item{ess}{fitted values of the regression model}
-\item{rss}{name of explanatory variables of fitted regression model}
-\item{rsq}{response variable}
-\item{arsq}{predictors}
+\item{steps}{total number of steps}
+\item{predictors}{variables removed from the model}
+\item{aics}{akaike information criteria}
+\item{ess}{error sum of squares}
+\item{rss}{regression sum of squares}
+\item{rsq}{rsquare}
+\item{arsq}{adjusted rsquare}
 }
 \description{
 Build regression model from a set of candidate predictor variables by removing predictors based on 
