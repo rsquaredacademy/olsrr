@@ -1,6 +1,6 @@
 #' @importFrom ggplot2 geom_linerange
 #' @title Cooks' D Chart
-#' @description Chart of Cook's distance to detect observations that strongly influence fitted values of the model.
+#' @description Chart of cooks distance to detect observations that strongly influence fitted values of the model.
 #' @param model an object of class \code{lm}
 #' @details Cook's distance was introduced by American statistician R Dennis Cook in 1977. It is used 
 #' to identify influential data points. It depends on both the residual and leverage i.e it takes it account
@@ -14,8 +14,14 @@
 #'   \item exmine how much all of the fitted values change when the ith observation is deleted.
 #' }
 #' 
-#' A data point having a large cook's d indicates that the data point strongly influences the fitted values.
+#' A data point having a large cooks d indicates that the data point strongly influences the fitted values.
 #'
+#' @return \code{ols_cooksd_chart} returns  a list containing the
+#' following components:
+#'
+#' \item{outliers}{a tibble with observation number and \code{cooks distance} that exceed \code{threshold}}
+#' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
+#' 
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_cooksd_chart(model)
@@ -42,10 +48,11 @@ ols_cooksd_chart <- function(model) {
 		geom_text(vjust = -1, size = 3, family="serif", fontface="italic", colour="darkred") +
 		annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2, 
                   family="serif", fontface="italic", colour="darkred", 
-                  label = paste('Threshold:', k$ts))
+                  label = paste('Threshold:', round(k$ts, 3)))
 		
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Cook's Distance")
-	invisible(f)
+	result <- list(outliers = f, threshold = round(k$ts, 3))
+	invisible(result)
 
 }
