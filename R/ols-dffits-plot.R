@@ -18,6 +18,12 @@
 #'
 #' where n is the number of observations and p is the number of predictors including intercept.
 #'
+#' @return \code{ols_dffits_plot} returns  a list containing the
+#' following components:
+#'
+#' \item{outliers}{a tibble with observation number and \code{DFFITs} that exceed \code{threshold}}
+#' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
+#'
 #' @references Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression 
 #' Diagnostics: Identifying Influential Data and Sources of Collinearity. 
 #' Wiley Series in Probability and Mathematical Statistics. 
@@ -62,5 +68,6 @@ ols_dffits_plot <- function(model) {
 
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "DFFITs")
+	result <- list(outliers = f, threshold = round(dffits_t, 2))
 	invisible(f)
 }

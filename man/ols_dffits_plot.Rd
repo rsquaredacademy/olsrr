@@ -9,6 +9,13 @@ ols_dffits_plot(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
+\value{
+\code{ols_dffits_plot} returns  a list containing the
+following components:
+
+\item{outliers}{a tibble with observation number and \code{DFFITs} that exceed \code{threshold}}
+\item{threshold}{\code{threshold} for classifying an observation as an outlier}
+}
 \description{
 Plot for detecting influential observations using DFFITs.
 }
