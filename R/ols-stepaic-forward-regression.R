@@ -3,19 +3,20 @@
 #' @description Build regression model from a set of candidate predictor variables by entering predictors based on 
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
 #' @param model an object of class \code{lm}
+#' @param details logical; if \code{TRUE}, will print the regression result at each step
 #' @param x an object of class \code{ols_stepaic_forward}
 #' @param ... other arguments
 #' @return \code{ols_stepaic_forward} returns an object of class \code{"ols_stepaic_forward"}.
 #' An object of class \code{"ols_stepaic_forward"} is a list containing the
 #' following components:
 #'
-#' \item{steps}{f statistic}
-#' \item{predictors}{p value of \code{score}}
-#' \item{aics}{degrees of freedom}
-#' \item{ess}{fitted values of the regression model}
-#' \item{rss}{name of explanatory variables of fitted regression model}
-#' \item{rsq}{response variable}
-#' \item{arsq}{predictors}
+#' \item{steps}{total number of steps}
+#' \item{predictors}{variables added to the model}
+#' \item{aics}{akaike information criteria}
+#' \item{ess}{error sum of squares}
+#' \item{rss}{regression sum of squares}
+#' \item{rsq}{rsquare}
+#' \item{arsq}{adjusted rsquare}
 #' @references Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #' @examples
 #' # stepwise forward regression
@@ -32,6 +33,7 @@
 ols_stepaic_forward <- function(model, ...) UseMethod('ols_stepaic_forward')
 
 #' @export
+#' @rdname ols_stepaic_forward
 #'
 ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
 
@@ -48,9 +50,12 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
     }
 
     l        <- mod_sel_data(model)
-    nam      <- names(l)
-    response <- nam[1]
-    all_pred <- nam[-1]
+    nam      <- colnames(attr(model$terms, 'factors'))
+    response <- names(model$model)[1]
+    all_pred <- nam
+    # nam      <- names(l)
+    # response <- nam[1]
+    # all_pred <- nam[-1]
     mlen_p   <- length(all_pred)
     preds    <- c()
     step     <- 1
