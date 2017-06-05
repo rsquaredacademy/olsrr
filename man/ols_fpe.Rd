@@ -10,7 +10,7 @@ ols_fpe(model)
 \item{model}{an object of class \code{lm}}
 }
 \value{
-fpe
+Final Prediction Error
 }
 \description{
 Final prediction error

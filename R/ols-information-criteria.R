@@ -227,9 +227,18 @@ ols_mallows_cp <- function(model, fullmodel) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-  if (!all(names(model$coefficients) %in% names(fullmodel$coefficients))) {
-  	stop('model must be a subset of full model')
+  # if (!all(names(model$coefficients) %in% names(fullmodel$coefficients))) {
+  # 	stop('model must be a subset of full model')
+  # }
+
+	if (!all(names(eval(model$call$data)) %in% names(eval(fullmodel$call$data)))) {
+	 	stop('model must be a subset of full model')
   }
+
+ # if (!all(colnames(attr(model$terms, 'factors')) %in% colnames(attr(fullmodel$terms, 'factors')))) {
+ #  	stop('model must be a subset of full model')
+ #  }
+
 
 		n <- model %>% model.frame() %>% nrow()
 		# p <- model %>% coefficients() %>% length()
@@ -282,7 +291,7 @@ ols_msep <- function(model) {
 #' \deqn{MSE((n + p) / n)}
 #'
 #' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept 
-#' @return fpe 
+#' @return Final Prediction Error
 #' @references Akaike, H. (1969). “Fitting Autoregressive Models for Prediction.” Annals of the Institute of Statistical
 #' Mathematics 21:243–247.
 #'

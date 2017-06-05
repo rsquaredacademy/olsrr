@@ -9,6 +9,15 @@ ols_dsrvsp_plot(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
+\value{
+\code{ols_dsrvsp_plot} returns  a list containing the
+following components:
+
+\item{outliers}{a tibble with observation number, fitted values and deleted studentized 
+residuals that exceed the \code{threshold} for classifying observations as 
+outliers/influential observations}
+\item{threshold}{\code{threshold} for classifying an observation as an outlier/influential observation}
+}
 \description{
 Plot for detecting violation of assumptions about residuals
 such as non-linearity, constant variances and outliers. It can also be used to examine model fit.

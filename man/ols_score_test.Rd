@@ -26,7 +26,7 @@ following components:
 \item{p}{p value of \code{score}}
 \item{df}{degrees of freedom}
 \item{fv}{fitted values of the regression model}
-\item{rhs}{name of explanatory variables of fitted regression model}
+\item{rhs}{names of explanatory variables of fitted regression model}
 \item{resp}{response variable}
 \item{preds}{predictors}
 }

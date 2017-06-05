@@ -21,27 +21,27 @@
 #' \code{"ols_pure_error_anova"}. An object of class \code{"ols_pure_error_anova"} is a
 #' list containing the following components:
 #'
-#' \item{lackoffit}{f statistic}
-#' \item{pure_error}{pure error}
+#' \item{lackoffit}{lack of fit sum of squares}
+#' \item{pure_error}{pure error sum of squares}
 #' \item{rss}{regression sum of squares}
 #' \item{ess}{error sum of squares}
 #' \item{total}{total sum of squares}
-#' \item{rms}{}
-#' \item{ems}{p-value of \code{fstat}}
-#' \item{lms}{degrees of freedom}
-#' \item{pms}{name(s) of \code{variable}}
-#' \item{rf}{name of \code{group_var}}
-#' \item{lf}{f statistic}
-#' \item{pr}{p-value of \code{fstat}}
-#' \item{pl}{degrees of freedom}
-#' \item{mpred}{name(s) of \code{variable}}
-#' \item{df_rss}{name of \code{group_var}}
-#' \item{df_ess}{f statistic}
-#' \item{df_lof}{p-value of \code{fstat}}
-#' \item{df_error}{degrees of freedom}
-#' \item{final}{name(s) of \code{variable}}
-#' \item{resp}{name of \code{group_var}}
-#' \item{preds}{name of \code{group_var}}
+#' \item{rms}{regression mean square}
+#' \item{ems}{error mean square}
+#' \item{lms}{lack of fit mean square}
+#' \item{pms}{pure error mean square}
+#' \item{rf}{f statistic}
+#' \item{lf}{lack of fit f statistic}
+#' \item{pr}{p-value of f statistic}
+#' \item{pl}{p-value pf lack of fit f statistic}
+#' \item{mpred}{tibble containing data for the response and predictor of the \code{model}}
+#' \item{df_rss}{regression sum of squares degrees of freedom}
+#' \item{df_ess}{error sum of squares degrees of freedom}
+#' \item{df_lof}{lack of fit degrees of freedom}
+#' \item{df_error}{pure error degrees of freedom}
+#' \item{final}{data.frame; contains computed values used for the lack of fit f test}
+#' \item{resp}{character vector; name of \code{response variable}}
+#' \item{preds}{character vector; name of \code{predictor variable}}
 #' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
 #' Chicago, IL., McGraw Hill/Irwin.
 #' @examples

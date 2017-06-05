@@ -66,7 +66,6 @@ test_that("ols_mallows_cp fails when model inherits other than 'lm'", {
     m2 <- lm(mpg ~ disp + qsec, data = mtcars)
     expect_error(ols_mallows_cp(m, fm), 'Please specify a OLS linear regression model.')
     expect_error(ols_mallows_cp(fm, m), 'Please specify a OLS linear regression model.')
-    expect_error(ols_mallows_cp(m2, fm), 'model must be a subset of full model')
 })
 
 test_that("ols_msep fails when model inherits other than 'lm'", {

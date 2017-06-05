@@ -9,6 +9,11 @@ ols_dfbetas_panel(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
+\value{
+list; \code{ols_dfbetas_panel} returns a list of tibbles (for intercept and each predictor)
+with the observation number and DFBETA of observations that exceed the threshold for classifying
+an observation as an outlier/influential observation.
+}
 \description{
 Panel of plots to detect influential observations using DFBETAs.
 }

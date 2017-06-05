@@ -61,7 +61,7 @@ test_that('output from cpdata matches the expected result', {
 test_that('output from cdplot matches the expected output', {
     model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
     k <- cdplot(model)
-    expect_equal(round(k$maxx, 3), 0.494)
+    expect_equal(round(k$maxx, 3), 0.398)
     expect_equal(k$ts, 0.125)
 })
 

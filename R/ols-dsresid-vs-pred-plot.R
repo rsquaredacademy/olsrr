@@ -8,6 +8,15 @@
 #' divided by its estimated standard deviation. Studentized residuals are going to be more effective for 
 #' detecting outlying Y observations than standardized residuals. If an observation has an externally 
 #' studentized residual that is larger than 2 (in absolute value) we can call it an outlier.
+#'
+#' @return \code{ols_dsrvsp_plot} returns  a list containing the
+#' following components:
+#'
+#' \item{outliers}{a tibble with observation number, fitted values and deleted studentized 
+#' residuals that exceed the \code{threshold} for classifying observations as 
+#' outliers/influential observations}
+#' \item{threshold}{\code{threshold} for classifying an observation as an outlier/influential observation}
+#'
 #' @examples 
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_dsrvsp_plot(model)
@@ -43,5 +52,6 @@ ols_dsrvsp_plot <- function(model) {
 
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Fitted Values", "Deleted Studentized Residual")
-	invisible(f)
+	result <- list(outliers = f, threshold = 2)
+	invisible(result)
 }

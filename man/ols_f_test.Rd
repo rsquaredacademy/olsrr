@@ -27,7 +27,7 @@ following components:
 \item{f}{f statistic}
 \item{p}{p-value of \code{f}}
 \item{fv}{fitted values of the regression model}
-\item{rhs}{name of explanatory variables of fitted regression model}
+\item{rhs}{names of explanatory variables of fitted regression model}
 \item{numdf}{numerator degrees of freedom}
 \item{dendf}{denominator degrees of freedom}
 \item{vars}{variables to be used for heteroskedasticity test}

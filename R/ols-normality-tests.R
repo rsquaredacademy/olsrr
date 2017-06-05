@@ -24,7 +24,7 @@ ols_corr_test <- function(model) {
 #' @importFrom nortest ad.test
 #' @title Test for normality
 #' @description Test for detecting violation of normality assumption.
-#' @param y a numeric vector
+#' @param y a numeric vector or an object of class \code{lm}
 #' @param ... other arguments
 #' @return \code{norm_test} returns an object of class \code{"norm_test"}.
 #' An object of class \code{"norm_test"} is a list containing the

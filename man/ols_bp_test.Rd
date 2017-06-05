@@ -28,10 +28,10 @@ holm, sidak and none}
 An object of class \code{"ols_bp_test"} is a list containing the
 following components:
 
-\item{bp}{reusch pagan statistic}
+\item{bp}{breusch pagan statistic}
 \item{p}{p-value of \code{bp}}
 \item{fv}{fitted values of the regression model}
-\item{rhs}{name of explanatory variables of fitted regression model}
+\item{rhs}{names of explanatory variables of fitted regression model}
 \item{multiple}{logical value indicating if multiple tests should be performed}
 \item{padj}{adjusted p values}
 \item{vars}{variables to be used for heteroskedasticity test}

@@ -2,13 +2,6 @@
 #' @title Part and Partial Correlations
 #' @description Zero-order, part and partial correlations
 #' @param model an object of class \code{lm}
-#' @return \code{ols_correlations} returns an object of class \code{"ols_correlations"}.
-#' An object of class \code{"ols_correlations"} is a data frame containing the
-#' following components:
-#'
-#' \item{Zero-order}{zero order correlations}
-#' \item{Partial}{partial correlations}
-#' \item{Part}{part correlations}
 #' @details \code{correlations} returns the relative importance of independent variables in determining response variable. 
 #' How much each variable uniquely contributes to rsquare over and above that which can be accounted for by the other predictors?
 #' Zero order correlation is the Pearson correlation coefficient between the dependent variable and the
@@ -16,6 +9,13 @@
 #' and partial correlations indicates amount of variance in response variable, which is not estimated by the other
 #' independent variables in the model, but is estimated by the specific variable.
 #'
+#' @return \code{ols_correlations} returns an object of class \code{"ols_correlations"}.
+#' An object of class \code{"ols_correlations"} is a data frame containing the
+#' following components:
+#'
+#' \item{Zero-order}{zero order correlations}
+#' \item{Partial}{partial correlations}
+#' \item{Part}{part correlations}
 #' @references Morrison, D. F. 1976. Multivariate statistical methods. New York: McGraw-Hill.
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

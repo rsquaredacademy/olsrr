@@ -118,7 +118,7 @@ ols_bartlett_test.default <- function(variable, ..., group_var = NA) {
 #' @rdname ols_bartlett_test
 #'
 ols_bartlett_test.lm <- function(variable, ...) {
-	ols_bartlett_test.formula(formula(variable), data=model.frame(variable), ...)
+	ols_bartlett_test.formula(formula(variable), data=eval(variable$call$data), ...)
 }
 
 #' @export

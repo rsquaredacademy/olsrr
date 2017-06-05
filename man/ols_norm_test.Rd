@@ -10,7 +10,7 @@ ols_norm_test(y, ...)
 \method{ols_norm_test}{lm}(y, ...)
 }
 \arguments{
-\item{y}{a numeric vector}
+\item{y}{a numeric vector or an object of class \code{lm}}
 
 \item{...}{other arguments}
 }
