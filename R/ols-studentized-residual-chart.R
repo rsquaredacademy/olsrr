@@ -4,6 +4,13 @@
 #' @param model an object of class \code{lm}
 #' @details Standardized residual (internally studentized) is the residual divided by estimated 
 #' standard deviation.
+#' @return \code{ols_srsd_chart} returns  a list containing the
+#' following components:
+#'
+#' \item{outliers}{a tibble with observation number and \code{standardized resiudals} that 
+#' exceed \code{threshold}} for classifying an observation as an outlier
+#' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
+#' 
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_srsd_chart(model)
@@ -41,5 +48,6 @@ ols_srsd_chart <- function(model) {
 
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Studentized Residual")
-	invisible(f)
+	result <- list(outliers = f, threshold = 2)
+	invisible(result)
 }

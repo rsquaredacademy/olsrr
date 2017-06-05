@@ -9,6 +9,14 @@ ols_srsd_chart(model)
 \arguments{
 \item{model}{an object of class \code{lm}}
 }
+\value{
+\code{ols_srsd_chart} returns  a list containing the
+following components:
+
+\item{outliers}{a tibble with observation number and \code{standardized resiudals} that 
+exceed \code{threshold}} for classifying an observation as an outlier
+\item{threshold}{\code{threshold} for classifying an observation as an outlier}
+}
 \description{
 Chart for identifying outliers
 }
