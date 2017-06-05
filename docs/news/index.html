@@ -82,6 +82,49 @@
     </div>
 
     <div class="contents">
+    <div id="olsrr-0-2-0" class="section level1">
+<h1 class="hasAnchor">
+<a href="#olsrr-0-2-0" class="anchor"> </a>olsrr 0.2.0</h1>
+<p>This is a minor release containing bug fixes and minor improvements.</p>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"> </a>Bug Fixes</h2>
+<ul>
+<li>inline functions in model formula caused errors in stepwise regression (<a href="https://github.com/rsquaredacademy/olsrr/issues/2">#2</a>)</li>
+<li>added variable plots (<code>ols_avplots</code>) returns error when model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/3">#3</a>)</li>
+<li>all possible regression (<code>ols_all_subset</code>) returns an error when the model formula contains inline functions or interaction variables (<a href="https://github.com/rsquaredacademy/olsrr/issues/4">#4</a>)</li>
+<li>best subset regression (<code>ols_best_subset</code>) returns an error when the model formula contains inline functions or interaction variables (<a href="https://github.com/rsquaredacademy/olsrr/issues/5">#5</a>)</li>
+<li>studentized residual plot (<code>ols_srsd_plot</code>) returns an error when the model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/6">#6</a>)</li>
+<li>stepwise backward regression (<code>ols_step_backward</code>) returns an error when the model formula contains inline functions or interaction variables (<a href="https://github.com/rsquaredacademy/olsrr/issues/7">#7</a>)</li>
+<li>stepwise forward regression (<code>ols_step_backward</code>) returns an error when the model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/8">#8</a>)</li>
+<li>stepAIC backward regression (<code>ols_stepaic_backward</code>) returns an error when the model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/9">#9</a>)</li>
+<li>stepAIC forward regression (<code>ols_stepaic_forward</code>) returns an error when the model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/10">#10</a>)</li>
+<li>stepAIC regression (<code>ols_stepaic_both</code>) returns an error when the model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/11">#11</a>)</li>
+<li>outliers incorrectly plotted in (<code>ols_cooksd_barplot</code>) cook’s d bar plot (<a href="https://github.com/rsquaredacademy/olsrr/issues/12">#12</a>)</li>
+<li>regression (<code>ols_regress</code>) returns an error when the model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/21">#21</a>)</li>
+<li>output from step AIC backward regression (<code>ols_stepaic_backward</code>) is not properly formatted (<a href="https://github.com/rsquaredacademy/olsrr/issues/22">#22</a>)</li>
+<li>output from step AIC regression (<code>ols_stepaic_both</code>) is not properly formatted (<a href="https://github.com/rsquaredacademy/olsrr/issues/23">#23</a>)</li>
+</ul>
+</div>
+<div id="enhancements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#enhancements" class="anchor"> </a>Enhancements</h2>
+<ul>
+<li>cook’s d bar plot (<code>ols_cooksd_barplot</code>) returns the threshold value used to classify the observations as outliers (<a href="https://github.com/rsquaredacademy/olsrr/issues/13">#13</a>)</li>
+<li>cook’s d chart (<code>ols_cooksd_chart</code>) returns the threshold value used to classify the observations as outliers (<a href="https://github.com/rsquaredacademy/olsrr/issues/14">#14</a>)</li>
+<li>DFFITs plot (<code>ols_dffits_plot</code>) returns the threshold value used to classify the observations as outliers (<a href="https://github.com/rsquaredacademy/olsrr/issues/15">#15</a>)</li>
+<li>deleted studentized residuals vs fitted values plot (<code>ols_dsrvsp_plot</code>) returns the threshold value used to classify the observations as outliers (<a href="https://github.com/rsquaredacademy/olsrr/issues/16">#16</a>)</li>
+<li>studentized residuals vs leverage plot (<code>ols_rsdlev_plot</code>) returns the threshold value used to detect outliers/high leverage observations (<a href="https://github.com/rsquaredacademy/olsrr/issues/17">#17</a>)</li>
+<li>standarized residuals chart (<code>ols_srsd_chart</code>) returns the threshold value used to classify the observations as outliers (<a href="https://github.com/rsquaredacademy/olsrr/issues/18">#18</a>)</li>
+<li>studentized residuals plot (<code>ols_srsd_plot</code>) returns the threshold value used to classify the observations as outliers (<a href="https://github.com/rsquaredacademy/olsrr/issues/19">#19</a>)</li>
+</ul>
+</div>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"> </a>Documentation</h2>
+<p>There were errors in the description of the values returned by some functions. The documentation has been thoroughly revised and improved in this release.</p>
+</div>
+</div>
     <div id="olsrr-0-1-0" class="section level1">
 <h1 class="hasAnchor">
 <a href="#olsrr-0-1-0" class="anchor"> </a>olsrr 0.1.0</h1>
@@ -94,6 +137,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#olsrr-0-2-0">0.2.0</a></li>
         <li><a href="#olsrr-0-1-0">0.1.0</a></li>
       </ul>
     </div>

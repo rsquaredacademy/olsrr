@@ -69,7 +69,8 @@ ols_bartlett_test(mpg ~ cyl, data = mt)
 
 #### Using linear model
 ```{r bartlett4}
-model <- lm(mpg ~ cyl, data = mt)
+mtcars$cyl <- as.factor(mtcars$cyl)
+model <- lm(mpg ~ cyl, data = mtcars)
 ols_bartlett_test(model)
 ```
 

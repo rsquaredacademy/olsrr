@@ -87,6 +87,10 @@ p values, in a stepwise manner until there is no variable left to enter or remov
 
     <pre><span class='fu'>ols_stepwise</span>(<span class='no'>model</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for default</span>
+<span class='fu'>ols_stepwise</span>(<span class='no'>model</span>, <span class='kw'>pent</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>prem</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
+  <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
 <span class='co'># S3 method for ols_stepwise</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)</pre>
     
@@ -96,6 +100,12 @@ p values, in a stepwise manner until there is no variable left to enter or remov
       <dd>an object of class <code>lm</code>; the model should include all candidate predictor variables</dd>
       <dt>...</dt>
       <dd>other arguments</dd>
+      <dt>pent</dt>
+      <dd>p value; variables with p value less than <code>pent</code> will enter into the model</dd>
+      <dt>prem</dt>
+      <dd>p value; variables with p more than <code>prem</code> will be removed from the model</dd>
+      <dt>details</dt>
+      <dd>logical; if <code>TRUE</code>, will print the regression result at each step</dd>
       <dt>x</dt>
       <dd>an object of class <code>ols_stepwise</code></dd>
     </dl>

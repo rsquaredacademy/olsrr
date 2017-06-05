@@ -87,6 +87,9 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 
     <pre><span class='fu'>ols_stepaic_forward</span>(<span class='no'>model</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for default</span>
+<span class='fu'>ols_stepaic_forward</span>(<span class='no'>model</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
 <span class='co'># S3 method for ols_stepaic_forward</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
@@ -96,6 +99,8 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
       <dd>an object of class <code>lm</code></dd>
       <dt>...</dt>
       <dd>other arguments</dd>
+      <dt>details</dt>
+      <dd>logical; if <code>TRUE</code>, will print the regression result at each step</dd>
       <dt>x</dt>
       <dd>an object of class <code>ols_stepaic_forward</code></dd>
     </dl>

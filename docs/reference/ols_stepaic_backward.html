@@ -87,6 +87,9 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 
     <pre><span class='fu'>ols_stepaic_backward</span>(<span class='no'>model</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for default</span>
+<span class='fu'>ols_stepaic_backward</span>(<span class='no'>model</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
 <span class='co'># S3 method for ols_stepaic_backward</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
@@ -96,6 +99,8 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
       <dd>an object of class <code>lm</code>; the model should include all candidate predictor variables</dd>
       <dt>...</dt>
       <dd>other arguments</dd>
+      <dt>details</dt>
+      <dd>logical; if <code>TRUE</code>, will print the regression result at each step</dd>
       <dt>x</dt>
       <dd>an object of class <code>ols_stepaic_backward</code></dd>
     </dl>
@@ -122,8 +127,8 @@ following components:</p>
 #&gt; -------------------------------------------------------------------------
 #&gt; Full Model     736.39    1825905.713    6543614.824    0.782        0.743 
 #&gt; alc_mod       734.407    1826477.828    6543042.709    0.782        0.749 
-#&gt; gender        732.494    1829435.617     6540084.92    0.781        0.754 
-#&gt; age            730.62    1833716.447     6535804.09    0.781        0.758 
+#&gt; gender        732.494    1829435.617    6540084.920    0.781        0.754 
+#&gt; age            730.62    1833716.447    6535804.090    0.781        0.758 
 #&gt; -------------------------------------------------------------------------
 #&gt; </div><div class='input'>
 <span class='co'># stepwise backward regression plot</span>

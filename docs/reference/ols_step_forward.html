@@ -87,6 +87,10 @@ p values, in a stepwise manner until there is no variable left to enter any more
 
     <pre><span class='fu'>ols_step_forward</span>(<span class='no'>model</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for default</span>
+<span class='fu'>ols_step_forward</span>(<span class='no'>model</span>, <span class='kw'>penter</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>)
+
 <span class='co'># S3 method for ols_step_forward</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)</pre>
     
@@ -96,6 +100,10 @@ p values, in a stepwise manner until there is no variable left to enter any more
       <dd>an object of class <code>lm</code>; the model should include all candidate predictor variables</dd>
       <dt>...</dt>
       <dd>other arguments</dd>
+      <dt>penter</dt>
+      <dd>p value; variables with p value less than <code>penter</code> will enter into the model</dd>
+      <dt>details</dt>
+      <dd>logical; if <code>TRUE</code>, will print the regression result at each step</dd>
       <dt>x</dt>
       <dd>an object of class <code>ols_step_forward</code></dd>
     </dl>
