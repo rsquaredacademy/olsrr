@@ -78,20 +78,18 @@ combinations <- function(n, r) {
 }
 
 # added variable Plot
-advarx <- function(data , i) {
-    j <- i - 1
-    k <- names(data)
-  fla <- as.formula(paste0('`', k[j], '`', " ~ ."))
-  out <- residuals(lm(fla, data = data))
-  return(out)
+advarx <- function(data , i, xnames) {
+    k <- xnames[i]
+    ols <- ols_regress(paste(k, '~', paste(xnames[-i], collapse = ' + ')), data)
+    out <- ols$model$residuals
+    return(out)
 }
 
-advary <- function(data, i) {
-  dat <- data[-i]
-    k <- names(dat)
-  fla <- as.formula(paste(k[1], "~ ."))
-  out <- residuals(lm(fla, data = dat))
-  return(out)
+advary <- function(data, i, resp, xnames) {
+    k <- xnames[-i]
+    ols <- ols_regress(paste(resp, '~', paste(xnames[-i], collapse = ' + ')), data)
+    out <- ols$model$residuals
+    return(out)
 }
 
 # bartlett test

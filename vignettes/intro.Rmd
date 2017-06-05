@@ -80,18 +80,6 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_rfs_plot(model)
 ```
 
-## Added Variable Plot
-
-Added variable plot provides information about the marginal importance of a 
-predictor variable $X_{k}$, given the other predictor variables already in 
-the model. It shows the marginal importance of the variable in reducing the
-residual variability. 
-
-```{r avplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_avplots(model)
-```
-
 ## Breusch Pagan Test
 
 Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a $\chi^{2}$ test.

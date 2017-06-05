@@ -51,30 +51,30 @@ ols_avplots <- function(model) {
 	   #   m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
 	   # data <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
 	 # xnames <- colnames(data)
-	 	 data <- eval(model$call$data)
-	 xnames <- colnames(attr(model$terms, 'factors'))
-	     nl <- ncol(data)
-	   dat2 <- data[-1]
+
+	data <- eval(model$call$data)
+	xnames <- colnames(attr(model$terms, 'factors'))
+	nl <- xnames %>% length()
+	resp <- rownames(attr(model$terms, 'factors'))[1]
 	myplots <- list()
 
-	for(i in 2:nl) {
-
-			x <- advarx(dat2, i)
-			y <- advary(data, i)
-			d <- tibble(x, y)
-			p <- eval(substitute(ggplot(d, aes(x = x, y = y)) +
-				geom_point(colour = 'blue', size = 2) +
-				xlab(paste(xnames[i], " | Others")) +
-				ylab(paste(xnames[1], " | Others")) +
-				stat_smooth(method="lm", se=FALSE), list(i = i)))
-
-			# print(p)
-			j <- i - 1
-			myplots[[j]] <- p
-
+	for(i in seq_len(nl)) {
+	    
+	    x <- advarx(data, i, xnames)
+	    y <- advary(data, i, resp, xnames)
+	    d <- tibble(x, y)
+	    p <- eval(substitute(ggplot(d, aes(x = x, y = y)) +
+	                             geom_point(colour = 'blue', size = 2) +
+	                             xlab(paste(xnames[i], " | Others")) +
+	                             ylab(paste(resp, " | Others")) +
+	                             stat_smooth(method="lm", se=FALSE), list(i = i)))
+	    
+	    # print(p)
+	    j <- i 
+	    myplots[[j]] <- p
+	    
 	}
 
 	do.call(grid.arrange, c(myplots, list(ncol = 2)))
 
 }
-
