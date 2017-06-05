@@ -7,6 +7,8 @@
 
 0 errors | 0 warnings | 1 note
 
+The note was related to possibly mis-spelled words in DESCRIPTION file.
+
 ## Reverse dependencies
 
 There are no reverse dependencies.
