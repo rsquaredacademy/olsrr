@@ -2,21 +2,23 @@
 #' @description Build regression model from a set of candidate predictor variables by removing predictors based on 
 #' p values, in a stepwise manner until there is no variable left to remove any more.
 #' @param model an object of class \code{lm}; the model should include all candidate predictor variables
+#' @param prem p value; variables with p more than \code{prem} will be removed from the model
+#' @param details logical; if \code{TRUE}, will print the regression result at each step
 #' @param x an object of class \code{ols_step_backward}
 #' @param ... other inputs
 #' @return \code{ols_step_backward} returns an object of class \code{"ols_step_backward"}.
 #' An object of class \code{"ols_step_backward"} is a list containing the
 #' following components:
 #'
-#' \item{steps}{f statistic}
-#' \item{removed}{p value of \code{score}}
-#' \item{rsquare}{degrees of freedom}
-#' \item{aic}{fitted values of the regression model}
-#' \item{sbc}{name of explanatory variables of fitted regression model}
-#' \item{sbic}{response variable}
-#' \item{adjr}{predictors}
-#' \item{rmse}{predictors}
-#' \item{mallows_cp}{predictors}
+#' \item{steps}{total number of steps}
+#' \item{removed}{variables removed from the model}
+#' \item{rsquare}{coefficient of determination}
+#' \item{aic}{akaike information criteria}
+#' \item{sbc}{bayesian information criteria}
+#' \item{sbic}{sawa's bayesian information criteria}
+#' \item{adjr}{adjusted r-square}
+#' \item{rmse}{root mean square error}
+#' \item{mallows_cp}{mallow's Cp}
 #' \item{indvar}{predictors}
 #'
 #' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -36,6 +38,7 @@
 ols_step_backward <- function(model, ...) UseMethod('ols_step_backward')
 
 #' @export
+#' @rdname ols_step_backward
 #'
 ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
 
@@ -57,9 +60,12 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
 
     message("We are eliminating variables based on p value...")
 	l        <- mod_sel_data(model)
-	nam      <- names(l)
-	response <- nam[1]
-	preds    <- nam[-1]
+	nam      <- colnames(attr(model$terms, 'factors'))
+    response <- names(model$model)[1]
+    preds    <- nam
+    # nam      <- names(l)
+	# response <- nam[1]
+	# preds    <- nam[-1]
     cterms   <- preds
 	ilp      <- length(preds)
 	end      <- FALSE
