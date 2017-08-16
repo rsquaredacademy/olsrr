@@ -192,11 +192,11 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
 
     out <- list(predictors = var_index,
                 method     = method,
-                aic        = round(laic, 3),
-                ess        = round(less, 3),
-                rss        = round(lrss, 3),
-                rsq        = round(lrsq, 3),
-                arsq       = round(larsq, 3),
+                aic        = laic,
+                ess        = less, 
+                rss        = lrss, 
+                rsq        = lrsq, 
+                arsq       = larsq,
                 steps      = all_step)
 
     class(out) <- 'ols_stepaic_both'
