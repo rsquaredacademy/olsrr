@@ -101,8 +101,8 @@ ols_f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
 
     }
 
-    out <- list(f     = round(f, 3),
-    	          p     = round(p, 3),
+    out <- list(f     = f, 
+    	          p     = p, 
     	          numdf = numdf,
     	          dendf = dendf,
     	          fv    = fitted_values,
