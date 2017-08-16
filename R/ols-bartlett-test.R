@@ -102,8 +102,8 @@ ols_bartlett_test.default <- function(variable, ..., group_var = NA) {
 	fstat <- bartlett_fstat(variable, grp_var)
 	pval  <- pchisq(fstat, df, lower.tail = FALSE)
 
-	out <- list(fstat = round(fstat, 3),
-		          pval  = round(pval, 3),
+	out <- list(fstat = fstat,
+		          pval  = pval,
 		          df    = df,
 		          var_c = var_c,
 			        g_var = g_var)
