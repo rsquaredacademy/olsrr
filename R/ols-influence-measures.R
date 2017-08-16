@@ -113,8 +113,7 @@ ols_pred_rsq <- function(model) {
       `/`(tss)
 
     predrsq <- 1 %>%
-      `-`(prts) %>%
-      round(4)
+      `-`(prts) 
 
     return(predrsq)
 
