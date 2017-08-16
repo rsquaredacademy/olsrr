@@ -53,7 +53,8 @@ ols_all_subset.default <- function(model, ...) {
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    n     <- length(model$coefficients) - 1
+    nam   <- colnames(attr(model$terms, 'factors'))
+    n     <- length(nam)
     r     <- seq_len(n)
     combs <- list()
 
@@ -62,10 +63,10 @@ ols_all_subset.default <- function(model, ...) {
     }
 
     lc        <- length(combs)
-    nam       <- colnames(attr(model$terms, 'factors'))
+    # nam       <- colnames(attr(model$terms, 'factors'))
     # nam       <- names(model$coefficients)[-1]
     varnames  <- names(model.frame(model))
-    predicts  <- varnames[-1]
+    predicts  <- nam
     len_preds <- length(predicts)
     gap       <- len_preds - 1
     space     <- sum(nchar(predicts)) + gap
@@ -88,10 +89,10 @@ ols_all_subset.default <- function(model, ...) {
     aic      <- list()
     sbic     <- list()
     sbc      <- list()
-    gmsep    <- list()
-    jp       <- list()
-    pc       <- list()
-    sp       <- list()
+    msep     <- list()
+    fpe      <- list()
+    apc      <- list()
+    hsp      <- list()
     preds    <- list()
     lpreds   <- c()
 
@@ -110,10 +111,10 @@ ols_all_subset.default <- function(model, ...) {
                 aic[[mcount]]     <- ols_aic(out$model)
                 sbic[[mcount]]    <- ols_sbic(out$model, model)
                 sbc[[mcount]]     <- ols_sbc(out$model)
-                gmsep[[mcount]]   <- ols_msep(out$model)
-                jp[[mcount]]      <- ols_fpe(out$model)
-                pc[[mcount]]      <- ols_apc(out$model)
-                sp[[mcount]]      <- ols_hsp(out$model)
+                msep[[mcount]]    <- ols_msep(out$model)
+                fpe[[mcount]]     <- ols_fpe(out$model)
+                apc[[mcount]]     <- ols_apc(out$model)
+                hsp[[mcount]]     <- ols_hsp(out$model)
                 preds[[mcount]]   <- paste(predictors, collapse = " ")
 
         }
@@ -121,17 +122,17 @@ ols_all_subset.default <- function(model, ...) {
 
     ui <- data.frame(n               = lpreds,
                     predictors       = unlist(preds),
-                    rsquare          = round(unlist(rsq), 5),
-                    adjr             = round(unlist(adjrsq), 5),
-                    predrsq          = round(unlist(predrsq), 5),
-                    cp               = round(unlist(cp), 5),
-                    aic              = round(unlist(aic), 5),
-                    sbic             = round(unlist(sbic), 5),
-                    sbc              = round(unlist(sbc), 5),
-                    gmsep            = round(unlist(gmsep), 5),
-                    jp               = round(unlist(jp), 5),
-                    pc               = round(unlist(pc), 5),
-                    sp               = round(unlist(sp), 5),
+                    rsquare          = unlist(rsq),
+                    adjr             = unlist(adjrsq),
+                    predrsq          = unlist(predrsq),
+                    cp               = unlist(cp),
+                    aic              = unlist(aic),
+                    sbic             = unlist(sbic),
+                    sbc              = unlist(sbc),
+                    msep             = unlist(msep),
+                    fpe              = unlist(fpe),
+                    apc              = unlist(apc),
+                    hsp              = unlist(hsp),
                     stringsAsFactors = F)
 
     sorted <- c()
@@ -146,7 +147,7 @@ ols_all_subset.default <- function(model, ...) {
     mindex <- seq_len(nrow(sorted))
     sorted <- cbind(mindex, sorted)
 
-    class(sorted) <- c('ols_all_subset')
+    class(sorted) <- c('ols_all_subset', 'tibble', 'data.frame')
 
     return(sorted)
 }
@@ -157,7 +158,10 @@ ols_all_subset.default <- function(model, ...) {
 print.ols_all_subset <- function(x, ...) {
 
     n <- max(x$mindex)
-    k <- data.frame(matrix(unlist(x), nrow = n), stringsAsFactors = F)[, c(1:5, 7)]
+    k <- tibble::as_tibble(x)[, c(1:5, 7)]
+    k$rsquare <- format(round(k$rsquare, 5), nsmall = 5)
+    k$adjr <- format(round(k$adjr, 5), nsmall = 5)
+    k$cp <- format(round(k$cp, 5), nsmall = 5)
     names(k) <- c('Index', 'N', 'Predictors', 'R-Square', 'Adj. R-Square', "Mallow's Cp")
     print(k)
 
