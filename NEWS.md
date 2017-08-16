@@ -1,3 +1,28 @@
+# olsrr 0.3.0
+
+This is a minor release containing bug fixes. 
+
+## Bug Fixes
+
+- output from reg_compute rounded up to 3 decimal points ([#24](https://github.com/rsquaredacademy/olsrr/issues/24))
+- added variable plot fails when model includes categorical variables ([#25](https://github.com/rsquaredacademy/olsrr/issues/25))
+- all possible regression fails when model includes categorical predictors ([#26](https://github.com/rsquaredacademy/olsrr/issues/26))
+- output from bartlett test rounded to 3 decimal points ([#27](https://github.com/rsquaredacademy/olsrr/issues/27))
+- best subsets regression fails when model includes categorical predictors ([#28](https://github.com/rsquaredacademy/olsrr/issues/28))
+- output from breusch pagan test rounded to 4 decimal points ([#29](https://github.com/rsquaredacademy/olsrr/issues/29))
+- output from collinearity diagnostics rounded to 3 decimal points ([#30](https://github.com/rsquaredacademy/olsrr/issues/30))
+- cook's d bar plot threshold rounded to 3 decimal points ([#31](https://github.com/rsquaredacademy/olsrr/issues/31))
+- cook's d chart threshold rounded to 3 decimal points ([#32](https://github.com/rsquaredacademy/olsrr/issues/32))
+- output from f test rounded to 3 decimal points ([#33](https://github.com/rsquaredacademy/olsrr/issues/33))
+- output from measures of influence rounded to 4 decimal points ([#34](https://github.com/rsquaredacademy/olsrr/issues/34))
+- output from information criteria rounded to 4 decimal points ([#35](https://github.com/rsquaredacademy/olsrr/issues/35))
+- studentized residuals vs leverage plot threshold rounded to 3 decimal points ([#36](https://github.com/rsquaredacademy/olsrr/issues/36))
+- output from score test rounded to 3 decimal points ([#37](https://github.com/rsquaredacademy/olsrr/issues/37))
+- step AIC backward method AIC value rounded to 3 decimal points ([#38](https://github.com/rsquaredacademy/olsrr/issues/38))
+- step AIC backward method AIC value rounded to 3 decimal points ([#39](https://github.com/rsquaredacademy/olsrr/issues/39))
+- step AIC both direction method AIC value rounded to 3 decimal points ([#40](https://github.com/rsquaredacademy/olsrr/issues/40))
+
+
 # olsrr 0.2.0
 
 This is a minor release containing bug fixes and minor improvements. 
