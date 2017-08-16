@@ -28,7 +28,7 @@ test_that('output from cpout matches the expected result', {
     k <- cpout(model)
     expect_equivalent(k$e, residuals(model))
     expect_equivalent(k$mc, model$coefficients[-1])
-    expect_equivalent(k$data, model.frame(model)[-1])
+    expect_equivalent(as.data.frame(k$data), model.frame(model)[-1])
     expect_equal(k$lmc, length(model$coefficients[-1]))
     expect_equivalent(k$nam, names(model.frame(model)[-1]))
     expect_equivalent(k$indvar, names(model.frame(model)[1]))

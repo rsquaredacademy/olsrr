@@ -78,18 +78,25 @@ combinations <- function(n, r) {
 }
 
 # added variable Plot
-advarx <- function(data , i, xnames) {
-    k <- xnames[i]
-    ols <- ols_regress(paste(k, '~', paste(xnames[-i], collapse = ' + ')), data)
-    out <- ols$model$residuals
-    return(out)
+#' @importFrom stats lsfit
+advarx <- function(data , i) {
+    # k <- xnames[i]
+    # ols <- ols_regress(paste(k, '~', paste(xnames[-i], collapse = ' + ')), data)
+    # out <- ols$model$residuals
+    x <- as.matrix(data[c(-1, -i)])
+    y <- as.matrix(data[i])
+  out <- stats::lsfit(x, y)$residuals
+  return(out)
 }
 
-advary <- function(data, i, resp, xnames) {
-    k <- xnames[-i]
-    ols <- ols_regress(paste(resp, '~', paste(xnames[-i], collapse = ' + ')), data)
-    out <- ols$model$residuals
-    return(out)
+advary <- function(data, i) {
+    # k <- xnames[-i]
+    # ols <- ols_regress(paste(resp, '~', paste(xnames[-i], collapse = ' + ')), data)
+    # out <- ols$model$residuals
+    x <- as.matrix(data[c(-1, -i)])
+    y <- as.matrix(data[1])
+  out <- stats::lsfit(x, y)$residuals
+  return(out)
 }
 
 # bartlett test
@@ -259,8 +266,7 @@ corout <- function(model, r2) {
          n2 <- n - 1
       parts <- ksign * sqrt(r1 - r2)
    partials <- parts / sqrt(1 - r2)
-     result <- data.frame(cor_mdata, partials, parts) %>%
-      round(3)
+     result <- data.frame(cor_mdata, partials, parts) 
    rownames(result) <- names(ksign)
    colnames(result) <- c('Zero-order', 'Partial', 'Part')
 
@@ -412,8 +418,7 @@ mcpout <- function(model, fullmodel, n, p, q) {
 
     out <- sse %>%
         `/`(mse) %>%
-        `-`(sec) %>%
-        round(4)
+        `-`(sec) 
 
     return(out)
 }
@@ -437,8 +442,7 @@ sepout <- function(model) {
     den <- n * (n - p -1)
 
     out <- num %>%
-        `/`(den) %>%
-        round(5)
+        `/`(den) 
 
     return(out)
 }
@@ -456,8 +460,7 @@ jpout <- function(model) {
 
     out <- (n + p) %>%
         `/`(n) %>%
-        `*`(mse) %>%
-        round(5)
+        `*`(mse) 
 
     return(out)
 }
@@ -475,8 +478,7 @@ pcout <- function(model) {
 
     out <- (n + p) %>%
         `/`(n - p) %>%
-        `*`(1 - rse) %>%
-        round(5)
+        `*`(1 - rse) 
 
     return(out)
 }
@@ -493,8 +495,7 @@ spout <- function(model) {
         `[`(p)
 
     out <- mse %>%
-        `/`(n - p - 1) %>%
-        round(5)
+        `/`(n - p - 1) 
 
     return(out)
 }
@@ -746,20 +747,20 @@ peanova <- function(model) {
 	pr           <- pf(rf, df_rss, df_ess, lower.tail = F)
 	pl           <- pf(lf, df_lof, df_error, lower.tail = F)
 
-  result <- list(lackoffit  = round(lackoffit, 2),
-		             pure_error = round(random_error, 2),
-		             rss        = round(rss, 2),
-		             ess        = round(ess, 2),
-		             total      = round(total, 2),
-		             rms        = round(rms, 2),
-		             ems        = round(ems, 2),
-		             lms        = round(lms, 2),
-		             pms        = round(pms, 2),
-		             rf         = round(rf, 2),
-		             lf         = round(lf, 2),
-		             pr         = round(pr, 2),
-		             pl         = round(pl, 2),
-		             mpred      = round(mean_pred, 2),
+  result <- list(lackoffit  = lackoffit,
+		             pure_error = random_error,
+		             rss        = rss, 
+		             ess        = ess, 
+		             total      = total,
+		             rms        = rms, 
+		             ems        = ems, 
+		             lms        = lms, 
+		             pms        = pms, 
+		             rf         = rf, 
+		             lf         = lf, 
+		             pr         = pr, 
+		             pl         = pl, 
+		             mpred      = mean_pred, 
 		             df_rss     = df_rss,
 		             df_ess     = df_ess,
 		             df_lof     = df_lof,
