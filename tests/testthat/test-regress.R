@@ -5,14 +5,14 @@ model <- ols_regress(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 test_that('regress returns all the model validation metrics', {
 
 	sb <- c(disp = 0.179, hp = -0.234, wt = -0.712, drat = 0.179, qsec = 0.190)
-	lm1 <- c('(Intercept)' = -6.004, disp = -0.014, hp = -0.052, wt = -6.941, drat = -0.676, qsec = -0.304)
-	lm2 <- c('(Intercept)' = 39.071, disp = 0.032, hp = 0.011, wt = -1.830, drat = 4.707, qsec = 1.584)
+	lm1 <- c('(Intercept)' = -6.00372864, disp = -0.01427933, hp = -0.05201291, wt = -6.94137515, drat = -0.67585793, qsec = -0.30404593)
+	lm2 <- c('(Intercept)' = 39.07086783, disp = 0.03171968, hp = 0.01081675, wt = -1.82955263, drat = 4.70740704, qsec = 1.58434573)
 
-	expect_equal(model$r, 0.921)
-	expect_equal(model$cv, 12.732)
-	expect_equal(model$mae, 1.84)
-	expect_equal(model$prsq, 0.767)
-	expect_equal(model$sbetas, sb)
+	expect_equal(model$r, 0.9213657)
+	expect_equal(round(model$cv, 3), 12.732)
+	expect_equal(round(model$mae, 3), 1.84)
+	expect_equal(round(model$prsq, 4), 0.7666)
+	expect_equal(round(model$sbetas, 3), sb)
 	expect_equal(model$conf_lm[, 1], lm1)
 	expect_equal(model$conf_lm[, 2], lm2)
 

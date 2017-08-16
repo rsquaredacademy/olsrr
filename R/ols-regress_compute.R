@@ -8,40 +8,40 @@ reg_comp <- function(formula, data, conf.level = 0.95, title = 'model') {
     output     <- summary(model)
     anovam     <- anova(model)
     dep        <- model.frame(model)[1]
-    rsq        <- round(output$r.squared, 3)
-    r          <- round(sqrt(rsq), 3)
-    adjr       <- round(output$adj.r.squared, 3)
-    sigma      <- round(output$sigma, 3)
-    cv         <- round((output$sigma / mean(dep[[1]])) * 100, 3)
-    mae        <- round(mean(abs(residuals(model))), 3)
-    aic        <- round(ols_aic(model), 3)
-    sbc        <- round(ols_sbc(model), 3)
-    sbic       <- round(ols_sbic(model, model), 3)
-    prsq       <- round(ols_pred_rsq(model), 3)
+    rsq        <- output$r.squared
+    r          <- sqrt(rsq)
+    adjr       <- output$adj.r.squared
+    sigma      <- output$sigma
+    cv         <- (output$sigma / mean(dep[[1]])) * 100
+    mae        <- mean(abs(residuals(model)))
+    aic        <- ols_aic(model)
+    sbc        <- ols_sbc(model)
+    sbic       <- ols_sbic(model, model)
+    prsq       <- ols_pred_rsq(model)
     n          <- length(anovam$Df)
-    mse       <- round(anovam$`Mean Sq`[n], 3)
+    mse        <- anovam$`Mean Sq`[n]
     error_df   <- anovam$Df[n]
     model_df   <- sum(anovam$Df) - error_df
     total_df   <- sum(anovam$Df)
-    ess        <- round(anovam$`Sum Sq`[n], 3)
-    tss        <- round(sum(anovam$`Sum Sq`), 3)
-    rss        <- round(tss - ess, 3)
-    rms        <- round(rss / model_df, 3)
-    ems        <- round(ess / error_df, 3)
-    f          <- round(rms / ems, 3)
-    p          <- round(pf(f, model_df, error_df, lower.tail = F), 4)
+    ess        <- anovam$`Sum Sq`[n]
+    tss        <- sum(anovam$`Sum Sq`)
+    rss        <- tss - ess
+    rms        <- rss / model_df
+    ems        <- ess / error_df
+    f          <- rms / ems
+    p          <- pf(f, model_df, error_df, lower.tail = F)
     b          <- output$coef[-1, 1]
     g          <- as.data.frame(model.matrix(model)[, -1])
     sx         <- sapply(g, sd)
     sy         <- sapply(model$model[1], sd)
     sbeta      <- b * sx/sy
-    betas      <- round(coefficients(model), 3)
-    sbetas     <- round(sbeta, 3)
-    std_errors <- round(output$coefficients[, 2], 3)
-    tvalues    <- round(output$coefficients[, 3], 3)
-    pvalues    <- round(output$coefficients[, 4], 3)
+    betas      <- coefficients(model)
+    sbetas     <- sbeta
+    std_errors <- output$coefficients[, 2]
+    tvalues    <- output$coefficients[, 3]
+    pvalues    <- output$coefficients[, 4]
     df         <- rep(1, n)
-    conf_lm    <- round(confint.lm(model, level = conf.level), 3)
+    conf_lm    <- confint.lm(model, level = conf.level)
     mvars      <- names(model$coefficients)
 
 
