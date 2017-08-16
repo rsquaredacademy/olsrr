@@ -67,7 +67,7 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 
 	}
 
-	akaike <- round(akaike, 4)
+	akaike <- akaike
 	return(akaike)
 
 }
@@ -141,7 +141,7 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 
 	}
 
-	bayesian <- round(bayesian, 4)
+	bayesian <- bayesian
 	return(bayesian)
 }
 

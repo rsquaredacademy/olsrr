@@ -4,16 +4,16 @@ fullmodel   <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
 
 test_that('aic output matches expected result', {
 
-	expect_equal(ols_aic(fullmodel, method = 'R'), round(AIC(fullmodel), 4))
-	expect_equal(ols_aic(fullmodel, method = 'STATA'), 63.8367)
+	expect_equal(ols_aic(fullmodel, method = 'R'), AIC(fullmodel))
+	expect_equal(ols_aic(fullmodel, method = 'STATA'), 63.83669)
 
 	model     <- lm(y ~ x1 + x2 + x4, data = cement)
-	expect_equal(ols_aic(model, method = 'R'), round(AIC(model), 4))
-	expect_equal(ols_aic(model, method = 'STATA'), 61.8663)
+	expect_equal(ols_aic(model, method = 'R'), AIC(model))
+	expect_equal(round(ols_aic(model, method = 'STATA'), 4), 61.8663)
 
 	model     <- lm(y ~ x2 + x4, data = cement)
-	expect_equal(ols_aic(model, method = 'R'), round(AIC(model), 4))
-	expect_equal(ols_aic(model, method = 'STATA'), 97.5217)
+	expect_equal(ols_aic(model, method = 'R'), AIC(model))
+	expect_equal(round(ols_aic(model, method = 'STATA'), 4), 97.5217)
 
 
 })
@@ -21,16 +21,16 @@ test_that('aic output matches expected result', {
 
 test_that('sbc output matches expected result', {
 
-	expect_equal(ols_sbc(fullmodel, method = 'R'), round(BIC(fullmodel), 4))
-	expect_equal(ols_sbc(fullmodel, method = 'STATA'), 66.6614)
+	expect_equal(ols_sbc(fullmodel, method = 'R'), BIC(fullmodel))
+	expect_equal(round(ols_sbc(fullmodel, method = 'STATA'), 4), 66.6614)
 
 	model     <- lm(y ~ x1 + x2 + x4, data = cement)
-	expect_equal(ols_sbc(model, method = 'R'), round(BIC(model), 4))
-	expect_equal(ols_sbc(model, method = 'STATA'), 64.1261)
+	expect_equal(ols_sbc(model, method = 'R'), BIC(model))
+	expect_equal(round(ols_sbc(model, method = 'STATA'), 4), 64.1261)
 
 	model     <- lm(y ~ x2 + x4, data = cement)
-	expect_equal(ols_sbc(model, method = 'R'), round(BIC(model), 4))
-	expect_equal(ols_sbc(model, method = 'STATA'), 99.2166)
+	expect_equal(ols_sbc(model, method = 'R'), BIC(model))
+	expect_equal(round(ols_sbc(model, method = 'STATA'), 4), 99.2166)
 
 
 })
