@@ -115,8 +115,8 @@ ols_vif_tol <- function(model) {
 
 			vt <- viftol(model)
 	result <- tibble(Variables = vt$nam,
-		               Tolerance = round(vt$tol, 3),
-	                       VIF = round(vt$vifs, 3))
+		               Tolerance = vt$tol,
+	                       VIF = vt$vifs)
 
 	return(result)
 }
@@ -134,8 +134,7 @@ ols_eigen_cindex <- function(model) {
 	e <- evalue(x)$e
 	cindex <- cindx(e)
 	pv <- pveindex(evalue(x)$pvdata)
-	out <- data.frame(Eigenvalue = cbind(round(e, 3), round(cindex, 3),
-															round(pv, 2)))
+	out <- data.frame(Eigenvalue = cbind(e, cindex, pv))
 	colnames(out) <- c("Eigenvalue", "Condition Index", colnames(evalue(x)$pvdata))
 	return(out)
 
