@@ -47,21 +47,31 @@ ols_avplots <- function(model) {
 	if (!all(class(model) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
-	   #   m1 <- tibble::as_data_frame(model.frame(model))
+	
+		 #   m1 <- tibble::as_data_frame(model.frame(model))
 	   #   m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
 	   # data <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
-	 # xnames <- colnames(data)
+	 	 # xnames <- colnames(data)
 
-	data <- eval(model$call$data)
-	xnames <- colnames(attr(model$terms, 'factors'))
-	nl <- xnames %>% length()
-	resp <- rownames(attr(model$terms, 'factors'))[1]
+	# data <- eval(model$call$data)
+	# xnames <- names(model$coefficients)[-1]
+	# # xnames <- colnames(attr(model$terms, 'factors'))
+	# nl <- xnames %>% length()
+	# resp <- rownames(attr(model$terms, 'factors'))[1]
+
+	    m1 <- tibble::as_data_frame(model.frame(model))
+	    m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+	  data <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+	xnames <- colnames(data)
+	    nl <- xnames %>% length()
+	  resp <- xnames[1]
+
 	myplots <- list()
 
-	for(i in seq_len(nl)) {
+	for(i in 2:nl) {
 	    
-	    x <- advarx(data, i, xnames)
-	    y <- advary(data, i, resp, xnames)
+	    x <- advarx(data, i)
+	    y <- advary(data, i)
 	    d <- tibble(x, y)
 	    p <- eval(substitute(ggplot(d, aes(x = x, y = y)) +
 	                             geom_point(colour = 'blue', size = 2) +
@@ -70,7 +80,7 @@ ols_avplots <- function(model) {
 	                             stat_smooth(method="lm", se=FALSE), list(i = i)))
 	    
 	    # print(p)
-	    j <- i 
+	    j <- i - 1
 	    myplots[[j]] <- p
 	    
 	}
