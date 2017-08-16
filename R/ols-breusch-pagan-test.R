@@ -375,8 +375,8 @@ ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multip
 	}
 
 	# output
-	out <- list(bp       = round(bp, 4),
-		          p        = round(p, 4),
+	out <- list(bp       = bp,
+		          p        = p,
 		          fv       = fitted.values,
 		          rhs      = rhs,
 		          multiple = multiple,
