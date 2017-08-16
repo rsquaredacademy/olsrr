@@ -56,7 +56,7 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
     # nam      <- names(l)
     # response <- nam[1]
     # preds    <- nam[-1]
-    aic_f    <- round(ols_aic(model), 3)
+    aic_f    <- ols_aic(model)
     mi       <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), data = l)
     rss_f    <- mi$rss
     laic     <- aic_f
@@ -83,11 +83,11 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
 
             predictors <- preds[-i]
             m          <- ols_regress(paste(response, '~', paste(predictors, collapse = ' + ')), data = l)
-            aics[i]    <- round(ols_aic(m$model), 3)
-            ess[i]     <- round(m$ess, 3)
-            rss[i]     <- round(rss_f - m$rss, 3)
-            rsq[i]     <- round(m$rsq, 3)
-            arsq[i]    <- round(m$adjr, 3)
+            aics[i]    <- ols_aic(m$model)
+            ess[i]     <- m$ess
+            rss[i]     <- rss_f - m$rss
+            rsq[i]     <- m$rsq
+            arsq[i]    <- m$adjr
         }
 
         da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
@@ -97,11 +97,11 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
 
             w1 <- max(nchar('Predictor'), nchar(predictors))
             w2 <- 2
-            w3 <- max(nchar('AIC'), nchar(format(aics, nsmall = 3)))
-            w4 <- max(nchar('Sum Sq'), nchar(format(rss, nsmall = 3)))
-            w5 <- max(nchar('RSS'), nchar(format(ess, nsmall = 3)))
-            w6 <- max(nchar('R-Sq'), nchar(format(rsq, nsmall = 3)))
-            w7 <- max(nchar('Adj. R-Sq'), nchar(format(arsq, nsmall = 3)))
+            w3 <- max(nchar('AIC'), nchar(format(round(aics, 3), nsmall = 3)))
+            w4 <- max(nchar('Sum Sq'), nchar(format(round(rss, 3), nsmall = 3)))
+            w5 <- max(nchar('RSS'), nchar(format(round(ess, 3), nsmall = 3)))
+            w6 <- max(nchar('R-Sq'), nchar(format(round(rsq, 3), nsmall = 3)))
+            w7 <- max(nchar('Adj. R-Sq'), nchar(format(round(arsq, 3), nsmall = 3)))
             w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
             ln <- length(aics)
 
@@ -112,9 +112,9 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
             cat(rep("-", w), sep = "", '\n')
 
             for (i in seq_len(ln)) {
-                cat(fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(da2[i, 2], w3), fs(),
-                    fg(da2[i, 4], w4), fs(), fg(da2[i, 3], w5), fs(), fg(da2[i, 5], w6), fs(),
-                    fg(da2[i, 6], w7), '\n')
+                cat(fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+                    fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(), 
+                    fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(), fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
             }
 
             cat(rep("-", w), sep = "", '\n\n')
@@ -130,7 +130,7 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
             preds <- preds[-minc]
             ilp   <- length(preds)
             step  <- step + 1
-            aic_f <- round(aics[minc], 3)
+            aic_f <- aics[minc]
             mi    <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), data = l)
             rss_f <- mi$rss
             laic  <- c(laic, aic_f)
@@ -148,11 +148,11 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
 
                     predictors <- preds[-i]
                     m          <- ols_regress(paste(response, '~', paste(predictors, collapse = ' + ')), data = l)
-                    aics[i]    <- round(ols_aic(m$model), 3)
-                    ess[i]     <- round(m$ess, 3)
-                    rss[i]     <- round(rss_f - m$rss, 3)
-                    rsq[i]     <- round(m$rsq, 3)
-                    arsq[i]    <- round(m$adjr, 3)
+                    aics[i]    <- ols_aic(m$model)
+                    ess[i]     <- m$ess
+                    rss[i]     <- rss_f - m$rss
+                    rsq[i]     <- m$rsq
+                    arsq[i]    <- m$adjr
                 }
 
 
@@ -164,11 +164,11 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
                 da2 <- arrange(da, rss)
                 w1  <- max(nchar('Predictor'), nchar(predictors))
                 w2  <- 2
-                w3  <- max(nchar('AIC'), nchar(format(aics, nsmall = 3)))
-                w4  <- max(nchar('Sum Sq'), nchar(format(rss, nsmall = 3)))
-                w5  <- max(nchar('RSS'), nchar(format(ess, nsmall = 3)))
-                w6  <- max(nchar('R-Sq'), nchar(format(rsq, nsmall = 3)))
-                w7  <- max(nchar('Adj. R-Sq'), nchar(format(arsq, nsmall = 3)))
+                w3  <- max(nchar('AIC'), nchar(format(round(aics, 3), nsmall = 3)))
+                w4  <- max(nchar('Sum Sq'), nchar(format(round(rss, 3), nsmall = 3)))
+                w5  <- max(nchar('RSS'), nchar(format(round(ess, 3), nsmall = 3)))
+                w6  <- max(nchar('R-Sq'), nchar(format(round(rsq, 3), nsmall = 3)))
+                w7  <- max(nchar('Adj. R-Sq'), nchar(format(round(arsq, 3), nsmall = 3)))
                 w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
                 ln  <- length(aics)
 
@@ -179,9 +179,9 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
                 cat(rep("-", w), sep = "", '\n')
 
                 for (i in seq_len(ln)) {
-                    cat(fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(da2[i, 2], w3), fs(),
-                        fg(da2[i, 4], w4), fs(), fg(da2[i, 3], w5), fs(), fg(da2[i, 5], w6), fs(),
-                        fg(da2[i, 6], w7), '\n')
+                    cat(fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+                        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(), 
+                        fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(), fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
                 }
 
                 cat(rep("-", w), sep = "", '\n\n')
