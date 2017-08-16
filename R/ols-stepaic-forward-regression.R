@@ -88,11 +88,11 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
 
         w1 <- max(nchar('Predictor'), nchar(all_pred))
         w2 <- 2
-        w3 <- max(nchar('AIC'), nchar(aics))
-        w4 <- max(nchar('Sum Sq'), nchar(rss))
-        w5 <- max(nchar('RSS'), nchar(ess))
-        w6 <- max(nchar('R-Sq'), nchar(rsq))
-        w7 <- max(nchar('Adj. R-Sq'), nchar(arsq))
+        w3 <- max(nchar('AIC'), nchar(format(round(aics, 3), nsmall = 3)))
+        w4 <- max(nchar('Sum Sq'), nchar(format(round(rss, 3), nsmall = 3)))
+        w5 <- max(nchar('RSS'), nchar(format(round(ess, 3), nsmall = 3)))
+        w6 <- max(nchar('R-Sq'), nchar(format(round(rsq, 3), nsmall = 3)))
+        w7 <- max(nchar('Adj. R-Sq'), nchar(format(round(arsq, 3), nsmall = 3)))
         w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
         ln <- length(aics)
 
@@ -103,9 +103,10 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
         cat(rep("-", w), sep = "", '\n')
 
         for (i in seq_len(ln)) {
-            cat(fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(da2[i, 2], w3), fs(),
-            fg(da2[i, 4], w4), fs(), fg(da2[i, 3], w5), fs(), fg(da2[i, 5], w6), fs(),
-            fg(da2[i, 6], w7), '\n')
+            cat(fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+            fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(), 
+            fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
+            fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
         }
 
         cat(rep("-", w), sep = "", '\n')
@@ -153,13 +154,13 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
 
             da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
             da2 <- arrange(da, desc(rss))
-            w1  <- max(nchar('Predictor'), nchar(predictors))
+            w1  <- max(nchar('Predictor'), nchar(as.character(da2$predictors)))
             w2  <- 2
-            w3  <- max(nchar('AIC'), nchar(aics))
-            w4  <- max(nchar('Sum Sq'), nchar(rss))
-            w5  <- max(nchar('RSS'), nchar(ess))
-            w6  <- max(nchar('R-Sq'), nchar(rsq))
-            w7  <- max(nchar('Adj. R-Sq'), nchar(arsq))
+            w3  <- max(nchar('AIC'), nchar(format(round(aics, 3), nsmall = 3)))
+            w4  <- max(nchar('Sum Sq'), nchar(format(round(rss, 3), nsmall = 3)))
+            w5  <- max(nchar('RSS'), nchar(format(round(ess, 3), nsmall = 3)))
+            w6  <- max(nchar('R-Sq'), nchar(format(round(rsq, 3), nsmall = 3)))
+            w7  <- max(nchar('Adj. R-Sq'), nchar(format(round(arsq, 3), nsmall = 3)))
             w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
             ln  <- length(aics)
 
@@ -170,9 +171,10 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
             cat(rep("-", w), sep = "", '\n')
 
             for (i in seq_len(ln)) {
-                cat(fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(da2[i, 2], w3), fs(),
-                fg(da2[i, 4], w4), fs(), fg(da2[i, 3], w5), fs(), fg(da2[i, 5], w6), fs(),
-                fg(da2[i, 6], w7), '\n')
+                cat(fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+                fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(), 
+                fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
+                fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
             }
 
             cat(rep("-", w), sep = "", '\n')
