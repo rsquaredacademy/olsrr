@@ -52,7 +52,7 @@ ols_cooksd_chart <- function(model) {
 		
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Cook's Distance")
-	result <- list(outliers = f, threshold = round(k$ts, 3))
+	result <- list(outliers = f, threshold = k$ts)
 	invisible(result)
 
 }
