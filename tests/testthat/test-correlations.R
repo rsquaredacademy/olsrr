@@ -8,7 +8,7 @@ test_that("correlations output match", {
 	          0.289, 0.264, -0.059, -0.103, -0.269, 0.117, 0.106)
 	expt  <- ols_correlations(model) %>% unlist(use.names = FALSE)
 
-	expect_equal(expt, data)
+	expect_equal(round(expt, 3), data)
 
 })
 
