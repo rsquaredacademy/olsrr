@@ -7,8 +7,8 @@ test_that('when fitted.values == TRUE, fitted values from the regression
 
 		b <- ols_score_test(model)
 
-		expect_equal(b$score, 1.269)
-		expect_equal(b$p, 0.26)
+		expect_equal(round(b$score, 3), 1.269)
+		expect_equal(round(b$p, 3), 0.26)
 		expect_equal(b$df, 1)
 		expect_true(b$fv)
 		expect_false(b$rhs)
@@ -22,8 +22,8 @@ test_that('when fitted.values == TRUE and rhs == TRUE, predictors from the
 
 		b <- ols_score_test(model, rhs = TRUE)
 
-		expect_equal(b$score, 2.516)
-		expect_equal(b$p, 0.774)
+		expect_equal(round(b$score, 3), 2.516)
+		expect_equal(round(b$p, 3), 0.774)
 		expect_equal(b$df, 5)
 		expect_false(b$fv)
 		expect_true(b$rhs)
@@ -38,8 +38,8 @@ test_that('when vars != NULL, variables specified from the are
 
 		b <- ols_score_test(model, vars = c("disp", "hp"))
 
-		expect_equal(b$score, 0.969)
-		expect_equal(b$p, 0.616)
+		expect_equal(round(b$score, 3), 0.969)
+		expect_equal(round(b$p, 3), 0.616)
 		expect_equal(b$df, 2)
 		expect_false(b$fv)
 		expect_false(b$rhs)
@@ -54,8 +54,8 @@ test_that('when vars != NULL and rhs == TRUE, predictors in the model are
 
 		b <- ols_score_test(model, rhs = TRUE, vars = c("disp", "hp"))
 
-		expect_equal(b$score, 2.516)
-		expect_equal(b$p, 0.774)
+		expect_equal(round(b$score, 3), 2.516)
+		expect_equal(round(b$p, 3), 0.774)
 		expect_equal(b$df, 5)
 		expect_false(b$fv)
 		expect_true(b$rhs)

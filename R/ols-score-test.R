@@ -79,8 +79,8 @@ ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, var
     	}
     }
 
-    out <- list(score = round(d$score, 3),
-    	          p     = round(d$p, 3),
+    out <- list(score = d$score, 
+    	          p     = d$p, 
     	          df    = d$np,
     					  fv    = fitted_values,
     					  rhs   = rhs,
