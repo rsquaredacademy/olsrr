@@ -50,7 +50,8 @@ ols_best_subset.default <- function(model, ...) {
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    n     <- length(model$coefficients) - 1
+    nam   <- colnames(attr(model$terms, 'factors'))
+    n     <- length(nam)
     r     <- seq_len(n)
     combs <- list()
 
@@ -59,10 +60,10 @@ ols_best_subset.default <- function(model, ...) {
     }
 
     lc        <- length(combs)
-    nam       <- colnames(attr(model$terms, 'factors'))
+    # nam       <- colnames(attr(model$terms, 'factors'))
     # nam       <- names(model$coefficients)[-1]
     varnames  <- names(model.frame(model))
-    predicts  <- varnames[-1]
+    predicts  <- nam
     len_preds <- length(predicts)
     gap       <- len_preds - 1
     space     <- sum(nchar(predicts)) + gap
@@ -121,10 +122,10 @@ ols_best_subset.default <- function(model, ...) {
                      aic              = unlist(aic),
                      sbic             = unlist(sbic),
                      sbc              = unlist(sbc),
-                     gmsep            = unlist(gmsep),
-                     jp               = unlist(jp),
-                     pc               = unlist(pc),
-                     sp               = unlist(sp),
+                     msep             = unlist(gmsep),
+                     fpe              = unlist(jp),
+                     apc              = unlist(pc),
+                     hsp              = unlist(sp),
                      stringsAsFactors = F)
 
     sorted <- c()
@@ -139,7 +140,7 @@ ols_best_subset.default <- function(model, ...) {
     mindex <- seq_len(nrow(sorted))
     sorted <- cbind(mindex, sorted)
 
-    class(sorted) <- 'ols_best_subset'
+    class(sorted) <- c('ols_best_subset', 'tibble', 'data.frame')
 
     return(sorted)
 }
