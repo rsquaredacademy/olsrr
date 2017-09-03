@@ -59,7 +59,7 @@
     <div class="page-header toc-ignore">
       <h1>Heteroscedasticity</h1>
             
-            <h4 class="date">2017-06-05</h4>
+            <h4 class="date">2017-09-03</h4>
           </div>
 
     
@@ -103,11 +103,11 @@ cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars$cyl)
 ## Ho: Variances are equal across groups
 ## Ha: Variances are unequal for atleast two groups
 ## 
-##       Test Summary       
-##  ------------------------
+##         Test Summary         
+##  ----------------------------
 ##  DF            =    2 
-##  Chi2          =    3.648 
-##  Prob &gt; Chi2   =    0.161</code></pre>
+##  Chi2          =    3.647834 
+##  Prob &gt; Chi2   =    0.1613923</code></pre>
 </div>
 <div id="using-variables" class="section level4">
 <h4 class="hasAnchor">
@@ -123,11 +123,11 @@ cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mtcars$cyl)
 ##  ---------------------
 ##  Variables: read write 
 ## 
-##       Test Summary       
-##  ------------------------
+##         Test Summary         
+##  ----------------------------
 ##  DF            =    1 
-##  Chi2          =    1.223 
-##  Prob &gt; Chi2   =    0.269</code></pre>
+##  Chi2          =    1.222871 
+##  Prob &gt; Chi2   =    0.2687979</code></pre>
 </div>
 <div id="using-formula" class="section level4">
 <h4 class="hasAnchor">
@@ -141,11 +141,11 @@ mt$cyl &lt;-<span class="st"> </span><span class="kw">as.factor</span>(mt$cyl)
 ## Ho: Variances are equal across groups
 ## Ha: Variances are unequal for atleast two groups
 ## 
-##       Test Summary       
-##  ------------------------
+##         Test Summary          
+##  -----------------------------
 ##  DF            =    2 
-##  Chi2          =    8.393 
-##  Prob &gt; Chi2   =    0.015</code></pre>
+##  Chi2          =    8.39345 
+##  Prob &gt; Chi2   =    0.01504477</code></pre>
 </div>
 <div id="using-linear-model" class="section level4">
 <h4 class="hasAnchor">
@@ -159,11 +159,11 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ## Ho: Variances are equal across groups
 ## Ha: Variances are unequal for atleast two groups
 ## 
-##       Test Summary       
-##  ------------------------
+##         Test Summary          
+##  -----------------------------
 ##  DF            =    2 
-##  Chi2          =    8.393 
-##  Prob &gt; Chi2   =    0.015</code></pre>
+##  Chi2          =    8.39345 
+##  Prob &gt; Chi2   =    0.01504477</code></pre>
 </div>
 </div>
 <div id="breusch-pagan-test" class="section level2">
@@ -187,11 +187,11 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ##  Response : mpg 
 ##  Variables: fitted values of mpg 
 ## 
-##       Test Summary        
-##  -------------------------
+##        Test Summary         
+##  ---------------------------
 ##  DF            =    1 
-##  Chi2          =    1.4297 
-##  Prob &gt; Chi2   =    0.2318</code></pre>
+##  Chi2          =    1.429672 
+##  Prob &gt; Chi2   =    0.231818</code></pre>
 </div>
 <div id="use-independent-variables-of-the-model" class="section level4">
 <h4 class="hasAnchor">
@@ -209,11 +209,11 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ##  Response : mpg 
 ##  Variables: disp hp wt drat 
 ## 
-##       Test Summary        
-##  -------------------------
+##         Test Summary         
+##  ----------------------------
 ##  DF            =    4 
-##  Chi2          =    1.5138 
-##  Prob &gt; Chi2   =    0.8242</code></pre>
+##  Chi2          =    1.513808 
+##  Prob &gt; Chi2   =    0.8241927</code></pre>
 </div>
 <div id="use-independent-variables-of-the-model-and-perform-multiple-tests" class="section level4">
 <h4 class="hasAnchor">
@@ -231,17 +231,17 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ##  Response : mpg 
 ##  Variables: disp hp wt drat 
 ## 
-##      Test Summary (Unadjusted p values)    
-##  ----------------------------------------
-##   Variable          chi2     df      p    
-##  ----------------------------------------
-##   disp             1.2355     1    0.2663 
-##   hp               0.9210     1    0.3372 
-##   wt               1.2530     1    0.2630 
-##   drat             1.1668     1    0.2800 
-##  ----------------------------------------
-##   simultaneous     1.5138     4    0.8242 
-##  ----------------------------------------</code></pre>
+##         Test Summary (Unadjusted p values)       
+##  ----------------------------------------------
+##   Variable           chi2       df        p     
+##  ----------------------------------------------
+##   disp             1.2355345     1    0.2663334 
+##   hp               0.9209878     1    0.3372157 
+##   wt               1.2529988     1    0.2629805 
+##   drat             1.1668486     1    0.2800497 
+##  ----------------------------------------------
+##   simultaneous     1.5138083     4    0.8241927 
+##  ----------------------------------------------</code></pre>
 </div>
 <div id="bonferroni-p-value-adjustment" class="section level4">
 <h4 class="hasAnchor">
@@ -259,17 +259,17 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ##  Response : mpg 
 ##  Variables: disp hp wt drat 
 ## 
-##      Test Summary (Bonferroni p values)    
-##  ----------------------------------------
-##   Variable          chi2     df      p    
-##  ----------------------------------------
-##   disp             1.2355     1    1.0000 
-##   hp               0.9210     1    1.0000 
-##   wt               1.2530     1    1.0000 
-##   drat             1.1668     1    1.0000 
-##  ----------------------------------------
-##   simultaneous     1.5138     4    0.8242 
-##  ----------------------------------------</code></pre>
+##         Test Summary (Bonferroni p values)       
+##  ----------------------------------------------
+##   Variable           chi2       df        p     
+##  ----------------------------------------------
+##   disp             1.2355345     1    1.0000000 
+##   hp               0.9209878     1    1.0000000 
+##   wt               1.2529988     1    1.0000000 
+##   drat             1.1668486     1    1.0000000 
+##  ----------------------------------------------
+##   simultaneous     1.5138083     4    0.8241927 
+##  ----------------------------------------------</code></pre>
 </div>
 <div id="sidak-p-value-adjustment" class="section level4">
 <h4 class="hasAnchor">
@@ -287,17 +287,17 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ##  Response : mpg 
 ##  Variables: disp hp wt drat 
 ## 
-##        Test Summary (Sidak p values)       
-##  ----------------------------------------
-##   Variable          chi2     df      p    
-##  ----------------------------------------
-##   disp             1.2355     1    0.7103 
-##   hp               0.9210     1    0.8070 
-##   wt               1.2530     1    0.7049 
-##   drat             1.1668     1    0.7313 
-##  ----------------------------------------
-##   simultaneous     1.5138     4    0.8242 
-##  ----------------------------------------</code></pre>
+##           Test Summary (Sidak p values)          
+##  ----------------------------------------------
+##   Variable           chi2       df        p     
+##  ----------------------------------------------
+##   disp             1.2355345     1    0.7102690 
+##   hp               0.9209878     1    0.8070305 
+##   wt               1.2529988     1    0.7049362 
+##   drat             1.1668486     1    0.7313356 
+##  ----------------------------------------------
+##   simultaneous     1.5138083     4    0.8241927 
+##  ----------------------------------------------</code></pre>
 </div>
 <div id="holms-p-value-adjustment" class="section level4">
 <h4 class="hasAnchor">
@@ -315,17 +315,17 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ##  Response : mpg 
 ##  Variables: disp hp wt drat 
 ## 
-##        Test Summary (Holm's p values)      
-##  ----------------------------------------
-##   Variable          chi2     df      p    
-##  ----------------------------------------
-##   disp             1.2355     1    0.7990 
-##   hp               0.9210     1    0.3372 
-##   wt               1.2530     1    1.0000 
-##   drat             1.1668     1    0.5601 
-##  ----------------------------------------
-##   simultaneous     1.5138     4    0.8242 
-##  ----------------------------------------</code></pre>
+##           Test Summary (Holm's p values)         
+##  ----------------------------------------------
+##   Variable           chi2       df        p     
+##  ----------------------------------------------
+##   disp             1.2355345     1    0.7990002 
+##   hp               0.9209878     1    0.3372157 
+##   wt               1.2529988     1    1.0000000 
+##   drat             1.1668486     1    0.5600994 
+##  ----------------------------------------------
+##   simultaneous     1.5138083     4    0.8241927 
+##  ----------------------------------------------</code></pre>
 </div>
 </div>
 <div id="score-test" class="section level2">
@@ -345,11 +345,11 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ## 
 ##  Variables: fitted values of mpg 
 ## 
-##       Test Summary       
-##  ------------------------
+##         Test Summary         
+##  ----------------------------
 ##  DF            =    1 
-##  Chi2          =    0.516 
-##  Prob &gt; Chi2   =    0.472</code></pre>
+##  Chi2          =    0.5163959 
+##  Prob &gt; Chi2   =    0.4723832</code></pre>
 </div>
 <div id="use-independent-variables-of-the-model-1" class="section level4">
 <h4 class="hasAnchor">
@@ -364,11 +364,11 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ## 
 ##  Variables: disp hp wt qsec 
 ## 
-##       Test Summary       
-##  ------------------------
+##         Test Summary         
+##  ----------------------------
 ##  DF            =    4 
-##  Chi2          =    2.039 
-##  Prob &gt; Chi2   =    0.729</code></pre>
+##  Chi2          =    2.039404 
+##  Prob &gt; Chi2   =    0.7285114</code></pre>
 </div>
 <div id="specify-variables" class="section level4">
 <h4 class="hasAnchor">
@@ -383,11 +383,11 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ## 
 ##  Variables: disp hp 
 ## 
-##       Test Summary       
-##  ------------------------
+##         Test Summary         
+##  ----------------------------
 ##  DF            =    2 
-##  Chi2          =    0.998 
-##  Prob &gt; Chi2   =    0.607</code></pre>
+##  Chi2          =    0.9983196 
+##  Prob &gt; Chi2   =    0.6070405</code></pre>
 </div>
 </div>
 <div id="f-test" class="section level2">
@@ -407,12 +407,12 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ## 
 ##  Variables: fitted values of mpg 
 ## 
-##     Test Summary      
-##  ---------------------
+##       Test Summary        
+##  -------------------------
 ##  Num DF     =    1 
 ##  Den DF     =    30 
-##  F          =    0.492 
-##  Prob &gt; F   =    0.488</code></pre>
+##  F          =    0.4920617 
+##  Prob &gt; F   =    0.4884154</code></pre>
 </div>
 <div id="use-independent-variables-of-the-model-2" class="section level4">
 <h4 class="hasAnchor">
@@ -427,12 +427,12 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ## 
 ##  Variables: disp hp wt qsec 
 ## 
-##     Test Summary      
-##  ---------------------
+##       Test Summary        
+##  -------------------------
 ##  Num DF     =    4 
 ##  Den DF     =    27 
-##  F          =    0.459 
-##  Prob &gt; F   =    0.765</code></pre>
+##  F          =    0.4594694 
+##  Prob &gt; F   =    0.7647271</code></pre>
 </div>
 <div id="specify-variables-1" class="section level4">
 <h4 class="hasAnchor">
@@ -447,12 +447,12 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class=
 ## 
 ##  Variables: disp hp 
 ## 
-##     Test Summary      
-##  ---------------------
+##       Test Summary        
+##  -------------------------
 ##  Num DF     =    2 
 ##  Den DF     =    29 
-##  F          =    0.467 
-##  Prob &gt; F   =    0.632</code></pre>
+##  F          =    0.4669306 
+##  Prob &gt; F   =    0.631555</code></pre>
 </div>
 </div>
 </div>

@@ -26,4 +26,3 @@ Characteristics of a well behaved residual vs fitted plot:
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rvsp_plot(model)
 }
-

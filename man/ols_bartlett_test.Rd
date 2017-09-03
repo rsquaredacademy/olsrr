@@ -3,8 +3,8 @@
 \name{ols_bartlett_test}
 \alias{ols_bartlett_test}
 \alias{ols_bartlett_test.default}
-\alias{ols_bartlett_test.formula}
 \alias{ols_bartlett_test.lm}
+\alias{ols_bartlett_test.formula}
 \title{Bartlett Test}
 \usage{
 ols_bartlett_test(variable, ...)
@@ -66,4 +66,3 @@ ols_bartlett_test(model)
 Snedecor, George W. and Cochran, William G. (1989), Statistical Methods, 
 Eighth Edition, Iowa State University Press.
 }
-

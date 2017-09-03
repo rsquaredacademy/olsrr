@@ -115,10 +115,12 @@ Prentice Hall</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_all_subset</span>(<span class='no'>model</span>)
-<span class='no'>k</span></div><div class='output co'>#&gt;   Index N Predictors R-Square Adj. R-Square Mallow&#39;s Cp
-#&gt; 1     1 1       disp    0.718         0.709      4.4438
-#&gt; 2     2 1         hp    0.602         0.589     17.7949
-#&gt; 3     3 2    disp hp    0.748         0.731           3</div><div class='input'>
+<span class='no'>k</span></div><div class='output co'>#&gt; # A tibble: 3 x 6
+#&gt;   Index     N Predictors `R-Square` `Adj. R-Square` `Mallow&#39;s Cp`
+#&gt;   &lt;int&gt; &lt;int&gt;      &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;         &lt;chr&gt;
+#&gt; 1     1     1       disp    0.71834         0.70895       4.44379
+#&gt; 2     2     1         hp    0.60244         0.58919      17.79491
+#&gt; 3     3     2    disp hp    0.74824         0.73088       3.00000</div><div class='input'>
 <span class='co'># plot</span>
 <span class='fu'>plot</span>(<span class='no'>k</span>)</div><img src='ols_all_subset-4.png' alt='' width='540' height='400' /><div class='input'>
 </div></pre>

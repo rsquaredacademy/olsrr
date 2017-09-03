@@ -36,4 +36,3 @@ ols_correlations(model)
 \references{
 Morrison, D. F. 1976. Multivariate statistical methods. New York: McGraw-Hill.
 }
-

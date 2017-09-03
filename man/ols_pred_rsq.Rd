@@ -20,4 +20,3 @@ Larger values of predicted R2 indicate models of greater predictive ability.
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_pred_rsq(model)
 }
-

@@ -22,4 +22,3 @@ foggy or dispersed your points are from this diagonal line.
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_ovsp_plot(model)
 }
-

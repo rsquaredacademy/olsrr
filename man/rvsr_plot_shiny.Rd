@@ -22,4 +22,3 @@ you should consider adding the new predictor to the model.
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 rvsr_plot_shiny(model, mtcars, 'drat')
 }
-

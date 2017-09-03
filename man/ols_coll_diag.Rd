@@ -2,8 +2,8 @@
 % Please edit documentation in R/ols-collinearity-diagnostics.R
 \name{ols_coll_diag}
 \alias{ols_coll_diag}
-\alias{ols_eigen_cindex}
 \alias{ols_vif_tol}
+\alias{ols_eigen_cindex}
 \title{Collinearity Diagnostics}
 \usage{
 ols_coll_diag(model)
@@ -90,4 +90,3 @@ ols_coll_diag(model)
 Belsley, D. A., Kuh, E., and Welsch, R. E. (1980). Regression Diagnostics: Identifying Influential Data and
 Sources of Collinearity. New York: John Wiley & Sons.
 }
-

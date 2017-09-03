@@ -34,4 +34,3 @@ Mathematics 21:243–247.
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
 }
-

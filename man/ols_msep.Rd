@@ -35,4 +35,3 @@ of Harold Hotelling, edited by I. Olkin, S. G. Ghurye, W. Hoeffding, W. G. Madow
 Darlington, R. B. (1968). “Multiple Regression in Psychological Research and Practice.” Psychological
 Bulletin 69:161–182.
 }
-

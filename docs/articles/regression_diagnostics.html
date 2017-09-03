@@ -59,7 +59,7 @@
     <div class="page-header toc-ignore">
       <h1>Collinearity Diagnostics, Model Fit &amp; Variable Contribution</h1>
             
-            <h4 class="date">2017-06-05</h4>
+            <h4 class="date">2017-09-03</h4>
           </div>
 
     
@@ -82,13 +82,13 @@
 <p><span class="math display">\[VIF = \frac{1}{1 - {R}^{2}_{k}} = \frac{1}{Tolerance}\]</span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_coll_diag.html">ols_vif_tol</a></span>(model)</code></pre></div>
-<pre><code>## # A tibble: 4 × 3
-##   Variables Tolerance   VIF
-##       &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1      disp     0.125 7.985
-## 2        hp     0.194 5.167
-## 3        wt     0.145 6.917
-## 4      qsec     0.319 3.133</code></pre>
+<pre><code>## # A tibble: 4 x 3
+##   Variables Tolerance      VIF
+##       &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1      disp 0.1252279 7.985439
+## 2        hp 0.1935450 5.166758
+## 3        wt 0.1445726 6.916942
+## 4      qsec 0.3191708 3.133119</code></pre>
 </div>
 <div id="tolerance" class="section level3">
 <h3 class="hasAnchor">
@@ -108,12 +108,18 @@
 <p>Most multivariate statistical approaches involve decomposing a correlation matrix into linear combinations of variables. The linear combinations are chosen so that the first combination has the largest possible variance (subject to some restrictions we won’t discuss), the second combination has the next largest variance, subject to being uncorrelated with the first, the third has the largest possible variance, subject to being uncorrelated with the first and second, and so forth. The variance of each of these linear combinations is called an eigenvalue. Collinearity is spotted by finding 2 or more variables that have large proportions of variance (.50 or more) that correspond to large condition indices. A rule of thumb is to label as large those condition indices in the range of 30 or larger.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_coll_diag.html">ols_eigen_cindex</a></span>(model)</code></pre></div>
-<pre><code>##   Eigenvalue Condition Index intercept disp   hp   wt qsec
-## 1      4.721           1.000      0.00 0.00 0.00 0.00 0.00
-## 2      0.217           4.669      0.00 0.04 0.03 0.00 0.00
-## 3      0.050           9.677      0.00 0.12 0.39 0.04 0.00
-## 4      0.010          21.616      0.03 0.78 0.06 0.70 0.00
-## 5      0.001          57.481      0.97 0.06 0.52 0.26 0.99</code></pre>
+<pre><code>##    Eigenvalue Condition Index   intercept        disp          hp
+## 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094
+## 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289
+## 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164
+## 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623
+## 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831
+##             wt         qsec
+## 1 0.0005253393 0.0001277169
+## 2 0.0002096014 0.0046789491
+## 3 0.0377028008 0.0001952599
+## 4 0.7017528428 0.0024577686
+## 5 0.2598094157 0.9925403056</code></pre>
 </div>
 <div id="collinearity-diagnostics-1" class="section level3">
 <h3 class="hasAnchor">
@@ -122,23 +128,29 @@
 <span class="kw"><a href="../reference/ols_coll_diag.html">ols_coll_diag</a></span>(model)</code></pre></div>
 <pre><code>## Tolerance and Variance Inflation Factor
 ## ---------------------------------------
-## # A tibble: 4 × 3
-##   Variables Tolerance   VIF
-##       &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1      disp     0.125 7.985
-## 2        hp     0.194 5.167
-## 3        wt     0.145 6.917
-## 4      qsec     0.319 3.133
+## # A tibble: 4 x 3
+##   Variables Tolerance      VIF
+##       &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1      disp 0.1252279 7.985439
+## 2        hp 0.1935450 5.166758
+## 3        wt 0.1445726 6.916942
+## 4      qsec 0.3191708 3.133119
 ## 
 ## 
 ## Eigenvalue and Condition Index
 ## ------------------------------
-##   Eigenvalue Condition Index intercept disp   hp   wt qsec
-## 1      4.721           1.000      0.00 0.00 0.00 0.00 0.00
-## 2      0.217           4.669      0.00 0.04 0.03 0.00 0.00
-## 3      0.050           9.677      0.00 0.12 0.39 0.04 0.00
-## 4      0.010          21.616      0.03 0.78 0.06 0.70 0.00
-## 5      0.001          57.481      0.97 0.06 0.52 0.26 0.99</code></pre>
+##    Eigenvalue Condition Index   intercept        disp          hp
+## 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094
+## 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289
+## 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164
+## 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623
+## 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831
+##             wt         qsec
+## 1 0.0005253393 0.0001277169
+## 2 0.0002096014 0.0046789491
+## 3 0.0377028008 0.0001952599
+## 4 0.7017528428 0.0024577686
+## 5 0.2598094157 0.9925403056</code></pre>
 </div>
 </div>
 <div id="model-fit-assessment" class="section level2">
@@ -211,15 +223,15 @@
 ## Response :   mpg 
 ## Predictor:   disp 
 ## 
-##                  Analysis of Variance Table                  
-## ------------------------------------------------------------
-##                 DF    Sum Sq    Mean Sq    F Value    Pr(&gt;F) 
-## ------------------------------------------------------------
-## disp             1    808.89     808.89     314.01      0.00 
-## Residual        30    317.16      10.57                      
-##  Lack of fit    25    304.28      12.17       4.72      0.05 
-##  Pure Error      5     12.88       2.58                      
-## ------------------------------------------------------------</code></pre>
+##                       Analysis of Variance Table                       
+## ----------------------------------------------------------------------
+##                 DF     Sum Sq     Mean Sq     F Value        Pr(&gt;F)    
+## ----------------------------------------------------------------------
+## disp             1    808.8885    808.8885    314.0095    1.934413e-17 
+## Residual        30    317.1587    10.57196                             
+##  Lack of fit    25    304.2787    12.17115    4.724824      0.04563623 
+##  Pure Error      5       12.88       2.576                             
+## ----------------------------------------------------------------------</code></pre>
 </div>
 <div id="diagnostics-panel" class="section level3">
 <h3 class="hasAnchor">

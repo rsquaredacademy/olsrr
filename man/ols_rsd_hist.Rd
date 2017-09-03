@@ -16,4 +16,3 @@ Histogram of residuals for detecting violation of normality assumption.
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rsd_hist(model)
 }
-

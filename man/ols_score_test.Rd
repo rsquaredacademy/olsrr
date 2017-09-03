@@ -54,4 +54,3 @@ Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regres
 
 Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
 }
-

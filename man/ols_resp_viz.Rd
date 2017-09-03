@@ -16,4 +16,3 @@ Panel of plots to explore and visualize the response variable.
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_resp_viz(model)
 }
-

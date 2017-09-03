@@ -19,7 +19,7 @@ Akaike Information Criterion
 Akaike Information Criterion
 }
 \details{
-AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the 
+AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the
 quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute AIC. SAS
 uses residual sum of squares. Below is the formula in each case:
 
@@ -51,4 +51,3 @@ Mathematics 21:243–247.
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
 }
-

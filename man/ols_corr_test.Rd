@@ -20,4 +20,3 @@ Correlation between observed residuals and expected residuals under normality.
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_corr_test(model)
 }
-

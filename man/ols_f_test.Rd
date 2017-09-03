@@ -54,4 +54,3 @@ ols_f_test(model, vars = c('disp', 'hp'))
 \references{
 Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
 }
-

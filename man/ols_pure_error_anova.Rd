@@ -65,4 +65,3 @@ ols_pure_error_anova(model)
 Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
 Chicago, IL., McGraw Hill/Irwin.
 }
-

@@ -101,7 +101,7 @@ options include R, STATA and SAS</dd>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the 
+    <p>SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the
 quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute SBC. SAS
 uses residual sum of squares. Below is the formula in each case:</p>
     <p><em>R &amp; STATA</em>
@@ -126,7 +126,7 @@ New York: John Wiley &amp; Sons.</p>
 <span class='fu'>ols_sbc</span>(<span class='no'>model</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'STATA'</span>)</div><div class='output co'>#&gt; [1] 164.3983</div><div class='input'>
 <span class='co'># using SAS computation method</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_sbc</span>(<span class='no'>model</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'SAS'</span>)</div><div class='output co'>#&gt; [1] 73.5862</div></pre>
+<span class='fu'>ols_sbc</span>(<span class='no'>model</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>'SAS'</span>)</div><div class='output co'>#&gt; [1] 73.58622</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

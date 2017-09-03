@@ -28,4 +28,3 @@ standard deviation.
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_srsd_chart(model)
 }
-

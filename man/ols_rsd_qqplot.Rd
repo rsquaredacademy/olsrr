@@ -16,4 +16,3 @@ Graph for detecting violation of normality assumption.
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rsd_qqplot(model)
 }
-

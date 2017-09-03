@@ -156,40 +156,52 @@ Sources of Collinearity. New York: John Wiley &amp; Sons.</p>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 
 <span class='co'># vif and tolerance</span>
-<span class='fu'>ols_vif_tol</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; # A tibble: 4 × 3
-#&gt;   Variables Tolerance   VIF
-#&gt;       &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1      disp     0.122 8.209
-#&gt; 2        hp     0.345 2.894
-#&gt; 3        wt     0.196 5.097
-#&gt; 4      drat     0.439 2.280</div><div class='input'>
+<span class='fu'>ols_vif_tol</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 3
+#&gt;   Variables Tolerance      VIF
+#&gt;       &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1      disp 0.1218116 8.209402
+#&gt; 2        hp 0.3454979 2.894373
+#&gt; 3        wt 0.1962092 5.096601
+#&gt; 4      drat 0.4386836 2.279547</div><div class='input'>
 <span class='co'># eigenvalues and condition indices</span>
-<span class='fu'>ols_eigen_cindex</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt;   Eigenvalue Condition Index intercept disp   hp   wt drat
-#&gt; 1      4.693           1.000      0.00 0.00 0.00 0.00 0.00
-#&gt; 2      0.240           4.419      0.00 0.03 0.03 0.00 0.01
-#&gt; 3      0.052           9.486      0.00 0.06 0.74 0.07 0.00
-#&gt; 4      0.011          20.283      0.00 0.89 0.21 0.72 0.06
-#&gt; 5      0.003          37.573      0.99 0.02 0.02 0.21 0.93</div><div class='input'>
+<span class='fu'>ols_eigen_cindex</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt;    Eigenvalue Condition Index    intercept        disp          hp           wt
+#&gt; 1 4.692806914        1.000000 0.0002323252 0.001106455 0.002566185 0.0007172086
+#&gt; 2 0.240308641        4.419078 0.0036813894 0.034132904 0.031334562 0.0009394254
+#&gt; 3 0.052153430        9.485821 0.0009192095 0.058394262 0.735003722 0.0700789813
+#&gt; 4 0.011406889       20.283026 0.0014476535 0.885725642 0.207337511 0.7179834661
+#&gt; 5 0.003324127       37.573144 0.9937194224 0.020640737 0.023758021 0.2102809185
+#&gt;           drat
+#&gt; 1 0.0003775503
+#&gt; 2 0.0148250672
+#&gt; 3 0.0026259361
+#&gt; 4 0.0568226912
+#&gt; 5 0.9253487552</div><div class='input'>
 <span class='co'># collinearity diagnostics</span>
 <span class='fu'>ols_coll_diag</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; Tolerance and Variance Inflation Factor
 #&gt; ---------------------------------------
-#&gt; # A tibble: 4 × 3
-#&gt;   Variables Tolerance   VIF
-#&gt;       &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1      disp     0.122 8.209
-#&gt; 2        hp     0.345 2.894
-#&gt; 3        wt     0.196 5.097
-#&gt; 4      drat     0.439 2.280
+#&gt; # A tibble: 4 x 3
+#&gt;   Variables Tolerance      VIF
+#&gt;       &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1      disp 0.1218116 8.209402
+#&gt; 2        hp 0.3454979 2.894373
+#&gt; 3        wt 0.1962092 5.096601
+#&gt; 4      drat 0.4386836 2.279547
 #&gt; 
 #&gt; 
 #&gt; Eigenvalue and Condition Index
 #&gt; ------------------------------
-#&gt;   Eigenvalue Condition Index intercept disp   hp   wt drat
-#&gt; 1      4.693           1.000      0.00 0.00 0.00 0.00 0.00
-#&gt; 2      0.240           4.419      0.00 0.03 0.03 0.00 0.01
-#&gt; 3      0.052           9.486      0.00 0.06 0.74 0.07 0.00
-#&gt; 4      0.011          20.283      0.00 0.89 0.21 0.72 0.06
-#&gt; 5      0.003          37.573      0.99 0.02 0.02 0.21 0.93</div><div class='input'>
+#&gt;    Eigenvalue Condition Index    intercept        disp          hp           wt
+#&gt; 1 4.692806914        1.000000 0.0002323252 0.001106455 0.002566185 0.0007172086
+#&gt; 2 0.240308641        4.419078 0.0036813894 0.034132904 0.031334562 0.0009394254
+#&gt; 3 0.052153430        9.485821 0.0009192095 0.058394262 0.735003722 0.0700789813
+#&gt; 4 0.011406889       20.283026 0.0014476535 0.885725642 0.207337511 0.7179834661
+#&gt; 5 0.003324127       37.573144 0.9937194224 0.020640737 0.023758021 0.2102809185
+#&gt;           drat
+#&gt; 1 0.0003775503
+#&gt; 2 0.0148250672
+#&gt; 3 0.0026259361
+#&gt; 4 0.0568226912
+#&gt; 5 0.9253487552</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

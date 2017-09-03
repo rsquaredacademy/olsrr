@@ -16,8 +16,8 @@ Amemiya's prediction error
 Amemiya's prediction error
 }
 \details{
-Amemiya's Prediction Criterion penalizes R-squared more heavily than does adjusted R-squared for 
-each addition degree of freedom used on the right-hand-side of the equation.  The higher the better for 
+Amemiya's Prediction Criterion penalizes R-squared more heavily than does adjusted R-squared for
+each addition degree of freedom used on the right-hand-side of the equation.  The higher the better for
 this criterion.
 
 \deqn{((n + p) / (n - p))(1 - (R^2))}
@@ -35,4 +35,3 @@ Amemiya, T. (1976). Selection of Regressors. Technical Report 225, Stanford Univ
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
 }
-

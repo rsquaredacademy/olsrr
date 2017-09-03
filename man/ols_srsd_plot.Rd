@@ -30,4 +30,3 @@ studentized residual that is larger than 3 (in absolute value) we can call it an
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_srsd_plot(model)
 }
-

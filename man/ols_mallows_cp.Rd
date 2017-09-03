@@ -18,8 +18,8 @@ Mallow's Cp
 Mallow's Cp
 }
 \details{
-Mallows' Cp statistic estimates the size of the bias that is introduced into the predicted responses 
-by having an underspecified model. Use Mallows' Cp to choose between multiple regression models. Look for 
+Mallows' Cp statistic estimates the size of the bias that is introduced into the predicted responses
+by having an underspecified model. Use Mallows' Cp to choose between multiple regression models. Look for
 models where Mallows' Cp is small and close to the number of predictors in the model plus the constant (p).
 }
 \examples{
@@ -33,4 +33,3 @@ Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Re
 
 Mallows, C. L. (1973). “Some Comments on Cp.” Technometrics 15:661–675.
 }
-

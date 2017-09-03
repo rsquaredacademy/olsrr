@@ -38,4 +38,3 @@ A data point having a large cook's d indicates that the data point strongly infl
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_cooksd_barplot(model)
 }
-

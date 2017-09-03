@@ -30,4 +30,3 @@ ols_hsp(model)
 Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
 32:1–50.
 }
-

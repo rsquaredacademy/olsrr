@@ -19,7 +19,7 @@ Bayesian Information Criterion
 Bayesian Information Criterion
 }
 \details{
-SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the 
+SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the
 quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute SBC. SAS
 uses residual sum of squares. Below is the formula in each case:
 
@@ -50,4 +50,3 @@ Schwarz, G. (1978). “Estimating the Dimension of a Model.” Annals of Statist
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
 }
-

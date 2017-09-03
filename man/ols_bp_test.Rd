@@ -90,4 +90,3 @@ Random Coefficient Variation. Econometrica 47, 1287–1294
 
 Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 }
-

@@ -15,4 +15,3 @@ ols_rsd_boxplot(model)}
 Box plot of residuals to examine if residuals 
 are normally distributed.
 }
-

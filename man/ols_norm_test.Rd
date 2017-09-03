@@ -31,4 +31,3 @@ Test for detecting violation of normality assumption.
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_norm_test(model)
 }
-

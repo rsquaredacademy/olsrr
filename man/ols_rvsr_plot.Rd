@@ -20,4 +20,3 @@ you should consider adding the new predictor to the model.
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rvsr_plot(model, mtcars$drat)
 }
-

@@ -52,4 +52,3 @@ plot(k)
 Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition). 
 Prentice Hall
 }
-

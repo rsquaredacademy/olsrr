@@ -60,4 +60,3 @@ Ordinary Least Squares Regression
 \examples{
 ols_regress(mpg ~ disp + hp + wt, data = mtcars)
 }
-

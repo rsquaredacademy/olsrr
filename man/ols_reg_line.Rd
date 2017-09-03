@@ -17,4 +17,3 @@ Regression line always passes through xbar and ybar
 \examples{
 ols_reg_line(mtcars$mpg, mtcars$disp)
 }
-

@@ -27,4 +27,3 @@ surgical
 A dataset containing data about survival of patients undergoing liver operation.
 }
 \keyword{datasets}
-

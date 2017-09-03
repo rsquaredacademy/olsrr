@@ -34,4 +34,3 @@ Diagnostics: Identifying Influential Data and Sources of Collinearity.
 Wiley Series in Probability and Mathematical Statistics. 
 New York: John Wiley & Sons. pp. ISBN 0-471-05856-4.
 }
-

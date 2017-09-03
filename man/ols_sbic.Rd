@@ -18,9 +18,9 @@ Sawa's Bayesian Information Criterion
 Sawa's Bayesian Information Criterion
 }
 \details{
-Sawa (1978) developed a model selection criterion that was derived from a Bayesian modification of 
-the AIC criterion. Sawa's Bayesian Information Criteria (BIC) is a function of the number of observations n, 
-the SSE, the pure error variance fitting the full model, and the number of independent variables including 
+Sawa (1978) developed a model selection criterion that was derived from a Bayesian modification of
+the AIC criterion. Sawa's Bayesian Information Criteria (BIC) is a function of the number of observations n,
+the SSE, the pure error variance fitting the full model, and the number of independent variables including
 the intercept.
 
 \deqn{SBIC = n * ln(SSE / n) + 2(p + 2)q - 2(q^2)}
@@ -40,4 +40,3 @@ Sawa, T. (1978). “Information Criteria for Discriminating among Alternative Re
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
 }
-

@@ -12,4 +12,3 @@ hsb
 Test Data Set
 }
 \keyword{datasets}
-

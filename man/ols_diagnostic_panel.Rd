@@ -16,4 +16,3 @@ Panel of plots for regression diagnostics
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_diagnostic_panel(model)
 }
-

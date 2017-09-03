@@ -32,4 +32,3 @@ studentized residual that is larger than 2 (in absolute value) we can call it an
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_dsrvsp_plot(model)
 }
-

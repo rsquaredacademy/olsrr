@@ -63,88 +63,27 @@
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="olsrr" class="section level1">
-<h1 class="hasAnchor">
-<html><body><a href="#olsrr" class="anchor"> </a></body></html>olsrr <img src="olsrr.jpg" align="right">
-</h1>
-<p><a href="https://cran.r-project.org/package=olsrr"><img src="http://www.r-pkg.org/badges/version/olsrr" alt="CRAN_Status_Badge"></a> <a href="https://travis-ci.org/rsquaredacademy/olsrr"><img src="https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/olsrr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://codecov.io/github/rsquaredacademy/olsrr?branch=master"><img src="https://img.shields.io/codecov/c/github/rsquaredacademy/olsrr/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=olsrr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/olsrr"></a></p>
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#olsrr" class="anchor"> </a>olsrr <img src="olsrr.jpg" align="right"></h1></div>
+
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#overview" class="anchor"> </a></body></html>Overview</h2>
+<a href="#overview" class="anchor"> </a>Overview</h2>
 <p>The olsrr package provides following tools for teaching and learning OLS regression using R:</p>
 <ul>
-<li><p>Comprehensive Regression Output</p></li>
-<li>Variable Selection Procedures
-<ul>
-<li>All Possible Regression</li>
-<li>Best Subsets Regression</li>
-<li>Stepwise Regression</li>
-<li>Stepwise Forward Regression</li>
-<li>Stepwise Backward Regression</li>
-<li>stepAIC Regression</li>
-<li>stepAIC Forward Regression</li>
-<li>stepAIC Backward Regression</li>
-</ul>
-</li>
-<li>Heteroskedasticity Tests
-<ul>
-<li>Bartlett Test</li>
-<li>Breusch Pagan Test</li>
-<li>F Test</li>
-<li>Score Test</li>
-</ul>
-</li>
-<li>Collinearity Diagnostics
-<ul>
-<li>Variance Inflation Factors</li>
-<li>Tolerance</li>
-<li>Eigenvalues</li>
-<li>Condition Indices</li>
-</ul>
-</li>
-<li>Model Fit Assessment
-<ul>
-<li>Residual Fit Spread Plot</li>
-<li>Part &amp; Partial Correlations</li>
-<li>Observed vs Fitted Values Plot</li>
-<li>Lack of Fit F Test</li>
-<li>Diagnostics Panel</li>
-</ul>
-</li>
-<li>Measures of Influence
-<ul>
-<li>Cook’s D Bar Plot</li>
-<li>Cook’s D Chart</li>
-<li>DFBETAs Panel</li>
-<li>DFFITS Plot</li>
-<li>Studentized Residual Plot</li>
-<li>Standardized Residual Chart</li>
-<li>Studentized Residuals vs Leverage Plot</li>
-<li>Deleted Studentized Residuals vs Fitted Values Plot</li>
-<li>Hadi Plot</li>
-<li>Potential Residual Plot</li>
-</ul>
-</li>
-<li>Residual Diagnostics
-<ul>
-<li>Residual QQ Plot</li>
-<li>Residual Histogram</li>
-<li>Residual Box Plot</li>
-<li>Residual Normality Test</li>
-<li>Residual vs Fitted Values Plot</li>
-</ul>
-</li>
-<li>Variable Contribution Assessment
-<ul>
-<li>Residual vs Regressor Plot</li>
-<li>Added Variable Plot</li>
-<li>Residual Plus Component Plot</li>
-</ul>
-</li>
+<li>Comprehensive Regression Output</li>
+<li>Variable Selection Procedures</li>
+<li>Heteroskedasticity Tests</li>
+<li>Collinearity Diagnostics</li>
+<li>Model Fit Assessment</li>
+<li>Measures of Influence</li>
+<li>Residual Diagnostics</li>
+<li>Variable Contribution Assessment</li>
 </ul>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#installation" class="anchor"> </a></body></html>Installation</h2>
+<a href="#installation" class="anchor"> </a>Installation</h2>
 <p>You can install olsrr from github with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install olsrr from CRAN</span>
 <span class="kw">install.packages</span>(<span class="st">"olsrr"</span>)
@@ -152,7 +91,228 @@
 <span class="co"># the development version from github</span>
 <span class="co"># install.packages("devtools")</span>
 devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacademy/olsrr"</span>)</code></pre></div>
+</div>
+<div id="shiny-app" class="section level2">
+<h2 class="hasAnchor">
+<a href="#shiny-app" class="anchor"> </a>Shiny App</h2>
+<p>If you want to explore the package using a shiny app, please click <a href="http://rsquaredlabs.com:3838/explorer/">here</a>.</p>
+</div>
+<div id="vignettes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#vignettes" class="anchor"> </a>Vignettes</h2>
+<ul>
+<li><a href="http://www.rsquaredacademy.com/olsrr/articles/intro.html">Quick Overview</a></li>
+<li><a href="http://www.rsquaredacademy.com/olsrr/articles/variable_selection.html">Variable Selection Methods</a></li>
+<li><a href="http://www.rsquaredacademy.com/olsrr/articles/residual_diagnostics.html">Residual Diagnostics</a></li>
+<li><a href="http://www.rsquaredacademy.com/olsrr/articles/heteroskedasticity.html">Heteroskedasticity</a></li>
+<li><a href="http://www.rsquaredacademy.com/olsrr/articles/influence_measures.html">Measures of Influence</a></li>
+<li><a href="http://www.rsquaredacademy.com/olsrr/articles/regression_diagnostics.html">Collinearity Diagnostics</a></li>
+</ul>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"> </a>Usage</h2>
+<div id="regression" class="section level5">
+<h5 class="hasAnchor">
+<a href="#regression" class="anchor"> </a>Regression</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ols_regress.html">ols_regress</a></span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="co">#&gt;                         Model Summary                          </span>
+<span class="co">#&gt; --------------------------------------------------------------</span>
+<span class="co">#&gt; R                       0.914       RMSE                2.622 </span>
+<span class="co">#&gt; R-Squared               0.835       Coef. Var          13.051 </span>
+<span class="co">#&gt; Adj. R-Squared          0.811       MSE                 6.875 </span>
+<span class="co">#&gt; Pred R-Squared          0.771       MAE                 1.858 </span>
+<span class="co">#&gt; --------------------------------------------------------------</span>
+<span class="co">#&gt;  RMSE: Root Mean Square Error </span>
+<span class="co">#&gt;  MSE: Mean Square Error </span>
+<span class="co">#&gt;  MAE: Mean Absolute Error </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                                ANOVA                                 </span>
+<span class="co">#&gt; --------------------------------------------------------------------</span>
+<span class="co">#&gt;                 Sum of                                              </span>
+<span class="co">#&gt;                Squares        DF    Mean Square      F         Sig. </span>
+<span class="co">#&gt; --------------------------------------------------------------------</span>
+<span class="co">#&gt; Regression     940.412         4        235.103    34.195    0.0000 </span>
+<span class="co">#&gt; Residual       185.635        27          6.875                     </span>
+<span class="co">#&gt; Total         1126.047        31                                    </span>
+<span class="co">#&gt; --------------------------------------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                                   Parameter Estimates                                    </span>
+<span class="co">#&gt; ----------------------------------------------------------------------------------------</span>
+<span class="co">#&gt;       model      Beta    Std. Error    Std. Beta      t        Sig      lower     upper </span>
+<span class="co">#&gt; ----------------------------------------------------------------------------------------</span>
+<span class="co">#&gt; (Intercept)    27.330         8.639                  3.164    0.004     9.604    45.055 </span>
+<span class="co">#&gt;        disp     0.003         0.011        0.055     0.248    0.806    -0.019     0.025 </span>
+<span class="co">#&gt;          hp    -0.019         0.016       -0.212    -1.196    0.242    -0.051     0.013 </span>
+<span class="co">#&gt;          wt    -4.609         1.266       -0.748    -3.641    0.001    -7.206    -2.012 </span>
+<span class="co">#&gt;        qsec     0.544         0.466        0.161     1.166    0.254    -0.413     1.501 </span>
+<span class="co">#&gt; ----------------------------------------------------------------------------------------</span></code></pre></div>
+</div>
+<div id="residual-vs-fitted-values-plot" class="section level5">
+<h5 class="hasAnchor">
+<a href="#residual-vs-fitted-values-plot" class="anchor"> </a>Residual vs Fitted Values Plot</h5>
+<p>Plot to detect non-linearity, unequal error variances, and outliers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="reference/ols_rvsp_plot.html">ols_rvsp_plot</a></span>(model)</code></pre></div>
+<p><img src="README-rvsfplot-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="dfbetas-panel" class="section level5">
+<h5 class="hasAnchor">
+<a href="#dfbetas-panel" class="anchor"> </a>DFBETAs Panel</h5>
+<p>DFBETAs measure the difference in each parameter estimate with and without the influential observation. <code>dfbetas_panel</code> creates plots to detect influential observations using DFBETAs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="reference/ols_dfbetas_panel.html">ols_dfbetas_panel</a></span>(model)</code></pre></div>
+<p><img src="README-dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
+</div>
+<div id="residual-fit-spread-plot" class="section level5">
+<h5 class="hasAnchor">
+<a href="#residual-fit-spread-plot" class="anchor"> </a>Residual Fit Spread Plot</h5>
+<p>Plot to detect non-linearity, influential observations and outliers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="reference/ols_rfs_plot.html">ols_rfs_plot</a></span>(model)</code></pre></div>
+<p><img src="README-rfsplot-1.png" width="960" style="display: block; margin: auto;"></p>
+</div>
+<div id="breusch-pagan-test" class="section level5">
+<h5 class="hasAnchor">
+<a href="#breusch-pagan-test" class="anchor"> </a>Breusch Pagan Test</h5>
+<p>Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a <span class="math inline">\(\chi^{2}\)</span> test.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>drat, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="reference/ols_bp_test.html">ols_bp_test</a></span>(model)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Breusch Pagan Test for Heteroskedasticity</span>
+<span class="co">#&gt;  -----------------------------------------</span>
+<span class="co">#&gt;  Ho: the variance is constant            </span>
+<span class="co">#&gt;  Ha: the variance is not constant        </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;              Data               </span>
+<span class="co">#&gt;  -------------------------------</span>
+<span class="co">#&gt;  Response : mpg </span>
+<span class="co">#&gt;  Variables: fitted values of mpg </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;        Test Summary         </span>
+<span class="co">#&gt;  ---------------------------</span>
+<span class="co">#&gt;  DF            =    1 </span>
+<span class="co">#&gt;  Chi2          =    1.429672 </span>
+<span class="co">#&gt;  Prob &gt; Chi2   =    0.231818</span></code></pre></div>
+</div>
+<div id="collinearity-diagnostics" class="section level5">
+<h5 class="hasAnchor">
+<a href="#collinearity-diagnostics" class="anchor"> </a>Collinearity Diagnostics</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="reference/ols_coll_diag.html">ols_coll_diag</a></span>(model)
+<span class="co">#&gt; Tolerance and Variance Inflation Factor</span>
+<span class="co">#&gt; ---------------------------------------</span>
+<span class="co">#&gt; # A tibble: 4 x 3</span>
+<span class="co">#&gt;   Variables Tolerance      VIF</span>
+<span class="co">#&gt;       &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1      disp 0.1252279 7.985439</span>
+<span class="co">#&gt; 2        hp 0.1935450 5.166758</span>
+<span class="co">#&gt; 3        wt 0.1445726 6.916942</span>
+<span class="co">#&gt; 4      qsec 0.3191708 3.133119</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Eigenvalue and Condition Index</span>
+<span class="co">#&gt; ------------------------------</span>
+<span class="co">#&gt;    Eigenvalue Condition Index   intercept        disp          hp</span>
+<span class="co">#&gt; 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094</span>
+<span class="co">#&gt; 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289</span>
+<span class="co">#&gt; 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164</span>
+<span class="co">#&gt; 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623</span>
+<span class="co">#&gt; 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831</span>
+<span class="co">#&gt;             wt         qsec</span>
+<span class="co">#&gt; 1 0.0005253393 0.0001277169</span>
+<span class="co">#&gt; 2 0.0002096014 0.0046789491</span>
+<span class="co">#&gt; 3 0.0377028008 0.0001952599</span>
+<span class="co">#&gt; 4 0.7017528428 0.0024577686</span>
+<span class="co">#&gt; 5 0.2598094157 0.9925403056</span></code></pre></div>
+</div>
+<div id="stepwise-regression" class="section level5">
+<h5 class="hasAnchor">
+<a href="#stepwise-regression" class="anchor"> </a>Stepwise Regression</h5>
+<p>Build regression model from a set of candidate predictor variables by entering and removing predictors based on p values, in a stepwise manner until there is no variable left to enter or remove any more.</p>
+<div id="variable-selection" class="section level6">
+<h6>Variable Selection</h6>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise regression</span>
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<span class="kw"><a href="reference/ols_stepwise.html">ols_stepwise</a></span>(model)
+<span class="co">#&gt; We are selecting variables based on p value...</span>
+<span class="co">#&gt; 1 variable(s) added....</span>
+<span class="co">#&gt; 1 variable(s) added...</span>
+<span class="co">#&gt; 1 variable(s) added...</span>
+<span class="co">#&gt; 1 variable(s) added...</span>
+<span class="co">#&gt; 1 variable(s) added...</span>
+<span class="co">#&gt; No more variables to be added or removed.</span>
+<span class="co">#&gt; Stepwise Selection Method                                                                  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Candidate Terms:                                                                           </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; 1 . bcs                                                                                    </span>
+<span class="co">#&gt; 2 . pindex                                                                                 </span>
+<span class="co">#&gt; 3 . enzyme_test                                                                            </span>
+<span class="co">#&gt; 4 . liver_test                                                                             </span>
+<span class="co">#&gt; 5 . age                                                                                    </span>
+<span class="co">#&gt; 6 . gender                                                                                 </span>
+<span class="co">#&gt; 7 . alc_mod                                                                                </span>
+<span class="co">#&gt; 8 . alc_heavy                                                                              </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; ------------------------------------------------------------------------------------------</span>
+<span class="co">#&gt;                                 Stepwise Selection Summary                                 </span>
+<span class="co">#&gt; ------------------------------------------------------------------------------------------</span>
+<span class="co">#&gt;                         Added/                   Adj.                                         </span>
+<span class="co">#&gt; Step     Variable      Removed     R-Square    R-Square     C(p)        AIC         RMSE      </span>
+<span class="co">#&gt; ------------------------------------------------------------------------------------------</span>
+<span class="co">#&gt;    1    liver_test     addition       0.455       0.444    62.5120    771.8753    296.2992    </span>
+<span class="co">#&gt;    2     alc_heavy     addition       0.567       0.550    41.3680    761.4394    266.6484    </span>
+<span class="co">#&gt;    3    enzyme_test    addition       0.659       0.639    24.3380    750.5089    238.9145    </span>
+<span class="co">#&gt;    4      pindex       addition       0.750       0.730     7.5370    735.7146    206.5835    </span>
+<span class="co">#&gt;    5        bcs        addition       0.781       0.758     3.1920    730.6204    195.4544    </span>
+<span class="co">#&gt; ------------------------------------------------------------------------------------------</span></code></pre></div>
+</div>
+<div id="plot" class="section level6">
+<h6>Plot</h6>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepwise.html">ols_stepwise</a></span>(model)
+<span class="co">#&gt; We are selecting variables based on p value...</span>
+<span class="co">#&gt; 1 variable(s) added....</span>
+<span class="co">#&gt; 1 variable(s) added...</span>
+<span class="co">#&gt; 1 variable(s) added...</span>
+<span class="co">#&gt; 1 variable(s) added...</span>
+<span class="co">#&gt; 1 variable(s) added...</span>
+<span class="co">#&gt; No more variables to be added or removed.</span>
+<span class="kw">plot</span>(k)</code></pre></div>
+<p><img src="README-stepwise2-1.png" width="960" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div id="stepwise-aic-backward-regression" class="section level5">
+<h5 class="hasAnchor">
+<a href="#stepwise-aic-backward-regression" class="anchor"> </a>Stepwise AIC Backward Regression</h5>
+<p>Build regression model from a set of candidate predictor variables by removing predictors based on Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.</p>
+<div id="variable-selection-1" class="section level6">
+<h6>Variable Selection</h6>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic backward regression</span>
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
+k
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                        Backward Elimination Summary                        </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span>
+<span class="co">#&gt; Variable        AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span>
+<span class="co">#&gt; Full Model    736.390    1825905.713    6543614.824    0.782        0.743 </span>
+<span class="co">#&gt; alc_mod       734.407    1826477.828    6543042.709    0.782        0.749 </span>
+<span class="co">#&gt; gender        732.494    1829435.617    6540084.920    0.781        0.754 </span>
+<span class="co">#&gt; age           730.620    1833716.447    6535804.090    0.781        0.758 </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span>
+
+###### Plot</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
+<span class="kw">plot</span>(k)</code></pre></div>
+<p><img src="README-stepaicb2-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>Please note that this project is released with a <a href="CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -169,6 +329,8 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 </li>
 <li>Learn more at <br><a href="http://www.rsquaredacademy.com">http://​www.rsquaredacademy.com</a>
 </li>
+<li>Shiny App at <br><a href="http://rsquaredlabs.com:3838/explorer/">http://​rsquaredlabs.com:3838/​explorer/​</a>
+</li>
 </ul>
 <h2>License</h2>
 <p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE">LICENSE</a></p>
@@ -176,6 +338,15 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <ul class="list-unstyled">
 <li>Aravind Hebbali <br><small class="roles"> Author, maintainer </small> </li>
 </ul>
+<html><body>
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=olsrr"><img src="http://www.r-pkg.org/badges/version/olsrr" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://travis-ci.org/rsquaredacademy/olsrr"><img src="https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/rsquaredacademy/olsrr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
+<li><a href="https://cran.r-project.org/package=olsrr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/olsrr"></a></li>
+</ul>
+</body></html>
 </div>
 
 </div>
