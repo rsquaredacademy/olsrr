@@ -6,6 +6,8 @@ home:
   links:
   - text: Learn more
     href: http://www.rsquaredacademy.com
+  - text: Shiny App
+    href: http://rsquaredlabs.com:3838/explorer/
 
 
 reference:
