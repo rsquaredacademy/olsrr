@@ -59,7 +59,11 @@ If you want to explore the package using a shiny app, please click [here](http:/
 - [Measures of Influence](http://www.rsquaredacademy.com/olsrr/articles/influence_measures.html)
 - [Collinearity Diagnostics](http://www.rsquaredacademy.com/olsrr/articles/regression_diagnostics.html)
 
-## Usage
+## Consistent Prefix
+
+olsrr uses consistent prefix `ols_` for easy tab completion.
+
+## Quick Demo
 
 ```{r, echo=FALSE, message=FALSE}
 library(olsrr)
@@ -71,6 +75,11 @@ library(tibble)
 library(nortest)
 library(goftest)
 ```
+
+olsrr is built with the aim of helping those users who are new to the R language. If you know how to 
+write a `formula` or build models using `lm`, you will find olsrr very useful. Most of the functions
+use an object of class `lm` as input. So you just need to build a model using `lm` and then pass it onto 
+the functions in olsrr. Below is a quick demo:
 
 ##### Regression
 
