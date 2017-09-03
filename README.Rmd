@@ -12,6 +12,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+# olsrr 
+
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr)
@@ -23,60 +25,13 @@ knitr::opts_chunk$set(
 The olsrr package provides following tools for teaching and learning OLS regression using R:
 
 - Comprehensive Regression Output
-
 - Variable Selection Procedures
-	- All Possible Regression
-	- Best Subsets Regression
-	- Stepwise Regression
-	- Stepwise Forward Regression
-	- Stepwise Backward Regression
-	- stepAIC Regression
-	- stepAIC Forward Regression
-	- stepAIC Backward Regression
-
 - Heteroskedasticity Tests
-	- Bartlett Test
-	- Breusch Pagan Test
-	- F Test
-	- Score Test
-
 - Collinearity Diagnostics
-	- Variance Inflation Factors
-	- Tolerance
-	- Eigenvalues
-	- Condition Indices
-
 - Model Fit Assessment
-	- Residual Fit Spread Plot
-	- Part & Partial Correlations
-	- Observed vs Fitted Values Plot
-	- Lack of Fit F Test
-	- Diagnostics Panel
-
 - Measures of Influence
-	- Cook's D Bar Plot
-	- Cook's D Chart
-	- DFBETAs Panel
-	- DFFITS Plot
-	- Studentized Residual Plot
-	- Standardized Residual Chart
-	- Studentized Residuals vs Leverage Plot
-	- Deleted Studentized Residuals vs Fitted Values Plot
-	- Hadi Plot
-	- Potential Residual Plot
-
 - Residual Diagnostics
-	- Residual QQ Plot
-	- Residual Histogram
-	- Residual Box Plot
-	- Residual Normality Test
-	- Residual vs Fitted Values Plot
-
 - Variable Contribution Assessment
-	- Residual vs Regressor Plot
-	- Added Variable Plot
-	- Residual Plus Component Plot
-
 
 ## Installation
 
@@ -89,6 +44,124 @@ install.packages("olsrr")
 # the development version from github
 # install.packages("devtools")
 devtools::install_github("rsquaredacademy/olsrr")
+```
+
+## Shiny App
+
+If you want to explore the package using a shiny app, please click [here](http://rsquaredlabs.com:3838/explorer/).
+
+## Vignettes
+
+- [Quick Overview](http://www.rsquaredacademy.com/olsrr/articles/intro.html)
+- [Variable Selection Methods](http://www.rsquaredacademy.com/olsrr/articles/variable_selection.html)
+- [Residual Diagnostics](http://www.rsquaredacademy.com/olsrr/articles/residual_diagnostics.html)
+- [Heteroskedasticity](http://www.rsquaredacademy.com/olsrr/articles/heteroskedasticity.html)
+- [Measures of Influence](http://www.rsquaredacademy.com/olsrr/articles/influence_measures.html)
+- [Collinearity Diagnostics](http://www.rsquaredacademy.com/olsrr/articles/regression_diagnostics.html)
+
+## Usage
+
+```{r, echo=FALSE, message=FALSE}
+library(olsrr)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(purrr)
+library(tibble)
+library(nortest)
+library(goftest)
+```
+
+##### Regression
+
+```{r regress}
+ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
+```
+
+##### Residual vs Fitted Values Plot
+
+Plot to detect non-linearity, unequal error variances, and outliers.
+
+```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rvsp_plot(model)
+```
+
+##### DFBETAs Panel
+
+DFBETAs measure the difference in each parameter estimate with and without the influential observation.
+`dfbetas_panel` creates plots to detect influential observations using DFBETAs.
+
+```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+ols_dfbetas_panel(model)
+```
+
+##### Residual Fit Spread Plot
+
+Plot to detect non-linearity, influential observations and outliers.
+
+```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rfs_plot(model)
+```
+
+##### Breusch Pagan Test
+
+Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a $\chi^{2}$ test.
+
+```{r bp1}
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+ols_bp_test(model)
+```
+
+##### Collinearity Diagnostics
+
+```{r colldiag}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_coll_diag(model)
+```
+
+##### Stepwise Regression
+
+Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+p values, in a stepwise manner until there is no variable left to enter or remove any more.
+
+###### Variable Selection
+
+```{r stepwise1}
+# stepwise regression
+model <- lm(y ~ ., data = surgical)
+ols_stepwise(model)
+```
+
+###### Plot
+
+```{r stepwise2, fig.width=10, fig.height=15, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- ols_stepwise(model)
+plot(k)
+```
+
+##### Stepwise AIC Backward Regression
+
+Build regression model from a set of candidate predictor variables by removing predictors based on 
+Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
+
+###### Variable Selection
+
+```{r stepaicb1}
+# stepwise aic backward regression
+model <- lm(y ~ ., data = surgical)
+k <- ols_stepaic_backward(model)
+k
+
+###### Plot
+
+```{r stepaicb2, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(y ~ ., data = surgical)
+k <- ols_stepaic_backward(model)
+plot(k)
 ```
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
