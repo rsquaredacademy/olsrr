@@ -8,10 +8,10 @@
 */
 
 /* .Call calls */
-extern SEXP olsrr_gvar(SEXP, SEXP);
+extern SEXP _olsrr_gvar(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"olsrr_gvar", (DL_FUNC) &olsrr_gvar, 2},
+    {"_olsrr_gvar", (DL_FUNC) &_olsrr_gvar, 2},
     {NULL, NULL, 0}
 };
 

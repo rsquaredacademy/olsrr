@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // gvar
 List gvar(NumericVector ln, NumericVector ly);
-RcppExport SEXP olsrr_gvar(SEXP lnSEXP, SEXP lySEXP) {
+RcppExport SEXP _olsrr_gvar(SEXP lnSEXP, SEXP lySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
