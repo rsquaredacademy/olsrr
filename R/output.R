@@ -508,111 +508,111 @@ print_bp_test <- function(data) {
 }
 
 
-print_levene_test <- function(data) {
+# print_levene_test <- function(data) {
 
-	# format output
-  bf <- format(data$bf, nsmall = 4)
-  p_bf <- format(data$p_bf, nsmall = 4)
-  lev <- format(data$lev, nsmall = 4)
-  p_lev <- format(data$p_lev, nsmall = 4)
-  bft <- format(data$bft, nsmall = 4)
-  p_bft <- format(data$p_bft, nsmall = 4)
-  avgs <- format(data$avgs, nsmall = 2)
-  sds <- format(data$sds, nsmall = 2)
-  avg <- format(data$avg, nsmall = 2)
-  sd <- format(data$sd, nsmall = 2)
+# 	# format output
+#   bf <- format(data$bf, nsmall = 4)
+#   p_bf <- format(data$p_bf, nsmall = 4)
+#   lev <- format(data$lev, nsmall = 4)
+#   p_lev <- format(data$p_lev, nsmall = 4)
+#   bft <- format(data$bft, nsmall = 4)
+#   p_bft <- format(data$p_bft, nsmall = 4)
+#   avgs <- format(data$avgs, nsmall = 2)
+#   sds <- format(data$sds, nsmall = 2)
+#   avg <- format(data$avg, nsmall = 2)
+#   sd <- format(data$sd, nsmall = 2)
 
-  # width
-  w1 <- max(nchar(data$levs), nchar('combined'))
-  w2 <- max(nchar('Obs'), nchar(data$lens), nchar(data$len))
-  w3 <- max(nchar('Mean'), nchar(avgs), nchar(avg))
-  w4 <- max(nchar('Std. Dev.'), nchar(sds), nchar(sd))
-
-
-  w <- sum(w1, w2, w3, w4, 16)
+#   # width
+#   w1 <- max(nchar(data$levs), nchar('combined'))
+#   w2 <- max(nchar('Obs'), nchar(data$lens), nchar(data$len))
+#   w3 <- max(nchar('Mean'), nchar(avgs), nchar(avg))
+#   w4 <- max(nchar('Std. Dev.'), nchar(sds), nchar(sd))
 
 
-  cat(fw('Summary Statistics', w = w), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(fw('Group', w = w1), fs(), fw('Obs', w = w2), fs(), fw('Mean', w = w3),
-  	fs(), fw('Std. Dev.', w = w4), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(fw(data$levs[1], w = w1), fs(), fw(data$lens[1], w = w2), fs(), fw(avgs[1], w = w3),
-  	fs(), fw(sds[1], w = w4), "\n")
-  cat(fw(data$levs[2], w = w1), fs(), fw(data$lens[2], w = w2), fs(), fw(avgs[2], w = w3),
-  	fs(), fw(sds[2], w = w4), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(fw('combined', w = w1), fs(), fw(data$len, w = w2), fs(), fw(avg, w = w3),
-  	fs(), fw(sd, w = w4), "\n")
-  cat(rep("-", w), sep = "", "\n\n")
+#   w <- sum(w1, w2, w3, w4, 16)
 
 
-  	wbf <- nchar(bf)
-  	wpbf <- nchar(p_bf)
-  	wlev <- nchar(lev)
-  	wplev <- nchar(p_lev)
-  	wbft <- nchar(bft)
-  	wpbft <- nchar(p_bft)
-    wn1 <- nchar(data$n_df)
-    wn2 <- nchar(data$d_df)
+#   cat(fw('Summary Statistics', w = w), "\n")
+#   cat(rep("-", w), sep = "", "\n")
+#   cat(fw('Group', w = w1), fs(), fw('Obs', w = w2), fs(), fw('Mean', w = w3),
+#   	fs(), fw('Std. Dev.', w = w4), "\n")
+#   cat(rep("-", w), sep = "", "\n")
+#   cat(fw(data$levs[1], w = w1), fs(), fw(data$lens[1], w = w2), fs(), fw(avgs[1], w = w3),
+#   	fs(), fw(sds[1], w = w4), "\n")
+#   cat(fw(data$levs[2], w = w1), fs(), fw(data$lens[2], w = w2), fs(), fw(avgs[2], w = w3),
+#   	fs(), fw(sds[2], w = w4), "\n")
+#   cat(rep("-", w), sep = "", "\n")
+#   cat(fw('combined', w = w1), fs(), fw(data$len, w = w2), fs(), fw(avg, w = w3),
+#   	fs(), fw(sd, w = w4), "\n")
+#   cat(rep("-", w), sep = "", "\n\n")
 
-    w1 <- max(wbf, wn1, wn2, wpbf) + 17
-    w2 <- max(wlev, wn1, wn2, wplev) + 17
-    w3 <- max(wbft, wn1, wn2, wpbft) + 17
-    w4 <- max(wbf, wpbf, wlev, wplev, wbft, wpbft, wn1, wn2) + 26
 
-    k1 <- rep("-", w1)
-    k2 <- rep("-", w2)
-    k3 <- rep("-", w3)
-    k4 <- rep("-", w4)
+#   	wbf <- nchar(bf)
+#   	wpbf <- nchar(p_bf)
+#   	wlev <- nchar(lev)
+#   	wplev <- nchar(p_lev)
+#   	wbft <- nchar(bft)
+#   	wpbft <- nchar(p_bft)
+#     wn1 <- nchar(data$n_df)
+#     wn2 <- nchar(data$d_df)
 
-    if (data$type == "mean") {
+#     w1 <- max(wbf, wn1, wn2, wpbf) + 17
+#     w2 <- max(wlev, wn1, wn2, wplev) + 17
+#     w3 <- max(wbft, wn1, wn2, wpbft) + 17
+#     w4 <- max(wbf, wpbf, wlev, wplev, wbft, wpbft, wn1, wn2) + 26
 
-    	cat(format('Test Summary', width = w1, justify = 'centre'),'\n')
-    	cat('', k1, sep = "", '\n')
-    	cat(' W         =    ', bf, '\n',
-    		'Num DF    =    ', data$n_df, '\n',
-    		'Den DF    =    ', data$d_df, '\n',
-    		'Pr > F    =    ', p_bf, '\n')
-    	cat('', k1, sep = "", '\n')
+#     k1 <- rep("-", w1)
+#     k2 <- rep("-", w2)
+#     k3 <- rep("-", w3)
+#     k4 <- rep("-", w4)
 
-    } else if (data$type == "median") {
+#     if (data$type == "mean") {
 
-    	cat(format('Test Summary', width = w2, justify = 'centre'),'\n')
-    	cat('', k2, sep = "", '\n')
-    	cat(' W         =    ', lev, '\n',
-    		'Num DF    =    ', data$n_df, '\n',
-    		'Den DF    =    ', data$d_df, '\n',
-    		'Pr > F    =    ', p_lev, '\n')
-    	cat('', k2, sep = "", '\n')
+#     	cat(format('Test Summary', width = w1, justify = 'centre'),'\n')
+#     	cat('', k1, sep = "", '\n')
+#     	cat(' W         =    ', bf, '\n',
+#     		'Num DF    =    ', data$n_df, '\n',
+#     		'Den DF    =    ', data$d_df, '\n',
+#     		'Pr > F    =    ', p_bf, '\n')
+#     	cat('', k1, sep = "", '\n')
 
-    } else if (data$type == "trimmed-mean") {
+#     } else if (data$type == "median") {
 
-    	cat(format('Test Summary', width = w3, justify = 'centre'),'\n')
-    	cat('', k3, sep = "", '\n')
-    	cat(' W         =    ', bft, '\n',
-    		'Num DF    =    ', data$n_df, '\n',
-    		'Den DF    =    ', data$d_df, '\n',
-    		'Pr > F    =    ', p_bft, '\n')
-    	cat('', k3, sep = "", '\n')
+#     	cat(format('Test Summary', width = w2, justify = 'centre'),'\n')
+#     	cat('', k2, sep = "", '\n')
+#     	cat(' W         =    ', lev, '\n',
+#     		'Num DF    =    ', data$n_df, '\n',
+#     		'Den DF    =    ', data$d_df, '\n',
+#     		'Pr > F    =    ', p_lev, '\n')
+#     	cat('', k2, sep = "", '\n')
 
-    } else {
+#     } else if (data$type == "trimmed-mean") {
 
-		cat(format('Test Summary', width = w4, justify = 'centre'),'\n')
-    	cat('', k4, sep = "", '\n')
-    	cat(' Num DF             =    ', data$n_df, '\n',
-    		'Den DF             =    ', data$d_df, '\n',
-    		'W: Mean            =    ', bf, '\n',
-    		'Pr > F             =    ', p_bft, '\n',
-    		'W: Median          =    ', lev, '\n',
-    		'Pr > F             =    ', p_lev, '\n',
-    		'W: Trimmed Mean    =    ', bft, '\n',
-    		'Pr > F             =    ', p_bft, '\n')
-    	cat('', k4, sep = "", '\n')
+#     	cat(format('Test Summary', width = w3, justify = 'centre'),'\n')
+#     	cat('', k3, sep = "", '\n')
+#     	cat(' W         =    ', bft, '\n',
+#     		'Num DF    =    ', data$n_df, '\n',
+#     		'Den DF    =    ', data$d_df, '\n',
+#     		'Pr > F    =    ', p_bft, '\n')
+#     	cat('', k3, sep = "", '\n')
 
-    }
+#     } else {
 
-}
+# 		cat(format('Test Summary', width = w4, justify = 'centre'),'\n')
+#     	cat('', k4, sep = "", '\n')
+#     	cat(' Num DF             =    ', data$n_df, '\n',
+#     		'Den DF             =    ', data$d_df, '\n',
+#     		'W: Mean            =    ', bf, '\n',
+#     		'Pr > F             =    ', p_bft, '\n',
+#     		'W: Median          =    ', lev, '\n',
+#     		'Pr > F             =    ', p_lev, '\n',
+#     		'W: Trimmed Mean    =    ', bft, '\n',
+#     		'Pr > F             =    ', p_bft, '\n')
+#     	cat('', k4, sep = "", '\n')
+
+#     }
+
+# }
 
 
 print_bartlett_test <- function(data) {
@@ -667,219 +667,219 @@ print_bartlett_test <- function(data) {
 
 
 
-print_var_test <- function(data) {
+# print_var_test <- function(data) {
 
-  # format output
-  f <- format(data$f, nsmall = 4)
-  lower <- format(data$lower, nsmall = 4)
-  upper <- format(data$upper, nsmall = 4)
-  twotail <- format(data$two_tail, nsmall = 4)
-  avgs <- format(data$avgs, nsmall = 2)
-  sds <- format(data$sds, nsmall = 2)
-  ses <- format(data$ses, nsmall = 2)
-  avg <- format(data$avg, nsmall = 2)
-  sd <- format(data$sd, nsmall = 2)
-  se <- format(data$se, nsmall = 2)
+#   # format output
+#   f <- format(data$f, nsmall = 4)
+#   lower <- format(data$lower, nsmall = 4)
+#   upper <- format(data$upper, nsmall = 4)
+#   twotail <- format(data$two_tail, nsmall = 4)
+#   avgs <- format(data$avgs, nsmall = 2)
+#   sds <- format(data$sds, nsmall = 2)
+#   ses <- format(data$ses, nsmall = 2)
+#   avg <- format(data$avg, nsmall = 2)
+#   sd <- format(data$sd, nsmall = 2)
+#   se <- format(data$se, nsmall = 2)
 
-  # width
-  w1 <- max(nchar(data$lev), nchar('combined'))
-  w2 <- max(nchar('Obs'), nchar(data$lens), nchar(data$len))
-  w3 <- max(nchar('Mean'), nchar(avgs), nchar(avg))
-  w4 <- max(nchar('Std. Dev.'), nchar(sds), nchar(sd))
-  w5 <- max(nchar('Std. Err.'), nchar(ses), nchar(se))
-
-
-  w <- sum(w1, w2, w3, w4, w5, 16)
+#   # width
+#   w1 <- max(nchar(data$lev), nchar('combined'))
+#   w2 <- max(nchar('Obs'), nchar(data$lens), nchar(data$len))
+#   w3 <- max(nchar('Mean'), nchar(avgs), nchar(avg))
+#   w4 <- max(nchar('Std. Dev.'), nchar(sds), nchar(sd))
+#   w5 <- max(nchar('Std. Err.'), nchar(ses), nchar(se))
 
 
-  cat(fw('Group Statistics', w = w), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(fw('Group', w = w1), fs(), fw('Obs', w = w2), fs(), format('Mean', w = w3, justify = 'centre'),
-  	fs(), fw('Std. Err.', w = w5), fs(), fw('Std. Dev.', w = w4), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(fw(data$lev[1], w = w1), fs(), fw(data$lens[1], w = w2), fs(), fw(avgs[1], w = w3),
-  	fs(), fw(ses[1], w = w5), fs(), fw(sds[1], w = w4), "\n")
-  cat(fw(data$lev[2], w = w1), fs(), fw(data$lens[2], w = w2), fs(), fw(avgs[2], w = w3),
-  	fs(), fw(ses[2], w = w5), fs(), fw(sds[2], w = w4), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(fw('combined', w = w1), fs(), fw(data$len, w = w2), fs(), fw(avg, w = w3),
-  	fs(), fw(se, w = w5), fs(), fw(sd, w = w4), "\n")
-  cat(rep("-", w), sep = "", "\n")
+#   w <- sum(w1, w2, w3, w4, w5, 16)
 
 
-  	wt <- nchar(f)
-    wn1 <- nchar(data$n1)
-    wn2 <- nchar(data$n2)
-    wl <- nchar(lower)
-    wu <- nchar(upper)
-    wto <- nchar(twotail)
-
-    w1 <- max(wt, wn1, wn2, wl) + 23
-    w2 <- max(wt, wn1, wn2, wu) + 23
-    w3 <- max(wt, wn1, wn2, wto) + 27
-    w4 <- max(wt, wn1, wn2, wl, wu, wto) + 27
-
-    k1 <- rep("-", w1)
-    k2 <- rep("-", w2)
-    k3 <- rep("-", w3)
-    k4 <- rep("-", w4)
-
-    if (data$type == "less") {
-
-    	cat('\n\n', 'Null & Alternative Hypotheses', '\n')
-    	cat(" ------------------------------",'\n')
-    	cat(' Ho: ratio = 1', '\n', 'Ha: ratio < 1', '\n\n')
-    	cat(format('Test Summary', width = w1, justify = 'centre'),'\n')
-    	cat('', k1, sep = "", '\n')
-    	cat(' f               =    ', f, '\n',
-    		'Num DF          =    ', data$n1, '\n',
-    		'Den DF          =    ', data$n2, '\n',
-    		'Prob (F < f)    =    ', lower, '\n')
-    	cat('', k1, sep = "", '\n')
-
-    } else if (data$type == "greater") {
-
-		cat('\n\n', 'Null & Alternative Hypotheses', '\n')
-    	cat(" ------------------------------",'\n')
-    	cat(' Ho: ratio = 1', '\n', 'Ha: ratio > 1', '\n\n')
-    	cat(format('Test Summary', width = w2, justify = 'centre'),'\n')
-    	cat('', k2, sep = "", '\n')
-    	cat(' f               =    ', f, '\n',
-    		'Num DF          =    ', data$n1, '\n',
-    		'Den DF          =    ', data$n2, '\n',
-    		'Prob (F > f)    =    ', upper, '\n')
-    	cat('', k2, sep = "", '\n')
-
-    } else if (data$type == "two.sided") {
-
-		cat('\n\n', 'Null & Alternative Hypotheses', '\n')
-    	cat(" ------------------------------	",'\n')
-    	cat(' Ho: ratio = 1', '\n', 'Ha: ratio != 1', '\n\n')
-    	cat(format('Test Summary', width = w3, justify = 'centre'),'\n')
-    	cat('', k3, sep = "", '\n')
-    	cat(' f                   =    ', f, '\n',
-    		'Num DF              =    ', data$n1, '\n',
-    		'Den DF              =    ', data$n2, '\n',
-    		'2 * Prob (F > f)    =    ', twotail, '\n')
-    	cat('', k3, sep = "", '\n')
-
-    } else {
-
-		cat('\n\n', format('Test Summary', width = w4, justify = 'centre'),'\n')
-    	cat('', k4, sep = "", '\n')
-    	cat(' f                   =    ', f, '\n',
-    		'Num DF              =    ', data$n1, '\n',
-    		'Den DF              =    ', data$n2, '\n',
-    		'Prob (F < f)        =    ', lower, '\n',
-    		'Prob (F > f)        =    ', upper, '\n',
-    		'2 * Prob (F > f)    =    ', twotail, '\n')
-    	cat('', k4, sep = "", '\n')
-
-    }
+#   cat(fw('Group Statistics', w = w), "\n")
+#   cat(rep("-", w), sep = "", "\n")
+#   cat(fw('Group', w = w1), fs(), fw('Obs', w = w2), fs(), format('Mean', w = w3, justify = 'centre'),
+#   	fs(), fw('Std. Err.', w = w5), fs(), fw('Std. Dev.', w = w4), "\n")
+#   cat(rep("-", w), sep = "", "\n")
+#   cat(fw(data$lev[1], w = w1), fs(), fw(data$lens[1], w = w2), fs(), fw(avgs[1], w = w3),
+#   	fs(), fw(ses[1], w = w5), fs(), fw(sds[1], w = w4), "\n")
+#   cat(fw(data$lev[2], w = w1), fs(), fw(data$lens[2], w = w2), fs(), fw(avgs[2], w = w3),
+#   	fs(), fw(ses[2], w = w5), fs(), fw(sds[2], w = w4), "\n")
+#   cat(rep("-", w), sep = "", "\n")
+#   cat(fw('combined', w = w1), fs(), fw(data$len, w = w2), fs(), fw(avg, w = w3),
+#   	fs(), fw(se, w = w5), fs(), fw(sd, w = w4), "\n")
+#   cat(rep("-", w), sep = "", "\n")
 
 
-}
+#   	wt <- nchar(f)
+#     wn1 <- nchar(data$n1)
+#     wn2 <- nchar(data$n2)
+#     wl <- nchar(lower)
+#     wu <- nchar(upper)
+#     wto <- nchar(twotail)
+
+#     w1 <- max(wt, wn1, wn2, wl) + 23
+#     w2 <- max(wt, wn1, wn2, wu) + 23
+#     w3 <- max(wt, wn1, wn2, wto) + 27
+#     w4 <- max(wt, wn1, wn2, wl, wu, wto) + 27
+
+#     k1 <- rep("-", w1)
+#     k2 <- rep("-", w2)
+#     k3 <- rep("-", w3)
+#     k4 <- rep("-", w4)
+
+#     if (data$type == "less") {
+
+#     	cat('\n\n', 'Null & Alternative Hypotheses', '\n')
+#     	cat(" ------------------------------",'\n')
+#     	cat(' Ho: ratio = 1', '\n', 'Ha: ratio < 1', '\n\n')
+#     	cat(format('Test Summary', width = w1, justify = 'centre'),'\n')
+#     	cat('', k1, sep = "", '\n')
+#     	cat(' f               =    ', f, '\n',
+#     		'Num DF          =    ', data$n1, '\n',
+#     		'Den DF          =    ', data$n2, '\n',
+#     		'Prob (F < f)    =    ', lower, '\n')
+#     	cat('', k1, sep = "", '\n')
+
+#     } else if (data$type == "greater") {
+
+# 		cat('\n\n', 'Null & Alternative Hypotheses', '\n')
+#     	cat(" ------------------------------",'\n')
+#     	cat(' Ho: ratio = 1', '\n', 'Ha: ratio > 1', '\n\n')
+#     	cat(format('Test Summary', width = w2, justify = 'centre'),'\n')
+#     	cat('', k2, sep = "", '\n')
+#     	cat(' f               =    ', f, '\n',
+#     		'Num DF          =    ', data$n1, '\n',
+#     		'Den DF          =    ', data$n2, '\n',
+#     		'Prob (F > f)    =    ', upper, '\n')
+#     	cat('', k2, sep = "", '\n')
+
+#     } else if (data$type == "two.sided") {
+
+# 		cat('\n\n', 'Null & Alternative Hypotheses', '\n')
+#     	cat(" ------------------------------	",'\n')
+#     	cat(' Ho: ratio = 1', '\n', 'Ha: ratio != 1', '\n\n')
+#     	cat(format('Test Summary', width = w3, justify = 'centre'),'\n')
+#     	cat('', k3, sep = "", '\n')
+#     	cat(' f                   =    ', f, '\n',
+#     		'Num DF              =    ', data$n1, '\n',
+#     		'Den DF              =    ', data$n2, '\n',
+#     		'2 * Prob (F > f)    =    ', twotail, '\n')
+#     	cat('', k3, sep = "", '\n')
+
+#     } else {
+
+# 		cat('\n\n', format('Test Summary', width = w4, justify = 'centre'),'\n')
+#     	cat('', k4, sep = "", '\n')
+#     	cat(' f                   =    ', f, '\n',
+#     		'Num DF              =    ', data$n1, '\n',
+#     		'Den DF              =    ', data$n2, '\n',
+#     		'Prob (F < f)        =    ', lower, '\n',
+#     		'Prob (F > f)        =    ', upper, '\n',
+#     		'2 * Prob (F > f)    =    ', twotail, '\n')
+#     	cat('', k4, sep = "", '\n')
+
+#     }
+
+
+# }
 
 
 
-print_osvar_test <- function(data) {
+# print_osvar_test <- function(data) {
 
-	var_width <- max(nchar('Variable'), nchar(data$varname))
-	obs_width <- max(nchar('Obs'), nchar(data$n))
-	mean_width <- max(nchar('Mean'), nchar(format(data$avg, nsmall = 3)))
-	se_width <- max(nchar('Std. Err.'), nchar(format(data$se, nsmall = 3)))
-	sd_width <- max(nchar('Std. Dev.'), nchar(format(data$sd, nsmall = 3)))
-	conf_length <- nchar(format(data$confint[1], nsmall = 3)) + nchar(format(data$confint[2], nsmall = 3))
-	confint_length <- nchar('[95% Conf. Interval]')
-	if (conf_length > confint_length) {
-	  conf_width <- round(conf_length / 2)
-	} else {
-	  conf_width <- round(confint_length / 2)
-	}
+# 	var_width <- max(nchar('Variable'), nchar(data$varname))
+# 	obs_width <- max(nchar('Obs'), nchar(data$n))
+# 	mean_width <- max(nchar('Mean'), nchar(format(data$avg, nsmall = 3)))
+# 	se_width <- max(nchar('Std. Err.'), nchar(format(data$se, nsmall = 3)))
+# 	sd_width <- max(nchar('Std. Dev.'), nchar(format(data$sd, nsmall = 3)))
+# 	conf_length <- nchar(format(data$confint[1], nsmall = 3)) + nchar(format(data$confint[2], nsmall = 3))
+# 	confint_length <- nchar('[95% Conf. Interval]')
+# 	if (conf_length > confint_length) {
+# 	  conf_width <- round(conf_length / 2)
+# 	} else {
+# 	  conf_width <- round(confint_length / 2)
+# 	}
 
-	width_1 <- sum(var_width, obs_width, mean_width, se_width, sd_width, ceiling(conf_width * 2), 21)
+# 	width_1 <- sum(var_width, obs_width, mean_width, se_width, sd_width, ceiling(conf_width * 2), 21)
 
-	cat(format("One-Sample Statistics", width = width_1, justify = "centre"), "\n")
-    cat(rep("-", width_1), sep = "")
-    cat("\n", formatter_t("Variable", var_width), formats_t(), formatter_t("Obs", obs_width), formats_t(), formatter_t("Mean", mean_width), formats_t(),
-      formatter_t("Std. Err.", se_width), formats_t(), formatter_t("Std. Dev.", sd_width), formats_t(), formatter_t("[95% Conf. Interval]", conf_width), "\n")
-    cat(rep("-", width_1), sep = "")
-    cat("\n", formatter_t(data$varname, var_width), formats_t(), formatter_n(data$n, obs_width), formats_t(),
-    	formatter_n(data$avg, mean_width), formats_t(), formatter_n(data$se, se_width),
-      formats_t(), formatter_n(data$sd, se_width), formats_t(), format_cil(data$confint[1], conf_width), format_ciu(data$confint[2], conf_width), "\n")
-    cat(rep("-", width_1), sep = "")
-
-
-    wt <- nchar(format(data$t, nsmall = 2))
-    wdf <- nchar(data$df)
-    wl <- nchar(format(data$lchi, nsmall = 3))
-    wu <- nchar(format(data$uchi, nsmall = 3))
-    wto <- nchar(format(data$tchi, nsmall = 3))
-
-    w1 <- max(wt, wdf, wl) + 22
-    w2 <- max(wt, wdf, wu) + 22
-    w3 <- max(wt, wdf, wto) + 26
-    w4 <- max(wt, wdf, wl, wu, wto) + 26
-
-    k1 <- rep("-", w1)
-    k2 <- rep("-", w2)
-    k3 <- rep("-", w3)
-    k4 <- rep("-", w4)
-
-    if (data$type == "less") {
-
-    	cat('\n\n\n', format('Null & Alternative Hypotheses', width = width_1, justify = 'left'), '\n')
-    	cat(format(" ------------------------------", width = width_1, justify = 'left'),'\n')
-    	cat(format(paste(' Ho: sd =', data$hyp_sd), width = 29, justify = 'centre'), '\n',
-    		format(paste('Ha: sd <', data$hyp_sd), width = 29, justify = 'centre'), '\n\n\n')
-    	cat(format('Test Summary', width = w1, justify = 'centre'),'\n')
-    	cat(' ', k1, sep = "", '\n')
-    	cat(' c (chi2)        =    ', data$t, '\n',
-    		'DF              =    ', data$df, '\n',
-    		'Prob (C < c)    =    ', data$lchi, '\n')
-    	cat(' ', k1, sep = "", '\n')
-
-    } else if (data$type == "greater") {
-
-		cat('\n\n\n', format('Null & Alternative Hypotheses', width = width_1, justify = 'left'), '\n')
-    	cat(format(" ------------------------------", width = width_1, justify = 'left'),'\n')
-    	cat(format(paste(' Ho: sd =', data$hyp_sd), width = 29, justify = 'centre'), '\n',
-    		format(paste('Ha: sd >', data$hyp_sd), width = 29, justify = 'centre'), '\n\n\n')
-    	cat(format('Test Summary', width = w2, justify = 'centre'),'\n')
-    	cat(' ', k2, sep = "", '\n')
-    	cat(' c (chi2)        =    ', data$t, '\n',
-    		'DF              =    ', data$df, '\n',
-    		'Prob (C > c)    =    ', data$uchi, '\n')
-    	cat(' ', k2, sep = "", '\n')
-
-    } else if (data$type == "two.sided") {
-
-		cat('\n\n\n', format('Null & Alternative Hypotheses', width = width_1, justify = 'left'), '\n')
-    	cat(format(" ------------------------------", width = width_1, justify = 'left'),'\n')
-    	cat(format(paste(' Ho: sd =', data$hyp_sd), width = 29, justify = 'centre'), '\n',
-    		format(paste('Ha: sd !=', data$hyp_sd), width = 29, justify = 'centre'), '\n\n\n')
-    	cat(format('Test Summary', width = w3, justify = 'centre'),'\n')
-    	cat(' ', k3, sep = "", '\n')
-    	cat(' c (chi2)            =    ', data$t, '\n',
-    		'DF                  =    ', data$df, '\n',
-    		'2 * Prob (C > c)    =    ', data$tchi, '\n')
-    	cat(' ', k3, sep = "", '\n')
-
-    } else {
-
-		cat('\n\n', format('Test Summary', width = w4, justify = 'centre'),'\n')
-    	cat(' ', k4, sep = "", '\n')
-    	cat(' c (chi2)            =    ', data$t, '\n',
-    		'DF                  =    ', data$df, '\n',
-    		'Prob (C < c)        =    ', format(data$lchi, nsmall = 3), '\n',
-    		'Prob (C > c)        =    ', format(data$uchi, nsmall = 3), '\n',
-    		'2 * Prob (C > c)    =    ', format(data$tchi, nsmall = 3), '\n')
-    	cat(' ', k4, sep = "", '\n')
+# 	cat(format("One-Sample Statistics", width = width_1, justify = "centre"), "\n")
+#     cat(rep("-", width_1), sep = "")
+#     cat("\n", formatter_t("Variable", var_width), formats_t(), formatter_t("Obs", obs_width), formats_t(), formatter_t("Mean", mean_width), formats_t(),
+#       formatter_t("Std. Err.", se_width), formats_t(), formatter_t("Std. Dev.", sd_width), formats_t(), formatter_t("[95% Conf. Interval]", conf_width), "\n")
+#     cat(rep("-", width_1), sep = "")
+#     cat("\n", formatter_t(data$varname, var_width), formats_t(), formatter_n(data$n, obs_width), formats_t(),
+#     	formatter_n(data$avg, mean_width), formats_t(), formatter_n(data$se, se_width),
+#       formats_t(), formatter_n(data$sd, se_width), formats_t(), format_cil(data$confint[1], conf_width), format_ciu(data$confint[2], conf_width), "\n")
+#     cat(rep("-", width_1), sep = "")
 
 
-    }
+#     wt <- nchar(format(data$t, nsmall = 2))
+#     wdf <- nchar(data$df)
+#     wl <- nchar(format(data$lchi, nsmall = 3))
+#     wu <- nchar(format(data$uchi, nsmall = 3))
+#     wto <- nchar(format(data$tchi, nsmall = 3))
 
-}
+#     w1 <- max(wt, wdf, wl) + 22
+#     w2 <- max(wt, wdf, wu) + 22
+#     w3 <- max(wt, wdf, wto) + 26
+#     w4 <- max(wt, wdf, wl, wu, wto) + 26
+
+#     k1 <- rep("-", w1)
+#     k2 <- rep("-", w2)
+#     k3 <- rep("-", w3)
+#     k4 <- rep("-", w4)
+
+#     if (data$type == "less") {
+
+#     	cat('\n\n\n', format('Null & Alternative Hypotheses', width = width_1, justify = 'left'), '\n')
+#     	cat(format(" ------------------------------", width = width_1, justify = 'left'),'\n')
+#     	cat(format(paste(' Ho: sd =', data$hyp_sd), width = 29, justify = 'centre'), '\n',
+#     		format(paste('Ha: sd <', data$hyp_sd), width = 29, justify = 'centre'), '\n\n\n')
+#     	cat(format('Test Summary', width = w1, justify = 'centre'),'\n')
+#     	cat(' ', k1, sep = "", '\n')
+#     	cat(' c (chi2)        =    ', data$t, '\n',
+#     		'DF              =    ', data$df, '\n',
+#     		'Prob (C < c)    =    ', data$lchi, '\n')
+#     	cat(' ', k1, sep = "", '\n')
+
+#     } else if (data$type == "greater") {
+
+# 		cat('\n\n\n', format('Null & Alternative Hypotheses', width = width_1, justify = 'left'), '\n')
+#     	cat(format(" ------------------------------", width = width_1, justify = 'left'),'\n')
+#     	cat(format(paste(' Ho: sd =', data$hyp_sd), width = 29, justify = 'centre'), '\n',
+#     		format(paste('Ha: sd >', data$hyp_sd), width = 29, justify = 'centre'), '\n\n\n')
+#     	cat(format('Test Summary', width = w2, justify = 'centre'),'\n')
+#     	cat(' ', k2, sep = "", '\n')
+#     	cat(' c (chi2)        =    ', data$t, '\n',
+#     		'DF              =    ', data$df, '\n',
+#     		'Prob (C > c)    =    ', data$uchi, '\n')
+#     	cat(' ', k2, sep = "", '\n')
+
+#     } else if (data$type == "two.sided") {
+
+# 		cat('\n\n\n', format('Null & Alternative Hypotheses', width = width_1, justify = 'left'), '\n')
+#     	cat(format(" ------------------------------", width = width_1, justify = 'left'),'\n')
+#     	cat(format(paste(' Ho: sd =', data$hyp_sd), width = 29, justify = 'centre'), '\n',
+#     		format(paste('Ha: sd !=', data$hyp_sd), width = 29, justify = 'centre'), '\n\n\n')
+#     	cat(format('Test Summary', width = w3, justify = 'centre'),'\n')
+#     	cat(' ', k3, sep = "", '\n')
+#     	cat(' c (chi2)            =    ', data$t, '\n',
+#     		'DF                  =    ', data$df, '\n',
+#     		'2 * Prob (C > c)    =    ', data$tchi, '\n')
+#     	cat(' ', k3, sep = "", '\n')
+
+#     } else {
+
+# 		cat('\n\n', format('Test Summary', width = w4, justify = 'centre'),'\n')
+#     	cat(' ', k4, sep = "", '\n')
+#     	cat(' c (chi2)            =    ', data$t, '\n',
+#     		'DF                  =    ', data$df, '\n',
+#     		'Prob (C < c)        =    ', format(data$lchi, nsmall = 3), '\n',
+#     		'Prob (C > c)        =    ', format(data$uchi, nsmall = 3), '\n',
+#     		'2 * Prob (C > c)    =    ', format(data$tchi, nsmall = 3), '\n')
+#     	cat(' ', k4, sep = "", '\n')
+
+
+#     }
+
+# }
 
 
 

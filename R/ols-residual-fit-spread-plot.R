@@ -52,6 +52,9 @@ ols_rfs_plot <- function(model) {
 
 	grid.arrange(p1, p2, ncol = 2)
 
+	result <- list(fm_plot = p1, rsd_plot = p2)
+	invisible(result)
+
 }
 
 #' @rdname ols_rfs_plot

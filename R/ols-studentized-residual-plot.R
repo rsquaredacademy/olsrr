@@ -39,7 +39,7 @@ ols_srsd_plot <- function(model) {
     ylab('Deleted Studentized Residuals') + ggtitle('Studentized Residuals Plot') +
     ylim(g$cminx, g$cmaxx) + geom_hline(yintercept = c(0, g$nseq, g$pseq)) +
     geom_hline(yintercept = c(-3, 3), color = 'red') +
-    geom_text(hjust = -0.2, nudge_x = 0.05, size = 2) +
+    geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +
     annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2, 
              family="serif", fontface="italic", colour="darkred", 
              label = paste0('Threshold: abs(', 3, ')')) 
@@ -47,7 +47,7 @@ ols_srsd_plot <- function(model) {
 
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Studentized Residuals")
-	result <- list(outliers = f, threshold = 3)
+	result <- list(outliers = f, threshold = 3, plot = p)
 	invisible(result)
 
 }

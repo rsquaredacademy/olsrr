@@ -36,6 +36,9 @@ ols_rpc_plot <- function(model) {
 
 	do.call(grid.arrange, c(myplots, list(ncol = 2)))
 
+	result <- list(plots = myplots)
+	invisible(result)
+
 }
 
 

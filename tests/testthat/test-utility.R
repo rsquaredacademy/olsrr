@@ -2,10 +2,12 @@ context('utility')
 
 test_that('output from text formatting matches the expected result', {
   expect_equivalent(fg(3, 10),  "         3")
+  expect_equivalent(fw(3, 10),  "         3")
   expect_equivalent(fs(),  "  ")
   expect_equivalent(fl(3, 10),  "3         ")
   expect_equivalent(fc(3, 10),  "    3     ")
   expect_equivalent(formatter_t(3, 10),  "         3")
+  expect_equivalent(formatter_n(3.7589, 10), "  3.7589  ")
   expect_equivalent(format_cil(3, 10),  "  3.000   ")
   expect_equivalent(format_ciu(3, 10),  "  3.000   ")
   expect_equivalent(formats_t(),  "  ")
@@ -157,4 +159,16 @@ test_that('output from rstudlev matches the expected result', {
 test_that('output from corrout matches the expected result', {
     model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
     expect_equal(round(corrout(model), 3), 0.96)
+})
+
+test_that('output from advarx matches the expected output', {
+
+  actual <- advarx(mtcars, 1)
+
+  expected <- lm(mpg ~., data = mtcars) %>%
+    residuals() %>%
+    unname()
+
+  expect_equivalent(actual, expected)
+
 })

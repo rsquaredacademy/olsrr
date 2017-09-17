@@ -40,7 +40,7 @@ ols_rsdlev_plot <- function(model) {
 
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Leverage", "Studentized Residuals")
-	result <- list(leverage = f, threshold = g$lev_thrsh)
+	result <- list(leverage = f, threshold = g$lev_thrsh, plot = p)
 	invisible(result)
 
 }

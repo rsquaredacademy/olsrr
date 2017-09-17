@@ -51,4 +51,7 @@ ols_resp_viz <- function(model) {
 
     grid.arrange(p1, p2, p3, p4, ncol = 2, top = 'Response Diagnostics')
 
+  result <- list(dot_plot = p1, trend_plot = p2, histogram = p3, boxplot = p4)
+  invisible(result)
+  
 }

@@ -227,6 +227,10 @@ plot.ols_step_backward <- function(x, model = NA, ...) {
 
     grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = 'Stepwise Backward Regression')
 
+  result <- list(rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
+                aic_plot = p4, sbic_plot = p5, sbc_plot = p6)
+  invisible(result)
+
 }
 
 

@@ -61,13 +61,13 @@ ols_dffits_plot <- function(model) {
 		geom_point(colour = 'blue', shape = 1) +
 		xlab('Observation') + ylab('DFFITS') +
 		ggtitle(paste("Influence Diagnostics for", names(model.frame(model))[1])) +
-		geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family="serif", fontface="italic", colour="darkred") +
+		geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family="serif", fontface="italic", colour="darkred", na.rm = TRUE) +
 		annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = 2, 
                   family="serif", fontface="italic", colour="darkred", 
                   label = paste('Threshold:', round(dffits_t, 2)))
 
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "DFFITs")
-	result <- list(outliers = f, threshold = round(dffits_t, 2))
+	result <- list(outliers = f, threshold = round(dffits_t, 2), plot = p)
 	invisible(result)
 }

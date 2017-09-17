@@ -23,6 +23,7 @@ test_that('sbc output matches expected result', {
 
 	expect_equal(ols_sbc(fullmodel, method = 'R'), BIC(fullmodel))
 	expect_equal(round(ols_sbc(fullmodel, method = 'STATA'), 4), 66.6614)
+	expect_equal(round(ols_sbc(fullmodel, method = 'SAS'), 4), 29.769)
 
 	model     <- lm(y ~ x1 + x2 + x4, data = cement)
 	expect_equal(ols_sbc(model, method = 'R'), BIC(model))

@@ -50,14 +50,14 @@ ols_cooksd_barplot <- function(model) {
 		ylim(0, k$maxx) + ylab("Cook's D") + xlab('Observation') + 
 		ggtitle("Cook's D Bar Plot") + geom_hline(yintercept = 0) +
 		geom_hline(yintercept = k$ts, colour = 'red') +
-		geom_text(hjust = -0.2, nudge_x = 0.05, size = 2) +
+		geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +
 		annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2, 
                   family="serif", fontface="italic", colour="darkred", 
                   label = paste('Threshold:', round(k$ts, 3)))
 	
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Cook's Distance")
-	result <- list(outliers = f, threshold = k$ts)
+	result <- list(outliers = f, threshold = k$ts, plot = p)
 	invisible(result)
 
 }

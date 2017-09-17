@@ -317,3 +317,30 @@ test_that("when multiple == TRUE and vars != NA and p.adj == 'holm',
             vars = c("disp", "hp"), p.adj = "holm")), x)	
 
 })
+
+
+test_that("when multiple == TRUE, rhs == FALSE and one variable is specified", {
+
+  x <- cat("
+ Breusch Pagan Test for Heteroskedasticity
+ -----------------------------------------
+ Ho: the variance is constant            
+ Ha: the variance is not constant        
+
+     Data       
+ ---------------
+ Response : mpg 
+ Variables: disp 
+
+        Test Summary         
+ ----------------------------
+ DF            =    1 
+ Chi2          =    0.9237291 
+ Prob > Chi2   =    0.3364977")
+
+  expect_equivalent(print(ols_bp_test(model, multiple = TRUE, rhs = FALSE, vars = c("disp"))), x)
+
+})
+
+
+

@@ -45,14 +45,14 @@ ols_cooksd_chart <- function(model) {
 		geom_linerange(colour = 'blue') + geom_point(shape = 1, colour = 'blue') +
 		geom_hline(yintercept = k$ts, colour = 'red') + xlab('Observation') + 
 		ylab("Cook's D") + ggtitle("Cook's D Chart") +
-		geom_text(vjust = -1, size = 3, family="serif", fontface="italic", colour="darkred") +
+		geom_text(vjust = -1, size = 3, family="serif", fontface="italic", colour="darkred", na.rm = TRUE) +
 		annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2, 
                   family="serif", fontface="italic", colour="darkred", 
                   label = paste('Threshold:', round(k$ts, 3)))
 		
 	suppressWarnings(print(p))
 	colnames(f) <- c("Observation", "Cook's Distance")
-	result <- list(outliers = f, threshold = k$ts)
+	result <- list(outliers = f, threshold = k$ts, plot = p)
 	invisible(result)
 
 }

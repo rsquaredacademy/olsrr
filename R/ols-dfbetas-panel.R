@@ -43,14 +43,16 @@ ols_dfbetas_panel <- function(model) {
     d$color1 <- factor(d$color)
     d$Observation <- ordered(d$color1, levels = c("normal", "outlier"))
     d <- d %>% mutate(txt = ifelse(Observation == 'outlier', obs, NA))
-	  f <- d %>% filter(., Observation == 'outlier') %>% select(obs, dbetas)
+	  f <- d %>% 
+	    filter(., Observation == 'outlier') %>% 
+	    select(obs, dbetas)
 		p <- eval(substitute(ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dbetas)) +
 			geom_linerange(colour = 'blue') +
 			geom_hline(yintercept = c(0, threshold, -threshold), colour = 'red') +
 			geom_point(colour = 'blue', shape = 1) +
 			xlab('Observation') + ylab('DFBETAS') +
 			ggtitle(paste("Influence Diagnostics for", colnames(dfb)[i])) +
-			geom_text(hjust = -0.2, nudge_x = 0.15, size = 2, family="serif", fontface="italic", colour="darkred") +
+			geom_text(hjust = -0.2, nudge_x = 0.15, size = 2, family="serif", fontface="italic", colour="darkred", na.rm = TRUE) +
 			annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = 2, 
                   family="serif", fontface="italic", colour="darkred", 
                   label = paste('Threshold:', round(threshold, 2))),
@@ -61,6 +63,11 @@ ols_dfbetas_panel <- function(model) {
 	}
 
 	suppressWarnings(do.call(grid.arrange, c(myplots, list(ncol = 2))))
-	names(outliers) <- model %>% coefficients() %>% names()
-	invisible(outliers)
+	
+	names(outliers) <- model %>% 
+	  coefficients() %>% 
+	  names()
+
+	result <- list(outliers = outliers, plots = myplots)  
+	invisible(result)
 }

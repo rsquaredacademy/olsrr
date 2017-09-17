@@ -21,3 +21,18 @@ test_that("all_subsets returns an error when number of predictors < 2", {
    model <- lm(y ~ x1, data = cement)
    expect_error(ols_best_subset(model), 'Please specify a model with at least 2 predictors.')
 })
+
+test_that('best subsets regression plots are as expected', {
+
+  skip_on_cran()
+
+  model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
+  k <- plot(ols_best_subset(model))
+
+  vdiffr::expect_doppelganger('best subset rsquare', k$rsquare_plot)
+  vdiffr::expect_doppelganger('best subset adjusted rsquare', k$adj_rsquare_plot)
+  vdiffr::expect_doppelganger('best subset mallows cp', k$mallows_cp_plot)
+  vdiffr::expect_doppelganger('best subset aic', k$aic_plot)
+  vdiffr::expect_doppelganger('best subset sbic', k$sbic_plot)
+  vdiffr::expect_doppelganger('best subset sbc', k$sbc_plot)
+})
