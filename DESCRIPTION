@@ -19,7 +19,8 @@ Imports:
     tidyr,
     nortest,
     goftest,
-    Rcpp
+    Rcpp,
+    shiny
 Suggests:
     testthat,
     vdiffr,
