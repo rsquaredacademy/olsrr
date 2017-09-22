@@ -1,11 +1,10 @@
 d_cprp_mod <- eventReactive(input$submit_cprp_plot, {
-  k <- lm(input$cprp_fmla, data = final_split$train)
   if(input$cprp_use_prev) {
-    out <- ols_rpc_plot(all_use_n())
+    ols_rpc_plot(all_use_n())
   } else {
-    out <- ols_rpc_plot(k)
+    k <- lm(input$cprp_fmla, data = final_split$train)
+    ols_rpc_plot(k)
   }
-  out
 })
 
 output$cprplot <- renderPlot({
@@ -89,13 +88,12 @@ observeEvent(input$submit_part_train_per, {
 
 
 d_resreg_mod <- eventReactive(input$submit_resreg_plot, {
-  k <- lm(input$resreg_fmla, data = final_split$train)
   if(input$resreg_use_prev) {
-    out <- rvsr_plot_shiny(all_use_n(), final_split$train, as.character(input$resreg_var))
+    rvsr_plot_shiny(all_use_n(), final_split$train, as.character(input$resreg_var))
   } else {
-    out <- rvsr_plot_shiny(k, final_split$train, as.character(input$resreg_var))
+    k <- lm(input$resreg_fmla, data = final_split$train)
+    rvsr_plot_shiny(k, final_split$train, as.character(input$resreg_var))
   }
-  out
 })
 
 

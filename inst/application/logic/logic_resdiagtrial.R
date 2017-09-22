@@ -249,53 +249,48 @@ output$ui_resdiagout <- renderUI({
 
 
 d_respred_mod <- eventReactive(input$submit_respred_plot, {
-  k <- lm(input$respred_fmla, data = final_split$train)
   if(input$respred_use_prev) {
-    out <- ols_rvsp_plot(all_use_n())
+    ols_rvsp_plot(all_use_n())
   } else {
-    out <- ols_rvsp_plot(k)
+    k <- lm(input$respred_fmla, data = final_split$train)
+    ols_rvsp_plot(k)
   }
-  out
 })
 
 d_resbox_mod <- eventReactive(input$submit_resbox_plot, {
-  k <- lm(input$resbox_fmla, data = final_split$train)
   if(input$resbox_use_prev) {
-    out <- ols_rsd_boxplot(all_use_n())
+    ols_rsd_boxplot(all_use_n())
   } else {
-    out <-   ols_rsd_boxplot(k)
+    k <- lm(input$resbox_fmla, data = final_split$train)
+    ols_rsd_boxplot(k)
   }
-  out
 })
 
 d_reshist_mod <- eventReactive(input$submit_reshist_plot, {
-  k <- lm(input$reshist_fmla, data = final_split$train)
   if(input$reshist_use_prev) {
-    out <- ols_rsd_hist(all_use_n())
+    ols_rsd_hist(all_use_n())
   } else {
-    out <- ols_rsd_hist(k)
+    k <- lm(input$reshist_fmla, data = final_split$train)
+    ols_rsd_hist(k)
   }
-  out
 })
 
 d_resqq_mod <- eventReactive(input$submit_resqq_plot, {
-  k <- lm(input$resqq_fmla, data = final_split$train)
   if(input$resqq_use_prev) {
-    out <- ols_rsd_qqplot(all_use_n())
+    ols_rsd_qqplot(all_use_n())
   } else {
-    out <- ols_rsd_qqplot(k)
+    k <- lm(input$resqq_fmla, data = final_split$train)
+    ols_rsd_qqplot(k)
   }
-  out
 })
 
 d_resnorm_mod <- eventReactive(input$submit_resnorm, {
-  k <- lm(input$resnorm_fmla, data = final_split$train)
   if(input$resnorm_use_prev) {
-    out <- ols_norm_test(all_use_n())
+    ols_norm_test(all_use_n())
   } else {
-    out <- ols_norm_test(k)
+    k <- lm(input$resnorm_fmla, data = final_split$train)
+    ols_norm_test(k)
   }
-  out
 })
 
 

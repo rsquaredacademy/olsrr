@@ -96,12 +96,6 @@ observeEvent(input$button_filt_no, {
 filttrans <- eventReactive(input$button_filt_yes, {
 	
 	fluidRow(
-		
-		br(),
-		br(),
-		br(),
-		br(),
-		br(),
 			            	
 		column(6, align = 'left',
 			actionButton(inputId='filt2dvarsel', label="Select Variables", icon = icon("long-arrow-left"))

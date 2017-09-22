@@ -696,14 +696,12 @@ output$ui_mselplot <- renderUI({
 # })
 
 allsub_model <- eventReactive(input$submit_allsub, {
-  data <- final_split$train
-  model <- lm(input$allsub_fmla, data = data)
   if (input$all_use_model) {
-    out <- ols_all_subset(all_use_n())
+    ols_all_subset(all_use_n())
   } else {
-    out <- ols_all_subset(model)
+    model <- lm(input$allsub_fmla, data = final_split$train)
+    ols_all_subset(model)
   }
-  out
 })
 
 a1_title <- eventReactive(input$submit_allsub, {
@@ -732,14 +730,12 @@ output$allsub_plot <- renderPlot({
 })
 
 bestsub_model <- eventReactive(input$submit_bestsub, {
-  data <- final_split$train
-  model <- lm(input$bestsub_fmla, data = data)
   if (input$best_use_prev) {
-    out <- ols_best_subset(all_use_n())
+    ols_best_subset(all_use_n())
   } else {
-    out <- ols_best_subset(model)
+    model <- lm(input$bestsub_fmla, data = final_split$train)
+    ols_best_subset(model)
   }
-  out
 })
 
 b1_title <- eventReactive(input$submit_bestsub, {
@@ -768,16 +764,14 @@ output$bestsub_plot <- renderPlot({
 
 
 stepwise_model <- eventReactive(input$submit_stepwise, {
-  data <- final_split$train
-  model <- lm(input$stepwise_fmla, data = data)
   if (input$step_use_prev) {
-    out <- ols_stepwise(all_use_n(), input$stepwise_pent, input$stepwise_prem,
+    ols_stepwise(all_use_n(), input$stepwise_pent, input$stepwise_prem,
       as.logical(input$stepwise_details))
   } else {
-    out <- ols_stepwise(model, input$stepwise_pent, input$stepwise_prem,
+    model <- lm(input$stepwise_fmla, data = final_split$train)
+    ols_stepwise(model, input$stepwise_pent, input$stepwise_prem,
       as.logical(input$stepwise_details))
   }
-  out
 })
 
 s1_title <- eventReactive(input$submit_stepwise, {
@@ -806,13 +800,12 @@ output$stepwise_plot <- renderPlot({
 })
 
 forward_model <- eventReactive(input$submit_forward, {
-  data <- final_split$train
-  model <- lm(input$forward_fmla, data = data)
   if (input$stepf_use_model) {
-    out <- ols_step_forward(all_use_n(), input$forward_pent,
+    ols_step_forward(all_use_n(), input$forward_pent,
       as.logical(input$forward_details))
   } else {
-    out <- ols_step_forward(model, input$forward_pent,
+    model <- lm(input$forward_fmla, data = final_split$train)
+    ols_step_forward(model, input$forward_pent,
       as.logical(input$forward_details))
   }
 })
@@ -844,13 +837,12 @@ output$forward_plot <- renderPlot({
 
 
 backward_model <- eventReactive(input$submit_backward, {
-  data <- final_split$train
-  model <- lm(input$backward_fmla, data = data)
   if (input$stepb_use_model) {
-    out <- ols_step_backward(all_use_n(), input$backward_prem,
+    ols_step_backward(all_use_n(), input$backward_prem,
       as.logical(input$backward_details))
   } else {
-    out <- ols_step_backward(model, input$backward_prem,
+    model <- lm(input$backward_fmla, data = final_split$train)
+    ols_step_backward(model, input$backward_prem,
       as.logical(input$backward_details))
   }
 })
@@ -882,12 +874,11 @@ output$backward_plot <- renderPlot({
 
 
 aicforward_model <- eventReactive(input$submit_aicforward, {
-  data <- final_split$train
-  model <- lm(input$aicforward_fmla, data = data)
   if (input$stepaicf_use_model) {
-    out <- ols_stepaic_forward(all_use_n(), as.logical(input$aicforward_details))
+    ols_stepaic_forward(all_use_n(), as.logical(input$aicforward_details))
   } else {
-    out <- ols_stepaic_forward(model, as.logical(input$aicforward_details))
+    model <- lm(input$aicforward_fmla, data = final_split$train)
+    ols_stepaic_forward(model, as.logical(input$aicforward_details))
   }
 })
 
@@ -918,13 +909,12 @@ output$aicforward_plot <- renderPlot({
 
 
 aicbackward_model <- eventReactive(input$submit_aicbackward, {
-  data <- final_split$train
-  model <- lm(input$aicbackward_fmla, data = data)
   if (input$stepaicb_use_model) {
-    out <- ols_stepaic_backward(all_use_n(),
+    ols_stepaic_backward(all_use_n(),
       as.logical(input$aicbackward_details))
   } else {
-    out <- ols_stepaic_backward(model,
+    model <- lm(input$aicbackward_fmla, data = final_split$train)
+    ols_stepaic_backward(model,
       as.logical(input$aicbackward_details))
   }
 })
@@ -955,13 +945,12 @@ output$aicbackward_plot <- renderPlot({
 
 
 aicboth_model <- eventReactive(input$submit_aicboth, {
-  data <- final_split$train
-  model <- lm(input$aicboth_fmla, data = data)
   if (input$saicbo_use_model) {
-    out <- ols_stepaic_both(all_use_n(),
+    ols_stepaic_both(all_use_n(),
       as.logical(input$aicboth_details))
   } else {
-    out <- ols_stepaic_both(model,
+    model <- lm(input$aicboth_fmla, data = final_split$train)
+    ols_stepaic_both(model,
       as.logical(input$aicboth_details))
   }
 })

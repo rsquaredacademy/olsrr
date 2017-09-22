@@ -250,53 +250,48 @@ output$ui_mfitout <- renderUI({
 })
 
 d_rfs_mod <- eventReactive(input$submit_rfsplot, {
-  k <- lm(input$rfs_fmla, data = final_split$train)
   if (input$rfs_use_prev) {
-    out <- ols_rfs_plot(all_use_n())
+    ols_rfs_plot(all_use_n())
   } else {
-    out <- ols_rfs_plot(k)
+    k <- lm(input$rfs_fmla, data = final_split$train)
+    ols_rfs_plot(k)
   }
-  out
 })
 
 d_corr_mod <- eventReactive(input$submit_corr, {
-  k <- lm(input$corr_fmla, data = final_split$train)
   if(input$corr_use_prev) {
-    out <- ols_correlations(all_use_n())
+    ols_correlations(all_use_n())
   } else {
-    out <- ols_correlations(k)
+    k <- lm(input$corr_fmla, data = final_split$train)
+    ols_correlations(k)
   }
-  out  
 })
 
 d_ovsp_mod <- eventReactive(input$submit_ovsplot, {
-  k <- lm(input$ovsp_fmla, data = final_split$train) 
   if (input$ovsp_use_prev) {
-    out <- out <- ols_ovsp_plot(all_use_n())
+    ols_ovsp_plot(all_use_n())
   } else {
-    out <- ols_ovsp_plot(k)
-  } 
-  out   
+    k <- lm(input$ovsp_fmla, data = final_split$train) 
+    ols_ovsp_plot(k)
+  }   
 })
 
 d_lfit_mod <- eventReactive(input$submit_lfit, {
-  k <- lm(input$lfit_fmla, data = final_split$train)
   if (input$lfit_use_prev) {
-    out <- ols_pure_error_anova(all_use_n())
+    ols_pure_error_anova(all_use_n())
   } else {
-    out <- ols_pure_error_anova(k)
-  } 
-  out 
+    k <- lm(input$lfit_fmla, data = final_split$train)
+    ols_pure_error_anova(k)
+  }
 })
 
 d_dpanel_mod <- eventReactive(input$submit_dpanel, {
-  k <- lm(input$dpanel_fmla, data = final_split$train)
   if(input$dpanel_use_prev) {
-    out <- ols_diagnostic_panel(all_use_n())
+    ols_diagnostic_panel(all_use_n())
   } else {
-    out <- ols_diagnostic_panel(k)
-  } 
-  out 
+    k <- lm(input$dpanel_fmla, data = final_split$train)
+    ols_diagnostic_panel(k)
+  }  
 })
 
 
