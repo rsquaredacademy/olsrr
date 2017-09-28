@@ -9,24 +9,36 @@ Description: Tools for teaching and learning ordinary least squares regression. 
 Depends:
     R(>= 3.2.4)
 Imports:
-    ggplot2,
-    gridExtra,
-    graphics,
     dplyr,
-    magrittr,
-    purrr,
-    tibble,
-    tidyr,
-    nortest,
+    ggplot2,
     goftest,
+    graphics,
+    gridExtra,
+    magrittr,
+    nortest,
+    purrr,
     Rcpp,
-    shiny
+    tibble,
+    tidyr
 Suggests:
-    testthat,
-    vdiffr,
+    caret,
     covr,
+    descriptr,
+    grid,
+    jsonlite,
     knitr,
-    rmarkdown
+    lubridate,
+    readr,
+    readxl,
+    rmarkdown,
+    scales,
+    shiny,
+    shinyBS,
+    shinythemes,
+    stringr,
+    testthat,
+    tools,
+    vdiffr
 License: MIT + file LICENSE
 URL: https://rsquaredacademy.github.io/olsrr/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues
