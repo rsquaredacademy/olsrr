@@ -30,7 +30,7 @@ shinyServer(function(input, output, session) {
     source("logic/logic_partition.R", local = T)
     source("logic/logic_view.R", local = T)
     source("logic/logic_regress.R", local = T)
-    source("logic/logic_mselection2.R", local = T)
+    # source("logic/logic_mselection2.R", local = T)
     source("logic/logic_resdiagtrial.R", local = T)
     source("logic/logic_hetero.R", local = T)
     source("logic/logic_collin.R", local = T)

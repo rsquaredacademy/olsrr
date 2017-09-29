@@ -40,26 +40,6 @@ tabPanel('Model Building', value = 'tab_model_home',
 			column(3),
 
 			column(4, align = 'left',
-				h5('Variable Selection')
-			),
-
-			column(2, align = 'left',
-					actionButton(
-						inputId = 'model_varsel_click',
-						label = 'Click Here',
-						width = '120px'
-					)
-			),
-
-			column(3),
-
-			br(),
-			br(),
-			br(),
-
-			column(3),
-
-			column(4, align = 'left',
 				h5('Residual Diagnostics')
 			),
 

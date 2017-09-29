@@ -725,15 +725,16 @@ output$allsub_out <- renderPrint({
   allsub_model()
 })
 
-output$allsub_plot <- renderPlot({
-  plot(allsub_model())
-})
+# output$allsub_plot <- renderPlot({
+#   plot(allsub_model())
+# })
 
 bestsub_model <- eventReactive(input$submit_bestsub, {
   if (input$best_use_prev) {
     ols_best_subset(all_use_n())
   } else {
-    model <- lm(input$bestsub_fmla, data = final_split$train)
+    data <- final_split$train
+    model <- lm(input$bestsub_fmla, data = data)
     ols_best_subset(model)
   }
 })
