@@ -8,5 +8,5 @@
 #' @export
 #'
 ols_launch_app <- function() {
-    shiny::runApp(appDir = system.file("application", package = "olsrr"))
+    runApp(appDir = system.file("application", package = "olsrr"))
 }
