@@ -18,6 +18,7 @@ Imports:
     nortest,
     purrr,
     Rcpp,
+    shiny,
     tibble,
     tidyr
 Suggests:
@@ -25,6 +26,7 @@ Suggests:
     covr,
     descriptr,
     grid,
+    haven,
     jsonlite,
     knitr,
     lubridate,
@@ -32,7 +34,6 @@ Suggests:
     readxl,
     rmarkdown,
     scales,
-    shiny,
     shinyBS,
     shinythemes,
     stringr,
