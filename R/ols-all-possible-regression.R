@@ -3,6 +3,7 @@
 #' @importFrom dplyr group_by summarise_all
 #' @importFrom purrr map_int
 #' @importFrom tidyr nest
+#' @importFrom magrittr add
 #' @title All Possible Regression
 #' @description Fits all regressions involving one regressor, two regressors, three regressors, and so on.
 #' It tests all possible subsets of the set of potential independent variables.
@@ -53,92 +54,49 @@ ols_all_subset.default <- function(model, ...) {
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    nam   <- colnames(attr(model$terms, 'factors'))
-    n     <- length(nam)
-    r     <- seq_len(n)
-    combs <- list()
+    # nam   <- colnames(attr(model$terms, 'factors'))
+    # n     <- length(nam)
+    # r     <- seq_len(n)
+    # combs <- list()
 
-    for (i in seq_len(n)) {
-        combs[[i]] <- combn(n, r[i])
-    }
-
-    lc        <- length(combs)
-    # nam       <- colnames(attr(model$terms, 'factors'))
-    # nam       <- names(model$coefficients)[-1]
-    varnames  <- names(model.frame(model))
-    predicts  <- nam
-    len_preds <- length(predicts)
-    gap       <- len_preds - 1
-    space     <- sum(nchar(predicts)) + gap
-    data      <- mod_sel_data(model)
-    colas     <- combs %>% map_int(ncol)
-    # colas     <- c()
-    # for(i in seq_len(lc)) {
-    #     colas[i] <- ncol(combs[[i]])
+    # for (i in seq_len(n)) {
+    #     combs[[i]] <- combn(n, r[i])
     # }
 
-    response <- varnames[1]
-    p        <- colas
-    t        <- cumsum(colas)
-    q        <- c(1, t[-lc] + 1)
-    mcount   <- 0
-    rsq      <- list()
-    adjrsq   <- list()
-    predrsq  <- list()
-    cp       <- list()
-    aic      <- list()
-    sbic     <- list()
-    sbc      <- list()
-    msep     <- list()
-    fpe      <- list()
-    apc      <- list()
-    hsp      <- list()
-    preds    <- list()
-    lpreds   <- c()
+    # lc        <- length(combs)
+    # varnames  <- names(model.frame(model))
+    # predicts  <- nam
+    # len_preds <- length(predicts)
+    # gap       <- len_preds - 1
+    # space     <- sum(nchar(predicts)) + gap
+    # data      <- mod_sel_data(model)
+    # colas     <- combs %>% map_int(ncol)
+    # response  <- varnames[1]
+    # p         <- colas
+    # t         <- cumsum(colas)
+    # q         <- c(1, t[-lc] + 1)
+    
+    metrics <- allpos_helper(model) 
 
-    for (i in seq_len(lc)) {
-        for (j in seq_len(colas[i])) {
-
-                predictors        <- nam[combs[[i]][, j]]
-                lp                <- length(predictors)
-                out               <- ols_regress(paste(response, '~', paste(predictors, collapse = ' + ')), data = data)
-                mcount            <- mcount + 1
-                lpreds[mcount]    <- lp
-                rsq[[mcount]]     <- out$rsq
-                adjrsq[[mcount]]  <- out$adjr
-                predrsq[[mcount]] <- ols_pred_rsq(out$model)
-                cp[[mcount]]      <- ols_mallows_cp(out$model, model)
-                aic[[mcount]]     <- ols_aic(out$model)
-                sbic[[mcount]]    <- ols_sbic(out$model, model)
-                sbc[[mcount]]     <- ols_sbc(out$model)
-                msep[[mcount]]    <- ols_msep(out$model)
-                fpe[[mcount]]     <- ols_fpe(out$model)
-                apc[[mcount]]     <- ols_apc(out$model)
-                hsp[[mcount]]     <- ols_hsp(out$model)
-                preds[[mcount]]   <- paste(predictors, collapse = " ")
-
-        }
-    }
-
-    ui <- data.frame(n               = lpreds,
-                    predictors       = unlist(preds),
-                    rsquare          = unlist(rsq),
-                    adjr             = unlist(adjrsq),
-                    predrsq          = unlist(predrsq),
-                    cp               = unlist(cp),
-                    aic              = unlist(aic),
-                    sbic             = unlist(sbic),
-                    sbc              = unlist(sbc),
-                    msep             = unlist(msep),
-                    fpe              = unlist(fpe),
-                    apc              = unlist(apc),
-                    hsp              = unlist(hsp),
+    ui <- data.frame(n               = metrics$lpreds,
+                    predictors       = unlist(metrics$preds),
+                    rsquare          = unlist(metrics$rsq),
+                    adjr             = unlist(metrics$adjrsq),
+                    predrsq          = unlist(metrics$predrsq),
+                    cp               = unlist(metrics$cp),
+                    aic              = unlist(metrics$aic),
+                    sbic             = unlist(metrics$sbic),
+                    sbc              = unlist(metrics$sbc),
+                    msep             = unlist(metrics$msep),
+                    fpe              = unlist(metrics$fpe),
+                    apc              = unlist(metrics$apc),
+                    hsp              = unlist(metrics$hsp),
                     stringsAsFactors = F)
 
     sorted <- c()
 
-    for (i in seq_len(lc)) {
-        temp   <- ui[q[i]:t[i], ]
+    for (i in seq_len(metrics$lc)) {
+        temp   <- ui[metrics$q[i]:metrics$t[i], ]
         temp   <- temp[order(temp$rsquare, decreasing = TRUE), ]
         # temp   <- arrange(temp, desc(rsquare))
         sorted <- rbind(sorted, temp)
@@ -333,4 +291,56 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
 }
 
 
+#' @title All Possible Regression Variable Coefficients
+#' @description Returns the coefficients for each variable from each model
+#' @param object an object of class \code{lm}
+#' @param ... other arguments
+#' @return \code{ols_all_subset_betas} returns a tibble containing 
+#'
+#' \item{model_index}{model number}
+#' \item{predictor}{predictor}
+#' \item{beta_coef}{coefficient for the predictor}
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' ols_all_subset_betas(model)
+#'
+#' @export
+#'
+ols_all_subset_betas <- function(object, ...) {
 
+  if (!all(class(model) == 'lm')) {
+    stop('Please specify a OLS linear regression model.', call. = FALSE)
+  }
+
+  if (length(model$coefficients) < 3) {
+    stop('Please specify a model with at least 2 predictors.', call. = FALSE)
+  }
+
+  metrics <- allpos_helper(object)
+  
+  beta_names <- metrics %>%
+    use_series(betas) %>%
+    names()
+  
+  mindex <- metrics %>%
+    use_series(rsq) %>%
+    length() %>%
+    seq_len()
+  
+  reps <- metrics %>%
+    use_series(lpreds) %>%
+    add(1)
+
+  m_index <- mindex %>%
+    rep(reps)
+
+  beta <- metrics %>%
+  use_series(betas)
+
+  model_betas <- tibble(model = m_index, 
+    predictor = beta_names, beta = beta)
+
+  return(model_betas)
+  
+}

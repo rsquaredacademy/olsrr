@@ -54,3 +54,21 @@ test_that('all possible regression plots are as expected', {
   vdiffr::expect_doppelganger('all possible sbc', k$sbc_plot)
 
 })
+
+test_that('all possible regression betas are as expected', {
+
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  k <- ols_all_subset_betas(model)
+  actual <- k %>%
+    select(predictor, beta) %>%
+    group_by(predictor) %>%
+    summarise_all(mean)
+
+  predictor <- c('(Intercept)', 'disp', 'hp', 'wt')
+  beta <- c(33.85901073, -0.02255579, -0.03899945, -4.09350456)
+
+  expected <- tibble(predictor, beta)
+  expect_equivalent(jj$predictor, expected$predictor)
+  expect_equivalent(jj$beta, expected$beta)
+
+})
