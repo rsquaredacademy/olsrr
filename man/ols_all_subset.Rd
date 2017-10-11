@@ -40,12 +40,16 @@ Fits all regressions involving one regressor, two regressors, three regressors, 
 It tests all possible subsets of the set of potential independent variables.
 }
 \examples{
+\dontrun{
 model <- lm(mpg ~ disp + hp, data = mtcars)
 k <- ols_all_subset(model)
 k
+}
 
+\dontrun{
 # plot
 plot(k)
+}
 
 }
 \references{

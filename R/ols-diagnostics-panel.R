@@ -4,8 +4,11 @@
 #' @description Panel of plots for regression diagnostics
 #' @param model an object of class \code{lm}
 #' @examples 
+#' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_diagnostic_panel(model)
+#' }
+#'
 #' @export
 #'
 ols_diagnostic_panel <- function(model) {

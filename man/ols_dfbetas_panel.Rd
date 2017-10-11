@@ -25,8 +25,10 @@ observations that are influential in estimating a given parameter. Belsley, Kuh,
 2 as a general cutoff value to indicate influential observations and \eqn{2/\sqrt(n)} as a size-adjusted cutoff.
 }
 \examples{
+\dontrun{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_dfbetas_panel(model)
+}
 }
 \references{
 Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression 

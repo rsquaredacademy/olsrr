@@ -41,13 +41,17 @@ well-defined objective criterion, such as having the largest R2 value or the
 smallest MSE, Mallow's Cp or AIC.
 }
 \examples{
+\dontrun{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_best_subset(model)
+}
 
+\dontrun{
 # plot
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 k <- ols_best_subset(model)
 plot(k)
+}
 }
 \references{
 Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 

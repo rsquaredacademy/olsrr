@@ -19,14 +19,18 @@
 #' \item{arsq}{adjusted rsquare}
 #' @references Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #' @examples
+#' \dontrun{
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_stepaic_forward(model)
+#' }
 #'
+#' \dontrun{
 #' # stepwise forward regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_stepaic_forward(model)
 #' plot(k)
+#' }
 #'
 #' @export
 #'

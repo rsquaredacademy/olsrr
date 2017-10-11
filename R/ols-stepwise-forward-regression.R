@@ -27,14 +27,18 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
 #' Chicago, IL., McGraw Hill/Irwin.
 #' @examples
+#' \dontrun{
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_forward(model)
+#' }
 #'
+#' \dontrun{
 #' # stepwise forward regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_forward(model)
 #' plot(k)
+#' }
 #'
 #' @export
 #'

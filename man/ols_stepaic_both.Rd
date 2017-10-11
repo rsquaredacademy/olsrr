@@ -37,14 +37,18 @@ Build regression model from a set of candidate predictor variables by entering a
 Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
 }
 \examples{
+\dontrun{
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
 ols_stepaic_both(model)
+}
 
+\dontrun{
 # stepwise regression plot
 model <- lm(y ~ ., data = surgical)
 k <- ols_stepaic_both(model)
 plot(k)
+}
 
 }
 \references{

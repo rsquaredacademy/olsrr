@@ -3,7 +3,7 @@
 #' @importFrom dplyr group_by summarise_all
 #' @importFrom purrr map_int
 #' @importFrom tidyr nest
-#' @importFrom magrittr add
+#' @importFrom magrittr add use_series
 #' @title All Possible Regression
 #' @description Fits all regressions involving one regressor, two regressors, three regressors, and so on.
 #' It tests all possible subsets of the set of potential independent variables.
@@ -31,12 +31,16 @@
 #' @references Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition). 
 #' Prentice Hall
 #' @examples
+#' \dontrun{
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
 #' k <- ols_all_subset(model)
 #' k
+#' }
 #'
+#' \dontrun{
 #' # plot
 #' plot(k)
+#' }
 #'
 #' @export
 #'
@@ -302,20 +306,26 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
 #' \item{beta_coef}{coefficient for the predictor}
 #'
 #' @examples
+#' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_all_subset_betas(model)
+#' }
 #'
 #' @export
 #'
 ols_all_subset_betas <- function(object, ...) {
 
-  if (!all(class(model) == 'lm')) {
+  if (!all(class(object) == 'lm')) {
     stop('Please specify a OLS linear regression model.', call. = FALSE)
   }
 
-  if (length(model$coefficients) < 3) {
+  if (length(object$coefficients) < 3) {
     stop('Please specify a model with at least 2 predictors.', call. = FALSE)
   }
+
+  betas  <- NULL
+  rsq    <- NULL
+  lpreds <- NULL
 
   metrics <- allpos_helper(object)
   

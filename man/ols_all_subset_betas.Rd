@@ -22,7 +22,9 @@ ols_all_subset_betas(object, ...)
 Returns the coefficients for each variable from each model
 }
 \examples{
+\dontrun{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_all_subset_betas(model)
+}
 
 }
