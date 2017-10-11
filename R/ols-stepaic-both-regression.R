@@ -19,14 +19,18 @@
 #' \item{steps}{total number of steps}
 #' @references Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #' @examples
+#' \dontrun{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_stepaic_both(model)
+#' }
 #'
+#' \dontrun{
 #' # stepwise regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_stepaic_both(model)
 #' plot(k)
+#' }
 #'
 #' @export
 #'

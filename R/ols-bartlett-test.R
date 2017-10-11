@@ -23,23 +23,31 @@
 #' @references Snedecor, George W. and Cochran, William G. (1989), Statistical Methods, 
 #' Eighth Edition, Iowa State University Press.
 #' @examples
+#' \dontrun{
 #' # using grouping variable
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
 #' resid <- residuals(model)
 #' cyl <- as.factor(mtcars$cyl)
 #' ols_bartlett_test(resid, group_var = cyl)
+#' }
 #' 
+#' \dontrun{
 #' # using variables
 #' ols_bartlett_test(hsb$read, hsb$write)
+#' }
 #' 
+#' \dontrun{
 #' # using formula
 #' mt <- mtcars
 #' mt$cyl <- as.factor(mt$cyl)
 #' ols_bartlett_test(mpg ~ cyl, data = mt)
+#' }
 #' 
+#' \dontrun{
 #' # using model
 #' model <- lm(mpg ~ cyl, data = mt)
 #' ols_bartlett_test(model)
+#' }
 #' @export
 #'
 ols_bartlett_test <- function(variable, ...) UseMethod('ols_bartlett_test')

@@ -24,14 +24,18 @@
 #' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
 #' @examples
+#' \dontrun{
 #' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_backward(model)
+#' }
 #'
+#' \dontrun{
 #' # stepwise backward regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_backward(model)
 #' plot(k)
+#' }
 #'
 #' @export
 #'

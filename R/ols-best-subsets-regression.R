@@ -27,13 +27,17 @@
 #' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
 #' Chicago, IL., McGraw Hill/Irwin.
 #' @examples
+#' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_best_subset(model)
+#' }
 #' 
+#' \dontrun{
 #' # plot
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' k <- ols_best_subset(model)
 #' plot(k)
+#' }
 #' @export
 #'
 ols_best_subset <- function(model, ...) UseMethod('ols_best_subset')

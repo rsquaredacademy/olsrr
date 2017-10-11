@@ -49,14 +49,18 @@ Build regression model from a set of candidate predictor variables by entering a
 p values, in a stepwise manner until there is no variable left to enter or remove any more.
 }
 \examples{
+\dontrun{
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
 ols_stepwise(model)
+}
 
+\dontrun{
 # stepwise regression plot
 model <- lm(y ~ ., data = surgical)
 k <- ols_stepwise(model)
 plot(k)
+}
 
 }
 \references{

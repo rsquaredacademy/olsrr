@@ -44,14 +44,18 @@ Build regression model from a set of candidate predictor variables by removing p
 p values, in a stepwise manner until there is no variable left to remove any more.
 }
 \examples{
+\dontrun{
 # stepwise backward regression
 model <- lm(y ~ ., data = surgical)
 ols_step_backward(model)
+}
 
+\dontrun{
 # stepwise backward regression plot
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward(model)
 plot(k)
+}
 
 }
 \references{

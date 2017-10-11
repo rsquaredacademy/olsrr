@@ -15,8 +15,10 @@
 #' Wiley Series in Probability and Mathematical Statistics. 
 #' New York: John Wiley & Sons. pp. ISBN 0-471-05856-4.
 #' @examples 
+#' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_dfbetas_panel(model)
+#' }
 #' @export
 #'
 ols_dfbetas_panel <- function(model) {
