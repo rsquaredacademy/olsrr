@@ -68,7 +68,7 @@ test_that('all possible regression betas are as expected', {
   beta <- c(33.85901073, -0.02255579, -0.03899945, -4.09350456)
 
   expected <- tibble(predictor, beta)
-  expect_equivalent(jj$predictor, expected$predictor)
-  expect_equivalent(jj$beta, expected$beta)
+  expect_equivalent(actual$predictor, expected$predictor)
+  expect_equivalent(actual$beta, expected$beta)
 
 })
