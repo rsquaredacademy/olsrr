@@ -59,7 +59,7 @@
     <div class="page-header toc-ignore">
       <h1>Residual Diagnostics</h1>
             
-            <h4 class="date">2017-09-03</h4>
+            <h4 class="date">2017-10-11</h4>
           </div>
 
     
@@ -79,7 +79,7 @@
 <h2 class="hasAnchor">
 <html><body><a href="#residual-qq-plot" class="anchor"> </a></body></html>Residual QQ Plot</h2>
 <p>Graph for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_rsd_qqplot.html">ols_rsd_qqplot</a></span>(model)</code></pre></div>
 <p><img src="residual_diagnostics_files/figure-html/qqresid-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -87,7 +87,7 @@
 <h2 class="hasAnchor">
 <html><body><a href="#residual-normality-test" class="anchor"> </a></body></html>Residual Normality Test</h2>
 <p>Test for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_norm_test.html">ols_norm_test</a></span>(model)</code></pre></div>
 <pre><code>## -----------------------------------------------
 ##        Test             Statistic       pvalue  
@@ -98,7 +98,7 @@
 ## Anderson-Darling          0.5859         0.1188 
 ## -----------------------------------------------</code></pre>
 <p>Correlation between observed residuals and expected residuals under normality.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_corr_test.html">ols_corr_test</a></span>(model)</code></pre></div>
 <pre><code>## [1] 0.970066</code></pre>
 </div>
@@ -112,7 +112,7 @@
 <li>The residuals form an approximate horizontal band around the 0 line indicating homogeneity of error variance.</li>
 <li>No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_rvsp_plot.html">ols_rvsp_plot</a></span>(model)</code></pre></div>
 <p><img src="residual_diagnostics_files/figure-html/rvsfplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -120,7 +120,7 @@
 <h2 class="hasAnchor">
 <html><body><a href="#residual-histogram" class="anchor"> </a></body></html>Residual Histogram</h2>
 <p>Histogram of residuals for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_rsd_hist.html">ols_rsd_hist</a></span>(model)</code></pre></div>
 <p><img src="residual_diagnostics_files/figure-html/residhist-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>

@@ -3,7 +3,7 @@
 olsrr
 =====
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr) [![Coverage Status](https://img.shields.io/codecov/c/github/rsquaredacademy/olsrr/master.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master) [![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)](https://github.com/joethorley/stability-badges#stable) [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr) [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)
 
 Overview
 --------
@@ -48,8 +48,15 @@ Vignettes
 -   [Measures of Influence](http://www.rsquaredacademy.com/olsrr/articles/influence_measures.html)
 -   [Collinearity Diagnostics](http://www.rsquaredacademy.com/olsrr/articles/regression_diagnostics.html)
 
-Usage
------
+Consistent Prefix
+-----------------
+
+olsrr uses consistent prefix `ols_` for easy tab completion.
+
+Quick Demo
+----------
+
+olsrr is built with the aim of helping those users who are new to the R language. If you know how to write a `formula` or build models using `lm`, you will find olsrr very useful. Most of the functions use an object of class `lm` as input. So you just need to build a model using `lm` and then pass it onto the functions in olsrr. Below is a quick demo:
 
 ##### Regression
 
@@ -272,9 +279,5 @@ plot(k)
 ```
 
 <img src="README-stepaicb2-1.png" style="display: block; margin: auto;" />
-
-## License
-
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

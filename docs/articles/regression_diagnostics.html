@@ -59,7 +59,7 @@
     <div class="page-header toc-ignore">
       <h1>Collinearity Diagnostics, Model Fit &amp; Variable Contribution</h1>
             
-            <h4 class="date">2017-09-03</h4>
+            <h4 class="date">2017-10-11</h4>
           </div>
 
     
@@ -80,7 +80,7 @@
 </li>
 </ul>
 <p><span class="math display">\[VIF = \frac{1}{1 - {R}^{2}_{k}} = \frac{1}{Tolerance}\]</span></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_coll_diag.html">ols_vif_tol</a></span>(model)</code></pre></div>
 <pre><code>## # A tibble: 4 x 3
 ##   Variables Tolerance      VIF
@@ -106,7 +106,7 @@
 <h3 class="hasAnchor">
 <html><body><a href="#condition-index" class="anchor"> </a></body></html>Condition Index</h3>
 <p>Most multivariate statistical approaches involve decomposing a correlation matrix into linear combinations of variables. The linear combinations are chosen so that the first combination has the largest possible variance (subject to some restrictions we won’t discuss), the second combination has the next largest variance, subject to being uncorrelated with the first, the third has the largest possible variance, subject to being uncorrelated with the first and second, and so forth. The variance of each of these linear combinations is called an eigenvalue. Collinearity is spotted by finding 2 or more variables that have large proportions of variance (.50 or more) that correspond to large condition indices. A rule of thumb is to label as large those condition indices in the range of 30 or larger.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_coll_diag.html">ols_eigen_cindex</a></span>(model)</code></pre></div>
 <pre><code>##    Eigenvalue Condition Index   intercept        disp          hp
 ## 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094
@@ -124,7 +124,7 @@
 <div id="collinearity-diagnostics-1" class="section level3">
 <h3 class="hasAnchor">
 <html><body><a href="#collinearity-diagnostics-1" class="anchor"> </a></body></html>Collinearity Diagnostics</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_coll_diag.html">ols_coll_diag</a></span>(model)</code></pre></div>
 <pre><code>## Tolerance and Variance Inflation Factor
 ## ---------------------------------------
@@ -160,7 +160,7 @@
 <h3 class="hasAnchor">
 <html><body><a href="#residual-fit-spread-plot" class="anchor"> </a></body></html>Residual Fit Spread Plot</h3>
 <p>Plot to detect non-linearity, influential observations and outliers. Consists of side-by-side quantile plots of the centered fit and the residuals. It shows how much variation in the data is explained by the fit and how much remains in the residuals. For inappropriate models, the spread of the residuals in such a plot is often greater than the spread of the centered fit.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_rfs_plot.html">ols_rfs_plot</a></span>(model)</code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/rfsplot-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
@@ -185,7 +185,7 @@
 <h5 class="hasAnchor">
 <html><body><a href="#partial" class="anchor"> </a></body></html>Partial</h5>
 <p>How much of the variance in <strong>Y</strong>, which is not estimated by the other independent variables in the model, is estimated by the specific variable?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_correlations.html">ols_correlations</a></span>(model)</code></pre></div>
 <pre><code>##                Correlations                 
 ## -------------------------------------------
@@ -203,7 +203,7 @@
 <h3 class="hasAnchor">
 <html><body><a href="#observed-vs-predicted-plot" class="anchor"> </a></body></html>Observed vs Predicted Plot</h3>
 <p>Plot of observed vs fitted values to assess the fit of the model. Ideally, all your points should be close to a regressed diagonal line. Draw such a diagonal line within your graph and check out where the points lie. If your model had a high R Square, all the points would be close to this diagonal line. The lower the R Square, the weaker the Goodness of fit of your model, the more foggy or dispersed your points are from this diagonal line.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_ovsp_plot.html">ols_ovsp_plot</a></span>(model)</code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/obspred-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -216,7 +216,7 @@
 <li>Due to random variation</li>
 </ul>
 <p>If most of the error is due to lack of fit and not just random error, the model should be discarded and a new model must be built. The lack of fit F test works only with simple linear regression. Moreover, it is important that the data contains repeat observations i.e. replicates for at least one of the values of the predictor x. This test generally only applies to datasets with plenty of replicates.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_pure_error_anova.html">ols_pure_error_anova</a></span>(model)</code></pre></div>
 <pre><code>## Lack of Fit F Test 
 ## -----------------
@@ -237,7 +237,7 @@
 <h3 class="hasAnchor">
 <html><body><a href="#diagnostics-panel" class="anchor"> </a></body></html>Diagnostics Panel</h3>
 <p>Panel of plots for regression diagnostics</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_diagnostic_panel.html">ols_diagnostic_panel</a></span>(model)</code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/diagpanel-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
@@ -249,8 +249,8 @@
 <h3 class="hasAnchor">
 <html><body><a href="#residual-vs-regressor-plots" class="anchor"> </a></body></html>Residual vs Regressor Plots</h3>
 <p>Graph to determine whether we should add a new predictor to the model already containing other predictors. The residuals from the model is regressed on the new predictor and if the plot shows non random pattern, you should consider adding the new predictor to the model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rvsr_plot.html">ols_rvsr_plot</a></span>(model, mtcars$drat)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+<span class="kw"><a href="../reference/ols_rvsr_plot.html">ols_rvsr_plot</a></span>(model, mtcars<span class="op">$</span>drat)</code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/rvsrplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="added-variable-plot" class="section level3">
@@ -267,7 +267,7 @@
 </ul>
 <p>What do the <em>Y</em> and <em>X</em> residuals represent? The <em>Y</em> residuals represent the part of <strong>Y</strong> not explained by all the variables other than X. The <em>X</em> residuals represent the part of <strong>X</strong> not explained by other variables. The slope of the line fitted to the points in the added variable plot is equal to the regression coefficient when <strong>Y</strong> is regressed on all variables including <strong>X</strong>.</p>
 <p>A strong linear relationship in the added variable plot indicates the increased importance of the contribution of <strong>X</strong> to the model already containing the other predictors.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_avplots.html">ols_avplots</a></span>(model)</code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/avplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -283,7 +283,7 @@
 </li>
 </ul>
 <p>The residual plus component plot indicates whether any non-linearity is present in the relationship between <strong>Y</strong> and <strong>X</strong> and can suggest possible transformations for linearizing the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_rpc_plot.html">ols_rpc_plot</a></span>(model)</code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/cplusr-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>

@@ -20,6 +20,7 @@ reference:
 
   contents:
   - ols_all_subset
+  - ols_all_subset_betas
   - ols_best_subset
   - ols_step_backward
   - ols_step_forward

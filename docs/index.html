@@ -64,7 +64,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="olsrr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#olsrr" class="anchor"> </a>olsrr <img src="olsrr.jpg" align="right"></h1></div>
+<a href="#olsrr" class="anchor"> </a>olsrr</h1></div>
 
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
@@ -90,7 +90,7 @@
 
 <span class="co"># the development version from github</span>
 <span class="co"># install.packages("devtools")</span>
-devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacademy/olsrr"</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"rsquaredacademy/olsrr"</span>)</code></pre></div>
 </div>
 <div id="shiny-app" class="section level2">
 <h2 class="hasAnchor">
@@ -109,13 +109,19 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <li><a href="http://www.rsquaredacademy.com/olsrr/articles/regression_diagnostics.html">Collinearity Diagnostics</a></li>
 </ul>
 </div>
-<div id="usage" class="section level2">
+<div id="consistent-prefix" class="section level2">
 <h2 class="hasAnchor">
-<a href="#usage" class="anchor"> </a>Usage</h2>
+<a href="#consistent-prefix" class="anchor"> </a>Consistent Prefix</h2>
+<p>olsrr uses consistent prefix <code>ols_</code> for easy tab completion.</p>
+</div>
+<div id="quick-demo" class="section level2">
+<h2 class="hasAnchor">
+<a href="#quick-demo" class="anchor"> </a>Quick Demo</h2>
+<p>olsrr is built with the aim of helping those users who are new to the R language. If you know how to write a <code>formula</code> or build models using <code>lm</code>, you will find olsrr very useful. Most of the functions use an object of class <code>lm</code> as input. So you just need to build a model using <code>lm</code> and then pass it onto the functions in olsrr. Below is a quick demo:</p>
 <div id="regression" class="section level5">
 <h5 class="hasAnchor">
 <a href="#regression" class="anchor"> </a>Regression</h5>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ols_regress.html">ols_regress</a></span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ols_regress.html">ols_regress</a></span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="co">#&gt;                         Model Summary                          </span>
 <span class="co">#&gt; --------------------------------------------------------------</span>
 <span class="co">#&gt; R                       0.914       RMSE                2.622 </span>
@@ -152,7 +158,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <h5 class="hasAnchor">
 <a href="#residual-vs-fitted-values-plot" class="anchor"> </a>Residual vs Fitted Values Plot</h5>
 <p>Plot to detect non-linearity, unequal error variances, and outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="reference/ols_rvsp_plot.html">ols_rvsp_plot</a></span>(model)</code></pre></div>
 <p><img src="README-rvsfplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -160,7 +166,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <h5 class="hasAnchor">
 <a href="#dfbetas-panel" class="anchor"> </a>DFBETAs Panel</h5>
 <p>DFBETAs measure the difference in each parameter estimate with and without the influential observation. <code>dfbetas_panel</code> creates plots to detect influential observations using DFBETAs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="reference/ols_dfbetas_panel.html">ols_dfbetas_panel</a></span>(model)</code></pre></div>
 <p><img src="README-dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -168,7 +174,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <h5 class="hasAnchor">
 <a href="#residual-fit-spread-plot" class="anchor"> </a>Residual Fit Spread Plot</h5>
 <p>Plot to detect non-linearity, influential observations and outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="reference/ols_rfs_plot.html">ols_rfs_plot</a></span>(model)</code></pre></div>
 <p><img src="README-rfsplot-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
@@ -176,7 +182,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <h5 class="hasAnchor">
 <a href="#breusch-pagan-test" class="anchor"> </a>Breusch Pagan Test</h5>
 <p>Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a <span class="math inline">\(\chi^{2}\)</span> test.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>drat, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>drat, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="reference/ols_bp_test.html">ols_bp_test</a></span>(model)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Breusch Pagan Test for Heteroskedasticity</span>
@@ -198,7 +204,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <div id="collinearity-diagnostics" class="section level5">
 <h5 class="hasAnchor">
 <a href="#collinearity-diagnostics" class="anchor"> </a>Collinearity Diagnostics</h5>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="reference/ols_coll_diag.html">ols_coll_diag</a></span>(model)
 <span class="co">#&gt; Tolerance and Variance Inflation Factor</span>
 <span class="co">#&gt; ---------------------------------------</span>
@@ -233,7 +239,7 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <div id="variable-selection" class="section level6">
 <h6>Variable Selection</h6>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="reference/ols_stepwise.html">ols_stepwise</a></span>(model)
 <span class="co">#&gt; We are selecting variables based on p value...</span>
 <span class="co">#&gt; 1 variable(s) added....</span>
@@ -270,7 +276,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 </div>
 <div id="plot" class="section level6">
 <h6>Plot</h6>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepwise.html">ols_stepwise</a></span>(model)
 <span class="co">#&gt; We are selecting variables based on p value...</span>
 <span class="co">#&gt; 1 variable(s) added....</span>
@@ -290,7 +296,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepwise
 <div id="variable-selection-1" class="section level6">
 <h6>Variable Selection</h6>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
 k
 <span class="co">#&gt; </span>
@@ -306,7 +312,7 @@ k
 <span class="co">#&gt; -------------------------------------------------------------------------</span>
 
 ###### Plot</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
 <span class="kw">plot</span>(k)</code></pre></div>
 <p><img src="README-stepaicb2-1.png" width="480" style="display: block; margin: auto;"></p>

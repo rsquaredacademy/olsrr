@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stepwise Backward Regression — ols_step_backward â€¢ olsrr</title>
+<title>Launch Shiny App — ols_launch_app â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,70 +77,25 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stepwise Backward Regression</h1>
+    <h1>Launch Shiny App</h1>
     </div>
 
     
-    <p>Build regression model from a set of candidate predictor variables by removing predictors based on 
-p values, in a stepwise manner until there is no variable left to remove any more.</p>
+    <p>Launches shiny app</p>
     
 
-    <pre><span class='fu'>ols_step_backward</span>(<span class='no'>model</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for default</span>
-<span class='fu'>ols_step_backward</span>(<span class='no'>model</span>, <span class='kw'>prem</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for ols_step_backward</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>model</dt>
-      <dd>an object of class <code>lm</code>; the model should include all candidate predictor variables</dd>
-      <dt>...</dt>
-      <dd>other inputs</dd>
-      <dt>prem</dt>
-      <dd>p value; variables with p more than <code>prem</code> will be removed from the model</dd>
-      <dt>details</dt>
-      <dd>logical; if <code>TRUE</code>, will print the regression result at each step</dd>
-      <dt>x</dt>
-      <dd>an object of class <code>ols_step_backward</code></dd>
-    </dl>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p><code>ols_step_backward</code> returns an object of class <code>&quot;ols_step_backward&quot;</code>.
-An object of class <code>&quot;ols_step_backward&quot;</code> is a list containing the
-following components:</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley &amp; Sons, 2012. Print.</p>
-    
+    <pre><span class='fu'>ols_launch_app</span>()</pre>
+        
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # stepwise backward regression</span>
-<span class='co'># model &lt;- lm(y ~ ., data = surgical)</span>
-<span class='co'># ols_step_backward(model)</span>
-<span class='co'>## ---------------------------------------------</span>
-
-<span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # stepwise backward regression plot</span>
-<span class='co'># model &lt;- lm(y ~ ., data = surgical)</span>
-<span class='co'># k &lt;- ols_step_backward(model)</span>
-<span class='co'># plot(k)</span>
+<span class='co'># ols_launch_app()</span>
 <span class='co'>## ---------------------------------------------</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 

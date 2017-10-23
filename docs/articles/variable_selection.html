@@ -59,7 +59,7 @@
     <div class="page-header toc-ignore">
       <h1>Variable Selection Methods</h1>
             
-            <h4 class="date">2017-09-03</h4>
+            <h4 class="date">2017-10-11</h4>
           </div>
 
     
@@ -78,7 +78,7 @@
 <h2 class="hasAnchor">
 <html><body><a href="#all-possible-regression" class="anchor"> </a></body></html>All Possible Regression</h2>
 <p>All subset regression tests all possible subsets of the set of potential independent variables. If there are K potential independent variables (besides the constant), then there are <span class="math inline">\(2^{k}\)</span> distinct subsets of them to be tested. For example, if you have 10 candidate independent variables, the number of subsets to be tested is <span class="math inline">\(2^{10}\)</span>, which is 1024, and if you have 20 candidate variables, the number is <span class="math inline">\(2^{20}\)</span>, which is more than one million.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_all_subset.html">ols_all_subset</a></span>(model)</code></pre></div>
 <pre><code>## # A tibble: 15 x 6
 ##    Index     N      Predictors `R-Square` `Adj. R-Square` `Mallow's Cp`
@@ -99,7 +99,7 @@
 ## 14    14     3    disp hp qsec    0.75420         0.72786      16.25779
 ## 15    15     4 disp hp wt qsec    0.83514         0.81072       5.00000</code></pre>
 <p>The <code>plot</code> method shows the panel of fit criteria for all possible regression methods.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_all_subset.html">ols_all_subset</a></span>(model)
 <span class="kw">plot</span>(k)</code></pre></div>
 <p><img src="variable_selection_files/figure-html/allsubplot-1.png" width="960" style="display: block; margin: auto;"></p>
@@ -108,7 +108,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_all_s
 <h2 class="hasAnchor">
 <html><body><a href="#best-subset-regression" class="anchor"> </a></body></html>Best Subset Regression</h2>
 <p>Select the subset of predictors that do the best at meeting some well-defined objective criterion, such as having the largest R2 value or the smallest MSE, Mallow’s Cp or AIC.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 <span class="kw"><a href="../reference/ols_best_subset.html">ols_best_subset</a></span>(model)</code></pre></div>
 <pre><code>##    Best Subsets Regression    
 ## ------------------------------
@@ -138,7 +138,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_all_s
 ##  HSP: Hocking's Sp 
 ##  APC: Amemiya Prediction Criteria</code></pre>
 <p>The <code>plot</code> method shows the panel of fit criteria for best subset regression methods.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>disp +<span class="st"> </span>hp +<span class="st"> </span>wt +<span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_best_subset.html">ols_best_subset</a></span>(model)
 <span class="kw">plot</span>(k)</code></pre></div>
 <p><img src="variable_selection_files/figure-html/bestsubplot-1.png" width="960" style="display: block; margin: auto;"></p>
@@ -151,7 +151,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_best_
 <h3 class="hasAnchor">
 <html><body><a href="#variable-selection" class="anchor"> </a></body></html>Variable Selection</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise forward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model)</code></pre></div>
 <pre><code>## We are selecting variables based on p value...</code></pre>
 <pre><code>## 1 variable(s) added....</code></pre>
@@ -189,7 +189,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <div id="plot" class="section level3">
 <h3 class="hasAnchor">
 <html><body><a href="#plot" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model)</code></pre></div>
 <pre><code>## We are selecting variables based on p value...</code></pre>
 <pre><code>## 1 variable(s) added....</code></pre>
@@ -205,7 +205,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_
 <h3 class="hasAnchor">
 <html><body><a href="#detailed-output" class="anchor"> </a></body></html>Detailed Output</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise forward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## We are selecting variables based on p value...</code></pre>
 <pre><code>## 1 variable(s) added....</code></pre>
@@ -422,7 +422,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <h3 class="hasAnchor">
 <html><body><a href="#variable-selection-1" class="anchor"> </a></body></html>Variable Selection</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model)</code></pre></div>
 <pre><code>## We are eliminating variables based on p value...</code></pre>
 <pre><code>## No more variables satisfy the condition of prem: 0.3</code></pre>
@@ -453,7 +453,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <div id="plot-1" class="section level3">
 <h3 class="hasAnchor">
 <html><body><a href="#plot-1" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model)</code></pre></div>
 <pre><code>## We are eliminating variables based on p value...</code></pre>
 <pre><code>## No more variables satisfy the condition of prem: 0.3</code></pre>
@@ -464,7 +464,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_
 <h3 class="hasAnchor">
 <html><body><a href="#detailed-output-1" class="anchor"> </a></body></html>Detailed Output</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## We are eliminating variables based on p value...</code></pre>
 <pre><code>## Backward Elimination: Step 1 
@@ -616,7 +616,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <h3 class="hasAnchor">
 <html><body><a href="#variable-selection-2" class="anchor"> </a></body></html>Variable Selection</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model)</code></pre></div>
 <pre><code>## We are selecting variables based on p value...</code></pre>
 <pre><code>## 1 variable(s) added....</code></pre>
@@ -654,7 +654,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <div id="plot-2" class="section level3">
 <h3 class="hasAnchor">
 <html><body><a href="#plot-2" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model)</code></pre></div>
 <pre><code>## We are selecting variables based on p value...</code></pre>
 <pre><code>## 1 variable(s) added....</code></pre>
@@ -670,7 +670,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepw
 <h3 class="hasAnchor">
 <html><body><a href="#detailed-output-2" class="anchor"> </a></body></html>Detailed Output</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## We are selecting variables based on p value...</code></pre>
 <pre><code>## 1 variable(s) added....</code></pre>
@@ -887,7 +887,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <h3 class="hasAnchor">
 <html><body><a href="#variable-selection-3" class="anchor"> </a></body></html>Variable Selection</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic forward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model)</code></pre></div>
 <pre><code>## --------------------------------------------------------------------------
 ## Variable         AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
@@ -902,7 +902,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <div id="plot-3" class="section level3">
 <h3 class="hasAnchor">
 <html><body><a href="#plot-3" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model)
 <span class="kw">plot</span>(k)</code></pre></div>
 <p><img src="variable_selection_files/figure-html/stepaicf2-1.png" width="480" style="display: block; margin: auto;"></p>
@@ -911,7 +911,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepa
 <h3 class="hasAnchor">
 <html><body><a href="#detailed-output-3" class="anchor"> </a></body></html>Detailed Output</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic forward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>##  Step 0: AIC = 802.606 
 ##  y ~ 1 
@@ -1050,7 +1050,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <h3 class="hasAnchor">
 <html><body><a href="#variable-selection-4" class="anchor"> </a></body></html>Variable Selection</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
 k</code></pre></div>
 <pre><code>## 
@@ -1065,7 +1065,7 @@ k</code></pre></div>
 ## age           730.620    1833716.447    6535804.090    0.781        0.758 
 ## -------------------------------------------------------------------------</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">### Plot</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
 <span class="kw">plot</span>(k)</code></pre></div>
 <p><img src="variable_selection_files/figure-html/stepaicb2-1.png" width="480" style="display: block; margin: auto;"></p>
@@ -1074,7 +1074,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepa
 <h3 class="hasAnchor">
 <html><body><a href="#detailed-output-4" class="anchor"> </a></body></html>Detailed Output</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>##  Step 0: AIC = 736.3899 
 ##  y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy 
@@ -1155,7 +1155,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <h3 class="hasAnchor">
 <html><body><a href="#variable-selection-5" class="anchor"> </a></body></html>Variable Selection</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model)</code></pre></div>
 <pre><code>## No more variables to be added or removed.</code></pre>
 <pre><code>## 
@@ -1174,7 +1174,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="s
 <div id="plot-4" class="section level3">
 <h3 class="hasAnchor">
 <html><body><a href="#plot-4" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model)</code></pre></div>
 <pre><code>## No more variables to be added or removed.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(k)</code></pre></div>
@@ -1184,7 +1184,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepa
 <h3 class="hasAnchor">
 <html><body><a href="#detailed-output-5" class="anchor"> </a></body></html>Detailed Output</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>., <span class="dt">data =</span> surgical)
+model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 <span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>##  Step 0: AIC = 802.606 
 ##  y ~ 1 

@@ -122,37 +122,18 @@ Chicago, IL., McGraw Hill/Irwin.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># stepwise forward regression</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>surgical</span>)
-<span class='fu'>ols_step_forward</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; <span class='message'>We are selecting variables based on p value...</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added....</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added...</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added...</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added...</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added...</span></div><div class='output co'>#&gt; <span class='message'>No more variables satisfy the condition of penter: 0.3</span></div><div class='output co'>#&gt; Forward Selection Method                                                       
-#&gt; 
-#&gt; Candidate Terms:                                                               
-#&gt; 
-#&gt; 1 . bcs                                                                        
-#&gt; 2 . pindex                                                                     
-#&gt; 3 . enzyme_test                                                                
-#&gt; 4 . liver_test                                                                 
-#&gt; 5 . age                                                                        
-#&gt; 6 . gender                                                                     
-#&gt; 7 . alc_mod                                                                    
-#&gt; 8 . alc_heavy                                                                  
-#&gt; 
-#&gt; ------------------------------------------------------------------------------
-#&gt;                               Selection Summary                                
-#&gt; ------------------------------------------------------------------------------
-#&gt;         Variable                     Adj.                                         
-#&gt; Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE      
-#&gt; ------------------------------------------------------------------------------
-#&gt;    1    liver_test       0.4545      0.4440    62.5119    771.8753    296.2992    
-#&gt;    2    alc_heavy        0.5667      0.5498    41.3681    761.4394    266.6484    
-#&gt;    3    enzyme_test      0.6590      0.6385    24.3379    750.5089    238.9145    
-#&gt;    4    pindex           0.7501      0.7297     7.5373    735.7146    206.5835    
-#&gt;    5    bcs              0.7809      0.7581     3.1925    730.6204    195.4544    
-#&gt; ------------------------------------------------------------------------------</div><div class='input'>
-<span class='co'># stepwise forward regression plot</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>surgical</span>)
-<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_forward</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; <span class='message'>We are selecting variables based on p value...</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added....</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added...</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added...</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added...</span></div><div class='output co'>#&gt; <span class='message'>1 variable(s) added...</span></div><div class='output co'>#&gt; <span class='message'>No more variables satisfy the condition of penter: 0.3</span></div><div class='input'><span class='fu'>plot</span>(<span class='no'>k</span>)</div><img src='ols_step_forward-19.png' alt='' width='540' height='400' /><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
+<span class='co'># # stepwise forward regression</span>
+<span class='co'># model &lt;- lm(y ~ ., data = surgical)</span>
+<span class='co'># ols_step_forward(model)</span>
+<span class='co'>## ---------------------------------------------</span>
+
+<span class='co'>## Not run: ------------------------------------</span>
+<span class='co'># # stepwise forward regression plot</span>
+<span class='co'># model &lt;- lm(y ~ ., data = surgical)</span>
+<span class='co'># k &lt;- ols_step_forward(model)</span>
+<span class='co'># plot(k)</span>
+<span class='co'>## ---------------------------------------------</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
