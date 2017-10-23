@@ -252,8 +252,13 @@ rtwo <- function(i, mdata) {
   return(out)
 }
 
-corsign <- function(data) {
-  d <- data %>% sign()
+corsign <- function(model) {
+  d <- model %>%
+    summary %>%
+    use_series(coefficients) %>%
+    `[`(, 1) %>%
+    `[`(-1) %>%
+    sign
   return(d)
 }
 
@@ -262,7 +267,7 @@ corout <- function(model, r2) {
   cor_mdata <- cmdata(mdata)
          r1 <- summary(model)$r.squared
           n <- ncol(mdata)
-      ksign <- corsign(cor_mdata)
+      ksign <- corsign(model)
          n2 <- n - 1
       parts <- ksign * sqrt(r1 - r2)
    partials <- parts / sqrt(1 - r2)
