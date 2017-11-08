@@ -1,0 +1,12 @@
+---
+title: "Media"
+output: 
+  html_document:
+    toc_depth: 3
+---
+
+## Shiny App Demo
+
+- [YouTube Playlist](https://www.youtube.com/watch?v=v-qSC6bVstE&list=PLDfCKV3ey8-fPVNyOxd6dJfptZLXKTpRl)
+
+
