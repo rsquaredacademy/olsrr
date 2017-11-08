@@ -2,7 +2,10 @@ Package: olsrr
 Type: Package
 Title: Tools for Teaching and Learning OLS Regression
 Version: 0.4.0
-Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
+Authors@R: c(
+    person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre")),
+    person("Rsquared", "Academy", role = c("cph", "fnd"))
+    )
 Description: Tools for teaching and learning ordinary least squares regression. Includes 
     comprehensive regression output, heteroskedasticity tests, collinearity diagnostics, 
     residual diagnostics, measures of influence, model fit assessment and variable selection procedures.
