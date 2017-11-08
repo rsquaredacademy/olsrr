@@ -1,6 +1,39 @@
 templates:
   params:
-    bootswatch: cerulean
+    bootswatch: cosmo
+
+navbar:
+  title: "olsrr"
+  type: inverse
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Guides"
+      menu:
+        - text: "Intro"
+          href: articles/intro.html
+        - text: "Residual Diagnostics"
+          href: articles/residual_diagnostics.html
+        - text: "Measures of Influence"
+          href: articles/influence_measures.html
+        - text: "Heteroskedasticity"
+          href: articles/heteroskedasticity.html
+        - text: "Collinearity Diagnostics"
+          href: articles/regression_diagnostics.html
+        - text: "Variable Selection"
+          href: articles/variable_selection.html
+    - text: "Reference"
+      menu:
+        - text: "Functions"
+          href: reference/index.html
+        - text: "Media"
+          href: articles/reference-media.html
+        - text: "News"
+          href: news/index.html
+  right:
+   - icon: fa-github
+     href: https://github.com/rsquaredacademy/olsrr
+
 
 home:
   links:
@@ -8,9 +41,16 @@ home:
     href: http://www.rsquaredacademy.com
   - text: Shiny App
     href: http://rsquaredlabs.com:3838/explorer/
+  - text: Docker Image
+    href: https://hub.docker.com/r/rsquaredacademy/olsrr/  
 
 
 reference:
+- title: Shiny App
+
+  contents:
+  - ols_launch_app
+
 - title: Regression
 
   contents:
