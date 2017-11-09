@@ -1,7 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-olsrr
-=====
+olsrr: Tools for building OLS Regression models
+-----------------------------------------------
+
+**Author:** [Aravind Hebbali]()<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr) [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)
 
@@ -36,7 +38,7 @@ devtools::install_github("rsquaredacademy/olsrr")
 Shiny App
 ---------
 
-If you want to explore the package using a shiny app, please click [here](http://rsquaredlabs.com:3838/explorer/).
+Use `ols_launch_app()` to explore the package using a shiny app.
 
 Vignettes
 ---------
