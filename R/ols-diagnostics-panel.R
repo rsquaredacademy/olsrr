@@ -3,7 +3,7 @@
 #' @title Diagnostics Panel
 #' @description Panel of plots for regression diagnostics
 #' @param model an object of class \code{lm}
-#' @examples 
+#' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_diagnostic_panel(model)
@@ -26,7 +26,7 @@ ols_diagnostic_panel <- function(model) {
        leverage <- NULL
 
 
-    # residual vs fitted values plot   
+    # residual vs fitted values plot
     d1 <- rvspdata(model)
     p1 <- ggplot(d1, aes(x = predicted, y = resid)) +
       geom_point(shape = 1, colour = 'blue') +
@@ -45,10 +45,10 @@ ols_diagnostic_panel <- function(model) {
     	ggtitle("Deleted Studentized Residual vs Predicted Values") +
     	geom_hline(yintercept = c(-2, 2), colour = 'red')
 
-    # studentized residuals vs leverage plot 
+    # studentized residuals vs leverage plot
      j <- rstudlev(model)
     j1 <- j$levrstud
-    
+
     d3 <- ggplot(j1, aes(leverage, rstudent)) +
     	geom_point(shape = 1, aes(colour = Observation)) +
     	scale_color_manual(values = c("blue", "red", "green", "violet")) +
@@ -65,14 +65,14 @@ ols_diagnostic_panel <- function(model) {
     slope <- diff(y)/diff(x)
       int <- y[1L] - slope * x[1L]
        d4 <- tibble(x = resid)
-    
+
     p4 <- ggplot(d4, aes(sample = x)) + stat_qq(color = 'blue') +
     	geom_abline(slope = slope, intercept = int, color = 'red') +
     	xlab('Theoretical Quantiles') + ylab('Sample Quantiles') +
     	ggtitle('Normal Q-Q Plot')
 
 
-    # observed vs fitted values plot  
+    # observed vs fitted values plot
     oname <- model %>%
       model.frame() %>%
       names() %>%
@@ -98,7 +98,7 @@ ols_diagnostic_panel <- function(model) {
       geom_hline(yintercept = m$ts, colour = 'red') +
       xlab('Observation') + ylab("Cook's D") + ggtitle("Cook's D Chart")
 
-    # residual fit spread plot  
+    # residual fit spread plot
        d <- fmdata(model)
     ymin <- min(d$y) + (0.25 * min(d$y))
     ymax <- max(d$y) + (0.25 * max(d$y))
@@ -115,7 +115,7 @@ ols_diagnostic_panel <- function(model) {
 
    	d8 <- ggplot(da, aes(x = x, y = y)) +
    	  geom_point(color = 'blue', shape = 1) +
-   	  ylim(c(ymin, ymax)) + xlim(c(-0.2, 1.2)) +
+   	  ylim(c(ymina, ymaxa)) + xlim(c(-0.2, 1.2)) +
    	  ylab('Residual') + xlab('Proportion Less') +
    	  ggtitle('Residual Fit Spread Plot')
 
@@ -142,9 +142,9 @@ ols_diagnostic_panel <- function(model) {
 
   grid.arrange(p1, d2, d3, p4, p5, d6, d7, d8, p9, p10, ncol = 2)
 
-  result <- list(plot_1 = p1, plot_2 = d2, plot_3 = d3, plot_4 = p4, 
-    plot_5 = p5, plot_6 = d6, plot_7 = d7, plot_8 = d8, plot_9 = p9, 
+  result <- list(plot_1 = p1, plot_2 = d2, plot_3 = d3, plot_4 = p4,
+    plot_5 = p5, plot_6 = d6, plot_7 = d7, plot_8 = d8, plot_9 = p9,
     plot_10 = p10)
-  
+
   invisible(result)
 }
