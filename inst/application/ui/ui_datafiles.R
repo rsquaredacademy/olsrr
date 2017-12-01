@@ -23,7 +23,7 @@ tabPanel('Upload File', value = 'tab_uploadfile',
 			          ),
 			          column(4, align = 'right',
 			            actionButton(inputId='uploadlink2', label="Demo", icon = icon("video-camera"),
-			              onclick ="window.open('http://google.com', '_blank')")
+			              onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=00m25s', '_blank')")
 			          )
 			        ),
 			        hr(),

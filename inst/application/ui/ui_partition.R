@@ -9,7 +9,7 @@ tabPanel('Partition', value = 'tab_partition', icon = icon('cut'),
       ),
       column(6, align = 'right',
         actionButton(inputId='partitionlink', label="Demo", icon = icon("video-camera"),
-          onclick ="window.open('http://google.com', '_blank')")
+          onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=04m24s', '_blank')")
       )
     ),
     hr(),

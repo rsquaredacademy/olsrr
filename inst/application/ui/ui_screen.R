@@ -11,7 +11,7 @@ tabPanel('Screen', value = 'tab_screen',
               actionButton(inputId='dscreenlink1', label="Help", icon = icon("question-circle"),
                 onclick ="window.open('http://google.com', '_blank')"),
               actionButton(inputId='dscreenlink3', label="Demo", icon = icon("video-camera"),
-                onclick ="window.open('http://google.com', '_blank')")
+                onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=03m09s', '_blank')")
             )
           ),
           hr(),
