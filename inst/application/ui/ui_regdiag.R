@@ -16,9 +16,7 @@ tabPanel('Variable Contribution', value = 'tab_regvarcont',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='advarlink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_avplots.html', '_blank')"),
-                  actionButton(inputId='advarlink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_avplots.html', '_blank')")
                 )
               ),
               hr(),
@@ -70,9 +68,7 @@ tabPanel('Variable Contribution', value = 'tab_regvarcont',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='regcprp1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rpc_plot.html', '_blank')"),
-                  actionButton(inputId='regcprp3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rpc_plot.html', '_blank')")
                 )
               ),
               hr(),
@@ -121,9 +117,7 @@ tabPanel('Variable Contribution', value = 'tab_regvarcont',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='rvsrlink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rvsr_plot.html', '_blank')"),
-                  actionButton(inputId='rvsrlink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rvsr_plot.html', '_blank')")
                 )
               ),
               hr(),

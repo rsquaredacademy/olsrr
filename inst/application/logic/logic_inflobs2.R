@@ -7,9 +7,7 @@ output$ui_inflobslink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='cdbplink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_cooksd_barplot.html', '_blank')"),
-                  actionButton(inputId='cdbplink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_cooksd_barplot.html', '_blank')")
                 )
               )
     } else if (input$inflobs_select == "Cook's D Chart") {
@@ -20,9 +18,7 @@ output$ui_inflobslink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='cdclink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_cooksd_chart.html', '_blank')"),
-                  actionButton(inputId='cdclink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_cooksd_chart.html', '_blank')")
                 )
               )
     } else if (input$inflobs_select == "DFBETAs Panel") {
@@ -33,9 +29,7 @@ output$ui_inflobslink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='dfblink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_dfbetas_panel.html', '_blank')"),
-                  actionButton(inputId='dfblink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_dfbetas_panel.html', '_blank')")
                 )
               )
     } else if (input$inflobs_select == "DFFITS Plot") {
@@ -46,9 +40,7 @@ output$ui_inflobslink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='dfitslink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_dffits_plot.html', '_blank')"),
-                  actionButton(inputId='dfitslink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_dffits_plot.html', '_blank')")
                 )
               )
     } else if (input$inflobs_select == "Deleted Stud Resid vs Fitted") {
@@ -59,9 +51,7 @@ output$ui_inflobslink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='dsrvsplink1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_dsrvsp_plot.html', '_blank')"),
-          actionButton(inputId='dsrvsplink3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_dsrvsp_plot.html', '_blank')")
         )
       )
     } else if (input$inflobs_select == "Hadi Plot") {
@@ -72,9 +62,7 @@ output$ui_inflobslink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='hadiplink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_hadi_plot.html', '_blank')"),
-                  actionButton(inputId='hadiplink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_hadi_plot.html', '_blank')")
                 )
               )
     } else if (input$inflobs_select == "Studentized Residuals vs Leverage") {
@@ -85,9 +73,7 @@ output$ui_inflobslink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='srvslev1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsdlev_plot.html', '_blank')"),
-          actionButton(inputId='srvslev3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsdlev_plot.html', '_blank')")
         )
       )
     } else if (input$inflobs_select == "Studentized Residual Plot") {
@@ -98,9 +84,7 @@ output$ui_inflobslink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='srplot1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_srsd_plot.html', '_blank')"),
-          actionButton(inputId='srplot3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_srsd_plot.html', '_blank')")
         )
       )
     } else if (input$inflobs_select == "Studentized Residual Chart") {
@@ -111,9 +95,7 @@ output$ui_inflobslink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='srchart1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_srsd_chart.html', '_blank')"),
-          actionButton(inputId='srchart3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_srsd_chart.html', '_blank')")
         )
       )
     } else if (input$inflobs_select == "Potential Residual Plot") {
@@ -124,9 +106,7 @@ output$ui_inflobslink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='potreslink1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_potrsd_plot.html', '_blank')"),
-          actionButton(inputId='potreslink3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_potrsd_plot.html', '_blank')")
         )
       )
     } 

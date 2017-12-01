@@ -7,9 +7,7 @@ output$ui_mfitlink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rfslink1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rfs_plot.html', '_blank')"),
-          actionButton(inputId='rfslink3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rfs_plot.html', '_blank')")
         )
       )
     } else if (input$mfit_select == "Part & Partial Correlations") {
@@ -20,9 +18,7 @@ output$ui_mfitlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='corlink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_correlations.html', '_blank')"),
-                  actionButton(inputId='corlink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_correlations.html', '_blank')")
                 )
               )
     } else if (input$mfit_select == "Observed vs Fitted Plot") {
@@ -33,9 +29,7 @@ output$ui_mfitlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='ovsplink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_ovsp_plot.html', '_blank')"),
-                  actionButton(inputId='ovsplink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_ovsp_plot.html', '_blank')")
                 )
               )
     } else if (input$mfit_select == "Lack of Fit F Test") {
@@ -46,9 +40,7 @@ output$ui_mfitlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='lfitlink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/dffits_plot.html', '_blank')"),
-                  actionButton(inputId='lfitlink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/dffits_plot.html', '_blank')")
                 )
               )
     } else if (input$mfit_select == "Diagnostics Panel") {
@@ -59,9 +51,7 @@ output$ui_mfitlink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='dpanelink1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_diagnostic_panel.html', '_blank')"),
-          actionButton(inputId='dpanelink3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_diagnostic_panel.html', '_blank')")
         )
       )
     } 

@@ -9,9 +9,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='allsub1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_all_subset.html', '_blank')"),
-                  actionButton(inputId='allsub3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_all_subset.html', '_blank')")
                 )
               )
   } else if (input$mselect == "Best Subset") {
@@ -24,9 +22,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='bestsub1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_best_subset.html', '_blank')"),
-                  actionButton(inputId='bestsub3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_best_subset.html', '_blank')")
                 )
               )
     
@@ -41,9 +37,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepwise1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepwise.html', '_blank')"),
-                  actionButton(inputId='stepwise3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepwise.html', '_blank')")
                 )
               )
     
@@ -58,9 +52,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepf1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_step_forward.html', '_blank')"),
-                  actionButton(inputId='stepf3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_step_forward.html', '_blank')")
                 )
               )
     
@@ -75,9 +67,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepb1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_step_backward.html', '_blank')"),
-                  actionButton(inputId='stepb3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_step_backward.html', '_blank')")
                 )
               )
     
@@ -92,9 +82,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepaicf1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_forward.html', '_blank')"),
-                  actionButton(inputId='stepaicf3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_forward.html', '_blank')")
                 )
               )
     
@@ -109,9 +97,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepaicb1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_backward.html', '_blank')"),
-                  actionButton(inputId='stepaicb3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_backward.html', '_blank')")
                 )
               )
     

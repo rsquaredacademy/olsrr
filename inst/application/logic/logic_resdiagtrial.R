@@ -7,9 +7,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rvsp1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rvsp_plot.html', '_blank')"),
-          actionButton(inputId='rvsp3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rvsp_plot.html', '_blank')")
         )
       )
     } else if (input$restrial1 == "Residual Box Plot") {
@@ -19,9 +17,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rbplot1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_boxplot.html', '_blank')"),
-          actionButton(inputId='rbplot3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_boxplot.html', '_blank')")
         )
       )
     } else if (input$restrial1 == "Residual Histogram") {
@@ -32,9 +28,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rhist1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_hist.html', '_blank')"),
-          actionButton(inputId='rhist3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_hist.html', '_blank')")
         )
       )
     } else if (input$restrial1 == "Residual QQ Plot") {
@@ -45,9 +39,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rqq1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_qqplot.html', '_blank')"),
-          actionButton(inputId='rqq3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_qqplot.html', '_blank')")
         )
       )
     } else if (input$restrial1 == "Normality Test") {
@@ -58,9 +50,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='resnorm1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_norm_test.html', '_blank')"),
-          actionButton(inputId='resnorm3', label="Demo", icon = icon("video-camera"),
-            onclick ="window.open('http://google.com', '_blank')")
+            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_norm_test.html', '_blank')")
         )
       )
     }

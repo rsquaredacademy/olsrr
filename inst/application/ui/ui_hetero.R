@@ -13,9 +13,7 @@ tabPanel('Heteroskedasticity', value = 'tab_hetero',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='bplink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_bp_test.html', '_blank')"),
-                  actionButton(inputId='bplink3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_bp_test.html', '_blank')")
                 )
               ),
               hr(),
