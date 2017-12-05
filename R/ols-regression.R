@@ -1,5 +1,6 @@
 #' @importFrom stringr str_detect
 #' @importFrom magrittr %>% extract
+#' @importFrom rlang is_formula
 #' @title Ordinary Least Squares Regression
 #' @description Ordinary Least Squares Regression
 #' @param object an object of class "formula" (or one that can be coerced to
@@ -82,24 +83,18 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
   }
 
   # detect if model formula includes interaction terms
-  detect_iterm <- object %>%
-    str_detect(pattern = '\\*') %>%
-    extract(3)
+  if (is_formula(object)) {
+    detect_iterm <- object %>%
+      str_detect(pattern = '\\*') %>%
+      extract(3)
+  } else {
+    detect_iterm <- object %>%
+      str_detect(pattern = '\\*')
+  }
 
   # set interaction to TRUE if formula contains interaction terms
   if (detect_iterm) {
     iterm <- TRUE
-  }
-
-  # if iterm is FALSE, prompt the user for confirmation
-  if (!iterm) {
-    if (interactive()) {
-      interactions <- readline(prompt = "Does your model include interaction terms?: \n")
-      pattern_yes <- 'yes'
-      if (str_detect(interactions, fixed(pattern_yes, ignore_case = TRUE))) {
-        iterm <- TRUE
-      }
-    }
   }
 
   result        <- reg_comp(object, data, conf.level, iterm, title)
