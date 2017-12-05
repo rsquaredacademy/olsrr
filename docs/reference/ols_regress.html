@@ -142,6 +142,16 @@ that class): a symbolic description of the model to be fitted or class <code>lm<
     <p><code>ols_regress</code> returns an object of class <code>&quot;ols_regress&quot;</code>. An object
 of class <code>&quot;ols_regress&quot;</code> is a list containing the following components:</p>
     
+    <h2 class="hasAnchor" id="interaction-terms"><a class="anchor" href="#interaction-terms"></a>Interaction Terms</h2>
+
+    <p></p>
+    <p>If the model includes interaction terms, the standardized betas
+are computed after scaling and centering the predictors.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting<!-- %20Standardized%20Coefficients%20Right.pdf --></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>ols_regress</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)</div><div class='output co'>#&gt;                         Model Summary                          
@@ -173,6 +183,37 @@ of class <code>&quot;ols_regress&quot;</code> is a list containing the following
 #&gt;        disp    -0.001         0.010       -0.019    -0.091    0.929    -0.022     0.020 
 #&gt;          hp    -0.031         0.011       -0.354    -2.724    0.011    -0.055    -0.008 
 #&gt;          wt    -3.801         1.066       -0.617    -3.565    0.001    -5.985    -1.617 
+#&gt; ----------------------------------------------------------------------------------------</div><div class='input'>
+<span class='co'># if model includes interaction terms set iterm to TRUE</span>
+<span class='fu'>ols_regress</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> * <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>, <span class='kw'>iterm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;                         Model Summary                          
+#&gt; --------------------------------------------------------------
+#&gt; R                       0.905       RMSE                2.692 
+#&gt; R-Squared               0.820       Coef. Var          13.397 
+#&gt; Adj. R-Squared          0.801       MSE                 7.245 
+#&gt; Pred R-Squared          0.766       MAE                 1.992 
+#&gt; --------------------------------------------------------------
+#&gt;  RMSE: Root Mean Square Error 
+#&gt;  MSE: Mean Square Error 
+#&gt;  MAE: Mean Absolute Error 
+#&gt; 
+#&gt;                                ANOVA                                 
+#&gt; --------------------------------------------------------------------
+#&gt;                 Sum of                                              
+#&gt;                Squares        DF    Mean Square      F         Sig. 
+#&gt; --------------------------------------------------------------------
+#&gt; Regression     923.189         3        307.730    42.475    0.0000 
+#&gt; Residual       202.858        28          7.245                     
+#&gt; Total         1126.047        31                                    
+#&gt; --------------------------------------------------------------------
+#&gt; 
+#&gt;                                   Parameter Estimates                                    
+#&gt; ----------------------------------------------------------------------------------------
+#&gt;       model      Beta    Std. Error    Std. Beta      t        Sig      lower     upper 
+#&gt; ----------------------------------------------------------------------------------------
+#&gt; (Intercept)    18.202         0.739                 24.614    0.000    16.687    19.717 
+#&gt;        disp    -3.821         0.790       -0.634    -4.834    0.000    -5.439    -2.202 
+#&gt;          hp    -2.124         0.800       -0.352    -2.654    0.013    -3.762    -0.485 
+#&gt;     disp:hp     2.465         0.739        0.279     3.336    0.002     0.951     3.978 
 #&gt; ----------------------------------------------------------------------------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -181,6 +222,10 @@ of class <code>&quot;ols_regress&quot;</code> is a list containing the following
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#interaction-terms">Interaction Terms</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -190,7 +235,7 @@ of class <code>&quot;ols_regress&quot;</code> is a list containing the following
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali, Rsquared Academy.</p>
+  <p>Developed by Aravind Hebbali.</p>
 </div>
 
 <div class="pkgdown">

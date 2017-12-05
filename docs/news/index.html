@@ -121,13 +121,35 @@
     </div>
 
     <div class="contents">
+    <div id="olsrr-0-4-0" class="section level1">
+<h1 class="hasAnchor">
+<a href="#olsrr-0-4-0" class="anchor"> </a>olsrr 0.4.0</h1>
+<div id="enhancements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#enhancements" class="anchor"> </a>Enhancements</h2>
+<ul>
+<li>use <code><a href="../reference/ols_launch_app.html">ols_launch_app()</a></code> to launch a shiny app for building models</li>
+<li>save beta coefficients for each independent variable in <code><a href="../reference/ols_all_subset.html">ols_all_subset()</a></code> (<a href="https://github.com/rsquaredacademy/olsrr/issues/41">#41</a>)</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"> </a>Bug Fixes</h2>
+<ul>
+<li>mismatch in sign of partial and semi partial correlations (<a href="https://github.com/rsquaredacademy/olsrr/issues/44">#44</a>)</li>
+<li>error in diagnostic panel (<a href="https://github.com/rsquaredacademy/olsrr/issues/45">#45</a>)</li>
+<li>standardized betas in the presence of interaction terms (<a href="https://github.com/rsquaredacademy/olsrr/issues/46">#46</a>)</li>
+</ul>
+<p>A big thanks goes to (<a href="http://psy.psych.colostate.edu/psylist/detail.asp?Num=163">Dr. Kimberly Henry</a>) for identifying bugs and other valueable feedbacks that helped improve the package.</p>
+</div>
+</div>
     <div id="olsrr-0-3-0" class="section level1">
 <h1 class="hasAnchor">
 <a href="#olsrr-0-3-0" class="anchor"> </a>olsrr 0.3.0</h1>
 <p>This is a minor release containing bug fixes.</p>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"> </a>Bug Fixes</h2>
+<a href="#bug-fixes-1" class="anchor"> </a>Bug Fixes</h2>
 <ul>
 <li>output from reg_compute rounded up to 3 decimal points (<a href="https://github.com/rsquaredacademy/olsrr/issues/24">#24</a>)</li>
 <li>added variable plot fails when model includes categorical variables (<a href="https://github.com/rsquaredacademy/olsrr/issues/25">#25</a>)</li>
@@ -153,9 +175,9 @@
 <h1 class="hasAnchor">
 <a href="#olsrr-0-2-0" class="anchor"> </a>olsrr 0.2.0</h1>
 <p>This is a minor release containing bug fixes and minor improvements.</p>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"> </a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"> </a>Bug Fixes</h2>
 <ul>
 <li>inline functions in model formula caused errors in stepwise regression (<a href="https://github.com/rsquaredacademy/olsrr/issues/2">#2</a>)</li>
 <li>added variable plots (<code>ols_avplots</code>) returns error when model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/3">#3</a>)</li>
@@ -173,9 +195,9 @@
 <li>output from step AIC regression (<code>ols_stepaic_both</code>) is not properly formatted (<a href="https://github.com/rsquaredacademy/olsrr/issues/23">#23</a>)</li>
 </ul>
 </div>
-<div id="enhancements" class="section level2">
+<div id="enhancements-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#enhancements" class="anchor"> </a>Enhancements</h2>
+<a href="#enhancements-1" class="anchor"> </a>Enhancements</h2>
 <ul>
 <li>cook’s d bar plot (<code>ols_cooksd_barplot</code>) returns the threshold value used to classify the observations as outliers (<a href="https://github.com/rsquaredacademy/olsrr/issues/13">#13</a>)</li>
 <li>cook’s d chart (<code>ols_cooksd_chart</code>) returns the threshold value used to classify the observations as outliers (<a href="https://github.com/rsquaredacademy/olsrr/issues/14">#14</a>)</li>
@@ -204,6 +226,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#olsrr-0-4-0">0.4.0</a></li>
         <li><a href="#olsrr-0-3-0">0.3.0</a></li>
         <li><a href="#olsrr-0-2-0">0.2.0</a></li>
         <li><a href="#olsrr-0-1-0">0.1.0</a></li>
@@ -215,7 +238,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali, Rsquared Academy.</p>
+  <p>Developed by Aravind Hebbali.</p>
 </div>
 
 <div class="pkgdown">

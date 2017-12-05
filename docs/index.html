@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tools for Teaching and Learning OLS Regression • olsrr</title>
+<title>Tools for Building OLS Regression Models  • olsrr</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -103,9 +103,9 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="olsrr-tools-for-building-ols-regression-models" class="section level2">
 <h2 class="hasAnchor">
-<a href="#olsrr-tools-for-building-ols-regression-models" class="anchor"> </a>olsrr: Tools for building OLS Regression models <img src="olsrr.jpg" align="right">
+<a href="#olsrr-tools-for-building-ols-regression-models" class="anchor"> </a>olsrr: Tools for building OLS Regression models <img src="hex_olsrr.png" align="right">
 </h2>
-<p><strong>Author:</strong> <a href="https://aravindhebbali.github.io/">Aravind Hebbali</a><br><strong>License:</strong> <a href="https://opensource.org/licenses/MIT">MIT</a></p>
+<p><strong>Author:</strong> <a href="http://www.aravindhebbali.com/">Aravind Hebbali</a><br><strong>License:</strong> <a href="https://opensource.org/licenses/MIT">MIT</a></p>
 <p><a href="https://cran.r-project.org/package=olsrr"><img src="http://www.r-pkg.org/badges/version/olsrr" alt="CRAN_Status_Badge"></a> <a href="https://travis-ci.org/rsquaredacademy/olsrr"><img src="https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/olsrr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://codecov.io/github/rsquaredacademy/olsrr?branch=master"><img src="https://img.shields.io/codecov/c/github/rsquaredacademy/olsrr/master.svg"></a> <a href="https://cran.r-project.org/package=olsrr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/olsrr"></a> <a href=""><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></a></p>
 </div>
 <div id="overview" class="section level2">
@@ -139,6 +139,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <a href="#shiny-app" class="anchor"> </a>Shiny App</h2>
 <p>Use <code><a href="reference/ols_launch_app.html">ols_launch_app()</a></code> to explore the package using a shiny app.</p>
 </div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/X8b0beNJ64A" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
 <div id="vignettes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#vignettes" class="anchor"> </a>Vignettes</h2>
@@ -351,14 +352,14 @@ k
 <span class="co">#&gt; alc_mod       734.407    1826477.828    6543042.709    0.782        0.749 </span>
 <span class="co">#&gt; gender        732.494    1829435.617    6540084.920    0.781        0.754 </span>
 <span class="co">#&gt; age           730.620    1833716.447    6535804.090    0.781        0.758 </span>
-<span class="co">#&gt; -------------------------------------------------------------------------</span>
-
-###### Plot</code></pre></div>
+<span class="co">#&gt; -------------------------------------------------------------------------</span></code></pre></div>
+</div>
+<div id="plot-1" class="section level6">
+<h6>Plot</h6>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
 k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
 <span class="kw">plot</span>(k)</code></pre></div>
-<p><img src="README-stepaicb2-1.png" width="480" style="display: block; margin: auto;"></p>
-<p>Please note that this project is released with a <a href="CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+<p><img src="README-stepaicb2-1.png" width="480" style="display: block; margin: auto;"> Please note that this project is released with a <a href="CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
 </div>
@@ -385,8 +386,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepaic_
 <p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE">LICENSE</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li> <a href="https://aravindhebbali.github.io/" target="_blank">Aravind Hebbali</a> <br><small class="roles"> Author, maintainer </small> </li>
-<li> <a href="http://​www.rsquaredacademy.com" target="_balnk">Rsquared Academy</a> <br><small class="roles"> Copyright holder, funder </small> </li>
+<li> <a href="http://aravindhebbali.com/" target="_blank">Aravind Hebbali</a> <br><small class="roles"> Author, maintainer </small> </li>
 </ul>
 </div>
 
@@ -394,7 +394,7 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="reference/ols_stepaic_
 
 
       <footer><div class="copyright">
- <p>Developed by <a href="https://aravindhebbali.github.io/" target="_blank">Aravind Hebbali</a>, <a href="http://​www.rsquaredacademy.com" target="_blank">Rsquared Academy</a>.</p>
+  <p><a href="http://aravindhebbali.com/" target="_blank">Aravind Hebbali.</a></p>
 </div>
 
 <div class="pkgdown">
