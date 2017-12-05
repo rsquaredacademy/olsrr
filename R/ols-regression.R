@@ -1,5 +1,5 @@
 #' @importFrom stringr str_detect
-#' @importFrom magrittr %>%
+#' @importFrom magrittr %>% extract
 #' @title Ordinary Least Squares Regression
 #' @description Ordinary Least Squares Regression
 #' @param object an object of class "formula" (or one that can be coerced to
