@@ -52,6 +52,14 @@ score test and f test
 ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ```
 
+In the presence of interaction terms in the model, the predictors are
+scaled and centered before computing the standardized betas. You can indicate
+the presence of interaction terms by setting iterm to `TRUE`.
+
+```{r regress_inter}
+ols_regress(mpg ~ disp * hp, data = mtcars, iterm = TRUE)
+```
+
 ## Residual vs Fitted Values Plot
 
 Plot to detect non-linearity, unequal error variances, and outliers.

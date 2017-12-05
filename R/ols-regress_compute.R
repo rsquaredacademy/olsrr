@@ -1,7 +1,11 @@
 #' @importFrom stats model.matrix confint.lm
-reg_comp <- function(formula, data, conf.level = 0.95, title = 'model') {
+#' @importFrom recipes recipe step_center step_scale prep bake all_predictors
+#' @importFrom glue glue
+#' @importFrom magrittr extract2
+#' @importFrom stats as.formula
+reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = 'model') {
 
-	model      <- lm(formula = formula, data = data)
+	  model      <- lm(formula = formula, data = data)
     nam        <- names(model.frame(model))
     response   <- nam[1]
     predictors <- nam[-1]
@@ -30,13 +34,34 @@ reg_comp <- function(formula, data, conf.level = 0.95, title = 'model') {
     ems        <- ess / error_df
     f          <- rms / ems
     p          <- pf(f, model_df, error_df, lower.tail = F)
+
+    # standardised betas
+    if (iterm) {
+
+      data_scaled <- data
+      mod_formula <- formula %>%
+        extract2(2) %>%
+        glue(" ~ .") %>%
+        as.formula
+      rec_obj <- recipe(mod_formula, data = data)
+      standardized <- rec_obj %>%
+        step_center(all_predictors()) %>%
+        step_scale(all_predictors())
+      trained_rec <- prep(standardized, training = data)
+      newdata <- bake(trained_rec, newdata = data_scaled)
+      model <- lm(formula, data = newdata)
+      output     <- summary(model)
+
+    }
+
     b          <- output$coef[-1, 1]
     g          <- as.data.frame(model.matrix(model)[, -1])
     sx         <- sapply(g, sd)
     sy         <- sapply(model$model[1], sd)
     sbeta      <- b * sx/sy
-    betas      <- coefficients(model)
     sbetas     <- sbeta
+
+    betas      <- coefficients(model)
     std_errors <- output$coefficients[, 2]
     tvalues    <- output$coefficients[, 3]
     pvalues    <- output$coefficients[, 4]

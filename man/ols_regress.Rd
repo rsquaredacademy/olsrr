@@ -57,6 +57,18 @@ of class \code{"ols_regress"} is a list containing the following components:
 \description{
 Ordinary Least Squares Regression
 }
+\section{Interaction Terms}{
+
+If the model includes interaction terms, the standardized betas
+are computed after scaling and centering the predictors.
+}
+
 \examples{
 ols_regress(mpg ~ disp + hp + wt, data = mtcars)
+
+# if model includes interaction terms set iterm to TRUE
+ols_regress(mpg ~ disp * hp, data = mtcars, iterm = TRUE)
+}
+\references{
+https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting%20Standardized%20Coefficients%20Right.pdf
 }

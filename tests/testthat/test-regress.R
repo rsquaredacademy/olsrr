@@ -18,6 +18,15 @@ test_that('regress returns all the model validation metrics', {
 
 })
 
+test_that('If model includes interaction terms, ols_regress scales and centers
+          predictors before computing standardized betas', {
+  model_inter <- ols_regress(price ~ weight * displacement, data = auto,
+                             iterm =TRUE)
+  actual <- round(model_inter$sbetas, 2)
+  expected <- c(weight = 0.57, displacement = -0.15, `weight:displacement` = 0.38)
+  expect_equivalent(actual, expected)
+})
+
 test_that('regress fails when input for data is missing', {
 	expect_error(ols_regress(mpg ~ disp + hp + wt + drat + qsec),
 		'data missing')

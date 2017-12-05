@@ -11,7 +11,7 @@ Description: Tools for teaching and learning ordinary least squares regression. 
     residual diagnostics, measures of influence, model fit assessment and variable selection procedures.
 Depends:
     R(>= 3.2.4)
-Imports:
+Imports: 
     dplyr,
     ggplot2,
     goftest,
@@ -23,7 +23,10 @@ Imports:
     Rcpp,
     shiny,
     tibble,
-    tidyr
+    tidyr,
+    stringr,
+    recipes,
+    glue
 Suggests:
     caret,
     covr,
