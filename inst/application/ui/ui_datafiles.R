@@ -86,9 +86,8 @@ tabPanel('Upload File', value = 'tab_uploadfile',
 			            p('Upload data from a .xls or .xlsx file.')
 			          ),
 			          column(4, align = 'right',
-			            actionButton(inputId='uploadexcel1', label="Help", icon = icon("question-circle")),
-			            actionButton(inputId='uploadexcel2', label="Demo", icon = icon("video-camera"),
-			              onclick ="window.open('http://google.com', '_blank')")
+			            actionButton(inputId='uploadlink3', label="Demo", icon = icon("video-camera"),
+			              onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=00m25s', '_blank')")
 			          )
 			        ),
 			        hr(),
@@ -155,9 +154,8 @@ tabPanel('Upload File', value = 'tab_uploadfile',
 			            p('Upload data from a .json file.')
 			          ),
 			          column(4, align = 'right',
-			            actionButton(inputId='uploadjson1', label="Help", icon = icon("question-circle")),
-			            actionButton(inputId='uploadjson2', label="Demo", icon = icon("video-camera"),
-			              onclick ="window.open('http://google.com', '_blank')")
+			            actionButton(inputId='uploadjson', label="Demo", icon = icon("video-camera"),
+			              onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=00m25s', '_blank')")
 			          )
 			        ),
 			        hr(),
@@ -210,12 +208,11 @@ tabPanel('Upload File', value = 'tab_uploadfile',
 			        fluidRow(
 			          column(8, align = 'left',
 			            h4('Upload Data'),
-			            p('Upload data from a .json file.')
+			            p('Upload data from a .dta file.')
 			          ),
 			          column(4, align = 'right',
-			            actionButton(inputId='uploadstata1', label="Help", icon = icon("question-circle")),
-			            actionButton(inputId='uploadstata2', label="Demo", icon = icon("video-camera"),
-			              onclick ="window.open('http://google.com', '_blank')")
+			            actionButton(inputId='uploadstata', label="Demo", icon = icon("video-camera"),
+			              onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=00m25s', '_blank')")
 			          )
 			        ),
 			        hr(),
@@ -271,9 +268,8 @@ tabPanel('Upload File', value = 'tab_uploadfile',
 			            p('Upload data from a .sav file.')
 			          ),
 			          column(4, align = 'right',
-			            actionButton(inputId='uploadspss1', label="Help", icon = icon("question-circle")),
-			            actionButton(inputId='uploadspss2', label="Demo", icon = icon("video-camera"),
-			              onclick ="window.open('http://google.com', '_blank')")
+			            actionButton(inputId='uploadspss', label="Demo", icon = icon("video-camera"),
+			              onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=00m25s', '_blank')")
 			          )
 			        ),
 			        hr(),
@@ -329,9 +325,8 @@ tabPanel('Upload File', value = 'tab_uploadfile',
 			            p('Upload data from a .sas7bdat file.')
 			          ),
 			          column(4, align = 'right',
-			            actionButton(inputId='uploadsas1', label="Help", icon = icon("question-circle")),
-			            actionButton(inputId='uploadsas2', label="Demo", icon = icon("video-camera"),
-			              onclick ="window.open('http://google.com', '_blank')")
+			            actionButton(inputId='uploadsas', label="Demo", icon = icon("video-camera"),
+			              onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=00m25s', '_blank')")
 			          )
 			        ),
 			        hr(),
