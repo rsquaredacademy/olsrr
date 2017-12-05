@@ -1,3 +1,19 @@
+# olsrr 0.4.0
+
+## Enhancements
+
+- use `ols_launch_app()` to launch a shiny app for building models
+- save beta coefficients for each independent variable in `ols_all_subset()` ([#41](https://github.com/rsquaredacademy/olsrr/issues/41))
+
+## Bug Fixes
+
+- mismatch in sign of partial and semi partial correlations  ([#44](https://github.com/rsquaredacademy/olsrr/issues/44))
+- error in diagnostic panel ([#45](https://github.com/rsquaredacademy/olsrr/issues/45))
+- standardized betas in the presence of interaction terms  ([#46](https://github.com/rsquaredacademy/olsrr/issues/46))
+
+A big thanks goes to ([Dr. Kimberly Henry](http://psy.psych.colostate.edu/psylist/detail.asp?Num=163)) for
+identifying bugs and other valueable feedbacks that helped improve the package.
+
 # olsrr 0.3.0
 
 This is a minor release containing bug fixes. 
