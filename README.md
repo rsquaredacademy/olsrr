@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-olsrr: Tools for building OLS Regression models <img src="olsrr.jpg" align="right" />
--------------------------------------------------------------------------------------
+olsrr: Tools for building OLS Regression models <img src="hex_olsrr.png" align="right" />
+-----------------------------------------------------------------------------------------
 
-**Author:** [Aravind Hebbali]()<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
+**Author:** [Aravind Hebbali](http://www.aravindhebbali.com/)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr) [![Coverage Status](https://img.shields.io/codecov/c/github/rsquaredacademy/olsrr/master.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master) [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
@@ -270,9 +270,9 @@ k
 #> gender        732.494    1829435.617    6540084.920    0.781        0.754 
 #> age           730.620    1833716.447    6535804.090    0.781        0.758 
 #> -------------------------------------------------------------------------
+```
 
 ###### Plot
-```
 
 ``` r
 model <- lm(y ~ ., data = surgical)
@@ -280,6 +280,4 @@ k <- ols_stepaic_backward(model)
 plot(k)
 ```
 
-<img src="README-stepaicb2-1.png" style="display: block; margin: auto;" />
-
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+<img src="README-stepaicb2-1.png" style="display: block; margin: auto;" /> Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
