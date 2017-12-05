@@ -26,7 +26,8 @@ Imports:
     tidyr,
     stringr,
     recipes,
-    glue
+    glue,
+    rlang
 Suggests:
     caret,
     covr,
