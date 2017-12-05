@@ -53,12 +53,7 @@ ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ```
 
 In the presence of interaction terms in the model, the predictors are
-scaled and centered before computing the standardized betas. You can indicate
-the presence of interaction terms by setting iterm to `TRUE`.
-
-```{r regress_inter}
-ols_regress(mpg ~ disp * hp, data = mtcars, iterm = TRUE)
-```
+scaled and centered before computing the standardized betas. `ols_regress()` will detect interaction terms automatically but in case you have created a new variable instead of using the inline function `*`, you can indicate the presence of interaction terms by setting `iterm` to `TRUE`.
 
 ## Residual vs Fitted Values Plot
 
