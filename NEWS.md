@@ -12,7 +12,7 @@
 - standardized betas in the presence of interaction terms  ([#46](https://github.com/rsquaredacademy/olsrr/issues/46))
 
 A big thanks goes to ([Dr. Kimberly Henry](http://psy.psych.colostate.edu/psylist/detail.asp?Num=163)) for
-identifying bugs and other valueable feedbacks that helped improve the package.
+identifying bugs and other valuable feedback that helped improve the package.
 
 # olsrr 0.3.0
 
