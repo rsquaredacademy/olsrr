@@ -43,7 +43,6 @@ Suggests:
     scales,
     shinyBS,
     shinythemes,
-    stringr,
     testthat,
     tools,
     vdiffr
