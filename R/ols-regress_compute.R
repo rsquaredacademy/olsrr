@@ -1,5 +1,5 @@
 #' @importFrom stats model.matrix confint.lm
-#' @importFrom recipes recipe step_center step_scale prep bake all_predictors
+#' @importFrom recipes recipe step_center step_scale prep bake all_numeric
 #' @importFrom glue glue
 #' @importFrom magrittr extract2
 #' @importFrom stats as.formula
@@ -45,8 +45,8 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = 'model') {
         as.formula
       rec_obj <- recipe(mod_formula, data = data)
       standardized <- rec_obj %>%
-        step_center(all_predictors()) %>%
-        step_scale(all_predictors())
+        step_center(all_numeric()) %>%
+        step_scale(all_numeric())
       trained_rec <- prep(standardized, training = data)
       newdata <- bake(trained_rec, newdata = data_scaled)
       model <- lm(formula, data = newdata)
