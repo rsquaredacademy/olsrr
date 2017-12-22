@@ -1,3 +1,11 @@
+# olsrr 0.4.1
+
+This is a patch release for an urgent bug fix.
+
+## Bug Fixes 
+
+- ols_regress returns error in the presence of interaction terms in the formula ([#47](https://github.com/rsquaredacademy/olsrr/issues/47))
+
 # olsrr 0.4.0
 
 ## Enhancements
