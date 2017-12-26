@@ -1,6 +1,8 @@
 #' @title Update olsrr package
 #' @description Check whether olsrr is up-to-date, and will install
 #' after confirmation.
+#' @param owner repository owner
+#' @param repo name of the package
 #' @examples
 #' \dontrun{
 #' ols_update()
@@ -29,6 +31,14 @@ ols_update <- function(owner = "rsquaredacademy", repo = "olsrr") {
 #' @importFrom stringr str_locate str_sub str_split
 #' @importFrom magrittr subtract
 #' @title Check olsrr Version
+#' @description  Checks the version of olsrr on local, cran,
+#' github release and devel.
+#' @param owner repository owner
+#' @param repo name of the package
+#' @return a tibble with package versions
+#' @examples \dontrun{
+#' ols_deps()
+#' }
 #' @export
 ols_deps <- function(owner = "rsquaredacademy", repo = "olsrr"){
 

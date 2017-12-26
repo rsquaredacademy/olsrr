@@ -6,6 +6,11 @@
 \usage{
 ols_update(owner = "rsquaredacademy", repo = "olsrr")
 }
+\arguments{
+\item{owner}{repository owner}
+
+\item{repo}{name of the package}
+}
 \description{
 Check whether olsrr is up-to-date, and will install
 after confirmation.

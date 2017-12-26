@@ -6,3 +6,20 @@
 \usage{
 ols_deps(owner = "rsquaredacademy", repo = "olsrr")
 }
+\arguments{
+\item{owner}{repository owner}
+
+\item{repo}{name of the package}
+}
+\value{
+a tibble with package versions
+}
+\description{
+Checks the version of olsrr on local, cran,
+github release and devel.
+}
+\examples{
+\dontrun{
+ols_deps()
+}
+}
