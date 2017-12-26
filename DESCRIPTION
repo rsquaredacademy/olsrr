@@ -24,7 +24,9 @@ Imports:
     stringr,
     recipes,
     glue,
-    rlang
+    rlang,
+    gh,
+    cli
 Suggests:
     caret,
     covr,
