@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 olsrr: Tools for building OLS Regression models <img src="hex_olsrr.png" align="right" />
 ------------
 
-**Author:** [Aravind Hebbali](http://www.aravindhebbali.com/)<br/>
+**Author:** [Aravind Hebbali](https://www.aravindhebbali.com/)<br/>
 **License:** [MIT](https://opensource.org/licenses/MIT)
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
