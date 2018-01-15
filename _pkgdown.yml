@@ -42,7 +42,7 @@ home:
   - text: Shiny App
     href: http://rsquaredlabs.com:3838/explorer/
   - text: Docker Image
-    href: https://hub.docker.com/r/rsquaredacademy/olsrr/  
+    href: https://hub.docker.com/r/rsquaredacademy/olsrr/
 
 
 reference:
@@ -108,20 +108,20 @@ reference:
   - ols_hadi_plot
   - ols_potrsd_plot
   - ols_leverage
-  - ols_hadi 
+  - ols_hadi
   - ols_press
   - ols_pred_rsq
 
 - title: Information Criteria
 
   contents:
-  - ols_aic 
-  - ols_sbc 
+  - ols_aic
+  - ols_sbc
   - ols_sbic
   - ols_mallows_cp
   - ols_msep
-  - ols_fpe 
-  - ols_apc 
+  - ols_fpe
+  - ols_apc
   - ols_hsp
 
 
@@ -135,7 +135,7 @@ reference:
   - ols_ovsp_plot
   - ols_pure_error_anova
   - ols_diagnostic_panel
-  
+
 - title: Variable Contribution
 
   contents:
@@ -144,10 +144,12 @@ reference:
   - ols_rpc_plot
 
 - title: Miscellaneous
-  
+
   contents:
   - ols_resp_viz
   - ols_reg_line
+  - ols_update
+  - ols_deps
 
 
 - title: Data
