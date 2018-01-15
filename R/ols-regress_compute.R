@@ -49,17 +49,26 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = 'model') {
         step_scale(all_numeric())
       trained_rec <- prep(standardized, training = data)
       newdata <- bake(trained_rec, newdata = data_scaled)
-      model <- lm(formula, data = newdata)
-      output     <- summary(model)
+      model2 <- lm(formula, data = newdata)
+      output2     <- summary(model2)
+
+      b          <- output2$coef[-1, 1]
+      g          <- as.data.frame(model.matrix(model2)[, -1])
+      sx         <- sapply(g, sd)
+      sy         <- sapply(model2$model[1], sd)
+      sbeta      <- b * sx/sy
+      sbetas     <- sbeta
+
+    } else {
+
+      b          <- output$coef[-1, 1]
+      g          <- as.data.frame(model.matrix(model)[, -1])
+      sx         <- sapply(g, sd)
+      sy         <- sapply(model$model[1], sd)
+      sbeta      <- b * sx/sy
+      sbetas     <- sbeta
 
     }
-
-    b          <- output$coef[-1, 1]
-    g          <- as.data.frame(model.matrix(model)[, -1])
-    sx         <- sapply(g, sd)
-    sy         <- sapply(model$model[1], sd)
-    sbeta      <- b * sx/sy
-    sbetas     <- sbeta
 
     betas      <- coefficients(model)
     std_errors <- output$coefficients[, 2]
