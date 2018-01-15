@@ -67,7 +67,7 @@ are computed after scaling and centering the predictors.
 ols_regress(mpg ~ disp + hp + wt, data = mtcars)
 
 # if model includes interaction terms set iterm to TRUE
-ols_regress(mpg ~ disp * hp, data = mtcars, iterm = TRUE)
+ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)
 }
 \references{
 https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting%20Standardized%20Coefficients%20Right.pdf

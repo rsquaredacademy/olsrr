@@ -51,7 +51,7 @@
 #' ols_regress(mpg ~ disp + hp + wt, data = mtcars)
 #'
 #' # if model includes interaction terms set iterm to TRUE
-#' ols_regress(mpg ~ disp * hp, data = mtcars, iterm = TRUE)
+#' ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)
 #' @export
 #'
 ols_regress <- function(object, ...) UseMethod('ols_regress')
