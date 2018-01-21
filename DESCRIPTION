@@ -9,8 +9,13 @@ Description: Tools for building OLS regression models . Includes
 Depends:
     R(>= 3.2.4)
 Imports: 
+    cli,
+    clisymbols,
+    crayon,
     dplyr,
     ggplot2,
+    gh,
+    glue,
     goftest,
     graphics,
     gridExtra,
@@ -18,15 +23,12 @@ Imports:
     nortest,
     purrr,
     Rcpp,
-    shiny,
-    tibble,
-    tidyr,
-    stringr,
     recipes,
-    glue,
     rlang,
-    gh,
-    cli
+    shiny,
+    stringr,
+    tibble,
+    tidyr
 Suggests:
     caret,
     covr,

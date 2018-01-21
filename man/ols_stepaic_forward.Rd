@@ -35,7 +35,7 @@ following components:
 \item{arsq}{adjusted rsquare}
 }
 \description{
-Build regression model from a set of candidate predictor variables by entering predictors based on 
+Build regression model from a set of candidate predictor variables by entering predictors based on
 Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
 }
 \examples{

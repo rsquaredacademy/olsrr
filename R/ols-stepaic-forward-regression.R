@@ -1,6 +1,6 @@
 #' @importFrom dplyr desc
 #' @title Stepwise AIC Forward Regression
-#' @description Build regression model from a set of candidate predictor variables by entering predictors based on 
+#' @description Build regression model from a set of candidate predictor variables by entering predictors based on
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
 #' @param model an object of class \code{lm}
 #' @param details logical; if \code{TRUE}, will print the regression result at each step
@@ -71,6 +71,14 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
     mo       <- lm(paste(response, '~', 1), data = l)
     aic1     <- ols_aic(mo)
 
+    cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
+    cat(rep("-", 24), sep = "", '\n\n')
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste(i, ".", nam[i]), "\n")
+    }
+    cat('\n')
+
     if (details == TRUE) {
         cat(' Step 0: AIC =', aic1, '\n', paste(response, '~', 1, '\n\n'))
     }
@@ -108,12 +116,12 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
 
         for (i in seq_len(ln)) {
             cat(fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-            fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(), 
+            fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
             fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
             fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
         }
 
-        cat(rep("-", w), sep = "", '\n')
+        cat(rep("-", w), sep = "", '\n\n')
     }
 
     minc     <- which(aics == min(aics))
@@ -127,6 +135,17 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
     all_pred <- all_pred[-minc]
     len_p    <- length(all_pred)
     step     <- 1
+
+    cat('\n')
+    if (!details) {
+      cat('Variables Entered:', '\n\n')
+    }
+
+    if (interactive()) {
+      cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), '\n')
+    } else {
+      cat(paste('-', dplyr::last(preds)), '\n')
+    }
 
     while (step < mlen_p) {
 
@@ -176,12 +195,12 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
 
             for (i in seq_len(ln)) {
                 cat(fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-                fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(), 
+                fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
                 fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
                 fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
             }
 
-            cat(rep("-", w), sep = "", '\n')
+            cat(rep("-", w), sep = "", '\n\n')
 
         }
 
@@ -205,12 +224,16 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
             len_p    <- length(all_pred)
             step     <- step + 1
 
-        } else {
-
-            if (details == TRUE) {
-                message("No more variables to be added.\n\n")
+            if (interactive()) {
+              cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), '\n')
+            } else {
+              cat(paste('-', dplyr::last(preds)), '\n')
             }
 
+        } else {
+
+            cat('\n')
+            cat(crayon::bold$red("No more variables to be added."))
             break
 
         }
@@ -219,6 +242,21 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
     }
 
     if(details == TRUE) {
+
+        cat('\n\n')
+        cat('Variables Entered:', '\n\n')
+        for (i in seq_len(length(preds))) {
+          if (interactive()) {
+            cat(crayon::green(clisymbols::symbol$tick), crayon::bold(preds[i]), '\n')
+          } else {
+            cat(paste('-', preds[i]), '\n')
+          }
+
+        }
+
+        cat('\n\n')
+        cat('Final Model Output', '\n')
+        cat(rep("-", 18), sep = "", '\n\n')
 
         fi <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), data = l)
         print(fi)
