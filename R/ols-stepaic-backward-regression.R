@@ -1,6 +1,6 @@
 #' @importFrom ggplot2 geom_text
 #' @title Stepwise AIC Backward Regression
-#' @description Build regression model from a set of candidate predictor variables by removing predictors based on 
+#' @description Build regression model from a set of candidate predictor variables by removing predictors based on
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
 #' @param model an object of class \code{lm}; the model should include all candidate predictor variables
 #' @param details logical; if \code{TRUE}, will print the regression result at each step
@@ -69,6 +69,14 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
     lrsq     <- mi$rsq
     larsq    <- mi$adjr
 
+    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
+    cat(rep("-", 27), sep = "", '\n\n')
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste(i, ".", nam[i]), "\n")
+    }
+    cat('\n')
+
     if (details == TRUE) {
         cat(' Step 0: AIC =', aic_f, '\n', paste(response, '~', paste(preds, collapse = ' + '), '\n\n'))
     }
@@ -117,11 +125,16 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
 
             for (i in seq_len(ln)) {
                 cat(fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-                    fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(), 
+                    fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
                     fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(), fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
             }
 
             cat(rep("-", w), sep = "", '\n\n')
+        }
+
+        cat('\n')
+        if (!details) {
+          cat('Variables Removed:', '\n\n')
         }
 
     while (!end) {
@@ -148,6 +161,12 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
             rsq   <- c()
             arsq  <- c()
 
+            if (interactive()) {
+              cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), '\n')
+            } else {
+              cat(paste('-', dplyr::last(rpred)), '\n')
+            }
+
             for (i in seq_len(ilp)) {
 
                     predictors <- preds[-i]
@@ -161,7 +180,7 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
 
 
             if (details == TRUE) {
-                cat(' Step', step, ': AIC =', aic_f, '\n', paste(response, '~', paste(preds, collapse = ' + '), '\n\n'))
+                cat('\n\n', ' Step', step, ': AIC =', aic_f, '\n', paste(response, '~', paste(preds, collapse = ' + '), '\n\n'))
 
 
                 da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
@@ -184,7 +203,7 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
 
                 for (i in seq_len(ln)) {
                     cat(fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-                        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(), 
+                        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
                         fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(), fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
                 }
 
@@ -195,14 +214,36 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
         } else {
 
             end <- TRUE
-
-            if (details == TRUE) {
-                message(paste("No more variables to be removed."))
-            }
+            cat('\n')
+            cat(crayon::bold$red("No more variables to be removed."))
 
         }
 
     }
+
+
+        if(details == TRUE) {
+
+          cat('\n\n')
+          cat('Variables Removed:', '\n\n')
+          for (i in seq_len(length(rpred))) {
+            if (interactive()) {
+              cat(crayon::red(clisymbols::symbol$cross), crayon::bold(rpred[i]), '\n')
+            } else {
+              cat(paste('-', rpred[i]), '\n')
+            }
+
+          }
+
+          cat('\n\n')
+          cat('Final Model Output', '\n')
+          cat(rep("-", 18), sep = "", '\n\n')
+
+          fi <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')),
+                            data = l)
+          print(fi)
+
+        }
 
     out <- list(steps      = step,
                 predictors = rpred,
@@ -227,7 +268,7 @@ print.ols_stepaic_backward <- function(x, ...) {
     } else {
       print('No variables have been removed from the model.')
     }
-    
+
 }
 
 #' @rdname ols_stepaic_backward
