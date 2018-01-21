@@ -21,13 +21,13 @@
 #' @examples
 #' \dontrun{
 #' # stepwise regression
-#' model <- lm(y ~ ., data = surgical)
+#' model <- lm(y ~ ., data = stepdata)
 #' ols_stepaic_both(model)
 #' }
 #'
 #' \dontrun{
 #' # stepwise regression plot
-#' model <- lm(y ~ ., data = surgical)
+#' model <- lm(y ~ ., data = stepdata)
 #' k <- ols_stepaic_both(model)
 #' plot(k)
 #' }
@@ -152,7 +152,7 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
                 minc2 <- which(aics == min(aics))
 
 
-                if (aics[minc2] < laic[lpreds]) {
+                if (aics[minc2] < laic[all_step]) {
 
                     aic_c     <- aics[minc2]
                     maic      <- aics[minc2]

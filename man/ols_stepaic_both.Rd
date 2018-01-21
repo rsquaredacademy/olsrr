@@ -39,13 +39,13 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 \examples{
 \dontrun{
 # stepwise regression
-model <- lm(y ~ ., data = surgical)
+model <- lm(y ~ ., data = stepdata)
 ols_stepaic_both(model)
 }
 
 \dontrun{
 # stepwise regression plot
-model <- lm(y ~ ., data = surgical)
+model <- lm(y ~ ., data = stepdata)
 k <- ols_stepaic_both(model)
 plot(k)
 }
