@@ -940,12 +940,7 @@ print_step_backward <- function(data) {
     w7 <- max(nchar('RMSE'), nchar(format(round(data$rmse, 4), nsmall = 4)))
     w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
 
-    cat(format("Backward Elimination Method", justify = "left", width = w), "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = w), "\n\n")
-    for (i in seq_len(length(data$indvar))) {
-        cat(format(paste(i, ".", data$indvar[i]), justify = "left", width = w), "\n")
-    }
-    cat("\n", rep("-", w), sep = "", '\n')
+    cat('\n\n')
     cat(format("Elimination Summary", justify = "centre", width = w), "\n")
     cat(rep("-", w), sep = "", '\n')
     cat(format('', width = w1), fs(), format('Variable', width = w2), fs(),
@@ -1058,12 +1053,7 @@ print_step_forward <- function(data) {
     w7 <- max(nchar('RMSE'), nchar(format(round(data$rmse, 4), nsmall = 4)))
     w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
 
-    cat(format("Forward Selection Method", justify = "left", width = w), "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = w), "\n\n")
-    for (i in seq_len(length(data$indvar))) {
-        cat(format(paste(i, ".", data$indvar[i]), justify = "left", width = w), "\n")
-    }
-    cat("\n", rep("-", w), sep = "", '\n')
+    cat('\n')
     cat(format("Selection Summary", justify = "centre", width = w), "\n")
     cat(rep("-", w), sep = "", '\n')
     cat(format('', width = w1), fs(), format('Variable', width = w2), fs(),
@@ -1108,12 +1098,7 @@ print_stepwise <- function(data) {
     w7 <- max(nchar('RMSE'), nchar(format(round(data$rmse, 4), nsmall = 4)))
     w <- sum(w1, w2, w3, w4, w5, w6, w7, w8, 28)
 
-    cat(format("Stepwise Selection Method", justify = "left", width = w), "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = w), "\n\n")
-    for (i in seq_len(length(data$indvar))) {
-        cat(format(paste(i, ".", data$indvar[i]), justify = "left", width = w), "\n")
-    }
-    cat("\n", rep("-", w), sep = "", '\n')
+    cat('\n')
     cat(format("Stepwise Selection Summary", justify = "centre", width = w), "\n")
     cat(rep("-", w), sep = "", '\n')
     cat(format('', width = w1), fs(), format('', width = w2), fs(), format('Added/', width = w8, justify = 'centre'), fs(),
@@ -1151,12 +1136,14 @@ print_stepaic_forward <- function(data) {
         w2 <- max(nchar('AIC'), nchar(format(round(data$aics, 3), nsmall = 3)))
         w3 <- max(nchar('Sum Sq'), nchar(format(round(data$rss, 3), nsmall = 3)))
         w4 <- max(nchar('RSS'), nchar(format(round(data$ess, 3), nsmall = 3)))
-        w5 <- max(nchar('R-Sq'), nchar(format(round(data$rsq, 3), nsmall = 3)))
-        w6 <- max(nchar('Adj. R-Sq'), nchar(format(round(data$arsq, 3), nsmall = 3)))
+        w5 <- max(nchar('R-Sq'), nchar(format(round(data$rsq, 5), nsmall = 5)))
+        w6 <- max(nchar('Adj. R-Sq'), nchar(format(round(data$arsq, 5), nsmall = 5)))
         w <- sum(w1, w2, w3, w4, w5, w6, 20)
 
         ln <- length(data$aics)
 
+        cat("\n")
+        cat(format("Selection Summary", justify = "centre", width = w), "\n")
         cat(rep("-", w), sep = "", '\n')
         cat(fl('Variable', w1), fs(), fc('AIC', w2), fs(),
             fc('Sum Sq', w3), fs(), fc('RSS', w4), fs(), fc('R-Sq', w5), fs(),
@@ -1165,7 +1152,7 @@ print_stepaic_forward <- function(data) {
         for (i in seq_len(ln)) {
             cat(fl(data$predictors[i], w1), fs(), fg(format(round(data$aics[i], 3), nsmall = 3), w2), fs(),
             fg(format(round(data$rss[i], 3), nsmall = 3), w3), fs(), fg(format(round(data$ess[i], 3), nsmall = 3), w4), fs(),
-            fg(format(round(data$rsq[i], 3), nsmall = 3), w5), fs(), fg(format(round(data$arsq[i], 3), nsmall = 3), w6), '\n')
+            fg(format(round(data$rsq[i], 5), nsmall = 5), w5), fs(), fg(format(round(data$arsq[i], 5), nsmall = 5), w6), '\n')
         }
         cat(rep("-", w), sep = "", '\n')
 
@@ -1184,8 +1171,8 @@ print_stepaic_backward <- function(data) {
     w2 <- max(nchar('AIC'), nchar(format(round(data$aics, 3), nsmall = 3)))
     w3 <- max(nchar('RSS'), nchar(format(round(data$ess, 3), nsmall = 3)))
     w4 <- max(nchar('Sum Sq'), nchar(format(round(data$rss, 3), nsmall = 3)))
-    w5 <- max(nchar('R-Sq'), nchar(format(round(data$rsq, 3), nsmall = 3)))
-    w6 <- max(nchar('Adj. R-Sq'), nchar(format(round(data$arsq, 3), nsmall = 3)))
+    w5 <- max(nchar('R-Sq'), nchar(format(round(data$rsq, 5), nsmall = 5)))
+    w6 <- max(nchar('Adj. R-Sq'), nchar(format(round(data$arsq, 5), nsmall = 5)))
     w <- sum(w1, w2, w3, w4, w5, w6, 20)
 
     predictors <- c('Full Model', data$predictors)
@@ -1202,8 +1189,8 @@ print_stepaic_backward <- function(data) {
         cat(fl(predictors[i], w1), fs(), fg(format(round(data$aics[i], 3), nsmall = 3), w2), fs(),
             fg(format(round(data$ess[i], 3), nsmall = 3), w3), fs(), 
             fg(format(round(data$rss[i], 3), nsmall = 3), w4), fs(),
-            fg(format(round(data$rsq[i], 3), nsmall = 3), w5), fs(), 
-            fg(format(round(data$arsq[i], 3), nsmall = 3), w6), '\n')
+            fg(format(round(data$rsq[i], 5), nsmall = 5), w5), fs(), 
+            fg(format(round(data$arsq[i], 5), nsmall = 5), w6), '\n')
     }
     cat(rep("-", w), sep = "", '\n\n')
 
@@ -1222,8 +1209,8 @@ print_stepaic_both <- function(data) {
     w2 <- max(nchar('AIC'), nchar(format(round(data$aic, 3), nsmall = 3)))
     w3 <- max(nchar('RSS'), nchar(format(round(data$ess, 3), nsmall = 3)))
     w4 <- max(nchar('Sum Sq'), nchar(format(round(data$rss, 3), nsmall = 3)))
-    w5 <- max(nchar('R-Sq'), nchar(format(round(data$rsq, 3), nsmall = 3)))
-    w6 <- max(nchar('Adj. R-Sq'), nchar(format(round(data$arsq, 3), nsmall = 3)))
+    w5 <- max(nchar('R-Sq'), nchar(format(round(data$rsq, 5), nsmall = 5)))
+    w6 <- max(nchar('Adj. R-Sq'), nchar(format(round(data$arsq, 5), nsmall = 5)))
     w7 <- nchar('Addition')
     w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
 
@@ -1240,8 +1227,8 @@ print_stepaic_both <- function(data) {
             fg(format(round(data$aic[i], 3), nsmall = 3), w2), fs(),
             fg(format(round(data$ess[i], 3), nsmall = 3), w3), fs(), 
             fg(format(round(data$rss[i], 3), nsmall = 3), w4), fs(),
-            fg(format(round(data$rsq[i], 3), nsmall = 3), w5), fs(), 
-            fg(format(round(data$arsq[i], 3), nsmall = 3), w6), '\n')
+            fg(format(round(data$rsq[i], 5), nsmall = 5), w5), fs(), 
+            fg(format(round(data$arsq[i], 5), nsmall = 5), w6), '\n')
     }
     cat(rep("-", w), sep = "", '\n\n')
 
