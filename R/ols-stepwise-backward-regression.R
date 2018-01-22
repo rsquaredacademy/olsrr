@@ -62,7 +62,7 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    message("We are eliminating variables based on p value...")
+    
 	l        <- mod_sel_data(model)
 	nam      <- colnames(attr(model$terms, 'factors'))
     response <- names(model$model)[1]
@@ -82,6 +82,22 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
     sbc      <- c()
     cp       <- c()
     rmse     <- c()
+
+    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
+    cat(rep("-", 27), sep = "", '\n\n')
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste(i, ".", nam[i]), "\n")
+    }
+    cat('\n')
+
+    cat(crayon::bold$red("We are eliminating variables based on p value..."))
+    cat('\n')
+
+    cat('\n')
+    if (!details) {
+      cat('Variables Removed:', '\n\n')
+    }
 
 	while (!end) {
 
@@ -106,8 +122,15 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
                 cp     <- c(cp, ols_mallows_cp(fr$model, model))
                 rmse   <- c(rmse, sqrt(fr$ems))
 
+                if (interactive()) {
+                  cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), '\n')
+                } else {
+                  cat(paste('-', dplyr::last(rpred)), '\n')
+                }
+
                 if (details == TRUE) {
 
+                    cat('\n')
                 	cat(paste("Backward Elimination: Step", step, "\n\n"), paste("Variable", rpred[lp], "Removed"), "\n\n")
                     m <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
                     print(m)
@@ -118,11 +141,37 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
     		} else {
 
     			end <- TRUE
-    			message(paste("No more variables satisfy the condition of prem:", prem))
+                cat('\n')
+                cat(crayon::bold$red(glue("No more variables satisfy the condition of p value = {prem}")))
+                cat('\n')
+    			
     		}
         )
 
 	}
+
+    if (details == TRUE) {
+
+        cat('\n\n')
+          cat('Variables Removed:', '\n\n')
+          for (i in seq_len(length(rpred))) {
+            if (interactive()) {
+              cat(crayon::red(clisymbols::symbol$cross), crayon::bold(rpred[i]), '\n')
+            } else {
+              cat(paste('-', rpred[i]), '\n')
+            }
+
+          }
+
+    }
+
+    cat('\n\n')
+    cat('Final Model Output', '\n')
+    cat(rep("-", 18), sep = "", '\n\n')
+
+    fi <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')),
+                            data = l)
+    print(fi)
 
 	out <- list(steps      = step,
                 removed    = rpred,
