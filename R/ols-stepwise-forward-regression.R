@@ -65,7 +65,6 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    message("We are selecting variables based on p value...")
     l        <- mod_sel_data(model)
     df       <- nrow(l) - 2
     tenter   <- qt(1 - (penter) / 2, df)
@@ -89,6 +88,23 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
     bic      <- c()
     cp       <- c()
 
+    cat(format("Forward Selection Method", justify = "left", width = 27), "\n")
+    cat(rep("-", 27), sep = "", '\n\n')
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste0(i, ". ", nam[i]), "\n")
+    }
+    cat('\n')
+
+    cat(crayon::bold$red("We are selecting variables based on p value..."))
+    cat('\n')
+
+    cat('\n')
+    if (!details) {
+      cat('Variables Entered:', '\n\n')
+    }
+
+
     for (i in seq_len(mlen_p)) {
         predictors <- all_pred[i]
         m          <- ols_regress(paste(response, '~', paste(predictors, collapse = ' + ')), l)
@@ -109,13 +125,21 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
     sbc    <- ols_sbc(fr$model)
     sbic   <- ols_sbic(fr$model, model)
     rmse   <- sqrt(fr$ems)
-    message(paste(lpreds, "variable(s) added...."))
 
+    if (details == TRUE) {
+        cat('\n')
+        cat(paste("Forward Selection: Step", step), "\n\n")
+    }
+    
+    if (interactive()) {
+              cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), '\n')
+            } else {
+              cat(paste('-', dplyr::last(preds)), '\n')
+            }
 
     if (details == TRUE) {
 
-        cat("Variable Selection Procedure\n", paste("Dependent Variable:", response), "\n\n",
-        paste("Forward Selection: Step", step), "\n\n", paste("Variable", preds[lpreds], "Entered"), "\n\n")
+        cat('\n')
         m <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
         print(m)
         cat("\n\n")
@@ -144,7 +168,6 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
         if (tvals[maxt] >= tenter) {
 
             step   <- step + 1
-            message(paste(length(maxt), "variable(s) added..."))
             preds  <- c(preds, all_pred[maxt])
             lpreds <- length(preds)
             fr     <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
@@ -157,8 +180,19 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
             rmse   <- c(rmse, sqrt(fr$ems))
 
             if (details == TRUE) {
+                cat('\n')
+                cat(paste("Forward Selection: Step", step), "\n\n")
+            }
 
-                cat(paste("Forward Selection: Step", step, "\n\n"), paste("Variable", preds[lpreds], "Entered"), "\n\n")
+            if (interactive()) {
+              cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), '\n')
+            } else {
+              cat(paste('-', dplyr::last(preds)), '\n')
+            }
+
+            if (details == TRUE) {
+
+                cat('\n')
                 m <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
                 print(m)
                 cat("\n\n")
@@ -167,7 +201,8 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
 
         } else {
 
-            message(paste("No more variables satisfy the condition of penter:", penter))
+            cat('\n')
+            cat(crayon::bold$red("No more variables to be added."))
             break
 
         }
@@ -176,6 +211,30 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
     }
 
     prsq <- c(rsq[1], diff(rsq))
+
+    if (details == TRUE) {
+
+        cat('\n\n')
+          cat('Variables Entered:', '\n\n')
+          for (i in seq_len(length(preds))) {
+            if (interactive()) {
+              cat(crayon::green(clisymbols::symbol$tick), crayon::bold(preds[i]), '\n')
+            } else {
+              cat(paste('+', preds[i]), '\n')
+            }
+
+          }
+
+    }
+
+    cat('\n\n')
+    cat('Final Model Output', '\n')
+    cat(rep("-", 18), sep = "", '\n\n')
+
+    fi <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')),
+                            data = l)
+    print(fi)
+
 
     out  <- list(steps = step,
                  predictors = preds,
