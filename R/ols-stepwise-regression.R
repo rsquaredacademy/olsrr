@@ -69,7 +69,6 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
         stop('Please specify a model with at least 2 predictors.', call. = FALSE)
     }
 
-    message("We are selecting variables based on p value...")
     l        <- mod_sel_data(model)
     df       <- nrow(l) - 2
     tenter   <- qt(1 - (pent) / 2, df)
@@ -93,6 +92,23 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     f        <- c()
     fp       <- c()
 
+    cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")
+    cat(rep("-", 27), sep = "", '\n\n')
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste0(i, ". ", nam[i]), "\n")
+    }
+    cat('\n')
+
+    cat(crayon::bold$red("We are selecting variables based on p value..."))
+    cat('\n')
+
+    cat('\n')
+    if (!details) {
+      cat('Variables Entered/Removed:', '\n\n')
+    }
+
+
     for (i in seq_len(mlen_p)) {
         predictors <- all_pred[i]
         m          <- ols_regress(paste(response, '~', paste(predictors, collapse = ' + ')), l)
@@ -113,13 +129,22 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     sbc    <- ols_sbc(fr$model)
     sbic   <- ols_sbic(fr$model, model)
     rmse   <- sqrt(fr$ems)
-    message(paste(lpreds, "variable(s) added...."))
+
+    if (details == TRUE) {
+        cat('\n')
+        cat(paste("Stepwise Selection: Step", step), "\n\n")
+    }
+
+    if (interactive()) {
+              cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), '\n')
+            } else {
+              cat(paste('-', dplyr::last(preds), 'added'), '\n')
+            }
 
 
     if (details == TRUE) {
 
-        cat("Variable Selection Procedure\n", paste("Dependent Variable:", response), "\n\n",
-        paste("Stepwise Selection: Step", step), "\n\n", paste("Variable", preds[lpreds], "Entered"), "\n\n")
+        cat("\n")
         m <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
         print(m)
         cat("\n\n")
@@ -153,7 +178,6 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
 
         if (tvals[maxt] >= tenter) {
 
-            message(paste(length(maxt), "variable(s) added..."))
             preds     <- c(preds, all_pred[maxt])
             var_index <- c(var_index, all_pred[maxt])
             method    <- c(method, tech[1])
@@ -169,8 +193,30 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
             rmse      <- c(rmse, sqrt(fr$ems))
 
             if (details == TRUE) {
+                cat('\n')
+                cat(paste("Stepwise Selection: Step", step), "\n\n")
+            }
 
-                cat(paste("Stepwise Selection: Step", all_step, "\n\n"), paste("Variable", preds[lpreds], "Entered"), "\n\n")
+            if (interactive()) {
+                      cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), '\n')
+                    } else {
+                      cat(paste('-', dplyr::last(preds), 'added'), '\n')
+                    }
+
+
+            if (details == TRUE) {
+
+                cat("\n")
+                m <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
+                print(m)
+                cat("\n\n")
+
+            }
+
+
+            if (details == TRUE) {
+
+                cat("\n")
                 m <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
                 print(m)
                 cat("\n\n")
@@ -182,7 +228,6 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
             mint    <- which(tvals_r == min(tvals_r))
             if (tvals_r[mint] < trem) {
 
-                message(paste(length(mint), "variable(s) removed...."))
             	var_index <- c(var_index, preds[mint])
                 lvar      <- length(var_index)
                 method    <- c(method, tech[2])
@@ -199,13 +244,26 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
                 rmse      <- c(rmse, sqrt(fr$ems))
 
                 if (details == TRUE) {
+                    cat('\n')
+                    cat(paste("Stepwise Selection: Step", all_step), "\n\n")
+                }
 
-                    cat(paste("Stepwise Selection: Step", all_step, "\n\n"), paste("Variable", var_index[lvar], "removed"), "\n\n")
+                if (interactive()) {
+                          cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(var_index)), '\n')
+                        } else {
+                          cat(paste('-', dplyr::last(var_index), 'added'), '\n')
+                        }
+
+
+                if (details == TRUE) {
+
+                    cat("\n")
                     m <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), l)
                     print(m)
                     cat("\n\n")
 
                 }
+
 
             } else {
 
@@ -217,13 +275,23 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
 
         } else {
 
-            message(paste("No more variables to be added or removed."))
+            cat('\n')
+                cat(crayon::bold$red(glue("No more variables to be added/removed.")))
+                cat('\n')
             break
 
         }
 
 
     }
+
+    cat('\n\n')
+    cat('Final Model Output', '\n')
+    cat(rep("-", 18), sep = "", '\n\n')
+
+    fi <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')),
+                            data = l)
+    print(fi)
 
     out <- list(orders = var_index,
                 method = method,
