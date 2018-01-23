@@ -24,10 +24,7 @@ output$regress_out <- renderPrint({
 
 # main regression
 all_use_n <- eventReactive(input$submit_regress, {
-  k <- model()
-  object <- k$model
-  formul <- formula(object)  
   data <- final_split$train
-  n <- lm(formul, data = data)
-  n
+  k <- lm(input$regress_fmla, data = data)
+  k
 })
