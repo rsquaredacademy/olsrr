@@ -1,5 +1,5 @@
 #' @title Stepwise Regression
-#' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+#' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on
 #' p values, in a stepwise manner until there is no variable left to enter or remove any more.
 #' @param model an object of class \code{lm}; the model should include all candidate predictor variables
 #' @param pent p value; variables with p value less than \code{pent} will enter into the model
@@ -91,6 +91,9 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     cp       <- c()
     f        <- c()
     fp       <- c()
+    betas    <- c()
+    pvalues  <- c()
+    lbetas   <- c()
 
     cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")
     cat(rep("-", 27), sep = "", '\n\n')
@@ -129,6 +132,9 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     sbc    <- ols_sbc(fr$model)
     sbic   <- ols_sbic(fr$model, model)
     rmse   <- sqrt(fr$ems)
+    betas  <- append(betas, fr$betas)
+    lbetas <- append(lbetas, length(fr$betas))
+    pvalues  <- append(pvalues, fr$pvalues)
 
     if (details == TRUE) {
         cat('\n')
@@ -191,6 +197,9 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
             sbic      <- c(sbic, ols_sbic(fr$model, model))
             cp        <- c(cp, ols_mallows_cp(fr$model, model))
             rmse      <- c(rmse, sqrt(fr$ems))
+            betas     <- append(betas, fr$betas)
+            lbetas    <- append(lbetas, length(fr$betas))
+            pvalues   <- append(pvalues, fr$pvalues)
 
             if (details == TRUE) {
                 cat('\n')
@@ -229,8 +238,8 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
             if (tvals_r[mint] < trem) {
 
             	var_index <- c(var_index, preds[mint])
-                lvar      <- length(var_index)
-                method    <- c(method, tech[2])
+              lvar      <- length(var_index)
+              method    <- c(method, tech[2])
             	preds     <- preds[-mint]
             	all_step  <- all_step + 1
                 ppos      <- ppos - length(mint)
@@ -242,6 +251,9 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
                 sbic      <- c(sbic, ols_sbic(fr$model, model))
                 cp        <- c(cp, ols_mallows_cp(fr$model, model))
                 rmse      <- c(rmse, sqrt(fr$ems))
+                betas     <- append(betas, fr$betas)
+                lbetas    <- append(lbetas, length(fr$betas))
+                pvalues   <- append(pvalues, fr$pvalues)
 
                 if (details == TRUE) {
                     cat('\n')
@@ -293,6 +305,12 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
                             data = l)
     print(fi)
 
+    beta_pval <- tibble(
+      model = rep(seq_len(all_step), lbetas),
+      predictor = names(betas),
+      beta = betas,
+      pval = pvalues)
+
     out <- list(orders = var_index,
                 method = method,
                 steps = all_step,
@@ -304,7 +322,11 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
                 adjr = adjrsq,
                 rmse = rmse,
                 mallows_cp = cp,
-                indvar = cterms)
+                indvar = cterms,
+                betas = betas,
+                lbetas = lbetas,
+                pvalues = pvalues,
+                beta_pval = beta_pval)
 
     class(out) <- 'ols_stepwise'
 
@@ -319,7 +341,7 @@ print.ols_stepwise <- function(x, ...) {
     } else {
       print('No variables have been added to or removed from the model.')
     }
-    
+
 }
 
 #' @export
