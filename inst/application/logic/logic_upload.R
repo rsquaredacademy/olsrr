@@ -6,7 +6,7 @@ inFile1 <- reactive({
         input$file1
     }
 })
-    
+
 data1 <- reactive({
     if(is.null(inFile1())) {
         return(NULL)
@@ -27,16 +27,16 @@ inFile2 <- reactive({
         input$file2
     }
 })
-    
+
 data2 <- reactive({
     if(is.null(inFile2())) {
         return(NULL)
     } else {
         ext <- tools::file_ext(inFile2()$name)
-        
+
         file.rename(inFile2()$datapath,
                     paste(inFile2()$datapath, ext, sep="."))
-        
+
         readxl::read_excel(
           path = paste(inFile2()$datapath, ext, sep="."),
           sheet = input$sheet_n
@@ -52,7 +52,7 @@ inFile3 <- reactive({
         input$file3
     }
 })
-    
+
 data3 <- reactive({
     if(is.null(inFile3())) {
         return(NULL)
@@ -70,7 +70,7 @@ inFile4 <- reactive({
         input$file4
     }
 })
-    
+
 data4 <- reactive({
     if(is.null(inFile4())) {
         return(NULL)
@@ -87,7 +87,7 @@ inFile5 <- reactive({
         input$file5
     }
 })
-    
+
 data5 <- reactive({
     if(is.null(inFile5())) {
         return(NULL)
@@ -104,7 +104,7 @@ inFile6 <- reactive({
         input$file6
     }
 })
-    
+
 data6 <- reactive({
     if(is.null(inFile6())) {
         return(NULL)
@@ -143,11 +143,11 @@ observeEvent(input$iris_data, {
 })
 
 observeEvent(input$mtcars_data, {
-  sampdata$s <- mtcars
+  sampdata$s <- descriptr::mtcarz
 })
 
 observeEvent(input$hsb_data, {
-  sampdata$s <- hsb
+  sampdata$s <- inferr::hsb
 })
 
 observeEvent(input$mpg_data, {
@@ -161,7 +161,7 @@ observeEvent(input$diamonds_data, {
 uploadata <- reactiveValues(t = NULL)
 
 observeEvent(input$submit_seldata, {
-  
+
   if (ext_type() == 'csv') {
     uploadata$t <- data1()
   } else if (ext_type() == 'xls') {
