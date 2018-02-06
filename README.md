@@ -13,6 +13,9 @@ Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)
+[![Coverage
+status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master)
+![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
 ## Overview
 
@@ -216,27 +219,69 @@ until there is no variable left to enter or remove any more.
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
 ols_stepwise(model)
+#> Stepwise Selection Method   
+#> ---------------------------
+#> 
+#> Candidate Terms: 
+#> 
+#> 1. bcs 
+#> 2. pindex 
+#> 3. enzyme_test 
+#> 4. liver_test 
+#> 5. age 
+#> 6. gender 
+#> 7. alc_mod 
+#> 8. alc_heavy 
+#> 
 #> We are selecting variables based on p value...
-#> 1 variable(s) added....
-#> 1 variable(s) added...
-#> 1 variable(s) added...
-#> 1 variable(s) added...
-#> 1 variable(s) added...
-#> No more variables to be added or removed.
-#> Stepwise Selection Method                                                                  
 #> 
-#> Candidate Terms:                                                                           
+#> Variables Entered/Removed: 
 #> 
-#> 1 . bcs                                                                                    
-#> 2 . pindex                                                                                 
-#> 3 . enzyme_test                                                                            
-#> 4 . liver_test                                                                             
-#> 5 . age                                                                                    
-#> 6 . gender                                                                                 
-#> 7 . alc_mod                                                                                
-#> 8 . alc_heavy                                                                              
+#> - liver_test added 
+#> - alc_heavy added 
+#> - enzyme_test added 
+#> - pindex added 
+#> - bcs added 
 #> 
-#> ------------------------------------------------------------------------------------------
+#> No more variables to be added/removed.
+#> 
+#> 
+#> Final Model Output 
+#> ------------------
+#> 
+#>                           Model Summary                           
+#> -----------------------------------------------------------------
+#> R                       0.884       RMSE                 195.454 
+#> R-Squared               0.781       Coef. Var             27.839 
+#> Adj. R-Squared          0.758       MSE                38202.426 
+#> Pred R-Squared          0.700       MAE                  137.656 
+#> -----------------------------------------------------------------
+#>  RMSE: Root Mean Square Error 
+#>  MSE: Mean Square Error 
+#>  MAE: Mean Absolute Error 
+#> 
+#>                                  ANOVA                                  
+#> -----------------------------------------------------------------------
+#>                    Sum of                                              
+#>                   Squares        DF    Mean Square      F         Sig. 
+#> -----------------------------------------------------------------------
+#> Regression    6535804.090         5    1307160.818    34.217    0.0000 
+#> Residual      1833716.447        48      38202.426                     
+#> Total         8369520.537        53                                    
+#> -----------------------------------------------------------------------
+#> 
+#>                                       Parameter Estimates                                        
+#> ------------------------------------------------------------------------------------------------
+#>       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+#> ------------------------------------------------------------------------------------------------
+#> (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+#>  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+#>   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+#> enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+#>      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+#>         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+#> ------------------------------------------------------------------------------------------------
+#> 
 #>                                 Stepwise Selection Summary                                 
 #> ------------------------------------------------------------------------------------------
 #>                         Added/                   Adj.                                         
@@ -255,13 +300,68 @@ ols_stepwise(model)
 ``` r
 model <- lm(y ~ ., data = surgical)
 k <- ols_stepwise(model)
+#> Stepwise Selection Method   
+#> ---------------------------
+#> 
+#> Candidate Terms: 
+#> 
+#> 1. bcs 
+#> 2. pindex 
+#> 3. enzyme_test 
+#> 4. liver_test 
+#> 5. age 
+#> 6. gender 
+#> 7. alc_mod 
+#> 8. alc_heavy 
+#> 
 #> We are selecting variables based on p value...
-#> 1 variable(s) added....
-#> 1 variable(s) added...
-#> 1 variable(s) added...
-#> 1 variable(s) added...
-#> 1 variable(s) added...
-#> No more variables to be added or removed.
+#> 
+#> Variables Entered/Removed: 
+#> 
+#> - liver_test added 
+#> - alc_heavy added 
+#> - enzyme_test added 
+#> - pindex added 
+#> - bcs added 
+#> 
+#> No more variables to be added/removed.
+#> 
+#> 
+#> Final Model Output 
+#> ------------------
+#> 
+#>                           Model Summary                           
+#> -----------------------------------------------------------------
+#> R                       0.884       RMSE                 195.454 
+#> R-Squared               0.781       Coef. Var             27.839 
+#> Adj. R-Squared          0.758       MSE                38202.426 
+#> Pred R-Squared          0.700       MAE                  137.656 
+#> -----------------------------------------------------------------
+#>  RMSE: Root Mean Square Error 
+#>  MSE: Mean Square Error 
+#>  MAE: Mean Absolute Error 
+#> 
+#>                                  ANOVA                                  
+#> -----------------------------------------------------------------------
+#>                    Sum of                                              
+#>                   Squares        DF    Mean Square      F         Sig. 
+#> -----------------------------------------------------------------------
+#> Regression    6535804.090         5    1307160.818    34.217    0.0000 
+#> Residual      1833716.447        48      38202.426                     
+#> Total         8369520.537        53                                    
+#> -----------------------------------------------------------------------
+#> 
+#>                                       Parameter Estimates                                        
+#> ------------------------------------------------------------------------------------------------
+#>       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+#> ------------------------------------------------------------------------------------------------
+#> (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+#>  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+#>   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+#> enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+#>      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+#>         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+#> ------------------------------------------------------------------------------------------------
 plot(k)
 ```
 
@@ -279,18 +379,40 @@ manner until there is no variable left to remove any more.
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
 k <- ols_stepaic_backward(model)
+#> Backward Elimination Method 
+#> ---------------------------
+#> 
+#> Candidate Terms: 
+#> 
+#> 1 . bcs 
+#> 2 . pindex 
+#> 3 . enzyme_test 
+#> 4 . liver_test 
+#> 5 . age 
+#> 6 . gender 
+#> 7 . alc_mod 
+#> 8 . alc_heavy 
+#> 
+#> 
+#> Variables Removed: 
+#> 
+#> - alc_mod 
+#> - gender 
+#> - age 
+#> 
+#> No more variables to be removed.
 k
 #> 
 #> 
-#>                        Backward Elimination Summary                        
-#> -------------------------------------------------------------------------
-#> Variable        AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq 
-#> -------------------------------------------------------------------------
-#> Full Model    736.390    1825905.713    6543614.824    0.782        0.743 
-#> alc_mod       734.407    1826477.828    6543042.709    0.782        0.749 
-#> gender        732.494    1829435.617    6540084.920    0.781        0.754 
-#> age           730.620    1833716.447    6535804.090    0.781        0.758 
-#> -------------------------------------------------------------------------
+#>                         Backward Elimination Summary                         
+#> ---------------------------------------------------------------------------
+#> Variable        AIC          RSS          Sum Sq        R-Sq      Adj. R-Sq 
+#> ---------------------------------------------------------------------------
+#> Full Model    736.390    1825905.713    6543614.824    0.78184      0.74305 
+#> alc_mod       734.407    1826477.828    6543042.709    0.78177      0.74856 
+#> gender        732.494    1829435.617    6540084.920    0.78142      0.75351 
+#> age           730.620    1833716.447    6535804.090    0.78091      0.75808 
+#> ---------------------------------------------------------------------------
 ```
 
 ###### Plot
@@ -298,6 +420,28 @@ k
 ``` r
 model <- lm(y ~ ., data = surgical)
 k <- ols_stepaic_backward(model)
+#> Backward Elimination Method 
+#> ---------------------------
+#> 
+#> Candidate Terms: 
+#> 
+#> 1 . bcs 
+#> 2 . pindex 
+#> 3 . enzyme_test 
+#> 4 . liver_test 
+#> 5 . age 
+#> 6 . gender 
+#> 7 . alc_mod 
+#> 8 . alc_heavy 
+#> 
+#> 
+#> Variables Removed: 
+#> 
+#> - alc_mod 
+#> - gender 
+#> - age 
+#> 
+#> No more variables to be removed.
 plot(k)
 ```
 
