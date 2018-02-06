@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -123,59 +126,55 @@
     <p>Variance inflation factor, tolerance, eigenvalues and condition indices.</p>
     
 
-    <pre><span class='fu'>ols_coll_diag</span>(<span class='no'>model</span>)
+    <pre class="usage"><span class='fu'>ols_coll_diag</span>(<span class='no'>model</span>)
 
 <span class='fu'>ols_vif_tol</span>(<span class='no'>model</span>)
 
 <span class='fu'>ols_eigen_cindex</span>(<span class='no'>model</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>model</dt>
-      <dd>an object of class <code>lm</code></dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>model</th>
+      <td><p>an object of class <code>lm</code></p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>ols_coll_diag</code> returns an object of class <code>&quot;ols_coll_diag&quot;</code>.
-An object of class <code>&quot;ols_coll_diag&quot;</code> is a list containing the
+    <p><code>ols_coll_diag</code> returns an object of class <code>"ols_coll_diag"</code>.
+An object of class <code>"ols_coll_diag"</code> is a list containing the
 following components:</p>
+<dt>vif_t</dt><dd><p>tolerance and variance inflation factors</p></dd>
+<dt>eig_cindex</dt><dd><p>eigen values and condition index</p></dd>
+
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Collinearity implies two variables are near perfect linear combinations of one another. 
 Multicollinearity involves more than two variables. In the presence of multicollinearity, regression 
-estimates are unstable and have high standard errors.</p>
-    <p><em>Tolerance</em></p>
-    <p>Percent of variance in the predictor that cannot be accounted for by other predictors.</p>
-    <p>Steps to calculate tolerance:</p>
-    <p><ul>
-<li> Regress the kth predictor on rest of the predictors in the model.
-  </li>
-<li> Compute \(R^2\) - the coefficient of determination from the regression in the above step.
-  </li>
-<li> \(Tolerance = 1 - R^2\)
-</li>
-</ul></p>
-    <p><em>Variance Inflation Factor</em></p>
-    <p>Variance inflation factors measure the inflation in the variances of the parameter estimates due to 
+estimates are unstable and have high standard errors.
+    <em>Tolerance</em></p>
+<p>Percent of variance in the predictor that cannot be accounted for by other predictors.</p>
+<p>Steps to calculate tolerance:</p><ul>
+<li><p>Regress the kth predictor on rest of the predictors in the model.</p></li>
+<li><p>Compute \(R^2\) - the coefficient of determination from the regression in the above step.</p></li>
+<li><p>\(Tolerance = 1 - R^2\)</p></li>
+</ul><p><em>Variance Inflation Factor</em></p>
+<p>Variance inflation factors measure the inflation in the variances of the parameter estimates due to 
 collinearities that exist among the predictors. It is a measure of how much the variance of the estimated 
 regression coefficient \(\beta_k\)  is inflated by the existence of correlation among the predictor variables 
 in the model. A VIF of 1 means that there is no correlation among the kth predictor and the remaining predictor 
 variables, and hence the variance of \(\beta_k\) is not inflated at all. The general rule of thumb is that VIFs 
 exceeding 4 warrant further investigation, while VIFs exceeding 10 are signs of serious multicollinearity 
 requiring correction.</p>
-    <p>Steps to calculate VIF:</p>
-    <p><ul>
-<li> Regress the kth predictor on rest of the predictors in the model.
-  </li>
-<li> Compute \(R^2\) - the coefficient of determination from the regression in the above step.
-  </li>
-<li> \(Tolerance = 1 / 1 - R^2 = 1 / Tolerance\)
-</li>
-</ul></p>
-    <p><em>Condition Index</em></p>
-    <p>Most multivariate statistical approaches involve decomposing a correlation matrix into linear 
+<p>Steps to calculate VIF:</p><ul>
+<li><p>Regress the kth predictor on rest of the predictors in the model.</p></li>
+<li><p>Compute \(R^2\) - the coefficient of determination from the regression in the above step.</p></li>
+<li><p>\(Tolerance = 1 / 1 - R^2 = 1 / Tolerance\)</p></li>
+</ul><p><em>Condition Index</em></p>
+<p>Most multivariate statistical approaches involve decomposing a correlation matrix into linear 
 combinations of variables. The linear combinations are chosen so that the first combination has 
 the largest possible variance (subject to some restrictions), the second combination 
 has the next largest variance, subject to being uncorrelated with the first, the third has the largest 
@@ -196,12 +195,12 @@ Sources of Collinearity. New York: John Wiley &amp; Sons.</p>
 
 <span class='co'># vif and tolerance</span>
 <span class='fu'>ols_vif_tol</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 3
-#&gt;   Variables Tolerance      VIF
-#&gt;       &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1      disp 0.1218116 8.209402
-#&gt; 2        hp 0.3454979 2.894373
-#&gt; 3        wt 0.1962092 5.096601
-#&gt; 4      drat 0.4386836 2.279547</div><div class='input'>
+#&gt;   Variables Tolerance   VIF
+#&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 disp          0.122  8.21
+#&gt; 2 hp            0.345  2.89
+#&gt; 3 wt            0.196  5.10
+#&gt; 4 drat          0.439  2.28</div><div class='input'>
 <span class='co'># eigenvalues and condition indices</span>
 <span class='fu'>ols_eigen_cindex</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt;    Eigenvalue Condition Index    intercept        disp          hp           wt
 #&gt; 1 4.692806914        1.000000 0.0002323252 0.001106455 0.002566185 0.0007172086
@@ -219,12 +218,12 @@ Sources of Collinearity. New York: John Wiley &amp; Sons.</p>
 <span class='fu'>ols_coll_diag</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; Tolerance and Variance Inflation Factor
 #&gt; ---------------------------------------
 #&gt; # A tibble: 4 x 3
-#&gt;   Variables Tolerance      VIF
-#&gt;       &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1      disp 0.1218116 8.209402
-#&gt; 2        hp 0.3454979 2.894373
-#&gt; 3        wt 0.1962092 5.096601
-#&gt; 4      drat 0.4386836 2.279547
+#&gt;   Variables Tolerance   VIF
+#&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 disp          0.122  8.21
+#&gt; 2 hp            0.345  2.89
+#&gt; 3 wt            0.196  5.10
+#&gt; 4 drat          0.439  2.28
 #&gt; 
 #&gt; 
 #&gt; Eigenvalue and Condition Index
