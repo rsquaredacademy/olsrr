@@ -6,10 +6,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Residual Diagnostics • olsrr</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -98,7 +98,7 @@
     <div class="page-header toc-ignore">
       <h1>Residual Diagnostics</h1>
             
-            <h4 class="date">2017-12-05</h4>
+            <h4 class="date">2018-02-06</h4>
           </div>
 
     
@@ -106,7 +106,7 @@
 <div class="contents">
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<html><body><a href="#introduction" class="anchor"> </a></body></html>Introduction</h1>
+<a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>olsrr offers tools for detecting violation of standard regression assumptions. Here we take a look at residual diagnostics. The standard regression assumptions include the following about residuals/errors:</p>
 <ul>
 <li>The error has a normal distribution (normality assumption).</li>
@@ -116,18 +116,18 @@
 </ul>
 <div id="residual-qq-plot" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#residual-qq-plot" class="anchor"> </a></body></html>Residual QQ Plot</h2>
+<a href="#residual-qq-plot" class="anchor"></a>Residual QQ Plot</h2>
 <p>Graph for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rsd_qqplot.html">ols_rsd_qqplot</a></span>(model)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../reference/ols_rsd_qqplot.html">ols_rsd_qqplot</a></span>(model)</a></code></pre></div>
 <p><img src="residual_diagnostics_files/figure-html/qqresid-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="residual-normality-test" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#residual-normality-test" class="anchor"> </a></body></html>Residual Normality Test</h2>
+<a href="#residual-normality-test" class="anchor"></a>Residual Normality Test</h2>
 <p>Test for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_norm_test.html">ols_norm_test</a></span>(model)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../reference/ols_norm_test.html">ols_norm_test</a></span>(model)</a></code></pre></div>
 <pre><code>## -----------------------------------------------
 ##        Test             Statistic       pvalue  
 ## -----------------------------------------------
@@ -137,13 +137,13 @@
 ## Anderson-Darling          0.5859         0.1188 
 ## -----------------------------------------------</code></pre>
 <p>Correlation between observed residuals and expected residuals under normality.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_corr_test.html">ols_corr_test</a></span>(model)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../reference/ols_corr_test.html">ols_corr_test</a></span>(model)</a></code></pre></div>
 <pre><code>## [1] 0.970066</code></pre>
 </div>
 <div id="residual-vs-fitted-values-plot" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#residual-vs-fitted-values-plot" class="anchor"> </a></body></html>Residual vs Fitted Values Plot</h2>
+<a href="#residual-vs-fitted-values-plot" class="anchor"></a>Residual vs Fitted Values Plot</h2>
 <p>It is a scatter plot of residuals on the y axis and fitted values on the x axis to detect non-linearity, unequal error variances, and outliers.</p>
 <p><strong>Characteristics of a well behaved residual vs fitted plot:</strong></p>
 <ul>
@@ -151,16 +151,16 @@
 <li>The residuals form an approximate horizontal band around the 0 line indicating homogeneity of error variance.</li>
 <li>No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rvsp_plot.html">ols_rvsp_plot</a></span>(model)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/ols_rvsp_plot.html">ols_rvsp_plot</a></span>(model)</a></code></pre></div>
 <p><img src="residual_diagnostics_files/figure-html/rvsfplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="residual-histogram" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#residual-histogram" class="anchor"> </a></body></html>Residual Histogram</h2>
+<a href="#residual-histogram" class="anchor"></a>Residual Histogram</h2>
 <p>Histogram of residuals for detecting violation of normality assumption.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_rsd_hist.html">ols_rsd_hist</a></span>(model)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/ols_rsd_hist.html">ols_rsd_hist</a></span>(model)</a></code></pre></div>
 <p><img src="residual_diagnostics_files/figure-html/residhist-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -169,7 +169,8 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
 <a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">

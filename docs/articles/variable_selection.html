@@ -6,10 +6,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Variable Selection Methods • olsrr</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -98,7 +98,7 @@
     <div class="page-header toc-ignore">
       <h1>Variable Selection Methods</h1>
             
-            <h4 class="date">2017-12-05</h4>
+            <h4 class="date">2018-02-06</h4>
           </div>
 
     
@@ -111,44 +111,44 @@
 </style>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#introduction" class="anchor"> </a></body></html>Introduction</h2>
+<a href="#introduction" class="anchor"></a>Introduction</h2>
 </div>
 <div id="all-possible-regression" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#all-possible-regression" class="anchor"> </a></body></html>All Possible Regression</h2>
+<a href="#all-possible-regression" class="anchor"></a>All Possible Regression</h2>
 <p>All subset regression tests all possible subsets of the set of potential independent variables. If there are K potential independent variables (besides the constant), then there are <span class="math inline">\(2^{k}\)</span> distinct subsets of them to be tested. For example, if you have 10 candidate independent variables, the number of subsets to be tested is <span class="math inline">\(2^{10}\)</span>, which is 1024, and if you have 20 candidate variables, the number is <span class="math inline">\(2^{20}\)</span>, which is more than one million.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_all_subset.html">ols_all_subset</a></span>(model)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../reference/ols_all_subset.html">ols_all_subset</a></span>(model)</a></code></pre></div>
 <pre><code>## # A tibble: 15 x 6
-##    Index     N      Predictors `R-Square` `Adj. R-Square` `Mallow's Cp`
-##    &lt;int&gt; &lt;int&gt;           &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;         &lt;chr&gt;
-##  1     1     1              wt    0.75283         0.74459      12.48094
-##  2     2     1            disp    0.71834         0.70895      18.12961
-##  3     3     1              hp    0.60244         0.58919      37.11264
-##  4     4     1            qsec    0.17530         0.14781     107.06962
-##  5     5     2           hp wt    0.82679         0.81484       2.36900
-##  6     6     2         wt qsec    0.82642         0.81444       2.42949
-##  7     7     2         disp wt    0.78093         0.76582       9.87910
-##  8     8     2         disp hp    0.74824         0.73088      15.23312
-##  9     9     2       disp qsec    0.72156         0.70236      19.60281
-## 10    10     2         hp qsec    0.63688         0.61183      33.47215
-## 11    11     3      hp wt qsec    0.83477         0.81706       3.06167
-## 12    12     3      disp hp wt    0.82684         0.80828       4.36070
-## 13    13     3    disp wt qsec    0.82642         0.80782       4.42934
-## 14    14     3    disp hp qsec    0.75420         0.72786      16.25779
-## 15    15     4 disp hp wt qsec    0.83514         0.81072       5.00000</code></pre>
+##    Index     N Predictors      `R-Square` `Adj. R-Square` `Mallow's Cp`
+##    &lt;int&gt; &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;        
+##  1     1     1 wt              0.75283    0.74459         " 12.48094"  
+##  2     2     1 disp            0.71834    0.70895         " 18.12961"  
+##  3     3     1 hp              0.60244    0.58919         " 37.11264"  
+##  4     4     1 qsec            0.17530    0.14781         107.06962    
+##  5     5     2 hp wt           0.82679    0.81484         "  2.36900"  
+##  6     6     2 wt qsec         0.82642    0.81444         "  2.42949"  
+##  7     7     2 disp wt         0.78093    0.76582         "  9.87910"  
+##  8     8     2 disp hp         0.74824    0.73088         " 15.23312"  
+##  9     9     2 disp qsec       0.72156    0.70236         " 19.60281"  
+## 10    10     2 hp qsec         0.63688    0.61183         " 33.47215"  
+## 11    11     3 hp wt qsec      0.83477    0.81706         "  3.06167"  
+## 12    12     3 disp hp wt      0.82684    0.80828         "  4.36070"  
+## 13    13     3 disp wt qsec    0.82642    0.80782         "  4.42934"  
+## 14    14     3 disp hp qsec    0.75420    0.72786         " 16.25779"  
+## 15    15     4 disp hp wt qsec 0.83514    0.81072         "  5.00000"</code></pre>
 <p>The <code>plot</code> method shows the panel of fit criteria for all possible regression methods.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_all_subset.html">ols_all_subset</a></span>(model)
-<span class="kw">plot</span>(k)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_all_subset.html">ols_all_subset</a></span>(model)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">plot</span>(k)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/allsubplot-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="best-subset-regression" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#best-subset-regression" class="anchor"> </a></body></html>Best Subset Regression</h2>
+<a href="#best-subset-regression" class="anchor"></a>Best Subset Regression</h2>
 <p>Select the subset of predictors that do the best at meeting some well-defined objective criterion, such as having the largest R2 value or the smallest MSE, Mallow’s Cp or AIC.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/ols_best_subset.html">ols_best_subset</a></span>(model)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../reference/ols_best_subset.html">ols_best_subset</a></span>(model)</a></code></pre></div>
 <pre><code>##    Best Subsets Regression    
 ## ------------------------------
 ## Model Index    Predictors
@@ -177,221 +177,49 @@ k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_all_s
 ##  HSP: Hocking's Sp 
 ##  APC: Amemiya Prediction Criteria</code></pre>
 <p>The <code>plot</code> method shows the panel of fit criteria for best subset regression methods.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_best_subset.html">ols_best_subset</a></span>(model)
-<span class="kw">plot</span>(k)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_best_subset.html">ols_best_subset</a></span>(model)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(k)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/bestsubplot-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="stepwise-forward-regression" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#stepwise-forward-regression" class="anchor"> </a></body></html>Stepwise Forward Regression</h2>
+<a href="#stepwise-forward-regression" class="anchor"></a>Stepwise Forward Regression</h2>
 <p>Build regression model from a set of candidate predictor variables by entering predictors based on p values, in a stepwise manner until there is no variable left to enter any more. The model should include all the candidate predictor variables. If details is set to <code>TRUE</code>, each step is displayed.</p>
 <div id="variable-selection" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#variable-selection" class="anchor"> </a></body></html>Variable Selection</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise forward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model)</code></pre></div>
-<pre><code>## We are selecting variables based on p value...</code></pre>
-<pre><code>## 1 variable(s) added....</code></pre>
-<pre><code>## 1 variable(s) added...
-## 1 variable(s) added...
-## 1 variable(s) added...
-## 1 variable(s) added...</code></pre>
-<pre><code>## No more variables satisfy the condition of penter: 0.3</code></pre>
-<pre><code>## Forward Selection Method                                                       
+<a href="#variable-selection" class="anchor"></a>Variable Selection</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># stepwise forward regression</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model)</a></code></pre></div>
+<pre><code>## Forward Selection Method    
+## ---------------------------
 ## 
-## Candidate Terms:                                                               
+## Candidate Terms: 
 ## 
-## 1 . bcs                                                                        
-## 2 . pindex                                                                     
-## 3 . enzyme_test                                                                
-## 4 . liver_test                                                                 
-## 5 . age                                                                        
-## 6 . gender                                                                     
-## 7 . alc_mod                                                                    
-## 8 . alc_heavy                                                                  
+## 1. bcs 
+## 2. pindex 
+## 3. enzyme_test 
+## 4. liver_test 
+## 5. age 
+## 6. gender 
+## 7. alc_mod 
+## 8. alc_heavy 
 ## 
-## ------------------------------------------------------------------------------
-##                               Selection Summary                                
-## ------------------------------------------------------------------------------
-##         Variable                     Adj.                                         
-## Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE      
-## ------------------------------------------------------------------------------
-##    1    liver_test       0.4545      0.4440    62.5119    771.8753    296.2992    
-##    2    alc_heavy        0.5667      0.5498    41.3681    761.4394    266.6484    
-##    3    enzyme_test      0.6590      0.6385    24.3379    750.5089    238.9145    
-##    4    pindex           0.7501      0.7297     7.5373    735.7146    206.5835    
-##    5    bcs              0.7809      0.7581     3.1925    730.6204    195.4544    
-## ------------------------------------------------------------------------------</code></pre>
-</div>
-<div id="plot" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#plot" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model)</code></pre></div>
-<pre><code>## We are selecting variables based on p value...</code></pre>
-<pre><code>## 1 variable(s) added....</code></pre>
-<pre><code>## 1 variable(s) added...
-## 1 variable(s) added...
-## 1 variable(s) added...
-## 1 variable(s) added...</code></pre>
-<pre><code>## No more variables satisfy the condition of penter: 0.3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(k)</code></pre></div>
-<p><img src="variable_selection_files/figure-html/stepf2-1.png" width="960" style="display: block; margin: auto;"></p>
-</div>
-<div id="detailed-output" class="section level3">
-<h3 class="hasAnchor">
-<html><body><a href="#detailed-output" class="anchor"> </a></body></html>Detailed Output</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise forward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## We are selecting variables based on p value...</code></pre>
-<pre><code>## 1 variable(s) added....</code></pre>
-<pre><code>## Variable Selection Procedure
-##  Dependent Variable: y 
+## We are selecting variables based on p value...
 ## 
-##  Forward Selection: Step 1 
+## Variables Entered: 
 ## 
-##  Variable liver_test Entered 
+## - liver_test 
+## - alc_heavy 
+## - enzyme_test 
+## - pindex 
+## - bcs 
 ## 
-##                           Model Summary                           
-## -----------------------------------------------------------------
-## R                       0.674       RMSE                 296.299 
-## R-Squared               0.455       Coef. Var             42.202 
-## Adj. R-Squared          0.444       MSE                87793.232 
-## Pred R-Squared          0.386       MAE                  212.857 
-## -----------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
+## No more variables to be added.
 ## 
-##                                  ANOVA                                  
-## -----------------------------------------------------------------------
-##                    Sum of                                              
-##                   Squares        DF    Mean Square      F         Sig. 
-## -----------------------------------------------------------------------
-## Regression    3804272.477         1    3804272.477    43.332    0.0000 
-## Residual      4565248.060        52      87793.232                     
-## Total         8369520.537        53                                    
-## -----------------------------------------------------------------------
-## 
-##                                     Parameter Estimates                                     
-## -------------------------------------------------------------------------------------------
-##       model       Beta    Std. Error    Std. Beta      t       Sig        lower      upper 
-## -------------------------------------------------------------------------------------------
-## (Intercept)     15.191       111.869                 0.136    0.893    -209.290    239.671 
-##  liver_test    250.305        38.025        0.674    6.583    0.000     174.003    326.607 
-## -------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## 1 variable(s) added...</code></pre>
-<pre><code>## Forward Selection: Step 2 
-## 
-##  Variable alc_heavy Entered 
-## 
-##                           Model Summary                           
-## -----------------------------------------------------------------
-## R                       0.753       RMSE                 266.648 
-## R-Squared               0.567       Coef. Var             37.979 
-## Adj. R-Squared          0.550       MSE                71101.387 
-## Pred R-Squared          0.487       MAE                  187.393 
-## -----------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                  
-## -----------------------------------------------------------------------
-##                    Sum of                                              
-##                   Squares        DF    Mean Square      F         Sig. 
-## -----------------------------------------------------------------------
-## Regression    4743349.776         2    2371674.888    33.356    0.0000 
-## Residual      3626170.761        51      71101.387                     
-## Total         8369520.537        53                                    
-## -----------------------------------------------------------------------
-## 
-##                                     Parameter Estimates                                      
-## --------------------------------------------------------------------------------------------
-##       model       Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
-## --------------------------------------------------------------------------------------------
-## (Intercept)     -5.069       100.828                 -0.050    0.960    -207.490    197.352 
-##  liver_test    234.597        34.491        0.632     6.802    0.000     165.353    303.841 
-##   alc_heavy    342.183        94.156        0.338     3.634    0.001     153.157    531.208 
-## --------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## 1 variable(s) added...</code></pre>
-<pre><code>## Forward Selection: Step 3 
-## 
-##  Variable enzyme_test Entered 
-## 
-##                           Model Summary                           
-## -----------------------------------------------------------------
-## R                       0.812       RMSE                 238.914 
-## R-Squared               0.659       Coef. Var             34.029 
-## Adj. R-Squared          0.639       MSE                57080.128 
-## Pred R-Squared          0.567       MAE                  170.603 
-## -----------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                  
-## -----------------------------------------------------------------------
-##                    Sum of                                              
-##                   Squares        DF    Mean Square      F         Sig. 
-## -----------------------------------------------------------------------
-## Regression    5515514.136         3    1838504.712    32.209    0.0000 
-## Residual      2854006.401        50      57080.128                     
-## Total         8369520.537        53                                    
-## -----------------------------------------------------------------------
-## 
-##                                      Parameter Estimates                                      
-## ---------------------------------------------------------------------------------------------
-##       model        Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
-## ---------------------------------------------------------------------------------------------
-## (Intercept)    -344.559       129.156                 -2.668    0.010    -603.976    -85.141 
-##  liver_test     183.844        33.845        0.495     5.432    0.000     115.865    251.823 
-##   alc_heavy     319.662        84.585        0.315     3.779    0.000     149.769    489.555 
-## enzyme_test       6.263         1.703        0.335     3.678    0.001       2.843      9.683 
-## ---------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## 1 variable(s) added...</code></pre>
-<pre><code>## Forward Selection: Step 4 
-## 
-##  Variable pindex Entered 
-## 
-##                           Model Summary                           
-## -----------------------------------------------------------------
-## R                       0.866       RMSE                 206.584 
-## R-Squared               0.750       Coef. Var             29.424 
-## Adj. R-Squared          0.730       MSE                42676.744 
-## Pred R-Squared          0.669       MAE                  146.473 
-## -----------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                  
-## -----------------------------------------------------------------------
-##                    Sum of                                              
-##                   Squares        DF    Mean Square      F         Sig. 
-## -----------------------------------------------------------------------
-## Regression    6278360.060         4    1569590.015    36.779    0.0000 
-## Residual      2091160.477        49      42676.744                     
-## Total         8369520.537        53                                    
-## -----------------------------------------------------------------------
-## 
-##                                       Parameter Estimates                                       
-## -----------------------------------------------------------------------------------------------
-##       model        Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
-## -----------------------------------------------------------------------------------------------
-## (Intercept)    -789.012       153.372                 -5.144    0.000    -1097.226    -480.799 
-##  liver_test     125.474        32.358        0.338     3.878    0.000       60.448     190.499 
-##   alc_heavy     359.875        73.754        0.355     4.879    0.000      211.660     508.089 
-## enzyme_test       7.548         1.503        0.404     5.020    0.000        4.527      10.569 
-##      pindex       7.876         1.863        0.335     4.228    0.000        4.133      11.620 
-## -----------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## 1 variable(s) added...</code></pre>
-<pre><code>## Forward Selection: Step 5 
-## 
-##  Variable bcs Entered 
+## Final Model Output 
+## ------------------
 ## 
 ##                           Model Summary                           
 ## -----------------------------------------------------------------
@@ -425,21 +253,343 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
 ##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
 ## ------------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## No more variables satisfy the condition of penter: 0.3</code></pre>
-<pre><code>## Forward Selection Method                                                       
-## 
-## Candidate Terms:                                                               
-## 
-## 1 . bcs                                                                        
-## 2 . pindex                                                                     
-## 3 . enzyme_test                                                                
-## 4 . liver_test                                                                 
-## 5 . age                                                                        
-## 6 . gender                                                                     
-## 7 . alc_mod                                                                    
-## 8 . alc_heavy                                                                  
-## 
+<pre><code>## 
+##                               Selection Summary                                
 ## ------------------------------------------------------------------------------
+##         Variable                     Adj.                                         
+## Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE      
+## ------------------------------------------------------------------------------
+##    1    liver_test       0.4545      0.4440    62.5119    771.8753    296.2992    
+##    2    alc_heavy        0.5667      0.5498    41.3681    761.4394    266.6484    
+##    3    enzyme_test      0.6590      0.6385    24.3379    750.5089    238.9145    
+##    4    pindex           0.7501      0.7297     7.5373    735.7146    206.5835    
+##    5    bcs              0.7809      0.7581     3.1925    730.6204    195.4544    
+## ------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="plot" class="section level3">
+<h3 class="hasAnchor">
+<a href="#plot" class="anchor"></a>Plot</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model)</a></code></pre></div>
+<pre><code>## Forward Selection Method    
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1. bcs 
+## 2. pindex 
+## 3. enzyme_test 
+## 4. liver_test 
+## 5. age 
+## 6. gender 
+## 7. alc_mod 
+## 8. alc_heavy 
+## 
+## We are selecting variables based on p value...
+## 
+## Variables Entered: 
+## 
+## - liver_test 
+## - alc_heavy 
+## - enzyme_test 
+## - pindex 
+## - bcs 
+## 
+## No more variables to be added.
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+## ------------------------------------------------------------------------------------------------</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
+<p><img src="variable_selection_files/figure-html/stepf2-1.png" width="960" style="display: block; margin: auto;"></p>
+</div>
+<div id="detailed-output" class="section level3">
+<h3 class="hasAnchor">
+<a href="#detailed-output" class="anchor"></a>Detailed Output</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># stepwise forward regression</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_forward.html">ols_step_forward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## Forward Selection Method    
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1. bcs 
+## 2. pindex 
+## 3. enzyme_test 
+## 4. liver_test 
+## 5. age 
+## 6. gender 
+## 7. alc_mod 
+## 8. alc_heavy 
+## 
+## We are selecting variables based on p value...
+## 
+## 
+## Forward Selection: Step 1 
+## 
+## - liver_test 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.674       RMSE                 296.299 
+## R-Squared               0.455       Coef. Var             42.202 
+## Adj. R-Squared          0.444       MSE                87793.232 
+## Pred R-Squared          0.386       MAE                  212.857 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    3804272.477         1    3804272.477    43.332    0.0000 
+## Residual      4565248.060        52      87793.232                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                     Parameter Estimates                                     
+## -------------------------------------------------------------------------------------------
+##       model       Beta    Std. Error    Std. Beta      t       Sig        lower      upper 
+## -------------------------------------------------------------------------------------------
+## (Intercept)     15.191       111.869                 0.136    0.893    -209.290    239.671 
+##  liver_test    250.305        38.025        0.674    6.583    0.000     174.003    326.607 
+## -------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## Forward Selection: Step 2 
+## 
+## - alc_heavy 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.753       RMSE                 266.648 
+## R-Squared               0.567       Coef. Var             37.979 
+## Adj. R-Squared          0.550       MSE                71101.387 
+## Pred R-Squared          0.487       MAE                  187.393 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    4743349.776         2    2371674.888    33.356    0.0000 
+## Residual      3626170.761        51      71101.387                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                     Parameter Estimates                                      
+## --------------------------------------------------------------------------------------------
+##       model       Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
+## --------------------------------------------------------------------------------------------
+## (Intercept)     -5.069       100.828                 -0.050    0.960    -207.490    197.352 
+##  liver_test    234.597        34.491        0.632     6.802    0.000     165.353    303.841 
+##   alc_heavy    342.183        94.156        0.338     3.634    0.001     153.157    531.208 
+## --------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## Forward Selection: Step 3 
+## 
+## - enzyme_test 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.812       RMSE                 238.914 
+## R-Squared               0.659       Coef. Var             34.029 
+## Adj. R-Squared          0.639       MSE                57080.128 
+## Pred R-Squared          0.567       MAE                  170.603 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    5515514.136         3    1838504.712    32.209    0.0000 
+## Residual      2854006.401        50      57080.128                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                      Parameter Estimates                                      
+## ---------------------------------------------------------------------------------------------
+##       model        Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
+## ---------------------------------------------------------------------------------------------
+## (Intercept)    -344.559       129.156                 -2.668    0.010    -603.976    -85.141 
+##  liver_test     183.844        33.845        0.495     5.432    0.000     115.865    251.823 
+##   alc_heavy     319.662        84.585        0.315     3.779    0.000     149.769    489.555 
+## enzyme_test       6.263         1.703        0.335     3.678    0.001       2.843      9.683 
+## ---------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## Forward Selection: Step 4 
+## 
+## - pindex 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.866       RMSE                 206.584 
+## R-Squared               0.750       Coef. Var             29.424 
+## Adj. R-Squared          0.730       MSE                42676.744 
+## Pred R-Squared          0.669       MAE                  146.473 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6278360.060         4    1569590.015    36.779    0.0000 
+## Residual      2091160.477        49      42676.744                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                       
+## -----------------------------------------------------------------------------------------------
+##       model        Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## -----------------------------------------------------------------------------------------------
+## (Intercept)    -789.012       153.372                 -5.144    0.000    -1097.226    -480.799 
+##  liver_test     125.474        32.358        0.338     3.878    0.000       60.448     190.499 
+##   alc_heavy     359.875        73.754        0.355     4.879    0.000      211.660     508.089 
+## enzyme_test       7.548         1.503        0.404     5.020    0.000        4.527      10.569 
+##      pindex       7.876         1.863        0.335     4.228    0.000        4.133      11.620 
+## -----------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## Forward Selection: Step 5 
+## 
+## - bcs 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+## ------------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## No more variables to be added.
+## 
+## Variables Entered: 
+## 
+## + liver_test 
+## + alc_heavy 
+## + enzyme_test 
+## + pindex 
+## + bcs 
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+## ------------------------------------------------------------------------------------------------</code></pre>
+<pre><code>## 
 ##                               Selection Summary                                
 ## ------------------------------------------------------------------------------
 ##         Variable                     Adj.                                         
@@ -455,30 +605,76 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 </div>
 <div id="stepwise-backward-regression" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#stepwise-backward-regression" class="anchor"> </a></body></html>Stepwise Backward Regression</h2>
+<a href="#stepwise-backward-regression" class="anchor"></a>Stepwise Backward Regression</h2>
 <p>Build regression model from a set of candidate predictor variables by removing predictors based on p values, in a stepwise manner until there is no variable left to remove any more. The model should include all the candidate predictor variables. If details is set to <code>TRUE</code>, each step is displayed.</p>
 <div id="variable-selection-1" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#variable-selection-1" class="anchor"> </a></body></html>Variable Selection</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model)</code></pre></div>
-<pre><code>## We are eliminating variables based on p value...</code></pre>
-<pre><code>## No more variables satisfy the condition of prem: 0.3</code></pre>
-<pre><code>## Backward Elimination Method                                                
+<a href="#variable-selection-1" class="anchor"></a>Variable Selection</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># stepwise backward regression</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model)</a></code></pre></div>
+<pre><code>## Backward Elimination Method 
+## ---------------------------
 ## 
-## Candidate Terms:                                                           
+## Candidate Terms: 
 ## 
-## 1 . bcs                                                                    
-## 2 . pindex                                                                 
-## 3 . enzyme_test                                                            
-## 4 . liver_test                                                             
-## 5 . age                                                                    
-## 6 . gender                                                                 
-## 7 . alc_mod                                                                
-## 8 . alc_heavy                                                              
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
 ## 
-## --------------------------------------------------------------------------
+## We are eliminating variables based on p value...
+## 
+## Variables Removed: 
+## 
+## - alc_mod 
+## - gender 
+## - age 
+## 
+## No more variables satisfy the condition of p value = 0.3
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## ------------------------------------------------------------------------------------------------</code></pre>
+<pre><code>## 
+## 
 ##                            Elimination Summary                             
 ## --------------------------------------------------------------------------
 ##         Variable                  Adj.                                        
@@ -491,22 +687,97 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 </div>
 <div id="plot-1" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#plot-1" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model)</code></pre></div>
-<pre><code>## We are eliminating variables based on p value...</code></pre>
-<pre><code>## No more variables satisfy the condition of prem: 0.3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(k)</code></pre></div>
+<a href="#plot-1" class="anchor"></a>Plot</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model)</a></code></pre></div>
+<pre><code>## Backward Elimination Method 
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+## We are eliminating variables based on p value...
+## 
+## Variables Removed: 
+## 
+## - alc_mod 
+## - gender 
+## - age 
+## 
+## No more variables satisfy the condition of p value = 0.3
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## ------------------------------------------------------------------------------------------------</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/stepb2-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-1" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#detailed-output-1" class="anchor"> </a></body></html>Detailed Output</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## We are eliminating variables based on p value...</code></pre>
-<pre><code>## Backward Elimination: Step 1 
+<a href="#detailed-output-1" class="anchor"></a>Detailed Output</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># stepwise backward regression</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_backward.html">ols_step_backward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## Backward Elimination Method 
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+## We are eliminating variables based on p value...
+## 
+## - alc_mod 
+## 
+## Backward Elimination: Step 1 
 ## 
 ##  Variable alc_mod Removed 
 ## 
@@ -545,6 +816,8 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ##   alc_heavy      315.854        73.849        0.312     4.277    0.000      167.202     464.505 
 ## ------------------------------------------------------------------------------------------------
 ## 
+## 
+## - gender 
 ## 
 ## Backward Elimination: Step 2 
 ## 
@@ -585,6 +858,8 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## ------------------------------------------------------------------------------------------------
 ## 
 ## 
+## - age 
+## 
 ## Backward Elimination: Step 3 
 ## 
 ##  Variable age Removed 
@@ -620,22 +895,57 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
 ##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
 ##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## ------------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## No more variables satisfy the condition of p value = 0.3
+## 
+## 
+## Variables Removed: 
+## 
+## - alc_mod 
+## - gender 
+## - age 
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
 ## ------------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## No more variables satisfy the condition of prem: 0.3</code></pre>
-<pre><code>## Backward Elimination Method                                                
+<pre><code>## 
 ## 
-## Candidate Terms:                                                           
-## 
-## 1 . bcs                                                                    
-## 2 . pindex                                                                 
-## 3 . enzyme_test                                                            
-## 4 . liver_test                                                             
-## 5 . age                                                                    
-## 6 . gender                                                                 
-## 7 . alc_mod                                                                
-## 8 . alc_heavy                                                              
-## 
-## --------------------------------------------------------------------------
 ##                            Elimination Summary                             
 ## --------------------------------------------------------------------------
 ##         Variable                  Adj.                                        
@@ -649,35 +959,77 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 </div>
 <div id="stepwise-regression" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#stepwise-regression" class="anchor"> </a></body></html>Stepwise Regression</h2>
+<a href="#stepwise-regression" class="anchor"></a>Stepwise Regression</h2>
 <p>Build regression model from a set of candidate predictor variables by entering and removing predictors based on p values, in a stepwise manner until there is no variable left to enter or remove any more. The model should include all the candidate predictor variables. If details is set to <code>TRUE</code>, each step is displayed.</p>
 <div id="variable-selection-2" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#variable-selection-2" class="anchor"> </a></body></html>Variable Selection</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model)</code></pre></div>
-<pre><code>## We are selecting variables based on p value...</code></pre>
-<pre><code>## 1 variable(s) added....</code></pre>
-<pre><code>## 1 variable(s) added...
-## 1 variable(s) added...
-## 1 variable(s) added...
-## 1 variable(s) added...</code></pre>
-<pre><code>## No more variables to be added or removed.</code></pre>
-<pre><code>## Stepwise Selection Method                                                                  
+<a href="#variable-selection-2" class="anchor"></a>Variable Selection</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># stepwise regression</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model)</a></code></pre></div>
+<pre><code>## Stepwise Selection Method   
+## ---------------------------
 ## 
-## Candidate Terms:                                                                           
+## Candidate Terms: 
 ## 
-## 1 . bcs                                                                                    
-## 2 . pindex                                                                                 
-## 3 . enzyme_test                                                                            
-## 4 . liver_test                                                                             
-## 5 . age                                                                                    
-## 6 . gender                                                                                 
-## 7 . alc_mod                                                                                
-## 8 . alc_heavy                                                                              
+## 1. bcs 
+## 2. pindex 
+## 3. enzyme_test 
+## 4. liver_test 
+## 5. age 
+## 6. gender 
+## 7. alc_mod 
+## 8. alc_heavy 
 ## 
-## ------------------------------------------------------------------------------------------
+## We are selecting variables based on p value...
+## 
+## Variables Entered/Removed: 
+## 
+## - liver_test added 
+## - alc_heavy added 
+## - enzyme_test added 
+## - pindex added 
+## - bcs added 
+## 
+## No more variables to be added/removed.
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+## ------------------------------------------------------------------------------------------------</code></pre>
+<pre><code>## 
 ##                                 Stepwise Selection Summary                                 
 ## ------------------------------------------------------------------------------------------
 ##                         Added/                   Adj.                                         
@@ -692,33 +1044,100 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 </div>
 <div id="plot-2" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#plot-2" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model)</code></pre></div>
-<pre><code>## We are selecting variables based on p value...</code></pre>
-<pre><code>## 1 variable(s) added....</code></pre>
-<pre><code>## 1 variable(s) added...
-## 1 variable(s) added...
-## 1 variable(s) added...
-## 1 variable(s) added...</code></pre>
-<pre><code>## No more variables to be added or removed.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(k)</code></pre></div>
+<a href="#plot-2" class="anchor"></a>Plot</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model)</a></code></pre></div>
+<pre><code>## Stepwise Selection Method   
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1. bcs 
+## 2. pindex 
+## 3. enzyme_test 
+## 4. liver_test 
+## 5. age 
+## 6. gender 
+## 7. alc_mod 
+## 8. alc_heavy 
+## 
+## We are selecting variables based on p value...
+## 
+## Variables Entered/Removed: 
+## 
+## - liver_test added 
+## - alc_heavy added 
+## - enzyme_test added 
+## - pindex added 
+## - bcs added 
+## 
+## No more variables to be added/removed.
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+## ------------------------------------------------------------------------------------------------</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/stepwise2-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-2" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#detailed-output-2" class="anchor"> </a></body></html>Detailed Output</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## We are selecting variables based on p value...</code></pre>
-<pre><code>## 1 variable(s) added....</code></pre>
-<pre><code>## Variable Selection Procedure
-##  Dependent Variable: y 
+<a href="#detailed-output-2" class="anchor"></a>Detailed Output</h3>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co"># stepwise regression</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw"><a href="../reference/ols_stepwise.html">ols_stepwise</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## Stepwise Selection Method   
+## ---------------------------
 ## 
-##  Stepwise Selection: Step 1 
+## Candidate Terms: 
 ## 
-##  Variable liver_test Entered 
+## 1. bcs 
+## 2. pindex 
+## 3. enzyme_test 
+## 4. liver_test 
+## 5. age 
+## 6. gender 
+## 7. alc_mod 
+## 8. alc_heavy 
+## 
+## We are selecting variables based on p value...
+## 
+## 
+## Stepwise Selection: Step 1 
+## 
+## - liver_test added 
 ## 
 ##                           Model Summary                           
 ## -----------------------------------------------------------------
@@ -747,11 +1166,13 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## -------------------------------------------------------------------------------------------
 ## (Intercept)     15.191       111.869                 0.136    0.893    -209.290    239.671 
 ##  liver_test    250.305        38.025        0.674    6.583    0.000     174.003    326.607 
-## -------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## 1 variable(s) added...</code></pre>
-<pre><code>## Stepwise Selection: Step 2 
+## -------------------------------------------------------------------------------------------
 ## 
-##  Variable alc_heavy Entered 
+## 
+## 
+## Stepwise Selection: Step 2 
+## 
+## - alc_heavy added 
 ## 
 ##                           Model Summary                           
 ## -----------------------------------------------------------------
@@ -781,11 +1202,45 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## (Intercept)     -5.069       100.828                 -0.050    0.960    -207.490    197.352 
 ##  liver_test    234.597        34.491        0.632     6.802    0.000     165.353    303.841 
 ##   alc_heavy    342.183        94.156        0.338     3.634    0.001     153.157    531.208 
-## --------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## 1 variable(s) added...</code></pre>
-<pre><code>## Stepwise Selection: Step 3 
+## --------------------------------------------------------------------------------------------
 ## 
-##  Variable enzyme_test Entered 
+## 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.753       RMSE                 266.648 
+## R-Squared               0.567       Coef. Var             37.979 
+## Adj. R-Squared          0.550       MSE                71101.387 
+## Pred R-Squared          0.487       MAE                  187.393 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    4743349.776         2    2371674.888    33.356    0.0000 
+## Residual      3626170.761        51      71101.387                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                     Parameter Estimates                                      
+## --------------------------------------------------------------------------------------------
+##       model       Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
+## --------------------------------------------------------------------------------------------
+## (Intercept)     -5.069       100.828                 -0.050    0.960    -207.490    197.352 
+##  liver_test    234.597        34.491        0.632     6.802    0.000     165.353    303.841 
+##   alc_heavy    342.183        94.156        0.338     3.634    0.001     153.157    531.208 
+## --------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## Stepwise Selection: Step 3 
+## 
+## - enzyme_test added 
 ## 
 ##                           Model Summary                           
 ## -----------------------------------------------------------------
@@ -816,11 +1271,46 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ##  liver_test     183.844        33.845        0.495     5.432    0.000     115.865    251.823 
 ##   alc_heavy     319.662        84.585        0.315     3.779    0.000     149.769    489.555 
 ## enzyme_test       6.263         1.703        0.335     3.678    0.001       2.843      9.683 
-## ---------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## 1 variable(s) added...</code></pre>
-<pre><code>## Stepwise Selection: Step 4 
+## ---------------------------------------------------------------------------------------------
 ## 
-##  Variable pindex Entered 
+## 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.812       RMSE                 238.914 
+## R-Squared               0.659       Coef. Var             34.029 
+## Adj. R-Squared          0.639       MSE                57080.128 
+## Pred R-Squared          0.567       MAE                  170.603 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    5515514.136         3    1838504.712    32.209    0.0000 
+## Residual      2854006.401        50      57080.128                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                      Parameter Estimates                                      
+## ---------------------------------------------------------------------------------------------
+##       model        Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
+## ---------------------------------------------------------------------------------------------
+## (Intercept)    -344.559       129.156                 -2.668    0.010    -603.976    -85.141 
+##  liver_test     183.844        33.845        0.495     5.432    0.000     115.865    251.823 
+##   alc_heavy     319.662        84.585        0.315     3.779    0.000     149.769    489.555 
+## enzyme_test       6.263         1.703        0.335     3.678    0.001       2.843      9.683 
+## ---------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## Stepwise Selection: Step 4 
+## 
+## - pindex added 
 ## 
 ##                           Model Summary                           
 ## -----------------------------------------------------------------
@@ -852,11 +1342,123 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ##   alc_heavy     359.875        73.754        0.355     4.879    0.000      211.660     508.089 
 ## enzyme_test       7.548         1.503        0.404     5.020    0.000        4.527      10.569 
 ##      pindex       7.876         1.863        0.335     4.228    0.000        4.133      11.620 
-## -----------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## 1 variable(s) added...</code></pre>
-<pre><code>## Stepwise Selection: Step 5 
+## -----------------------------------------------------------------------------------------------
 ## 
-##  Variable bcs Entered 
+## 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.866       RMSE                 206.584 
+## R-Squared               0.750       Coef. Var             29.424 
+## Adj. R-Squared          0.730       MSE                42676.744 
+## Pred R-Squared          0.669       MAE                  146.473 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6278360.060         4    1569590.015    36.779    0.0000 
+## Residual      2091160.477        49      42676.744                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                       
+## -----------------------------------------------------------------------------------------------
+##       model        Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## -----------------------------------------------------------------------------------------------
+## (Intercept)    -789.012       153.372                 -5.144    0.000    -1097.226    -480.799 
+##  liver_test     125.474        32.358        0.338     3.878    0.000       60.448     190.499 
+##   alc_heavy     359.875        73.754        0.355     4.879    0.000      211.660     508.089 
+## enzyme_test       7.548         1.503        0.404     5.020    0.000        4.527      10.569 
+##      pindex       7.876         1.863        0.335     4.228    0.000        4.133      11.620 
+## -----------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## Stepwise Selection: Step 5 
+## 
+## - bcs added 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+## ------------------------------------------------------------------------------------------------
+## 
+## 
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+## ------------------------------------------------------------------------------------------------
+## 
+## 
+## 
+## No more variables to be added/removed.
+## 
+## 
+## Final Model Output 
+## ------------------
 ## 
 ##                           Model Summary                           
 ## -----------------------------------------------------------------
@@ -890,21 +1492,7 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
 ##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
 ## ------------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## No more variables to be added or removed.</code></pre>
-<pre><code>## Stepwise Selection Method                                                                  
-## 
-## Candidate Terms:                                                                           
-## 
-## 1 . bcs                                                                                    
-## 2 . pindex                                                                                 
-## 3 . enzyme_test                                                                            
-## 4 . liver_test                                                                             
-## 5 . age                                                                                    
-## 6 . gender                                                                                 
-## 7 . alc_mod                                                                                
-## 8 . alc_heavy                                                                              
-## 
-## ------------------------------------------------------------------------------------------
+<pre><code>## 
 ##                                 Stepwise Selection Summary                                 
 ## ------------------------------------------------------------------------------------------
 ##                         Added/                   Adj.                                         
@@ -920,39 +1508,103 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 </div>
 <div id="stepwise-aic-forward-regression" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#stepwise-aic-forward-regression" class="anchor"> </a></body></html>Stepwise AIC Forward Regression</h2>
+<a href="#stepwise-aic-forward-regression" class="anchor"></a>Stepwise AIC Forward Regression</h2>
 <p>Build regression model from a set of candidate predictor variables by entering predictors based on Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more. The model should include all the candidate predictor variables. If details is set to <code>TRUE</code>, each step is displayed.</p>
 <div id="variable-selection-3" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#variable-selection-3" class="anchor"> </a></body></html>Variable Selection</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic forward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model)</code></pre></div>
-<pre><code>## --------------------------------------------------------------------------
-## Variable         AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
-## --------------------------------------------------------------------------
-## liver_test     771.875    3804272.477    4565248.060    0.455        0.444 
-## alc_heavy      761.439    4743349.776    3626170.761    0.567        0.550 
-## enzyme_test    750.509    5515514.136    2854006.401    0.659        0.639 
-## pindex         735.715    6278360.060    2091160.477    0.750        0.730 
-## bcs            730.620    6535804.090    1833716.447    0.781        0.758 
-## --------------------------------------------------------------------------</code></pre>
+<a href="#variable-selection-3" class="anchor"></a>Variable Selection</h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># stepwise aic forward regression</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model)</a></code></pre></div>
+<pre><code>## Forward Selection Method 
+## ------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+## 
+## Variables Entered: 
+## 
+## - liver_test 
+## - alc_heavy 
+## - enzyme_test 
+## - pindex 
+## - bcs 
+## 
+## No more variables to be added.</code></pre>
+<pre><code>## 
+##                              Selection Summary                               
+## ----------------------------------------------------------------------------
+## Variable         AIC        Sum Sq           RSS         R-Sq      Adj. R-Sq 
+## ----------------------------------------------------------------------------
+## liver_test     771.875    3804272.477    4565248.060    0.45454      0.44405 
+## alc_heavy      761.439    4743349.776    3626170.761    0.56674      0.54975 
+## enzyme_test    750.509    5515514.136    2854006.401    0.65900      0.63854 
+## pindex         735.715    6278360.060    2091160.477    0.75015      0.72975 
+## bcs            730.620    6535804.090    1833716.447    0.78091      0.75808 
+## ----------------------------------------------------------------------------</code></pre>
 </div>
 <div id="plot-3" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#plot-3" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model)
-<span class="kw">plot</span>(k)</code></pre></div>
+<a href="#plot-3" class="anchor"></a>Plot</h3>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model)</a></code></pre></div>
+<pre><code>## Forward Selection Method 
+## ------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+## 
+## Variables Entered: 
+## 
+## - liver_test 
+## - alc_heavy 
+## - enzyme_test 
+## - pindex 
+## - bcs 
+## 
+## No more variables to be added.</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/stepaicf2-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-3" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#detailed-output-3" class="anchor"> </a></body></html>Detailed Output</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic forward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>##  Step 0: AIC = 802.606 
+<a href="#detailed-output-3" class="anchor"></a>Detailed Output</h3>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co"># stepwise aic forward regression</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw"><a href="../reference/ols_stepaic_forward.html">ols_stepaic_forward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## Forward Selection Method 
+## ------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+##  Step 0: AIC = 802.606 
 ##  y ~ 1 
 ## 
 ## --------------------------------------------------------------------------------
@@ -967,6 +1619,9 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## gender          1    802.956     251808.570    8117711.967    0.030        0.011 
 ## age             1    803.834     118862.559    8250657.978    0.014       -0.005 
 ## --------------------------------------------------------------------------------
+## 
+## 
+## - liver_test 
 ## 
 ## 
 ##  Step 1 : AIC = 771.8753 
@@ -984,6 +1639,8 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## bcs             1    773.867       685.256    4564562.805    0.455        0.433 
 ## -------------------------------------------------------------------------------
 ## 
+## - alc_heavy 
+## 
 ## 
 ##  Step 2 : AIC = 761.4394 
 ##  y ~ liver_test + alc_heavy 
@@ -999,6 +1656,8 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## gender          1    763.433       443.343    3625727.417    0.567        0.541 
 ## -------------------------------------------------------------------------------
 ## 
+## - enzyme_test 
+## 
 ## 
 ##  Step 3 : AIC = 750.5089 
 ##  y ~ liver_test + alc_heavy + enzyme_test 
@@ -1013,6 +1672,8 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## gender        1    752.509         5.958    2854000.443    0.659        0.631 
 ## -----------------------------------------------------------------------------
 ## 
+## - pindex 
+## 
 ## 
 ##  Step 4 : AIC = 735.7146 
 ##  y ~ liver_test + alc_heavy + enzyme_test + pindex 
@@ -1026,6 +1687,8 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## alc_mod       1    737.713        60.620    2091099.857    0.750        0.724 
 ## -----------------------------------------------------------------------------
 ## 
+## - bcs 
+## 
 ## 
 ##  Step 5 : AIC = 730.6204 
 ##  y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs 
@@ -1036,9 +1699,24 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## age           1    732.494    4280.830    1829435.617    0.781        0.754 
 ## gender        1    732.551    2360.288    1831356.159    0.781        0.753 
 ## alc_mod       1    732.614     216.992    1833499.455    0.781        0.753 
-## ---------------------------------------------------------------------------</code></pre>
-<pre><code>## No more variables to be added.</code></pre>
-<pre><code>##                           Model Summary                           
+## ---------------------------------------------------------------------------
+## 
+## 
+## No more variables to be added.
+## 
+## Variables Entered: 
+## 
+## - liver_test 
+## - alc_heavy 
+## - enzyme_test 
+## - pindex 
+## - bcs 
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
 ## -----------------------------------------------------------------
 ## R                       0.884       RMSE                 195.454 
 ## R-Squared               0.781       Coef. Var             27.839 
@@ -1070,52 +1748,112 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
 ##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
 ## ------------------------------------------------------------------------------------------------</code></pre>
-<pre><code>## --------------------------------------------------------------------------
-## Variable         AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
-## --------------------------------------------------------------------------
-## liver_test     771.875    3804272.477    4565248.060    0.455        0.444 
-## alc_heavy      761.439    4743349.776    3626170.761    0.567        0.550 
-## enzyme_test    750.509    5515514.136    2854006.401    0.659        0.639 
-## pindex         735.715    6278360.060    2091160.477    0.750        0.730 
-## bcs            730.620    6535804.090    1833716.447    0.781        0.758 
-## --------------------------------------------------------------------------</code></pre>
+<pre><code>## 
+##                              Selection Summary                               
+## ----------------------------------------------------------------------------
+## Variable         AIC        Sum Sq           RSS         R-Sq      Adj. R-Sq 
+## ----------------------------------------------------------------------------
+## liver_test     771.875    3804272.477    4565248.060    0.45454      0.44405 
+## alc_heavy      761.439    4743349.776    3626170.761    0.56674      0.54975 
+## enzyme_test    750.509    5515514.136    2854006.401    0.65900      0.63854 
+## pindex         735.715    6278360.060    2091160.477    0.75015      0.72975 
+## bcs            730.620    6535804.090    1833716.447    0.78091      0.75808 
+## ----------------------------------------------------------------------------</code></pre>
 </div>
 </div>
 <div id="stepwise-aic-backward-regression" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#stepwise-aic-backward-regression" class="anchor"> </a></body></html>Stepwise AIC Backward Regression</h2>
+<a href="#stepwise-aic-backward-regression" class="anchor"></a>Stepwise AIC Backward Regression</h2>
 <p>Build regression model from a set of candidate predictor variables by removing predictors based on Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more. The model should include all the candidate predictor variables. If details is set to <code>TRUE</code>, each step is displayed.</p>
 <div id="variable-selection-4" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#variable-selection-4" class="anchor"> </a></body></html>Variable Selection</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
-k</code></pre></div>
+<a href="#variable-selection-4" class="anchor"></a>Variable Selection</h3>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="co"># stepwise aic backward regression</span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)</a></code></pre></div>
+<pre><code>## Backward Elimination Method 
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+## 
+## Variables Removed: 
+## 
+## - alc_mod 
+## - gender 
+## - age 
+## 
+## No more variables to be removed.</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">k</a></code></pre></div>
 <pre><code>## 
 ## 
-##                        Backward Elimination Summary                        
-## -------------------------------------------------------------------------
-## Variable        AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq 
-## -------------------------------------------------------------------------
-## Full Model    736.390    1825905.713    6543614.824    0.782        0.743 
-## alc_mod       734.407    1826477.828    6543042.709    0.782        0.749 
-## gender        732.494    1829435.617    6540084.920    0.781        0.754 
-## age           730.620    1833716.447    6535804.090    0.781        0.758 
-## -------------------------------------------------------------------------</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">### Plot</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)
-<span class="kw">plot</span>(k)</code></pre></div>
+##                         Backward Elimination Summary                         
+## ---------------------------------------------------------------------------
+## Variable        AIC          RSS          Sum Sq        R-Sq      Adj. R-Sq 
+## ---------------------------------------------------------------------------
+## Full Model    736.390    1825905.713    6543614.824    0.78184      0.74305 
+## alc_mod       734.407    1826477.828    6543042.709    0.78177      0.74856 
+## gender        732.494    1829435.617    6540084.920    0.78142      0.75351 
+## age           730.620    1833716.447    6535804.090    0.78091      0.75808 
+## ---------------------------------------------------------------------------</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">### Plot</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model)</a></code></pre></div>
+<pre><code>## Backward Elimination Method 
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+## 
+## Variables Removed: 
+## 
+## - alc_mod 
+## - gender 
+## - age 
+## 
+## No more variables to be removed.</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/stepaicb2-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-4" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#detailed-output-4" class="anchor"> </a></body></html>Detailed Output</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic backward regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>##  Step 0: AIC = 736.3899 
+<a href="#detailed-output-4" class="anchor"></a>Detailed Output</h3>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co"># stepwise aic backward regression</span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="kw"><a href="../reference/ols_stepaic_backward.html">ols_stepaic_backward</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## Backward Elimination Method 
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+##  Step 0: AIC = 736.3899 
 ##  y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy 
 ## 
 ## --------------------------------------------------------------------------------
@@ -1131,7 +1869,11 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## enzyme_test    1     763.557    1307756.930    3133662.644    0.626        0.569 
 ## --------------------------------------------------------------------------------
 ## 
-##  Step 1 : AIC = 734.4068 
+## 
+## - alc_mod 
+## 
+## 
+##   Step 1 : AIC = 734.4068 
 ##  y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
 ## 
 ## --------------------------------------------------------------------------------
@@ -1146,7 +1888,10 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## enzyme_test    1     761.595    1309433.007    3135910.834    0.625        0.577 
 ## --------------------------------------------------------------------------------
 ## 
-##  Step 2 : AIC = 732.4942 
+## - gender 
+## 
+## 
+##   Step 2 : AIC = 732.4942 
 ##  y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
 ## 
 ## --------------------------------------------------------------------------------
@@ -1160,7 +1905,10 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## enzyme_test    1     759.596    1306482.666    3135918.283    0.625        0.586 
 ## --------------------------------------------------------------------------------
 ## 
-##  Step 3 : AIC = 730.6204 
+## - age 
+## 
+## 
+##   Step 3 : AIC = 730.6204 
 ##  y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
 ## 
 ## --------------------------------------------------------------------------------
@@ -1171,100 +1919,356 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 ## alc_heavy      1     747.181     752122.827    2585839.274    0.691        0.666 
 ## pindex         1     750.782     930453.646    2764170.093    0.670        0.643 
 ## enzyme_test    1     757.971    1324076.125    3157792.572    0.623        0.592 
-## --------------------------------------------------------------------------------</code></pre>
-<pre><code>## No more variables to be removed.</code></pre>
+## --------------------------------------------------------------------------------
+## 
+## 
+## No more variables to be removed.
+## 
+## Variables Removed: 
+## 
+## - alc_mod 
+## - gender 
+## - age 
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## ------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>## 
 ## 
-##                        Backward Elimination Summary                        
-## -------------------------------------------------------------------------
-## Variable        AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq 
-## -------------------------------------------------------------------------
-## Full Model    736.390    1825905.713    6543614.824    0.782        0.743 
-## alc_mod       734.407    1826477.828    6543042.709    0.782        0.749 
-## gender        732.494    1829435.617    6540084.920    0.781        0.754 
-## age           730.620    1833716.447    6535804.090    0.781        0.758 
-## -------------------------------------------------------------------------</code></pre>
+##                         Backward Elimination Summary                         
+## ---------------------------------------------------------------------------
+## Variable        AIC          RSS          Sum Sq        R-Sq      Adj. R-Sq 
+## ---------------------------------------------------------------------------
+## Full Model    736.390    1825905.713    6543614.824    0.78184      0.74305 
+## alc_mod       734.407    1826477.828    6543042.709    0.78177      0.74856 
+## gender        732.494    1829435.617    6540084.920    0.78142      0.75351 
+## age           730.620    1833716.447    6535804.090    0.78091      0.75808 
+## ---------------------------------------------------------------------------</code></pre>
 </div>
 </div>
 <div id="stepwise-aic-regression" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#stepwise-aic-regression" class="anchor"> </a></body></html>Stepwise AIC Regression</h2>
+<a href="#stepwise-aic-regression" class="anchor"></a>Stepwise AIC Regression</h2>
 <p>Build regression model from a set of candidate predictor variables by entering and removing predictors based on Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more. The model should include all the candidate predictor variables. If details is set to <code>TRUE</code>, each step is displayed.</p>
 <div id="variable-selection-5" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#variable-selection-5" class="anchor"> </a></body></html>Variable Selection</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model)</code></pre></div>
-<pre><code>## No more variables to be added or removed.</code></pre>
+<a href="#variable-selection-5" class="anchor"></a>Variable Selection</h3>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="co"># stepwise aic regression</span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"><span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model)</a></code></pre></div>
+<pre><code>## Stepwise Selection Method 
+## -------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+## 
+## Variables Entered/Removed: 
+## 
+## - liver_test added 
+## - alc_heavy added 
+## - enzyme_test added 
+## - pindex added 
+## - bcs added 
+## 
+## No more variables to be added or removed.</code></pre>
 <pre><code>## 
 ## 
-##                                     Stepwise Summary                                    
-## --------------------------------------------------------------------------------------
-## Variable        Method       AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq 
-## --------------------------------------------------------------------------------------
-## liver_test     addition    771.875    4565248.060    3804272.477    0.455        0.444 
-## alc_heavy      addition    761.439    3626170.761    4743349.776    0.567        0.550 
-## enzyme_test    addition    750.509    2854006.401    5515514.136    0.659        0.639 
-## pindex         addition    735.715    2091160.477    6278360.060    0.750        0.730 
-## bcs            addition    730.620    1833716.447    6535804.090    0.781        0.758 
-## --------------------------------------------------------------------------------------</code></pre>
+##                                      Stepwise Summary                                     
+## ----------------------------------------------------------------------------------------
+## Variable        Method       AIC          RSS          Sum Sq        R-Sq      Adj. R-Sq 
+## ----------------------------------------------------------------------------------------
+## liver_test     addition    771.875    4565248.060    3804272.477    0.45454      0.44405 
+## alc_heavy      addition    761.439    3626170.761    4743349.776    0.56674      0.54975 
+## enzyme_test    addition    750.509    2854006.401    5515514.136    0.65900      0.63854 
+## pindex         addition    735.715    2091160.477    6278360.060    0.75015      0.72975 
+## bcs            addition    730.620    1833716.447    6535804.090    0.78091      0.75808 
+## ----------------------------------------------------------------------------------------</code></pre>
 </div>
 <div id="plot-4" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#plot-4" class="anchor"> </a></body></html>Plot</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model)</code></pre></div>
-<pre><code>## No more variables to be added or removed.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(k)</code></pre></div>
+<a href="#plot-4" class="anchor"></a>Plot</h3>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model)</a></code></pre></div>
+<pre><code>## Stepwise Selection Method 
+## -------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+## 
+## Variables Entered/Removed: 
+## 
+## - liver_test added 
+## - alc_heavy added 
+## - enzyme_test added 
+## - pindex added 
+## - bcs added 
+## 
+## No more variables to be added or removed.</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/stepwiseaic2-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-5" class="section level3">
 <h3 class="hasAnchor">
-<html><body><a href="#detailed-output-5" class="anchor"> </a></body></html>Detailed Output</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># stepwise aic regression</span>
-model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)
-<span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>##  Step 0: AIC = 802.606 
+<a href="#detailed-output-5" class="anchor"></a>Detailed Output</h3>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="co"># stepwise aic regression</span></a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="kw"><a href="../reference/ols_stepaic_both.html">ols_stepaic_both</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## Stepwise Selection Method 
+## -------------------------
+## 
+## Candidate Terms: 
+## 
+## 1 . bcs 
+## 2 . pindex 
+## 3 . enzyme_test 
+## 4 . liver_test 
+## 5 . age 
+## 6 . gender 
+## 7 . alc_mod 
+## 8 . alc_heavy 
+## 
+##  Step 0: AIC = 802.606 
 ##  y ~ 1 
 ## 
+## 
+##                                Enter New Variables                              
+## --------------------------------------------------------------------------------
+## Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## --------------------------------------------------------------------------------
+## liver_test      1    771.875    3804272.477    4565248.060    0.455        0.444 
+## enzyme_test     1    782.629    2798309.881    5571210.656    0.334        0.322 
+## pindex          1    794.100    1479766.754    6889753.784    0.177        0.161 
+## alc_heavy       1    794.301    1454057.255    6915463.282    0.174        0.158 
+## bcs             1    797.697    1005151.658    7364368.879    0.120        0.103 
+## alc_mod         1    802.828     271062.330    8098458.207    0.032        0.014 
+## gender          1    802.956     251808.570    8117711.967    0.030        0.011 
+## age             1    803.834     118862.559    8250657.978    0.014       -0.005 
+## --------------------------------------------------------------------------------
+## 
+## - liver_test added 
 ## 
 ## 
 ##  Step 1 : AIC = 771.8753 
 ##  y ~ liver_test 
 ## 
+##                                Enter New Variables                              
+## --------------------------------------------------------------------------------
+## Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## --------------------------------------------------------------------------------
+## alc_heavy       1    761.439    4743349.776    3626170.761    0.567        0.550 
+## enzyme_test     1    762.077    4700276.808    3669243.729    0.562        0.544 
+## pindex          1    770.387    4089864.263    4279656.274    0.489        0.469 
+## alc_mod         1    771.141    4029668.715    4339851.822    0.481        0.461 
+## gender          1    773.802    3810434.699    4559085.838    0.455        0.434 
+## age             1    773.831    3807998.774    4561521.763    0.455        0.434 
+## bcs             1    773.867    3804957.732    4564562.805    0.455        0.433 
+## --------------------------------------------------------------------------------
+## 
+## - alc_heavy added 
 ## 
 ## 
 ##  Step 2 : AIC = 761.4394 
 ##  y ~ liver_test + alc_heavy 
 ## 
+##                            Remove Existing Variables                           
+## -------------------------------------------------------------------------------
+## Variable      DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## -------------------------------------------------------------------------------
+## alc_heavy      1    771.875    3804272.477    4565248.060    0.455        0.444 
+## liver_test     1    794.301    1454057.255    6915463.282    0.174        0.158 
+## -------------------------------------------------------------------------------
+## 
+##                                Enter New Variables                              
+## --------------------------------------------------------------------------------
+## Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## --------------------------------------------------------------------------------
+## enzyme_test     1    750.509    5515514.136    2854006.401    0.659        0.639 
+## pindex          1    756.125    5202708.411    3166812.126    0.622        0.599 
+## bcs             1    763.063    4768545.364    3600975.173    0.570        0.544 
+## age             1    763.110    4765397.885    3604122.652    0.569        0.544 
+## alc_mod         1    763.428    4744134.327    3625386.210    0.567        0.541 
+## gender          1    763.433    4743793.120    3625727.417    0.567        0.541 
+## --------------------------------------------------------------------------------
+## 
+## - enzyme_test added 
 ## 
 ## 
 ##  Step 3 : AIC = 750.5089 
 ##  y ~ liver_test + alc_heavy + enzyme_test 
 ## 
+##                            Remove Existing Variables                            
+## --------------------------------------------------------------------------------
+## Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## --------------------------------------------------------------------------------
+## enzyme_test     1    761.439    4743349.776    3626170.761    0.567        0.550 
+## alc_heavy       1    762.077    4700276.808    3669243.729    0.562        0.544 
+## liver_test      1    773.555    3831289.024    4538231.513    0.458        0.437 
+## --------------------------------------------------------------------------------
+## 
+##                               Enter New Variables                             
+## ------------------------------------------------------------------------------
+## Variable     DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## ------------------------------------------------------------------------------
+## pindex        1    735.715    6278360.060    2091160.477    0.750        0.730 
+## bcs           1    750.782    5605350.444    2764170.093    0.670        0.643 
+## alc_mod       1    752.403    5521121.706    2848398.831    0.660        0.632 
+## age           1    752.416    5520410.217    2849110.320    0.660        0.632 
+## gender        1    752.509    5515520.094    2854000.443    0.659        0.631 
+## ------------------------------------------------------------------------------
+## 
+## - pindex added 
 ## 
 ## 
 ##  Step 4 : AIC = 735.7146 
 ##  y ~ liver_test + alc_heavy + enzyme_test + pindex 
 ## 
+##                            Remove Existing Variables                            
+## --------------------------------------------------------------------------------
+## Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## --------------------------------------------------------------------------------
+## liver_test      1    748.167    5636649.760    2732870.777    0.673        0.654 
+## pindex          1    750.509    5515514.136    2854006.401    0.659        0.639 
+## alc_heavy       1    755.099    5262294.325    3107226.212    0.629        0.606 
+## enzyme_test     1    756.125    5202708.411    3166812.126    0.622        0.599 
+## --------------------------------------------------------------------------------
+## 
+##                               Enter New Variables                             
+## ------------------------------------------------------------------------------
+## Variable     DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## ------------------------------------------------------------------------------
+## bcs           1    730.620    6535804.090    1833716.447    0.781        0.758 
+## age           1    737.680    6279685.941    2089834.596    0.750        0.724 
+## gender        1    737.712    6278450.247    2091070.290    0.750        0.724 
+## alc_mod       1    737.713    6278420.680    2091099.857    0.750        0.724 
+## ------------------------------------------------------------------------------
+## 
+## - bcs added 
 ## 
 ## 
 ##  Step 5 : AIC = 730.6204 
-##  y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs</code></pre>
-<pre><code>## No more variables to be added or removed.</code></pre>
+##  y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs 
+## 
+##                            Remove Existing Variables                            
+## --------------------------------------------------------------------------------
+## Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## --------------------------------------------------------------------------------
+## liver_test      1    730.924    6455884.265    1913636.272    0.771        0.753 
+## bcs             1    735.715    6278360.060    2091160.477    0.750        0.730 
+## alc_heavy       1    747.181    5783681.263    2585839.274    0.691        0.666 
+## pindex          1    750.782    5605350.444    2764170.093    0.670        0.643 
+## enzyme_test     1    757.971    5211727.965    3157792.572    0.623        0.592 
+## --------------------------------------------------------------------------------
+## 
+##                               Enter New Variables                             
+## ------------------------------------------------------------------------------
+## Variable     DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+## ------------------------------------------------------------------------------
+## age           1    732.494    6540084.920    1829435.617    0.781        0.754 
+## gender        1    732.551    6538164.378    1831356.159    0.781        0.753 
+## alc_mod       1    732.614    6536021.082    1833499.455    0.781        0.753 
+## ------------------------------------------------------------------------------
+## 
+## 
+## No more variables to be added or removed.
+## 
+## Final Model Output 
+## ------------------
+## 
+##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                       0.884       RMSE                 195.454 
+## R-Squared               0.781       Coef. Var             27.839 
+## Adj. R-Squared          0.758       MSE                38202.426 
+## Pred R-Squared          0.700       MAE                  137.656 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression    6535804.090         5    1307160.818    34.217    0.0000 
+## Residual      1833716.447        48      38202.426                     
+## Total         8369520.537        53                                    
+## -----------------------------------------------------------------------
+## 
+##                                       Parameter Estimates                                        
+## ------------------------------------------------------------------------------------------------
+##       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------
+## (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+##  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+## enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+##      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+## ------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>## 
 ## 
-##                                     Stepwise Summary                                    
-## --------------------------------------------------------------------------------------
-## Variable        Method       AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq 
-## --------------------------------------------------------------------------------------
-## liver_test     addition    771.875    4565248.060    3804272.477    0.455        0.444 
-## alc_heavy      addition    761.439    3626170.761    4743349.776    0.567        0.550 
-## enzyme_test    addition    750.509    2854006.401    5515514.136    0.659        0.639 
-## pindex         addition    735.715    2091160.477    6278360.060    0.750        0.730 
-## bcs            addition    730.620    1833716.447    6535804.090    0.781        0.758 
-## --------------------------------------------------------------------------------------</code></pre>
+##                                      Stepwise Summary                                     
+## ----------------------------------------------------------------------------------------
+## Variable        Method       AIC          RSS          Sum Sq        R-Sq      Adj. R-Sq 
+## ----------------------------------------------------------------------------------------
+## liver_test     addition    771.875    4565248.060    3804272.477    0.45454      0.44405 
+## alc_heavy      addition    761.439    3626170.761    4743349.776    0.56674      0.54975 
+## enzyme_test    addition    750.509    2854006.401    5515514.136    0.65900      0.63854 
+## pindex         addition    735.715    2091160.477    6278360.060    0.75015      0.72975 
+## bcs            addition    730.620    1833716.447    6535804.090    0.78091      0.75808 
+## ----------------------------------------------------------------------------------------</code></pre>
 </div>
 </div>
 </div>
@@ -1272,7 +2276,8 @@ model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#all-possible-regression">All Possible Regression</a></li>
