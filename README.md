@@ -112,101 +112,6 @@ ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #> ----------------------------------------------------------------------------------------
 ```
 
-##### Residual vs Fitted Values Plot
-
-Plot to detect non-linearity, unequal error variances, and outliers.
-
-``` r
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
-```
-
-<img src="README-rvsfplot-1.png" style="display: block; margin: auto;" />
-
-##### DFBETAs Panel
-
-DFBETAs measure the difference in each parameter estimate with and
-without the influential observation. `dfbetas_panel` creates plots to
-detect influential observations using DFBETAs.
-
-``` r
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
-```
-
-<img src="README-dfbpanel-1.png" style="display: block; margin: auto;" />
-
-##### Residual Fit Spread Plot
-
-Plot to detect non-linearity, influential observations and outliers.
-
-``` r
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rfs_plot(model)
-```
-
-<img src="README-rfsplot-1.png" style="display: block; margin: auto;" />
-
-##### Breusch Pagan Test
-
-Breusch Pagan test is used to test for herteroskedasticity (non-constant
-error variance). It tests whether the variance of the errors from a
-regression is dependent on the values of the independent variables. It
-is a \(\chi^{2}\) test.
-
-``` r
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
-#> 
-#>  Breusch Pagan Test for Heteroskedasticity
-#>  -----------------------------------------
-#>  Ho: the variance is constant            
-#>  Ha: the variance is not constant        
-#> 
-#>              Data               
-#>  -------------------------------
-#>  Response : mpg 
-#>  Variables: fitted values of mpg 
-#> 
-#>        Test Summary         
-#>  ---------------------------
-#>  DF            =    1 
-#>  Chi2          =    1.429672 
-#>  Prob > Chi2   =    0.231818
-```
-
-##### Collinearity Diagnostics
-
-``` r
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_coll_diag(model)
-#> Tolerance and Variance Inflation Factor
-#> ---------------------------------------
-#> # A tibble: 4 x 3
-#>   Variables Tolerance   VIF
-#>   <chr>         <dbl> <dbl>
-#> 1 disp          0.125  7.99
-#> 2 hp            0.194  5.17
-#> 3 wt            0.145  6.92
-#> 4 qsec          0.319  3.13
-#> 
-#> 
-#> Eigenvalue and Condition Index
-#> ------------------------------
-#>    Eigenvalue Condition Index   intercept        disp          hp
-#> 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094
-#> 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289
-#> 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164
-#> 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623
-#> 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831
-#>             wt         qsec
-#> 1 0.0005253393 0.0001277169
-#> 2 0.0002096014 0.0046789491
-#> 3 0.0377028008 0.0001952599
-#> 4 0.7017528428 0.0024577686
-#> 5 0.2598094157 0.9925403056
-```
-
 ##### Stepwise Regression
 
 Build regression model from a set of candidate predictor variables by
@@ -446,6 +351,102 @@ plot(k)
 ```
 
 <img src="README-stepaicb2-1.png" style="display: block; margin: auto;" />
+
+##### Breusch Pagan Test
+
+Breusch Pagan test is used to test for herteroskedasticity (non-constant
+error variance). It tests whether the variance of the errors from a
+regression is dependent on the values of the independent variables. It
+is a \(\chi^{2}\) test.
+
+``` r
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+ols_bp_test(model)
+#> 
+#>  Breusch Pagan Test for Heteroskedasticity
+#>  -----------------------------------------
+#>  Ho: the variance is constant            
+#>  Ha: the variance is not constant        
+#> 
+#>              Data               
+#>  -------------------------------
+#>  Response : mpg 
+#>  Variables: fitted values of mpg 
+#> 
+#>        Test Summary         
+#>  ---------------------------
+#>  DF            =    1 
+#>  Chi2          =    1.429672 
+#>  Prob > Chi2   =    0.231818
+```
+
+##### Collinearity Diagnostics
+
+``` r
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_coll_diag(model)
+#> Tolerance and Variance Inflation Factor
+#> ---------------------------------------
+#> # A tibble: 4 x 3
+#>   Variables Tolerance   VIF
+#>   <chr>         <dbl> <dbl>
+#> 1 disp          0.125  7.99
+#> 2 hp            0.194  5.17
+#> 3 wt            0.145  6.92
+#> 4 qsec          0.319  3.13
+#> 
+#> 
+#> Eigenvalue and Condition Index
+#> ------------------------------
+#>    Eigenvalue Condition Index   intercept        disp          hp
+#> 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094
+#> 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289
+#> 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164
+#> 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623
+#> 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831
+#>             wt         qsec
+#> 1 0.0005253393 0.0001277169
+#> 2 0.0002096014 0.0046789491
+#> 3 0.0377028008 0.0001952599
+#> 4 0.7017528428 0.0024577686
+#> 5 0.2598094157 0.9925403056
+```
+
+##### Residual vs Fitted Values Plot
+
+Plot to detect non-linearity, unequal error variances, and outliers.
+
+``` r
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rvsp_plot(model)
+```
+
+<img src="README-rvsfplot-1.png" style="display: block; margin: auto;" />
+
+##### DFBETAs Panel
+
+DFBETAs measure the difference in each parameter estimate with and
+without the influential observation. `dfbetas_panel` creates plots to
+detect influential observations using DFBETAs.
+
+``` r
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+ols_dfbetas_panel(model)
+```
+
+<img src="README-dfbpanel-1.png" style="display: block; margin: auto;" />
+
+##### Residual Fit Spread Plot
+
+Plot to detect non-linearity, influential observations and outliers.
+
+``` r
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rfs_plot(model)
+```
+
+<img src="README-rfsplot-1.png" style="display: block; margin: auto;" />
+
 Please note that this project is released with a [Contributor Code of
 Conduct](CONDUCT.md). By participating in this project you agree to
 abide by its terms.

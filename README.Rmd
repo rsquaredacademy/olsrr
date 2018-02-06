@@ -90,50 +90,6 @@ the functions in olsrr. Below is a quick demo:
 ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ```
 
-##### Residual vs Fitted Values Plot
-
-Plot to detect non-linearity, unequal error variances, and outliers.
-
-```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
-```
-
-##### DFBETAs Panel
-
-DFBETAs measure the difference in each parameter estimate with and without the influential observation.
-`dfbetas_panel` creates plots to detect influential observations using DFBETAs.
-
-```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
-```
-
-##### Residual Fit Spread Plot
-
-Plot to detect non-linearity, influential observations and outliers.
-
-```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rfs_plot(model)
-```
-
-##### Breusch Pagan Test
-
-Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a $\chi^{2}$ test.
-
-```{r bp1}
-model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
-```
-
-##### Collinearity Diagnostics
-
-```{r colldiag}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_coll_diag(model)
-```
-
 ##### Stepwise Regression
 
 Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
@@ -176,4 +132,51 @@ model <- lm(y ~ ., data = surgical)
 k <- ols_stepaic_backward(model)
 plot(k)
 ```
+
+##### Breusch Pagan Test
+
+Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a $\chi^{2}$ test.
+
+```{r bp1}
+model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+ols_bp_test(model)
+```
+
+##### Collinearity Diagnostics
+
+```{r colldiag}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_coll_diag(model)
+```
+
+##### Residual vs Fitted Values Plot
+
+Plot to detect non-linearity, unequal error variances, and outliers.
+
+```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rvsp_plot(model)
+```
+
+##### DFBETAs Panel
+
+DFBETAs measure the difference in each parameter estimate with and without the influential observation.
+`dfbetas_panel` creates plots to detect influential observations using DFBETAs.
+
+```{r dfbpanel, fig.width=8, fig.height=8, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+ols_dfbetas_panel(model)
+```
+
+##### Residual Fit Spread Plot
+
+Plot to detect non-linearity, influential observations and outliers.
+
+```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_rfs_plot(model)
+```
+
+
+
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
