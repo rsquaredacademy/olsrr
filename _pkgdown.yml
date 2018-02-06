@@ -39,8 +39,6 @@ home:
   links:
   - text: Learn more
     href: http://www.rsquaredacademy.com
-  - text: Shiny App
-    href: http://rsquaredlabs.com:3838/explorer/
   - text: Docker Image
     href: https://hub.docker.com/r/rsquaredacademy/olsrr/
 
@@ -158,3 +156,4 @@ reference:
     illustrate the functions as well as for running tests.
   contents:
   - surgical
+  - stepdata
