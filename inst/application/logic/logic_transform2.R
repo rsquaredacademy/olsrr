@@ -18,7 +18,7 @@ library(stringr)
               selectInput(paste0("data_type_", i),
                           label = '',  width = '150px',
                           choices = c('numeric', 'factor', 'Date', 'character', 'integer'),
-                          selected = 'numeric')
+                          selected = class(uploadata$t[[i]]))
             ),
             column(3,
               conditionalPanel(condition = paste(paste0("input.data_type_", i), "== 'Date'"),
@@ -73,7 +73,7 @@ library(stringr)
 
         colors <- unlist(collect)
         colnames <- str_replace(colors, " ", "_")
-    })  
+    })
 
     # original <- reactive({
     #     data()

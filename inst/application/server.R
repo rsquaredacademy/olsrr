@@ -17,9 +17,10 @@ library(caret)
 library(lubridate)
 library(scales)
 library(stringr)
+library(inferr)
 
 shinyServer(function(input, output, session) {
-    
+
     source("logic/logic_dataoptions.R", local = T)
     source("logic/logic_upload.R", local = T)
     source("logic/logic_transform2.R", local = T)
