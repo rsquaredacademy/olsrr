@@ -33,7 +33,7 @@ following components:
 \item{steps}{total number of steps}
 }
 \description{
-Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
+Build regression model from a set of candidate predictor variables by entering and removing predictors based on
 Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
 }
 \examples{

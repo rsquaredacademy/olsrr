@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stepwise AIC Regression — ols_stepaic_both â€¢ olsrr</title>
+<title>Test Data Set — stepdata â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,85 +119,27 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stepwise AIC Regression</h1>
+    <h1>Test Data Set</h1>
     </div>
 
     
-    <p>Build regression model from a set of candidate predictor variables by entering and removing predictors based on
-Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.</p>
+    <p>Test Data Set</p>
     
 
-    <pre class="usage"><span class='fu'>ols_stepaic_both</span>(<span class='no'>model</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='no'>stepdata</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-<span class='co'># S3 method for ols_stepaic_both</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
-    </tr>
-    <tr>
-      <th>details</th>
-      <td><p>logical; if <code>TRUE</code>, details of variable selection will be printed on screen</p></td>
-    </tr>
-    <tr>
-      <th>x</th>
-      <td><p>an object of class <code>ols_stepaic_both</code></p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p><code>ols_stepaic_both</code> returns an object of class <code>"ols_stepaic_both"</code>.
-An object of class <code>"ols_stepaic_both"</code> is a list containing the
-following components:</p>
-<dt>predictors</dt><dd><p>variables added/removed from the model</p></dd>
-<dt>method</dt><dd><p>addition/deletion</p></dd>
-<dt>aics</dt><dd><p>akaike information criteria</p></dd>
-<dt>ess</dt><dd><p>error sum of squares</p></dd>
-<dt>rss</dt><dd><p>regression sum of squares</p></dd>
-<dt>rsq</dt><dd><p>rsquare</p></dd>
-<dt>arsq</dt><dd><p>adjusted rsquare</p></dd>
-<dt>steps</dt><dd><p>total number of steps</p></dd>
-
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.</p>
+    <p>An object of class <code>data.frame</code> with 20000 rows and 7 columns.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># stepwise regression</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>stepdata</span>)
-<span class='fu'>ols_stepaic_both</span>(<span class='no'>model</span>)
-<span class='co'># }</span><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='co'># stepwise regression plot</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>stepdata</span>)
-<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_stepaic_both</span>(<span class='no'>model</span>)
-<span class='fu'>plot</span>(<span class='no'>k</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#format">Format</a></li>
+          </ul>
 
   </div>
 </div>
