@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
-olsrr: Tools for building OLS Regression models <img src="hex_olsrr.png" align="right" />
+olsrr: Tools for building OLS Regression models 
 ------------
 
 **Author:** [Aravind Hebbali](https://www.aravindhebbali.com/)<br/>
