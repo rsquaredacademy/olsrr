@@ -1,7 +1,7 @@
 Package: olsrr
 Type: Package
 Title: Tools for Building OLS Regression Models 
-Version: 0.4.2
+Version: 0.5.0
 Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
 Description: Tools for building OLS regression models . Includes 
     comprehensive regression output, heteroskedasticity tests, collinearity diagnostics, 
