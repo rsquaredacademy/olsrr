@@ -1,10 +1,9 @@
-context('stepwise regression output')
+context("stepwise regression output")
 
 model <- lm(y ~ ., data = surgical)
 
-test_that('output from stepwise regression is as expected', {
-
-	x <- cat("Stepwise Selection Method                                                                  
+test_that("output from stepwise regression is as expected", {
+  x <- cat("Stepwise Selection Method                                                                  
 
 Candidate Terms:                                                                           
 
@@ -30,13 +29,11 @@ Step     Variable      Removed     R-Square    R-Square     C(p)        AIC     
    5        bcs        addition       0.781       0.758     3.1920    730.6204    195.4544    
 ------------------------------------------------------------------------------------------")
 
-	expect_equivalent(print(ols_stepwise(model)), x)
-
+  expect_equivalent(print(ols_stepwise(model)), x)
 })
 
-test_that('output from stepwise regression is as expected when details == TRUE', {
-
-	x <- cat("Variable Selection Procedure
+test_that("output from stepwise regression is as expected when details == TRUE", {
+  x <- cat("Variable Selection Procedure
  Dependent Variable: y 
 
  Stepwise Selection: Step 1 
@@ -251,6 +248,5 @@ Step     Variable      Removed     R-Square    R-Square     C(p)        AIC     
 ------------------------------------------------------------------------------------------")
 
 
-	expect_equivalent(print(ols_stepwise(model, details = TRUE)), x)
-
+  expect_equivalent(print(ols_stepwise(model, details = TRUE)), x)
 })

@@ -1,5 +1,5 @@
 #' @title Residual vs Fitted Plot
-#' @description It is a scatter plot of residuals on the y axis and fitted values on the x axis to 
+#' @description It is a scatter plot of residuals on the y axis and fitted values on the x axis to
 #' detect non-linearity, unequal error variances, and outliers.
 #' @param model an object of class \code{lm}
 #' @details Characteristics of a well behaved residual vs fitted plot:
@@ -16,20 +16,18 @@
 #' @export
 #'
 ols_rvsp_plot <- function(model) {
-
-	if (!all(class(model) == 'lm')) {
-    stop('Please specify a OLS linear regression model.', call. = FALSE)
+  if (!all(class(model) == "lm")) {
+    stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-	predicted <- NULL
-	resid <- NULL
+  predicted <- NULL
+  resid <- NULL
 
   d <- rvspdata(model)
-	p <- ggplot(d, aes(x = predicted, y = resid))
-	p <- p + geom_point(shape = 1, colour = 'blue')
-	p <- p + xlab('Fitted Value') + ylab('Residual')
-	p <- p + ggtitle('Residual vs Fitted Values')
-	p <- p + geom_hline(yintercept = 0, colour = 'red')
-	print(p)
-
+  p <- ggplot(d, aes(x = predicted, y = resid))
+  p <- p + geom_point(shape = 1, colour = "blue")
+  p <- p + xlab("Fitted Value") + ylab("Residual")
+  p <- p + ggtitle("Residual vs Fitted Values")
+  p <- p + geom_hline(yintercept = 0, colour = "red")
+  print(p)
 }

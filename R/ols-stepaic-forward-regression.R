@@ -34,286 +34,278 @@
 #'
 #' @export
 #'
-ols_stepaic_forward <- function(model, ...) UseMethod('ols_stepaic_forward')
+ols_stepaic_forward <- function(model, ...) UseMethod("ols_stepaic_forward")
 
 #' @export
 #' @rdname ols_stepaic_forward
 #'
 ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
+  if (!all(class(model) == "lm")) {
+    stop("Please specify a OLS linear regression model.", call. = FALSE)
+  }
 
-    if (!all(class(model) == 'lm')) {
-        stop('Please specify a OLS linear regression model.', call. = FALSE)
+  if (!is.logical(details)) {
+    stop("details must be either TRUE or FALSE", call. = FALSE)
+  }
+
+  if (length(model$coefficients) < 3) {
+    stop("Please specify a model with at least 2 predictors.", call. = FALSE)
+  }
+
+  l <- mod_sel_data(model)
+  nam <- colnames(attr(model$terms, "factors"))
+  response <- names(model$model)[1]
+  all_pred <- nam
+  # nam      <- names(l)
+  # response <- nam[1]
+  # all_pred <- nam[-1]
+  mlen_p <- length(all_pred)
+  preds <- c()
+  step <- 1
+  aics <- c()
+  ess <- c()
+  rss <- c()
+  rsq <- c()
+  arsq <- c()
+  mo <- lm(paste(response, "~", 1), data = l)
+  aic1 <- ols_aic(mo)
+
+  cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
+  cat(rep("-", 24), sep = "", "\n\n")
+  cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+  for (i in seq_len(length(nam))) {
+    cat(paste(i, ".", nam[i]), "\n")
+  }
+  cat("\n")
+
+  if (details == TRUE) {
+    cat(" Step 0: AIC =", aic1, "\n", paste(response, "~", 1, "\n\n"))
+  }
+
+  for (i in seq_len(mlen_p)) {
+    predictors <- all_pred[i]
+    k <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+    aics[i] <- ols_aic(k$model)
+    ess[i] <- k$ess
+    rss[i] <- k$rss
+    rsq[i] <- k$rsq
+    arsq[i] <- k$adjr
+  }
+
+  da <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
+  da2 <- arrange(da, desc(rss))
+
+  if (details == TRUE) {
+    w1 <- max(nchar("Predictor"), nchar(all_pred))
+    w2 <- 2
+    w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
+    w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
+    w5 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+    w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
+    w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
+    w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
+    ln <- length(aics)
+
+    cat(rep("-", w), sep = "", "\n")
+    cat(
+      fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
+      fc("Sum Sq", w4), fs(), fc("RSS", w5), fs(), fc("R-Sq", w6), fs(),
+      fc("Adj. R-Sq", w7), "\n"
+    )
+    cat(rep("-", w), sep = "", "\n")
+
+    for (i in seq_len(ln)) {
+      cat(
+        fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
+        fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
+        fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
+      )
     }
 
-    if (!is.logical(details)) {
-      stop('details must be either TRUE or FALSE', call. = FALSE)
-    }
+    cat(rep("-", w), sep = "", "\n\n")
+  }
 
-    if (length(model$coefficients) < 3) {
-        stop('Please specify a model with at least 2 predictors.', call. = FALSE)
-    }
+  minc <- which(aics == min(aics))
+  laic <- aics[minc]
+  less <- ess[minc]
+  lrss <- rss[minc]
+  lrsq <- rsq[minc]
+  larsq <- arsq[minc]
+  preds <- all_pred[minc]
+  lpreds <- length(preds)
+  all_pred <- all_pred[-minc]
+  len_p <- length(all_pred)
+  step <- 1
 
-    l        <- mod_sel_data(model)
-    nam      <- colnames(attr(model$terms, 'factors'))
-    response <- names(model$model)[1]
-    all_pred <- nam
-    # nam      <- names(l)
-    # response <- nam[1]
-    # all_pred <- nam[-1]
-    mlen_p   <- length(all_pred)
-    preds    <- c()
-    step     <- 1
-    aics     <- c()
-    ess      <- c()
-    rss      <- c()
-    rsq      <- c()
-    arsq     <- c()
-    mo       <- lm(paste(response, '~', 1), data = l)
-    aic1     <- ols_aic(mo)
+  cat("\n")
+  if (!details) {
+    cat("Variables Entered:", "\n\n")
+  }
 
-    cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
-    cat(rep("-", 24), sep = "", '\n\n')
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(nam))) {
-      cat(paste(i, ".", nam[i]), "\n")
-    }
-    cat('\n')
+  if (interactive()) {
+    cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+  } else {
+    cat(paste("-", dplyr::last(preds)), "\n")
+  }
+
+  while (step < mlen_p) {
+    aics <- c()
+    ess <- c()
+    rss <- c()
+    rsst <- c()
+    rsq <- c()
+    arsq <- c()
+    mo <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+    aic1 <- ols_aic(mo$model)
 
     if (details == TRUE) {
-        cat(' Step 0: AIC =', aic1, '\n', paste(response, '~', 1, '\n\n'))
+      cat("\n\n", "Step", step, ": AIC =", aic1, "\n", paste(response, "~", paste(preds, collapse = " + "), "\n\n"))
     }
 
-    for (i in seq_len(mlen_p)) {
-        predictors <- all_pred[i]
-        k          <- ols_regress(paste(response, '~', paste(predictors, collapse = ' + ')), data = l)
-        aics[i]    <- ols_aic(k$model)
-        ess[i]     <- k$ess
-        rss[i]     <- k$rss
-        rsq[i]     <- k$rsq
-        arsq[i]    <- k$adjr
+    for (i in seq_len(len_p)) {
+      predictors <- c(preds, all_pred[i])
+      k <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+      aics[i] <- ols_aic(k$model)
+      ess[i] <- k$ess
+      rsst[i] <- k$rss
+      rss[i] <- round(k$rss - mo$rss, 3)
+      rsq[i] <- k$rsq
+      arsq[i] <- k$adjr
     }
 
-    da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-    da2 <- arrange(da, desc(rss))
+    if (details == TRUE) {
+      da <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
+      da2 <- arrange(da, desc(rss))
+      w1 <- max(nchar("Predictor"), nchar(as.character(da2$predictors)))
+      w2 <- 2
+      w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
+      w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
+      w5 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+      w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
+      w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
+      w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
+      ln <- length(aics)
 
-    if(details == TRUE) {
+      cat(rep("-", w), sep = "", "\n")
+      cat(
+        fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
+        fc("Sum Sq", w4), fs(), fc("RSS", w5), fs(), fc("R-Sq", w6), fs(),
+        fc("Adj. R-Sq", w7), "\n"
+      )
+      cat(rep("-", w), sep = "", "\n")
 
-        w1 <- max(nchar('Predictor'), nchar(all_pred))
-        w2 <- 2
-        w3 <- max(nchar('AIC'), nchar(format(round(aics, 3), nsmall = 3)))
-        w4 <- max(nchar('Sum Sq'), nchar(format(round(rss, 3), nsmall = 3)))
-        w5 <- max(nchar('RSS'), nchar(format(round(ess, 3), nsmall = 3)))
-        w6 <- max(nchar('R-Sq'), nchar(format(round(rsq, 3), nsmall = 3)))
-        w7 <- max(nchar('Adj. R-Sq'), nchar(format(round(arsq, 3), nsmall = 3)))
-        w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-        ln <- length(aics)
+      for (i in seq_len(ln)) {
+        cat(
+          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
+          fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
+          fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
+        )
+      }
 
-        cat(rep("-", w), sep = "", '\n')
-        cat(fl('Variable', w1), fs(), fc('DF', w2), fs(), fc('AIC', w3), fs(),
-            fc('Sum Sq', w4), fs(), fc('RSS', w5), fs(), fc('R-Sq', w6), fs(),
-            fc('Adj. R-Sq', w7), '\n')
-        cat(rep("-", w), sep = "", '\n')
-
-        for (i in seq_len(ln)) {
-            cat(fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-            fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-            fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
-            fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
-        }
-
-        cat(rep("-", w), sep = "", '\n\n')
+      cat(rep("-", w), sep = "", "\n\n")
     }
 
-    minc     <- which(aics == min(aics))
-    laic     <- aics[minc]
-    less     <- ess[minc]
-    lrss     <- rss[minc]
-    lrsq     <- rsq[minc]
-    larsq    <- arsq[minc]
-    preds    <- all_pred[minc]
-    lpreds   <- length(preds)
-    all_pred <- all_pred[-minc]
-    len_p    <- length(all_pred)
-    step     <- 1
+    minaic <- which(aics == min(aics))
 
-    cat('\n')
-    if (!details) {
-      cat('Variables Entered:', '\n\n')
-    }
+    if (aics[minaic] < laic[lpreds]) {
+      preds <- c(preds, all_pred[minaic])
+      minc <- aics[minaic]
+      mess <- ess[minaic]
+      mrss <- round(rsst[minaic], 3)
+      mrsq <- rsq[minaic]
+      marsq <- arsq[minaic]
+      laic <- c(laic, minc)
+      less <- c(less, mess)
+      lrss <- c(lrss, mrss)
+      lrsq <- c(lrsq, mrsq)
+      larsq <- c(larsq, marsq)
+      lpreds <- length(preds)
+      all_pred <- all_pred[-minaic]
+      len_p <- length(all_pred)
+      step <- step + 1
 
-    if (interactive()) {
-      cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), '\n')
+      if (interactive()) {
+        cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+      } else {
+        cat(paste("-", dplyr::last(preds)), "\n")
+      }
     } else {
-      cat(paste('-', dplyr::last(preds)), '\n')
+      cat("\n")
+      cat(crayon::bold$red("No more variables to be added."))
+      break
+    }
+  }
+
+  if (details == TRUE) {
+    cat("\n\n")
+    cat("Variables Entered:", "\n\n")
+    for (i in seq_len(length(preds))) {
+      if (interactive()) {
+        cat(crayon::green(clisymbols::symbol$tick), crayon::bold(preds[i]), "\n")
+      } else {
+        cat(paste("-", preds[i]), "\n")
+      }
     }
 
-    while (step < mlen_p) {
+    cat("\n\n")
+    cat("Final Model Output", "\n")
+    cat(rep("-", 18), sep = "", "\n\n")
 
-        aics <- c()
-        ess  <- c()
-        rss  <- c()
-        rsst <- c()
-        rsq  <- c()
-        arsq <- c()
-        mo   <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), data = l)
-        aic1 <- ols_aic(mo$model)
+    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+    print(fi)
+  }
 
-        if (details == TRUE) {
-            cat('\n\n', 'Step', step, ': AIC =', aic1, '\n', paste(response, '~', paste(preds, collapse = ' + '), '\n\n'))
-        }
+  out <- list(
+    steps = step,
+    predictors = preds,
+    aics = laic,
+    ess = less,
+    rss = lrss,
+    rsq = lrsq,
+    arsq = larsq
+  )
 
-        for (i in seq_len(len_p)) {
-            predictors <- c(preds, all_pred[i])
-            k          <- ols_regress(paste(response, '~', paste(predictors, collapse = ' + ')), data = l)
-            aics[i]    <- ols_aic(k$model)
-            ess[i]     <- k$ess
-            rsst[i]    <- k$rss
-            rss[i]     <- round(k$rss - mo$rss, 3)
-            rsq[i]     <- k$rsq
-            arsq[i]    <- k$adjr
-        }
+  class(out) <- "ols_stepaic_forward"
 
-        if (details == TRUE) {
-
-            da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-            da2 <- arrange(da, desc(rss))
-            w1  <- max(nchar('Predictor'), nchar(as.character(da2$predictors)))
-            w2  <- 2
-            w3  <- max(nchar('AIC'), nchar(format(round(aics, 3), nsmall = 3)))
-            w4  <- max(nchar('Sum Sq'), nchar(format(round(rss, 3), nsmall = 3)))
-            w5  <- max(nchar('RSS'), nchar(format(round(ess, 3), nsmall = 3)))
-            w6  <- max(nchar('R-Sq'), nchar(format(round(rsq, 3), nsmall = 3)))
-            w7  <- max(nchar('Adj. R-Sq'), nchar(format(round(arsq, 3), nsmall = 3)))
-            w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-            ln  <- length(aics)
-
-            cat(rep("-", w), sep = "", '\n')
-            cat(fl('Variable', w1), fs(), fc('DF', w2), fs(), fc('AIC', w3), fs(),
-                fc('Sum Sq', w4), fs(), fc('RSS', w5), fs(), fc('R-Sq', w6), fs(),
-                fc('Adj. R-Sq', w7), '\n')
-            cat(rep("-", w), sep = "", '\n')
-
-            for (i in seq_len(ln)) {
-                cat(fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-                fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-                fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
-                fg(format(round(da2[i, 6], 3), nsmall = 3), w7), '\n')
-            }
-
-            cat(rep("-", w), sep = "", '\n\n')
-
-        }
-
-        minaic <- which(aics == min(aics))
-
-        if (aics[minaic] < laic[lpreds]) {
-
-            preds    <- c(preds, all_pred[minaic])
-            minc     <- aics[minaic]
-            mess     <- ess[minaic]
-            mrss     <- round(rsst[minaic], 3)
-            mrsq     <- rsq[minaic]
-            marsq    <- arsq[minaic]
-            laic     <- c(laic, minc)
-            less     <- c(less, mess)
-            lrss     <- c(lrss, mrss)
-            lrsq     <- c(lrsq, mrsq)
-            larsq    <- c(larsq, marsq)
-            lpreds   <- length(preds)
-            all_pred <- all_pred[-minaic]
-            len_p    <- length(all_pred)
-            step     <- step + 1
-
-            if (interactive()) {
-              cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), '\n')
-            } else {
-              cat(paste('-', dplyr::last(preds)), '\n')
-            }
-
-        } else {
-
-            cat('\n')
-            cat(crayon::bold$red("No more variables to be added."))
-            break
-
-        }
-
-
-    }
-
-    if(details == TRUE) {
-
-        cat('\n\n')
-        cat('Variables Entered:', '\n\n')
-        for (i in seq_len(length(preds))) {
-          if (interactive()) {
-            cat(crayon::green(clisymbols::symbol$tick), crayon::bold(preds[i]), '\n')
-          } else {
-            cat(paste('-', preds[i]), '\n')
-          }
-
-        }
-
-        cat('\n\n')
-        cat('Final Model Output', '\n')
-        cat(rep("-", 18), sep = "", '\n\n')
-
-        fi <- ols_regress(paste(response, '~', paste(preds, collapse = ' + ')), data = l)
-        print(fi)
-
-    }
-
-    out <- list(steps = step,
-                predictors = preds,
-                aics = laic,
-                ess = less,
-                rss = lrss,
-                rsq = lrsq,
-                arsq = larsq)
-
-    class(out) <- 'ols_stepaic_forward'
-
-    return(out)
-
-
+  return(out)
 }
 
 #' @export
 #'
 print.ols_stepaic_forward <- function(x, ...) {
-    if (x$steps > 0) {
-      print_stepaic_forward(x)
-    } else {
-      print('No variables have been added to the model.')
-    }
+  if (x$steps > 0) {
+    print_stepaic_forward(x)
+  } else {
+    print("No variables have been added to the model.")
+  }
 }
 
 #' @rdname ols_stepaic_forward
 #' @export
 #'
 plot.ols_stepaic_forward <- function(x, ...) {
+  y <- seq_len(x$steps)
+  xloc <- y - 0.1
+  yloc <- x$aics - 0.2
+  xmin <- min(y) - 1
+  xmax <- max(y) + 1
+  ymin <- min(x$aics) - 1
+  ymax <- max(x$aics) + 1
+  predictors <- x$predictors
+  a <- NULL
+  b <- NULL
+  tx <- NULL
 
-             y <- seq_len(x$steps)
-          xloc <- y - 0.1
-          yloc <- x$aics - 0.2
-          xmin <- min(y) - 1
-          xmax <- max(y) + 1
-          ymin <- min(x$aics) - 1
-          ymax <- max(x$aics) + 1
-    predictors <- x$predictors
-             a <- NULL
-             b <- NULL
-            tx <- NULL
+  d2 <- tibble(x = xloc, y = yloc, tx = predictors)
+  d <- tibble(a = y, b = x$aics)
+  p <- ggplot(d, aes(x = a, y = b)) +
+    geom_line(color = "blue") +
+    geom_point(color = "blue", shape = 1, size = 2) +
+    xlim(c(xmin, xmax)) + ylim(c(ymin, ymax)) +
+    xlab("Step") + ylab("AIC") + ggtitle("Stepwise AIC Forward Selection") +
+    geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
-    d2 <- tibble(x = xloc, y = yloc, tx = predictors)
-    d <- tibble(a = y, b = x$aics)
-    p <- ggplot(d, aes(x = a, y = b)) +
-      geom_line(color = 'blue') +
-      geom_point(color = 'blue', shape = 1, size = 2) +
-      xlim(c(xmin, xmax)) + ylim(c(ymin, ymax)) +
-      xlab('Step') + ylab('AIC') + ggtitle('Stepwise AIC Forward Selection') +
-      geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
-
-    print(p)
+  print(p)
 }
-

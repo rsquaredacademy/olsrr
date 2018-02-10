@@ -1,9 +1,8 @@
-context('stepAIC both direction regression output')
+context("stepAIC both direction regression output")
 
 model <- lm(y ~ ., data = surgical)
 
-test_that('output from stepAIC both direction regression is as expected', {
-
+test_that("output from stepAIC both direction regression is as expected", {
   x <- cat("
 
                                     Stepwise Summary                                    
@@ -19,12 +18,10 @@ bcs            addition    730.620    1833716.447    6535804.090    0.781       
 
 
   expect_equivalent(print(ols_stepaic_both(model)), x)
-
 })
 
 
-test_that('output from stepAIC both direction regression is as expected when details == TRUE', {
-
+test_that("output from stepAIC both direction regression is as expected when details == TRUE", {
   x <- cat(" y ~ liver_test + alc_heavy 
 
 
@@ -58,5 +55,4 @@ bcs            addition    730.620    1833716.447    6535804.090    0.781       
 
 
   expect_equivalent(print(ols_stepaic_both(model, details = TRUE)), x)
-
 })

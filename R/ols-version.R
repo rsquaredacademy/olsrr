@@ -9,7 +9,6 @@
 #' }
 #' @export
 ols_update <- function(owner = "rsquaredacademy", repo = "olsrr") {
-
   deps <- ols_deps(owner = owner, repo = repo)
   behind <- dplyr::filter(deps, behind)
 
@@ -23,7 +22,6 @@ ols_update <- function(owner = "rsquaredacademy", repo = "olsrr") {
   cli::cat_bullet(format(behind$location), " (", deps$version[1], " -> ", behind$version, ")")
 
   invisible()
-
 }
 
 #' @importFrom utils available.packages packageVersion
@@ -40,8 +38,7 @@ ols_update <- function(owner = "rsquaredacademy", repo = "olsrr") {
 #' ols_deps()
 #' }
 #' @export
-ols_deps <- function(owner = "rsquaredacademy", repo = "olsrr"){
-
+ols_deps <- function(owner = "rsquaredacademy", repo = "olsrr") {
   pkgs <- utils::available.packages()
   cran_version <- pkgs %>%
     extract(repo, "Version") %>%
@@ -51,12 +48,14 @@ ols_deps <- function(owner = "rsquaredacademy", repo = "olsrr"){
   behind_cran <- cran_version > local_version
 
   # github release
-  gh_release <- gh("GET /repos/:owner/:repo/releases/latest",
-     owner = owner, repo = repo) %>%
+  gh_release <- gh(
+    "GET /repos/:owner/:repo/releases/latest",
+    owner = owner, repo = repo
+  ) %>%
     use_series(tag_name)
 
-  if (str_detect(gh_release, 'v')) {
-    gh_release_version <- str_split(gh_release, 'v') %>%
+  if (str_detect(gh_release, "v")) {
+    gh_release_version <- str_split(gh_release, "v") %>%
       purrr::map_chr(2)
   } else {
     gh_release_version <- gh_release
@@ -66,15 +65,17 @@ ols_deps <- function(owner = "rsquaredacademy", repo = "olsrr"){
   behind_github_release <- gh_release_version > local_version
 
   # github development
-  gh_devel <- gh("GET /repos/:owner/:repo/contents/:path",
-     owner = owner, repo = repo,
-     path = "DESCRIPTION",
-     .send_headers = c("Accept" = "application/vnd.github.raw"))
+  gh_devel <- gh(
+    "GET /repos/:owner/:repo/contents/:path",
+    owner = owner, repo = repo,
+    path = "DESCRIPTION",
+    .send_headers = c("Accept" = "application/vnd.github.raw")
+  )
 
-  start <- str_locate(gh_devel$message, pattern = 'Version') %>%
+  start <- str_locate(gh_devel$message, pattern = "Version") %>%
     extract(1) + 9
   gh_trim <- str_sub(gh_devel, start = start)
-  end <- str_locate(gh_trim, '\n') %>%
+  end <- str_locate(gh_trim, "\n") %>%
     extract2(1) %>%
     subtract(1)
 
@@ -85,10 +86,10 @@ ols_deps <- function(owner = "rsquaredacademy", repo = "olsrr"){
 
   tibble(
     location = c("local", "cran", "gh_release", "gh_devel"),
-    version = c(as.character(local_version), as.character(cran_version),
-                as.character(gh_release_version), as.character(gh_devel_version)),
+    version = c(
+      as.character(local_version), as.character(cran_version),
+      as.character(gh_release_version), as.character(gh_devel_version)
+    ),
     behind = c(NA, behind_cran, behind_github_release, behind_github_dev)
   )
-
 }
-

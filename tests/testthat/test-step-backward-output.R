@@ -1,9 +1,8 @@
-context('stepwise backward regression output')
+context("stepwise backward regression output")
 
 model <- lm(y ~ ., data = surgical)
 
-test_that('output from stepwise backward regression is as expected', {
-
+test_that("output from stepwise backward regression is as expected", {
   x <- cat("Backward Elimination Method                                                
 
 Candidate Terms:                                                           
@@ -29,12 +28,10 @@ Step    Removed     R-Square    R-Square     C(p)       AIC         RMSE
 --------------------------------------------------------------------------")
 
   expect_equivalent(print(ols_step_backward(model)), x)
-
 })
 
 
-test_that('output from stepwise backward regression is as expected when details == TRUE', {
-
+test_that("output from stepwise backward regression is as expected when details == TRUE", {
   x <- cat("Backward Elimination: Step 1 
 
  Variable alc_mod Removed 
@@ -178,5 +175,4 @@ Step    Removed     R-Square    R-Square     C(p)       AIC         RMSE
 --------------------------------------------------------------------------")
 
   expect_equivalent(print(ols_step_backward(model, details = TRUE)), x)
-
 })

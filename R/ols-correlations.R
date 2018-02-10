@@ -2,7 +2,7 @@
 #' @title Part and Partial Correlations
 #' @description Zero-order, part and partial correlations
 #' @param model an object of class \code{lm}
-#' @details \code{correlations} returns the relative importance of independent variables in determining response variable. 
+#' @details \code{correlations} returns the relative importance of independent variables in determining response variable.
 #' How much each variable uniquely contributes to rsquare over and above that which can be accounted for by the other predictors?
 #' Zero order correlation is the Pearson correlation coefficient between the dependent variable and the
 #' independent variables. Part correlations indicates how much rsquare will decrease if that variable is removed from the model
@@ -22,24 +22,22 @@
 #' ols_correlations(model)
 #' @export
 #'
-ols_correlations <- function(model) UseMethod('ols_correlations')
+ols_correlations <- function(model) UseMethod("ols_correlations")
 
 #' @export
 #'
 ols_correlations.default <- function(model) {
+  if (!all(class(model) == "lm")) {
+    stop("Please specify a OLS linear regression model.", call. = FALSE)
+  }
 
-    if (!all(class(model) == 'lm')) {
-        stop('Please specify a OLS linear regression model.', call. = FALSE)
-    }
-
-    result <- corout(model, corm2(model))
-    class(result) <- c('ols_correlations', 'data.frame')
-    return(result)
-
+  result <- corout(model, corm2(model))
+  class(result) <- c("ols_correlations", "data.frame")
+  return(result)
 }
 
 #' @export
 #'
 print.ols_correlations <- function(x, ...) {
-    print_correlations(x)
+  print_correlations(x)
 }
