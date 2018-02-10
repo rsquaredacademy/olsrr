@@ -11,26 +11,24 @@
 #' @export
 #'
 rvsr_plot_shiny <- function(model, data, variable) {
-
-	if (!all(class(model) == 'lm')) {
-    stop('Please specify a OLS linear regression model.', call. = FALSE)
+  if (!all(class(model) == "lm")) {
+    stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-	x <- NULL
-	y <- NULL
-	d <- rvsrdata(model)
+  x <- NULL
+  y <- NULL
+  d <- rvsrdata(model)
 
-				v <- l(deparse(substitute(variable)))
-				xvar <- data %>% select_(variable)
-				k <- data.frame(x = xvar, y = model$residuals)
-				colnames(k) <- c('x', 'y')
-				p <- ggplot(k, aes(x = x, y = y))
-				p <- p + geom_point(shape = 1, colour = 'blue')
-				p <- p + xlab(paste(variable)) + ylab('Residual')
-				p <- p + ggtitle(paste("Residual vs", variable))
-				p <- p + geom_hline(yintercept = 0, colour = 'red')
-				print(p)
-
+  v <- l(deparse(substitute(variable)))
+  xvar <- data %>% select_(variable)
+  k <- data.frame(x = xvar, y = model$residuals)
+  colnames(k) <- c("x", "y")
+  p <- ggplot(k, aes(x = x, y = y))
+  p <- p + geom_point(shape = 1, colour = "blue")
+  p <- p + xlab(paste(variable)) + ylab("Residual")
+  p <- p + ggtitle(paste("Residual vs", variable))
+  p <- p + geom_hline(yintercept = 0, colour = "red")
+  print(p)
 }
 
 # rvsr_plot <- function(model) {

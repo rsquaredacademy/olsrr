@@ -54,42 +54,40 @@
 #' ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)
 #' @export
 #'
-ols_regress <- function(object, ...) UseMethod('ols_regress')
+ols_regress <- function(object, ...) UseMethod("ols_regress")
 
 #' @export
 #'
 ols_regress.default <- function(object, data, conf.level = 0.95,
-                                iterm = FALSE, title = 'model', ...) {
-
-
+                                iterm = FALSE, title = "model", ...) {
   if (missing(data)) {
-    stop('data missing', call. = FALSE)
+    stop("data missing", call. = FALSE)
   }
 
-  if(!is.data.frame(data)) {
-    stop('data must be a data frame', call. = FALSE)
+  if (!is.data.frame(data)) {
+    stop("data must be a data frame", call. = FALSE)
   }
 
   if (!is.numeric(conf.level)) {
-    stop('conf.level must be numeric', call. = FALSE)
+    stop("conf.level must be numeric", call. = FALSE)
   }
 
   if ((conf.level < 0) | (conf.level > 1)) {
-    stop('conf.level must be between 0 and 1', call. = FALSE)
+    stop("conf.level must be between 0 and 1", call. = FALSE)
   }
 
   if (!is.character(title)) {
-    stop(paste(title, 'is not a string, Please specify a string as title.'), call. = FALSE)
+    stop(paste(title, "is not a string, Please specify a string as title."), call. = FALSE)
   }
 
   # detect if model formula includes interaction terms
   if (is_formula(object)) {
     detect_iterm <- object %>%
-      str_detect(pattern = '\\*') %>%
+      str_detect(pattern = "\\*") %>%
       extract(3)
   } else {
     detect_iterm <- object %>%
-      str_detect(pattern = '\\*')
+      str_detect(pattern = "\\*")
   }
 
   # set interaction to TRUE if formula contains interaction terms
@@ -97,24 +95,23 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
     iterm <- TRUE
   }
 
-  result        <- reg_comp(object, data, conf.level, iterm, title)
-  class(result) <- 'ols_regress'
+  result <- reg_comp(object, data, conf.level, iterm, title)
+  class(result) <- "ols_regress"
   return(result)
-
 }
 
 #' @rdname ols_regress
 #' @export
 #'
 ols_regress.lm <- function(object, ...) {
-    formula <- formula(object)
-    # data    <- model.frame(object)
-    data <- eval(object$call$data)
-    ols_regress.default(object = formula, data = data)
+  formula <- formula(object)
+  # data    <- model.frame(object)
+  data <- eval(object$call$data)
+  ols_regress.default(object = formula, data = data)
 }
 
 #' @export
 #'
 print.ols_regress <- function(x, ...) {
-    print_reg(x)
+  print_reg(x)
 }

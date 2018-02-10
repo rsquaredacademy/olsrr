@@ -8,5 +8,5 @@
 #' @export
 #'
 ols_launch_app <- function() {
-    runApp(appDir = system.file("application", package = "olsrr"))
+  runApp(appDir = system.file("application", package = "olsrr"))
 }

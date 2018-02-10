@@ -18,12 +18,12 @@
 #' \item{rhs}{names of explanatory variables of fitted regression model}
 #' \item{resp}{response variable}
 #' \item{preds}{predictors}
-#' @references Breusch, T. S. and Pagan, A. R. (1979) A simple test for heteroscedasticity and random coefficient variation. Econometrica 47, 1287–1294.
-#' 
-#' Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regression. Biometrika 70, 1–10.
-#' 
-#' Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
-#' 
+
+#'
+
+#'
+
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
@@ -38,62 +38,59 @@
 #' ols_score_test(model, vars = c('disp', 'wt'))
 #' @export
 #'
-ols_score_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) UseMethod('ols_score_test')
+ols_score_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) UseMethod("ols_score_test")
 
 #' @export
 #'
 ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) {
+  if (!all(class(model) == "lm")) {
+    stop("Please specify a OLS regression model.", call. = FALSE)
+  }
 
-    if (!all(class(model) == 'lm')) {
-        stop('Please specify a OLS regression model.', call. = FALSE)
+  if (!is.logical(fitted_values)) {
+    stop("fitted_values must be either TRUE or FALSE")
+  }
+
+  if (!is.logical(rhs)) {
+    stop("rhs must be either TRUE or FALSE")
+  }
+
+  if (length(vars) > 0) {
+    if (!all(vars %in% names(model$coefficients))) {
+      stop("vars must be a subset of the predictors in the model")
     }
+    fitted_values <- FALSE
+  }
 
-    if (!is.logical(fitted_values)) {
-        stop('fitted_values must be either TRUE or FALSE')
-    }
+  resp <- model %>% model.frame() %>% names() %>% `[`(1)
 
-    if (!is.logical(rhs)) {
-        stop('rhs must be either TRUE or FALSE')
-    }
-
-    if (length(vars) > 0) {
-        if (!all(vars %in% names(model$coefficients))) {
-            stop('vars must be a subset of the predictors in the model')
-        }
-    	fitted_values <- FALSE
-    }
-
-    resp <- model %>% model.frame() %>% names() %>% `[`(1)
-
-    if (rhs) {
-
+  if (rhs) {
     fitted_values <- FALSE
     d <- rhsout(model)
-
+  } else {
+    if (fitted_values) {
+      d <- fitout(model, resp)
     } else {
-
-    	if (fitted_values) {
-		d <- fitout(model, resp)
-    	} else {
-        d <- varout(model, vars)
-    	}
+      d <- varout(model, vars)
     }
+  }
 
-    out <- list(score = d$score, 
-    	          p     = d$p, 
-    	          df    = d$np,
-    					  fv    = fitted_values,
-    					  rhs   = rhs,
-    					  preds = d$preds,
-    					  resp  = resp)
+  out <- list(
+    score = d$score,
+    p = d$p,
+    df = d$np,
+    fv = fitted_values,
+    rhs = rhs,
+    preds = d$preds,
+    resp = resp
+  )
 
-    class(out) <- 'ols_score_test'
-    return(out)
-
+  class(out) <- "ols_score_test"
+  return(out)
 }
 
 #' @export
 #'
 print.ols_score_test <- function(x, ...) {
-	print_score_test(x, ...)
+  print_score_test(x, ...)
 }

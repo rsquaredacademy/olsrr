@@ -1,9 +1,8 @@
-context('stepAIC backward regression output')
+context("stepAIC backward regression output")
 
 model <- lm(y ~ ., data = surgical)
 
-test_that('output from stepAIC backward regression is as expected', {
-
+test_that("output from stepAIC backward regression is as expected", {
   x <- cat("
 
                        Backward Elimination Summary                        
@@ -18,12 +17,10 @@ age           730.620    1833716.447    6535804.090    0.781        0.758
 
 
   expect_equivalent(print(ols_stepaic_backward(model)), x)
-
 })
 
 
-test_that('output from stepAIC backward regression is as expected when details == TRUE', {
-
+test_that("output from stepAIC backward regression is as expected when details == TRUE", {
   x <- cat(" Step 0: AIC = 736.3899 
  y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy 
 
@@ -97,5 +94,4 @@ age           730.620    1833716.447    6535804.090    0.781        0.758
 
 
   expect_equivalent(print(ols_stepaic_backward(model, details = TRUE)), x)
-
 })

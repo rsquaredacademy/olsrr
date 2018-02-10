@@ -1,7 +1,6 @@
-context('pure error anova output')
+context("pure error anova output")
 
-test_that('output from pure error anova is as expected', {
-
+test_that("output from pure error anova is as expected", {
   x <- cat("Lack of Fit F Test 
 -----------------
 Response :   mpg 
@@ -17,7 +16,6 @@ Residual        30    317.1587    10.57196
  Pure Error      5       12.88       2.576                             
 ----------------------------------------------------------------------")
 
-  model <- lm(mpg ~ disp, data = mtcars)	
+  model <- lm(mpg ~ disp, data = mtcars)
   expect_equivalent(print(ols_pure_error_anova(model)), x)
-
 })

@@ -1,10 +1,9 @@
-context('step forward regression output')
+context("step forward regression output")
 
 model <- lm(y ~ ., data = surgical)
 
-test_that('output from stepwise forward regression is as expected', {
-
-	x <- cat("Forward Selection Method                                                       
+test_that("output from stepwise forward regression is as expected", {
+  x <- cat("Forward Selection Method                                                       
 
 Candidate Terms:                                                               
 
@@ -31,13 +30,11 @@ Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE
 ------------------------------------------------------------------------------")
 
   expect_equivalent(print(ols_step_forward(model)), x)
-
 })
 
 
-test_that('output from stepwise forward regression is as expected when details == TRUE', {
-
-	x <- cat("Variable Selection Procedure
+test_that("output from stepwise forward regression is as expected when details == TRUE", {
+  x <- cat("Variable Selection Procedure
  Dependent Variable: y 
 
  Forward Selection: Step 1 
@@ -252,6 +249,5 @@ Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE
 ------------------------------------------------------------------------------")
 
 
-	expect_equivalent(print(ols_step_forward(model, details = TRUE)), x)	
-
+  expect_equivalent(print(ols_step_forward(model, details = TRUE)), x)
 })

@@ -1,7 +1,6 @@
-context('best subsets regression output')
+context("best subsets regression output")
 
-test_that('output from best subsets regression is as expected', {
-
+test_that("output from best subsets regression is as expected", {
   x <- cat("   Best Subsets Regression    
 ------------------------------
 Model Index    Predictors
@@ -32,5 +31,4 @@ AIC: Akaike Information Criteria
 
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
   expect_equivalent(print(ols_best_subset(model)), x)
-
 })

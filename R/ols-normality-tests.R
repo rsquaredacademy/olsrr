@@ -4,19 +4,17 @@
 #' @param model an object of class \code{lm}
 #' @return correlation between fitted regression model residuals and expected
 #' values of residuals
-#' @examples 
+#' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_corr_test(model)
 #' @export
 #'
 ols_corr_test <- function(model) {
+  if (!all(class(model) == "lm")) {
+    stop("Please specify a OLS linear regression model.", call. = FALSE)
+  }
 
-		if (!all(class(model) == 'lm')) {
-      stop('Please specify a OLS linear regression model.', call. = FALSE)
-    }
-
-    return(corrout(model))
-
+  return(corrout(model))
 }
 
 #' @importFrom stats ks.test shapiro.test
@@ -34,47 +32,48 @@ ols_corr_test <- function(model) {
 #' \item{shapiro}{shapiro wilk statistic}
 #' \item{cramer}{cramer von mises statistic}
 #' \item{anderson}{anderson darling statistic}
-#' @examples 
+#' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_norm_test(model)
 #' @export
 #'
-ols_norm_test <- function(y, ...) UseMethod('ols_norm_test')
+ols_norm_test <- function(y, ...) UseMethod("ols_norm_test")
 
 #' @export
 #'
 ols_norm_test.default <- function(y, ...) {
+  if (!is.numeric(y)) {
+    stop("y must be numeric")
+  }
 
-	if (!is.numeric(y)) {
-		stop('y must be numeric')
-	}
+  ks <- ks.test(y, "pnorm", mean(y), sd(y))
+  sw <- shapiro.test(y)
+  cvm <- cvm.test(y)
+  ad <- ad.test(y)
 
-	ks  <- ks.test(y, "pnorm", mean(y), sd(y))
-	sw  <- shapiro.test(y)
-	cvm <- cvm.test(y)
-	ad  <- ad.test(y)
+  result <- list(
+    kolmogorv = ks,
+    shapiro = sw,
+    cramer = cvm,
+    anderson = ad
+  )
 
-	result <- list(kolmogorv = ks,
-								 shapiro   = sw,
-								 cramer    = cvm,
-								 anderson  = ad)
-
-	class(result) <- 'ols_norm_test'
-	return(result)
+  class(result) <- "ols_norm_test"
+  return(result)
 }
 
 #' @export
 #' @rdname ols_norm_test
 #'
 ols_norm_test.lm <- function(y, ...) {
-	if (!all(class(y) == 'lm')) {
-    stop('Please specify a OLS linear regression model.', call. = FALSE)
+  if (!all(class(y) == "lm")) {
+    stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
-	ols_norm_test.default(residuals(y))
+  ols_norm_test.default(residuals(y))
 }
 
 #' @export
 #'
 print.ols_norm_test <- function(x, ...) {
-	print_norm_test(x)
+  print_norm_test(x)
 }

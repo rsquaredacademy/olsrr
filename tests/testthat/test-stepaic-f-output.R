@@ -1,10 +1,9 @@
-context('stepAIC forward regression output')
+context("stepAIC forward regression output")
 
 model <- lm(y ~ ., data = surgical)
 
-test_that('output from stepAIC forward regression is as expected', {
-
-	x <- cat("--------------------------------------------------------------------------
+test_that("output from stepAIC forward regression is as expected", {
+  x <- cat("--------------------------------------------------------------------------
 Variable         AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
 --------------------------------------------------------------------------
 liver_test     771.875    3804272.477    4565248.060    0.455        0.444 
@@ -14,14 +13,12 @@ pindex         735.715    6278360.060    2091160.477    0.750        0.730
 bcs            730.620    6535804.090    1833716.447    0.781        0.758 
 --------------------------------------------------------------------------")
 
-	expect_equivalent(print(ols_stepaic_forward(model)), x)	
-
+  expect_equivalent(print(ols_stepaic_forward(model)), x)
 })
 
 
-test_that('output from stepAIC forward regression is as expected when details == TRUE', {
-
-	x <- cat(" Step 0: AIC = 802.606 
+test_that("output from stepAIC forward regression is as expected when details == TRUE", {
+  x <- cat(" Step 0: AIC = 802.606 
  y ~ 1 
 
 --------------------------------------------------------------------------------
@@ -151,6 +148,5 @@ pindex         735.715    6278360.060    2091160.477    0.750        0.730
 bcs            730.620    6535804.090    1833716.447    0.781        0.758 
 --------------------------------------------------------------------------")
 
-	expect_equivalent(print(ols_stepaic_forward(model, details = TRUE)), x)	
-		
+  expect_equivalent(print(ols_stepaic_forward(model, details = TRUE)), x)
 })
