@@ -20,7 +20,7 @@ olsrr: Tools for building OLS Regression models
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)  [![Coverage status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)  
 
 
 ## Overview
@@ -103,14 +103,6 @@ model <- lm(y ~ ., data = surgical)
 ols_stepwise(model)
 ```
 
-###### Plot
-
-```{r stepwise2, fig.width=10, fig.height=15, fig.align='center'}
-model <- lm(y ~ ., data = surgical)
-k <- ols_stepwise(model)
-plot(k)
-```
-
 ##### Stepwise AIC Backward Regression
 
 Build regression model from a set of candidate predictor variables by removing predictors based on 
@@ -123,14 +115,6 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 model <- lm(y ~ ., data = surgical)
 k <- ols_stepaic_backward(model)
 k
-```
-
-###### Plot
-
-```{r stepaicb2, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
-plot(k)
 ```
 
 ##### Breusch Pagan Test
@@ -148,35 +132,6 @@ ols_bp_test(model)
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_coll_diag(model)
 ```
-
-##### Residual vs Fitted Values Plot
-
-Plot to detect non-linearity, unequal error variances, and outliers.
-
-```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
-```
-
-##### DFBETAs Panel
-
-DFBETAs measure the difference in each parameter estimate with and without the influential observation.
-`dfbetas_panel` creates plots to detect influential observations using DFBETAs.
-
-```{r dfbpanel, fig.width=8, fig.height=8, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
-```
-
-##### Residual Fit Spread Plot
-
-Plot to detect non-linearity, influential observations and outliers.
-
-```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rfs_plot(model)
-```
-
 
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
