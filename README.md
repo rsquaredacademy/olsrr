@@ -197,78 +197,6 @@ ols_stepwise(model)
 #> ------------------------------------------------------------------------------------------
 ```
 
-###### Plot
-
-``` r
-model <- lm(y ~ ., data = surgical)
-k <- ols_stepwise(model)
-#> Stepwise Selection Method   
-#> ---------------------------
-#> 
-#> Candidate Terms: 
-#> 
-#> 1. bcs 
-#> 2. pindex 
-#> 3. enzyme_test 
-#> 4. liver_test 
-#> 5. age 
-#> 6. gender 
-#> 7. alc_mod 
-#> 8. alc_heavy 
-#> 
-#> We are selecting variables based on p value...
-#> 
-#> Variables Entered/Removed: 
-#> 
-#> - liver_test added 
-#> - alc_heavy added 
-#> - enzyme_test added 
-#> - pindex added 
-#> - bcs added 
-#> 
-#> No more variables to be added/removed.
-#> 
-#> 
-#> Final Model Output 
-#> ------------------
-#> 
-#>                           Model Summary                           
-#> -----------------------------------------------------------------
-#> R                       0.884       RMSE                 195.454 
-#> R-Squared               0.781       Coef. Var             27.839 
-#> Adj. R-Squared          0.758       MSE                38202.426 
-#> Pred R-Squared          0.700       MAE                  137.656 
-#> -----------------------------------------------------------------
-#>  RMSE: Root Mean Square Error 
-#>  MSE: Mean Square Error 
-#>  MAE: Mean Absolute Error 
-#> 
-#>                                  ANOVA                                  
-#> -----------------------------------------------------------------------
-#>                    Sum of                                              
-#>                   Squares        DF    Mean Square      F         Sig. 
-#> -----------------------------------------------------------------------
-#> Regression    6535804.090         5    1307160.818    34.217    0.0000 
-#> Residual      1833716.447        48      38202.426                     
-#> Total         8369520.537        53                                    
-#> -----------------------------------------------------------------------
-#> 
-#>                                       Parameter Estimates                                        
-#> ------------------------------------------------------------------------------------------------
-#>       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
-#> ------------------------------------------------------------------------------------------------
-#> (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
-#>  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
-#>   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
-#> enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
-#>      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
-#>         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
-#> ------------------------------------------------------------------------------------------------
-plot(k)
-```
-
-<img src="README-stepwise2-1.png" style="display: block; margin: auto;" />
-
 ##### Stepwise AIC Backward Regression
 
 Build regression model from a set of candidate predictor variables by
@@ -316,38 +244,6 @@ k
 #> age           730.620    1833716.447    6535804.090    0.78091      0.75808 
 #> ---------------------------------------------------------------------------
 ```
-
-###### Plot
-
-``` r
-model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
-#> Backward Elimination Method 
-#> ---------------------------
-#> 
-#> Candidate Terms: 
-#> 
-#> 1 . bcs 
-#> 2 . pindex 
-#> 3 . enzyme_test 
-#> 4 . liver_test 
-#> 5 . age 
-#> 6 . gender 
-#> 7 . alc_mod 
-#> 8 . alc_heavy 
-#> 
-#> 
-#> Variables Removed: 
-#> 
-#> - alc_mod 
-#> - gender 
-#> - age 
-#> 
-#> No more variables to be removed.
-plot(k)
-```
-
-<img src="README-stepaicb2-1.png" style="display: block; margin: auto;" />
 
 ##### Breusch Pagan Test
 
@@ -408,41 +304,6 @@ ols_coll_diag(model)
 #> 4 0.7017528428 0.0024577686
 #> 5 0.2598094157 0.9925403056
 ```
-
-##### Residual vs Fitted Values Plot
-
-Plot to detect non-linearity, unequal error variances, and outliers.
-
-``` r
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
-```
-
-<img src="README-rvsfplot-1.png" style="display: block; margin: auto;" />
-
-##### DFBETAs Panel
-
-DFBETAs measure the difference in each parameter estimate with and
-without the influential observation. `dfbetas_panel` creates plots to
-detect influential observations using DFBETAs.
-
-``` r
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
-```
-
-<img src="README-dfbpanel-1.png" style="display: block; margin: auto;" />
-
-##### Residual Fit Spread Plot
-
-Plot to detect non-linearity, influential observations and outliers.
-
-``` r
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rfs_plot(model)
-```
-
-<img src="README-rfsplot-1.png" style="display: block; margin: auto;" />
 
 Please note that this project is released with a [Contributor Code of
 Conduct](CONDUCT.md). By participating in this project you agree to
