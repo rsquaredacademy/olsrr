@@ -13,9 +13,6 @@ Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)
-[![Coverage
-status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master)
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
 ## Overview
 
