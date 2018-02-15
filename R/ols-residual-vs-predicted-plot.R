@@ -31,3 +31,11 @@ ols_rvsp_plot <- function(model) {
   p <- p + geom_hline(yintercept = 0, colour = "red")
   print(p)
 }
+
+
+rvspdata <- function(model) {
+  resid <- residuals(model)
+  predicted <- fitted(model)
+  d <- tibble(predicted = predicted, resid = resid)
+  return(d)
+}

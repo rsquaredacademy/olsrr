@@ -40,7 +40,7 @@ following components:
 \item{indvar}{predictors}
 }
 \description{
-Build regression model from a set of candidate predictor variables by removing predictors based on 
+Build regression model from a set of candidate predictor variables by removing predictors based on
 p values, in a stepwise manner until there is no variable left to remove any more.
 }
 \examples{

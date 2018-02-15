@@ -14,8 +14,25 @@ ols_corr_test <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  return(corrout(model))
+  corrout(model)
+
 }
+
+ka <- function(k, stderr, n) {
+  out <- stderr * qnorm((k - 0.375) / (n + 0.25))
+  return(out)
+}
+
+corrout <- function(model) {
+  n <- model %>% model.frame() %>% nrow()
+  stderr <- model %>% summary() %>% `[[`(6)
+  h1 <- n %>% seq_len()
+  h <- ka(h1, stderr, n)
+  out <- model %>% residuals() %>% sort()
+  result <- cor(h, out)
+  return(result)
+}
+
 
 #' @importFrom stats ks.test shapiro.test
 #' @importFrom goftest cvm.test

@@ -53,15 +53,16 @@ If most of the error is due to lack of fit and not just random error, the model 
 a new model must be built.
 }
 \note{
-The lack of fit F test works only with simple linear regression. Moreover, it is important that the 
-data contains repeat observations i.e. replicates for at least one of the values of the predictor x. This 
+The lack of fit F test works only with simple linear regression. Moreover, it is important that the
+data contains repeat observations i.e. replicates for at least one of the values of the predictor x. This
 test generally only applies to datasets with plenty of replicates.
 }
 \examples{
 model <- lm(mpg ~ disp, data = mtcars)
 ols_pure_error_anova(model)
+
 }
 \references{
-Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
 }

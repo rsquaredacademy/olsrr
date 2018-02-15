@@ -13,15 +13,16 @@ ols_leverage(model)
 leverage
 }
 \description{
-The leverage of an observation is based on how much the observation's value on the predictor variable 
-differs from the mean of the predictor variable. The greater an observation's leverage, the more potential it has 
+The leverage of an observation is based on how much the observation's value on the predictor variable
+differs from the mean of the predictor variable. The greater an observation's leverage, the more potential it has
 to be an influential observation.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_leverage(model)
+
 }
 \references{
-Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
 }

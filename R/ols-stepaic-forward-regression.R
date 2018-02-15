@@ -17,7 +17,10 @@
 #' \item{rss}{regression sum of squares}
 #' \item{rsq}{rsquare}
 #' \item{arsq}{adjusted rsquare}
-#' @references Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
+#'
+#' @references
+#' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
+#'
 #' @examples
 #' \dontrun{
 #' # stepwise forward regression

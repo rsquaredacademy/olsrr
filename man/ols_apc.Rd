@@ -28,6 +28,7 @@ where \emph{n} is the sample size, \emph{p} is the number of predictors includin
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_apc(model)
+
 }
 \references{
 Amemiya, T. (1976). Selection of Regressors. Technical Report 225, Stanford University, Stanford, CA.

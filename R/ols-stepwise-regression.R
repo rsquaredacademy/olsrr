@@ -24,7 +24,8 @@
 #' \item{mallows_cp}{mallow's Cp}
 #' \item{indvar}{predictors}
 #'
-#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#' @references
+#' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
 #' @examples
 #' \dontrun{

@@ -2,21 +2,21 @@
 % Please edit documentation in R/ols-information-criteria.R
 \name{ols_aic}
 \alias{ols_aic}
-\title{AIC}
+\title{Akaike Information Criterion}
 \usage{
 ols_aic(model, method = c("R", "STATA", "SAS"))
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{method}{a character vector; specify the method to compute AIC. Valid
-options include R, STATA and SAS}
+\item{method}{A character vector; specify the method to compute AIC. Valid
+options include R, STATA and SAS.}
 }
 \value{
-Akaike Information Criterion
+Akaike information criterion.
 }
 \description{
-Akaike Information Criterion
+Akaike information criterion.
 }
 \details{
 AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the
@@ -43,6 +43,7 @@ ols_aic(model, method = 'STATA')
 # using SAS computation method
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_aic(model, method = 'SAS')
+
 }
 \references{
 Akaike, H. (1969). “Fitting Autoregressive Models for Prediction.” Annals of the Institute of Statistical

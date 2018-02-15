@@ -4,12 +4,16 @@
 #' @importFrom purrr map_int
 #' @importFrom tidyr nest
 #' @importFrom magrittr add use_series
+#'
 #' @title All Possible Regression
+#'
 #' @description Fits all regressions involving one regressor, two regressors, three regressors, and so on.
 #' It tests all possible subsets of the set of potential independent variables.
+#'
 #' @param model an object of class \code{lm}
 #' @param x an object of class \code{ols_best_subset}
 #' @param ... other arguments
+#'
 #' @return \code{ols_all_subset} returns an object of class \code{"ols_all_subset"}.
 #' An object of class \code{"ols_all_subset"} is a data frame containing the
 #' following components:
@@ -28,8 +32,10 @@
 #' \item{pc}{amemiya prediction criteria}
 #' \item{sp}{hocking's Sp}
 #'
-#' @references Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
+#' @references
+#' Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 #' Prentice Hall
+#'
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
@@ -56,28 +62,6 @@ ols_all_subset.default <- function(model, ...) {
   if (length(model$coefficients) < 3) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
-
-  # nam   <- colnames(attr(model$terms, 'factors'))
-  # n     <- length(nam)
-  # r     <- seq_len(n)
-  # combs <- list()
-
-  # for (i in seq_len(n)) {
-  #     combs[[i]] <- combn(n, r[i])
-  # }
-
-  # lc        <- length(combs)
-  # varnames  <- names(model.frame(model))
-  # predicts  <- nam
-  # len_preds <- length(predicts)
-  # gap       <- len_preds - 1
-  # space     <- sum(nchar(predicts)) + gap
-  # data      <- mod_sel_data(model)
-  # colas     <- combs %>% map_int(ncol)
-  # response  <- varnames[1]
-  # p         <- colas
-  # t         <- cumsum(colas)
-  # q         <- c(1, t[-lc] + 1)
 
   metrics <- allpos_helper(model)
 
@@ -364,4 +348,77 @@ ols_all_subset_betas <- function(object, ...) {
   )
 
   return(model_betas)
+}
+
+
+allpos_helper <- function(model) {
+  nam <- colnames(attr(model$terms, "factors"))
+  n <- length(nam)
+  r <- seq_len(n)
+  combs <- list()
+
+  for (i in seq_len(n)) {
+    combs[[i]] <- combn(n, r[i])
+  }
+
+  lc <- length(combs)
+  varnames <- names(model.frame(model))
+  predicts <- nam
+  len_preds <- length(predicts)
+  gap <- len_preds - 1
+  space <- sum(nchar(predicts)) + gap
+  data <- mod_sel_data(model)
+  colas <- combs %>% map_int(ncol)
+  response <- varnames[1]
+  p <- colas
+  t <- cumsum(colas)
+  q <- c(1, t[-lc] + 1)
+
+  mcount <- 0
+  rsq <- list()
+  adjrsq <- list()
+  predrsq <- list()
+  cp <- list()
+  aic <- list()
+  sbic <- list()
+  sbc <- list()
+  msep <- list()
+  fpe <- list()
+  apc <- list()
+  hsp <- list()
+  preds <- list()
+  lpreds <- c()
+  betas <- c()
+
+  for (i in seq_len(lc)) {
+    for (j in seq_len(colas[i])) {
+      predictors <- nam[combs[[i]][, j]]
+      lp <- length(predictors)
+      out <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = data)
+      mcount <- mcount + 1
+      lpreds[mcount] <- lp
+      rsq[[mcount]] <- out$rsq
+      adjrsq[[mcount]] <- out$adjr
+      predrsq[[mcount]] <- ols_pred_rsq(out$model)
+      cp[[mcount]] <- ols_mallows_cp(out$model, model)
+      aic[[mcount]] <- ols_aic(out$model)
+      sbic[[mcount]] <- ols_sbic(out$model, model)
+      sbc[[mcount]] <- ols_sbc(out$model)
+      msep[[mcount]] <- ols_msep(out$model)
+      fpe[[mcount]] <- ols_fpe(out$model)
+      apc[[mcount]] <- ols_apc(out$model)
+      hsp[[mcount]] <- ols_hsp(out$model)
+      preds[[mcount]] <- paste(predictors, collapse = " ")
+      betas <- append(betas, out$betas)
+    }
+  }
+
+  result <- list(
+    lpreds = lpreds, rsq = rsq, adjrsq = adjrsq,
+    predrsq = predrsq, cp = cp, aic = aic, sbic = sbic,
+    sbc = sbc, msep = msep, fpe = fpe, apc = apc, hsp = hsp,
+    preds = preds, lc = lc, q = q, t = t, betas = betas
+  )
+
+  return(result)
 }

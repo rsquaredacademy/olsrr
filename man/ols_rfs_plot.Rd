@@ -19,8 +19,8 @@ ols_rsd_plot(model)
 Plot to detect non-linearity, influential observations and outliers.
 }
 \details{
-Consists of side-by-side quantile plots of the centered fit and the residuals. It shows how 
-much variation in the data is explained by the fit and how much remains in the residuals. For 
+Consists of side-by-side quantile plots of the centered fit and the residuals. It shows how
+much variation in the data is explained by the fit and how much remains in the residuals. For
 inappropriate models, the spread of the residuals in such a plot is often greater than the spread of the
 centered fit.
 }

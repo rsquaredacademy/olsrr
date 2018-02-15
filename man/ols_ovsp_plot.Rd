@@ -13,9 +13,9 @@ ols_ovsp_plot(model)
 Plot of actual vs fitted values to assess the fit of the model.
 }
 \details{
-Ideally, all your points should be close to a regressed diagonal line. Draw such a diagonal line 
-within your graph and check out where the points lie. If your model had a high R Square, all the points would 
-be close to this diagonal line. The lower the R Square, the weaker the Goodness of fit of your model, the more 
+Ideally, all your points should be close to a regressed diagonal line. Draw such a diagonal line
+within your graph and check out where the points lie. If your model had a high R Square, all the points would
+be close to this diagonal line. The lower the R Square, the weaker the Goodness of fit of your model, the more
 foggy or dispersed your points are from this diagonal line.
 }
 \examples{

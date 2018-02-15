@@ -7,13 +7,13 @@
 ols_hsp(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
 Hocking's Sp
 }
 \description{
-Average prediction mean squared error
+Average prediction mean squared error.
 }
 \details{
 Hocking's Sp criterion is an adjustment of the residual sum of Squares. Minimize this criterion.
@@ -25,6 +25,7 @@ where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of pre
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_hsp(model)
+
 }
 \references{
 Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics

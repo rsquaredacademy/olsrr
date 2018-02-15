@@ -17,7 +17,10 @@
 #' \item{rsq}{rsquare}
 #' \item{arsq}{adjusted rsquare}
 #' \item{steps}{total number of steps}
-#' @references Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
+#'
+#' @references
+#' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
+#'
 #' @examples
 #' \dontrun{
 #' # stepwise regression

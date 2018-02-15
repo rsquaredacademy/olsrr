@@ -24,10 +24,13 @@
 #' \item{outliers}{a tibble with observation number and \code{DFFITs} that exceed \code{threshold}}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
-#' @references Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression
+#' @references
+#' Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression
 #' Diagnostics: Identifying Influential Data and Sources of Collinearity.
+#'
 #' Wiley Series in Probability and Mathematical Statistics.
 #' New York: John Wiley & Sons. ISBN 0-471-05856-4.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_dffits_plot(model)

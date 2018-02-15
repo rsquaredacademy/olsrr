@@ -44,3 +44,37 @@ ols_rsdlev_plot <- function(model) {
   result <- list(leverage = f, threshold = g$lev_thrsh, plot = p)
   invisible(result)
 }
+
+rstudlev <- function(model) {
+  leverage <- unname(hatvalues(model))
+  rstudent <- unname(rstudent(model))
+  k <- length(model$coefficients)
+  n <- nrow(model.frame(model))
+  lev_thrsh <- ((2 * k) + 2) / n
+  rst_thrsh <- 2
+  miny <- min(rstudent) - 3
+  maxy <- max(rstudent) + 3
+  minx <- min(leverage)
+  maxx <- ifelse((max(leverage) > lev_thrsh), max(leverage), (lev_thrsh + 0.05))
+  levrstud <- data.frame(obs = seq_len(n), leverage, rstudent)
+
+
+  levrstud$color[(leverage < lev_thrsh & abs(rstudent) < 2)] <- "normal"
+  levrstud$color[(leverage > lev_thrsh & abs(rstudent) < 2)] <- "leverage"
+  levrstud$color[(leverage < lev_thrsh & abs(rstudent) > 2)] <- "outlier"
+  levrstud$color[(leverage > lev_thrsh & abs(rstudent) > 2)] <- "outlier & leverage"
+  levrstud$color3 <- factor(levrstud$color)
+  levrstud$Observation <- ordered(
+    levrstud$color3,
+    levels = c(
+      "normal", "leverage", "outlier",
+      "outlier & leverage"
+    )
+  )
+
+  result <- list(
+    levrstud = levrstud, lev_thrsh = lev_thrsh, minx = minx,
+    miny = miny, maxx = maxx, maxy = maxy
+  )
+  return(result)
+}

@@ -10,7 +10,7 @@ ols_rvsp_plot(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-It is a scatter plot of residuals on the y axis and fitted values on the x axis to 
+It is a scatter plot of residuals on the y axis and fitted values on the x axis to
 detect non-linearity, unequal error variances, and outliers.
 }
 \details{

@@ -36,3 +36,10 @@ ols_ovsp_plot <- function(model) {
   )
   print(p)
 }
+
+obspred <- function(model) {
+  y <- model %>% fitted.values()
+  x <- model %>% model.frame() %>% `[[`(1)
+  d <- tibble(x, y)
+  return(d)
+}

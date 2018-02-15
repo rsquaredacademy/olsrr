@@ -42,11 +42,15 @@
 #' \item{final}{data.frame; contains computed values used for the lack of fit f test}
 #' \item{resp}{character vector; name of \code{response variable}}
 #' \item{preds}{character vector; name of \code{predictor variable}}
-#' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
+#'
+#' @references
+#' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp, data = mtcars)
 #' ols_pure_error_anova(model)
+#'
 #' @export
 #'
 ols_pure_error_anova <- function(model, ...) UseMethod("ols_pure_error_anova")
@@ -97,4 +101,79 @@ ols_pure_error_anova.default <- function(model, ...) {
 #'
 print.ols_pure_error_anova <- function(x, ...) {
   print_pure_error_anova(x)
+}
+
+#' @importFrom dplyr arrange
+peanova <- function(model) {
+  data <- model.frame(model)
+  dep <- data[[1]]
+  pred <- data[[2]]
+  n <- nrow(data)
+  nam <- names(data)
+  dep_name <- nam[1]
+  pred_name <- nam[2]
+  yhat <- model$fitted.values
+  pred_u <- table(pred)
+  nd <- length(pred_u)
+
+  mean_pred <- data %>%
+    group_by_(pred_name) %>%
+    select_(dep_name, pred_name) %>%
+    summarise_all(funs(mean))
+
+  mean_rep <- rep(mean_pred[[2]], as.vector(pred_u))
+  fin <- data.frame(dep, yhat, pred)
+  finl <- arrange(fin, pred)
+  final <- cbind(finl, mean_rep)
+  colnames(final) <- c("y", "yhat", "pred", "ybar")
+
+  final$lfit <- (final$ybar - final$yhat) ^ 2
+  final$rerror <- (final$y - final$ybar) ^ 2
+  # final <- mutate(final,
+  #   lfit   = (ybar - yhat) ^ 2,
+  #   rerror = (y - ybar) ^ 2
+  # )
+
+  lackoffit <- sum(final$lfit)
+  random_error <- sum(final$rerror)
+  rss <- anova(model)[1, 2]
+  ess <- sum(lackoffit, random_error)
+  total <- sum(ess, rss)
+  df_rss <- 1
+  df_lof <- nd - 2
+  df_error <- n - nd
+  df_ess <- sum(df_lof, df_error)
+  rms <- rss / df_rss
+  ems <- ess / df_ess
+  lms <- lackoffit / df_lof
+  pms <- random_error / df_error
+  rf <- rms / pms
+  lf <- lms / pms
+  pr <- pf(rf, df_rss, df_ess, lower.tail = F)
+  pl <- pf(lf, df_lof, df_error, lower.tail = F)
+
+  result <- list(
+    lackoffit = lackoffit,
+    pure_error = random_error,
+    rss = rss,
+    ess = ess,
+    total = total,
+    rms = rms,
+    ems = ems,
+    lms = lms,
+    pms = pms,
+    rf = rf,
+    lf = lf,
+    pr = pr,
+    pl = pl,
+    mpred = mean_pred,
+    df_rss = df_rss,
+    df_ess = df_ess,
+    df_lof = df_lof,
+    df_error = df_error,
+    final = final,
+    resp = dep_name,
+    preds = pred_name
+  )
+  return(result)
 }

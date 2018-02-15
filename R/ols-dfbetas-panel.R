@@ -7,13 +7,18 @@
 #' and k variables, there will be \eqn{n * k} DFBETAs. In general, large values of DFBETAS indicate
 #' observations that are influential in estimating a given parameter. Belsley, Kuh, and Welsch recommend
 #' 2 as a general cutoff value to indicate influential observations and \eqn{2/\sqrt(n)} as a size-adjusted cutoff.
+
 #' @return list; \code{ols_dfbetas_panel} returns a list of tibbles (for intercept and each predictor)
 #' with the observation number and DFBETA of observations that exceed the threshold for classifying
 #' an observation as an outlier/influential observation.
-#' @references Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression
+#'
+#' @references
+#' Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression
 #' Diagnostics: Identifying Influential Data and Sources of Collinearity.
+#'
 #' Wiley Series in Probability and Mathematical Statistics.
 #' New York: John Wiley & Sons. pp. ISBN 0-471-05856-4.
+#'
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

@@ -43,8 +43,8 @@ Test for constant variance. It assumes that the error terms are normally distrib
 }
 \details{
 Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
-test for heteroskedasticity in a linear regression model. It test whether variance of errors from a 
-regression is dependent on the values of a independent variable. 
+test for heteroskedasticity in a linear regression model. It test whether variance of errors from a
+regression is dependent on the values of a independent variable.
 
 \itemize{
 \item Null Hypothesis: Equal/constant variances
@@ -56,9 +56,9 @@ Computation
 \itemize{
   \item Fit a regression model
   \item Regress the squared residuals from the above model on the independent variables
-  \item Compute \eqn{nR^2}. It follows a chi square distribution with p -1 degrees of 
+  \item Compute \eqn{nR^2}. It follows a chi square distribution with p -1 degrees of
         freedom, where p is the number of independent variables, n is the sample size and
-			 \eqn{R^2} is the coefficient of determination from the regression in step 2.
+				 \eqn{R^2} is the coefficient of determination from the regression in step 2.
 }
 }
 \examples{
@@ -85,8 +85,7 @@ ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 
 }
 \references{
-T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and 
+T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and
 Random Coefficient Variation. Econometrica 47, 1287–1294
-
 Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 }

@@ -12,6 +12,6 @@ model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rsd_boxplot(model)}
 }
 \description{
-Box plot of residuals to examine if residuals 
+Box plot of residuals to examine if residuals
 are normally distributed.
 }

@@ -19,6 +19,7 @@ the response variable or in the predictors or both.
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_hadi(model)
+
 }
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.

@@ -20,7 +20,7 @@ following components:
 Plot for detecting influential observations using DFFITs.
 }
 \details{
-DFFIT - difference in fits, is used to identify influential data points. It quantifies 
+DFFIT - difference in fits, is used to identify influential data points. It quantifies
 the number of standard deviations that the fitted value changes when the ith data point is omitted.
 
 Steps to compute DFFITs:
@@ -41,8 +41,9 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_dffits_plot(model)
 }
 \references{
-Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression 
-Diagnostics: Identifying Influential Data and Sources of Collinearity. 
-Wiley Series in Probability and Mathematical Statistics. 
+Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression
+Diagnostics: Identifying Influential Data and Sources of Collinearity.
+
+Wiley Series in Probability and Mathematical Statistics.
 New York: John Wiley & Sons. ISBN 0-471-05856-4.
 }

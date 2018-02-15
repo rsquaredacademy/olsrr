@@ -56,3 +56,24 @@ ols_dsrvsp_plot <- function(model) {
   result <- list(outliers = f, threshold = 2, plot = p)
   invisible(result)
 }
+
+dpred <- function(model) {
+  pred <- model %>% fitted()
+  dsresid <- model %>% rstudent() %>% unname()
+  n <- length(dsresid)
+  dsr <- NULL
+  ds <- tibble(obs = seq_len(n), dsr = dsresid)
+  ds <- ds %>%
+    mutate(color = ifelse((abs(dsr) >= 2), "outlier", "normal"))
+  ds$color1 <- factor(ds$color)
+  ds$color2 <- ordered(ds$color1, levels = c("normal", "outlier"))
+  ds2 <- tibble(obs = seq_len(n), pred = pred, dsr = ds$dsr, Observation = ds$color2)
+
+  minx <- min(ds2$dsr) - 1
+  cminx <- ifelse(minx < -2, minx, -2.5)
+  maxx <- max(ds2$dsr) + 1
+  cmaxx <- ifelse(maxx > 2, maxx, 2.5)
+
+  out <- list(ds = ds2, cminx = cminx, cmaxx = cmaxx)
+  return(out)
+}

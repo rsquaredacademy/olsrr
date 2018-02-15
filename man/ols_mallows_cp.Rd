@@ -26,6 +26,7 @@ models where Mallows' Cp is small and close to the number of predictors in the m
 full_model <- lm(mpg ~ ., data = mtcars)
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_mallows_cp(model, full_model)
+
 }
 \references{
 Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics

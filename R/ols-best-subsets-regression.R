@@ -24,8 +24,10 @@
 #' \item{pc}{amemiya prediction criteria}
 #' \item{sp}{hocking's Sp}
 #'
-#' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
+#' @references
+#' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
+#'
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -63,13 +65,22 @@ ols_best_subset.default <- function(model, ...) {
   }
 
   lc <- length(combs)
-  # nam       <- colnames(attr(model$terms, 'factors'))
-  # nam       <- names(model$coefficients)[-1]
-  varnames <- names(model.frame(model))
+
+  varnames <-
+    model %>%
+    model.frame() %>%
+    names
+
   predicts <- nam
   len_preds <- length(predicts)
   gap <- len_preds - 1
-  space <- sum(nchar(predicts)) + gap
+
+  space <-
+    predicts %>%
+    nchar() %>%
+    sum() %>%
+    add(gap)
+
   data <- mod_sel_data(model)
   colas <- combs %>% map_int(ncol)
 
@@ -138,7 +149,6 @@ ols_best_subset.default <- function(model, ...) {
   for (i in seq_len(lc)) {
     temp <- ui[q[i]:t[i], ]
     temp <- temp[order(temp$rsquare, decreasing = TRUE), ]
-    # temp   <- arrange(temp, desc(rsquare))
     sorted <- rbind(sorted, temp[1, ])
   }
 
@@ -148,6 +158,7 @@ ols_best_subset.default <- function(model, ...) {
   class(sorted) <- c("ols_best_subset", "tibble", "data.frame")
 
   return(sorted)
+
 }
 
 #' @export

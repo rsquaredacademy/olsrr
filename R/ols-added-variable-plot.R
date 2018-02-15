@@ -3,11 +3,14 @@
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
 #' @importFrom magrittr %>%
 #' @title Added Variable Plot
+#'
 #' @description Added variable plot provides information about the marginal importance of a
 #' predictor variable, given the other predictor variables already in
 #' the model. It shows the marginal importance of the variable in reducing the
 #' residual variability.
+#'
 #' @param model an object of class \code{lm}
+#'
 #' @details The added variable plot was introduced by Mosteller and Tukey (1977). It enables
 #' us to visualize the regression coefficient of a new variable being considered to
 #' be included in a model. The plot can be constructed for each predictor variable.
@@ -33,30 +36,23 @@
 #' importance of the contribution of \strong{X} to the model already containing the
 #' other predictors.
 #'
-#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#' @references
+#' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_avplots(model)
+#'
 #' @export
 #'
 ols_avplots <- function(model) {
-  if (!all(class(model) == "lm")) {
+
+    if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
-
-  #   m1 <- tibble::as_data_frame(model.frame(model))
-  #   m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-  # data <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
-  # xnames <- colnames(data)
-
-  # data <- eval(model$call$data)
-  # xnames <- names(model$coefficients)[-1]
-  # # xnames <- colnames(attr(model$terms, 'factors'))
-  # nl <- xnames %>% length()
-  # resp <- rownames(attr(model$terms, 'factors'))[1]
 
   m1 <- tibble::as_data_frame(model.frame(model))
   m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
@@ -86,4 +82,25 @@ ols_avplots <- function(model) {
 
   result <- list(plots = myplots)
   invisible(result)
+
 }
+
+#' @importFrom stats lsfit
+advarx <- function(data, i) {
+
+  x <- as.matrix(data[c(-1, -i)])
+  y <- as.matrix(data[i])
+  lsfit(x, y) %>%
+    use_series(residuals)
+
+}
+
+advary <- function(data, i) {
+
+  x <- as.matrix(data[c(-1, -i)])
+  y <- as.matrix(data[1])
+  lsfit(x, y) %>%
+    use_series(residuals)
+
+}
+

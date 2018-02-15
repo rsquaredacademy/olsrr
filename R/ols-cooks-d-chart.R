@@ -40,7 +40,7 @@ ols_cooksd_chart <- function(model) {
   d <- k$d
   d <- d %>% mutate(txt = ifelse(Observation == "outlier", obs, NA))
   f <- d %>% filter(., Observation == "outlier") %>% select(obs, ckd)
-  p <- ggplot(d, aes(x = obs, y = ckd, , label = txt, ymin = min(ckd), ymax = ckd)) +
+  p <- ggplot(d, aes(x = obs, y = ckd, label = txt, ymin = min(ckd), ymax = ckd)) +
     geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
     geom_hline(yintercept = k$ts, colour = "red") + xlab("Observation") +
     ylab("Cook's D") + ggtitle("Cook's D Chart") +
@@ -55,4 +55,17 @@ ols_cooksd_chart <- function(model) {
   colnames(f) <- c("Observation", "Cook's Distance")
   result <- list(outliers = f, threshold = k$ts, plot = p)
   invisible(result)
+
 }
+
+cdchart <- function(model) {
+  ckd <- cooks.distance(model)
+  ts <- 4 / length(ckd)
+  d <- tibble(obs = seq_len(length(ckd)), ckd = ckd)
+  d$color <- ifelse(d$ckd >= ts, c("outlier"), c("normal"))
+  d$color1 <- factor(d$color)
+  d$Observation <- ordered(d$color1, levels = c("normal", "outlier"))
+  out <- list(d = d, ts = ts)
+  return(out)
+}
+

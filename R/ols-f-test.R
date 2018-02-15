@@ -22,7 +22,10 @@
 #' \item{vars}{variables to be used for heteroskedasticity test}
 #' \item{resp}{response variable}
 #' \item{preds}{predictors}
-#' @references Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
+#'
+#' @references
+#' Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -113,4 +116,37 @@ ols_f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
 #'
 print.ols_f_test <- function(x, ...) {
   print_ftest(x)
+}
+
+frhs <- function(nam, model, n, l) {
+  np <- length(nam)
+  var_resid <- sum(residuals(model) ^ 2) / n
+  ind <- residuals(model) ^ 2 / var_resid - 1
+  l <- cbind(l, ind)
+  mdata <- l[-1]
+  model1 <- lm(ind ~ ., data = mdata)
+  k <- summary(model1)
+  return(k$fstatistic)
+}
+
+fvar <- function(n, l, model, vars) {
+  var_resid <- sum(residuals(model) ^ 2) / n
+  ind <- residuals(model) ^ 2 / var_resid - 1
+  mdata <- l[-1]
+  dl <- mdata[, vars]
+  dk <- as.data.frame(cbind(ind, dl))
+  nd <- ncol(dk) - 1
+  model1 <- lm(ind ~ ., data = dk)
+  k <- summary(model1)
+  return(k$fstatistic)
+}
+
+ffit <- function(model) {
+  pred <- model$fitted.values
+  resid <- model$residuals ^ 2
+  avg_resid <- sum(resid) / length(pred)
+  scaled_resid <- resid / avg_resid
+  model1 <- lm(scaled_resid ~ pred)
+  k <- summary(model1)
+  return(k$fstatistic)
 }

@@ -16,7 +16,7 @@ options include R, STATA and SAS}
 Bayesian Information Criterion
 }
 \description{
-Bayesian Information Criterion
+Bayesian Information Criterion.
 }
 \details{
 SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the
@@ -43,6 +43,7 @@ ols_sbc(model, method = 'STATA')
 # using SAS computation method
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_sbc(model, method = 'SAS')
+
 }
 \references{
 Schwarz, G. (1978). “Estimating the Dimension of a Model.” Annals of Statistics 6:461–464.
