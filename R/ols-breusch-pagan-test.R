@@ -42,10 +42,13 @@
 #' \item{vars}{variables to be used for heteroskedasticity test}
 #' \item{resp}{response variable}
 #' \item{preds}{predictors}
-#' @references T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and
-
 #'
+#' @references
+#' T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and
+#' Random Coefficient Variation. Econometrica 47, 1287–1294
 
+#' Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)

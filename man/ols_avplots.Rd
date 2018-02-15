@@ -10,8 +10,8 @@ ols_avplots(model)
 \item{model}{an object of class \code{lm}}
 }
 \description{
-Added variable plot provides information about the marginal importance of a 
-predictor variable, given the other predictor variables already in 
+Added variable plot provides information about the marginal importance of a
+predictor variable, given the other predictor variables already in
 the model. It shows the marginal importance of the variable in reducing the
 residual variability.
 }
@@ -44,10 +44,11 @@ other predictors.
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_avplots(model)
+
 }
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 
-Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
 }

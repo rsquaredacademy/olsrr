@@ -39,7 +39,7 @@ following components:
 Test if k samples are from populations with equal variances.
 }
 \details{
-Bartlett's test is used to test if variances across samples is equal. 
+Bartlett's test is used to test if variances across samples is equal.
 It is sensitive to departures from normality. The Levene test
 is an alternative test that is less sensitive to departures from normality.
 }
@@ -71,6 +71,6 @@ ols_bartlett_test(model)
 }
 }
 \references{
-Snedecor, George W. and Cochran, William G. (1989), Statistical Methods, 
+Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 Eighth Edition, Iowa State University Press.
 }

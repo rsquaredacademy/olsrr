@@ -26,6 +26,7 @@ where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of pre
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_fpe(model)
+
 }
 \references{
 Akaike, H. (1969). “Fitting Autoregressive Models for Prediction.” Annals of the Institute of Statistical

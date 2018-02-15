@@ -51,3 +51,25 @@ ols_srsd_plot <- function(model) {
   result <- list(outliers = f, threshold = 3, plot = p)
   invisible(result)
 }
+
+srdata <- function(model) {
+  dstud <- unname(rstudent(model))
+  n <- length(dstud)
+  dsr <- tibble(obs = seq_len(n), dsr = dstud)
+  dsr <- dsr %>%
+    mutate(color = ifelse((abs(dsr) >= 3), "outlier", "normal"))
+
+  dsr$color1 <- factor(dsr$color)
+  dsr$Observation <- ordered(dsr$color1, levels = c("normal", "outlier"))
+  cminxx <- dsr$dsr %>% min() %>% `-`(1) %>% floor()
+  cmaxxx <- dsr$dsr %>% max() %>% `-`(1) %>% floor()
+  # cminx <- dsr$dsr %>% min() %>% `-`(1) %>% floor()
+  # cmaxx <- dsr$dsr %>% max() %>% `-`(1) %>% floor()
+  cminx <- ifelse(cminxx > -3, -3, cminxx)
+  cmaxx <- ifelse(cmaxxx < 3, 3, cmaxxx)
+  nseq <- seq_len(abs(0 + cminx + 1)) * -1
+  pseq <- seq_len(0 + cmaxx - 1)
+
+  result <- list(dsr = dsr, cminx = cminx, cmaxx = cmaxx, nseq = nseq, pseq = pseq)
+  return(result)
+}

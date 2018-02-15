@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cooks&#39; D Chart — ols_cooksd_chart â€¢ olsrr</title>
+<title>Cooks' D Chart — ols_cooksd_chart â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -116,46 +119,48 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cooks&#39; D Chart</h1>
+    <h1>Cooks' D Chart</h1>
     </div>
 
     
-    <p>Chart of cook&#39;s distance to detect observations that strongly influence fitted values of the model.</p>
+    <p>Chart of cook's distance to detect observations that strongly influence fitted values of the model.</p>
     
 
-    <pre><span class='fu'>ols_cooksd_chart</span>(<span class='no'>model</span>)</pre>
+    <pre class="usage"><span class='fu'>ols_cooksd_chart</span>(<span class='no'>model</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>model</dt>
-      <dd>an object of class <code>lm</code></dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>model</th>
+      <td><p>an object of class <code>lm</code></p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>ols_cooksd_chart</code> returns  a list containing the
 following components:</p>
+<dt>outliers</dt><dd><p>a tibble with observation number and <code>cooks distance</code> that exceed <code>threshold</code></p></dd>
+<dt>threshold</dt><dd><p><code>threshold</code> for classifying an observation as an outlier</p></dd>
+
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Cook&#39;s distance was introduced by American statistician R Dennis Cook in 1977. It is used 
+    <p>Cook's distance was introduced by American statistician R Dennis Cook in 1977. It is used
 to identify influential data points. It depends on both the residual and leverage i.e it takes it account
 both the <em>x</em> value and <em>y</em> value of the observation.</p>
-    <p>Steps to compute Cook&#39;s distance:</p>
-    <p><ul>
-<li> Delete observations one at a time.
-  </li>
-<li> Refit the regression model on remaining \(n - 1\) observations
-  </li>
-<li> exmine how much all of the fitted values change when the ith observation is deleted.
-</li>
-</ul></p>
-    <p>A data point having a large cook&#39;s d indicates that the data point strongly influences the fitted values.</p>
+<p>Steps to compute Cook's distance:</p><ul>
+<li><p>Delete observations one at a time.</p></li>
+<li><p>Refit the regression model on remaining \(n - 1\) observations</p></li>
+<li><p>exmine how much all of the fitted values change when the ith observation is deleted.</p></li>
+</ul>
+    <p>A data point having a large cook's d indicates that the data point strongly influences the fitted values.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_cooksd_chart</span>(<span class='no'>model</span>)</div><img src='ols_cooksd_chart-2.png' alt='' width='540' height='400' /></pre>
+<span class='fu'>ols_cooksd_chart</span>(<span class='no'>model</span>)</div><div class='img'><img src='ols_cooksd_chart-1.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

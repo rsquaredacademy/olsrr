@@ -12,7 +12,7 @@ ols_all_subset_betas(object, ...)
 \item{...}{other arguments}
 }
 \value{
-\code{ols_all_subset_betas} returns a tibble containing 
+\code{ols_all_subset_betas} returns a tibble containing
 
 \item{model_index}{model number}
 \item{predictor}{predictor}

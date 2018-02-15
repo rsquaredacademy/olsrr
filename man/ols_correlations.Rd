@@ -22,7 +22,7 @@ following components:
 Zero-order, part and partial correlations
 }
 \details{
-\code{correlations} returns the relative importance of independent variables in determining response variable. 
+\code{correlations} returns the relative importance of independent variables in determining response variable.
 How much each variable uniquely contributes to rsquare over and above that which can be accounted for by the other predictors?
 Zero order correlation is the Pearson correlation coefficient between the dependent variable and the
 independent variables. Part correlations indicates how much rsquare will decrease if that variable is removed from the model

@@ -28,3 +28,11 @@ ols_rvsr_plot <- function(model, variable) {
 
   print(p)
 }
+
+rvsrdata <- function(model) {
+  np <- length(model$coefficients) - 1
+  dat <- model.frame(model)[-1]
+  pnames <- names(model$coefficients)[-1]
+  result <- list(np = np, dat = dat, pnames = pnames)
+  return(result)
+}

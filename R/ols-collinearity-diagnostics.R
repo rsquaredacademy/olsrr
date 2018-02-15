@@ -55,8 +55,10 @@
 #' \item{vif_t}{tolerance and variance inflation factors}
 #' \item{eig_cindex}{eigen values and condition index}
 #'
-#' @references Belsley, D. A., Kuh, E., and Welsch, R. E. (1980). Regression Diagnostics: Identifying Influential Data and
+#' @references
+#' Belsley, D. A., Kuh, E., and Welsch, R. E. (1980). Regression Diagnostics: Identifying Influential Data and
 #' Sources of Collinearity. New York: John Wiley & Sons.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
@@ -134,4 +136,55 @@ ols_eigen_cindex <- function(model) {
   out <- data.frame(Eigenvalue = cbind(e, cindex, pv))
   colnames(out) <- c("Eigenvalue", "Condition Index", colnames(evalue(x)$pvdata))
   return(out)
+}
+
+
+evalue <- function(x) {
+  y <- x
+  colnames(y)[1] <- "intercept"
+  z <- scale(y, scale = T, center = F)
+  tu <- t(z) %*% z
+  e <- eigen(tu / diag(tu))$values
+
+  result <- list(e = e, pvdata = z)
+
+  return(result)
+}
+
+
+cindx <- function(e) {
+  return(sqrt(e[1] / e))
+}
+
+
+pveindex <- function(z) {
+  svdx <- svd(z)
+  phi <- svdx$v %*% diag(1 / svdx$d)
+  ph <- t(phi ^ 2)
+  pv <- prop.table(ph %*% diag(rowSums(ph, 1)), 2)
+  return(pv)
+}
+
+
+fmrsq <- function(nam, data, i) {
+  fm <- as.formula(paste0("`", nam[i], "` ", "~ ."))
+  m1 <- lm(fm, data = data)
+  rsq <- 1 - (summary(m1)$r.squared)
+  return(rsq)
+}
+
+viftol <- function(model) {
+  m <- tibble::as_data_frame(model.matrix(model))[-1]
+  nam <- names(m)
+  p <- length(model$coefficients) - 1
+  tol <- c()
+
+  for (i in seq_len(p)) {
+    tol[i] <- fmrsq(nam, m, i)
+  }
+
+  vifs <- 1 / tol
+
+  result <- list(nam = names(m), tol = tol, vifs = vifs)
+  return(result)
 }

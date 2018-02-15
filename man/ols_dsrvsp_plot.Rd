@@ -13,8 +13,8 @@ ols_dsrvsp_plot(model)
 \code{ols_dsrvsp_plot} returns  a list containing the
 following components:
 
-\item{outliers}{a tibble with observation number, fitted values and deleted studentized 
-residuals that exceed the \code{threshold} for classifying observations as 
+\item{outliers}{a tibble with observation number, fitted values and deleted studentized
+residuals that exceed the \code{threshold} for classifying observations as
 outliers/influential observations}
 \item{threshold}{\code{threshold} for classifying an observation as an outlier/influential observation}
 }
@@ -23,9 +23,9 @@ Plot for detecting violation of assumptions about residuals
 such as non-linearity, constant variances and outliers. It can also be used to examine model fit.
 }
 \details{
-Studentized deleted residuals (or externally studentized residuals) is the deleted residual 
-divided by its estimated standard deviation. Studentized residuals are going to be more effective for 
-detecting outlying Y observations than standardized residuals. If an observation has an externally 
+Studentized deleted residuals (or externally studentized residuals) is the deleted residual
+divided by its estimated standard deviation. Studentized residuals are going to be more effective for
+detecting outlying Y observations than standardized residuals. If an observation has an externally
 studentized residual that is larger than 2 (in absolute value) we can call it an outlier.
 }
 \examples{

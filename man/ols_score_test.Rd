@@ -46,6 +46,7 @@ ols_score_test(model, rhs = TRUE)
 
 # specify predictors from the model
 ols_score_test(model, vars = c('disp', 'wt'))
+
 }
 \references{
 Breusch, T. S. and Pagan, A. R. (1979) A simple test for heteroscedasticity and random coefficient variation. Econometrica 47, 1287–1294.

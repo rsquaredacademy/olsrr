@@ -26,6 +26,7 @@ where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of pre
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_msep(model)
+
 }
 \references{
 Stein, C. (1960). “Multiple Regression.” In Contributions to Probability and Statistics: Essays in Honor

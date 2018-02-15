@@ -2,10 +2,14 @@
 #' @description Plot to aid in classifying unusual observations as high-leverage points,
 #' outliers, or a combination of both.
 #' @param model an object of class \code{lm}
-#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
+#' @references
+#' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_potrsd_plot(model)
+#'
 #' @export
 #'
 ols_potrsd_plot <- function(model) {
@@ -23,4 +27,8 @@ ols_potrsd_plot <- function(model) {
     ggtitle("Potential-Residual Plot")
 
   print(p)
+}
+
+hadio <- function(model, n) {
+  model %>% ols_hadi() %>% `[[`(n)
 }

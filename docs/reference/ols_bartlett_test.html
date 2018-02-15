@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -123,7 +126,7 @@
     <p>Test if k samples are from populations with equal variances.</p>
     
 
-    <pre><span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
@@ -135,61 +138,73 @@
 <span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>data</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>variable</dt>
-      <dd>a numeric vector/an object of class <code>formula</code> or <code>lm</code></dd>
-      <dt>...</dt>
-      <dd>numeric vectors</dd>
-      <dt>group_var</dt>
-      <dd>grouping variable</dd>
-      <dt>data</dt>
-      <dd>a data frame</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>variable</th>
+      <td><p>a numeric vector/an object of class <code>formula</code> or <code>lm</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>numeric vectors</p></td>
+    </tr>
+    <tr>
+      <th>group_var</th>
+      <td><p>grouping variable</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>a data frame</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>ols_bartlett_test</code> returns an object of class <code>&quot;ols_bartlett_test&quot;</code>.
-An object of class <code>&quot;ols_bartlett_test&quot;</code> is a list containing the
+    <p><code>ols_bartlett_test</code> returns an object of class <code>"ols_bartlett_test"</code>.
+An object of class <code>"ols_bartlett_test"</code> is a list containing the
 following components:</p>
+<dt>fstat</dt><dd><p>f statistic</p></dd>
+<dt>pval</dt><dd><p>p-value of <code>fstat</code></p></dd>
+<dt>df</dt><dd><p>degrees of freedom</p></dd>
+<dt>var_c</dt><dd><p>name(s) of <code>variable</code></p></dd>
+<dt>g_var</dt><dd><p>name of <code>group_var</code></p></dd>
+
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Bartlett&#39;s test is used to test if variances across samples is equal. 
+    <p>Bartlett's test is used to test if variances across samples is equal.
 It is sensitive to departures from normality. The Levene test
 is an alternative test that is less sensitive to departures from normality.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Snedecor, George W. and Cochran, William G. (1989), Statistical Methods, 
+    <p>Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 Eighth Edition, Iowa State University Press.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # using grouping variable</span>
-<span class='co'># model &lt;- lm(mpg ~ disp + hp, data = mtcars)</span>
-<span class='co'># resid &lt;- residuals(model)</span>
-<span class='co'># cyl &lt;- as.factor(mtcars$cyl)</span>
-<span class='co'># ols_bartlett_test(resid, group_var = cyl)</span>
-<span class='co'>## ---------------------------------------------</span>
-
-<span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # using variables</span>
-<span class='co'># ols_bartlett_test(hsb$read, hsb$write)</span>
-<span class='co'>## ---------------------------------------------</span>
-
-<span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # using formula</span>
-<span class='co'># mt &lt;- mtcars</span>
-<span class='co'># mt$cyl &lt;- as.factor(mt$cyl)</span>
-<span class='co'># ols_bartlett_test(mpg ~ cyl, data = mt)</span>
-<span class='co'>## ---------------------------------------------</span>
-
-<span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # using model</span>
-<span class='co'># model &lt;- lm(mpg ~ cyl, data = mt)</span>
-<span class='co'># ols_bartlett_test(model)</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># using grouping variable</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='no'>resid</span> <span class='kw'>&lt;-</span> <span class='fu'>residuals</span>(<span class='no'>model</span>)
+<span class='no'>cyl</span> <span class='kw'>&lt;-</span> <span class='fu'>as.factor</span>(<span class='no'>mtcars</span>$<span class='no'>cyl</span>)
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>resid</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>cyl</span>)
+<span class='co'># }</span><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'># using variables</span>
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>)
+<span class='co'># }</span><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'># using formula</span>
+<span class='no'>mt</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span>
+<span class='no'>mt</span>$<span class='no'>cyl</span> <span class='kw'>&lt;-</span> <span class='fu'>as.factor</span>(<span class='no'>mt</span>$<span class='no'>cyl</span>)
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>mpg</span> ~ <span class='no'>cyl</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mt</span>)
+<span class='co'># }</span><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'># using model</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>cyl</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mt</span>)
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>model</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -13,7 +13,7 @@ ols_pred_rsq(model)
 Predicted Rsquare
 }
 \description{
-Use predicted rsquared to determine how well the model predicts responses for new observations. 
+Use predicted rsquared to determine how well the model predicts responses for new observations.
 Larger values of predicted R2 indicate models of greater predictive ability.
 }
 \examples{

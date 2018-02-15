@@ -2,13 +2,19 @@
 #' @description The residual plus component plot indicates whether any non-linearity is present
 #' in the relationship between response and predictor variables and can suggest possible transformations
 #' for linearizing the data.
+#'
 #' @param model an object of class \code{lm}
-#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
+#' @references
+#' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_rpc_plot(model)
+#'
 #' @export
 #'
 ols_rpc_plot <- function(model) {
@@ -35,4 +41,24 @@ ols_rpc_plot <- function(model) {
 
   result <- list(plots = myplots)
   invisible(result)
+
+}
+
+
+cpdata <- function(data, mc, e, i) {
+  x <- data[i]
+  y <- (mc[i] * data[i]) + e
+  d <- tibble(x = x[[1]], y = y[[1]])
+  return(d)
+}
+
+cpout <- function(model) {
+  e <- residuals(model)
+  mc <- model$coefficients[-1]
+  data <- tibble::as_data_frame(model.matrix(model))[-1]
+  lmc <- length(mc)
+  nam <- names(data)
+  indvar <- names(model.frame(model))[1]
+  out <- list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)
+  return(out)
 }

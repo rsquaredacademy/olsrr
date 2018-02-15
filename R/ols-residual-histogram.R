@@ -28,3 +28,19 @@ ols_rsd_hist <- function(model) {
 
   print(p)
 }
+
+histdata <- function(model) {
+  resid <- residuals(model)
+  minx <- min(resid) - 1
+  maxx <- max(resid) + 1
+  result <- list(resid = resid, minx = minx, maxx = maxx)
+  return(result)
+}
+
+histn <- function(resid, h) {
+  xfit <- seq(min(resid), max(resid), length = 80)
+  yfit <- dnorm(xfit, mean = mean(resid), sd = sd(resid))
+  yfit1 <- yfit * diff(h$mids[1:2]) * length(resid)
+  result <- list(xfit = xfit, yfit = yfit1)
+  return(result)
+}

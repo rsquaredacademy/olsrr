@@ -3,10 +3,14 @@
 #' the response variable or in the predictors or both. The plot is used to detect influential observations
 #' based on Hadi's measure.
 #' @param model an object of class \code{lm}
-#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
+#' @references
+#' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_hadi_plot(model)
+#'
 #' @export
 #'
 ols_hadi_plot <- function(model) {
@@ -16,7 +20,13 @@ ols_hadi_plot <- function(model) {
 
   obs <- NULL
   hadi <- NULL
-  hdi <- model %>% ols_hadi() %>% `$`(hadi) %>% unname()
+
+  hdi <-
+    model %>%
+    ols_hadi() %>%
+    use_series(hadi) %>%
+    unname()
+
   d <- tibble(obs = seq_len(length(hdi)), hdi = hdi)
 
   p <- ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
@@ -27,3 +37,4 @@ ols_hadi_plot <- function(model) {
 
   print(p)
 }
+

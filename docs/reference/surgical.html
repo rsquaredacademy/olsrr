@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -123,26 +126,25 @@
     <p>A dataset containing data about survival of patients undergoing liver operation.</p>
     
 
-    <pre><span class='no'>surgical</span></pre>
+    <pre class="usage"><span class='no'>surgical</span></pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 54 rows and 9 variables:
-<dl class='dl-horizontal'>
-  <dt>bcs</dt><dd>blood clotting score</dd>
-  <dt>pindex</dt><dd>prognostic index</dd>
-  <dt>enzyme_test</dt><dd>enzyme function test score</dd>
-  <dt>liver_test</dt><dd>liver function test score</dd>
-  <dt>age</dt><dd>age, in years</dd>
-  <dt>gender</dt><dd>indicator variable for gender (0 = male, 1 = female)</dd>
-  <dt>alc_mod</dt><dd>indicator variable for history of alcohol use (0 = None, 1 = Moderate)</dd>
-  <dt>alc_heavy</dt><dd>indicator variable for history of alcohol use (0 = None, 1 = Heavy)</dd>
-  <dt>y</dt><dd>Survival Time</dd>
-</dl></p>
+    <p>A data frame with 54 rows and 9 variables:</p><dl class='dl-horizontal'>
+  <dt>bcs</dt><dd><p>blood clotting score</p></dd>
+  <dt>pindex</dt><dd><p>prognostic index</p></dd>
+  <dt>enzyme_test</dt><dd><p>enzyme function test score</p></dd>
+  <dt>liver_test</dt><dd><p>liver function test score</p></dd>
+  <dt>age</dt><dd><p>age, in years</p></dd>
+  <dt>gender</dt><dd><p>indicator variable for gender (0 = male, 1 = female)</p></dd>
+  <dt>alc_mod</dt><dd><p>indicator variable for history of alcohol use (0 = None, 1 = Moderate)</p></dd>
+  <dt>alc_heavy</dt><dd><p>indicator variable for history of alcohol use (0 = None, 1 = Heavy)</p></dd>
+  <dt>y</dt><dd><p>Survival Time</p></dd>
+</dl>
     
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+    <p>Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.</p>
     
 

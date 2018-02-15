@@ -13,7 +13,7 @@ ols_rvsr_plot(model, variable)
 }
 \description{
 Graph to determine whether we should add a new predictor to the model already containing other predictors.
-The residuals from the model is regressed on the new predictor and if the plot shows non random pattern, 
+The residuals from the model is regressed on the new predictor and if the plot shows non random pattern,
 you should consider adding the new predictor to the model.
 }
 \examples{

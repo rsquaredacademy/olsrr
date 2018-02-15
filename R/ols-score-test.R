@@ -18,11 +18,13 @@
 #' \item{rhs}{names of explanatory variables of fitted regression model}
 #' \item{resp}{response variable}
 #' \item{preds}{predictors}
-
 #'
-
+#' @references
+#' Breusch, T. S. and Pagan, A. R. (1979) A simple test for heteroscedasticity and random coefficient variation. Econometrica 47, 1287–1294.
 #'
-
+#' Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regression. Biometrika 70, 1–10.
+#'
+#' Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
 #'
 #' @examples
 #' # model
@@ -36,6 +38,7 @@
 #'
 #' # specify predictors from the model
 #' ols_score_test(model, vars = c('disp', 'wt'))
+#'
 #' @export
 #'
 ols_score_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) UseMethod("ols_score_test")
@@ -93,4 +96,65 @@ ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, var
 #'
 print.ols_score_test <- function(x, ...) {
   print_score_test(x, ...)
+}
+
+rhsout <- function(model) {
+  # l <- model.frame(model)
+  m1 <- tibble::as_data_frame(model.frame(model))
+  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+  n <- nrow(l)
+  nam <- names(l)[-1]
+  np <- length(nam)
+  var_resid <- sum(residuals(model) ^ 2) / n
+  ind <- residuals(model) ^ 2 / var_resid - 1
+  l <- cbind(l, ind)
+  mdata <- l[-1]
+  model1 <- lm(ind ~ ., data = mdata)
+  score <- summary(model1)$r.squared * n
+  p <- pchisq(score, np, lower.tail = F)
+  preds <- nam
+  result <- list(score = score, p = p, np = np, preds = preds)
+  return(result)
+}
+
+fitout <- function(model, resp) {
+
+  # l <- model.frame(model)
+  m1 <- tibble::as_data_frame(model.frame(model))
+  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+  n <- nrow(l)
+  pred <- model$fitted.values
+  resid <- model$residuals ^ 2
+  avg_resid <- sum(resid) / length(pred)
+  scaled_resid <- resid / avg_resid
+  model1 <- lm(scaled_resid ~ pred)
+  score <- summary(model1)$r.squared * n
+  np <- 1
+  p <- pchisq(score, 1, lower.tail = F)
+  preds <- paste("fitted values of", resp)
+  result <- list(score = score, p = p, np = np, preds = preds)
+  return(result)
+}
+
+varout <- function(model, vars) {
+  # l <- model.frame(model)
+  m1 <- tibble::as_data_frame(model.frame(model))
+  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
+  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+  n <- nrow(l)
+  var_resid <- sum(residuals(model) ^ 2) / n
+  ind <- residuals(model) ^ 2 / var_resid - 1
+  mdata <- l[-1]
+  dl <- mdata[, vars]
+  dk <- as.data.frame(cbind(ind, dl))
+  nd <- ncol(dk) - 1
+  model1 <- lm(ind ~ ., data = dk)
+  score <- summary(model1)$r.squared * n
+  p <- pchisq(score, nd, lower.tail = F)
+  np <- nd
+  preds <- vars
+  result <- list(score = score, p = p, np = np, preds = preds)
+  return(result)
 }

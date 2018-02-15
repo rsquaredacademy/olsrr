@@ -1,5 +1,5 @@
 #' @importFrom stats pchisq formula
-#' @useDynLib olsrr
+#' @useDynLib olsrr, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 #' @title Bartlett Test
 #' @description Test if k samples are from populations with equal variances.
@@ -20,8 +20,10 @@
 #' \item{var_c}{name(s) of \code{variable}}
 #' \item{g_var}{name of \code{group_var}}
 #'
-#' @references Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
+#' @references
+#' Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 #' Eighth Edition, Iowa State University Press.
+#'
 #' @examples
 #' \dontrun{
 #' # using grouping variable
@@ -139,4 +141,24 @@ ols_bartlett_test.formula <- function(variable, data, ...) {
 #'
 print.ols_bartlett_test <- function(x, ...) {
   print_bartlett_test(x)
+}
+
+#' @importFrom stats complete.cases var
+bartlett_fstat <- function(variable, grp_var) {
+  n <- length(variable)
+  k <- nlevels(grp_var)
+  comp <- complete.cases(variable, grp_var)
+  vars <- tapply(variable[comp], grp_var[comp], var)
+  lens <- tapply(variable[comp], grp_var[comp], length)
+  v <- lens - 1
+  sumv <- sum(v)
+  isumv <- sum(1 / v)
+  c <- 1 + (1 / (3 * (k - 1))) * (isumv - (1 / sumv))
+  n2 <- sum(v * log10(vars))
+  l <- length(vars)
+  ps <- ((lens - 1) * vars) / (n - k)
+
+  pvar <- sum(ps)
+  result <- ((1 / c) * (sumv * log10(pvar) - n2)) * 2.3026
+  return(result)
 }

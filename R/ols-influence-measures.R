@@ -5,11 +5,15 @@
 #' to be an influential observation.
 #' @param model an object of class \code{lm}
 #' @return leverage
-#' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
+#'
+#' @references
+#' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_leverage(model)
+#'
 #' @export
 #'
 ols_leverage <- function(model) {
@@ -27,10 +31,14 @@ ols_leverage <- function(model) {
 #' the response variable or in the predictors or both.
 #' @param model an object of class \code{lm}
 #' @return hadi's measure
-#' @references Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
+#' @references
+#' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_hadi(model)
+#'
 #' @export
 #'
 ols_hadi <- function(model) {
@@ -51,16 +59,38 @@ ols_hadi <- function(model) {
   return(result)
 }
 
+hadipot <- function(model) {
+  lev <- ols_leverage(model)
+  pii <- 1 - lev
+  potential <- lev / pii
+  return(potential)
+}
+
+hadires <- function(model) {
+  pii <- 1 - ols_leverage(model)
+  q <- model$rank
+  p <- q - 1
+  aov_m <- anova(model)
+  j <- length(aov_m$Df)
+  dii <- (model$residuals / sqrt(aov_m[j, 2])) ^ 2
+  residual <- ((p + 1) / pii) * (dii / (1 - dii))
+  return(residual)
+}
+
+
 #' @title PRESS (Prediction Sum of Squares)
 #' @description PRESS tells you how well the model will predict new data.
 #' @param model an object of class \code{lm}
 #' @details The prediction sum of squares (PRESS) is the sum of squares of the prediction error. Each fitted
-
 #' to obtain the predicted value for the ith observation. Use PRESS to assess your model's predictive ability.
 #' Usually, the smaller the PRESS value, the better the model's predictive ability.
+#'
 #' @return Predicted Sum of Squares
-#' @references Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
+#'
+#' @references
+#' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_press(model)

@@ -8,6 +8,7 @@
 #' @export
 #'
 ols_reg_line <- function(response, predictor) {
+
   resp <- l(deparse(substitute(response)))
   preds <- l(deparse(substitute(predictor)))
   m_predictor <- round(mean(predictor), 2)
@@ -18,10 +19,14 @@ ols_reg_line <- function(response, predictor) {
   d2 <- tibble(x = m_predictor, y = m_response)
   d <- tibble(x = predictor, y = response)
 
-  p <- ggplot(d, aes(x = x, y = y)) + geom_point(fill = "blue") +
+  p <-
+    ggplot(d, aes(x = x, y = y)) +
+    geom_point(fill = "blue") +
     xlab(paste0(preds)) + ylab(paste0(resp)) +
     labs(title = "Regression Line") +
     geom_point(data = d2, aes(x = x, y = y), color = "red", shape = 2, size = 3) +
     geom_smooth(method = "lm", se = FALSE)
+
   print(p)
+
 }

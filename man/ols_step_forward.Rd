@@ -41,7 +41,7 @@ following components:
 \item{indvar}{predictors}
 }
 \description{
-Build regression model from a set of candidate predictor variables by entering predictors based on 
+Build regression model from a set of candidate predictor variables by entering predictors based on
 p values, in a stepwise manner until there is no variable left to enter any more.
 }
 \examples{
@@ -62,6 +62,6 @@ plot(k)
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 
-Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition). 
+Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
 }

@@ -3,11 +3,15 @@
 #' @title Residual Fit Spread Plot
 #' @description Plot to detect non-linearity, influential observations and outliers.
 #' @param model an object of class \code{lm}
+#'
 #' @details Consists of side-by-side quantile plots of the centered fit and the residuals. It shows how
 #' much variation in the data is explained by the fit and how much remains in the residuals. For
 #' inappropriate models, the spread of the residuals in such a plot is often greater than the spread of the
 #' centered fit.
-#' @references Cleveland, W. S. (1993). Visualizing Data. Summit, NJ: Hobart Press.
+#'
+#' @references
+#' Cleveland, W. S. (1993). Visualizing Data. Summit, NJ: Hobart Press.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
@@ -76,6 +80,16 @@ ols_fm_plot <- function(model) {
   print(p)
 }
 
+fmdata <- function(model) {
+  predicted <- model %>% fitted.values()
+  pred_m <- predicted %>% mean()
+  y <- predicted - pred_m
+  percenti <- y %>% ecdf()
+  x <- y %>% percenti()
+  d <- tibble(x, y)
+  return(d)
+}
+
 
 #' @rdname ols_rfs_plot
 #' @export
@@ -98,3 +112,13 @@ ols_rsd_plot <- function(model) {
   p <- p + ggtitle("Residual Fit Spread Plot")
   print(p)
 }
+
+rsdata <- function(model) {
+  y <- model %>% residuals()
+  residtile <- y %>% ecdf()
+  x <- y %>% residtile()
+  d <- tibble(x, y)
+  return(d)
+}
+
+
