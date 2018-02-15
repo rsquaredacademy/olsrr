@@ -47,6 +47,7 @@ ols_best_subset <- function(model, ...) UseMethod("ols_best_subset")
 #' @export
 #'
 ols_best_subset.default <- function(model, ...) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -55,36 +56,48 @@ ols_best_subset.default <- function(model, ...) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 
-  nam <- colnames(attr(model$terms, "factors"))
-  n <- length(nam)
-  r <- seq_len(n)
+  nam <- coeff_names(model)
+
+  n <-
+    nam %>%
+    length()
+
+  r <-
+    n %>%
+    seq_len()
+
   combs <- list()
 
   for (i in seq_len(n)) {
     combs[[i]] <- combn(n, r[i])
   }
 
-  lc <- length(combs)
+  lc <-
+    combs %>%
+    length()
 
-  varnames <-
-    model %>%
-    model.frame() %>%
-    names
+  varnames <- model_colnames(model)
 
   predicts <- nam
-  len_preds <- length(predicts)
+
+  len_preds <-
+    predicts %>%
+    length()
+
   gap <- len_preds - 1
 
-  space <-
-    predicts %>%
-    nchar() %>%
-    sum() %>%
-    add(gap)
+  space <- coeff_length(predicts, gap)
 
   data <- mod_sel_data(model)
-  colas <- combs %>% map_int(ncol)
 
-  response <- varnames[1]
+  colas <-
+    combs %>%
+    map_int(ncol)
+
+  response <-
+    varnames %>%
+    extract(1)
+
   p <- colas
   t <- cumsum(colas)
   q <- c(1, t[-lc] + 1)
@@ -152,7 +165,11 @@ ols_best_subset.default <- function(model, ...) {
     sorted <- rbind(sorted, temp[1, ])
   }
 
-  mindex <- seq_len(nrow(sorted))
+  mindex <-
+    sorted %>%
+    nrow() %>%
+    seq_len()
+
   sorted <- cbind(mindex, sorted)
 
   class(sorted) <- c("ols_best_subset", "tibble", "data.frame")
@@ -171,6 +188,7 @@ print.ols_best_subset <- function(x, ...) {
 #' @rdname ols_best_subset
 #'
 plot.ols_best_subset <- function(x, model = NA, ...) {
+
   a <- NULL
   b <- NULL
 
