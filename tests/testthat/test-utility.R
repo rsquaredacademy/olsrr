@@ -19,11 +19,6 @@ test_that("output from l matches the expected result", {
   expect_equal(l(deparse(substitute(mtcars@mpg))), "mtcars@mpg")
 })
 
-test_that("output from combinations matches the expected result", {
-  expect_equal(combinations(3, 2), 3)
-  expect_equal(combinations(4, 2), 6)
-})
-
 test_that("output from cpout matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- cpout(model)
@@ -77,11 +72,6 @@ test_that("output from dpred matches the expected output", {
   expect_equal(round(k$cminx, 3), -2.44)
 })
 
-test_that("output from pc2out matches the expected output", {
-  model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- pc2out(model)
-  expect_equal(round(k, 4), 0.007)
-})
 
 test_that("output from ka matches the expected result", {
   expect_equal(round(ka(10, 0.69, 30), 3), -0.326)
