@@ -55,6 +55,7 @@ ols_all_subset <- function(model, ...) UseMethod("ols_all_subset")
 #' @export
 #'
 ols_all_subset.default <- function(model, ...) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -87,11 +88,14 @@ ols_all_subset.default <- function(model, ...) {
   for (i in seq_len(metrics$lc)) {
     temp <- ui[metrics$q[i]:metrics$t[i], ]
     temp <- temp[order(temp$rsquare, decreasing = TRUE), ]
-    # temp   <- arrange(temp, desc(rsquare))
     sorted <- rbind(sorted, temp)
   }
 
-  mindex <- seq_len(nrow(sorted))
+  mindex <-
+    sorted %>%
+    nrow() %>%
+    seq_len()
+
   sorted <- cbind(mindex, sorted)
 
   class(sorted) <- c("ols_all_subset", "tibble", "data.frame")
@@ -103,31 +107,43 @@ ols_all_subset.default <- function(model, ...) {
 #' @export
 #'
 print.ols_all_subset <- function(x, ...) {
-  n <- max(x$mindex)
-  k <- tibble::as_tibble(x)[, c(1:5, 7)]
-  k$rsquare <- format(round(k$rsquare, 5), nsmall = 5)
-  k$adjr <- format(round(k$adjr, 5), nsmall = 5)
-  k$cp <- format(round(k$cp, 5), nsmall = 5)
+
+  n <-
+    x %>%
+    use_series(mindex) %>%
+    max()
+
+  k <-
+    x %>%
+    as_tibble() %>%
+    select(c(1:5, 7))
+
   names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square", "Mallow's Cp")
+
   print(k)
+
 }
 
 #' @export
 #' @rdname ols_all_subset
 #'
 plot.ols_all_subset <- function(x, model = NA, ...) {
-  maxs <- tapply(x$rsquare, x$n, max)
-  lmaxs <- seq_len(length(maxs))
-  # index <- c()
-
-  # suppressWarnings(
-  #   for (i in lmaxs) {
-  #       index[i] <- which(x$rsquare == maxs[i])
-  #   }
-  # )
 
   n <- NULL
+  y <- NULL
+  k <- NULL
+  tx <- NULL
+  size <- NULL
+  shape <- NULL
   rsquare <- NULL
+
+  maxs <- tapply(x$rsquare, x$n, max)
+
+  lmaxs <-
+    maxs %>%
+    length() %>%
+    seq_len()
+
   index <- c()
 
   d <- tibble(index = x$mindex, n = x$n, rsquare = x$rsquare)
@@ -190,11 +206,6 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
     index4[i] <- which(x$sbc == maxs4[i])
   }
 
-  shape <- NULL
-  size <- NULL
-  tx <- NULL
-  y <- NULL
-  k <- NULL
 
   d1 <- data.frame(x = x$n, y = x$rsquare)
   d2 <- data.frame(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
@@ -291,9 +302,12 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
 
 
 #' @title All Possible Regression Variable Coefficients
+#'
 #' @description Returns the coefficients for each variable from each model
+#'
 #' @param object an object of class \code{lm}
 #' @param ... other arguments
+#'
 #' @return \code{ols_all_subset_betas} returns a tibble containing
 #'
 #' \item{model_index}{model number}
@@ -309,6 +323,7 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
 #' @export
 #'
 ols_all_subset_betas <- function(object, ...) {
+
   if (!all(class(object) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -317,8 +332,8 @@ ols_all_subset_betas <- function(object, ...) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 
-  betas <- NULL
-  rsq <- NULL
+  betas  <- NULL
+  rsq    <- NULL
   lpreds <- NULL
 
   metrics <- allpos_helper(object)
@@ -342,53 +357,84 @@ ols_all_subset_betas <- function(object, ...) {
   beta <- metrics %>%
     use_series(betas)
 
-  model_betas <- tibble(
+  tibble(
     model = m_index,
-    predictor = beta_names, beta = beta
+    predictor = beta_names,
+    beta = beta
   )
 
-  return(model_betas)
 }
 
-
+#' All possible regression internal
+#'
+#' Internal function for all possible regression.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @noRd
+#'
 allpos_helper <- function(model) {
-  nam <- colnames(attr(model$terms, "factors"))
-  n <- length(nam)
-  r <- seq_len(n)
+
+  nam <- coeff_names(model)
+
+  n <-
+    nam %>%
+    length()
+
+  r <-
+    n %>%
+    seq_len()
+
   combs <- list()
 
   for (i in seq_len(n)) {
     combs[[i]] <- combn(n, r[i])
   }
 
-  lc <- length(combs)
-  varnames <- names(model.frame(model))
   predicts <- nam
-  len_preds <- length(predicts)
+
+  lc <-
+    combs %>%
+    length()
+
+  varnames <- model_colnames(model)
+
+  len_preds <-
+    predicts %>%
+    length()
+
   gap <- len_preds - 1
-  space <- sum(nchar(predicts)) + gap
   data <- mod_sel_data(model)
-  colas <- combs %>% map_int(ncol)
-  response <- varnames[1]
+
+  space <- coeff_length(predicts, gap)
+
+  colas <-
+    combs %>%
+    map_int(ncol)
+
+  response <-
+    varnames %>%
+    extract(1)
+
   p <- colas
   t <- cumsum(colas)
   q <- c(1, t[-lc] + 1)
 
-  mcount <- 0
-  rsq <- list()
-  adjrsq <- list()
+  mcount  <- 0
+  rsq     <- list()
+  adjrsq  <- list()
   predrsq <- list()
-  cp <- list()
-  aic <- list()
-  sbic <- list()
-  sbc <- list()
-  msep <- list()
-  fpe <- list()
-  apc <- list()
-  hsp <- list()
-  preds <- list()
-  lpreds <- c()
-  betas <- c()
+  cp      <- list()
+  aic     <- list()
+  sbic    <- list()
+  sbc     <- list()
+  msep    <- list()
+  fpe     <- list()
+  apc     <- list()
+  hsp     <- list()
+  preds   <- list()
+  lpreds  <- c()
+  betas   <- c()
 
   for (i in seq_len(lc)) {
     for (j in seq_len(colas[i])) {
@@ -421,4 +467,56 @@ allpos_helper <- function(model) {
   )
 
   return(result)
+}
+
+#' Coefficient names
+#'
+#' Returns the names of the coefficients including
+#'   interaction variables.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @noRd
+#'
+coeff_names <- function(model) {
+
+  model %>%
+    use_series(terms) %>%
+    attr(which = "factors") %>%
+    colnames()
+
+}
+
+#' Model data columns
+#'
+#' Returns the names of the columns in the data used in the model.
+#'
+#' @param model An object of class \cdoe{lm}.
+#'
+#' @noRd
+#'
+model_colnames <- function(model) {
+
+  model %>%
+    model.frame() %>%
+    names()
+
+}
+
+#' Coefficients length
+#'
+#' Returns the length of the coefficient names.
+#'
+#' @param predicts Name of the predictors in the model.
+#' @param gap A numeric vector
+#'
+#' @noRd
+#'
+coeff_length <- function(predicts, gap) {
+
+  predicts %>%
+    nchar() %>%
+    sum() %>%
+    add(gap)
+
 }
