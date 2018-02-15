@@ -79,6 +79,7 @@ ols_coll_diag <- function(model) UseMethod("ols_coll_diag")
 #' @export
 #'
 ols_coll_diag.default <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -107,76 +108,127 @@ print.ols_coll_diag <- function(x, ...) {
 #' @export
 #'
 ols_vif_tol <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
   vt <- viftol(model)
-  result <- tibble(
+
+  tibble(
     Variables = vt$nam,
     Tolerance = vt$tol,
     VIF = vt$vifs
   )
 
-  return(result)
 }
 
 #' @rdname ols_coll_diag
 #' @export
 #'
 ols_eigen_cindex <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  x <- tibble::as_data_frame(model.matrix(model))
-  e <- evalue(x)$e
-  cindex <- cindx(e)
-  pv <- pveindex(evalue(x)$pvdata)
+  x <-
+    model %>%
+    model.matrix() %>%
+    as_data_frame()
+
+  e <-
+    x %>%
+    evalue() %>%
+    use_series(e)
+
+
+  cindex <-
+    e %>%
+    cindx()
+
+  pv <-
+    x %>%
+    evalue() %>%
+    use_series(pvdata) %>%
+    pveindex()
+
   out <- data.frame(Eigenvalue = cbind(e, cindex, pv))
   colnames(out) <- c("Eigenvalue", "Condition Index", colnames(evalue(x)$pvdata))
   return(out)
+
 }
 
 
 evalue <- function(x) {
+
   y <- x
   colnames(y)[1] <- "intercept"
   z <- scale(y, scale = T, center = F)
   tu <- t(z) %*% z
-  e <- eigen(tu / diag(tu))$values
 
-  result <- list(e = e, pvdata = z)
+  e <-
+    tu %>%
+    divide_by(diag(tu)) %>%
+    eigen() %>%
+    use_series(values)
 
-  return(result)
+  list(e = e, pvdata = z)
+
 }
 
 
 cindx <- function(e) {
-  return(sqrt(e[1] / e))
+
+  e %>%
+    extract(1) %>%
+    divide_by(e) %>%
+    sqrt()
+
 }
 
 
 pveindex <- function(z) {
+
   svdx <- svd(z)
   phi <- svdx$v %*% diag(1 / svdx$d)
   ph <- t(phi ^ 2)
-  pv <- prop.table(ph %*% diag(rowSums(ph, 1)), 2)
-  return(pv)
+  prop.table(ph %*% diag(rowSums(ph, 1)), 2)
+
 }
 
 
 fmrsq <- function(nam, data, i) {
-  fm <- as.formula(paste0("`", nam[i], "` ", "~ ."))
-  m1 <- lm(fm, data = data)
-  rsq <- 1 - (summary(m1)$r.squared)
-  return(rsq)
+
+  fm <-
+    paste0("`", nam[i], "` ", "~ .") %>%
+    as.formula()
+
+  m1 <-
+    lm(fm, data = data) %>%
+    summary() %>%
+    use_series(r.squared)
+
+  1 - m1
+
 }
 
 viftol <- function(model) {
-  m <- tibble::as_data_frame(model.matrix(model))[-1]
+
+  m <-
+    model %>%
+    model.matrix() %>%
+    as_data_frame() %>%
+    select(-1)
+
   nam <- names(m)
-  p <- length(model$coefficients) - 1
+
+  p <-
+    model %>%
+    use_series(coefficients) %>%
+    length() %>%
+    subtract(1)
+
   tol <- c()
 
   for (i in seq_len(p)) {
@@ -185,6 +237,6 @@ viftol <- function(model) {
 
   vifs <- 1 / tol
 
-  result <- list(nam = names(m), tol = tol, vifs = vifs)
-  return(result)
+  list(nam = names(m), tol = tol, vifs = vifs)
+
 }
