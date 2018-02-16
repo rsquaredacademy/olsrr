@@ -45,6 +45,7 @@ ols_f_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ..
 #' @export
 #'
 ols_f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -64,42 +65,41 @@ ols_f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
     fitted_values <- FALSE
   }
 
-  # l    <- model.frame(model)
-  m1 <- tibble::as_data_frame(model.frame(model))
-  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
-  nam <- names(l)[-1]
-  resp <- names(l)[1]
-  n <- nrow(l)
+  l <- avplots_data(model)
+
+  nam <-
+    l %>%
+    names() %>%
+    extract(-1)
+
+  resp <-
+    l %>%
+    names() %>%
+    extract(1)
+
+  n <-
+    l %>%
+    nrow()
 
   if (rhs) {
     fitted_values <- FALSE
     k <- frhs(nam, model, n, l)
-    f <- k[[1]]
-    numdf <- k[[2]]
-    dendf <- k[[3]]
-    p <- pf(f, numdf, dendf, lower.tail = F)
+    result <- ftest_result(k)
   } else {
     if (fitted_values) {
       k <- ffit(model)
-      f <- k[[1]]
-      numdf <- k[[2]]
-      dendf <- k[[3]]
-      p <- pf(f, numdf, dendf, lower.tail = F)
+      result <- ftest_result(k)
     } else {
       k <- fvar(n, l, model, vars)
-      f <- k[[1]]
-      numdf <- k[[2]]
-      dendf <- k[[3]]
-      p <- pf(f, numdf, dendf, lower.tail = F)
+      result <- ftest_result(k)
     }
   }
 
   out <- list(
-    f = f,
-    p = p,
-    numdf = numdf,
-    dendf = dendf,
+    f = result$f,
+    p = result$p,
+    numdf = result$numdf,
+    dendf = result$dendf,
     fv = fitted_values,
     rhs = rhs,
     vars = vars,
@@ -119,34 +119,87 @@ print.ols_f_test <- function(x, ...) {
 }
 
 frhs <- function(nam, model, n, l) {
-  np <- length(nam)
-  var_resid <- sum(residuals(model) ^ 2) / n
-  ind <- residuals(model) ^ 2 / var_resid - 1
+
+  np <-
+    nam %>%
+    length()
+
+  var_resid <-
+    model_rss(model) %>%
+    divide_by(n) %>%
+    subtract(1)
+
+  ind <- model %>%
+    residuals() %>%
+    raise_to_power(2) %>%
+    divide_by(var_resid)
+
   l <- cbind(l, ind)
   mdata <- l[-1]
-  model1 <- lm(ind ~ ., data = mdata)
-  k <- summary(model1)
-  return(k$fstatistic)
+
+  lm(ind ~ ., data = mdata) %>%
+    summary() %>%
+    use_series(fstatistic)
+
 }
 
 fvar <- function(n, l, model, vars) {
-  var_resid <- sum(residuals(model) ^ 2) / n
-  ind <- residuals(model) ^ 2 / var_resid - 1
+
+  var_resid <-
+    model_rss(model) %>%
+    divide_by(n) %>%
+    subtract(1)
+
+  ind <- model %>%
+    residuals() %>%
+    raise_to_power(2) %>%
+    divide_by(var_resid)
+
   mdata <- l[-1]
   dl <- mdata[, vars]
   dk <- as.data.frame(cbind(ind, dl))
-  nd <- ncol(dk) - 1
-  model1 <- lm(ind ~ ., data = dk)
-  k <- summary(model1)
-  return(k$fstatistic)
+
+  lm(ind ~ ., data = dk) %>%
+    summary() %>%
+    use_series(fstatistic)
+
 }
 
 ffit <- function(model) {
-  pred <- model$fitted.values
-  resid <- model$residuals ^ 2
-  avg_resid <- sum(resid) / length(pred)
+
+  pred <-
+    model %>%
+    use_series(fitted.values)
+
+  resid <-
+    model %>%
+    use_series(residuals) %>%
+    raise_to_power(2)
+
+  pred_len <-
+    pred %>%
+    length()
+
+  avg_resid <-
+    resid %>%
+    sum() %>%
+    divide_by(pred_len)
+
   scaled_resid <- resid / avg_resid
-  model1 <- lm(scaled_resid ~ pred)
-  k <- summary(model1)
-  return(k$fstatistic)
+
+  lm(scaled_resid ~ pred) %>%
+    summary() %>%
+    use_series(fstatistic)
+
+}
+
+ftest_result <- function(k) {
+
+  f <- k[[1]]
+  numdf <- k[[2]]
+  dendf <- k[[3]]
+  p <- pf(f, numdf, dendf, lower.tail = F)
+
+  list(f = f, numdf = numdf, dendf = dendf, p = p)
+
 }
