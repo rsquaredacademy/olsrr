@@ -17,12 +17,15 @@
 #' @export
 #'
 ols_leverage <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  lev <- model %>% hatvalues() %>% unname()
-  return(lev)
+  model %>%
+    hatvalues() %>%
+    unname()
+
 }
 
 
@@ -42,6 +45,7 @@ ols_leverage <- function(model) {
 #' @export
 #'
 ols_hadi <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -50,31 +54,63 @@ ols_hadi <- function(model) {
   residual <- hadires(model)
   hi <- potential + residual
 
-  result <- list(
+  list(
     hadi = hi,
     potential = potential,
     residual = residual
   )
 
-  return(result)
 }
 
 hadipot <- function(model) {
+
   lev <- ols_leverage(model)
   pii <- 1 - lev
-  potential <- lev / pii
-  return(potential)
+  lev / pii
+
 }
 
 hadires <- function(model) {
-  pii <- 1 - ols_leverage(model)
-  q <- model$rank
+
+  pii <-
+    1 %>%
+    subtract(ols_leverage(model))
+
+  q <-
+    model %>%
+    use_series(rank)
+
   p <- q - 1
+
   aov_m <- anova(model)
-  j <- length(aov_m$Df)
-  dii <- (model$residuals / sqrt(aov_m[j, 2])) ^ 2
-  residual <- ((p + 1) / pii) * (dii / (1 - dii))
-  return(residual)
+
+  j <-
+    aov_m %>%
+    use_series(Df) %>%
+    length()
+
+  den <-
+    aov_m %>%
+    extract(j, 2) %>%
+    sqrt()
+
+  dii <-
+    model %>%
+    use_series(residuals) %>%
+    divide_by(den) %>%
+    raise_to_power(2)
+
+  first <-
+    p %>%
+    add(1) %>%
+    divide_by(pii)
+
+  second <-
+    dii %>%
+    divide_by((1 - dii))
+
+  first * second
+
 }
 
 
@@ -97,21 +133,25 @@ hadires <- function(model) {
 #' @export
 #'
 ols_press <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  k <- 1 %>%
-    `-`(model %>% ols_leverage())
+  lev <-
+    model %>%
+    ols_leverage()
 
-  out <- model %>%
+  k <-
+    1 %>%
+    subtract(lev)
+
+  model %>%
     residuals() %>%
-    `/`(k) %>%
-    `^`(2) %>%
+    divide_by(k) %>%
+    raise_to_power(2) %>%
     sum()
 
-
-  return(out)
 }
 
 #' @title Predicted Rsquare
@@ -125,21 +165,23 @@ ols_press <- function(model) {
 #' @export
 #'
 ols_pred_rsq <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  tss <- model %>%
+  tss <-
+    model %>%
     anova() %>%
-    `[[`(2) %>%
+    extract2(2) %>%
     sum()
 
-  prts <- model %>%
+  prts <-
+    model %>%
     ols_press() %>%
-    `/`(tss)
+    divide_by(tss)
 
-  predrsq <- 1 %>%
-    `-`(prts)
+  1 %>%
+    subtract(prts)
 
-  return(predrsq)
 }
