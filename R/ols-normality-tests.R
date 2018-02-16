@@ -10,6 +10,7 @@
 #' @export
 #'
 ols_corr_test <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -19,18 +20,32 @@ ols_corr_test <- function(model) {
 }
 
 ka <- function(k, stderr, n) {
-  out <- stderr * qnorm((k - 0.375) / (n + 0.25))
-  return(out)
+
+  stderr * qnorm((k - 0.375) / (n + 0.25))
+
 }
 
 corrout <- function(model) {
-  n <- model %>% model.frame() %>% nrow()
-  stderr <- model %>% summary() %>% `[[`(6)
-  h1 <- n %>% seq_len()
-  h <- ka(h1, stderr, n)
-  out <- model %>% residuals() %>% sort()
-  result <- cor(h, out)
-  return(result)
+
+  n <- model_rows(model)
+
+  stderr <-
+    model %>%
+    summary() %>%
+    extract2(6)
+
+  h <-
+    n %>%
+    seq_len() %>%
+    ka(stderr = stderr, n = n)
+
+  out <-
+    model %>%
+    residuals() %>%
+    sort()
+
+  cor(h, out)
+
 }
 
 
@@ -59,6 +74,7 @@ ols_norm_test <- function(y, ...) UseMethod("ols_norm_test")
 #' @export
 #'
 ols_norm_test.default <- function(y, ...) {
+
   if (!is.numeric(y)) {
     stop("y must be numeric")
   }
@@ -83,10 +99,13 @@ ols_norm_test.default <- function(y, ...) {
 #' @rdname ols_norm_test
 #'
 ols_norm_test.lm <- function(y, ...) {
+
   if (!all(class(y) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
+
   ols_norm_test.default(residuals(y))
+
 }
 
 #' @export
