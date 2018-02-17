@@ -1,4 +1,3 @@
-#' @importFrom ggplot2 ggtitle scale_shape_manual scale_size_manual scale_color_manual ggtitle geom_text
 #' @importFrom utils combn
 #' @importFrom dplyr group_by summarise_all
 #' @importFrom purrr map_int
@@ -137,81 +136,62 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
   shape <- NULL
   rsquare <- NULL
 
-  maxs <- tapply(x$rsquare, x$n, max)
+  d <-
+    tibble(index = x$mindex, n = x$n, rsquare = x$rsquare,
+              adjr = x$adjr, cp = x$cp, aic = x$aic, sbic = x$sbic,
+              sbc = x$sbc) %>%
+    mutate(
+      cps = abs(n - cp)
+    )
 
-  lmaxs <-
-    maxs %>%
-    length() %>%
-    seq_len()
+  p1 <- all_possible_plot(d, rsquare, title = "R-Square")
+  p2 <- all_possible_plot(d, adjr, title = "Adj. R-Square")
+  p3 <- all_possible_plot(d, cps, title = "Cp")
+  p4 <- all_possible_plot(d, aic, title = "AIC")
+  p5 <- all_possible_plot(d, sbic, title = "SBIC")
+  p6 <- all_possible_plot(d, sbc, title = "SBC")
 
-  index <- c()
+  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "All Subset Regression")
 
-  d <- tibble(index = x$mindex, n = x$n, rsquare = x$rsquare)
-
-  m <- d %>%
-    group_by(n) %>%
-    select(n, rsquare) %>%
-    summarise_all(max)
-
-  k <- d %>%
-    group_by(n) %>%
-    nest()
-
-  suppressWarnings(
-    for (i in m$n) {
-      index[i] <- k[[2]][[i]]$index[which(m$rsquare[i] == k[[2]][[i]]$rsquare)]
-    }
+  result <- list(
+    rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
+    aic_plot = p4, sbic_plot = p5, sbc_plot = p6
   )
 
-  maxs1 <- tapply(x$adjr, x$n, max)
-  lmaxs1 <- seq_len(length(maxs1))
-  index1 <- c()
+  invisible(result)
 
-  suppressWarnings(
-    for (i in lmaxs1) {
-      index1[i] <- which(x$adjr == maxs1[i])
-    }
-  )
+}
 
-  cps <- abs(x$n - x$cp)
-  mcps <- tapply(cps, x$n, min)
-  lmcps <- seq_len(length(mcps))
-  imcps <- c()
+#' All possible regression plot
+#'
+#' Generate plots for best subset regression.
+#'
+#' @importFrom ggplot2 ggtitle scale_shape_manual scale_size_manual scale_color_manual ggtitle geom_text
+#' @importFrom rlang enquo !!
+#'
+#' @param d1 A tibble.
+#' @param d2 A tibble.
+#' @param title Plot title.
+#'
+#' @noRd
+#'
+all_possible_plot <- function(d, var, title = "R-Square") {
 
-  for (i in lmcps) {
-    imcps[i] <- which(cps == mcps[i])
-  }
+  varr <- enquo(var)
 
-  maxs2 <- tapply(x$aic, x$n, min)
-  lmaxs2 <- seq_len(length(maxs2))
-  index2 <- c()
+  d1 <-
+    d %>%
+    select(x = n, y = !! varr)
 
-  for (i in lmaxs2) {
-    index2[i] <- which(x$aic == maxs2[i])
-  }
+  maxs <- all_pos_maxs(d, !! varr)
+  lmaxs <- all_pos_lmaxs(maxs)
+  index <- all_pos_index(d, !! varr)
 
-  maxs3 <- tapply(x$sbic, x$n, min)
-  lmaxs3 <- seq_len(length(maxs3))
-  index3 <- c()
+  d2 <- tibble(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
 
-  for (i in lmaxs3) {
-    index3[i] <- which(x$sbic == maxs3[i])
-  }
-
-  maxs4 <- tapply(x$sbc, x$n, min)
-  lmaxs4 <- seq_len(length(maxs4))
-  index4 <- c()
-
-  for (i in lmaxs4) {
-    index4[i] <- which(x$sbc == maxs4[i])
-  }
-
-
-  d1 <- data.frame(x = x$n, y = x$rsquare)
-  d2 <- data.frame(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
-  p1 <- ggplot(d1, aes(x = x, y = y)) +
+  ggplot(d1, aes(x = x, y = y)) +
     geom_point(color = "blue", size = 2) +
-    xlab("") + ylab("") + ggtitle("R-Square") +
+    xlab("") + ylab("") + ggtitle(title) +
     geom_point(data = d2, aes(
       x = x, y = y, shape = factor(shape),
       color = factor(shape), size = factor(size)
@@ -221,83 +201,87 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
     scale_color_manual(values = c("red"), guide = FALSE) +
     geom_text(data = d2, aes(label = tx), hjust = 0, nudge_x = 0.1)
 
-  d3 <- data.frame(x = x$n, y = x$adjr)
-  d4 <- data.frame(x = lmaxs1, y = maxs1, tx = index1, shape = 6, size = 4)
-  p2 <- ggplot(d3, aes(x = x, y = y)) +
-    geom_point(color = "blue", size = 2) +
-    xlab("") + ylab("") + ggtitle("Adj R-Square") +
-    geom_point(data = d4, aes(
-      x = x, y = y, shape = factor(shape),
-      color = factor(shape), size = factor(size)
-    )) +
-    scale_shape_manual(values = c(2), guide = FALSE) +
-    scale_size_manual(values = c(4), guide = FALSE) +
-    scale_color_manual(values = c("red"), guide = FALSE) +
-    geom_text(data = d4, aes(label = tx), hjust = 0, nudge_x = 0.1)
+}
 
-  d5 <- data.frame(x = x$n, y = x$cp)
-  d6 <- data.frame(x = lmcps, y = x$cp[imcps], tx = imcps, shape = 6, size = 4)
-  p3 <- ggplot(d5, aes(x = x, y = y)) +
-    geom_point(color = "blue", size = 2) +
-    xlab("") + ylab("") + ggtitle("C(p)") +
-    geom_point(data = d6, aes(
-      x = x, y = y, shape = factor(shape),
-      color = factor(shape), size = factor(size)
-    )) +
-    scale_shape_manual(values = c(2), guide = FALSE) +
-    scale_size_manual(values = c(4), guide = FALSE) +
-    scale_color_manual(values = c("red"), guide = FALSE) +
-    geom_text(data = d6, aes(label = tx), hjust = 0, nudge_x = 0.1)
+all_pos_maxs <- function(d, var) {
 
-  d7 <- data.frame(x = x$n, y = x$aic)
-  d8 <- data.frame(x = lmaxs2, y = maxs2, tx = index2, shape = 6, size = 4)
-  p4 <- ggplot(d7, aes(x = x, y = y)) +
-    geom_point(color = "blue", size = 2) +
-    xlab("") + ylab("") + ggtitle("AIC") +
-    geom_point(data = d8, aes(
-      x = x, y = y, shape = factor(shape),
-      color = factor(shape), size = factor(size)
-    )) +
-    scale_shape_manual(values = c(2), guide = FALSE) +
-    scale_size_manual(values = c(4), guide = FALSE) +
-    scale_color_manual(values = c("red"), guide = FALSE) +
-    geom_text(data = d8, aes(label = tx), hjust = 0, nudge_x = 0.1)
+  varr <- enquo(var)
 
-  d9 <- data.frame(x = x$n, y = x$sbic)
-  d10 <- data.frame(x = lmaxs3, y = maxs3, tx = index3, shape = 6, size = 4)
-  p5 <- ggplot(d9, aes(x = x, y = y)) +
-    geom_point(color = "blue", size = 2) +
-    xlab("Number of Predictors") + ylab("") + ggtitle("SBIC") +
-    geom_point(data = d10, aes(
-      x = x, y = y, shape = factor(shape),
-      color = factor(shape), size = factor(size)
-    )) +
-    scale_shape_manual(values = c(2), guide = FALSE) +
-    scale_size_manual(values = c(4), guide = FALSE) +
-    scale_color_manual(values = c("red"), guide = FALSE) +
-    geom_text(data = d10, aes(label = tx), hjust = 0, nudge_x = 0.1)
+  d %>%
+    select(!! varr, n) %>%
+    group_by(n) %>%
+    summarise(max(!! varr)) %>%
+    pull(2)
 
-  d11 <- data.frame(x = x$n, y = x$sbc)
-  d12 <- data.frame(x = lmaxs4, y = maxs4, tx = index4, shape = 6, size = 4)
-  p6 <- ggplot(d11, aes(x = x, y = y)) +
-    geom_point(color = "blue", size = 2) +
-    xlab("Number of Predictors") + ylab("") + ggtitle("SBC") +
-    geom_point(data = d12, aes(
-      x = x, y = y, shape = factor(shape),
-      color = factor(shape), size = factor(size)
-    )) +
-    scale_shape_manual(values = c(2), guide = FALSE) +
-    scale_size_manual(values = c(4), guide = FALSE) +
-    scale_color_manual(values = c("red"), guide = FALSE) +
-    geom_text(data = d12, aes(label = tx), hjust = 0, nudge_x = 0.1)
+}
 
-  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "All Subset Regression")
+all_pos_lmaxs <- function(maxs) {
 
-  result <- list(
-    rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
-    aic_plot = p4, sbic_plot = p5, sbc_plot = p6
-  )
-  invisible(result)
+  maxs %>%
+    length() %>%
+    seq_len()
+
+}
+
+all_pos_index <- function(d, var) {
+
+  varr <- enquo(var)
+
+  index <- c()
+
+  m <-
+    d %>%
+    group_by(n) %>%
+    select(n, !! varr) %>%
+    summarise_all(max)
+
+  k <-
+    d %>%
+    group_by(n) %>%
+    nest()
+
+  for (i in m$n) {
+
+    j <- which(part_2(m, !! varr, i) == part_3(k, !! varr, i))
+
+    index[i] <-
+      part_1(k, i) %>%
+      extract(j)
+
+  }
+
+  return(index)
+
+}
+
+part_1 <- function(k, i) {
+
+  k %>%
+    extract2(2) %>%
+    extract2(i) %>%
+    use_series(index)
+
+}
+
+part_2 <- function(m, var, i) {
+
+  varr <- enquo(var)
+
+  m %>%
+    pull(!! varr) %>%
+    extract(i)
+
+}
+
+part_3 <- function(k, var, i) {
+
+  varr <- enquo(var)
+
+  k %>%
+    extract2(2) %>%
+    extract2(i) %>%
+    pull(!! varr)
+
 }
 
 
@@ -338,23 +322,28 @@ ols_all_subset_betas <- function(object, ...) {
 
   metrics <- allpos_helper(object)
 
-  beta_names <- metrics %>%
+  beta_names <-
+    metrics %>%
     use_series(betas) %>%
     names()
 
-  mindex <- metrics %>%
+  mindex <-
+    metrics %>%
     use_series(rsq) %>%
     length() %>%
     seq_len()
 
-  reps <- metrics %>%
+  reps <-
+    metrics %>%
     use_series(lpreds) %>%
     add(1)
 
-  m_index <- mindex %>%
+  m_index <-
+    mindex %>%
     rep(reps)
 
-  beta <- metrics %>%
+  beta <-
+    metrics %>%
     use_series(betas)
 
   tibble(
