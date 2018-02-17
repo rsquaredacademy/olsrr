@@ -187,13 +187,38 @@ cindx <- function(e) {
 
 }
 
-
+#' @importFrom magrittr multiply_by_matrix
 pveindex <- function(z) {
 
   svdx <- svd(z)
-  phi <- svdx$v %*% diag(1 / svdx$d)
-  ph <- t(phi ^ 2)
-  prop.table(ph %*% diag(rowSums(ph, 1)), 2)
+
+  svdxd <-
+    svdx %>%
+    use_series(d)
+
+  phi_diag <-
+    1 %>%
+    divide_by(svdxd) %>%
+    diag()
+
+  phi <-
+    svdx %>%
+    use_series(v) %>%
+    multiply_by_matrix(phi_diag)
+
+  ph <-
+    phi %>%
+    raise_to_power(2) %>%
+    t()
+
+  diag_sum <-
+    ph %>%
+    rowSums(dims = 1) %>%
+    diag()
+
+  ph %>%
+    multiply_by_matrix(diag_sum) %>%
+    prop.table(margin = 2)
 
 }
 
