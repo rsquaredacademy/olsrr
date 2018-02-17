@@ -1,3 +1,4 @@
+#' @importFrom magrittr set_colnames
 #' @importFrom stats cooks.distance
 #' @importFrom dplyr filter select
 #' @importFrom ggplot2 geom_bar coord_flip ylim geom_hline geom_label
@@ -30,6 +31,7 @@
 #' @export
 #'
 ols_cooksd_barplot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -38,14 +40,14 @@ ols_cooksd_barplot <- function(model) {
   txt <- NULL
   cd <- NULL
   Observation <- NULL
+
   k <- cdplot(model)
-  d <- k$ckd
-  d <- d %>% mutate(txt = ifelse(Observation == "outlier", obs, NA))
-  f <- d %>% filter(., Observation == "outlier") %>% select(obs, cd)
+  d <- plot_data(k)
+  f <- outlier_data(k)
 
   p <- ggplot(d, aes(x = obs, y = cd, label = txt)) +
-    geom_bar(width = 0.5, stat = "identity", aes(fill = Observation)) +
-    scale_fill_manual(values = c("blue", "red")) +
+    geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
+    scale_fill_manual(values = c("blue", "red")) + labs(fill = "Observation") +
     ylim(0, k$maxx) + ylab("Cook's D") + xlab("Observation") +
     ggtitle("Cook's D Bar Plot") + geom_hline(yintercept = 0) +
     geom_hline(yintercept = k$ts, colour = "red") +
@@ -57,22 +59,70 @@ ols_cooksd_barplot <- function(model) {
     )
 
   suppressWarnings(print(p))
-  colnames(f) <- c("Observation", "Cook's Distance")
   result <- list(outliers = f, threshold = k$ts, plot = p)
   invisible(result)
 
 }
 
 cdplot <- function(model) {
-  cooksd <- cooks.distance(model)
-  n <- length(cooksd)
-  ckd <- tibble(obs = seq_len(n), cd = cooksd)
-  ts <- 4 / length(ckd$cd)
-  ckd$color <- ifelse(ckd$cd >= ts, c("outlier"), c("normal"))
-  ckd$color1 <- factor(ckd$color)
-  ckd$Observation <- ordered(ckd$color1, levels = c("normal", "outlier"))
-  ts <- 4 / length(ckd$cd)
-  maxx <- max(ckd$cd) + max(ckd$cd) * 0.01
-  result <- list(ckd = ckd, maxx = maxx, ts = ts)
-  return(result)
+
+  cooksd <-
+    model %>%
+    cooks.distance()
+
+  n <-
+    cooksd %>%
+    length()
+
+  obs <-
+    n %>%
+    seq_len()
+
+  ckd <- tibble(obs = obs, cd = cooksd)
+
+  ts <-
+    4 %>%
+    divide_by(n)
+
+  ckd %<>%
+    mutate(
+      color = if_else(cd >= ts, "outlier", "normal"),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier"))
+    )
+
+  cooks_max <-
+    cooksd %>%
+    max()
+
+  maxx <-
+    cooks_max %>%
+    multiply_by(0.01) %>%
+    add(cooks_max)
+
+  list(ckd = ckd, maxx = maxx, ts = ts)
+
+}
+
+plot_data <- function(k) {
+
+  k %>%
+    use_series(ckd) %>%
+    mutate(
+      txt = ifelse(color == "outlier", obs, NA)
+    )
+
+}
+
+outlier_data <- function(k) {
+
+  k %>%
+    use_series(ckd) %>%
+    filter(
+      color == "outlier"
+    ) %>%
+    select(obs, cd) %>%
+    set_colnames(c("Observation", "Cook's Distance"))
+
 }
