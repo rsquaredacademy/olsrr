@@ -2,6 +2,7 @@
 #' @importFrom tibble tibble
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
 #' @importFrom magrittr %>%
+#'
 #' @title Added Variable Plot
 #'
 #' @description Added variable plot provides information about the marginal importance of a
@@ -50,7 +51,7 @@
 #'
 ols_avplots <- function(model) {
 
-    if (!all(class(model) == "lm")) {
+  if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
