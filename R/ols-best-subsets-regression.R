@@ -1,4 +1,3 @@
-#' @importFrom ggplot2 geom_line theme element_blank
 #' @title Best Subsets Regression
 #' @description Select the subset of predictors that do the best at meeting some
 #' well-defined objective criterion, such as having the largest R2 value or the
@@ -192,63 +191,15 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
   a <- NULL
   b <- NULL
 
-  d1 <- tibble(a = x$mindex, b = x$rsquare)
-  p1 <- ggplot(d1, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("R-Square") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
+  d <- tibble(mindex = x$mindex, rsquare = x$rsquare, adjr = x$adjr,
+               cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
 
-  d2 <- tibble(a = x$mindex, b = x$adjr)
-  p2 <- ggplot(d2, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("Adj. R-Square") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
-  d3 <- tibble(a = x$mindex, b = x$cp)
-  p3 <- ggplot(d3, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("C(p)") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
-  d4 <- tibble(a = x$mindex, b = x$aic)
-  p4 <- ggplot(d4, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("AIC") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
-  d5 <- tibble(a = x$mindex, b = x$sbic)
-  p5 <- ggplot(d5, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("SBIC") +
-    theme(
-      axis.ticks = element_blank()
-    )
-
-  d6 <- tibble(a = x$mindex, b = x$sbc)
-  p6 <- ggplot(d6, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("SBC") +
-    theme(
-      axis.ticks = element_blank()
-    )
+  p1 <- best_subset_plot(d, rsquare)
+  p2 <- best_subset_plot(d, adjr, title = "Adj. R-Square")
+  p3 <- best_subset_plot(d, cp, title = "C(p)")
+  p4 <- best_subset_plot(d, aic, title = "AIC")
+  p5 <- best_subset_plot(d, sbic, title = "SBIC")
+  p6 <- best_subset_plot(d, sbc, title = "SBC")
 
   grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "Best Subsets Regression")
 
@@ -256,5 +207,35 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
     rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
     aic_plot = p4, sbic_plot = p5, sbc_plot = p6
   )
+
   invisible(result)
+
+}
+
+#' Best subset plot
+#'
+#' Generate plots for best subset regression.
+#'
+#' @importFrom ggplot2 geom_line theme element_blank
+#'
+#' @param d1 A tibble.
+#' @param title Plot title.
+#'
+#' @noRd
+#'
+best_subset_plot <- function(d, var, title = "R-Square") {
+
+  varr <- enquo(var)
+
+  d %>%
+    select(a = mindex, b = !! varr) %>%
+    ggplot(aes(x = a, y = b)) +
+    geom_line(color = "blue") +
+    geom_point(color = "blue", shape = 1, size = 2) +
+    xlab("") + ylab("") + ggtitle(title) +
+    theme(
+      axis.text.x = element_blank(),
+      axis.ticks = element_blank()
+    )
+
 }
