@@ -16,6 +16,7 @@
 #' @export
 #'
 ols_rvsp_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -24,18 +25,22 @@ ols_rvsp_plot <- function(model) {
   resid <- NULL
 
   d <- rvspdata(model)
-  p <- ggplot(d, aes(x = predicted, y = resid))
-  p <- p + geom_point(shape = 1, colour = "blue")
-  p <- p + xlab("Fitted Value") + ylab("Residual")
-  p <- p + ggtitle("Residual vs Fitted Values")
-  p <- p + geom_hline(yintercept = 0, colour = "red")
+
+  p <- ggplot(d, aes(x = predicted, y = resid)) +
+    geom_point(shape = 1, colour = "blue") +
+    xlab("Fitted Value") + ylab("Residual") +
+    ggtitle("Residual vs Fitted Values") +
+    geom_hline(yintercept = 0, colour = "red")
+
   print(p)
+
 }
 
 
 rvspdata <- function(model) {
+
   resid <- residuals(model)
   predicted <- fitted(model)
-  d <- tibble(predicted = predicted, resid = resid)
-  return(d)
+  tibble(predicted = predicted, resid = resid)
+
 }
