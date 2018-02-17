@@ -23,6 +23,7 @@
 #' @export
 #'
 ols_dsrvsp_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -34,46 +35,88 @@ ols_dsrvsp_plot <- function(model) {
   Observation <- NULL
 
   k <- dpred(model)
-  d <- k$ds
-  d <- d %>% mutate(txt = ifelse(Observation == "outlier", obs, NA))
-  f <- d %>% filter(., Observation == "outlier") %>% select(obs, pred, dsr)
+
+  d <-
+    k %>%
+    use_series(ds) %>%
+    mutate(
+      txt = ifelse(color == "outlier", obs, NA)
+    )
+
+  f <-
+    d %>%
+    filter(color == "outlier") %>%
+    select(obs, pred, dsr) %>%
+    set_colnames(c("Observation", "Fitted Values", "Deleted Studentized Residual"))
+
   p <- ggplot(d, aes(x = pred, y = dsr, label = txt)) +
-    geom_point(aes(colour = Observation)) +
+    geom_point(aes(colour = fct_color)) +
     scale_color_manual(values = c("blue", "red")) +
     ylim(k$cminx, k$cmaxx) + xlab("Predicted Value") +
-    ylab("Deleted Studentized Residual") +
+    ylab("Deleted Studentized Residual") + labs(color = "Observation") +
     ggtitle("Deleted Studentized Residual vs Predicted Values") +
     geom_hline(yintercept = c(-2, 2), colour = "red") +
-    geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif", fontface = "italic", colour = "darkred", na.rm = TRUE)
-  annotate(
-    "text", x = Inf, y = Inf, hjust = 1.5, vjust = 2,
-    family = "serif", fontface = "italic", colour = "darkred",
-    label = paste0("Threshold: abs(", 2, ")")
-  )
+    geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif",
+              fontface = "italic", colour = "darkred", na.rm = TRUE) +
+    annotate(
+      "text", x = Inf, y = Inf, hjust = 1.5, vjust = 2,
+      family = "serif", fontface = "italic", colour = "darkred",
+      label = paste0("Threshold: abs(", 2, ")")
+    )
 
   suppressWarnings(print(p))
-  colnames(f) <- c("Observation", "Fitted Values", "Deleted Studentized Residual")
   result <- list(outliers = f, threshold = 2, plot = p)
   invisible(result)
+
 }
 
+#' @importFrom magrittr %<>%
 dpred <- function(model) {
-  pred <- model %>% fitted()
-  dsresid <- model %>% rstudent() %>% unname()
-  n <- length(dsresid)
-  dsr <- NULL
-  ds <- tibble(obs = seq_len(n), dsr = dsresid)
-  ds <- ds %>%
-    mutate(color = ifelse((abs(dsr) >= 2), "outlier", "normal"))
-  ds$color1 <- factor(ds$color)
-  ds$color2 <- ordered(ds$color1, levels = c("normal", "outlier"))
-  ds2 <- tibble(obs = seq_len(n), pred = pred, dsr = ds$dsr, Observation = ds$color2)
 
-  minx <- min(ds2$dsr) - 1
+  dsr <- NULL
+
+  pred <-
+    model %>%
+    fitted()
+
+  dsresid <-
+    model %>%
+    rstudent() %>%
+    unname()
+
+  n <- length(dsresid)
+
+  ds <- tibble(obs = seq_len(n), dsr = dsresid)
+
+  ds %<>%
+    mutate(
+      color = ifelse((abs(dsr) >= 2), "outlier", "normal"),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier"))
+    )
+
+  ds2 <- tibble(obs = seq_len(n),
+                pred = pred,
+                dsr = ds$dsr,
+                color = ds$color,
+                fct_color = ds$fct_color)
+
+  minx <-
+    ds2 %>%
+    use_series(dsr) %>%
+    min() %>%
+    subtract(1)
+
+  maxx <-
+    ds2 %>%
+    use_series(dsr) %>%
+    max() %>%
+    add(1)
+
   cminx <- ifelse(minx < -2, minx, -2.5)
-  maxx <- max(ds2$dsr) + 1
   cmaxx <- ifelse(maxx > 2, maxx, 2.5)
 
-  out <- list(ds = ds2, cminx = cminx, cmaxx = cmaxx)
-  return(out)
+  list(ds = ds2, cminx = cminx, cmaxx = cmaxx)
+
 }
