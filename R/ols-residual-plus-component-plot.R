@@ -18,14 +18,18 @@
 #' @export
 #'
 ols_rpc_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  pl <- cpout(model)
   x <- NULL
   y <- NULL
+
+  pl <- cpout(model)
+
   myplots <- list()
+
   for (i in seq_len(pl$lmc)) {
     k <- cpdata(pl$data, pl$mc, pl$e, i)
     p <- eval(substitute(ggplot(k, aes(x = x, y = y)) +
@@ -33,7 +37,6 @@ ols_rpc_plot <- function(model) {
       ylab(paste0("Residual + Component (", pl$indvar, ")")) +
       stat_smooth(method = "lm", se = FALSE), list(i = i)))
 
-    # print(p)
     myplots[[i]] <- p
   }
 
@@ -46,19 +49,54 @@ ols_rpc_plot <- function(model) {
 
 
 cpdata <- function(data, mc, e, i) {
-  x <- data[i]
-  y <- (mc[i] * data[i]) + e
-  d <- tibble(x = x[[1]], y = y[[1]])
-  return(d)
+
+  x <-
+    data %>%
+    pull(i)
+
+  y <-
+    mc %>%
+    extract(i) %>%
+    multiply_by((data %>%
+                  select(i))) %>%
+    add(e) %>%
+    pull(1)
+
+  tibble(x = x, y = y)
+
 }
 
 cpout <- function(model) {
-  e <- residuals(model)
-  mc <- model$coefficients[-1]
-  data <- tibble::as_data_frame(model.matrix(model))[-1]
-  lmc <- length(mc)
-  nam <- names(data)
-  indvar <- names(model.frame(model))[1]
-  out <- list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)
-  return(out)
+
+  e <-
+    model %>%
+    residuals()
+
+  mc <-
+    model %>%
+    coefficients() %>%
+    extract(-1)
+
+  data <-
+    model %>%
+    model.matrix() %>%
+    as_data_frame() %>%
+    select(-1)
+
+  lmc <-
+    mc %>%
+    length()
+
+  nam <-
+    data %>%
+    names()
+
+  indvar <-
+    model %>%
+    model.frame() %>%
+    names() %>%
+    extract(1)
+
+  list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)
+
 }
