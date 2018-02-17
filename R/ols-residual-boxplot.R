@@ -9,12 +9,17 @@
 #' @export
 #'
 ols_rsd_boxplot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  resid <- NULL
-  d <- tibble(resid = residuals(model))
+  resid <-
+    model %>%
+    residuals()
+
+  d <- tibble(resid = resid)
+
   p <- ggplot(d, aes(x = factor(0), y = resid)) +
     geom_boxplot(
       outlier.color = "green", outlier.size = 3,
@@ -24,4 +29,5 @@ ols_rsd_boxplot <- function(model) {
     theme(axis.text.x = element_blank())
 
   print(p)
+
 }
