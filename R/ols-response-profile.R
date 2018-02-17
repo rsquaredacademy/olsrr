@@ -9,23 +9,33 @@
 #' @export
 #'
 ols_resp_viz <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  nam <- names(model.frame(model))
-  predictor <- model.response(model.frame(model))
-  xval <- predictor %>% length() %>% seq_len()
   x <- NULL
   y <- NULL
 
+  nam <-
+    model %>%
+    model.frame() %>%
+    names()
+
+  predictor <-
+    model %>%
+    model.frame() %>%
+    model.response()
+
+  xval <-
+    predictor %>%
+    length() %>%
+    seq_len()
 
   d1 <- tibble(x = predictor)
   p1 <- ggplot(d1, aes(x = x)) +
     geom_dotplot(binwidth = 1, fill = "blue") +
     xlab(nam[1]) + ggtitle(paste("Dot Plot of", nam[1]))
-
-
 
   d2 <- tibble(x = xval, y = predictor)
   p2 <- ggplot(d2, aes(x = x, y = y)) +
@@ -52,4 +62,5 @@ ols_resp_viz <- function(model) {
 
   result <- list(dot_plot = p1, trend_plot = p2, histogram = p3, boxplot = p4)
   invisible(result)
+
 }
