@@ -10,12 +10,14 @@
 #' @export
 #'
 ols_rvsr_plot <- function(model, variable) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
   x <- NULL
   y <- NULL
+
   d <- rvsrdata(model)
   v <- l(deparse(substitute(variable)))
   k <- data.frame(x = variable, y = model$residuals)
@@ -27,12 +29,28 @@ ols_rvsr_plot <- function(model, variable) {
     geom_hline(yintercept = 0, colour = "red")
 
   print(p)
+
 }
 
 rvsrdata <- function(model) {
-  np <- length(model$coefficients) - 1
-  dat <- model.frame(model)[-1]
-  pnames <- names(model$coefficients)[-1]
-  result <- list(np = np, dat = dat, pnames = pnames)
-  return(result)
+
+  np <-
+    model %>%
+    coefficients() %>%
+    length() %>%
+    subtract(1)
+
+  dat <-
+    model %>%
+    model.frame() %>%
+    select(-1)
+
+  pnames <-
+    model %>%
+    coefficients() %>%
+    names() %>%
+    extract(-1)
+
+  list(np = np, dat = dat, pnames = pnames)
+
 }
