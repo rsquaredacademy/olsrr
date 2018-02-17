@@ -13,12 +13,14 @@
 #' @export
 #'
 ols_potrsd_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
   res <- NULL
   pot <- NULL
+
   d <- tibble(res = hadio(model, 3), pot = hadio(model, 2))
 
   p <- ggplot(d, aes(x = res, y = pot)) +
@@ -27,8 +29,13 @@ ols_potrsd_plot <- function(model) {
     ggtitle("Potential-Residual Plot")
 
   print(p)
+
 }
 
 hadio <- function(model, n) {
-  model %>% ols_hadi() %>% `[[`(n)
+
+  model %>%
+    ols_hadi() %>%
+    extract2(n)
+
 }
