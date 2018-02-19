@@ -19,6 +19,7 @@
 #' @export
 #'
 ols_srsd_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -27,17 +28,28 @@ ols_srsd_plot <- function(model) {
   dsr <- NULL
   txt <- NULL
   Observation <- NULL
+
   g <- srdata(model)
-  d <- g$dsr
-  d <- d %>% mutate(txt = ifelse(Observation == "outlier", obs, NA))
-  f <- d %>% filter(., Observation == "outlier") %>% select(obs, dsr)
+
+  d <-
+    g %>%
+    use_series(dsr) %>%
+    mutate(
+      txt = ifelse(color == "outlier", obs, NA)
+    )
+
+  f <-
+    d %>%
+    filter(color == "outlier") %>%
+    select(obs, dsr) %>%
+    set_colnames(c("Observation", "Studentized Residuals"))
 
   p <- ggplot(d, aes(x = obs, y = dsr, label = txt)) +
-    geom_bar(width = 0.5, stat = "identity", aes(fill = Observation)) +
+    geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
     scale_fill_manual(values = c("blue", "red")) + xlab("Observation") +
     ylab("Deleted Studentized Residuals") + ggtitle("Studentized Residuals Plot") +
     ylim(g$cminx, g$cmaxx) + geom_hline(yintercept = c(0, g$nseq, g$pseq)) +
-    geom_hline(yintercept = c(-3, 3), color = "red") +
+    geom_hline(yintercept = c(-3, 3), color = "red") + labs("Observation") +
     geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +
     annotate(
       "text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
@@ -45,31 +57,64 @@ ols_srsd_plot <- function(model) {
       label = paste0("Threshold: abs(", 3, ")")
     )
 
-
   suppressWarnings(print(p))
-  colnames(f) <- c("Observation", "Studentized Residuals")
   result <- list(outliers = f, threshold = 3, plot = p)
   invisible(result)
+
 }
 
 srdata <- function(model) {
-  dstud <- unname(rstudent(model))
-  n <- length(dstud)
-  dsr <- tibble(obs = seq_len(n), dsr = dstud)
-  dsr <- dsr %>%
-    mutate(color = ifelse((abs(dsr) >= 3), "outlier", "normal"))
 
-  dsr$color1 <- factor(dsr$color)
-  dsr$Observation <- ordered(dsr$color1, levels = c("normal", "outlier"))
-  cminxx <- dsr$dsr %>% min() %>% `-`(1) %>% floor()
-  cmaxxx <- dsr$dsr %>% max() %>% `-`(1) %>% floor()
-  # cminx <- dsr$dsr %>% min() %>% `-`(1) %>% floor()
-  # cmaxx <- dsr$dsr %>% max() %>% `-`(1) %>% floor()
+  dstud <-
+    model %>%
+    rstudent() %>%
+    unname()
+
+  obs <-
+    dstud %>%
+    length() %>%
+    seq_len()
+
+  dsr <-
+    tibble(obs = obs, dsr = dstud) %>%
+    mutate(
+      color = ifelse((abs(dsr) >= 3), "outlier", "normal"),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier"))
+    )
+
+  cminxx <-
+    dsr %>%
+    use_series(dsr) %>%
+    min() %>%
+    subtract(1) %>%
+    floor()
+
+  cmaxxx <-
+    dsr %>%
+    use_series(dsr) %>%
+    max() %>%
+    subtract(1) %>%
+    floor()
+
   cminx <- ifelse(cminxx > -3, -3, cminxx)
   cmaxx <- ifelse(cmaxxx < 3, 3, cmaxxx)
-  nseq <- seq_len(abs(0 + cminx + 1)) * -1
-  pseq <- seq_len(0 + cmaxx - 1)
 
-  result <- list(dsr = dsr, cminx = cminx, cmaxx = cmaxx, nseq = nseq, pseq = pseq)
-  return(result)
+  nseq <-
+    0 %>%
+    add(cminx) %>%
+    add(1) %>%
+    abs() %>%
+    seq_len() %>%
+    multiply_by(-1)
+
+  pseq <-
+    0 %>%
+    add(cmaxx) %>%
+    subtract(1) %>%
+    seq_len()
+
+  list(dsr = dsr, cminx = cminx, cmaxx = cmaxx, nseq = nseq, pseq = pseq)
+
 }
