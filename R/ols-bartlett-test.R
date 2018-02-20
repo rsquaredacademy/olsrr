@@ -3,10 +3,9 @@
 #' @importFrom Rcpp sourceCpp
 #' @title Bartlett Test
 #' @description Test if k samples are from populations with equal variances.
-#' @param variable a numeric vector/an object of class \code{formula} or \code{lm}
-#' @param ... numeric vectors
+#' @param data a \code{data.frame} or \code{tibble}
+#' @param ... columns in \code{data}
 #' @param group_var grouping variable
-#' @param data a data frame
 #' @details Bartlett's test is used to test if variances across samples is equal.
 #' It is sensitive to departures from normality. The Levene test
 #' is an alternative test that is less sensitive to departures from normality.
@@ -17,8 +16,6 @@
 #' \item{fstat}{f statistic}
 #' \item{pval}{p-value of \code{fstat}}
 #' \item{df}{degrees of freedom}
-#' \item{var_c}{name(s) of \code{variable}}
-#' \item{g_var}{name of \code{group_var}}
 #'
 #' @references
 #' Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
@@ -27,114 +24,86 @@
 #' @examples
 #' \dontrun{
 #' # using grouping variable
-#' model <- lm(mpg ~ disp + hp, data = mtcars)
-#' resid <- residuals(model)
-#' cyl <- as.factor(mtcars$cyl)
-#' ols_bartlett_test(resid, group_var = cyl)
+#' library(descriptr)
+#' ols_bartlett_test(mtcarz, mpg, group_var = cyl)
 #' }
 #'
 #' \dontrun{
 #' # using variables
-#' ols_bartlett_test(hsb$read, hsb$write)
+#' ols_bartlett_test(hsb, read, write)
 #' }
 #'
-#' \dontrun{
-#' # using formula
-#' mt <- mtcars
-#' mt$cyl <- as.factor(mt$cyl)
-#' ols_bartlett_test(mpg ~ cyl, data = mt)
-#' }
-#'
-#' \dontrun{
-#' # using model
-#' model <- lm(mpg ~ cyl, data = mt)
-#' ols_bartlett_test(model)
-#' }
 #' @export
 #'
-ols_bartlett_test <- function(variable, ...) UseMethod("ols_bartlett_test")
+ols_bartlett_test <- function(data, ...) UseMethod("ols_bartlett_test")
 
 #' @export
 #' @rdname ols_bartlett_test
 #'
-ols_bartlett_test.default <- function(variable, ..., group_var = NA) {
-  var_c <- deparse(substitute(variable))
-  suppressWarnings(
-    if (is.na(group_var)) {
-      if (is.data.frame(variable)) {
-        var_c <- names(variable)
-      } else {
-        dots <- substitute(list(...))[-1]
-        var_c <- c(var_c, sapply(dots, deparse))
-      }
-      g_var <- NA
-    } else {
-      g_var <- deparse(substitute(group_var))
+ols_bartlett_test.default <- function(data, ..., group_var = NA) {
+
+  groupvar <- enquo(group_var)
+
+  varyables <- quos(...)
+
+  fdata <-
+    data %>%
+    select(!!! varyables)
+
+  if (quo_is_null(groupvar)) {
+
+    z <- as.list(fdata)
+
+    ln <-
+      z %>%
+      map_int(length)
+
+    ly <-
+      z %>%
+      length() %>%
+      seq_len()
+
+    if (length(z) < 2) {
+      stop("Please specify at least two variables.", call. = FALSE)
     }
-  )
 
-  grp_var <- group_var
+    out <- gvar(ln, ly)
+    fdata <- unlist(z)
 
-  suppressWarnings(
-    if (is.na(group_var)) {
-      if (is.data.frame(variable)) {
-        z <- as.list(variable)
-      } else {
-        z <- list(variable, ...)
-      }
-      ln <- z %>% map_int(length)
-      ly <- seq_len(length(z))
+    groupvars <-
+      out %>%
+      unlist() %>%
+      as.factor()
 
-      if (length(z) < 2) {
-        stop("Please specify at least two variables.", call. = FALSE)
-      }
+  } else {
 
-      out <- gvar(ln, ly)
-      variable <- unlist(z)
-      grp_var <- unlist(out)
-    } else {
-      if (length(variable) != length(group_var)) {
-        stop("Length of variable and group_var do not match.", call. = FALSE)
-      }
+    fdata <-
+      fdata %>%
+      pull(1)
+
+    groupvars <-
+      data %>%
+      pull(!! groupvar)
+
+    if (length(fdata) != length(groupvars)) {
+      stop("Length of variable and group_var do not match.", call. = FALSE)
     }
-  )
-
-  if (!is.factor(grp_var)) {
-    grp_var <- as.factor(grp_var)
   }
 
-  df <- nlevels(grp_var) - 1
-  fstat <- bartlett_fstat(variable, grp_var)
+  df <- nlevels(groupvars) - 1
+  fstat <- bartlett_fstat(fdata, groupvars)
   pval <- pchisq(fstat, df, lower.tail = FALSE)
 
   out <- list(
     fstat = fstat,
     pval = pval,
-    df = df,
-    var_c = var_c,
-    g_var = g_var
+    df = df
   )
 
   class(out) <- "ols_bartlett_test"
 
   return(out)
-}
 
-#' @export
-#' @rdname ols_bartlett_test
-#'
-ols_bartlett_test.lm <- function(variable, ...) {
-  ols_bartlett_test.formula(formula(variable), data = eval(variable$call$data), ...)
-}
-
-#' @export
-#' @rdname ols_bartlett_test
-#'
-ols_bartlett_test.formula <- function(variable, data, ...) {
-  dat <- model.frame(variable, data)
-  var <- dat[, 1]
-  group_var <- dat[, 2]
-  ols_bartlett_test.default(variable = var, group_var = group_var)
 }
 
 #' @export
@@ -145,6 +114,7 @@ print.ols_bartlett_test <- function(x, ...) {
 
 #' @importFrom stats complete.cases var
 bartlett_fstat <- function(variable, grp_var) {
+
   n <- length(variable)
   k <- nlevels(grp_var)
   comp <- complete.cases(variable, grp_var)
@@ -157,8 +127,7 @@ bartlett_fstat <- function(variable, grp_var) {
   n2 <- sum(v * log10(vars))
   l <- length(vars)
   ps <- ((lens - 1) * vars) / (n - k)
-
   pvar <- sum(ps)
-  result <- ((1 / c) * (sumv * log10(pvar) - n2)) * 2.3026
-  return(result)
+  ((1 / c) * (sumv * log10(pvar) - n2)) * 2.3026
+
 }

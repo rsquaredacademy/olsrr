@@ -2,8 +2,6 @@
 
 S3method(ols_all_subset,default)
 S3method(ols_bartlett_test,default)
-S3method(ols_bartlett_test,formula)
-S3method(ols_bartlett_test,lm)
 S3method(ols_best_subset,default)
 S3method(ols_bp_test,default)
 S3method(ols_coll_diag,default)
