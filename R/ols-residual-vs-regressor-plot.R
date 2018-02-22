@@ -6,7 +6,7 @@
 #' @param variable new predictor to be added to the \code{model}
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_rvsr_plot(model, mtcars$drat)
+#' ols_rvsr_plot(model, drat)
 #' @export
 #'
 ols_rvsr_plot <- function(model, variable) {
@@ -19,8 +19,19 @@ ols_rvsr_plot <- function(model, variable) {
   y <- NULL
 
   d <- rvsrdata(model)
-  v <- l(deparse(substitute(variable)))
-  k <- data.frame(x = variable, y = model$residuals)
+  varyable <- enquo(variable)
+
+  inter <-
+    eval(model$call$data) %>%
+    select(!! varyable)
+
+  x <-
+    inter %>%
+    pull(1)
+
+  v <- names(x)
+
+  k <- tibble(x = x, y = model$residuals)
 
   p <- ggplot(k, aes(x = x, y = y)) +
     geom_point(shape = 1, colour = "blue") +

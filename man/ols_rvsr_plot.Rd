@@ -18,5 +18,5 @@ you should consider adding the new predictor to the model.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_rvsr_plot(model, mtcars$drat)
+ols_rvsr_plot(model, drat)
 }
