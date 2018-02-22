@@ -59,12 +59,6 @@ test_that("output from cdplot matches the expected output", {
   expect_equal(k$ts, 0.125)
 })
 
-test_that("output from cdchart matches the expected output", {
-  model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- cdchart(model)
-  expect_equal(k$ts, 0.125)
-})
-
 test_that("output from dpred matches the expected output", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- dpred(model)
