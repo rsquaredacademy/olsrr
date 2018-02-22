@@ -51,7 +51,7 @@ ols_rsdlev_plot <- function(model) {
     set_colnames(c("Observation", "Leverage", "Studentized Residuals"))
 
   p <- ggplot(d, aes(leverage, rstudent, label = txt)) +
-    geom_point(shape = 1, aes(colour = fct_count)) + labs("Observation") +
+    geom_point(shape = 1, aes(colour = fct_color)) + labs("Observation") +
     scale_color_manual(values = c("blue", "red", "green", "violet")) +
     xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) +
     xlab("Leverage") + ylab("RStudent") + ggtitle(title) +

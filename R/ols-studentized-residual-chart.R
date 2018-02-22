@@ -50,6 +50,7 @@ ols_srsd_chart <- function(model) {
 
 }
 
+#' @importFrom magrittr is_greater_than
 srchart_data <- function(model) {
 
   sdres <- rstandard(model)
