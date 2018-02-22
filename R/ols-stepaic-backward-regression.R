@@ -1,4 +1,5 @@
 #' @importFrom ggplot2 geom_text
+#' @importFrom rlang prepend
 #' @title Stepwise AIC Backward Regression
 #' @description Build regression model from a set of candidate predictor variables by removing predictors based on
 #' Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
@@ -43,6 +44,7 @@ ols_stepaic_backward <- function(model, ...) UseMethod("ols_stepaic_backward")
 #' @rdname ols_stepaic_backward
 #'
 ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -55,13 +57,15 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 
+  response <-
+    model %>%
+    use_series(model) %>%
+    names() %>%
+    extract(1)
+
   l <- mod_sel_data(model)
-  nam <- colnames(attr(model$terms, "factors"))
-  response <- names(model$model)[1]
+  nam <- coeff_names(model)
   preds <- nam
-  # nam      <- names(l)
-  # response <- nam[1]
-  # preds    <- nam[-1]
   aic_f <- ols_aic(model)
   mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
   rss_f <- mi$rss
@@ -273,20 +277,51 @@ print.ols_stepaic_backward <- function(x, ...) {
 #' @export
 #'
 plot.ols_stepaic_backward <- function(x, ...) {
-  y <- c(0, seq_len(x$steps))
-  xloc <- y - 0.1
-  yloc <- x$aics - 0.2
-  xmin <- min(y) - 0.4
-  xmax <- max(y) + 1
-  ymin <- min(x$aics) - 1
-  ymax <- max(x$aics) + 1
-  predictors <- c("Full Model", x$predictors)
+
   a <- NULL
   b <- NULL
   tx <- NULL
 
+  y <-
+    x %>%
+    use_series(steps) %>%
+    seq_len() %>%
+    prepend(0)
+
+  xloc <- y - 0.1
+
+  yloc <-
+    x %>%
+    use_series(aics) %>%
+    subtract(0.2)
+
+  xmin <-
+    y %>%
+    min() %>%
+    subtract(0.4)
+
+  xmax <-
+    y %>%
+    max() %>%
+    add(1)
+
+  ymin <-
+    x %>%
+    use_series(aics) %>%
+    min() %>%
+    add(1)
+
+  ymax <-
+    x %>%
+    use_series(aics) %>%
+    max() %>%
+    add(1)
+
+  predictors <- c("Full Model", x$predictors)
+
   d2 <- tibble(x = xloc, y = yloc, tx = predictors)
   d <- tibble(a = y, b = x$aics)
+
   p <- ggplot(d, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
@@ -295,4 +330,5 @@ plot.ols_stepaic_backward <- function(x, ...) {
     geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
   print(p)
+
 }
