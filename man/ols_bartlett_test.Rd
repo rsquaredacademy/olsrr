@@ -7,7 +7,7 @@
 \usage{
 ols_bartlett_test(data, ...)
 
-\method{ols_bartlett_test}{default}(data, ..., group_var = NA)
+\method{ols_bartlett_test}{default}(data, ..., group_var = NULL)
 }
 \arguments{
 \item{data}{a \code{data.frame} or \code{tibble}}
