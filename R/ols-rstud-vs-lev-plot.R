@@ -69,6 +69,8 @@ ols_rsdlev_plot <- function(model) {
 
 }
 
+
+#' @importFrom dplyr case_when
 rstudlev <- function(model) {
 
   leverage <-
@@ -76,7 +78,8 @@ rstudlev <- function(model) {
     hatvalues() %>%
     unname()
 
-  rstudent <- model %>%
+  rstudent <-
+    model %>%
     rstudent() %>%
     unname()
 
