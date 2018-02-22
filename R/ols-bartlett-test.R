@@ -1,3 +1,4 @@
+#' @importFrom rlang quo_is_null
 #' @importFrom stats pchisq formula
 #' @useDynLib olsrr, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
@@ -40,7 +41,7 @@ ols_bartlett_test <- function(data, ...) UseMethod("ols_bartlett_test")
 #' @export
 #' @rdname ols_bartlett_test
 #'
-ols_bartlett_test.default <- function(data, ..., group_var = NA) {
+ols_bartlett_test.default <- function(data, ..., group_var = NULL) {
 
   groupvar <- enquo(group_var)
 
@@ -49,6 +50,8 @@ ols_bartlett_test.default <- function(data, ..., group_var = NA) {
   fdata <-
     data %>%
     select(!!! varyables)
+
+  var_c <- names(fdata)
 
   if (quo_is_null(groupvar)) {
 
@@ -75,6 +78,8 @@ ols_bartlett_test.default <- function(data, ..., group_var = NA) {
       unlist() %>%
       as.factor()
 
+    g_var <- NULL
+
   } else {
 
     fdata <-
@@ -84,6 +89,11 @@ ols_bartlett_test.default <- function(data, ..., group_var = NA) {
     groupvars <-
       data %>%
       pull(!! groupvar)
+
+    g_var <-
+      data %>%
+      select(!! groupvar) %>%
+      names()
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)
@@ -97,7 +107,9 @@ ols_bartlett_test.default <- function(data, ..., group_var = NA) {
   out <- list(
     fstat = fstat,
     pval = pval,
-    df = df
+    df = df,
+    var_c = var_c,
+    g_var = g_var
   )
 
   class(out) <- "ols_bartlett_test"
