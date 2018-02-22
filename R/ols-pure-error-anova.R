@@ -96,11 +96,16 @@ peanova <- function(model) {
 
   n <- model_rows(model)
   nd <- pred_table_length(model)
-  final <- pea_data(model)
+  comp <- pea_data(model)
+
+  final <- comp$result
+  mean_pred <- comp$mean_pred
+  pred_name <- comp$pred_name
+  dep_name <- comp$resp
 
   lackoffit <-
     final %>%
-    use_series(fit) %>%
+    use_series(lfit) %>%
     sum()
 
   random_error <-
@@ -146,14 +151,22 @@ pea_data <- function(model) {
     names() %>%
     extract(2)
 
+  resp <-
+    data %>%
+    names() %>%
+    extract(1)
+
   pred_u <- pred_table(model)
   mean_pred <- predictor_mean(data, pred_name)
   mean_rep <- replicate_mean(mean_pred, pred_u)
-  pea_data_comp(data, model, mean_rep)
+  result <- pea_data_comp(data, model, mean_rep)
+
+  list(pred_name = pred_name, resp = resp, result = result,
+       mean_pred = mean_pred)
 
 }
 
-
+#' @importFrom dplyr pull
 pred_table <- function(model) {
 
   model %>%
