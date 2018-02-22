@@ -42,6 +42,7 @@ ols_stepaic_both <- function(model, details = FALSE) UseMethod("ols_stepaic_both
 #' @export
 #'
 ols_stepaic_both.default <- function(model, details = FALSE) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -54,13 +55,15 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 
+  response <-
+    model %>%
+    use_series(model) %>%
+    names() %>%
+    extract(1)
+
   l <- mod_sel_data(model)
-  nam <- colnames(attr(model$terms, "factors"))
-  response <- names(model$model)[1]
+  nam <- coeff_names(model)
   predictors <- nam
-  # nam        <- names(l)
-  # response   <- nam[1]
-  # predictors <- nam[-1]
   mlen_p <- length(predictors)
   tech <- c("addition", "removal")
   mo <- lm(paste(response, "~", 1), data = l)
@@ -319,6 +322,11 @@ print.ols_stepaic_both <- function(x, ...) {
 #' @export
 #'
 plot.ols_stepaic_both <- function(x, ...) {
+
+  a <- NULL
+  b <- NULL
+  tx <- NULL
+
   y <- seq_len(length(x$aic))
   xloc <- y - 0.1
   yloc <- x$aic - 0.2
@@ -327,12 +335,11 @@ plot.ols_stepaic_both <- function(x, ...) {
   ymin <- min(x$aic) - 1
   ymax <- max(x$aic) + 1
   predictors <- x$predictors
-  a <- NULL
-  b <- NULL
-  tx <- NULL
+
 
   d2 <- tibble(x = xloc, y = yloc, tx = predictors)
   d <- tibble(a = y, b = x$aic)
+
   p <- ggplot(d, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
@@ -341,4 +348,5 @@ plot.ols_stepaic_both <- function(x, ...) {
     geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
   print(p)
+
 }
