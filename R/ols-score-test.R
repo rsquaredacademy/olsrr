@@ -173,9 +173,11 @@ ind_score <- function(model, var_resid) {
 
 rhs_score <- function(l, ind, n) {
 
+  r.squared <- NULL
+
   ind <- tibble(ind = ind)
 
-    bind_cols(l, ind) %>%
+  bind_cols(l, ind) %>%
     select(-1) %>%
     lm(ind ~ ., data = .) %>%
     summary() %>%
@@ -185,6 +187,8 @@ rhs_score <- function(l, ind, n) {
 }
 
 fit_score <- function(model) {
+
+  r.squared <- NULL
 
   l <- avplots_data(model)
   n <- nrow(l)
@@ -212,6 +216,8 @@ resid_scaled <- function(model, pred) {
 }
 
 var_score <- function(model, vars) {
+
+  r.squared <- NULL
 
   n <-
     avplots_data(model) %>%

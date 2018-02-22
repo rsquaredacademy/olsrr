@@ -281,6 +281,8 @@ plot.ols_stepaic_backward <- function(x, ...) {
   a <- NULL
   b <- NULL
   tx <- NULL
+  steps <- NULL
+  aics <- NULL
 
   y <-
     x %>%

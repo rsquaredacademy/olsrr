@@ -19,6 +19,11 @@ ols_rsdlev_plot <- function(model) {
   leverage <- NULL
   txt <- NULL
   obs <- NULL
+  lev_thrsh <- NULL
+  levrstud <- NULL
+  color <- NULL
+  fct_color <- NULL
+
 
   resp <-
     model %>%
@@ -72,6 +77,8 @@ ols_rsdlev_plot <- function(model) {
 
 #' @importFrom dplyr case_when
 rstudlev <- function(model) {
+
+  color <- NULL
 
   leverage <-
     model %>%

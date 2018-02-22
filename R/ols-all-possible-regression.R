@@ -107,6 +107,8 @@ ols_all_subset.default <- function(model, ...) {
 #'
 print.ols_all_subset <- function(x, ...) {
 
+  mindex <- NULL
+
   n <-
     x %>%
     use_series(mindex) %>%
@@ -135,6 +137,12 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
   size <- NULL
   shape <- NULL
   rsquare <- NULL
+  cp <- NULL
+  adjr <- NULL
+  cps <- NULL
+  aic <- NULL
+  sbic <- NULL
+  sbc <- NULL
 
   d <-
     tibble(index = x$mindex, n = x$n, rsquare = x$rsquare,
@@ -177,6 +185,13 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
 #'
 all_possible_plot <- function(d, var, title = "R-Square") {
 
+  n <- NULL
+  x <- NULL
+  y <- NULL
+  shape <- NULL
+  size <- NULL
+  tx <- NULL
+
   varr <- enquo(var)
 
   d1 <-
@@ -203,7 +218,10 @@ all_possible_plot <- function(d, var, title = "R-Square") {
 
 }
 
+#' @importFrom dplyr summarise
 all_pos_maxs <- function(d, var) {
+
+  n <- NULL
 
   varr <- enquo(var)
 
@@ -224,6 +242,8 @@ all_pos_lmaxs <- function(maxs) {
 }
 
 all_pos_index <- function(d, var) {
+
+  n <- NULL
 
   varr <- enquo(var)
 
@@ -255,6 +275,8 @@ all_pos_index <- function(d, var) {
 }
 
 part_1 <- function(k, i) {
+
+  index <- NULL
 
   k %>%
     extract2(2) %>%
@@ -468,6 +490,8 @@ allpos_helper <- function(model) {
 #' @noRd
 #'
 coeff_names <- function(model) {
+
+  terms <- NULL
 
   model %>%
     use_series(terms) %>%

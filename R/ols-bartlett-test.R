@@ -1,4 +1,4 @@
-#' @importFrom rlang quo_is_null
+#' @importFrom rlang quo_is_null quos
 #' @importFrom stats pchisq formula
 #' @useDynLib olsrr, .registration = TRUE
 #' @importFrom Rcpp sourceCpp

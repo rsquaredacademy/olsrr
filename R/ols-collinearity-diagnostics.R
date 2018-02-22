@@ -132,6 +132,8 @@ ols_eigen_cindex <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
+  pvdata <- NULL
+
   x <-
     model %>%
     model.matrix() %>%
@@ -162,6 +164,8 @@ ols_eigen_cindex <- function(model) {
 
 evalue <- function(x) {
 
+  values <- NULL
+
   y <- x
   colnames(y)[1] <- "intercept"
   z <- scale(y, scale = T, center = F)
@@ -189,6 +193,9 @@ cindx <- function(e) {
 
 #' @importFrom magrittr multiply_by_matrix
 pveindex <- function(z) {
+
+  d <- NULL
+  v <- NULL
 
   svdx <- svd(z)
 
@@ -224,6 +231,8 @@ pveindex <- function(z) {
 
 
 fmrsq <- function(nam, data, i) {
+
+  r.squared <- NULL
 
   fm <-
     paste0("`", nam[i], "` ", "~ .") %>%

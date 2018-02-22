@@ -72,6 +72,8 @@ hadipot <- function(model) {
 
 hadires <- function(model) {
 
+  Df <- NULL
+
   pii <-
     1 %>%
     subtract(ols_leverage(model))

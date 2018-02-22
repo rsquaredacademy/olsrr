@@ -33,6 +33,9 @@ ols_dsrvsp_plot <- function(model) {
   txt <- NULL
   obs <- NULL
   Observation <- NULL
+  ds <- NULL
+  color <- NULL
+  fct_color <- NULL
 
   k <- dpred(model)
 
@@ -74,6 +77,7 @@ ols_dsrvsp_plot <- function(model) {
 dpred <- function(model) {
 
   dsr <- NULL
+  color <- NULL
 
   pred <-
     model %>%

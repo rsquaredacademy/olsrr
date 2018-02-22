@@ -87,6 +87,9 @@ ols_dfbetas_panel <- function(model) {
 
 dfb_plot_data <- function(d, threshold) {
 
+  color <- NULL
+  obs <- NULL
+
   d %>%
     mutate(
       color = ifelse(((d$dbetas >= threshold) | (d$dbetas <= -threshold)),
@@ -100,6 +103,10 @@ dfb_plot_data <- function(d, threshold) {
 }
 
 dfb_outlier_data <- function(d) {
+
+  color <- NULL
+  obs <- NULL
+  dbetas <- NULL
 
   d %>%
     filter(

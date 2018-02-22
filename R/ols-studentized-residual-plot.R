@@ -28,6 +28,8 @@ ols_srsd_plot <- function(model) {
   dsr <- NULL
   txt <- NULL
   Observation <- NULL
+  color <- NULL
+  fct_color <- NULL
 
   g <- srdata(model)
 
@@ -64,6 +66,8 @@ ols_srsd_plot <- function(model) {
 }
 
 srdata <- function(model) {
+
+  color <- NULL
 
   dstud <-
     model %>%

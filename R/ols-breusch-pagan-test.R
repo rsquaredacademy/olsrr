@@ -228,6 +228,8 @@ bp_case_2 <- function(l, model) {
 
 bp_case_3 <- function(model) {
 
+  `Sum Sq` <- NULL
+
   pred <- fitted(model)
   scaled_resid <- resid_scaled(model, pred)
 

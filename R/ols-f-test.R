@@ -120,6 +120,8 @@ print.ols_f_test <- function(x, ...) {
 
 frhs <- function(nam, model, n, l) {
 
+  fstatistic <- NULL
+
   np <-
     nam %>%
     length()
@@ -145,6 +147,8 @@ frhs <- function(nam, model, n, l) {
 
 fvar <- function(n, l, model, vars) {
 
+  fstatistic <- NULL
+
   var_resid <-
     model_rss(model) %>%
     divide_by(n) %>%
@@ -166,6 +170,8 @@ fvar <- function(n, l, model, vars) {
 }
 
 ffit <- function(model) {
+
+  fstatistic <- NULL
 
   pred <-
     model %>%

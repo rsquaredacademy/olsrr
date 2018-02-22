@@ -40,6 +40,7 @@ ols_cooksd_barplot <- function(model) {
   txt <- NULL
   cd <- NULL
   Observation <- NULL
+  fct_color <- NULL
 
   k <- cdplot(model)
   d <- plot_data(k)
@@ -66,6 +67,9 @@ ols_cooksd_barplot <- function(model) {
 
 #' @importFrom dplyr if_else
 cdplot <- function(model) {
+
+  cd <- NULL
+  color <- NULL
 
   cooksd <-
     model %>%
@@ -108,6 +112,10 @@ cdplot <- function(model) {
 
 plot_data <- function(k) {
 
+  ckd <- NULL
+  color <- NULL
+  obs <- NULL
+
   k %>%
     use_series(ckd) %>%
     mutate(
@@ -117,6 +125,11 @@ plot_data <- function(k) {
 }
 
 outlier_data <- function(k) {
+
+  ckd <- NULL
+  color <- NULL
+  obs <- NULL
+  cd <- NULL
 
   k %>%
     use_series(ckd) %>%

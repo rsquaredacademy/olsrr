@@ -24,6 +24,11 @@ ols_srsd_chart <- function(model) {
 
   d <- srchart_data(model)
 
+  color <- NULL
+  obs <- NULL
+  sdres <- NULL
+  txt <- NULL
+
   f <-
     d %>%
     filter(color == "outlier") %>%
@@ -52,6 +57,8 @@ ols_srsd_chart <- function(model) {
 
 #' @importFrom magrittr is_greater_than
 srchart_data <- function(model) {
+
+  color <- NULL
 
   sdres <- rstandard(model)
 

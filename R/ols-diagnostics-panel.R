@@ -24,6 +24,12 @@ ols_diagnostic_panel <- function(model) {
   predicted <- NULL
   Observation <- NULL
   leverage <- NULL
+  ds <- NULL
+  color <- NULL
+  txt <- NULL
+  fct_color <- NULL
+  levrstud <- NULL
+  cd <- NULL
 
 
   # residual vs fitted values plot

@@ -190,6 +190,12 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
 
   a <- NULL
   b <- NULL
+  rsquare <- NULL
+  cp <- NULL
+  adjr <- NULL
+  aic <- NULL
+  sbic <- NULL
+  sbc <- NULL
 
   d <- tibble(mindex = x$mindex, rsquare = x$rsquare, adjr = x$adjr,
                cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
@@ -224,6 +230,10 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
 #' @noRd
 #'
 best_subset_plot <- function(d, var, title = "R-Square") {
+
+  mindex <- NULL
+  a <- NULL
+  b <- NULL
 
   varr <- enquo(var)
 
