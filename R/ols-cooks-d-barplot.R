@@ -64,6 +64,7 @@ ols_cooksd_barplot <- function(model) {
 
 }
 
+#' @importFrom dplyr if_else
 cdplot <- function(model) {
 
   cooksd <-
