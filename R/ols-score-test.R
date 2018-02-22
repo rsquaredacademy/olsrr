@@ -139,6 +139,10 @@ fitout <- function(model, resp) {
 varout <- function(model, vars) {
 
   score <- var_score(model, vars)
+  nd <-
+    score_data(model, vars) %>%
+    ncol() %>%
+    subtract(1)
   p <- pchisq(score, nd, lower.tail = F)
   np <- nd
   preds <- vars
@@ -209,6 +213,20 @@ resid_scaled <- function(model, pred) {
 
 var_score <- function(model, vars) {
 
+  n <-
+    avplots_data(model) %>%
+    nrow()
+
+  score_data(model, vars) %>%
+    lm(ind ~ ., data = .) %>%
+    summary() %>%
+    use_series(r.squared) %>%
+    multiply_by(n)
+
+}
+
+score_data <- function(model, vars) {
+
   l <- avplots_data(model)
   n <- nrow(l)
   var_resid <- residual_var(model, n)
@@ -220,10 +238,6 @@ var_score <- function(model, vars) {
 
   l %>%
     select(!!! syms(vars)) %>%
-    bind_cols(ind) %>%
-    lm(ind ~ ., data = .) %>%
-    summary() %>%
-    use_series(r.squared) %>%
-    multiply_by(n)
+    bind_cols(ind)
 
 }
