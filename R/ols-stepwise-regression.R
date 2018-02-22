@@ -49,6 +49,7 @@ ols_stepwise <- function(model, ...) UseMethod("ols_stepwise")
 #' @rdname ols_stepwise
 #'
 ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE, ...) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -69,17 +70,19 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 
+  response <-
+    model %>%
+    use_series(model) %>%
+    names() %>%
+    extract(1)
+
   l <- mod_sel_data(model)
+  nam <- coeff_names(model)
   df <- nrow(l) - 2
   tenter <- qt(1 - (pent) / 2, df)
   trem <- qt(1 - (prem) / 2, df)
   n <- ncol(l)
-  nam <- colnames(attr(model$terms, "factors"))
-  response <- names(model$model)[1]
   all_pred <- nam
-  # nam      <- names(l)
-  # response <- nam[1]
-  # all_pred <- nam[-1]
   cterms <- all_pred
   mlen_p <- length(all_pred)
   preds <- c()
@@ -331,6 +334,10 @@ print.ols_stepwise <- function(x, ...) {
 #' @rdname ols_stepwise
 #'
 plot.ols_stepwise <- function(x, model = NA, ...) {
+
+  a <- NULL
+  b <- NULL
+
   y <- seq_len(x$steps)
   rmax <- max(x$rsquare)
   rstep <- which(x$rsquare == rmax)
@@ -346,8 +353,6 @@ plot.ols_stepwise <- function(x, model = NA, ...) {
   sbicstep <- which(x$sbic == sbicmin)
   sbcmin <- min(x$sbc)
   sbcstep <- which(x$sbc == sbcmin)
-  a <- NULL
-  b <- NULL
 
   d1 <- tibble(a = y, b = x$rsquare)
   p1 <- ggplot(d1, aes(x = a, y = b)) +
@@ -413,5 +418,7 @@ plot.ols_stepwise <- function(x, model = NA, ...) {
     rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
     aic_plot = p4, sbic_plot = p5, sbc_plot = p6
   )
+
   invisible(result)
+
 }
