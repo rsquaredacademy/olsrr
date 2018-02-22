@@ -1,5 +1,4 @@
 #' @importFrom stats coefficients
-#' @importFrom dplyr group_by_ select_ funs
 #' @title Lack of Fit F Test
 #' @description Assess how much of the error in prediction is due to lack of model fit.
 #' @param model an object of class \code{lm}
@@ -58,43 +57,32 @@ ols_pure_error_anova <- function(model, ...) UseMethod("ols_pure_error_anova")
 #' @export
 #'
 ols_pure_error_anova.default <- function(model, ...) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  ln <- length(coefficients(model))
+  ln <-
+    model %>%
+    coefficients() %>%
+    length()
+
   if (ln > 2) {
     stop("Lack of fit F test is available only for simple linear regression.", call. = FALSE)
   }
 
   k <- peanova(model)
-  result <- list(
-    lackoffit = k$lackoffit,
-    pure_error = k$pure_error,
-    rss = k$rss,
-    ess = k$ess,
-    total = k$total,
-    rms = k$rms,
-    ems = k$ems,
-    lms = k$lms,
-    pms = k$pms,
-    rf = k$rf,
-    lf = k$lf,
-    pr = k$pr,
-    pl = k$pl,
-    mpred = k$mpred,
-    df_rss = k$df_rss,
-    df_ess = k$df_ess,
-    df_lof = k$df_lof,
-    df_error = k$df_error,
-    final = k$final,
-    resp = k$resp,
-    preds = k$preds
-  )
+
+  result <- list(lackoffit = k$lackoffit, pure_error = k$pure_error, rss = k$rss,
+    ess = k$ess, total = k$total, rms = k$rms, ems = k$ems, lms = k$lms,
+    pms = k$pms, rf = k$rf, lf = k$lf, pr = k$pr, pl = k$pl, mpred = k$mpred,
+    df_rss = k$df_rss, df_ess = k$df_ess, df_lof = k$df_lof,
+    df_error = k$df_error, final = k$final, resp = k$resp, preds = k$preds)
 
   class(result) <- "ols_pure_error_anova"
 
   return(result)
+
 }
 
 #' @export
@@ -105,38 +93,30 @@ print.ols_pure_error_anova <- function(x, ...) {
 
 #' @importFrom dplyr arrange
 peanova <- function(model) {
-  data <- model.frame(model)
-  dep <- data[[1]]
-  pred <- data[[2]]
-  n <- nrow(data)
-  nam <- names(data)
-  dep_name <- nam[1]
-  pred_name <- nam[2]
-  yhat <- model$fitted.values
-  pred_u <- table(pred)
-  nd <- length(pred_u)
 
-  mean_pred <- data %>%
-    group_by_(pred_name) %>%
-    select_(dep_name, pred_name) %>%
-    summarise_all(funs(mean))
+  lfit <- NULL
+  rerror <- NULL
 
-  mean_rep <- rep(mean_pred[[2]], as.vector(pred_u))
-  fin <- data.frame(dep, yhat, pred)
-  finl <- arrange(fin, pred)
-  final <- cbind(finl, mean_rep)
-  colnames(final) <- c("y", "yhat", "pred", "ybar")
+  n <- model_rows(model)
+  nd <- pred_table_length(model)
+  comp <- pea_data(model)
 
-  final$lfit <- (final$ybar - final$yhat) ^ 2
-  final$rerror <- (final$y - final$ybar) ^ 2
-  # final <- mutate(final,
-  #   lfit   = (ybar - yhat) ^ 2,
-  #   rerror = (y - ybar) ^ 2
-  # )
+  final <- comp$result
+  mean_pred <- comp$mean_pred
+  pred_name <- comp$pred_name
+  dep_name <- comp$resp
 
-  lackoffit <- sum(final$lfit)
-  random_error <- sum(final$rerror)
-  rss <- anova(model)[1, 2]
+  lackoffit <-
+    final %>%
+    use_series(lfit) %>%
+    sum()
+
+  random_error <-
+    final %>%
+    use_series(rerror) %>%
+    sum()
+
+  rss <- rss_model(model)
   ess <- sum(lackoffit, random_error)
   total <- sum(ess, rss)
   df_rss <- 1
@@ -152,28 +132,108 @@ peanova <- function(model) {
   pr <- pf(rf, df_rss, df_ess, lower.tail = F)
   pl <- pf(lf, df_lof, df_error, lower.tail = F)
 
-  result <- list(
-    lackoffit = lackoffit,
-    pure_error = random_error,
-    rss = rss,
-    ess = ess,
-    total = total,
-    rms = rms,
-    ems = ems,
-    lms = lms,
-    pms = pms,
-    rf = rf,
-    lf = lf,
-    pr = pr,
-    pl = pl,
-    mpred = mean_pred,
-    df_rss = df_rss,
-    df_ess = df_ess,
-    df_lof = df_lof,
-    df_error = df_error,
-    final = final,
-    resp = dep_name,
+  list(
+    lackoffit = lackoffit, pure_error = random_error, rss = rss, ess = ess,
+    total = total, rms = rms, ems = ems, lms = lms, pms = pms, rf = rf, lf = lf,
+    pr = pr, pl = pl, mpred = mean_pred, df_rss = df_rss, df_ess = df_ess,
+    df_lof = df_lof, df_error = df_error, final = final, resp = dep_name,
     preds = pred_name
   )
-  return(result)
+
+
+}
+
+pea_data <- function(model) {
+
+  data <-
+    model %>%
+    model.frame()
+
+  pred_name <-
+    data %>%
+    names() %>%
+    extract(2)
+
+  resp <-
+    data %>%
+    names() %>%
+    extract(1)
+
+  pred_u <- pred_table(model)
+  mean_pred <- predictor_mean(data, pred_name)
+  mean_rep <- replicate_mean(mean_pred, pred_u)
+  result <- pea_data_comp(data, model, mean_rep)
+
+  list(pred_name = pred_name, resp = resp, result = result,
+       mean_pred = mean_pred)
+
+}
+
+#' @importFrom dplyr pull
+pred_table <- function(model) {
+
+  model %>%
+    model.frame() %>%
+    pull(2) %>%
+    table()
+
+}
+
+pred_table_length <- function(model) {
+
+  pred_table(model) %>%
+    length()
+
+}
+
+#' @importFrom rlang sym
+#' @importFrom dplyr select_all funs
+predictor_mean <- function(data, pred_name) {
+
+  data %>%
+    group_by(!! sym(pred_name)) %>%
+    select_all() %>%
+    summarise_all(funs(mean))
+
+}
+
+rss_model <- function(model) {
+
+  model %>%
+    anova() %>%
+    extract(1, 2)
+
+}
+
+#' @importFrom tibble as_tibble
+replicate_mean <- function(mean_pred, pred_u) {
+
+  mean_pred %>%
+    extract2(2) %>%
+    rep(times = pred_u) %>%
+    as_tibble() %>%
+    set_colnames("ybar")
+
+}
+
+
+pea_data_comp <- function(data, model, mean_rep) {
+
+  pred <- NULL
+  ybar <- NULL
+  yhat <- NULL
+  y <- NULL
+
+  data %<>%
+    mutate(
+      yhat = fitted(model)
+    ) %>%
+    set_colnames(c("y", "pred", "yhat")) %>%
+    arrange(pred) %>%
+    bind_cols(mean_rep) %>%
+    mutate(
+      lfit = (ybar - yhat) ^ 2,
+      rerror = (y - ybar) ^ 2
+    )
+
 }

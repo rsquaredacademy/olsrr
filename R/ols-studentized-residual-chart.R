@@ -17,21 +17,23 @@
 #' @export
 #'
 ols_srsd_chart <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
+  d <- srchart_data(model)
+
+  color <- NULL
   obs <- NULL
+  sdres <- NULL
   txt <- NULL
-  Observation <- NULL
-  sdres <- rstandard(model)
-  outlier <- sdres[abs(sdres) > 2]
-  d <- data.frame(obs = seq_len(length(sdres)), sdres = sdres)
-  d$color <- ifelse(((d$sdres >= 2) | (d$sdres <= -2)), c("outlier"), c("normal"))
-  d$color1 <- factor(d$color)
-  d$Observation <- ordered(d$color1, levels = c("normal", "outlier"))
-  d <- d %>% mutate(txt = ifelse(Observation == "outlier", obs, NA))
-  f <- d %>% filter(., Observation == "outlier") %>% select(obs, sdres)
+
+  f <-
+    d %>%
+    filter(color == "outlier") %>%
+    select(obs, sdres) %>%
+    set_colnames(c("Observation", "Studentized Residual"))
 
   p <- ggplot(d, aes(x = obs, y = sdres, label = txt, ymin = 0, ymax = sdres)) +
     geom_linerange(colour = "blue") +
@@ -48,7 +50,39 @@ ols_srsd_chart <- function(model) {
     )
 
   suppressWarnings(print(p))
-  colnames(f) <- c("Observation", "Studentized Residual")
   result <- list(outliers = f, threshold = 2, plot = p)
   invisible(result)
+
+}
+
+#' @importFrom magrittr is_greater_than
+srchart_data <- function(model) {
+
+  color <- NULL
+
+  sdres <- rstandard(model)
+
+  sdres_out <-
+    sdres %>%
+    abs() %>%
+    is_greater_than(2)
+
+  outlier <-
+    sdres %>%
+    extract(sdres_out)
+
+  obs <-
+    sdres %>%
+    length() %>%
+    seq_len()
+
+  tibble(obs = obs, sdres = sdres) %>%
+    mutate(
+      color = ifelse(((sdres >= 2) | (sdres <= -2)), c("outlier"), c("normal")),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier")),
+      txt = ifelse(color == "outlier", obs, NA)
+    )
+
 }

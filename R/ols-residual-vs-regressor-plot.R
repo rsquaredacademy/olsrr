@@ -6,19 +6,32 @@
 #' @param variable new predictor to be added to the \code{model}
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_rvsr_plot(model, mtcars$drat)
+#' ols_rvsr_plot(model, drat)
 #' @export
 #'
 ols_rvsr_plot <- function(model, variable) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
   x <- NULL
   y <- NULL
+
   d <- rvsrdata(model)
-  v <- l(deparse(substitute(variable)))
-  k <- data.frame(x = variable, y = model$residuals)
+  varyable <- enquo(variable)
+
+  inter <-
+    eval(model$call$data) %>%
+    select(!! varyable)
+
+  x <-
+    inter %>%
+    pull(1)
+
+  v <- names(x)
+
+  k <- tibble(x = x, y = model$residuals)
 
   p <- ggplot(k, aes(x = x, y = y)) +
     geom_point(shape = 1, colour = "blue") +
@@ -27,12 +40,28 @@ ols_rvsr_plot <- function(model, variable) {
     geom_hline(yintercept = 0, colour = "red")
 
   print(p)
+
 }
 
 rvsrdata <- function(model) {
-  np <- length(model$coefficients) - 1
-  dat <- model.frame(model)[-1]
-  pnames <- names(model$coefficients)[-1]
-  result <- list(np = np, dat = dat, pnames = pnames)
-  return(result)
+
+  np <-
+    model %>%
+    coefficients() %>%
+    length() %>%
+    subtract(1)
+
+  dat <-
+    model %>%
+    model.frame() %>%
+    select(-1)
+
+  pnames <-
+    model %>%
+    coefficients() %>%
+    names() %>%
+    extract(-1)
+
+  list(np = np, dat = dat, pnames = pnames)
+
 }

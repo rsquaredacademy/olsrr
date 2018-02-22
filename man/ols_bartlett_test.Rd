@@ -3,26 +3,18 @@
 \name{ols_bartlett_test}
 \alias{ols_bartlett_test}
 \alias{ols_bartlett_test.default}
-\alias{ols_bartlett_test.lm}
-\alias{ols_bartlett_test.formula}
 \title{Bartlett Test}
 \usage{
-ols_bartlett_test(variable, ...)
+ols_bartlett_test(data, ...)
 
-\method{ols_bartlett_test}{default}(variable, ..., group_var = NA)
-
-\method{ols_bartlett_test}{lm}(variable, ...)
-
-\method{ols_bartlett_test}{formula}(variable, data, ...)
+\method{ols_bartlett_test}{default}(data, ..., group_var = NULL)
 }
 \arguments{
-\item{variable}{a numeric vector/an object of class \code{formula} or \code{lm}}
+\item{data}{a \code{data.frame} or \code{tibble}}
 
-\item{...}{numeric vectors}
+\item{...}{columns in \code{data}}
 
 \item{group_var}{grouping variable}
-
-\item{data}{a data frame}
 }
 \value{
 \code{ols_bartlett_test} returns an object of class \code{"ols_bartlett_test"}.
@@ -32,8 +24,6 @@ following components:
 \item{fstat}{f statistic}
 \item{pval}{p-value of \code{fstat}}
 \item{df}{degrees of freedom}
-\item{var_c}{name(s) of \code{variable}}
-\item{g_var}{name of \code{group_var}}
 }
 \description{
 Test if k samples are from populations with equal variances.
@@ -46,29 +36,15 @@ is an alternative test that is less sensitive to departures from normality.
 \examples{
 \dontrun{
 # using grouping variable
-model <- lm(mpg ~ disp + hp, data = mtcars)
-resid <- residuals(model)
-cyl <- as.factor(mtcars$cyl)
-ols_bartlett_test(resid, group_var = cyl)
+library(descriptr)
+ols_bartlett_test(mtcarz, mpg, group_var = cyl)
 }
 
 \dontrun{
 # using variables
-ols_bartlett_test(hsb$read, hsb$write)
+ols_bartlett_test(hsb, read, write)
 }
 
-\dontrun{
-# using formula
-mt <- mtcars
-mt$cyl <- as.factor(mt$cyl)
-ols_bartlett_test(mpg ~ cyl, data = mt)
-}
-
-\dontrun{
-# using model
-model <- lm(mpg ~ cyl, data = mt)
-ols_bartlett_test(model)
-}
 }
 \references{
 Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,

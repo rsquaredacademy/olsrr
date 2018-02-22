@@ -12,6 +12,7 @@
 #' @export
 #'
 ols_diagnostic_panel <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -23,6 +24,12 @@ ols_diagnostic_panel <- function(model) {
   predicted <- NULL
   Observation <- NULL
   leverage <- NULL
+  ds <- NULL
+  color <- NULL
+  txt <- NULL
+  fct_color <- NULL
+  levrstud <- NULL
+  cd <- NULL
 
 
   # residual vs fitted values plot
@@ -35,25 +42,45 @@ ols_diagnostic_panel <- function(model) {
 
   # deleted studentized residual vs predicted values
   k <- dpred(model)
-  k1 <- k$ds
 
-  d2 <- ggplot(k1, aes(x = pred, y = dsr)) +
-    geom_point(aes(colour = Observation)) +
-    scale_color_manual(values = c("blue", "red")) + ylim(k$cminx, k$cmaxx) +
-    xlab("Predicted Value") + ylab("Deleted Studentized Residual") +
+  d22 <-
+    k %>%
+    use_series(ds) %>%
+    mutate(
+      txt = ifelse(color == "outlier", obs, NA)
+    )
+
+  d2 <- ggplot(d22, aes(x = pred, y = dsr, label = txt)) +
+    geom_point(aes(colour = fct_color)) +
+    scale_color_manual(values = c("blue", "red")) +
+    ylim(k$cminx, k$cmaxx) + xlab("Predicted Value") +
+    ylab("Deleted Studentized Residual") + labs(color = "Observation") +
     ggtitle("Deleted Studentized Residual vs Predicted Values") +
     geom_hline(yintercept = c(-2, 2), colour = "red")
 
   # studentized residuals vs leverage plot
   j <- rstudlev(model)
-  j1 <- j$levrstud
 
-  d3 <- ggplot(j1, aes(leverage, rstudent)) +
-    geom_point(shape = 1, aes(colour = Observation)) +
+  d33 <-
+    j %>%
+    use_series(levrstud) %>%
+    mutate(
+      txt = ifelse(color == "normal", NA, obs)
+    )
+
+  resp <-
+    model %>%
+    model.frame() %>%
+    names() %>%
+    extract(1)
+
+  title <- paste("Outlier and Leverage Diagnostics for", resp)
+
+  d3 <- ggplot(d33, aes(leverage, rstudent, label = txt)) +
+    geom_point(shape = 1, aes(colour = fct_color)) + labs("Observation") +
     scale_color_manual(values = c("blue", "red", "green", "violet")) +
     xlim(j$minx, j$maxx) + ylim(j$miny, j$maxy) +
-    xlab("Leverage") + ylab("RStudent") +
-    ggtitle(paste("Outlier and Leverage Diagnostics for", j$nam[1])) +
+    xlab("Leverage") + ylab("RStudent") + ggtitle(title) +
     geom_hline(yintercept = c(2, -2), colour = "maroon") +
     geom_vline(xintercept = j$lev_thrsh, colour = "maroon")
 
@@ -72,7 +99,8 @@ ols_diagnostic_panel <- function(model) {
 
 
   # observed vs fitted values plot
-  oname <- model %>%
+  oname <-
+    model %>%
     model.frame() %>%
     names() %>%
     `[`(1)
@@ -90,14 +118,13 @@ ols_diagnostic_panel <- function(model) {
     )
 
   # cook's d chart
-  m <- cdchart(model)
-  m1 <- m$d
+  k <- cdplot(model)
+  d <- plot_data(k)
 
-  d6 <- ggplot(m1, aes(obs, ckd, ymin = min(ckd), ymax = ckd)) +
-    geom_linerange(colour = "blue") +
-    geom_point(shape = 1, colour = "blue") +
-    geom_hline(yintercept = m$ts, colour = "red") +
-    xlab("Observation") + ylab("Cook's D") + ggtitle("Cook's D Chart")
+  d6 <- ggplot(d, aes(x = obs, y = cd, label = txt, ymin = min(cd), ymax = cd)) +
+    geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
+    geom_hline(yintercept = k$ts, colour = "red") + xlab("Observation") +
+    ylab("Cook's D") + ggtitle("Cook's D Chart")
 
   # residual fit spread plot
   d <- fmdata(model)

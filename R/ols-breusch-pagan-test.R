@@ -80,6 +80,7 @@ ols_bp_test <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FAL
 #'
 ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
                                 p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -107,204 +108,74 @@ ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multip
   )
 
   method <- match.arg(p.adj)
-  # l          <- model.frame(model)
-  m1 <- tibble::as_data_frame(model.frame(model))
-  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+  l <- avplots_data(model)
   n <- nrow(l)
-  response <- names(l)[1]
-  predictors <- names(l)[-1]
+
+  response <-
+    l %>%
+    names() %>%
+    extract(1)
+
+  predictors <-
+    l %>%
+    names() %>%
+    extract(-1)
 
   if (fitted.values) {
     vars <- NA
 
     if (rhs) {
       if (multiple) {
-        n <- nrow(l)
-        nam <- names(l)[-1]
-        np <- length(nam)
-        var_resid <- sum(residuals(model) ^ 2) / n
-        ind <- residuals(model) ^ 2 / var_resid - 1
-        l <- cbind(l, ind)
-        tstat <- c()
-        pvals <- c()
 
-        for (i in seq_len(np)) {
-          form <- as.formula(paste("ind ~", nam[i]))
-          model1 <- lm(form, data = l)
-          tstat[i] <- sum(model1$fitted ^ 2) / 2
-          pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = F)
-        }
+        start <- bp_case_one(l, model)
+        loops <- bp_case_loop(start$np, start$nam, start$l)
+        inter <- bp_case_inter(start$l, start$np, loops$tstat)
+        bp <- inter$bp
+        p <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
 
-        mdata <- l[-1]
-        models <- lm(ind ~ ., data = mdata)
-        bp <- sum(models$fitted ^ 2) / 2
-        ps <- pchisq(bp, df = np, lower.tail = F)
-        bp <- c(tstat, bp)
-
-
-        if (method == "bonferroni") {
-          bpvals <- pmin(1, pvals * np)
-          p <- c(bpvals, ps)
-        } else if (method == "sidak") {
-          spvals <- pmin(1, 1 - (1 - pvals) ^ np)
-          p <- c(spvals, ps)
-        } else if (method == "holm") {
-          j <- rev(seq_len(length(pvals)))
-          k <- order(pvals)
-          h <- order(k)
-          pholms <- pmin(1, sort(pvals) * j)[h]
-          p <- c(pholms, ps)
-        } else {
-          p <- c(pvals, ps)
-        }
       } else {
-        n <- nrow(model.frame(model))
-        var_resid <- sum(residuals(model) ^ 2) / n
-        ind <- residuals(model) ^ 2 / var_resid - 1
-        mdata <- l[-1]
-        d_f <- ncol(mdata)
-        model1 <- lm(ind ~ ., data = mdata)
-        bp <- sum(model1$fitted ^ 2) / 2
-        p <- pchisq(bp, df = d_f, lower.tail = F)
+        result <- bp_case_2(l, model)
+        bp <- result$bp
+        p <- pchisq(bp, df = result$df, lower.tail = FALSE)
       }
     } else {
-      pred <- model$fitted.values
-      resid <- model$residuals ^ 2
-      avg_resid <- sum(resid) / n
-      scaled_resid <- resid / avg_resid
-      model1 <- lm(scaled_resid ~ pred)
-      bp <- anova(model1)$`Sum Sq`[1] / 2
-      p <- pchisq(bp, df = 1, lower.tail = F)
+      bp <- bp_case_3(model)
+      p <- pchisq(bp, df = 1, lower.tail = FALSE)
     }
   } else {
     if (multiple) {
       if (rhs) {
-        n <- nrow(l)
-        nam <- names(l)[-1]
-        np <- length(nam)
-        var_resid <- sum(residuals(model) ^ 2) / n
-        ind <- residuals(model) ^ 2 / var_resid - 1
-        l <- cbind(l, ind)
-        tstat <- c()
-        pvals <- c()
+        start <- bp_case_one(l, model)
+        loops <- bp_case_loop(start$np, start$nam, start$l)
+        inter <- bp_case_inter(start$l, start$np, loops$tstat)
+        bp <- inter$bp
+        p <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
 
-        for (i in seq_len(np)) {
-          form <- as.formula(paste("ind ~", nam[i]))
-          model1 <- lm(form, data = l)
-          tstat[i] <- sum(model1$fitted ^ 2) / 2
-          pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = F)
-        }
-
-        mdata <- l[-1]
-        models <- lm(ind ~ ., data = mdata)
-        bp <- sum(models$fitted ^ 2) / 2
-        ps <- pchisq(bp, df = np, lower.tail = F)
-        bp <- c(tstat, bp)
-
-        if (method == "bonferroni") {
-          bpvals <- pmin(1, pvals * np)
-          p <- c(bpvals, ps)
-        } else if (method == "sidak") {
-          spvals <- pmin(1, 1 - (1 - pvals) ^ np)
-          p <- c(spvals, ps)
-        } else if (method == "holm") {
-          j <- rev(seq_len(length(pvals)))
-          k <- order(pvals)
-          h <- order(k)
-          pholms <- pmin(1, sort(pvals) * j)[h]
-          p <- c(pholms, ps)
-        } else {
-          p <- c(pvals, ps)
-        }
       } else {
         len_vars <- length(vars)
 
         if (len_vars > 1) {
-          n <- nrow(l)
-          nam <- names(l)[-1]
-          np <- length(nam)
-          var_resid <- sum(residuals(model) ^ 2) / n
-          ind <- residuals(model) ^ 2 / var_resid - 1
-          l <- cbind(l, ind)
+          start <- bp_case_one(l, model)
           len_var <- length(vars)
-          tstat <- c()
-          pvals <- c()
-
-          for (i in seq_len(len_var)) {
-            form <- as.formula(paste("ind ~", vars[i]))
-            model1 <- lm(form, data = l)
-            tstat[i] <- sum(model1$fitted ^ 2) / 2
-            pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = F)
-          }
-
-          # simultaneous
-          mdata <- l[-1]
-          dl <- mdata[, vars]
-          dk <- as.data.frame(cbind(ind, dl))
-          np <- ncol(dk) - 1
-          models <- lm(ind ~ ., data = dk)
-          bp <- sum(models$fitted ^ 2) / 2
-          ps <- pchisq(bp, df = np, lower.tail = F)
-          bp <- c(tstat, bp)
-
-          if (method == "bonferroni") {
-            bpvals <- pmin(1, pvals * np)
-            p <- c(bpvals, ps)
-          } else if (method == "sidak") {
-            spvals <- pmin(1, 1 - (1 - pvals) ^ np)
-            p <- c(spvals, ps)
-          } else if (method == "holm") {
-            j <- rev(seq_len(length(pvals)))
-            k <- order(pvals)
-            h <- order(k)
-            pholms <- pmin(1, sort(pvals) * j)[h]
-            p <- c(pholms, ps)
-          } else {
-            p <- c(pvals, ps)
-          }
+          loops <- bp_case_loop(len_var, vars, start$l)
+          inter <- bp_case_5_inter(l, model, vars, loops$tstat)
+          bp <- inter$bp
+          p <- bp_case_adj(method, loops$pvals, inter$np, inter$ps)
         } else {
-          n <- nrow(l)
-          nam <- names(l)[-1]
-          np <- length(nam)
-          var_resid <- sum(residuals(model) ^ 2) / n
-          ind <- residuals(model) ^ 2 / var_resid - 1
-          l <- cbind(l, ind)
-          mdata <- l[-1]
-          dl <- mdata[, vars]
-          dk <- as.data.frame(cbind(ind, dl))
-          nd <- ncol(dk) - 1
-          models <- lm(ind ~ ., data = dk)
-          bp <- sum(models$fitted ^ 2) / 2
-          p <- pchisq(bp, df = nd, lower.tail = F)
+          result <- bp_case_7(l, model, vars)
+          bp <- result$bp
+          p <- pchisq(bp, df = result$df, lower.tail = FALSE)
         }
       }
     } else {
       if (rhs) {
-        n <- nrow(l)
-        nam <- names(l)[-1]
-        np <- length(nam)
-        var_resid <- sum(residuals(model) ^ 2) / n
-        ind <- residuals(model) ^ 2 / var_resid - 1
-        l <- cbind(l, ind)
-        mdata <- l[-1]
-        models <- lm(ind ~ ., data = mdata)
-        bp <- sum(models$fitted ^ 2) / 2
-        p <- pchisq(bp, df = np, lower.tail = F)
+        result <- bp_case_6(l, model)
+        bp <- result$bp
+        p <- pchisq(bp, df = result$df, lower.tail = FALSE)
       } else {
-        n <- nrow(l)
-        nam <- names(l)[-1]
-        np <- length(nam)
-        var_resid <- sum(residuals(model) ^ 2) / n
-        ind <- residuals(model) ^ 2 / var_resid - 1
-        l <- cbind(l, ind)
-        mdata <- l[-1]
-        dl <- mdata[, vars]
-        dk <- as.data.frame(cbind(ind, dl))
-        nd <- ncol(dk) - 1
-        models <- lm(ind ~ ., data = dk)
-        bp <- sum(models$fitted ^ 2) / 2
-        p <- pchisq(bp, df = nd, lower.tail = F)
+        result <- bp_case_7(l, model, vars)
+        bp <- result$bp
+        p <- pchisq(bp, df = result$df, lower.tail = FALSE)
       }
     }
   }
@@ -331,4 +202,250 @@ ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multip
 #'
 print.ols_bp_test <- function(x, ...) {
   print_bp_test(x)
+}
+
+
+bp_case_2 <- function(l, model) {
+
+  n <- model_rows(model)
+  var_resid <- residual_var(model, n)
+  ind <- ind_bp(model, var_resid)
+
+  df <-
+    l %>%
+    select(-1) %>%
+    ncol()
+
+  l %<>%
+    select(-1) %>%
+    bind_cols(ind)
+
+  bp <- bp_model(l)
+
+  list(bp = bp, df = df)
+
+}
+
+bp_case_3 <- function(model) {
+
+  `Sum Sq` <- NULL
+
+  pred <- fitted(model)
+  scaled_resid <- resid_scaled(model, pred)
+
+  lm(scaled_resid ~ pred) %>%
+    anova() %>%
+    use_series(`Sum Sq`) %>%
+    extract(1) %>%
+    divide_by(2)
+
+}
+
+bp_case_6 <- function(l, model) {
+
+  n <- nrow(l)
+  var_resid <- residual_var(model, n)
+  ind <- ind_bp(model, var_resid)
+
+  np <-
+    l %>%
+    names() %>%
+    extract(-1) %>%
+    length()
+
+  bp <-
+    l %>%
+    bind_cols(ind) %>%
+    select(-1) %>%
+    bp_model()
+
+  list(bp = bp, df = np)
+
+}
+
+#' @importFrom rlang !!! syms
+bp_case_7 <- function(l, model, vars) {
+
+  n <- nrow(l)
+  var_resid <- residual_var(model, n)
+  ind <- ind_bp(model, var_resid)
+
+  l %<>%
+    select(!!! syms(vars)) %>%
+    bind_cols(ind)
+
+  bp <- bp_model(l)
+
+  nd <-
+    l %>%
+    ncol() %>%
+    subtract(1)
+
+  list(bp = bp, df = nd)
+
+}
+
+bp_model <- function(l) {
+
+  l %>%
+    lm(ind ~ ., data = .) %>%
+    bp_fit()
+
+}
+
+bp_fit <- function(l) {
+
+  l %>%
+    fitted() %>%
+    raise_to_power(2) %>%
+    sum() %>%
+    divide_by(2)
+
+}
+
+ind_bp <- function(model, var_resid) {
+
+  model %>%
+    residuals() %>%
+    raise_to_power(2) %>%
+    divide_by(var_resid) %>%
+    subtract(1) %>%
+    tibble() %>%
+    set_colnames("ind")
+
+}
+
+bp_case_one <- function(l, model) {
+
+  nam <-
+    l %>%
+    names() %>%
+    extract(-1)
+
+  np <- length(nam)
+
+  n <- nrow(l)
+  var_resid <- residual_var(model, n)
+  ind <- ind_bp(model, var_resid)
+
+  l %<>%
+    bind_cols(ind)
+
+  list(np = np, nam = nam, l = l)
+
+}
+
+bp_case_loop <- function(np, nam, l) {
+
+  tstat <- c()
+  pvals <- c()
+
+  for (i in seq_len(np)) {
+
+    form <- as.formula(paste("ind ~", nam[i]))
+
+    tstat[i] <-
+      l %>%
+      lm(form, data = .) %>%
+      bp_fit()
+
+    pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = FALSE)
+
+  }
+
+  list(tstat = tstat, pvals = pvals)
+
+}
+
+bp_case_inter <- function(l, np, tstat) {
+
+  comp <-
+    l %>%
+    select(-1) %>%
+    lm(ind ~ ., data = .) %>%
+    bp_fit()
+
+  ps <- pchisq(comp, df = np, lower.tail = FALSE)
+
+  bp <-
+    comp %>%
+    prepend(tstat)
+
+  list(bp = bp, ps = ps)
+
+}
+
+bp_case_adj <- function(method, pvals, np, ps) {
+
+  if (method == "bonferroni") {
+
+    bpvals <- pmin(1, pvals * np)
+    p <- c(bpvals, ps)
+
+  } else if (method == "sidak") {
+
+    spvals <- pmin(1, 1 - (1 - pvals) ^ np)
+    p <- c(spvals, ps)
+
+  } else if (method == "holm") {
+
+    j <-
+      pvals %>%
+      length() %>%
+      seq_len() %>%
+      rev()
+
+    h <-
+      pvals %>%
+      order() %>%
+      order()
+
+    pvals_sort <-
+      pvals %>%
+      sort() %>%
+      multiply_by(j)
+
+    pholms <-
+      pmin(1, pvals_sort) %>%
+      extract(h)
+
+    p <- c(pholms, ps)
+
+  } else {
+
+    p <- c(pvals, ps)
+
+  }
+
+  return(p)
+
+}
+
+
+bp_case_5_inter <- function(l, model, vars, tstat) {
+
+  n <- nrow(l)
+  var_resid <- residual_var(model, n)
+  ind <- ind_bp(model, var_resid)
+
+  l %<>%
+    select(-1) %>%
+    select(!!! syms(vars)) %>%
+    bind_cols(ind)
+
+  np <-
+    l %>%
+    ncol() %>%
+    subtract(1)
+
+  ps <-
+    bp_model(l) %>%
+    pchisq(df = np, lower.tail = FALSE)
+
+  bp <-
+    bp_model(l) %>%
+    prepend(tstat)
+
+  list(bp = bp, ps = ps, np = np)
+
 }

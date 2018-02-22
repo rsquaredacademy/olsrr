@@ -13,33 +13,47 @@
 #' @export
 #'
 ols_ovsp_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  oname <- model %>%
-    model.frame() %>%
-    names() %>%
-    `[`(1)
-
   x <- NULL
   y <- NULL
+
+  oname <-
+    model %>%
+    model.frame() %>%
+    names() %>%
+    extract(1)
+
   d <- obspred(model)
-  p <- ggplot(d, aes(x = x, y = y))
-  p <- p + geom_point(color = "blue", shape = 1)
-  p <- p + ylab("Fitted Value") + xlab(paste(oname))
-  p <- p + ggtitle(paste("Actual vs Fitted for", oname))
-  p <- p + geom_abline(intercept = 0, slope = 1, color = "blue")
-  p <- p + geom_segment(
-    data = d, aes(x = min(x), y = min(y), xend = max(x), yend = max(y)),
-    colour = "red"
-  )
+
+  p <- ggplot(d, aes(x = x, y = y)) +
+    geom_point(color = "blue", shape = 1) +
+    ylab("Fitted Value") + xlab(paste(oname)) +
+    ggtitle(paste("Actual vs Fitted for", oname)) +
+    geom_abline(intercept = 0, slope = 1, color = "blue") +
+    geom_segment(
+      data = d, aes(x = min(x), y = min(y), xend = max(x), yend = max(y)),
+      colour = "red"
+    )
+
   print(p)
+
 }
 
 obspred <- function(model) {
-  y <- model %>% fitted.values()
-  x <- model %>% model.frame() %>% `[[`(1)
-  d <- tibble(x, y)
-  return(d)
+
+  y <-
+    model %>%
+    fitted.values()
+
+  x <-
+    model %>%
+    model.frame() %>%
+    extract2(1)
+
+  tibble(x, y)
+
 }

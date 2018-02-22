@@ -28,66 +28,88 @@
 #' @export
 #'
 ols_rfs_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
   x <- NULL
   y <- NULL
+
   d1 <- fmdata(model)
   ymin1 <- min(d1$y) + (0.25 * min(d1$y))
   ymax1 <- max(d1$y) + (0.25 * max(d1$y))
 
-  p1 <- ggplot(d1, aes(x = x, y = y))
-  p1 <- p1 + geom_point(shape = 1, color = "blue")
-  p1 <- p1 + xlim(c(-0.2, 1.2)) + ylim(c(ymin1, ymax1))
-  p1 <- p1 + xlab("Proportion Less") + ylab("")
-  p1 <- p1 + ggtitle("Fit - Mean")
+  p1 <- ggplot(d1, aes(x = x, y = y)) +
+    geom_point(shape = 1, color = "blue") +
+    xlim(c(-0.2, 1.2)) + ylim(c(ymin1, ymax1)) +
+    xlab("Proportion Less") + ylab("") +
+    ggtitle("Fit - Mean")
 
   d2 <- rsdata(model)
   ymin2 <- min(d2$y) + (0.25 * min(d2$y))
   ymax2 <- max(d2$y) + (0.25 * max(d2$y))
 
-  p2 <- ggplot(d2, aes(x = x, y = y))
-  p2 <- p2 + geom_point(color = "blue", shape = 1)
-  p2 <- p2 + ylim(c(ymin2, ymax2)) + xlim(c(-0.2, 1.2))
-  p2 <- p2 + xlab("Proportion Less") + ylab("")
-  p2 <- p2 + ggtitle("Residual")
+  p2 <- ggplot(d2, aes(x = x, y = y)) +
+    geom_point(color = "blue", shape = 1) +
+    ylim(c(ymin2, ymax2)) + xlim(c(-0.2, 1.2)) +
+    xlab("Proportion Less") + ylab("") +
+    ggtitle("Residual")
 
   grid.arrange(p1, p2, ncol = 2)
 
   result <- list(fm_plot = p1, rsd_plot = p2)
   invisible(result)
+
 }
 
 #' @rdname ols_rfs_plot
 #' @export
 #'
 ols_fm_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
+
   x <- NULL
   y <- NULL
+
   d <- fmdata(model)
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
 
-  p <- ggplot(d, aes(x = x, y = y))
-  p <- p + geom_point(shape = 1, color = "blue")
-  p <- p + xlim(c(-0.2, 1.2)) + ylim(c(ymin, ymax))
-  p <- p + xlab("Proportion Less") + ylab("Fit - Mean")
-  p <- p + ggtitle("Residual Fit Spread Plot")
+  p <- ggplot(d, aes(x = x, y = y)) +
+    geom_point(shape = 1, color = "blue") +
+    xlim(c(-0.2, 1.2)) + ylim(c(ymin, ymax)) +
+    xlab("Proportion Less") + ylab("Fit - Mean")
+    ggtitle("Residual Fit Spread Plot")
+
   print(p)
+
 }
 
 fmdata <- function(model) {
-  predicted <- model %>% fitted.values()
-  pred_m <- predicted %>% mean()
+
+  predicted <-
+    model %>%
+    fitted.values()
+
+  pred_m <-
+    predicted %>%
+    mean()
+
   y <- predicted - pred_m
-  percenti <- y %>% ecdf()
-  x <- y %>% percenti()
-  d <- tibble(x, y)
-  return(d)
+
+  percenti <-
+    y %>%
+    ecdf()
+
+  x <-
+    y %>%
+    percenti()
+
+  tibble(x, y)
+
 }
 
 
@@ -95,30 +117,44 @@ fmdata <- function(model) {
 #' @export
 #'
 ols_rsd_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
   x <- NULL
   y <- NULL
+
   d <- rsdata(model)
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
 
-  p <- ggplot(d, aes(x = x, y = y))
-  p <- p + geom_point(color = "blue", shape = 1)
-  p <- p + ylim(c(ymin, ymax)) + xlim(c(-0.2, 1.2))
-  p <- p + ylab("Residual") + xlab("Proportion Less")
-  p <- p + ggtitle("Residual Fit Spread Plot")
+  p <- ggplot(d, aes(x = x, y = y)) +
+    geom_point(color = "blue", shape = 1) +
+    ylim(c(ymin, ymax)) + xlim(c(-0.2, 1.2)) +
+    ylab("Residual") + xlab("Proportion Less") +
+    ggtitle("Residual Fit Spread Plot")
+
   print(p)
+
 }
 
 rsdata <- function(model) {
-  y <- model %>% residuals()
-  residtile <- y %>% ecdf()
-  x <- y %>% residtile()
-  d <- tibble(x, y)
-  return(d)
+
+  y <-
+    model %>%
+    residuals()
+
+  residtile <-
+    y %>%
+    ecdf()
+
+  x <-
+    y %>%
+    residtile()
+
+  tibble(x, y)
+
 }
 
 

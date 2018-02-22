@@ -41,11 +41,14 @@
 #'
 #' @export
 #'
-ols_score_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) UseMethod("ols_score_test")
+ols_score_test <- function(model, fitted_values = TRUE, rhs = FALSE,
+                           vars = NULL) UseMethod("ols_score_test")
 
 #' @export
 #'
-ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL) {
+ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE,
+                                   vars = NULL) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS regression model.", call. = FALSE)
   }
@@ -65,7 +68,11 @@ ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, var
     fitted_values <- FALSE
   }
 
-  resp <- model %>% model.frame() %>% names() %>% `[`(1)
+  resp <-
+    model %>%
+    model.frame() %>%
+    names() %>%
+    extract(1)
 
   if (rhs) {
     fitted_values <- FALSE
@@ -90,6 +97,7 @@ ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, var
 
   class(out) <- "ols_score_test"
   return(out)
+
 }
 
 #' @export
@@ -99,62 +107,143 @@ print.ols_score_test <- function(x, ...) {
 }
 
 rhsout <- function(model) {
-  # l <- model.frame(model)
-  m1 <- tibble::as_data_frame(model.frame(model))
-  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
+
+  l <- avplots_data(model)
   n <- nrow(l)
-  nam <- names(l)[-1]
+
+  nam <-
+    l %>%
+    names() %>%
+    extract(-1)
+
   np <- length(nam)
-  var_resid <- sum(residuals(model) ^ 2) / n
-  ind <- residuals(model) ^ 2 / var_resid - 1
-  l <- cbind(l, ind)
-  mdata <- l[-1]
-  model1 <- lm(ind ~ ., data = mdata)
-  score <- summary(model1)$r.squared * n
+  var_resid <- residual_var(model, n)
+  ind <- ind_score(model, var_resid)
+  score <- rhs_score(l, ind, n)
   p <- pchisq(score, np, lower.tail = F)
   preds <- nam
-  result <- list(score = score, p = p, np = np, preds = preds)
-  return(result)
+  list(score = score, p = p, np = np, preds = preds)
+
 }
 
 fitout <- function(model, resp) {
 
-  # l <- model.frame(model)
-  m1 <- tibble::as_data_frame(model.frame(model))
-  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
-  n <- nrow(l)
-  pred <- model$fitted.values
-  resid <- model$residuals ^ 2
-  avg_resid <- sum(resid) / length(pred)
-  scaled_resid <- resid / avg_resid
-  model1 <- lm(scaled_resid ~ pred)
-  score <- summary(model1)$r.squared * n
+  score <- fit_score(model)
   np <- 1
   p <- pchisq(score, 1, lower.tail = F)
   preds <- paste("fitted values of", resp)
-  result <- list(score = score, p = p, np = np, preds = preds)
-  return(result)
+  list(score = score, p = p, np = np, preds = preds)
+
 }
 
 varout <- function(model, vars) {
-  # l <- model.frame(model)
-  m1 <- tibble::as_data_frame(model.frame(model))
-  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
-  n <- nrow(l)
-  var_resid <- sum(residuals(model) ^ 2) / n
-  ind <- residuals(model) ^ 2 / var_resid - 1
-  mdata <- l[-1]
-  dl <- mdata[, vars]
-  dk <- as.data.frame(cbind(ind, dl))
-  nd <- ncol(dk) - 1
-  model1 <- lm(ind ~ ., data = dk)
-  score <- summary(model1)$r.squared * n
+
+  score <- var_score(model, vars)
+  nd <-
+    score_data(model, vars) %>%
+    ncol() %>%
+    subtract(1)
   p <- pchisq(score, nd, lower.tail = F)
   np <- nd
   preds <- vars
-  result <- list(score = score, p = p, np = np, preds = preds)
-  return(result)
+  list(score = score, p = p, np = np, preds = preds)
+
+}
+
+residual_var <- function(model, n) {
+
+  model %>%
+    residuals() %>%
+    raise_to_power(2) %>%
+    sum() %>%
+    divide_by(n)
+
+}
+
+ind_score <- function(model, var_resid) {
+
+  vresid <- var_resid - 1
+
+  model %>%
+    residuals() %>%
+    raise_to_power(2) %>%
+    divide_by(vresid)
+
+}
+
+rhs_score <- function(l, ind, n) {
+
+  r.squared <- NULL
+
+  ind <- tibble(ind = ind)
+
+  bind_cols(l, ind) %>%
+    select(-1) %>%
+    lm(ind ~ ., data = .) %>%
+    summary() %>%
+    use_series(r.squared) %>%
+    multiply_by(n)
+
+}
+
+fit_score <- function(model) {
+
+  r.squared <- NULL
+
+  l <- avplots_data(model)
+  n <- nrow(l)
+  pred <- model$fitted.values
+  scaled_resid <- resid_scaled(model, pred)
+
+  lm(scaled_resid ~ pred) %>%
+    summary() %>%
+    use_series(r.squared) %>%
+    multiply_by(n)
+
+}
+
+resid_scaled <- function(model, pred) {
+
+  resid <-
+    model %>%
+    residuals() %>%
+    raise_to_power(2)
+
+  avg_resid <- sum(resid) / length(pred)
+
+  resid / avg_resid
+
+}
+
+var_score <- function(model, vars) {
+
+  r.squared <- NULL
+
+  n <-
+    avplots_data(model) %>%
+    nrow()
+
+  score_data(model, vars) %>%
+    lm(ind ~ ., data = .) %>%
+    summary() %>%
+    use_series(r.squared) %>%
+    multiply_by(n)
+
+}
+
+score_data <- function(model, vars) {
+
+  l <- avplots_data(model)
+  n <- nrow(l)
+  var_resid <- residual_var(model, n)
+
+  ind <-
+    ind_score(model, var_resid) %>%
+    tibble() %>%
+    set_colnames("ind")
+
+  l %>%
+    select(!!! syms(vars)) %>%
+    bind_cols(ind)
+
 }

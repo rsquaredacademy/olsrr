@@ -1,7 +1,8 @@
-#' @importFrom stats model.frame residuals lm as.formula
+#' @importFrom stats lm
 #' @importFrom tibble tibble
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
 #' @importFrom magrittr %>%
+#'
 #' @title Added Variable Plot
 #'
 #' @description Added variable plot provides information about the marginal importance of a
@@ -50,32 +51,41 @@
 #'
 ols_avplots <- function(model) {
 
-    if (!all(class(model) == "lm")) {
+  if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  m1 <- tibble::as_data_frame(model.frame(model))
-  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-  data <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
-  xnames <- colnames(data)
-  nl <- xnames %>% length()
-  resp <- xnames[1]
+  data <- avplots_data(model)
+
+  xnames <-
+    data %>%
+    colnames()
+
+  nl <-
+    xnames %>%
+    length()
+
+  resp <-
+    xnames %>%
+    extract(1)
 
   myplots <- list()
 
   for (i in 2:nl) {
+
     x <- advarx(data, i)
     y <- advary(data, i)
     d <- tibble(x, y)
+
     p <- eval(substitute(ggplot(d, aes(x = x, y = y)) +
       geom_point(colour = "blue", size = 2) +
       xlab(paste(xnames[i], " | Others")) +
       ylab(paste(resp, " | Others")) +
       stat_smooth(method = "lm", se = FALSE), list(i = i)))
 
-    # print(p)
     j <- i - 1
     myplots[[j]] <- p
+
   }
 
   do.call(grid.arrange, c(myplots, list(ncol = 2)))
@@ -85,22 +95,105 @@ ols_avplots <- function(model) {
 
 }
 
+#' Added variable plot data
+#'
+#' Data for generating the added variable plots.
+#'
+#' @importFrom stats model.frame residuals as.formula
+#' @importFrom dplyr bind_cols
+#'
+#' @param model An object of class \code{lm}
+#'
+#' @noRd
+#'
+avplots_data <- function(model) {
+
+  m1 <-
+    model %>%
+    model.frame() %>%
+    as_data_frame()
+
+  m2 <-
+    model %>%
+    model.matrix() %>%
+    as_data_frame() %>%
+    select(-1)
+
+  m1 %>%
+    select(1) %>%
+    bind_cols(m2) %>%
+    as_data_frame()
+
+}
+
+#' Regress predictor on other predictors
+#'
+#' Regress a predictor in the model on all the other predictors.
+#'
 #' @importFrom stats lsfit
+#'
+#' @param data A \code{data.frame}.
+#' @param i A numeric vector.
+#'
+#' @noRd
+#'
 advarx <- function(data, i) {
 
-  x <- as.matrix(data[c(-1, -i)])
-  y <- as.matrix(data[i])
+  x <- remove_columns(data, i)
+  y <- select_columns(data, i)
   lsfit(x, y) %>%
     use_series(residuals)
 
 }
 
+#' Regress y on other predictors
+#'
+#' Regress y on all the predictors except the ith predictor.
+#'
+#' @param data A \code{data.frame}.
+#' @param i A numeric vector (indicates the predictor in the model).
+#'
+#' @noRd
+#'
 advary <- function(data, i) {
 
-  x <- as.matrix(data[c(-1, -i)])
-  y <- as.matrix(data[1])
+  x <- remove_columns(data, i)
+  y <- select_columns(data)
   lsfit(x, y) %>%
     use_series(residuals)
 
 }
 
+#' Remove columns
+#'
+#' Removes columns and returns a matrix.
+#'
+#' @param data A `data.frame`.
+#' @param i A numeric vector of length 1.
+#'
+#' @noRd
+#'
+remove_columns <- function(data, i) {
+
+  data %>%
+    select(-1, -i) %>%
+    as.matrix()
+
+}
+
+#' Select columns
+#'
+#' Select column and return as matrix.
+#'
+#' @param data A `data.frame`.
+#' @param i A numeric vector of length 1.
+#'
+#' @noRd
+#'
+select_columns <- function(data, i = 1) {
+
+  data %>%
+    select(i) %>%
+    as.matrix()
+
+}

@@ -9,12 +9,14 @@
 #' @export
 #'
 ols_rsd_hist <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
   x <- NULL
   y <- NULL
+
   k <- histdata(model)
   h <- hist(k$resid, plot = FALSE)
   l <- histn(k$resid, h)
@@ -27,20 +29,23 @@ ols_rsd_hist <- function(model) {
     xlab("Residuals") + ggtitle("Residual Histogram")
 
   print(p)
+
 }
 
 histdata <- function(model) {
+
   resid <- residuals(model)
   minx <- min(resid) - 1
   maxx <- max(resid) + 1
-  result <- list(resid = resid, minx = minx, maxx = maxx)
-  return(result)
+  list(resid = resid, minx = minx, maxx = maxx)
+
 }
 
 histn <- function(resid, h) {
+
   xfit <- seq(min(resid), max(resid), length = 80)
   yfit <- dnorm(xfit, mean = mean(resid), sd = sd(resid))
   yfit1 <- yfit * diff(h$mids[1:2]) * length(resid)
-  result <- list(xfit = xfit, yfit = yfit1)
-  return(result)
+  list(xfit = xfit, yfit = yfit1)
+
 }

@@ -10,6 +10,7 @@
 #' @export
 #'
 ols_rsdlev_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -18,63 +19,135 @@ ols_rsdlev_plot <- function(model) {
   leverage <- NULL
   txt <- NULL
   obs <- NULL
-  resp <- model %>% model.frame() %>% names() %>% `[`(1)
+  lev_thrsh <- NULL
+  levrstud <- NULL
+  color <- NULL
+  fct_color <- NULL
+
+
+  resp <-
+    model %>%
+    model.frame() %>%
+    names() %>%
+    extract(1)
+
+  title <- paste("Outlier and Leverage Diagnostics for", resp)
+
   g <- rstudlev(model)
-  d <- g$levrstud
-  d <- d %>% mutate(txt = ifelse(Observation == "normal", NA, obs))
-  f <- d %>% filter(., Observation == "outlier") %>% select(obs, leverage, rstudent)
+
+  ann_paste <-
+    g %>%
+    use_series(lev_thrsh) %>%
+    round(3)
+
+  ann_label <- paste("Threshold:", ann_paste)
+
+  d <-
+    g %>%
+    use_series(levrstud) %>%
+    mutate(
+      txt = ifelse(color == "normal", NA, obs)
+    )
+
+  f <-
+    d %>%
+    filter(color == "outlier") %>%
+    select(obs, leverage, rstudent) %>%
+    set_colnames(c("Observation", "Leverage", "Studentized Residuals"))
 
   p <- ggplot(d, aes(leverage, rstudent, label = txt)) +
-    geom_point(shape = 1, aes(colour = Observation)) +
+    geom_point(shape = 1, aes(colour = fct_color)) + labs("Observation") +
     scale_color_manual(values = c("blue", "red", "green", "violet")) +
     xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) +
-    xlab("Leverage") + ylab("RStudent") +
-    ggtitle(paste("Outlier and Leverage Diagnostics for", resp)) +
+    xlab("Leverage") + ylab("RStudent") + ggtitle(title) +
     geom_hline(yintercept = c(2, -2), colour = "maroon") +
     geom_vline(xintercept = g$lev_thrsh, colour = "maroon") +
     geom_text(vjust = -1, size = 3, family = "serif", fontface = "italic", colour = "darkred") +
     annotate(
       "text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
       family = "serif", fontface = "italic", colour = "darkred",
-      label = paste("Threshold:", round(g$lev_thrsh, 3))
-    )
+      label = ann_label)
 
   suppressWarnings(print(p))
-  colnames(f) <- c("Observation", "Leverage", "Studentized Residuals")
   result <- list(leverage = f, threshold = g$lev_thrsh, plot = p)
   invisible(result)
+
 }
 
+
+#' @importFrom dplyr case_when
 rstudlev <- function(model) {
-  leverage <- unname(hatvalues(model))
-  rstudent <- unname(rstudent(model))
-  k <- length(model$coefficients)
-  n <- nrow(model.frame(model))
-  lev_thrsh <- ((2 * k) + 2) / n
+
+  color <- NULL
+
+  leverage <-
+    model %>%
+    hatvalues() %>%
+    unname()
+
+  rstudent <-
+    model %>%
+    rstudent() %>%
+    unname()
+
+  k <-
+    model %>%
+    coefficients() %>%
+    length()
+
+  n <-
+    model %>%
+    model.frame() %>%
+    nrow()
+
+  lev_thrsh <-
+    2 %>%
+    multiply_by(k) %>%
+    add(2) %>%
+    divide_by(n)
+
   rst_thrsh <- 2
-  miny <- min(rstudent) - 3
-  maxy <- max(rstudent) + 3
+
+  miny <-
+    rstudent %>%
+    min() %>%
+    subtract(3)
+
+  maxy <-
+    rstudent %>%
+    max() %>%
+    add(3)
+
   minx <- min(leverage)
-  maxx <- ifelse((max(leverage) > lev_thrsh), max(leverage), (lev_thrsh + 0.05))
-  levrstud <- data.frame(obs = seq_len(n), leverage, rstudent)
+  maxx <- ifelse((max(leverage) > lev_thrsh), max(leverage),
+                 (lev_thrsh + 0.05))
 
+  levrstud <-
+    tibble(obs = seq_len(n), leverage, rstudent) %>%
+    mutate(
 
-  levrstud$color[(leverage < lev_thrsh & abs(rstudent) < 2)] <- "normal"
-  levrstud$color[(leverage > lev_thrsh & abs(rstudent) < 2)] <- "leverage"
-  levrstud$color[(leverage < lev_thrsh & abs(rstudent) > 2)] <- "outlier"
-  levrstud$color[(leverage > lev_thrsh & abs(rstudent) > 2)] <- "outlier & leverage"
-  levrstud$color3 <- factor(levrstud$color)
-  levrstud$Observation <- ordered(
-    levrstud$color3,
-    levels = c(
-      "normal", "leverage", "outlier",
-      "outlier & leverage"
+      color = case_when(
+        (leverage < lev_thrsh & abs(rstudent) < 2) ~ "normal",
+        (leverage > lev_thrsh & abs(rstudent) < 2) ~ "leverage",
+        (leverage < lev_thrsh & abs(rstudent) > 2) ~ "outlier",
+        TRUE ~ "outlier & leverage"
+
+      ),
+
+      fct_color = color %>%
+        factor() %>%
+        ordered(
+          levels = c(
+            "normal", "leverage", "outlier",
+            "outlier & leverage"
+          )
+        )
+
     )
-  )
 
-  result <- list(
+  list(
     levrstud = levrstud, lev_thrsh = lev_thrsh, minx = minx,
     miny = miny, maxx = maxx, maxy = maxy
   )
-  return(result)
+
 }

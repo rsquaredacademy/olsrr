@@ -14,11 +14,11 @@
 #' @export
 #'
 ols_hadi_plot <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  obs <- NULL
   hadi <- NULL
 
   hdi <-
@@ -27,7 +27,12 @@ ols_hadi_plot <- function(model) {
     use_series(hadi) %>%
     unname()
 
-  d <- tibble(obs = seq_len(length(hdi)), hdi = hdi)
+  obs <-
+    hdi %>%
+    length() %>%
+    seq_len()
+
+  d <- tibble(obs = obs, hdi = hdi)
 
   p <- ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
     geom_linerange(colour = "blue") +
@@ -36,5 +41,6 @@ ols_hadi_plot <- function(model) {
     ggtitle("Hadi's Influence Measure")
 
   print(p)
+
 }
 

@@ -58,7 +58,7 @@ test_that("residual vs fitted plot is as expected", {
 
 test_that("residual vs regressor plot is as expected", {
   skip_on_cran()
-  p <- ols_rvsr_plot(model, mtcars$drat)
+  p <- ols_rvsr_plot(model, drat)
   vdiffr::expect_doppelganger("residual vs regressor plot", p$plot)
 })
 
@@ -224,4 +224,43 @@ test_that("fitted line properties plot is as expected", {
   skip_on_cran()
   p <- ols_reg_line(mtcars$mpg, mtcars$disp)
   vdiffr::expect_doppelganger("fitted line plot", p$plot)
+})
+
+test_that("added variable plot is as expected", {
+  skip_on_cran()
+
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  k <- olsrr::ols_avplots(model)
+
+  vdiffr::expect_doppelganger("avplot disp", k$plots[[1]])
+  vdiffr::expect_doppelganger("avplot hp", k$plots[[2]])
+  vdiffr::expect_doppelganger("avplot wt", k$plots[[3]])
+})
+
+test_that("all possible regression plots are as expected", {
+  skip_on_cran()
+
+  model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
+  k <- plot(ols_all_subset(model))
+
+  vdiffr::expect_doppelganger("all possible rsquare", k$rsquare_plot)
+  vdiffr::expect_doppelganger("all possible adjusted rsquare", k$adj_rsquare_plot)
+  vdiffr::expect_doppelganger("all possible mallows cp", k$mallows_cp_plot)
+  vdiffr::expect_doppelganger("all possible aic", k$aic_plot)
+  vdiffr::expect_doppelganger("all possible sbic", k$sbic_plot)
+  vdiffr::expect_doppelganger("all possible sbc", k$sbc_plot)
+})
+
+test_that("best subsets regression plots are as expected", {
+  skip_on_cran()
+
+  model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
+  k <- plot(ols_best_subset(model))
+
+  vdiffr::expect_doppelganger("best subset rsquare", k$rsquare_plot)
+  vdiffr::expect_doppelganger("best subset adjusted rsquare", k$adj_rsquare_plot)
+  vdiffr::expect_doppelganger("best subset mallows cp", k$mallows_cp_plot)
+  vdiffr::expect_doppelganger("best subset aic", k$aic_plot)
+  vdiffr::expect_doppelganger("best subset sbic", k$sbic_plot)
+  vdiffr::expect_doppelganger("best subset sbc", k$sbc_plot)
 })

@@ -49,30 +49,14 @@ a formula or a linear model.
 
 #### Use grouping variable
 ```{r bartlett1}
-model <- lm(mpg ~ disp + hp, data = mtcars)
-resid <- residuals(model)
-cyl <- as.factor(mtcars$cyl)
-ols_bartlett_test(resid, group_var = cyl)
+ols_bartlett_test(hsb, read, group_var = female)
 ```
 
 #### Using variables
 ```{r bartlett2}
-ols_bartlett_test(hsb$read, hsb$write)
+ols_bartlett_test(hsb, read, write)
 ```
 
-#### Using formula
-```{r bartlett3}
-mt <- mtcars
-mt$cyl <- as.factor(mt$cyl)
-ols_bartlett_test(mpg ~ cyl, data = mt)
-```
-
-#### Using linear model
-```{r bartlett4}
-mtcars$cyl <- as.factor(mtcars$cyl)
-model <- lm(mpg ~ cyl, data = mtcars)
-ols_bartlett_test(model)
-```
 
 ## Breusch Pagan Test
 

@@ -37,20 +37,6 @@ test_that("output from all subsets regression is as expected", {
   expect_output(print(ols_all_subset(model)), x)
 })
 
-test_that("all possible regression plots are as expected", {
-  skip_on_cran()
-
-  model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
-  k <- plot(ols_all_subset(model))
-
-  vdiffr::expect_doppelganger("all possible rsquare", k$rsquare_plot)
-  vdiffr::expect_doppelganger("all possible adjusted rsquare", k$adj_rsquare_plot)
-  vdiffr::expect_doppelganger("all possible mallows cp", k$mallows_cp_plot)
-  vdiffr::expect_doppelganger("all possible aic", k$aic_plot)
-  vdiffr::expect_doppelganger("all possible sbic", k$sbic_plot)
-  vdiffr::expect_doppelganger("all possible sbc", k$sbc_plot)
-})
-
 test_that("all possible regression betas are as expected", {
   model <- lm(mpg ~ disp + hp + wt, data = mtcars)
   k <- ols_all_subset_betas(model)

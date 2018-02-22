@@ -43,6 +43,7 @@ ols_stepaic_forward <- function(model, ...) UseMethod("ols_stepaic_forward")
 #' @rdname ols_stepaic_forward
 #'
 ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -55,13 +56,15 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 
+  response <-
+    model %>%
+    use_series(model) %>%
+    names() %>%
+    extract(1)
+
   l <- mod_sel_data(model)
-  nam <- colnames(attr(model$terms, "factors"))
-  response <- names(model$model)[1]
+  nam <- coeff_names(model)
   all_pred <- nam
-  # nam      <- names(l)
-  # response <- nam[1]
-  # all_pred <- nam[-1]
   mlen_p <- length(all_pred)
   preds <- c()
   step <- 1
@@ -289,6 +292,11 @@ print.ols_stepaic_forward <- function(x, ...) {
 #' @export
 #'
 plot.ols_stepaic_forward <- function(x, ...) {
+
+  a <- NULL
+  b <- NULL
+  tx <- NULL
+
   y <- seq_len(x$steps)
   xloc <- y - 0.1
   yloc <- x$aics - 0.2
@@ -297,9 +305,6 @@ plot.ols_stepaic_forward <- function(x, ...) {
   ymin <- min(x$aics) - 1
   ymax <- max(x$aics) + 1
   predictors <- x$predictors
-  a <- NULL
-  b <- NULL
-  tx <- NULL
 
   d2 <- tibble(x = xloc, y = yloc, tx = predictors)
   d <- tibble(a = y, b = x$aics)

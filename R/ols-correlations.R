@@ -30,6 +30,7 @@ ols_correlations <- function(model) UseMethod("ols_correlations")
 #' @export
 #'
 ols_correlations.default <- function(model) {
+
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -37,6 +38,7 @@ ols_correlations.default <- function(model) {
   result <- corout(model, corm2(model))
   class(result) <- c("ols_correlations", "data.frame")
   return(result)
+
 }
 
 #' @export
@@ -48,42 +50,44 @@ print.ols_correlations <- function(x, ...) {
 #' @importFrom tibble as_data_frame
 #' @importFrom purrr map_df
 cordata <- function(model) {
-  m1 <- tibble::as_data_frame(model.frame(model))
-  m2 <- tibble::as_data_frame(model.matrix(model)[, c(-1)])
-  l <- tibble::as_data_frame(cbind(m1[, c(1)], m2))
-  # d <- model %>%
-  #   model.frame() %>%
-  #   as_data_frame() %>%
-  #   map_df(as.numeric)
-  return(l)
+
+  avplots_data(model)
+
 }
 
 cmdata <- function(mdata) {
-  d <- mdata %>%
+
+  mdata %>%
     cor() %>%
     `[`(-1, 1)
-  return(d)
+
 }
 
 rtwo <- function(i, mdata) {
-  dat <- mdata[, c(-1, -i)]
-  out <- lm(mdata[[1]] ~ ., data = dat) %>%
+
+  dat <-
+    mdata %>%
+    select(-1, -i)
+
+  lm(mdata[[1]] ~ ., data = dat) %>%
     summary() %>%
-    `[[`(8)
-  return(out)
+    extract2(8)
+
 }
 
 corsign <- function(model) {
-  d <- model %>%
+
+  model %>%
     summary() %>%
     use_series(coefficients) %>%
     `[`(, 1) %>%
-    `[`(-1) %>%
+    extract(-1) %>%
     sign()
-  return(d)
+
 }
 
 corout <- function(model, r2) {
+
   mdata <- cordata(model)
   cor_mdata <- cmdata(mdata)
   r1 <- summary(model)$r.squared
@@ -97,9 +101,11 @@ corout <- function(model, r2) {
   colnames(result) <- c("Zero-order", "Partial", "Part")
 
   return(result)
+
 }
 
 corm2 <- function(model) {
+
   mdata <- cordata(model)
   n <- ncol(mdata)
   r2 <- c()

@@ -161,7 +161,7 @@ you should consider adding the new predictor to the model.
 
 ```{r rvsrplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_rvsr_plot(model, mtcars$drat)
+ols_rvsr_plot(model, drat)
 ```
 
 
