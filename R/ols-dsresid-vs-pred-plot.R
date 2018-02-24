@@ -28,14 +28,13 @@ ols_dsrvsp_plot <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  dsr <- NULL
-  pred <- NULL
-  txt <- NULL
-  obs <- NULL
-  Observation <- NULL
-  ds <- NULL
-  color <- NULL
   fct_color <- NULL
+  color     <- NULL
+  pred      <- NULL
+  dsr       <- NULL
+  txt       <- NULL
+  obs       <- NULL
+  ds        <- NULL
 
   k <- dpred(model)
 
@@ -76,20 +75,16 @@ ols_dsrvsp_plot <- function(model) {
 #' @importFrom magrittr %<>%
 dpred <- function(model) {
 
-  dsr <- NULL
+  dsr   <- NULL
   color <- NULL
-
-  pred <-
-    model %>%
-    fitted()
+  pred  <- fitted(model)
 
   dsresid <-
     model %>%
     rstudent() %>%
     unname()
 
-  n <- length(dsresid)
-
+  n  <- length(dsresid)
   ds <- tibble(obs = seq_len(n), dsr = dsresid)
 
   ds %<>%
@@ -100,10 +95,10 @@ dpred <- function(model) {
         ordered(levels = c("normal", "outlier"))
     )
 
-  ds2 <- tibble(obs = seq_len(n),
-                pred = pred,
-                dsr = ds$dsr,
-                color = ds$color,
+  ds2 <- tibble(obs       = seq_len(n),
+                pred      = pred,
+                dsr       = ds$dsr,
+                color     = ds$color,
                 fct_color = ds$fct_color)
 
   minx <-

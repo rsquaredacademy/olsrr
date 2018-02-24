@@ -36,11 +36,10 @@ ols_cooksd_barplot <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  obs <- NULL
-  txt <- NULL
-  cd <- NULL
-  Observation <- NULL
   fct_color <- NULL
+  obs       <- NULL
+  txt       <- NULL
+  cd        <- NULL
 
   k <- cdplot(model)
   d <- plot_data(k)
@@ -68,26 +67,14 @@ ols_cooksd_barplot <- function(model) {
 #' @importFrom dplyr if_else
 cdplot <- function(model) {
 
-  cd <- NULL
-  color <- NULL
-
-  cooksd <-
-    model %>%
-    cooks.distance()
-
-  n <-
-    cooksd %>%
-    length()
-
-  obs <-
-    n %>%
-    seq_len()
-
-  ckd <- tibble(obs = obs, cd = cooksd)
-
-  ts <-
-    4 %>%
-    divide_by(n)
+  cd        <- NULL
+  color     <- NULL
+  cooksd    <- cooks.distance(model)
+  n         <- length(cooksd)
+  obs       <- seq_len(n)
+  ckd       <- tibble(obs = obs, cd = cooksd)
+  ts        <- 4 / n
+  cooks_max <- max(cooksd)
 
   ckd %<>%
     mutate(
@@ -96,10 +83,6 @@ cdplot <- function(model) {
         factor() %>%
         ordered(levels = c("normal", "outlier"))
     )
-
-  cooks_max <-
-    cooksd %>%
-    max()
 
   maxx <-
     cooks_max %>%
@@ -112,9 +95,9 @@ cdplot <- function(model) {
 
 plot_data <- function(k) {
 
-  ckd <- NULL
+  ckd   <- NULL
   color <- NULL
-  obs <- NULL
+  obs   <- NULL
 
   k %>%
     use_series(ckd) %>%
@@ -126,10 +109,10 @@ plot_data <- function(k) {
 
 outlier_data <- function(k) {
 
-  ckd <- NULL
   color <- NULL
-  obs <- NULL
-  cd <- NULL
+  ckd   <- NULL
+  obs   <- NULL
+  cd    <- NULL
 
   k %>%
     use_series(ckd) %>%

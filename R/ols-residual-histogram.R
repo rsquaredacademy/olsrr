@@ -17,11 +17,11 @@ ols_rsd_hist <- function(model) {
   x <- NULL
   y <- NULL
 
-  k <- histdata(model)
-  h <- hist(k$resid, plot = FALSE)
-  l <- histn(k$resid, h)
+  k  <- histdata(model)
+  h  <- hist(k$resid, plot = FALSE)
+  l  <- histn(k$resid, h)
   d2 <- tibble(x = l$xfit, y = l$yfit)
-  d <- tibble(x = k$resid)
+  d  <- tibble(x = k$resid)
 
   p <- ggplot(d, aes(x = x)) +
     geom_histogram(bins = 6, color = "black", fill = "#ADD8E6") +
@@ -35,16 +35,16 @@ ols_rsd_hist <- function(model) {
 histdata <- function(model) {
 
   resid <- residuals(model)
-  minx <- min(resid) - 1
-  maxx <- max(resid) + 1
+  minx  <- min(resid) - 1
+  maxx  <- max(resid) + 1
   list(resid = resid, minx = minx, maxx = maxx)
 
 }
 
 histn <- function(resid, h) {
 
-  xfit <- seq(min(resid), max(resid), length = 80)
-  yfit <- dnorm(xfit, mean = mean(resid), sd = sd(resid))
+  xfit  <- seq(min(resid), max(resid), length = 80)
+  yfit  <- dnorm(xfit, mean = mean(resid), sd = sd(resid))
   yfit1 <- yfit * diff(h$mids[1:2]) * length(resid)
   list(xfit = xfit, yfit = yfit1)
 

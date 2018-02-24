@@ -84,12 +84,13 @@ ols_coll_diag.default <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  vift <- ols_vif_tol(model)
+  vift    <- ols_vif_tol(model)
   eig_ind <- ols_eigen_cindex(model)
-  result <- list(vif_t = vift, eig_cindex = eig_ind)
-  class(result) <- "ols_coll_diag"
+  result  <- list(vif_t = vift, eig_cindex = eig_ind)
 
+  class(result) <- "ols_coll_diag"
   return(result)
+
 }
 
 #' @export
@@ -115,11 +116,9 @@ ols_vif_tol <- function(model) {
 
   vt <- viftol(model)
 
-  tibble(
-    Variables = vt$nam,
-    Tolerance = vt$tol,
-    VIF = vt$vifs
-  )
+  tibble(Variables = vt$nam,
+         Tolerance = vt$tol,
+         VIF       = vt$vifs)
 
 }
 
@@ -164,12 +163,11 @@ ols_eigen_cindex <- function(model) {
 
 evalue <- function(x) {
 
-  values <- NULL
-
-  y <- x
+  values         <- NULL
+  y              <- x
   colnames(y)[1] <- "intercept"
-  z <- scale(y, scale = T, center = F)
-  tu <- t(z) %*% z
+  z              <- scale(y, scale = T, center = F)
+  tu             <- t(z) %*% z
 
   e <-
     tu %>%
@@ -194,14 +192,10 @@ cindx <- function(e) {
 #' @importFrom magrittr multiply_by_matrix
 pveindex <- function(z) {
 
-  d <- NULL
-  v <- NULL
-
-  svdx <- svd(z)
-
-  svdxd <-
-    svdx %>%
-    use_series(d)
+  d     <- NULL
+  v     <- NULL
+  svdx  <- svd(z)
+  svdxd <- svdx$d
 
   phi_diag <-
     1 %>%

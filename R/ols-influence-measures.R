@@ -51,14 +51,12 @@ ols_hadi <- function(model) {
   }
 
   potential <- hadipot(model)
-  residual <- hadires(model)
-  hi <- potential + residual
+  residual  <- hadires(model)
+  hi        <- potential + residual
 
-  list(
-    hadi = hi,
-    potential = potential,
-    residual = residual
-  )
+  list(hadi      = hi,
+       potential = potential,
+       residual  = residual)
 
 }
 
@@ -72,18 +70,10 @@ hadipot <- function(model) {
 
 hadires <- function(model) {
 
-  Df <- NULL
-
-  pii <-
-    1 %>%
-    subtract(ols_leverage(model))
-
-  q <-
-    model %>%
-    use_series(rank)
-
-  p <- q - 1
-
+  Df    <- NULL
+  pii   <- 1 - ols_leverage(model)
+  q     <- model$rank
+  p     <- q - 1
   aov_m <- anova(model)
 
   j <-
@@ -107,9 +97,7 @@ hadires <- function(model) {
     add(1) %>%
     divide_by(pii)
 
-  second <-
-    dii %>%
-    divide_by((1 - dii))
+  second <- dii / (1 - dii)
 
   first * second
 
@@ -140,13 +128,8 @@ ols_press <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  lev <-
-    model %>%
-    ols_leverage()
-
-  k <-
-    1 %>%
-    subtract(lev)
+  lev <- ols_leverage(model)
+  k   <- 1 - lev
 
   model %>%
     residuals() %>%
@@ -183,7 +166,6 @@ ols_pred_rsq <- function(model) {
     ols_press() %>%
     divide_by(tss)
 
-  1 %>%
-    subtract(prts)
+  1 - prts
 
 }

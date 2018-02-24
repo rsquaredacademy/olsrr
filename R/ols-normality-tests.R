@@ -19,12 +19,6 @@ ols_corr_test <- function(model) {
 
 }
 
-ka <- function(k, stderr, n) {
-
-  stderr * qnorm((k - 0.375) / (n + 0.25))
-
-}
-
 corrout <- function(model) {
 
   n <- model_rows(model)
@@ -46,6 +40,10 @@ corrout <- function(model) {
 
   cor(h, out)
 
+}
+
+ka <- function(k, stderr, n) {
+  stderr * qnorm((k - 0.375) / (n + 0.25))
 }
 
 
@@ -79,17 +77,15 @@ ols_norm_test.default <- function(y, ...) {
     stop("y must be numeric")
   }
 
-  ks <- ks.test(y, "pnorm", mean(y), sd(y))
-  sw <- shapiro.test(y)
+  ks  <- ks.test(y, "pnorm", mean(y), sd(y))
+  sw  <- shapiro.test(y)
   cvm <- cvm.test(y)
-  ad <- ad.test(y)
+  ad  <- ad.test(y)
 
-  result <- list(
-    kolmogorv = ks,
-    shapiro = sw,
-    cramer = cvm,
-    anderson = ad
-  )
+  result <- list(kolmogorv = ks,
+                 shapiro   = sw,
+                 cramer    = cvm,
+                 anderson  = ad)
 
   class(result) <- "ols_norm_test"
   return(result)

@@ -61,13 +61,13 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
     names() %>%
     extract(1)
 
-  l <- mod_sel_data(model)
-  nam <- coeff_names(model)
+  l          <- mod_sel_data(model)
+  nam        <- coeff_names(model)
   predictors <- nam
-  mlen_p <- length(predictors)
-  tech <- c("addition", "removal")
-  mo <- lm(paste(response, "~", 1), data = l)
-  aic_c <- ols_aic(mo)
+  mlen_p     <- length(predictors)
+  tech       <- c("addition", "removal")
+  mo         <- lm(paste(response, "~", 1), data = l)
+  aic_c      <- ols_aic(mo)
 
   cat(format("Stepwise Selection Method", justify = "left", width = 25), "\n")
   cat(rep("-", 25), sep = "", "\n\n")
@@ -81,16 +81,16 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
     cat(" Step 0: AIC =", aic_c, "\n", paste(response, "~", 1, "\n\n"))
   }
 
-  step <- 0
-  all_step <- 0
-  preds <- c()
+  step      <- 0
+  all_step  <- 0
+  preds     <- c()
   var_index <- c()
-  method <- c()
-  laic <- c()
-  less <- c()
-  lrss <- c()
-  lrsq <- c()
-  larsq <- c()
+  method    <- c()
+  laic      <- c()
+  less      <- c()
+  lrss      <- c()
+  lrsq      <- c()
+  larsq     <- c()
 
   cat("\n")
   if (!details) {
@@ -98,20 +98,24 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
   }
 
   while (step < mlen_p) {
+
     aics <- c()
-    ess <- c()
-    rss <- c()
-    rsq <- c()
+    ess  <- c()
+    rss  <- c()
+    rsq  <- c()
     arsq <- c()
     lpds <- length(predictors)
 
     for (i in seq_len(lpds)) {
+
       predn <- c(preds, predictors[i])
+
       m <- ols_regress(paste(response, "~", paste(predn, collapse = " + ")), data = l)
+
       aics[i] <- ols_aic(m$model)
-      ess[i] <- m$ess
-      rss[i] <- m$rss
-      rsq[i] <- m$rsq
+      ess[i]  <- m$ess
+      rss[i]  <- m$rss
+      rsq[i]  <- m$rsq
       arsq[i] <- m$adjr
     }
 
@@ -126,7 +130,7 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
       w5 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
       w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
       w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-      w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
+      w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
       ln <- length(aics)
 
       cat(fc(crayon::bold$green("  Enter New Variables"), w), sep = "", "\n")
@@ -154,25 +158,25 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
     minc <- which(aics == min(aics))
 
     if (aics[minc] < aic_c) {
-      aic_c <- aics[minc]
-      preds <- c(preds, predictors[minc])
+      aic_c      <- aics[minc]
+      preds      <- c(preds, predictors[minc])
       predictors <- predictors[-minc]
-      lpds <- length(predictors)
-      method <- c(method, tech[1])
-      lpreds <- length(preds)
-      var_index <- c(var_index, preds[lpreds])
-      step <- step + 1
-      all_step <- all_step + 1
-      maic <- aics[minc]
-      mess <- ess[minc]
-      mrss <- rss[minc]
-      mrsq <- rsq[minc]
-      marsq <- arsq[minc]
-      laic <- c(laic, maic)
-      less <- c(less, mess)
-      lrss <- c(lrss, mrss)
-      lrsq <- c(lrsq, mrsq)
-      larsq <- c(larsq, marsq)
+      lpds       <- length(predictors)
+      method     <- c(method, tech[1])
+      lpreds     <- length(preds)
+      var_index  <- c(var_index, preds[lpreds])
+      step       <- step + 1
+      all_step   <- all_step + 1
+      maic       <- aics[minc]
+      mess       <- ess[minc]
+      mrss       <- rss[minc]
+      mrsq       <- rsq[minc]
+      marsq      <- arsq[minc]
+      laic       <- c(laic, maic)
+      less       <- c(less, mess)
+      lrss       <- c(lrss, mrss)
+      lrsq       <- c(lrsq, mrsq)
+      larsq      <- c(larsq, marsq)
 
       if (interactive()) {
         cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
@@ -185,19 +189,23 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
       }
 
       if (lpreds > 1) {
+
         aics <- c()
-        ess <- c()
-        rss <- c()
-        rsq <- c()
+        ess  <- c()
+        rss  <- c()
+        rsq  <- c()
         arsq <- c()
 
         for (i in seq_len(lpreds)) {
+
           preda <- preds[-i]
+
           m <- ols_regress(paste(response, "~", paste(preda, collapse = " + ")), data = l)
+
           aics[i] <- ols_aic(m$model)
-          ess[i] <- m$ess
-          rss[i] <- m$rss
-          rsq[i] <- m$rsq
+          ess[i]  <- m$ess
+          rss[i]  <- m$rss
+          rsq[i]  <- m$rsq
           arsq[i] <- m$adjr
         }
 
@@ -212,7 +220,7 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
           w5 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
           w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
           w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-          w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
+          w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
           ln <- length(aics)
 
           cat(fc(crayon::bold$red("Remove Existing Variables"), w), sep = "", "\n")
@@ -241,20 +249,20 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
 
 
         if (aics[minc2] < laic[all_step]) {
-          aic_c <- aics[minc2]
-          maic <- aics[minc2]
-          mess <- ess[minc2]
-          mrss <- rss[minc2]
-          mrsq <- rsq[minc2]
-          marsq <- arsq[minc2]
-          laic <- c(laic, maic)
-          less <- c(less, mess)
-          lrss <- c(lrss, mrss)
-          lrsq <- c(lrsq, mrsq)
-          larsq <- c(larsq, marsq)
+          aic_c     <- aics[minc2]
+          maic      <- aics[minc2]
+          mess      <- ess[minc2]
+          mrss      <- rss[minc2]
+          mrsq      <- rsq[minc2]
+          marsq     <- arsq[minc2]
+          laic      <- c(laic, maic)
+          less      <- c(less, mess)
+          lrss      <- c(lrss, mrss)
+          lrsq      <- c(lrsq, mrsq)
+          larsq     <- c(larsq, marsq)
           var_index <- c(var_index, preds[minc2])
-          method <- c(method, tech[2])
-          all_step <- all_step + 1
+          method    <- c(method, tech[2])
+          all_step  <- all_step + 1
 
           if (interactive()) {
             cat(crayon::red(clisymbols::symbol$cross), crayon::bold(preds[minc2]), "\n")
@@ -292,16 +300,14 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
     print(fi)
   }
 
-  out <- list(
-    predictors = var_index,
-    method = method,
-    aic = laic,
-    ess = less,
-    rss = lrss,
-    rsq = lrsq,
-    arsq = larsq,
-    steps = all_step
-  )
+  out <- list(predictors = var_index,
+              method     = method,
+              steps      = all_step,
+              arsq       = larsq,
+              aic        = laic,
+              ess        = less,
+              rss        = lrss,
+              rsq        = lrsq)
 
   class(out) <- "ols_stepaic_both"
 
@@ -323,28 +329,42 @@ print.ols_stepaic_both <- function(x, ...) {
 #'
 plot.ols_stepaic_both <- function(x, ...) {
 
-  a <- NULL
-  b <- NULL
+  a  <- NULL
+  b  <- NULL
   tx <- NULL
 
-  y <- seq_len(length(x$aic))
-  xloc <- y - 0.1
-  yloc <- x$aic - 0.2
-  xmin <- min(y) - 0.4
-  xmax <- max(y) + 1
-  ymin <- min(x$aic) - 1
-  ymax <- max(x$aic) + 1
   predictors <- x$predictors
 
+  y <-
+    x %>%
+    use_series(aic) %>%
+    length() %>%
+    seq_len()
+
+  xloc  <- y - 0.1
+  yloc  <- x$aic - 0.2
+  xmin  <- min(y) - 0.4
+  xmax  <- max(y) + 1
+
+  ymin <-
+    x %>%
+    use_series(aic) %>%
+    min() %>%
+    subtract(1)
+
+  ymax <-
+    x %>%
+    use_series(aic) %>%
+    max() %>%
+    add(1)
 
   d2 <- tibble(x = xloc, y = yloc, tx = predictors)
-  d <- tibble(a = y, b = x$aic)
+  d  <- tibble(a = y, b = x$aic)
 
-  p <- ggplot(d, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlim(c(xmin, xmax)) + ylim(c(ymin, ymax)) +
-    xlab("Step") + ylab("AIC") + ggtitle("Stepwise AIC Both Direction Selection") +
+  p <- ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
+    geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
+    ggtitle("Stepwise AIC Both Direction Selection") +
     geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
   print(p)

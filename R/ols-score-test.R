@@ -85,14 +85,13 @@ ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE,
     }
   }
 
-  out <- list(
-    score = d$score,
-    p = d$p,
-    df = d$np,
-    fv = fitted_values,
-    rhs = rhs,
-    preds = d$preds,
-    resp = resp
+  out <- list(score = d$score,
+              p     = d$p,
+              df    = d$np,
+              fv    = fitted_values,
+              rhs   = rhs,
+              preds = d$preds,
+              resp  = resp
   )
 
   class(out) <- "ols_score_test"
@@ -116,37 +115,51 @@ rhsout <- function(model) {
     names() %>%
     extract(-1)
 
-  np <- length(nam)
+  np        <- length(nam)
   var_resid <- residual_var(model, n)
-  ind <- ind_score(model, var_resid)
-  score <- rhs_score(l, ind, n)
-  p <- pchisq(score, np, lower.tail = F)
-  preds <- nam
-  list(score = score, p = p, np = np, preds = preds)
+  ind       <- ind_score(model, var_resid)
+  score     <- rhs_score(l, ind, n)
+  p         <- pchisq(score, np, lower.tail = F)
+  preds     <- nam
+
+  list(score = score,
+       preds = preds,
+       np    = np,
+       p     = p)
 
 }
 
 fitout <- function(model, resp) {
 
   score <- fit_score(model)
-  np <- 1
-  p <- pchisq(score, 1, lower.tail = F)
+  np    <- 1
+  p     <- pchisq(score, 1, lower.tail = F)
   preds <- paste("fitted values of", resp)
-  list(score = score, p = p, np = np, preds = preds)
+
+  list(score = score,
+       preds = preds,
+       np    = np,
+       p     = p)
 
 }
 
 varout <- function(model, vars) {
 
   score <- var_score(model, vars)
+
   nd <-
     score_data(model, vars) %>%
     ncol() %>%
     subtract(1)
-  p <- pchisq(score, nd, lower.tail = F)
-  np <- nd
+
+  p     <- pchisq(score, nd, lower.tail = F)
+  np    <- nd
   preds <- vars
-  list(score = score, p = p, np = np, preds = preds)
+
+  list(score = score,
+       preds = preds,
+       np    = np,
+       p     = p)
 
 }
 
@@ -190,10 +203,10 @@ fit_score <- function(model) {
 
   r.squared <- NULL
 
-  l <- avplots_data(model)
-  n <- nrow(l)
-  pred <- model$fitted.values
+  pred         <- fitted(model)
   scaled_resid <- resid_scaled(model, pred)
+  l            <- avplots_data(model)
+  n            <- nrow(l)
 
   lm(scaled_resid ~ pred) %>%
     summary() %>%
@@ -220,7 +233,8 @@ var_score <- function(model, vars) {
   r.squared <- NULL
 
   n <-
-    avplots_data(model) %>%
+    model %>%
+    avplots_data() %>%
     nrow()
 
   score_data(model, vars) %>%
@@ -233,8 +247,8 @@ var_score <- function(model, vars) {
 
 score_data <- function(model, vars) {
 
-  l <- avplots_data(model)
-  n <- nrow(l)
+  l         <- avplots_data(model)
+  n         <- nrow(l)
   var_resid <- residual_var(model, n)
 
   ind <-

@@ -63,25 +63,22 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
   }
 
 
-  l <- mod_sel_data(model)
-  nam <- colnames(attr(model$terms, "factors"))
+  l        <- mod_sel_data(model)
+  nam      <- colnames(attr(model$terms, "factors"))
   response <- names(model$model)[1]
-  preds <- nam
-  # nam      <- names(l)
-  # response <- nam[1]
-  # preds    <- nam[-1]
-  cterms <- preds
-  ilp <- length(preds)
-  end <- FALSE
-  step <- 0
-  rpred <- c()
-  rsq <- c()
-  adjrsq <- c()
-  aic <- c()
-  sbic <- c()
-  sbc <- c()
-  cp <- c()
-  rmse <- c()
+  preds    <- nam
+  cterms   <- preds
+  ilp      <- length(preds)
+  end      <- FALSE
+  step     <- 0
+  rpred    <- c()
+  rsq      <- c()
+  adjrsq   <- c()
+  aic      <- c()
+  sbic     <- c()
+  sbc      <- c()
+  cp       <- c()
+  rmse     <- c()
 
   cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
   cat(rep("-", 27), sep = "", "\n\n")
@@ -102,22 +99,24 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
   while (!end) {
     m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
     pvals <- m$pvalues[-1]
-    maxp <- which(pvals == max(pvals))
+    maxp  <- which(pvals == max(pvals))
 
     suppressWarnings(
       if (pvals[maxp] > prem) {
-        step <- step + 1
-        rpred <- c(rpred, preds[maxp])
-        preds <- preds[-maxp]
-        lp <- length(rpred)
-        fr <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-        rsq <- c(rsq, fr$rsq)
+
+        step   <- step + 1
+        rpred  <- c(rpred, preds[maxp])
+        preds  <- preds[-maxp]
+        lp     <- length(rpred)
+        fr     <- ols_regress(paste(response, "~",
+                                paste(preds, collapse = " + ")), l)
+        rsq    <- c(rsq, fr$rsq)
         adjrsq <- c(adjrsq, fr$adjr)
-        aic <- c(aic, ols_aic(fr$model))
-        sbc <- c(sbc, ols_sbc(fr$model))
-        sbic <- c(sbic, ols_sbic(fr$model, model))
-        cp <- c(cp, ols_mallows_cp(fr$model, model))
-        rmse <- c(rmse, sqrt(fr$ems))
+        aic    <- c(aic, ols_aic(fr$model))
+        sbc    <- c(sbc, ols_sbc(fr$model))
+        sbic   <- c(sbic, ols_sbic(fr$model, model))
+        cp     <- c(cp, ols_mallows_cp(fr$model, model))
+        rmse   <- c(rmse, sqrt(fr$ems))
 
         if (interactive()) {
           cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), "\n")
@@ -163,18 +162,16 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
   )
   print(fi)
 
-  out <- list(
-    steps = step,
-    removed = rpred,
-    rsquare = rsq,
-    aic = aic,
-    sbc = sbc,
-    sbic = sbic,
-    adjr = adjrsq,
-    rmse = rmse,
-    mallows_cp = cp,
-    indvar = cterms
-  )
+  out <- list(mallows_cp = cp,
+              removed    = rpred,
+              rsquare    = rsq,
+              indvar     = cterms,
+              steps      = step,
+              sbic       = sbic,
+              adjr       = adjrsq,
+              rmse       = rmse,
+              aic        = aic,
+              sbc        = sbc)
 
   class(out) <- "ols_step_backward"
 
@@ -197,87 +194,35 @@ print.ols_step_backward <- function(x, ...) {
 #' @rdname ols_step_backward
 #'
 plot.ols_step_backward <- function(x, model = NA, ...) {
-  y <- seq_len(x$steps)
-  rmax <- max(x$rsquare)
-  rstep <- which(x$rsquare == rmax)
-  adjrmax <- max(x$adjr)
-  adjrstep <- which(x$adjr == adjrmax)
-  cpdiff <- x$mallows_cp - y
-  cpdifmin <- min(cpdiff)
-  cpdifi <- which(cpdiff == cpdifmin)
-  cpval <- x$mallows_cp[cpdifi]
-  aicmin <- min(x$aic)
-  aicstep <- which(x$aic == aicmin)
-  sbicmin <- min(x$sbic)
-  sbicstep <- which(x$sbic == sbicmin)
-  sbcmin <- min(x$sbc)
-  sbcstep <- which(x$sbc == sbcmin)
+
   a <- NULL
   b <- NULL
 
+  y <- seq_len(x$steps)
+
   d1 <- tibble(a = y, b = x$rsquare)
-  p1 <- ggplot(d1, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("R-Square") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
   d2 <- tibble(a = y, b = x$adjr)
-  p2 <- ggplot(d2, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("Adj. R-Square") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
   d3 <- tibble(a = y, b = x$mallows_cp)
-  p3 <- ggplot(d3, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("C(p)") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
   d4 <- tibble(a = y, b = x$aic)
-  p4 <- ggplot(d4, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("AIC") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
   d5 <- tibble(a = y, b = x$sbic)
-  p5 <- ggplot(d5, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("SBIC") +
-    theme(
-      axis.ticks = element_blank()
-    )
-
   d6 <- tibble(a = y, b = x$sbc)
-  p6 <- ggplot(d6, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("SBC") +
-    theme(
-      axis.ticks = element_blank()
-    )
+
+  p1 <- plot_stepwise(d1, "R-Square") + theme(axis.text.x = element_blank())
+  p2 <- plot_stepwise(d2, "Adj. R-Square") + theme(axis.text.x = element_blank())
+  p3 <- plot_stepwise(d3, "C(p)") + theme(axis.text.x = element_blank())
+  p4 <- plot_stepwise(d4, "AIC") + theme(axis.text.x = element_blank())
+  p5 <- plot_stepwise(d5, "SBIC")
+  p6 <- plot_stepwise(d6, "SBC")
 
   grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "Stepwise Backward Regression")
 
-  result <- list(
-    rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
-    aic_plot = p4, sbic_plot = p5, sbc_plot = p6
-  )
+  result <- list(rsquare_plot     = p1,
+                 adj_rsquare_plot = p2,
+                 mallows_cp_plot  = p3,
+                 aic_plot         = p4,
+                 sbic_plot        = p5,
+                 sbc_plot         = p6)
+
   invisible(result)
+
 }

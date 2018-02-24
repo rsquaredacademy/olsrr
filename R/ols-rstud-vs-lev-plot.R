@@ -15,15 +15,13 @@ ols_rsdlev_plot <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  Observation <- NULL
-  leverage <- NULL
-  txt <- NULL
-  obs <- NULL
   lev_thrsh <- NULL
-  levrstud <- NULL
-  color <- NULL
+  leverage  <- NULL
+  levrstud  <- NULL
   fct_color <- NULL
-
+  txt       <- NULL
+  obs       <- NULL
+  color     <- NULL
 
   resp <-
     model %>%
@@ -32,8 +30,7 @@ ols_rsdlev_plot <- function(model) {
     extract(1)
 
   title <- paste("Outlier and Leverage Diagnostics for", resp)
-
-  g <- rstudlev(model)
+  g     <- rstudlev(model)
 
   ann_paste <-
     g %>%
@@ -62,9 +59,9 @@ ols_rsdlev_plot <- function(model) {
     xlab("Leverage") + ylab("RStudent") + ggtitle(title) +
     geom_hline(yintercept = c(2, -2), colour = "maroon") +
     geom_vline(xintercept = g$lev_thrsh, colour = "maroon") +
-    geom_text(vjust = -1, size = 3, family = "serif", fontface = "italic", colour = "darkred") +
-    annotate(
-      "text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
+    geom_text(vjust = -1, size = 3, family = "serif", fontface = "italic",
+              colour = "darkred") +
+    annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
       family = "serif", fontface = "italic", colour = "darkred",
       label = ann_label)
 
@@ -125,13 +122,11 @@ rstudlev <- function(model) {
   levrstud <-
     tibble(obs = seq_len(n), leverage, rstudent) %>%
     mutate(
-
       color = case_when(
         (leverage < lev_thrsh & abs(rstudent) < 2) ~ "normal",
         (leverage > lev_thrsh & abs(rstudent) < 2) ~ "leverage",
         (leverage < lev_thrsh & abs(rstudent) > 2) ~ "outlier",
         TRUE ~ "outlier & leverage"
-
       ),
 
       fct_color = color %>%
@@ -145,9 +140,12 @@ rstudlev <- function(model) {
 
     )
 
-  list(
-    levrstud = levrstud, lev_thrsh = lev_thrsh, minx = minx,
-    miny = miny, maxx = maxx, maxy = maxy
+  list(levrstud  = levrstud,
+       lev_thrsh = lev_thrsh,
+       minx      = minx,
+       miny      = miny,
+       maxx      = maxx,
+       maxy      = maxy
   )
 
 }

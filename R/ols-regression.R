@@ -104,10 +104,12 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
 #' @export
 #'
 ols_regress.lm <- function(object, ...) {
+
   formula <- formula(object)
-  # data    <- model.frame(object)
-  data <- eval(object$call$data)
+  data    <- eval(object$call$data)
+
   ols_regress.default(object = formula, data = data)
+
 }
 
 #' @export

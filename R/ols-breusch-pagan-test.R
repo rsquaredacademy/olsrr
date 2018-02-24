@@ -108,8 +108,8 @@ ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multip
   )
 
   method <- match.arg(p.adj)
-  l <- avplots_data(model)
-  n <- nrow(l)
+  l      <- avplots_data(model)
+  n      <- nrow(l)
 
   response <-
     l %>%
@@ -130,17 +130,17 @@ ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multip
         start <- bp_case_one(l, model)
         loops <- bp_case_loop(start$np, start$nam, start$l)
         inter <- bp_case_inter(start$l, start$np, loops$tstat)
-        bp <- inter$bp
-        p <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
+        bp    <- inter$bp
+        p     <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
 
       } else {
         result <- bp_case_2(l, model)
-        bp <- result$bp
-        p <- pchisq(bp, df = result$df, lower.tail = FALSE)
+        bp     <- result$bp
+        p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       }
     } else {
       bp <- bp_case_3(model)
-      p <- pchisq(bp, df = 1, lower.tail = FALSE)
+      p  <- pchisq(bp, df = 1, lower.tail = FALSE)
     }
   } else {
     if (multiple) {
@@ -148,49 +148,49 @@ ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multip
         start <- bp_case_one(l, model)
         loops <- bp_case_loop(start$np, start$nam, start$l)
         inter <- bp_case_inter(start$l, start$np, loops$tstat)
-        bp <- inter$bp
-        p <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
+        bp    <- inter$bp
+        p     <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
 
       } else {
         len_vars <- length(vars)
 
         if (len_vars > 1) {
-          start <- bp_case_one(l, model)
+          start   <- bp_case_one(l, model)
           len_var <- length(vars)
-          loops <- bp_case_loop(len_var, vars, start$l)
-          inter <- bp_case_5_inter(l, model, vars, loops$tstat)
-          bp <- inter$bp
-          p <- bp_case_adj(method, loops$pvals, inter$np, inter$ps)
+          loops   <- bp_case_loop(len_var, vars, start$l)
+          inter   <- bp_case_5_inter(l, model, vars, loops$tstat)
+          bp      <- inter$bp
+          p       <- bp_case_adj(method, loops$pvals, inter$np, inter$ps)
         } else {
           result <- bp_case_7(l, model, vars)
-          bp <- result$bp
-          p <- pchisq(bp, df = result$df, lower.tail = FALSE)
+          bp     <- result$bp
+          p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
         }
       }
     } else {
       if (rhs) {
         result <- bp_case_6(l, model)
-        bp <- result$bp
-        p <- pchisq(bp, df = result$df, lower.tail = FALSE)
+        bp     <- result$bp
+        p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       } else {
         result <- bp_case_7(l, model, vars)
-        bp <- result$bp
-        p <- pchisq(bp, df = result$df, lower.tail = FALSE)
+        bp     <- result$bp
+        p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       }
     }
   }
 
   # output
   out <- list(
-    bp = bp,
-    p = p,
-    fv = fitted.values,
-    rhs = rhs,
+    bp       = bp,
+    p        = p,
+    fv       = fitted.values,
+    rhs      = rhs,
     multiple = multiple,
-    padj = method,
-    vars = vars,
-    resp = response,
-    preds = predictors
+    padj     = method,
+    vars     = vars,
+    resp     = response,
+    preds    = predictors
   )
 
   class(out) <- "ols_bp_test"
@@ -207,9 +207,9 @@ print.ols_bp_test <- function(x, ...) {
 
 bp_case_2 <- function(l, model) {
 
-  n <- model_rows(model)
+  n         <- model_rows(model)
   var_resid <- residual_var(model, n)
-  ind <- ind_bp(model, var_resid)
+  ind       <- ind_bp(model, var_resid)
 
   df <-
     l %>%
@@ -228,9 +228,8 @@ bp_case_2 <- function(l, model) {
 
 bp_case_3 <- function(model) {
 
-  `Sum Sq` <- NULL
-
-  pred <- fitted(model)
+  `Sum Sq`     <- NULL
+  pred         <- fitted(model)
   scaled_resid <- resid_scaled(model, pred)
 
   lm(scaled_resid ~ pred) %>%
@@ -243,9 +242,9 @@ bp_case_3 <- function(model) {
 
 bp_case_6 <- function(l, model) {
 
-  n <- nrow(l)
+  n         <- nrow(l)
   var_resid <- residual_var(model, n)
-  ind <- ind_bp(model, var_resid)
+  ind       <- ind_bp(model, var_resid)
 
   np <-
     l %>%
@@ -266,9 +265,9 @@ bp_case_6 <- function(l, model) {
 #' @importFrom rlang !!! syms
 bp_case_7 <- function(l, model, vars) {
 
-  n <- nrow(l)
+  n         <- nrow(l)
   var_resid <- residual_var(model, n)
-  ind <- ind_bp(model, var_resid)
+  ind       <- ind_bp(model, var_resid)
 
   l %<>%
     select(!!! syms(vars)) %>%
@@ -322,11 +321,10 @@ bp_case_one <- function(l, model) {
     names() %>%
     extract(-1)
 
-  np <- length(nam)
-
-  n <- nrow(l)
+  np        <- length(nam)
+  n         <- nrow(l)
   var_resid <- residual_var(model, n)
-  ind <- ind_bp(model, var_resid)
+  ind       <- ind_bp(model, var_resid)
 
   l %<>%
     bind_cols(ind)
@@ -380,12 +378,12 @@ bp_case_adj <- function(method, pvals, np, ps) {
   if (method == "bonferroni") {
 
     bpvals <- pmin(1, pvals * np)
-    p <- c(bpvals, ps)
+    p      <- c(bpvals, ps)
 
   } else if (method == "sidak") {
 
     spvals <- pmin(1, 1 - (1 - pvals) ^ np)
-    p <- c(spvals, ps)
+    p      <- c(spvals, ps)
 
   } else if (method == "holm") {
 
@@ -424,9 +422,9 @@ bp_case_adj <- function(method, pvals, np, ps) {
 
 bp_case_5_inter <- function(l, model, vars, tstat) {
 
-  n <- nrow(l)
+  n         <- nrow(l)
   var_resid <- residual_var(model, n)
-  ind <- ind_bp(model, var_resid)
+  ind       <- ind_bp(model, var_resid)
 
   l %<>%
     select(-1) %>%
@@ -439,11 +437,13 @@ bp_case_5_inter <- function(l, model, vars, tstat) {
     subtract(1)
 
   ps <-
-    bp_model(l) %>%
+    l %>%
+    bp_model() %>%
     pchisq(df = np, lower.tail = FALSE)
 
   bp <-
-    bp_model(l) %>%
+    l %>%
+    bp_model() %>%
     prepend(tstat)
 
   list(bp = bp, ps = ps, np = np)
