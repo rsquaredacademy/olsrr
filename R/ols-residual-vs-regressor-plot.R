@@ -25,7 +25,7 @@ ols_rvsr_plot <- function(model, variable) {
     eval(model$call$data) %>%
     select(!! varyable)
 
-  x <- pull(inter, i)
+  x <- pull(inter, 1)
   y <- residuals(model)
   v <- names(x)
   k <- tibble(x = x, y = y)
