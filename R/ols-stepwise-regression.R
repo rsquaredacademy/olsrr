@@ -76,27 +76,32 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     names() %>%
     extract(1)
 
-  l <- mod_sel_data(model)
-  nam <- coeff_names(model)
-  df <- nrow(l) - 2
-  tenter <- qt(1 - (pent) / 2, df)
-  trem <- qt(1 - (prem) / 2, df)
-  n <- ncol(l)
+  l        <- mod_sel_data(model)
+  nam      <- coeff_names(model)
+  df       <- nrow(l) - 2
+  tenter   <- qt(1 - (pent) / 2, df)
+  trem     <- qt(1 - (prem) / 2, df)
+  n        <- ncol(l)
   all_pred <- nam
-  cterms <- all_pred
-  mlen_p <- length(all_pred)
-  preds <- c()
-  step <- 1
-  ppos <- step + 1
-  pvals <- c()
-  tvals <- c()
-  rsq <- c()
-  cp <- c()
-  f <- c()
-  fp <- c()
-  betas <- c()
+  cterms   <- all_pred
+  mlen_p   <- length(all_pred)
+
+
   pvalues <- c()
-  lbetas <- c()
+  lbetas  <- c()
+  betas   <- c()
+  preds   <- c()
+  pvals   <- c()
+  tvals   <- c()
+  step    <- 1
+  ppos    <- step + 1
+  rsq     <- c()
+  cp      <- c()
+  f       <- c()
+  fp      <- c()
+
+
+
 
   cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")
   cat(rep("-", 27), sep = "", "\n\n")
@@ -122,21 +127,22 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     tvals[i] <- m$tvalues[ppos]
   }
 
-  minp <- which(pvals == min(pvals))
-  tvals <- abs(tvals)
-  maxt <- which(tvals == max(tvals))
-  preds <- all_pred[maxt]
-  lpreds <- length(preds)
-  fr <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-  rsq <- fr$rsq
-  adjrsq <- fr$adjr
-  cp <- ols_mallows_cp(fr$model, model)
-  aic <- ols_aic(fr$model)
-  sbc <- ols_sbc(fr$model)
-  sbic <- ols_sbic(fr$model, model)
-  rmse <- sqrt(fr$ems)
-  betas <- append(betas, fr$betas)
-  lbetas <- append(lbetas, length(fr$betas))
+  minp    <- which(pvals == min(pvals))
+  tvals   <- abs(tvals)
+  maxt    <- which(tvals == max(tvals))
+  preds   <- all_pred[maxt]
+  lpreds  <- length(preds)
+  fr      <- ols_regress(paste(response, "~",
+                               paste(preds, collapse = " + ")), l)
+  rsq     <- fr$rsq
+  adjrsq  <- fr$adjr
+  cp      <- ols_mallows_cp(fr$model, model)
+  aic     <- ols_aic(fr$model)
+  sbc     <- ols_sbc(fr$model)
+  sbic    <- ols_sbic(fr$model, model)
+  rmse    <- sqrt(fr$ems)
+  betas   <- append(betas, fr$betas)
+  lbetas  <- append(lbetas, length(fr$betas))
   pvalues <- append(pvalues, fr$pvalues)
 
   if (details == TRUE) {
@@ -158,47 +164,52 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     cat("\n\n")
   }
 
-  all_step <- 1
-  tech <- c("addition", "removal")
+  all_step  <- 1
+  tech      <- c("addition", "removal")
   var_index <- preds
-  method <- tech[1]
+  method    <- tech[1]
 
   while (step < mlen_p) {
+
     all_pred <- all_pred[-maxt]
-    len_p <- length(all_pred)
-    step <- step + 1
-    ppos <- ppos + length(maxt)
-    pvals <- c()
-    tvals <- c()
+    len_p    <- length(all_pred)
+    step     <- step + 1
+    ppos     <- ppos + length(maxt)
+    pvals    <- c()
+    tvals    <- c()
 
     for (i in seq_len(len_p)) {
+
       predictors <- c(preds, all_pred[i])
-      m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), l)
-      pvals[i] <- m$pvalues[ppos]
-      tvals[i] <- m$tvalues[ppos]
+      m          <- ols_regress(paste(response, "~",
+                                      paste(predictors, collapse = " + ")), l)
+      pvals[i]   <- m$pvalues[ppos]
+      tvals[i]   <- m$tvalues[ppos]
     }
 
-    minp <- which(pvals == min(pvals))
+    minp  <- which(pvals == min(pvals))
     tvals <- abs(tvals)
-    maxt <- which(tvals == max(tvals))
+    maxt  <- which(tvals == max(tvals))
 
     if (tvals[maxt] >= tenter) {
-      preds <- c(preds, all_pred[maxt])
+
+      preds     <- c(preds, all_pred[maxt])
       var_index <- c(var_index, all_pred[maxt])
-      method <- c(method, tech[1])
-      lpreds <- length(preds)
-      all_step <- all_step + 1
-      fr <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-      rsq <- c(rsq, fr$rsq)
-      adjrsq <- c(adjrsq, fr$adjr)
-      aic <- c(aic, ols_aic(fr$model))
-      sbc <- c(sbc, ols_sbc(fr$model))
-      sbic <- c(sbic, ols_sbic(fr$model, model))
-      cp <- c(cp, ols_mallows_cp(fr$model, model))
-      rmse <- c(rmse, sqrt(fr$ems))
-      betas <- append(betas, fr$betas)
-      lbetas <- append(lbetas, length(fr$betas))
-      pvalues <- append(pvalues, fr$pvalues)
+      method    <- c(method, tech[1])
+      lpreds    <- length(preds)
+      all_step  <- all_step + 1
+      fr        <- ols_regress(paste(response, "~",
+                                     paste(preds, collapse = " + ")), l)
+      rsq       <- c(rsq, fr$rsq)
+      adjrsq    <- c(adjrsq, fr$adjr)
+      aic       <- c(aic, ols_aic(fr$model))
+      sbc       <- c(sbc, ols_sbc(fr$model))
+      sbic      <- c(sbic, ols_sbic(fr$model, model))
+      cp        <- c(cp, ols_mallows_cp(fr$model, model))
+      rmse      <- c(rmse, sqrt(fr$ems))
+      betas     <- append(betas, fr$betas)
+      lbetas    <- append(lbetas, length(fr$betas))
+      pvalues   <- append(pvalues, fr$pvalues)
 
       if (details == TRUE) {
         cat("\n")
@@ -227,27 +238,30 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
         cat("\n\n")
       }
 
-      m2 <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+      m2      <- ols_regress(paste(response, "~",
+                                   paste(preds, collapse = " + ")), l)
       tvals_r <- abs(m2$tvalues[-1])
-      mint <- which(tvals_r == min(tvals_r))
+      mint    <- which(tvals_r == min(tvals_r))
       if (tvals_r[mint] < trem) {
+
         var_index <- c(var_index, preds[mint])
-        lvar <- length(var_index)
-        method <- c(method, tech[2])
-        preds <- preds[-mint]
-        all_step <- all_step + 1
-        ppos <- ppos - length(mint)
-        fr <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-        rsq <- c(rsq, fr$rsq)
-        adjrsq <- c(adjrsq, fr$adjr)
-        aic <- c(aic, ols_aic(fr$model))
-        sbc <- c(sbc, ols_sbc(fr$model))
-        sbic <- c(sbic, ols_sbic(fr$model, model))
-        cp <- c(cp, ols_mallows_cp(fr$model, model))
-        rmse <- c(rmse, sqrt(fr$ems))
-        betas <- append(betas, fr$betas)
-        lbetas <- append(lbetas, length(fr$betas))
-        pvalues <- append(pvalues, fr$pvalues)
+        lvar      <- length(var_index)
+        method    <- c(method, tech[2])
+        preds     <- preds[-mint]
+        all_step  <- all_step + 1
+        ppos      <- ppos - length(mint)
+        fr        <- ols_regress(paste(response, "~",
+                                       paste(preds, collapse = " + ")), l)
+        rsq       <- c(rsq, fr$rsq)
+        adjrsq    <- c(adjrsq, fr$adjr)
+        aic       <- c(aic, ols_aic(fr$model))
+        sbc       <- c(sbc, ols_sbc(fr$model))
+        sbic      <- c(sbic, ols_sbic(fr$model, model))
+        cp        <- c(cp, ols_mallows_cp(fr$model, model))
+        rmse      <- c(rmse, sqrt(fr$ems))
+        betas     <- append(betas, fr$betas)
+        lbetas    <- append(lbetas, length(fr$betas))
+        pvalues   <- append(pvalues, fr$pvalues)
 
         if (details == TRUE) {
           cat("\n")
@@ -290,29 +304,29 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
   print(fi)
 
   beta_pval <- tibble(
-    model = rep(seq_len(all_step), lbetas),
+    model     = rep(seq_len(all_step), lbetas),
     predictor = names(betas),
-    beta = betas,
-    pval = pvalues
+    beta      = betas,
+    pval      = pvalues
   )
 
   out <- list(
-    orders = var_index,
-    method = method,
-    steps = all_step,
+    orders     = var_index,
+    method     = method,
+    steps      = all_step,
     predictors = preds,
-    rsquare = rsq,
-    aic = aic,
-    sbc = sbc,
-    sbic = sbic,
-    adjr = adjrsq,
-    rmse = rmse,
+    rsquare    = rsq,
+    aic        = aic,
+    sbc        = sbc,
+    sbic       = sbic,
+    adjr       = adjrsq,
+    rmse       = rmse,
     mallows_cp = cp,
-    indvar = cterms,
-    betas = betas,
-    lbetas = lbetas,
-    pvalues = pvalues,
-    beta_pval = beta_pval
+    indvar     = cterms,
+    betas      = betas,
+    lbetas     = lbetas,
+    pvalues    = pvalues,
+    beta_pval  = beta_pval
   )
 
   class(out) <- "ols_stepwise"
@@ -339,86 +353,42 @@ plot.ols_stepwise <- function(x, model = NA, ...) {
   b <- NULL
 
   y <- seq_len(x$steps)
-  rmax <- max(x$rsquare)
-  rstep <- which(x$rsquare == rmax)
-  adjrmax <- max(x$adjr)
-  adjrstep <- which(x$adjr == adjrmax)
-  cpdiff <- abs(x$mallows_cp - y)
-  cpdifmin <- min(cpdiff)
-  cpdifi <- which(cpdiff == cpdifmin)
-  cpval <- x$mallows_cp[cpdifi]
-  aicmin <- min(x$aic)
-  aicstep <- which(x$aic == aicmin)
-  sbicmin <- min(x$sbic)
-  sbicstep <- which(x$sbic == sbicmin)
-  sbcmin <- min(x$sbc)
-  sbcstep <- which(x$sbc == sbcmin)
 
   d1 <- tibble(a = y, b = x$rsquare)
-  p1 <- ggplot(d1, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("R-Square") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
   d2 <- tibble(a = y, b = x$adjr)
-  p2 <- ggplot(d2, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("Adj. R-Square") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
   d3 <- tibble(a = y, b = x$mallows_cp)
-  p3 <- ggplot(d3, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("C(p)") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
   d4 <- tibble(a = y, b = x$aic)
-  p4 <- ggplot(d4, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("AIC") +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
-
   d5 <- tibble(a = y, b = x$sbic)
-  p5 <- ggplot(d5, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("SBIC") +
-    theme(
-      axis.ticks = element_blank()
-    )
-
   d6 <- tibble(a = y, b = x$sbc)
-  p6 <- ggplot(d6, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle("SBC") +
-    theme(
-      axis.ticks = element_blank()
-    )
+
+  p1 <- plot_stepwise(d1, "R-Square") + theme(axis.text.x = element_blank())
+  p2 <- plot_stepwise(d2, "Adj. R-Square") + theme(axis.text.x = element_blank())
+  p3 <- plot_stepwise(d3, "C(p)") + theme(axis.text.x = element_blank())
+  p4 <- plot_stepwise(d4, "AIC") + theme(axis.text.x = element_blank())
+  p5 <- plot_stepwise(d5, "SBIC")
+  p6 <- plot_stepwise(d6, "SBC")
 
   grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "Stepwise Regression")
 
-  result <- list(
-    rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
-    aic_plot = p4, sbic_plot = p5, sbc_plot = p6
-  )
+  result <- list(rsquare_plot     = p1,
+                 adj_rsquare_plot = p2,
+                 mallows_cp_plot  = p3,
+                 aic_plot         = p4,
+                 sbic_plot        = p5,
+                 sbc_plot         = p6)
 
   invisible(result)
+
+}
+
+plot_stepwise <- function(d, title) {
+
+  ggplot(d, aes(x = a, y = b)) +
+    geom_line(color = "blue") +
+    geom_point(color = "blue", shape = 1, size = 2) +
+    xlab("") + ylab("") + ggtitle(title) +
+    theme(
+      axis.ticks = element_blank()
+    )
 
 }
