@@ -77,33 +77,31 @@ ols_f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
     names() %>%
     extract(1)
 
-  n <-
-    l %>%
-    nrow()
+  n <- nrow(l)
 
   if (rhs) {
     fitted_values <- FALSE
-    k <- frhs(nam, model, n, l)
-    result <- ftest_result(k)
+    k             <- frhs(nam, model, n, l)
+    result        <- ftest_result(k)
   } else {
     if (fitted_values) {
-      k <- ffit(model)
+      k      <- ffit(model)
       result <- ftest_result(k)
     } else {
-      k <- fvar(n, l, model, vars)
+      k      <- fvar(n, l, model, vars)
       result <- ftest_result(k)
     }
   }
 
   out <- list(
-    f = result$f,
-    p = result$p,
+    f     = result$f,
+    p     = result$p,
     numdf = result$numdf,
     dendf = result$dendf,
-    fv = fitted_values,
-    rhs = rhs,
-    vars = vars,
-    resp = resp,
+    fv    = fitted_values,
+    rhs   = rhs,
+    vars  = vars,
+    resp  = resp,
     preds = nam
   )
 
@@ -122,9 +120,7 @@ frhs <- function(nam, model, n, l) {
 
   fstatistic <- NULL
 
-  np <-
-    nam %>%
-    length()
+  np <- length(nam)
 
   var_resid <-
     model_rss(model) %>%
@@ -136,7 +132,7 @@ frhs <- function(nam, model, n, l) {
     raise_to_power(2) %>%
     divide_by(var_resid)
 
-  l <- cbind(l, ind)
+  l     <- cbind(l, ind)
   mdata <- l[-1]
 
   lm(ind ~ ., data = mdata) %>%
@@ -160,8 +156,8 @@ fvar <- function(n, l, model, vars) {
     divide_by(var_resid)
 
   mdata <- l[-1]
-  dl <- mdata[, vars]
-  dk <- as.data.frame(cbind(ind, dl))
+  dl    <- mdata[, vars]
+  dk    <- as.data.frame(cbind(ind, dl))
 
   lm(ind ~ ., data = dk) %>%
     summary() %>%
@@ -173,18 +169,13 @@ ffit <- function(model) {
 
   fstatistic <- NULL
 
-  pred <-
-    model %>%
-    use_series(fitted.values)
+  pred     <- fitted(model)
+  pred_len <- length(pred)
 
   resid <-
     model %>%
     use_series(residuals) %>%
     raise_to_power(2)
-
-  pred_len <-
-    pred %>%
-    length()
 
   avg_resid <-
     resid %>%
@@ -201,10 +192,10 @@ ffit <- function(model) {
 
 ftest_result <- function(k) {
 
-  f <- k[[1]]
+  f     <- k[[1]]
   numdf <- k[[2]]
   dendf <- k[[3]]
-  p <- pf(f, numdf, dendf, lower.tail = F)
+  p     <- pf(f, numdf, dendf, lower.tail = F)
 
   list(f = f, numdf = numdf, dendf = dendf, p = p)
 

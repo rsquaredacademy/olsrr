@@ -66,27 +66,27 @@ ols_all_subset.default <- function(model, ...) {
   metrics <- allpos_helper(model)
 
   ui <- data.frame(
-    n = metrics$lpreds,
+    n          = metrics$lpreds,
     predictors = unlist(metrics$preds),
-    rsquare = unlist(metrics$rsq),
-    adjr = unlist(metrics$adjrsq),
-    predrsq = unlist(metrics$predrsq),
-    cp = unlist(metrics$cp),
-    aic = unlist(metrics$aic),
-    sbic = unlist(metrics$sbic),
-    sbc = unlist(metrics$sbc),
-    msep = unlist(metrics$msep),
-    fpe = unlist(metrics$fpe),
-    apc = unlist(metrics$apc),
-    hsp = unlist(metrics$hsp),
+    rsquare    = unlist(metrics$rsq),
+    adjr       = unlist(metrics$adjrsq),
+    predrsq    = unlist(metrics$predrsq),
+    cp         = unlist(metrics$cp),
+    aic        = unlist(metrics$aic),
+    sbic       = unlist(metrics$sbic),
+    sbc        = unlist(metrics$sbc),
+    msep       = unlist(metrics$msep),
+    fpe        = unlist(metrics$fpe),
+    apc        = unlist(metrics$apc),
+    hsp        = unlist(metrics$hsp),
     stringsAsFactors = F
   )
 
   sorted <- c()
 
   for (i in seq_len(metrics$lc)) {
-    temp <- ui[metrics$q[i]:metrics$t[i], ]
-    temp <- temp[order(temp$rsquare, decreasing = TRUE), ]
+    temp   <- ui[metrics$q[i]:metrics$t[i], ]
+    temp   <- temp[order(temp$rsquare, decreasing = TRUE), ]
     sorted <- rbind(sorted, temp)
   }
 
@@ -119,7 +119,8 @@ print.ols_all_subset <- function(x, ...) {
     as_tibble() %>%
     select(c(1:5, 7))
 
-  names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square", "Mallow's Cp")
+  names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square",
+                "Mallow's Cp")
 
   print(k)
 
@@ -130,27 +131,24 @@ print.ols_all_subset <- function(x, ...) {
 #'
 plot.ols_all_subset <- function(x, model = NA, ...) {
 
-  n <- NULL
-  y <- NULL
-  k <- NULL
-  tx <- NULL
-  size <- NULL
-  shape <- NULL
+  n       <- NULL
+  y       <- NULL
+  k       <- NULL
+  tx      <- NULL
+  size    <- NULL
+  shape   <- NULL
   rsquare <- NULL
-  cp <- NULL
-  adjr <- NULL
-  cps <- NULL
-  aic <- NULL
-  sbic <- NULL
-  sbc <- NULL
+  cp      <- NULL
+  adjr    <- NULL
+  cps     <- NULL
+  aic     <- NULL
+  sbic    <- NULL
+  sbc     <- NULL
 
   d <-
-    tibble(index = x$mindex, n = x$n, rsquare = x$rsquare,
-              adjr = x$adjr, cp = x$cp, aic = x$aic, sbic = x$sbic,
-              sbc = x$sbc) %>%
-    mutate(
-      cps = abs(n - cp)
-    )
+    tibble(index = x$mindex, n = x$n, rsquare = x$rsquare, adjr = x$adjr,
+           cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc) %>%
+    mutate(cps = abs(n - cp))
 
   p1 <- all_possible_plot(d, rsquare, title = "R-Square")
   p2 <- all_possible_plot(d, adjr, title = "Adj. R-Square")
@@ -161,10 +159,12 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
 
   grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "All Subset Regression")
 
-  result <- list(
-    rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
-    aic_plot = p4, sbic_plot = p5, sbc_plot = p6
-  )
+  result <- list(rsquare_plot     = p1,
+                 adj_rsquare_plot = p2,
+                 mallows_cp_plot  = p3,
+                 aic_plot         = p4,
+                 sbic_plot        = p5,
+                 sbc_plot         = p6)
 
   invisible(result)
 
@@ -185,12 +185,12 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
 #'
 all_possible_plot <- function(d, var, title = "R-Square") {
 
-  n <- NULL
-  x <- NULL
-  y <- NULL
+  n     <- NULL
+  x     <- NULL
+  y     <- NULL
   shape <- NULL
-  size <- NULL
-  tx <- NULL
+  size  <- NULL
+  tx    <- NULL
 
   varr <- enquo(var)
 
@@ -198,19 +198,16 @@ all_possible_plot <- function(d, var, title = "R-Square") {
     d %>%
     select(x = n, y = !! varr)
 
-  maxs <- all_pos_maxs(d, !! varr)
+  maxs  <- all_pos_maxs(d, !! varr)
   lmaxs <- all_pos_lmaxs(maxs)
   index <- all_pos_index(d, !! varr)
 
   d2 <- tibble(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
 
-  ggplot(d1, aes(x = x, y = y)) +
-    geom_point(color = "blue", size = 2) +
+  ggplot(d1, aes(x = x, y = y)) + geom_point(color = "blue", size = 2) +
     xlab("") + ylab("") + ggtitle(title) +
-    geom_point(data = d2, aes(
-      x = x, y = y, shape = factor(shape),
-      color = factor(shape), size = factor(size)
-    )) +
+    geom_point(data = d2, aes(x = x, y = y, shape = factor(shape),
+      color = factor(shape), size = factor(size))) +
     scale_shape_manual(values = c(2), guide = FALSE) +
     scale_size_manual(values = c(4), guide = FALSE) +
     scale_color_manual(values = c("red"), guide = FALSE) +
@@ -243,10 +240,8 @@ all_pos_lmaxs <- function(maxs) {
 
 all_pos_index <- function(d, var) {
 
-  n <- NULL
-
-  varr <- enquo(var)
-
+  n     <- NULL
+  varr  <- enquo(var)
   index <- c()
 
   m <-
@@ -386,87 +381,69 @@ ols_all_subset_betas <- function(object, ...) {
 #'
 allpos_helper <- function(model) {
 
-  nam <- coeff_names(model)
-
-  n <-
-    nam %>%
-    length()
-
-  r <-
-    n %>%
-    seq_len()
-
+  nam   <- coeff_names(model)
+  n     <- length(nam)
+  r     <- seq_len(n)
   combs <- list()
 
   for (i in seq_len(n)) {
     combs[[i]] <- combn(n, r[i])
   }
 
-  predicts <- nam
+  predicts  <- nam
+  lc        <- length(combs)
+  varnames  <- model_colnames(model)
+  len_preds <- length(predicts)
+  gap       <- len_preds - 1
+  data      <- mod_sel_data(model)
+  space     <- coeff_length(predicts, gap)
+  colas     <- map_int(combs, ncol)
+  response  <- varnames[1]
+  p         <- colas
+  t         <- cumsum(colas)
+  q         <- c(1, t[-lc] + 1)
 
-  lc <-
-    combs %>%
-    length()
-
-  varnames <- model_colnames(model)
-
-  len_preds <-
-    predicts %>%
-    length()
-
-  gap <- len_preds - 1
-  data <- mod_sel_data(model)
-
-  space <- coeff_length(predicts, gap)
-
-  colas <-
-    combs %>%
-    map_int(ncol)
-
-  response <-
-    varnames %>%
-    extract(1)
-
-  p <- colas
-  t <- cumsum(colas)
-  q <- c(1, t[-lc] + 1)
-
-  mcount  <- 0
-  rsq     <- list()
-  adjrsq  <- list()
-  predrsq <- list()
-  cp      <- list()
-  aic     <- list()
-  sbic    <- list()
-  sbc     <- list()
-  msep    <- list()
-  fpe     <- list()
-  apc     <- list()
-  hsp     <- list()
-  preds   <- list()
-  lpreds  <- c()
-  betas   <- c()
+  mcount    <- 0
+  rsq       <- list()
+  adjrsq    <- list()
+  predrsq   <- list()
+  cp        <- list()
+  aic       <- list()
+  sbic      <- list()
+  sbc       <- list()
+  msep      <- list()
+  fpe       <- list()
+  apc       <- list()
+  hsp       <- list()
+  preds     <- list()
+  lpreds    <- c()
+  betas     <- c()
 
   for (i in seq_len(lc)) {
     for (j in seq_len(colas[i])) {
+
       predictors <- nam[combs[[i]][, j]]
-      lp <- length(predictors)
-      out <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = data)
-      mcount <- mcount + 1
-      lpreds[mcount] <- lp
-      rsq[[mcount]] <- out$rsq
-      adjrsq[[mcount]] <- out$adjr
+      lp         <- length(predictors)
+
+      out <- ols_regress(paste(response, "~",
+                               paste(predictors, collapse = " + ")),
+                         data = data)
+
+      mcount            <- mcount + 1
+      lpreds[mcount]    <- lp
+      rsq[[mcount]]     <- out$rsq
+      adjrsq[[mcount]]  <- out$adjr
       predrsq[[mcount]] <- ols_pred_rsq(out$model)
-      cp[[mcount]] <- ols_mallows_cp(out$model, model)
-      aic[[mcount]] <- ols_aic(out$model)
-      sbic[[mcount]] <- ols_sbic(out$model, model)
-      sbc[[mcount]] <- ols_sbc(out$model)
-      msep[[mcount]] <- ols_msep(out$model)
-      fpe[[mcount]] <- ols_fpe(out$model)
-      apc[[mcount]] <- ols_apc(out$model)
-      hsp[[mcount]] <- ols_hsp(out$model)
-      preds[[mcount]] <- paste(predictors, collapse = " ")
-      betas <- append(betas, out$betas)
+      cp[[mcount]]      <- ols_mallows_cp(out$model, model)
+      aic[[mcount]]     <- ols_aic(out$model)
+      sbic[[mcount]]    <- ols_sbic(out$model, model)
+      sbc[[mcount]]     <- ols_sbc(out$model)
+      msep[[mcount]]    <- ols_msep(out$model)
+      fpe[[mcount]]     <- ols_fpe(out$model)
+      apc[[mcount]]     <- ols_apc(out$model)
+      hsp[[mcount]]     <- ols_hsp(out$model)
+      preds[[mcount]]   <- paste(predictors, collapse = " ")
+      betas             <- append(betas, out$betas)
     }
   }
 

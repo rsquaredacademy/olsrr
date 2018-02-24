@@ -42,10 +42,9 @@ ols_dffits_plot <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  obs <- NULL
-  txt <- NULL
   dbetas <- NULL
-  Observation <- NULL
+  obs    <- NULL
+  txt    <- NULL
 
   dffitsm <-
     model %>%
@@ -53,7 +52,6 @@ ols_dffits_plot <- function(model) {
     unlist()
 
   k <- model_n_coeffs(model)
-
   n <- model_rows(model)
 
   dffits_t <-
@@ -69,8 +67,8 @@ ols_dffits_plot <- function(model) {
     extract(1)
 
   dfits_data <- tibble(obs = seq_len(n), dbetas = dffitsm)
-  d <- dfb_plot_data(dfits_data, dffits_t)
-  f <- dfb_outlier_data(d)
+  d          <- dfb_plot_data(dfits_data, dffits_t)
+  f          <- dfb_outlier_data(d)
 
   p <- ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dffitsm)) +
     geom_linerange(colour = "blue") +

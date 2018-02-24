@@ -26,8 +26,7 @@ ols_rpc_plot <- function(model) {
   x <- NULL
   y <- NULL
 
-  pl <- cpout(model)
-
+  pl      <- cpout(model)
   myplots <- list()
 
   for (i in seq_len(pl$lmc)) {
@@ -50,9 +49,7 @@ ols_rpc_plot <- function(model) {
 
 cpdata <- function(data, mc, e, i) {
 
-  x <-
-    data %>%
-    pull(i)
+  x <- pull(data, i)
 
   y <-
     mc %>%
@@ -68,9 +65,7 @@ cpdata <- function(data, mc, e, i) {
 
 cpout <- function(model) {
 
-  e <-
-    model %>%
-    residuals()
+  e <- residuals(model)
 
   mc <-
     model %>%
@@ -83,13 +78,8 @@ cpout <- function(model) {
     as_data_frame() %>%
     select(-1)
 
-  lmc <-
-    mc %>%
-    length()
-
-  nam <-
-    data %>%
-    names()
+  lmc <- length(mc)
+  nam <- names(data)
 
   indvar <-
     model %>%
@@ -97,6 +87,11 @@ cpout <- function(model) {
     names() %>%
     extract(1)
 
-  list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)
+  list(e      = e,
+       mc     = mc,
+       data   = data,
+       lmc    = lmc,
+       nam    = nam,
+       indvar = indvar)
 
 }

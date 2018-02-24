@@ -21,10 +21,8 @@ ols_rsd_boxplot <- function(model) {
   d <- tibble(resid = resid)
 
   p <- ggplot(d, aes(x = factor(0), y = resid)) +
-    geom_boxplot(
-      outlier.color = "green", outlier.size = 3,
-      fill = "grey80", colour = "#3366FF"
-    ) +
+    geom_boxplot(outlier.color = "green", outlier.size = 3,
+                 fill = "grey80", colour = "#3366FF") +
     xlab(" ") + ylab("Residuals") + ggtitle("Residual Box Plot") +
     theme(axis.text.x = element_blank())
 

@@ -35,8 +35,7 @@ ols_cooksd_chart <- function(model) {
   obs <- NULL
   ckd <- NULL
   txt <- NULL
-  Observation <- NULL
-  cd <- NULL
+  cd  <- NULL
 
   k <- cdplot(model)
   d <- plot_data(k)
@@ -46,7 +45,8 @@ ols_cooksd_chart <- function(model) {
     geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
     geom_hline(yintercept = k$ts, colour = "red") + xlab("Observation") +
     ylab("Cook's D") + ggtitle("Cook's D Chart") +
-    geom_text(vjust = -1, size = 3, family = "serif", fontface = "italic", colour = "darkred", na.rm = TRUE) +
+    geom_text(vjust = -1, size = 3, family = "serif", fontface = "italic",
+              colour = "darkred", na.rm = TRUE) +
     annotate(
       "text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
       family = "serif", fontface = "italic", colour = "darkred",

@@ -34,10 +34,8 @@ ols_ovsp_plot <- function(model) {
     ylab("Fitted Value") + xlab(paste(oname)) +
     ggtitle(paste("Actual vs Fitted for", oname)) +
     geom_abline(intercept = 0, slope = 1, color = "blue") +
-    geom_segment(
-      data = d, aes(x = min(x), y = min(y), xend = max(x), yend = max(y)),
-      colour = "red"
-    )
+    geom_segment(data = d, aes(x = min(x), y = min(y), xend = max(x),
+                               yend = max(y)), colour = "red")
 
   print(p)
 
@@ -45,10 +43,7 @@ ols_ovsp_plot <- function(model) {
 
 obspred <- function(model) {
 
-  y <-
-    model %>%
-    fitted.values()
-
+  y <- fitted(model)
   x <-
     model %>%
     model.frame() %>%

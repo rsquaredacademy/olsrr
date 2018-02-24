@@ -24,12 +24,11 @@ ols_srsd_plot <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  obs <- NULL
-  dsr <- NULL
-  txt <- NULL
-  Observation <- NULL
-  color <- NULL
   fct_color <- NULL
+  color     <- NULL
+  obs       <- NULL
+  dsr       <- NULL
+  txt       <- NULL
 
   g <- srdata(model)
 
@@ -119,6 +118,10 @@ srdata <- function(model) {
     subtract(1) %>%
     seq_len()
 
-  list(dsr = dsr, cminx = cminx, cmaxx = cmaxx, nseq = nseq, pseq = pseq)
+  list(cminx = cminx,
+       cmaxx = cmaxx,
+       nseq  = nseq,
+       pseq  = pseq,
+       dsr   = dsr)
 
 }

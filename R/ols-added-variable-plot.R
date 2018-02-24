@@ -61,14 +61,8 @@ ols_avplots <- function(model) {
     data %>%
     colnames()
 
-  nl <-
-    xnames %>%
-    length()
-
-  resp <-
-    xnames %>%
-    extract(1)
-
+  nl      <- length(xnames)
+  resp    <- xnames[1]
   myplots <- list()
 
   for (i in 2:nl) {

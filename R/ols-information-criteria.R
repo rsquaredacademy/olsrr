@@ -336,6 +336,7 @@ ols_mallows_cp <- function(model, fullmodel) {
 mcpout <- function(model, fullmodel, n, p, q) {
 
   sse <- model_rss(model)
+  sec <- (n - (2 * p))
 
   mse <-
     fullmodel %>%
@@ -343,8 +344,6 @@ mcpout <- function(model, fullmodel, n, p, q) {
     extract2(3) %>%
     rev() %>%
     extract(1)
-
-  sec <- (n - (2 * p))
 
   sse %>%
     divide_by(mse) %>%
@@ -405,7 +404,6 @@ ols_msep <- function(model) {
 sepout <- function(model) {
 
   n <- model_rows(model)
-
   p <- anova_coeffs(model)
 
   mse <-
@@ -421,8 +419,7 @@ sepout <- function(model) {
 
   den <- n * (n - p - 1)
 
-  num %>%
-    divide_by(den)
+  num / den
 
 }
 
@@ -477,7 +474,6 @@ ols_fpe <- function(model) {
 jpout <- function(model) {
 
   n <- model_rows(model)
-
   p <- anova_coeffs(model)
 
   mse <-
@@ -548,7 +544,6 @@ ols_apc <- function(model) {
 pcout <- function(model) {
 
   n <- model_rows(model)
-
   p <- anova_coeffs(model)
 
   rse <-
@@ -612,7 +607,6 @@ ols_hsp <- function(model) {
 spout <- function(model) {
 
   n <- model_rows(model)
-
   p <- anova_coeffs(model)
 
   mse <-
@@ -621,8 +615,7 @@ spout <- function(model) {
     extract2(3) %>%
     extract(p)
 
-  mse %>%
-    divide_by((n - p - 1))
+  mse / (n - p - 1)
 
 }
 

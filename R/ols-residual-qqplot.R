@@ -14,11 +14,11 @@ ols_rsd_qqplot <- function(model) {
   }
 
   resid <- residuals(model)
-  y <- quantile(resid[!is.na(resid)], c(0.25, 0.75))
-  x <- qnorm(c(0.25, 0.75))
+  y     <- quantile(resid[!is.na(resid)], c(0.25, 0.75))
+  x     <- qnorm(c(0.25, 0.75))
   slope <- diff(y) / diff(x)
-  int <- y[1L] - slope * x[1L]
-  d <- tibble(x = resid)
+  int   <- y[1L] - slope * x[1L]
+  d     <- tibble(x = resid)
 
   p <- ggplot(d, aes(sample = x)) + stat_qq(color = "blue") +
     geom_abline(slope = slope, intercept = int, color = "red") +

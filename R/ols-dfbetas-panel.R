@@ -34,22 +34,21 @@ ols_dfbetas_panel <- function(model) {
 
   obs <- NULL
   txt <- NULL
-  Observation <- NULL
 
-  dfb <- dfbetas(model)
-  n <- nrow(dfb)
-  np <- ncol(dfb)
+  dfb       <- dfbetas(model)
+  n         <- nrow(dfb)
+  np        <- ncol(dfb)
   threshold <- 2 / sqrt(n)
 
-  myplots <- list()
-  outliers <- list()
+  myplots   <- list()
+  outliers  <- list()
 
   for (i in seq_len(np)) {
 
-    dbetas <- dfb[, i]
+    dbetas  <- dfb[, i]
     df_data <- tibble(obs = seq_len(n), dbetas = dbetas)
-    d <- dfb_plot_data(df_data, threshold)
-    f <- dfb_outlier_data(d)
+    d       <- dfb_plot_data(df_data, threshold)
+    f       <- dfb_outlier_data(d)
 
     p <- eval(substitute(
       ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dbetas)) +
@@ -68,7 +67,7 @@ ols_dfbetas_panel <- function(model) {
       list(i = i)
     ))
 
-    myplots[[i]] <- p
+    myplots[[i]]  <- p
     outliers[[i]] <- f
 
   }
@@ -88,7 +87,7 @@ ols_dfbetas_panel <- function(model) {
 dfb_plot_data <- function(d, threshold) {
 
   color <- NULL
-  obs <- NULL
+  obs   <- NULL
 
   d %>%
     mutate(
@@ -104,8 +103,8 @@ dfb_plot_data <- function(d, threshold) {
 
 dfb_outlier_data <- function(d) {
 
-  color <- NULL
-  obs <- NULL
+  color  <- NULL
+  obs    <- NULL
   dbetas <- NULL
 
   d %>%

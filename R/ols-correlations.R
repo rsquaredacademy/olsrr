@@ -88,15 +88,19 @@ corsign <- function(model) {
 
 corout <- function(model, r2) {
 
-  mdata <- cordata(model)
-  cor_mdata <- cmdata(mdata)
-  r1 <- summary(model)$r.squared
-  n <- ncol(mdata)
-  ksign <- corsign(model)
-  n2 <- n - 1
-  parts <- ksign * sqrt(r1 - r2)
-  partials <- parts / sqrt(1 - r2)
-  result <- data.frame(cor_mdata, partials, parts)
+  r1  <-
+    model %>%
+    summary() %>%
+    use_series(r.squared)
+
+  mdata            <- cordata(model)
+  cor_mdata        <- cmdata(mdata)
+  n                <- ncol(mdata)
+  ksign            <- corsign(model)
+  n2               <- n - 1
+  parts            <- ksign * sqrt(r1 - r2)
+  partials         <- parts / sqrt(1 - r2)
+  result           <- data.frame(cor_mdata, partials, parts)
   rownames(result) <- names(ksign)
   colnames(result) <- c("Zero-order", "Partial", "Part")
 
@@ -107,12 +111,12 @@ corout <- function(model, r2) {
 corm2 <- function(model) {
 
   mdata <- cordata(model)
-  n <- ncol(mdata)
-  r2 <- c()
+  n     <- ncol(mdata)
+  r2    <- c()
 
   for (i in 2:n) {
     out <- rtwo(i, mdata)
-    r2 <- c(r2, out)
+    r2  <- c(r2, out)
   }
 
   return(r2)

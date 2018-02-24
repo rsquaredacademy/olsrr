@@ -22,7 +22,7 @@ ols_rvsp_plot <- function(model) {
   }
 
   predicted <- NULL
-  resid <- NULL
+  resid     <- NULL
 
   d <- rvspdata(model)
 
@@ -39,7 +39,7 @@ ols_rvsp_plot <- function(model) {
 
 rvspdata <- function(model) {
 
-  resid <- residuals(model)
+  resid     <- residuals(model)
   predicted <- fitted(model)
   tibble(predicted = predicted, resid = resid)
 

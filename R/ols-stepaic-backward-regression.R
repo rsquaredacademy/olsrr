@@ -63,16 +63,19 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
     names() %>%
     extract(1)
 
-  l <- mod_sel_data(model)
-  nam <- coeff_names(model)
+  l     <- mod_sel_data(model)
+  nam   <- coeff_names(model)
   preds <- nam
   aic_f <- ols_aic(model)
-  mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+
+  mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")),
+                    data = l)
+
   rss_f <- mi$rss
-  laic <- aic_f
-  lrss <- rss_f
-  less <- mi$ess
-  lrsq <- mi$rsq
+  laic  <- aic_f
+  lrss  <- rss_f
+  less  <- mi$ess
+  lrsq  <- mi$rsq
   larsq <- mi$adjr
 
   cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
@@ -87,23 +90,26 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
     cat(" Step 0: AIC =", aic_f, "\n", paste(response, "~", paste(preds, collapse = " + "), "\n\n"))
   }
 
-  ilp <- length(preds)
-  end <- FALSE
-  step <- 0
+  ilp   <- length(preds)
+  end   <- FALSE
+  step  <- 0
   rpred <- c()
-  aics <- c()
-  ess <- c()
-  rss <- c()
-  rsq <- c()
-  arsq <- c()
+  aics  <- c()
+  ess   <- c()
+  rss   <- c()
+  rsq   <- c()
+  arsq  <- c()
 
   for (i in seq_len(ilp)) {
+
     predictors <- preds[-i]
+
     m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+
     aics[i] <- ols_aic(m$model)
-    ess[i] <- m$ess
-    rss[i] <- rss_f - m$rss
-    rsq[i] <- m$rsq
+    ess[i]  <- m$ess
+    rss[i]  <- rss_f - m$rss
+    rsq[i]  <- m$rsq
     arsq[i] <- m$adjr
   }
 
@@ -118,7 +124,7 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
     w5 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
     w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
     w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-    w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
+    w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
     ln <- length(aics)
 
     cat(rep("-", w), sep = "", "\n")
@@ -149,23 +155,27 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
     minc <- which(aics == min(aics))
 
     if (aics[minc] < aic_f) {
+
       rpred <- c(rpred, preds[minc])
       preds <- preds[-minc]
-      ilp <- length(preds)
-      step <- step + 1
+      ilp   <- length(preds)
+      step  <- step + 1
       aic_f <- aics[minc]
-      mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+
+      mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")),
+                        data = l)
+
       rss_f <- mi$rss
-      laic <- c(laic, aic_f)
-      lrss <- c(lrss, rss_f)
-      less <- c(less, mi$ess)
-      lrsq <- c(lrsq, mi$rsq)
+      laic  <- c(laic, aic_f)
+      lrss  <- c(lrss, rss_f)
+      less  <- c(less, mi$ess)
+      lrsq  <- c(lrsq, mi$rsq)
       larsq <- c(larsq, mi$adjr)
-      aics <- c()
-      ess <- c()
-      rss <- c()
-      rsq <- c()
-      arsq <- c()
+      aics  <- c()
+      ess   <- c()
+      rss   <- c()
+      rsq   <- c()
+      arsq  <- c()
 
       if (interactive()) {
         cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), "\n")
@@ -174,12 +184,16 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
       }
 
       for (i in seq_len(ilp)) {
+
         predictors <- preds[-i]
-        m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+
+        m <- ols_regress(paste(response, "~",
+                               paste(predictors, collapse = " + ")), data = l)
+
         aics[i] <- ols_aic(m$model)
-        ess[i] <- m$ess
-        rss[i] <- rss_f - m$rss
-        rsq[i] <- m$rsq
+        ess[i]  <- m$ess
+        rss[i]  <- rss_f - m$rss
+        rsq[i]  <- m$rsq
         arsq[i] <- m$adjr
       }
 
@@ -188,17 +202,17 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
         cat("\n\n", " Step", step, ": AIC =", aic_f, "\n", paste(response, "~", paste(preds, collapse = " + "), "\n\n"))
 
 
-        da <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
+        da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
         da2 <- arrange(da, rss)
-        w1 <- max(nchar("Predictor"), nchar(predictors))
-        w2 <- 2
-        w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-        w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-        w5 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
-        w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-        w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-        w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-        ln <- length(aics)
+        w1  <- max(nchar("Predictor"), nchar(predictors))
+        w2  <- 2
+        w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
+        w4  <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
+        w5  <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+        w6  <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
+        w7  <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
+        w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
+        ln  <- length(aics)
 
         cat(rep("-", w), sep = "", "\n")
         cat(
@@ -248,15 +262,13 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
     print(fi)
   }
 
-  out <- list(
-    steps = step,
-    predictors = rpred,
-    aics = laic,
-    ess = less,
-    rss = lrss,
-    rsq = lrsq,
-    arsq = larsq
-  )
+  out <- list(predictors = rpred,
+              steps      = step,
+              arsq       = larsq,
+              aics       = laic,
+              ess        = less,
+              rss        = lrss,
+              rsq        = lrsq)
 
   class(out) <- "ols_stepaic_backward"
 
@@ -278,11 +290,11 @@ print.ols_stepaic_backward <- function(x, ...) {
 #'
 plot.ols_stepaic_backward <- function(x, ...) {
 
-  a <- NULL
-  b <- NULL
-  tx <- NULL
   steps <- NULL
-  aics <- NULL
+  aics  <- NULL
+  tx    <- NULL
+  a     <- NULL
+  b     <- NULL
 
   y <-
     x %>%
@@ -322,13 +334,12 @@ plot.ols_stepaic_backward <- function(x, ...) {
   predictors <- c("Full Model", x$predictors)
 
   d2 <- tibble(x = xloc, y = yloc, tx = predictors)
-  d <- tibble(a = y, b = x$aics)
+  d  <- tibble(a = y, b = x$aics)
 
-  p <- ggplot(d, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlim(c(xmin, xmax)) + ylim(c(ymin, ymax)) +
-    xlab("Step") + ylab("AIC") + ggtitle("Stepwise AIC Backward Elimination") +
+  p <- ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
+    geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
+    ggtitle("Stepwise AIC Backward Elimination") +
     geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
   print(p)

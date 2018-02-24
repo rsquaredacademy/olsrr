@@ -94,17 +94,16 @@ print.ols_pure_error_anova <- function(x, ...) {
 #' @importFrom dplyr arrange
 peanova <- function(model) {
 
-  lfit <- NULL
+  lfit   <- NULL
   rerror <- NULL
 
-  n <- model_rows(model)
-  nd <- pred_table_length(model)
-  comp <- pea_data(model)
-
-  final <- comp$result
+  n         <- model_rows(model)
+  nd        <- pred_table_length(model)
+  comp      <- pea_data(model)
+  final     <- comp$result
   mean_pred <- comp$mean_pred
   pred_name <- comp$pred_name
-  dep_name <- comp$resp
+  dep_name  <- comp$resp
 
   lackoffit <-
     final %>%
@@ -116,21 +115,21 @@ peanova <- function(model) {
     use_series(rerror) %>%
     sum()
 
-  rss <- rss_model(model)
-  ess <- sum(lackoffit, random_error)
-  total <- sum(ess, rss)
-  df_rss <- 1
-  df_lof <- nd - 2
+  rss      <- rss_model(model)
+  ess      <- sum(lackoffit, random_error)
+  total    <- sum(ess, rss)
+  df_rss   <- 1
+  df_lof   <- nd - 2
   df_error <- n - nd
-  df_ess <- sum(df_lof, df_error)
-  rms <- rss / df_rss
-  ems <- ess / df_ess
-  lms <- lackoffit / df_lof
-  pms <- random_error / df_error
-  rf <- rms / pms
-  lf <- lms / pms
-  pr <- pf(rf, df_rss, df_ess, lower.tail = F)
-  pl <- pf(lf, df_lof, df_error, lower.tail = F)
+  df_ess   <- sum(df_lof, df_error)
+  rms      <- rss / df_rss
+  ems      <- ess / df_ess
+  lms      <- lackoffit / df_lof
+  pms      <- random_error / df_error
+  rf       <- rms / pms
+  lf       <- lms / pms
+  pr       <- pf(rf, df_rss, df_ess, lower.tail = F)
+  pl       <- pf(lf, df_lof, df_error, lower.tail = F)
 
   list(
     lackoffit = lackoffit, pure_error = random_error, rss = rss, ess = ess,
@@ -145,9 +144,7 @@ peanova <- function(model) {
 
 pea_data <- function(model) {
 
-  data <-
-    model %>%
-    model.frame()
+  data <- model.frame(model)
 
   pred_name <-
     data %>%
@@ -159,12 +156,14 @@ pea_data <- function(model) {
     names() %>%
     extract(1)
 
-  pred_u <- pred_table(model)
+  pred_u    <- pred_table(model)
   mean_pred <- predictor_mean(data, pred_name)
-  mean_rep <- replicate_mean(mean_pred, pred_u)
-  result <- pea_data_comp(data, model, mean_rep)
+  mean_rep  <- replicate_mean(mean_pred, pred_u)
+  result    <- pea_data_comp(data, model, mean_rep)
 
-  list(pred_name = pred_name, resp = resp, result = result,
+  list(pred_name = pred_name,
+       resp      = resp,
+       result    = result,
        mean_pred = mean_pred)
 
 }
@@ -181,7 +180,8 @@ pred_table <- function(model) {
 
 pred_table_length <- function(model) {
 
-  pred_table(model) %>%
+  model %>%
+    pred_table() %>%
     length()
 
 }
@@ -222,7 +222,7 @@ pea_data_comp <- function(data, model, mean_rep) {
   pred <- NULL
   ybar <- NULL
   yhat <- NULL
-  y <- NULL
+  y    <- NULL
 
   data %<>%
     mutate(
@@ -232,7 +232,7 @@ pea_data_comp <- function(data, model, mean_rep) {
     arrange(pred) %>%
     bind_cols(mean_rep) %>%
     mutate(
-      lfit = (ybar - yhat) ^ 2,
+      lfit   = (ybar - yhat) ^ 2,
       rerror = (y - ybar) ^ 2
     )
 

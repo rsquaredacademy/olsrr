@@ -18,20 +18,17 @@ ols_rvsr_plot <- function(model, variable) {
   x <- NULL
   y <- NULL
 
-  d <- rvsrdata(model)
+  d        <- rvsrdata(model)
   varyable <- enquo(variable)
 
   inter <-
     eval(model$call$data) %>%
     select(!! varyable)
 
-  x <-
-    inter %>%
-    pull(1)
-
+  x <- pull(inter, i)
+  y <- residuals(model)
   v <- names(x)
-
-  k <- tibble(x = x, y = model$residuals)
+  k <- tibble(x = x, y = y)
 
   p <- ggplot(k, aes(x = x, y = y)) +
     geom_point(shape = 1, colour = "blue") +

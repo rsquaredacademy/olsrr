@@ -17,19 +17,18 @@ ols_diagnostic_panel <- function(model) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  pred <- NULL
-  dsr <- NULL
-  obs <- NULL
-  ckd <- NULL
   predicted <- NULL
-  Observation <- NULL
-  leverage <- NULL
-  ds <- NULL
-  color <- NULL
-  txt <- NULL
   fct_color <- NULL
-  levrstud <- NULL
-  cd <- NULL
+  leverage  <- NULL
+  levrstud  <- NULL
+  color     <- NULL
+  pred      <- NULL
+  dsr       <- NULL
+  obs       <- NULL
+  ckd       <- NULL
+  txt       <- NULL
+  ds        <- NULL
+  cd        <- NULL
 
 
   # residual vs fitted values plot
@@ -86,11 +85,11 @@ ols_diagnostic_panel <- function(model) {
 
   # residual qqplot
   resid <- residuals(model)
-  y <- quantile(resid[!is.na(resid)], c(0.25, 0.75))
-  x <- qnorm(c(0.25, 0.75))
+  y     <- quantile(resid[!is.na(resid)], c(0.25, 0.75))
+  x     <- qnorm(c(0.25, 0.75))
   slope <- diff(y) / diff(x)
-  int <- y[1L] - slope * x[1L]
-  d4 <- tibble(x = resid)
+  int   <- y[1L] - slope * x[1L]
+  d4    <- tibble(x = resid)
 
   p4 <- ggplot(d4, aes(sample = x)) + stat_qq(color = "blue") +
     geom_abline(slope = slope, intercept = int, color = "red") +
@@ -103,7 +102,7 @@ ols_diagnostic_panel <- function(model) {
     model %>%
     model.frame() %>%
     names() %>%
-    `[`(1)
+    extract(1)
 
   d5 <- obspred(model)
 
@@ -127,7 +126,7 @@ ols_diagnostic_panel <- function(model) {
     ylab("Cook's D") + ggtitle("Cook's D Chart")
 
   # residual fit spread plot
-  d <- fmdata(model)
+  d    <- fmdata(model)
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
 
@@ -137,7 +136,7 @@ ols_diagnostic_panel <- function(model) {
     xlab("Proportion Less") + ylab("Fit - Mean") +
     ggtitle("Residual Fit Spread Plot")
 
-  da <- rsdata(model)
+  da    <- rsdata(model)
   ymina <- min(da$y) + (0.25 * min(da$y))
   ymaxa <- max(da$y) + (0.25 * max(da$y))
 
@@ -148,9 +147,9 @@ ols_diagnostic_panel <- function(model) {
     ggtitle("Residual Fit Spread Plot")
 
   # residual histogram
-  b <- histdata(model)
-  h <- hist(b$resid, plot = FALSE)
-  f <- histn(b$resid, h)
+  b  <- histdata(model)
+  h  <- hist(b$resid, plot = FALSE)
+  f  <- histn(b$resid, h)
   db <- tibble(x = f$xfit, y = f$yfit)
   d9 <- tibble(x = b$resid)
 

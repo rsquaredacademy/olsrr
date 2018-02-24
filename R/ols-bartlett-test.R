@@ -43,8 +43,7 @@ ols_bartlett_test <- function(data, ...) UseMethod("ols_bartlett_test")
 #'
 ols_bartlett_test.default <- function(data, ..., group_var = NULL) {
 
-  groupvar <- enquo(group_var)
-
+  groupvar  <- enquo(group_var)
   varyables <- quos(...)
 
   fdata <-
@@ -55,11 +54,8 @@ ols_bartlett_test.default <- function(data, ..., group_var = NULL) {
 
   if (quo_is_null(groupvar)) {
 
-    z <- as.list(fdata)
-
-    ln <-
-      z %>%
-      map_int(length)
+    z  <- as.list(fdata)
+    ln <- map_int(z, length)
 
     ly <-
       z %>%
@@ -70,7 +66,7 @@ ols_bartlett_test.default <- function(data, ..., group_var = NULL) {
       stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    out <- gvar(ln, ly)
+    out   <- gvar(ln, ly)
     fdata <- unlist(z)
 
     groupvars <-
@@ -100,14 +96,14 @@ ols_bartlett_test.default <- function(data, ..., group_var = NULL) {
     }
   }
 
-  df <- nlevels(groupvars) - 1
+  df    <- nlevels(groupvars) - 1
   fstat <- bartlett_fstat(fdata, groupvars)
-  pval <- pchisq(fstat, df, lower.tail = FALSE)
+  pval  <- pchisq(fstat, df, lower.tail = FALSE)
 
   out <- list(
     fstat = fstat,
-    pval = pval,
-    df = df,
+    pval  = pval,
+    df    = df,
     var_c = var_c,
     g_var = g_var
   )
@@ -127,19 +123,19 @@ print.ols_bartlett_test <- function(x, ...) {
 #' @importFrom stats complete.cases var
 bartlett_fstat <- function(variable, grp_var) {
 
-  n <- length(variable)
-  k <- nlevels(grp_var)
-  comp <- complete.cases(variable, grp_var)
-  vars <- tapply(variable[comp], grp_var[comp], var)
-  lens <- tapply(variable[comp], grp_var[comp], length)
-  v <- lens - 1
-  sumv <- sum(v)
+  n     <- length(variable)
+  k     <- nlevels(grp_var)
+  comp  <- complete.cases(variable, grp_var)
+  vars  <- tapply(variable[comp], grp_var[comp], var)
+  lens  <- tapply(variable[comp], grp_var[comp], length)
+  v     <- lens - 1
+  sumv  <- sum(v)
   isumv <- sum(1 / v)
-  c <- 1 + (1 / (3 * (k - 1))) * (isumv - (1 / sumv))
-  n2 <- sum(v * log10(vars))
-  l <- length(vars)
-  ps <- ((lens - 1) * vars) / (n - k)
-  pvar <- sum(ps)
+  c     <- 1 + (1 / (3 * (k - 1))) * (isumv - (1 / sumv))
+  n2    <- sum(v * log10(vars))
+  l     <- length(vars)
+  ps    <- ((lens - 1) * vars) / (n - k)
+  pvar  <- sum(ps)
   ((1 / c) * (sumv * log10(pvar) - n2)) * 2.3026
 
 }
