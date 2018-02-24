@@ -203,8 +203,8 @@ fit_score <- function(model) {
 
   r.squared <- NULL
 
-  scaled_resid <- resid_scaled(model, pred)
   pred         <- fitted(model)
+  scaled_resid <- resid_scaled(model, pred)
   l            <- avplots_data(model)
   n            <- nrow(l)
 
