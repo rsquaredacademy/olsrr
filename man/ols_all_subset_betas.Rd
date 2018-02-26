@@ -2,24 +2,24 @@
 % Please edit documentation in R/ols-all-possible-regression.R
 \name{ols_all_subset_betas}
 \alias{ols_all_subset_betas}
-\title{All Possible Regression Variable Coefficients}
+\title{All possible regression variable coefficients}
 \usage{
 ols_all_subset_betas(object, ...)
 }
 \arguments{
-\item{object}{an object of class \code{lm}}
+\item{object}{An object of class \code{lm}.}
 
-\item{...}{other arguments}
+\item{...}{Other arguments.}
 }
 \value{
-\code{ols_all_subset_betas} returns a tibble containing
+\code{ols_all_subset_betas} returns a tibble containing:
 
 \item{model_index}{model number}
 \item{predictor}{predictor}
 \item{beta_coef}{coefficient for the predictor}
 }
 \description{
-Returns the coefficients for each variable from each model
+Returns the coefficients for each variable from each model.
 }
 \examples{
 \dontrun{

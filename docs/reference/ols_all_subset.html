@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All Possible Regression — ols_all_subset â€¢ olsrr</title>
+<title>All possible regression — ols_all_subset â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,12 +119,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>All Possible Regression</h1>
+    <h1>All possible regression</h1>
     </div>
 
     
-    <p>Fits all regressions involving one regressor, two regressors, three regressors, and so on.
-It tests all possible subsets of the set of potential independent variables.</p>
+    <p>Fits all regressions involving one regressor, two regressors, three
+regressors, and so on. It tests all possible subsets of the set of potential
+independent variables.</p>
     
 
     <pre class="usage"><span class='fu'>ols_all_subset</span>(<span class='no'>model</span>, <span class='no'>...</span>)
@@ -137,15 +138,15 @@ It tests all possible subsets of the set of potential independent variables.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other arguments</p></td>
+      <td><p>Other arguments.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>an object of class <code>ols_best_subset</code></p></td>
+      <td><p>An object of class <code>ols_best_subset</code>.</p></td>
     </tr>
     </table>
     
@@ -174,6 +175,15 @@ following components:</p>
     <p>Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 Prentice Hall</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other variable selection procedures: <code><a href='ols_best_subset.html'>ols_best_subset</a></code>,
+  <code><a href='ols_step_backward.html'>ols_step_backward</a></code>,
+  <code><a href='ols_step_forward.html'>ols_step_forward</a></code>,
+  <code><a href='ols_stepaic_backward.html'>ols_stepaic_backward</a></code>,
+  <code><a href='ols_stepaic_both.html'>ols_stepaic_both</a></code>,
+  <code><a href='ols_stepaic_forward.html'>ols_stepaic_forward</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -195,6 +205,8 @@ Prentice Hall</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

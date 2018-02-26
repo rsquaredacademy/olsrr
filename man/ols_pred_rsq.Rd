@@ -2,21 +2,27 @@
 % Please edit documentation in R/ols-influence-measures.R
 \name{ols_pred_rsq}
 \alias{ols_pred_rsq}
-\title{Predicted Rsquare}
+\title{Predicted rsquare}
 \usage{
 ols_pred_rsq(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
-Predicted Rsquare
+Predicted rsquare of the model.
 }
 \description{
-Use predicted rsquared to determine how well the model predicts responses for new observations.
-Larger values of predicted R2 indicate models of greater predictive ability.
+Use predicted rsquared to determine how well the model predicts responses for
+new observations. Larger values of predicted R2 indicate models of greater
+predictive ability.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_pred_rsq(model)
+
+}
+\seealso{
+Other influence measures: \code{\link{ols_hadi}},
+  \code{\link{ols_leverage}}, \code{\link{ols_press}}
 }

@@ -1,10 +1,13 @@
-#' @title Best Subsets Regression
-#' @description Select the subset of predictors that do the best at meeting some
+#' Best subsets regression
+#'
+#' Select the subset of predictors that do the best at meeting some
 #' well-defined objective criterion, such as having the largest R2 value or the
 #' smallest MSE, Mallow's Cp or AIC.
-#' @param model an object of class \code{lm}
-#' @param x an object of class \code{ols_best_subset}
-#' @param ... other inputs
+#'
+#' @param model An object of class \code{lm}.
+#' @param x An object of class \code{ols_best_subset}.
+#' @param ... Other inputs.
+#'
 #' @return \code{ols_best_subset} returns an object of class \code{"ols_best_subset"}.
 #' An object of class \code{"ols_best_subset"} is a data frame containing the
 #' following components:
@@ -27,6 +30,8 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
 #'
+#' @family variable selection procedures
+#'
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -39,6 +44,7 @@
 #' k <- ols_best_subset(model)
 #' plot(k)
 #' }
+#'
 #' @export
 #'
 ols_best_subset <- function(model, ...) UseMethod("ols_best_subset")
@@ -188,14 +194,15 @@ print.ols_best_subset <- function(x, ...) {
 #'
 plot.ols_best_subset <- function(x, model = NA, ...) {
 
-  a <- NULL
-  b <- NULL
   rsquare <- NULL
-  cp <- NULL
-  adjr <- NULL
-  aic <- NULL
-  sbic <- NULL
-  sbc <- NULL
+  adjr    <- NULL
+  sbic    <- NULL
+  aic     <- NULL
+  sbc     <- NULL
+  cp      <- NULL
+  a       <- NULL
+  b       <- NULL
+
 
   d <- tibble(mindex = x$mindex, rsquare = x$rsquare, adjr = x$adjr,
                cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
@@ -232,10 +239,10 @@ plot.ols_best_subset <- function(x, model = NA, ...) {
 best_subset_plot <- function(d, var, title = "R-Square") {
 
   mindex <- NULL
-  a <- NULL
-  b <- NULL
+  a      <- NULL
+  b      <- NULL
 
-  varr <- enquo(var)
+  varr   <- enquo(var)
 
   d %>%
     select(a = mindex, b = !! varr) %>%

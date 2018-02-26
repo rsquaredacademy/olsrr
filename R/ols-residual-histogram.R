@@ -1,11 +1,18 @@
-#' @importFrom stats dnorm sd
-#' @importFrom graphics hist
-#' @title Residual Histogram
-#' @description Histogram of residuals for detecting violation of normality assumption.
-#' @param model an object of class \code{lm}
+#' Residual histogram
+#'
+#' Histogram of residuals for detecting violation of normality assumption.
+#'
+#' @param model An object of class \code{lm}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_rsd_hist(model)
+#'
+#' @family residual diagnostics
+#'
+#' @importFrom stats dnorm sd
+#' @importFrom graphics hist
+#'
 #' @export
 #'
 ols_rsd_hist <- function(model) {

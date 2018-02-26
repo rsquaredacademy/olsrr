@@ -2,23 +2,23 @@
 % Please edit documentation in R/ols-information-criteria.R
 \name{ols_apc}
 \alias{ols_apc}
-\title{Amemiya's Prediction Criterion}
+\title{Amemiya's prediction criterion}
 \usage{
 ols_apc(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
-Amemiya's prediction error
+Amemiya's prediction error of the model.
 }
 \description{
-Amemiya's prediction error
+Amemiya's prediction error.
 }
 \details{
-Amemiya's Prediction Criterion penalizes R-squared more heavily than does adjusted R-squared for
-each addition degree of freedom used on the right-hand-side of the equation.  The higher the better for
-this criterion.
+Amemiya's Prediction Criterion penalizes R-squared more heavily than does
+adjusted R-squared for each addition degree of freedom used on the
+right-hand-side of the equation.  The higher the better for this criterion.
 
 \deqn{((n + p) / (n - p))(1 - (R^2))}
 
@@ -35,4 +35,10 @@ Amemiya, T. (1976). Selection of Regressors. Technical Report 225, Stanford Univ
 
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
+}
+\seealso{
+Other model selection criteria: \code{\link{ols_aic}},
+  \code{\link{ols_fpe}}, \code{\link{ols_hsp}},
+  \code{\link{ols_mallows_cp}}, \code{\link{ols_msep}},
+  \code{\link{ols_sbc}}, \code{\link{ols_sbic}}
 }

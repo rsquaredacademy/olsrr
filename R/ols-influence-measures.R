@@ -1,10 +1,14 @@
-#' @importFrom stats hatvalues
-#' @title Leverage
-#' @description The leverage of an observation is based on how much the observation's value on the predictor variable
-#' differs from the mean of the predictor variable. The greater an observation's leverage, the more potential it has
-#' to be an influential observation.
-#' @param model an object of class \code{lm}
-#' @return leverage
+#' Leverage
+#'
+#' @description
+#' The leverage of an observation is based on how much the observation's value
+#' on the predictor variable differs from the mean of the predictor variable.
+#' The greater an observation's leverage, the more potential it has to be an
+#' influential observation.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @return Leverage of the model.
 #'
 #' @references
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
@@ -13,6 +17,10 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_leverage(model)
+#'
+#' @family influence measures
+#'
+#' @importFrom stats hatvalues
 #'
 #' @export
 #'
@@ -29,11 +37,15 @@ ols_leverage <- function(model) {
 }
 
 
-#' @title Hadi's Measure
-#' @description Measure of influence based on the fact that influential observations in either
-#' the response variable or in the predictors or both.
-#' @param model an object of class \code{lm}
-#' @return hadi's measure
+#' Hadi's measure
+#'
+#' @description
+#' Measure of influence based on the fact that influential observations in
+#' either the response variable or in the predictors or both.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @return Hadi's measure of the model.
 #'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -41,6 +53,8 @@ ols_leverage <- function(model) {
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_hadi(model)
+#'
+#' @family influence measures
 #'
 #' @export
 #'
@@ -104,14 +118,21 @@ hadires <- function(model) {
 }
 
 
-#' @title PRESS (Prediction Sum of Squares)
-#' @description PRESS tells you how well the model will predict new data.
-#' @param model an object of class \code{lm}
-#' @details The prediction sum of squares (PRESS) is the sum of squares of the prediction error. Each fitted
-#' to obtain the predicted value for the ith observation. Use PRESS to assess your model's predictive ability.
-#' Usually, the smaller the PRESS value, the better the model's predictive ability.
+#' PRESS
 #'
-#' @return Predicted Sum of Squares
+#' @description
+#' PRESS (prediction sum of squares) tells you how well the model will predict
+#' new data.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @details
+#' The prediction sum of squares (PRESS) is the sum of squares of the prediction
+#' error. Each fitted to obtain the predicted value for the ith observation. Use
+#' PRESS to assess your model's predictive ability. Usually, the smaller the
+#' PRESS value, the better the model's predictive ability.
+#'
+#' @return Predicted sum of squares of the model.
 #'
 #' @references
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
@@ -120,6 +141,9 @@ hadires <- function(model) {
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_press(model)
+#'
+#' @family influence measures
+#'
 #' @export
 #'
 ols_press <- function(model) {
@@ -139,14 +163,23 @@ ols_press <- function(model) {
 
 }
 
-#' @title Predicted Rsquare
-#' @description Use predicted rsquared to determine how well the model predicts responses for new observations.
-#' Larger values of predicted R2 indicate models of greater predictive ability.
-#' @param model an object of class \code{lm}
-#' @return Predicted Rsquare
+#' Predicted rsquare
+#'
+#' @description
+#' Use predicted rsquared to determine how well the model predicts responses for
+#' new observations. Larger values of predicted R2 indicate models of greater
+#' predictive ability.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @return Predicted rsquare of the model.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_pred_rsq(model)
+#'
+#' @family influence measures
+#'
 #' @export
 #'
 ols_pred_rsq <- function(model) {

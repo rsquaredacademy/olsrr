@@ -2,16 +2,16 @@
 % Please edit documentation in R/ols-residual-vs-predicted-plot.R
 \name{ols_rvsp_plot}
 \alias{ols_rvsp_plot}
-\title{Residual vs Fitted Plot}
+\title{Residual vs fitted plot}
 \usage{
 ols_rvsp_plot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
-It is a scatter plot of residuals on the y axis and fitted values on the x axis to
-detect non-linearity, unequal error variances, and outliers.
+Scatter plot of residuals on the y axis and fitted values on the
+x axis to detect non-linearity, unequal error variances, and outliers.
 }
 \details{
 Characteristics of a well behaved residual vs fitted plot:
@@ -25,4 +25,11 @@ Characteristics of a well behaved residual vs fitted plot:
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rvsp_plot(model)
+
+}
+\seealso{
+Other residual diagnostics: \code{\link{ols_corr_test}},
+  \code{\link{ols_norm_test}},
+  \code{\link{ols_rsd_boxplot}},
+  \code{\link{ols_rsd_hist}}, \code{\link{ols_rsd_qqplot}}
 }

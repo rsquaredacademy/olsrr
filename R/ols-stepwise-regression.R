@@ -1,12 +1,20 @@
-#' @title Stepwise Regression
-#' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on
-#' p values, in a stepwise manner until there is no variable left to enter or remove any more.
-#' @param model an object of class \code{lm}; the model should include all candidate predictor variables
-#' @param pent p value; variables with p value less than \code{pent} will enter into the model
-#' @param prem p value; variables with p more than \code{prem} will be removed from the model
-#' @param details logical; if \code{TRUE}, will print the regression result at each step
-#' @param x an object of class \code{ols_stepwise}
-#' @param ... other arguments
+#' Stepwise regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering and removing predictors based on p values, in a stepwise manner
+#' until there is no variable left to enter or remove any more.
+#'
+#' @param model An object of class \code{lm}; the model should include all
+#'   candidate predictor variables.
+#' @param pent p value; variables with p value less than \code{pent} will enter
+#'   into the model.
+#' @param prem p value; variables with p more than \code{prem} will be removed
+#'   from the model.
+#' @param details Logical; if \code{TRUE}, will print the regression result at
+  #' each step.
+#' @param x An object of class \code{ols_stepwise}.
+#' @param ... Other arguments.
 #' @return \code{ols_stepwise} returns an object of class \code{"ols_stepwise"}.
 #' An object of class \code{"ols_stepwise"} is a list containing the
 #' following components:
@@ -40,6 +48,8 @@
 #' k <- ols_stepwise(model)
 #' plot(k)
 #' }
+#'
+#' @family variable selection_procedures
 #'
 #' @export
 #'

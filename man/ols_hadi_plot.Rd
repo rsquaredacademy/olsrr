@@ -2,17 +2,17 @@
 % Please edit documentation in R/ols-hadi-plot.R
 \name{ols_hadi_plot}
 \alias{ols_hadi_plot}
-\title{Hadi Plot}
+\title{Hadi plot}
 \usage{
 ols_hadi_plot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
-Hadi's measure of influence based on the fact that influential observations can be present in either
-the response variable or in the predictors or both. The plot is used to detect influential observations
-based on Hadi's measure.
+Hadi's measure of influence based on the fact that influential observations
+can be present in either the response variable or in the predictors or both.
+The plot is used to detect influential observations based on Hadi's measure.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
@@ -21,4 +21,7 @@ ols_hadi_plot(model)
 }
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+}
+\seealso{
+[ols_potrsd_plot()]
 }

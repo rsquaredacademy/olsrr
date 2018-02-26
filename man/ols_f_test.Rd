@@ -2,22 +2,22 @@
 % Please edit documentation in R/ols-f-test.R
 \name{ols_f_test}
 \alias{ols_f_test}
-\title{F Test for Constant Variance}
+\title{F test for constant variance}
 \usage{
 ols_f_test(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{fitted_values}{logical; if TRUE, use fitted values of regression model}
+\item{fitted_values}{Logical; if TRUE, use fitted values of regression model.}
 
-\item{rhs}{logical; if TRUE, specifies that tests for heteroskedasticity be
+\item{rhs}{Logical; if TRUE, specifies that tests for heteroskedasticity be
 performed for the right-hand-side (explanatory) variables of the fitted
-regression model}
+regression model.}
 
-\item{vars}{variables to be used for for heteroskedasticity test}
+\item{vars}{Variables to be used for for heteroskedasticity test.}
 
-\item{...}{other arguments}
+\item{...}{Other arguments.}
 }
 \value{
 \code{ols_f_test} returns an object of class \code{"ols_f_test"}.
@@ -35,8 +35,8 @@ following components:
 \item{preds}{predictors}
 }
 \description{
-Test for heteroskedasticity under the assumption that
-the errors are independent and identically distributed (i.i.d.).
+Test for heteroskedasticity under the assumption that the errors are
+independent and identically distributed (i.i.d.).
 }
 \examples{
 # model
@@ -50,7 +50,12 @@ ols_f_test(model, rhs = TRUE)
 
 # using fitted values
 ols_f_test(model, vars = c('disp', 'hp'))
+
 }
 \references{
 Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
+}
+\seealso{
+Other heteroskedasticity tests: \code{\link{ols_bartlett_test}},
+  \code{\link{ols_bp_test}}, \code{\link{ols_score_test}}
 }

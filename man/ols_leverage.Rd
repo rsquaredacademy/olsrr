@@ -7,15 +7,16 @@
 ols_leverage(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
-leverage
+Leverage of the model.
 }
 \description{
-The leverage of an observation is based on how much the observation's value on the predictor variable
-differs from the mean of the predictor variable. The greater an observation's leverage, the more potential it has
-to be an influential observation.
+The leverage of an observation is based on how much the observation's value
+on the predictor variable differs from the mean of the predictor variable.
+The greater an observation's leverage, the more potential it has to be an
+influential observation.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -25,4 +26,8 @@ ols_leverage(model)
 \references{
 Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
+}
+\seealso{
+Other influence measures: \code{\link{ols_hadi}},
+  \code{\link{ols_pred_rsq}}, \code{\link{ols_press}}
 }

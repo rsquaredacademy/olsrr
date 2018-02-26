@@ -2,22 +2,23 @@
 % Please edit documentation in R/ols-information-criteria.R
 \name{ols_fpe}
 \alias{ols_fpe}
-\title{Final Prediction Error}
+\title{Final prediction error}
 \usage{
 ols_fpe(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
-Final Prediction Error
+Final prediction error of the model.
 }
 \description{
-Final prediction error
+Estimated mean square error of prediction.
 }
 \details{
-Computes the estimated mean square error of prediction for each model selected
-assuming that the values of the regressors are fixed and that the model is correct.
+Computes the estimated mean square error of prediction for each model
+selected assuming that the values of the regressors are fixed and that the
+model is correct.
 
 \deqn{MSE((n + p) / n)}
 
@@ -34,4 +35,10 @@ Mathematics 21:243–247.
 
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
+}
+\seealso{
+Other model selection criteria: \code{\link{ols_aic}},
+  \code{\link{ols_apc}}, \code{\link{ols_hsp}},
+  \code{\link{ols_mallows_cp}}, \code{\link{ols_msep}},
+  \code{\link{ols_sbc}}, \code{\link{ols_sbic}}
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-correlations.R
 \name{ols_correlations}
 \alias{ols_correlations}
-\title{Part and Partial Correlations}
+\title{Part and partial correlations}
 \usage{
 ols_correlations(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
 \code{ols_correlations} returns an object of class \code{"ols_correlations"}.
@@ -19,19 +19,24 @@ following components:
 \item{Part}{part correlations}
 }
 \description{
-Zero-order, part and partial correlations
+Zero-order, part and partial correlations.
 }
 \details{
-\code{correlations} returns the relative importance of independent variables in determining response variable.
-How much each variable uniquely contributes to rsquare over and above that which can be accounted for by the other predictors?
-Zero order correlation is the Pearson correlation coefficient between the dependent variable and the
-independent variables. Part correlations indicates how much rsquare will decrease if that variable is removed from the model
-and partial correlations indicates amount of variance in response variable, which is not estimated by the other
-independent variables in the model, but is estimated by the specific variable.
+\code{ols_correlations()} returns the relative importance of independent
+variables in determining response variable. How much each variable uniquely
+contributes to rsquare over and above that which can be accounted for by the
+other predictors? Zero order correlation is the Pearson correlation
+coefficient between the dependent variable and the independent variables.
+Part correlations indicates how much rsquare will decrease if that variable
+is removed from the model and partial correlations indicates amount of
+variance in response variable, which is not estimated by the other
+independent variables in the model, but is estimated by the specific
+variable.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_correlations(model)
+
 }
 \references{
 Morrison, D. F. 1976. Multivariate statistical methods. New York: McGraw-Hill.

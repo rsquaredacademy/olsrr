@@ -3,21 +3,23 @@
 \name{ols_regress}
 \alias{ols_regress}
 \alias{ols_regress.lm}
-\title{Ordinary Least Squares Regression}
+\title{Ordinary least squares regression}
 \usage{
 ols_regress(object, ...)
 
 \method{ols_regress}{lm}(object, ...)
 }
 \arguments{
-\item{object}{an object of class "formula" (or one that can be coerced to
-that class): a symbolic description of the model to be fitted or class \code{lm}}
+\item{object}{An object of class "formula" (or one that can be coerced to
+that class): a symbolic description of the model to be fitted or class
+\code{lm}.}
 
-\item{...}{other inputs}
+\item{...}{Other inputs.}
 }
 \value{
-\code{ols_regress} returns an object of class \code{"ols_regress"}. An object
-of class \code{"ols_regress"} is a list containing the following components:
+\code{ols_regress} returns an object of class \code{"ols_regress"}.
+An object of class \code{"ols_regress"} is a list containing the following
+components:
 
 \item{r}{square root of rsquare, correlation between observed and predicted values of dependent variable}
 \item{rsq}{coefficient of determination or r-square}
@@ -55,7 +57,7 @@ of class \code{"ols_regress"} is a list containing the following components:
 \item{model}{input model for \code{ols_regress}}
 }
 \description{
-Ordinary Least Squares Regression
+Ordinary least squares regression.
 }
 \section{Interaction Terms}{
 
@@ -68,6 +70,7 @@ ols_regress(mpg ~ disp + hp + wt, data = mtcars)
 
 # if model includes interaction terms set iterm to TRUE
 ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)
+
 }
 \references{
 https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting%20Standardized%20Coefficients%20Right.pdf

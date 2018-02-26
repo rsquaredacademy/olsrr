@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-studentized-residual-chart.R
 \name{ols_srsd_chart}
 \alias{ols_srsd_chart}
-\title{Standardized Residual Chart}
+\title{Standardized residual chart}
 \usage{
 ols_srsd_chart(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
 \code{ols_srsd_chart} returns  a list containing the
@@ -18,13 +18,17 @@ exceed \code{threshold}} for classifying an observation as an outlier
 \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 }
 \description{
-Chart for identifying outliers
+Chart for identifying outliers.
 }
 \details{
-Standardized residual (internally studentized) is the residual divided by estimated
-standard deviation.
+Standardized residual (internally studentized) is the residual divided by
+estimated standard deviation.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_srsd_chart(model)
+
+}
+\seealso{
+[ols_srsd_plot()]
 }

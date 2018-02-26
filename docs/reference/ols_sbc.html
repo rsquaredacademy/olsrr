@@ -123,7 +123,7 @@
     </div>
 
     
-    <p>Bayesian Information Criterion.</p>
+    <p>Bayesian information criterion.</p>
     
 
     <pre class="usage"><span class='fu'>ols_sbc</span>(<span class='no'>model</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"R"</span>, <span class='st'>"STATA"</span>, <span class='st'>"SAS"</span>))</pre>
@@ -133,24 +133,25 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>a character vector; specify the method to compute BIC. Valid
-options include R, STATA and SAS</p></td>
+      <td><p>A character vector; specify the method to compute BIC. Valid
+options include R, STATA and SAS.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Bayesian Information Criterion</p>
+    <p>The bayesian information criterion of the model.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the
-quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute SBC. SAS
-uses residual sum of squares. Below is the formula in each case:
+    <p>SBC provides a means for model selection. Given a collection of models for
+the data, SBC estimates the quality of each model, relative to each of the
+other models. R and STATA use loglikelihood to compute SBC. SAS uses residual
+sum of squares. Below is the formula in each case:
     <em>R &amp; STATA</em>
 $$AIC = -2(loglikelihood) + ln(n) * 2p$$
     <em>SAS</em>
@@ -162,6 +163,13 @@ $$AIC = n * ln(SSE / n) + p * ln(n)$$</p>
     <p>Schwarz, G. (1978). “Estimating the Dimension of a Model.” Annals of Statistics 6:461–464.</p>
 <p>Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley &amp; Sons.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
+  <code><a href='ols_apc.html'>ols_apc</a></code>, <code><a href='ols_fpe.html'>ols_fpe</a></code>,
+  <code><a href='ols_hsp.html'>ols_hsp</a></code>, <code><a href='ols_mallows_cp.html'>ols_mallows_cp</a></code>,
+  <code><a href='ols_msep.html'>ols_msep</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -186,6 +194,8 @@ New York: John Wiley &amp; Sons.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

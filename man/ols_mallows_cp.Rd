@@ -7,20 +7,22 @@
 ols_mallows_cp(model, fullmodel)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{fullmodel}{an object of class \code{lm}}
+\item{fullmodel}{An object of class \code{lm}.}
 }
 \value{
-Mallow's Cp
+Mallow's Cp of the model.
 }
 \description{
-Mallow's Cp
+Mallow's Cp.
 }
 \details{
-Mallows' Cp statistic estimates the size of the bias that is introduced into the predicted responses
-by having an underspecified model. Use Mallows' Cp to choose between multiple regression models. Look for
-models where Mallows' Cp is small and close to the number of predictors in the model plus the constant (p).
+Mallows' Cp statistic estimates the size of the bias that is introduced into
+the predicted responses by having an underspecified model. Use Mallows' Cp
+to choose between multiple regression models. Look for models where
+Mallows' Cp is small and close to the number of predictors in the model plus
+the constant (p).
 }
 \examples{
 full_model <- lm(mpg ~ ., data = mtcars)
@@ -33,4 +35,10 @@ Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Re
 32:1–50.
 
 Mallows, C. L. (1973). “Some Comments on Cp.” Technometrics 15:661–675.
+}
+\seealso{
+Other model selection criteria: \code{\link{ols_aic}},
+  \code{\link{ols_apc}}, \code{\link{ols_fpe}},
+  \code{\link{ols_hsp}}, \code{\link{ols_msep}},
+  \code{\link{ols_sbc}}, \code{\link{ols_sbic}}
 }

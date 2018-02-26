@@ -2,18 +2,20 @@
 % Please edit documentation in R/ols-fitted-line-properties.R
 \name{ols_reg_line}
 \alias{ols_reg_line}
-\title{Simple Linear Regression Line}
+\title{Simple linear regression line}
 \usage{
 ols_reg_line(response, predictor)
 }
 \arguments{
-\item{response}{response variable}
+\item{response}{Response variable.}
 
-\item{predictor}{explanatory variable}
+\item{predictor}{Predictor variable.}
 }
 \description{
-Regression line always passes through xbar and ybar
+Plot to demonstrate that the regression line always passes  through mean of
+the response and predictor variables.
 }
 \examples{
 ols_reg_line(mtcars$mpg, mtcars$disp)
+
 }

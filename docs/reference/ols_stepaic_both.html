@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stepwise AIC Regression — ols_stepaic_both â€¢ olsrr</title>
+<title>Stepwise AIC regression — ols_stepaic_both â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,12 +119,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stepwise AIC Regression</h1>
+    <h1>Stepwise AIC regression</h1>
     </div>
 
     
-    <p>Build regression model from a set of candidate predictor variables by entering and removing predictors based on
-Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.</p>
+    <p>Build regression model from a set of candidate predictor variables by
+entering and removing predictors based on akaike information criteria, in a
+stepwise manner until there is no variable left to enter or remove any more.</p>
     
 
     <pre class="usage"><span class='fu'>ols_stepaic_both</span>(<span class='no'>model</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
@@ -137,19 +138,20 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>details</th>
-      <td><p>logical; if <code>TRUE</code>, details of variable selection will be printed on screen</p></td>
+      <td><p>Logical; if <code>TRUE</code>, details of variable selection will
+be printed on screen.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>an object of class <code>ols_stepaic_both</code></p></td>
+      <td><p>An object of class <code>ols_stepaic_both</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other arguments</p></td>
+      <td><p>Other arguments.</p></td>
     </tr>
     </table>
     
@@ -171,6 +173,15 @@ following components:</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other variable selection procedures: <code><a href='ols_all_subset.html'>ols_all_subset</a></code>,
+  <code><a href='ols_best_subset.html'>ols_best_subset</a></code>,
+  <code><a href='ols_step_backward.html'>ols_step_backward</a></code>,
+  <code><a href='ols_step_forward.html'>ols_step_forward</a></code>,
+  <code><a href='ols_stepaic_backward.html'>ols_stepaic_backward</a></code>,
+  <code><a href='ols_stepaic_forward.html'>ols_stepaic_forward</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -195,6 +206,8 @@ following components:</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

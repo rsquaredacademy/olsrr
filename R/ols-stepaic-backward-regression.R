@@ -1,12 +1,17 @@
-#' @importFrom ggplot2 geom_text
-#' @importFrom rlang prepend
-#' @title Stepwise AIC Backward Regression
-#' @description Build regression model from a set of candidate predictor variables by removing predictors based on
-#' Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
-#' @param model an object of class \code{lm}; the model should include all candidate predictor variables
-#' @param details logical; if \code{TRUE}, will print the regression result at each step
-#' @param x an object of class \code{ols_stepaic_backward}
-#' @param ... other arguments
+#' Stepwise AIC backward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' removing predictors based on akaike information criterion, in a stepwise
+#' manner until there is no variable left to remove any more.
+#'
+#' @param model An object of class \code{lm}; the model should include all
+#'   candidate predictor variables.
+#' @param details Logical; if \code{TRUE}, will print the regression result at
+#'   each step.
+#' @param x An object of class \code{ols_stepaic_backward}.
+#' @param ... Other arguments.
+#'
 #' @return \code{ols_stepaic_backward} returns an object of class \code{"ols_stepaic_backward"}.
 #' An object of class \code{"ols_stepaic_backward"} is a list containing the
 #' following components:
@@ -35,6 +40,12 @@
 #' k <- ols_stepaic_backward(model)
 #' plot(k)
 #' }
+#'
+#' @importFrom ggplot2 geom_text
+#' @importFrom rlang prepend
+#'
+#'
+#' @family variable selection procedures
 #'
 #' @export
 #'

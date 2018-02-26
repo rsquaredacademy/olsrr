@@ -1,12 +1,21 @@
-#' @importFrom stats qnorm
-#' @title Correlation Test For Normality
-#' @description Correlation between observed residuals and expected residuals under normality.
-#' @param model an object of class \code{lm}
-#' @return correlation between fitted regression model residuals and expected
+#' Correlation test for normality
+#'
+#' @description
+#' Correlation between observed residuals and expected residuals under normality.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @return Correlation between fitted regression model residuals and expected
 #' values of residuals
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_corr_test(model)
+#'
+#' @importFrom stats qnorm
+#'
+#' @family residual diagnostics
+#'
 #' @export
 #'
 ols_corr_test <- function(model) {
@@ -47,13 +56,13 @@ ka <- function(k, stderr, n) {
 }
 
 
-#' @importFrom stats ks.test shapiro.test
-#' @importFrom goftest cvm.test
-#' @importFrom nortest ad.test
-#' @title Test for normality
-#' @description Test for detecting violation of normality assumption.
-#' @param y a numeric vector or an object of class \code{lm}
-#' @param ... other arguments
+#' Test for normality
+#'
+#' Test for detecting violation of normality assumption.
+#'
+#' @param y A numeric vector or an object of class \code{lm}.
+#' @param ... Other arguments.
+#'
 #' @return \code{norm_test} returns an object of class \code{"norm_test"}.
 #' An object of class \code{"norm_test"} is a list containing the
 #' following components:
@@ -62,9 +71,17 @@ ka <- function(k, stderr, n) {
 #' \item{shapiro}{shapiro wilk statistic}
 #' \item{cramer}{cramer von mises statistic}
 #' \item{anderson}{anderson darling statistic}
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_norm_test(model)
+#'
+#' @importFrom stats ks.test shapiro.test
+#' @importFrom goftest cvm.test
+#' @importFrom nortest ad.test
+#'
+#' @family residual diagnostics
+#'
 #' @export
 #'
 ols_norm_test <- function(y, ...) UseMethod("ols_norm_test")

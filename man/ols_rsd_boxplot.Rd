@@ -2,16 +2,23 @@
 % Please edit documentation in R/ols-residual-boxplot.R
 \name{ols_rsd_boxplot}
 \alias{ols_rsd_boxplot}
-\title{Residual Box Plot}
+\title{Residual box plot}
 \usage{
 ols_rsd_boxplot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_rsd_boxplot(model)}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
-Box plot of residuals to examine if residuals
-are normally distributed.
+Box plot of residuals to examine if residuals are normally distributed.
+}
+\examples{
+model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+ols_rsd_boxplot(model)
+
+}
+\seealso{
+Other residual diagnostics: \code{\link{ols_corr_test}},
+  \code{\link{ols_norm_test}}, \code{\link{ols_rsd_hist}},
+  \code{\link{ols_rsd_qqplot}}, \code{\link{ols_rvsp_plot}}
 }

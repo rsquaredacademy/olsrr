@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Breusch Pagan Test — ols_bp_test â€¢ olsrr</title>
+<title>Breusch pagan test — ols_bp_test â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,11 +119,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Breusch Pagan Test</h1>
+    <h1>Breusch pagan test</h1>
     </div>
 
     
-    <p>Test for constant variance. It assumes that the error terms are normally distributed.</p>
+    <p>Test for constant variance. It assumes that the error terms are normally
+distributed.</p>
     
 
     <pre class="usage"><span class='fu'>ols_bp_test</span>(<span class='no'>model</span>, <span class='kw'>fitted.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -134,30 +135,30 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>fitted.values</th>
-      <td><p>logical; if TRUE, use fitted values of regression model</p></td>
+      <td><p>Logical; if TRUE, use fitted values of regression model.</p></td>
     </tr>
     <tr>
       <th>rhs</th>
-      <td><p>logical; if TRUE, specifies that tests for heteroskedasticity be
+      <td><p>Logical; if TRUE, specifies that tests for heteroskedasticity be
 performed for the right-hand-side (explanatory) variables of the fitted
-regression model</p></td>
+regression model.</p></td>
     </tr>
     <tr>
       <th>multiple</th>
-      <td><p>logical; if TRUE, specifies that multiple testing be performed</p></td>
+      <td><p>Logical; if TRUE, specifies that multiple testing be performed.</p></td>
     </tr>
     <tr>
       <th>p.adj</th>
-      <td><p>p value adjustment, following options are available: bonferroni,
-holm, sidak and none</p></td>
+      <td><p>Adjustment for p value, the following options are available:
+bonferroni, holm, sidak and none.</p></td>
     </tr>
     <tr>
       <th>vars</th>
-      <td><p>variables to be used for for heteroskedasticity test</p></td>
+      <td><p>Variables to be used for heteroskedasticity test.</p></td>
     </tr>
     </table>
     
@@ -179,9 +180,10 @@ following components:</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
-test for heteroskedasticity in a linear regression model. It test whether variance of errors from a
-regression is dependent on the values of a independent variable.</p><ul>
+    <p>Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979.
+It is used to test for heteroskedasticity in a linear regression model.
+It test whether variance of errors from a regression is dependent on the
+values of a independent variable.</p><ul>
 <li><p>Null Hypothesis: Equal/constant variances</p></li>
 <li><p>Alternative Hypothesis: Unequal/non-constant variances</p></li>
 </ul>
@@ -199,12 +201,17 @@ regression is dependent on the values of a independent variable.</p><ul>
 Random Coefficient Variation. Econometrica 47, 1287–1294
 Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other heteroskedasticity tests: <code><a href='ols_bartlett_test.html'>ols_bartlett_test</a></code>,
+  <code><a href='ols_f_test.html'>ols_f_test</a></code>, <code><a href='ols_score_test.html'>ols_score_test</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># model</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 
-<span class='co'># Use fitted values of the model</span>
+<span class='co'># use fitted values of the model</span>
 <span class='fu'>ols_bp_test</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
 #&gt;  Breusch Pagan Test for Heteroskedasticity
 #&gt;  -----------------------------------------
@@ -221,7 +228,7 @@ Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regress
 #&gt;  DF            =    1 
 #&gt;  Chi2          =    1.429672 
 #&gt;  Prob &gt; Chi2   =    0.231818 </div><div class='input'>
-<span class='co'># Use independent variables of the model</span>
+<span class='co'># use independent variables of the model</span>
 <span class='fu'>ols_bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt;  Breusch Pagan Test for Heteroskedasticity
 #&gt;  -----------------------------------------
@@ -238,7 +245,7 @@ Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regress
 #&gt;  DF            =    4 
 #&gt;  Chi2          =    1.513808 
 #&gt;  Prob &gt; Chi2   =    0.8241927 </div><div class='input'>
-<span class='co'># Use independent variables of the model and perform multiple tests</span>
+<span class='co'># use independent variables of the model and perform multiple tests</span>
 <span class='fu'>ols_bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt;  Breusch Pagan Test for Heteroskedasticity
 #&gt;  -----------------------------------------
@@ -261,7 +268,7 @@ Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regress
 #&gt;  ----------------------------------------------
 #&gt;   simultaneous     1.5138083     4    0.8241927 
 #&gt;  ----------------------------------------------</div><div class='input'>
-<span class='co'># Bonferroni p value Adjustment</span>
+<span class='co'># bonferroni p value adjustment</span>
 <span class='fu'>ols_bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'bonferroni'</span>)</div><div class='output co'>#&gt; 
 #&gt;  Breusch Pagan Test for Heteroskedasticity
 #&gt;  -----------------------------------------
@@ -284,7 +291,7 @@ Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regress
 #&gt;  ----------------------------------------------
 #&gt;   simultaneous     1.5138083     4    0.8241927 
 #&gt;  ----------------------------------------------</div><div class='input'>
-<span class='co'># Sidak p value Adjustment</span>
+<span class='co'># sidak p value adjustment</span>
 <span class='fu'>ols_bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'sidak'</span>)</div><div class='output co'>#&gt; 
 #&gt;  Breusch Pagan Test for Heteroskedasticity
 #&gt;  -----------------------------------------
@@ -307,7 +314,7 @@ Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regress
 #&gt;  ----------------------------------------------
 #&gt;   simultaneous     1.5138083     4    0.8241927 
 #&gt;  ----------------------------------------------</div><div class='input'>
-<span class='co'># Holm's p value Adjustment</span>
+<span class='co'># holm's p value adjustment</span>
 <span class='fu'>ols_bp_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'holm'</span>)</div><div class='output co'>#&gt; 
 #&gt;  Breusch Pagan Test for Heteroskedasticity
 #&gt;  -----------------------------------------
@@ -342,6 +349,8 @@ Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regress
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

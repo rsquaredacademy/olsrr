@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-response-profile.R
 \name{ols_resp_viz}
 \alias{ols_resp_viz}
-\title{Visualize Response Variable}
+\title{Response variable profile}
 \usage{
 ols_resp_viz(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
 Panel of plots to explore and visualize the response variable.
@@ -15,4 +15,5 @@ Panel of plots to explore and visualize the response variable.
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_resp_viz(model)
+
 }

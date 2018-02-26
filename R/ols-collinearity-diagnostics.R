@@ -1,10 +1,15 @@
-#' @title Collinearity Diagnostics
-#' @description Variance inflation factor, tolerance, eigenvalues and condition indices.
-#' @param model an object of class \code{lm}
+#' Collinearity diagnostics
 #'
-#' @details Collinearity implies two variables are near perfect linear combinations of one another.
-#' Multicollinearity involves more than two variables. In the presence of multicollinearity, regression
-#' estimates are unstable and have high standard errors.
+#' @description
+#' Variance inflation factor, tolerance, eigenvalues and condition indices.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @details
+#' Collinearity implies two variables are near perfect linear combinations of
+#' one another. Multicollinearity involves more than two variables. In the
+#' presence of multicollinearity, regression estimates are unstable and have
+#' high standard errors.
 #'
 #' \emph{Tolerance}
 #'
@@ -241,6 +246,11 @@ fmrsq <- function(nam, data, i) {
 
 }
 
+
+#' @description Computes vif and tolerance
+#'
+#' @noRd
+#'
 viftol <- function(model) {
 
   m <-

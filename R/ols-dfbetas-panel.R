@@ -1,13 +1,18 @@
-#' @importFrom stats dfbetas
-#' @title DFBETAs Panel
-#' @description Panel of plots to detect influential observations using DFBETAs.
-#' @param model an object of class \code{lm}
-#' @details DFBETA measures the difference in each parameter estimate with and without the
-#' influential point. There is a DFBETA for each data point i.e if there are n observations
-#' and k variables, there will be \eqn{n * k} DFBETAs. In general, large values of DFBETAS indicate
-#' observations that are influential in estimating a given parameter. Belsley, Kuh, and Welsch recommend
-#' 2 as a general cutoff value to indicate influential observations and \eqn{2/\sqrt(n)} as a size-adjusted cutoff.
-
+#' DFBETAs panel
+#'
+#' Panel of plots to detect influential observations using DFBETAs.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @details
+#' DFBETA measures the difference in each parameter estimate with and without
+#' the influential point. There is a DFBETA for each data point i.e if there are
+#' n observations and k variables, there will be \eqn{n * k} DFBETAs. In
+#' general, large values of DFBETAS indicate observations that are influential
+#' in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a
+#' general cutoff value to indicate influential observations and
+#' \eqn{2/\sqrt(n)} as a size-adjusted cutoff.
+#'
 #' @return list; \code{ols_dfbetas_panel} returns a list of tibbles (for intercept and each predictor)
 #' with the observation number and DFBETA of observations that exceed the threshold for classifying
 #' an observation as an outlier/influential observation.
@@ -24,6 +29,11 @@
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_dfbetas_panel(model)
 #' }
+#'
+#' @seealso [ols_dffits_plot()]
+#'
+#' @importFrom stats dfbetas
+#'
 #' @export
 #'
 ols_dfbetas_panel <- function(model) {
@@ -84,6 +94,10 @@ ols_dfbetas_panel <- function(model) {
 
 }
 
+#' @description Prepares the data for dfbetas plot.
+#'
+#' @noRd
+#'
 dfb_plot_data <- function(d, threshold) {
 
   color <- NULL
@@ -101,6 +115,10 @@ dfb_plot_data <- function(d, threshold) {
 
 }
 
+#' @description Data for identifying outliers in dfbetas plot.
+#'
+#' @noRd
+#'
 dfb_outlier_data <- function(d) {
 
   color  <- NULL

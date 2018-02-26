@@ -3,18 +3,18 @@
 \name{ols_best_subset}
 \alias{ols_best_subset}
 \alias{plot.ols_best_subset}
-\title{Best Subsets Regression}
+\title{Best subsets regression}
 \usage{
 ols_best_subset(model, ...)
 
 \method{plot}{ols_best_subset}(x, model = NA, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{...}{other inputs}
+\item{...}{Other inputs.}
 
-\item{x}{an object of class \code{ols_best_subset}}
+\item{x}{An object of class \code{ols_best_subset}.}
 }
 \value{
 \code{ols_best_subset} returns an object of class \code{"ols_best_subset"}.
@@ -52,8 +52,17 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 k <- ols_best_subset(model)
 plot(k)
 }
+
 }
 \references{
 Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
+}
+\seealso{
+Other variable selection procedures: \code{\link{ols_all_subset}},
+  \code{\link{ols_step_backward}},
+  \code{\link{ols_step_forward}},
+  \code{\link{ols_stepaic_backward}},
+  \code{\link{ols_stepaic_both}},
+  \code{\link{ols_stepaic_forward}}
 }

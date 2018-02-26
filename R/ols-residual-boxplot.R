@@ -1,11 +1,18 @@
-#' @importFrom stats residuals
-#' @importFrom ggplot2 geom_boxplot theme element_blank
-#' @title Residual Box Plot
-#' @description Box plot of residuals to examine if residuals
-#' are normally distributed.
-#' @param model an object of class \code{lm}
+#' Residual box plot
+#'
+#' Box plot of residuals to examine if residuals are normally distributed.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_rsd_boxplot(model)
+#'
+#' @family residual diagnostics
+#'
+#' @importFrom stats residuals
+#' @importFrom ggplot2 geom_boxplot theme element_blank
+#'
 #' @export
 #'
 ols_rsd_boxplot <- function(model) {

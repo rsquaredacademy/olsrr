@@ -4,7 +4,7 @@
 \alias{ols_stepaic_forward}
 \alias{ols_stepaic_forward.default}
 \alias{plot.ols_stepaic_forward}
-\title{Stepwise AIC Forward Regression}
+\title{Stepwise AIC forward regression}
 \usage{
 ols_stepaic_forward(model, ...)
 
@@ -13,13 +13,14 @@ ols_stepaic_forward(model, ...)
 \method{plot}{ols_stepaic_forward}(x, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{...}{other arguments}
+\item{...}{Other arguments.}
 
-\item{details}{logical; if \code{TRUE}, will print the regression result at each step}
+\item{details}{Logical; if \code{TRUE}, will print the regression result at
+each step.}
 
-\item{x}{an object of class \code{ols_stepaic_forward}}
+\item{x}{An object of class \code{ols_stepaic_forward}.}
 }
 \value{
 \code{ols_stepaic_forward} returns an object of class \code{"ols_stepaic_forward"}.
@@ -35,8 +36,9 @@ following components:
 \item{arsq}{adjusted rsquare}
 }
 \description{
-Build regression model from a set of candidate predictor variables by entering predictors based on
-Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
+Build regression model from a set of candidate predictor variables by
+entering predictors based on akaike information criterion, in a stepwise
+manner until there is no variable left to enter any more.
 }
 \examples{
 \dontrun{
@@ -55,4 +57,12 @@ plot(k)
 }
 \references{
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
+}
+\seealso{
+Other variable selection procedures: \code{\link{ols_all_subset}},
+  \code{\link{ols_best_subset}},
+  \code{\link{ols_step_backward}},
+  \code{\link{ols_step_forward}},
+  \code{\link{ols_stepaic_backward}},
+  \code{\link{ols_stepaic_both}}
 }

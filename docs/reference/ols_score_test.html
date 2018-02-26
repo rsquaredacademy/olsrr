@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Score Test for heteroskedasticity — ols_score_test â€¢ olsrr</title>
+<title>Score test — ols_score_test â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,12 +119,12 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Score Test for heteroskedasticity</h1>
+    <h1>Score test</h1>
     </div>
 
     
-    <p>Test for heteroskedasticity under the assumption that
-the errors are independent and identically distributed (i.i.d.).</p>
+    <p>Test for heteroskedasticity under the assumption that the errors are
+independent and identically distributed (i.i.d.).</p>
     
 
     <pre class="usage"><span class='fu'>ols_score_test</span>(<span class='no'>model</span>, <span class='kw'>fitted_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -134,21 +134,21 @@ the errors are independent and identically distributed (i.i.d.).</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>fitted_values</th>
-      <td><p>logical; if TRUE, use fitted values of regression model</p></td>
+      <td><p>Logical; if TRUE, use fitted values of regression model.</p></td>
     </tr>
     <tr>
       <th>rhs</th>
-      <td><p>logical; if TRUE, specifies that tests for heteroskedasticity be
+      <td><p>Logical; if TRUE, specifies that tests for heteroskedasticity be
 performed for the right-hand-side (explanatory) variables of the fitted
-regression model</p></td>
+regression model.</p></td>
     </tr>
     <tr>
       <th>vars</th>
-      <td><p>variables to be used for for heteroskedasticity test</p></td>
+      <td><p>Variables to be used for for heteroskedasticity test.</p></td>
     </tr>
     </table>
     
@@ -171,6 +171,11 @@ following components:</p>
     <p>Breusch, T. S. and Pagan, A. R. (1979) A simple test for heteroscedasticity and random coefficient variation. Econometrica 47, 1287–1294.</p>
 <p>Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regression. Biometrika 70, 1–10.</p>
 <p>Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other heteroskedasticity tests: <code><a href='ols_bartlett_test.html'>ols_bartlett_test</a></code>,
+  <code><a href='ols_bp_test.html'>ols_bp_test</a></code>, <code><a href='ols_f_test.html'>ols_f_test</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -229,6 +234,8 @@ following components:</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

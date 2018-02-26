@@ -1,11 +1,15 @@
-#' @importFrom dplyr desc
-#' @title Stepwise AIC Forward Regression
-#' @description Build regression model from a set of candidate predictor variables by entering predictors based on
-#' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
-#' @param model an object of class \code{lm}
-#' @param details logical; if \code{TRUE}, will print the regression result at each step
-#' @param x an object of class \code{ols_stepaic_forward}
-#' @param ... other arguments
+#' Stepwise AIC forward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering predictors based on akaike information criterion, in a stepwise
+#' manner until there is no variable left to enter any more.
+#'
+#' @param model An object of class \code{lm}.
+#' @param details Logical; if \code{TRUE}, will print the regression result at
+#'   each step.
+#' @param x An object of class \code{ols_stepaic_forward}.
+#' @param ... Other arguments.
 #' @return \code{ols_stepaic_forward} returns an object of class \code{"ols_stepaic_forward"}.
 #' An object of class \code{"ols_stepaic_forward"} is a list containing the
 #' following components:
@@ -34,6 +38,10 @@
 #' k <- ols_stepaic_forward(model)
 #' plot(k)
 #' }
+#'
+#' @importFrom dplyr desc
+#'
+#' @family variable selection procedures
 #'
 #' @export
 #'

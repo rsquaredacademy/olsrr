@@ -1,16 +1,17 @@
-#' @importFrom stats logLik
-#'
-#' @title Akaike Information Criterion
+#' Akaike information criterion
 #'
 #' @description Akaike information criterion.
 #'
 #' @param model An object of class \code{lm}.
+#'
 #' @param method A character vector; specify the method to compute AIC. Valid
 #'   options include R, STATA and SAS.
 #'
-#' @details AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the
-#' quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute AIC. SAS
-#' uses residual sum of squares. Below is the formula in each case:
+#' @details
+#' AIC provides a means for model selection. Given a collection of models for
+#' the data, AIC estimates the quality of each model, relative to each of the
+#' other models. R and STATA use loglikelihood to compute AIC. SAS uses residual
+#' sum of squares. Below is the formula in each case:
 #'
 #' \emph{R & STATA}
 #' \deqn{AIC = -2(loglikelihood) + 2p}
@@ -20,7 +21,7 @@
 #'
 #' where \emph{n} is the sample size and \emph{p} is the number of model parameters including intercept.
 #'
-#' @return Akaike information criterion.
+#' @return Akaike information criterion of the model.
 #'
 #' @references
 #' Akaike, H. (1969). “Fitting Autoregressive Models for Prediction.” Annals of the Institute of Statistical
@@ -41,6 +42,10 @@
 #' # using SAS computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_aic(model, method = 'SAS')
+#'
+#' @family model selection criteria
+#'
+#' @importFrom stats logLik
 #'
 #' @export
 #'
@@ -78,17 +83,19 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 }
 
 
-#' @title SBC
+#' SBC
 #'
-#' @description Bayesian Information Criterion.
+#' Bayesian information criterion.
 #'
-#' @param model an object of class \code{lm}
-#' @param method a character vector; specify the method to compute BIC. Valid
-#' options include R, STATA and SAS
+#' @param model An object of class \code{lm}.
+#' @param method A character vector; specify the method to compute BIC. Valid
+#'   options include R, STATA and SAS.
 #'
-#' @details SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the
-#' quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute SBC. SAS
-#' uses residual sum of squares. Below is the formula in each case:
+#' @details
+#' SBC provides a means for model selection. Given a collection of models for
+#' the data, SBC estimates the quality of each model, relative to each of the
+#' other models. R and STATA use loglikelihood to compute SBC. SAS uses residual
+#' sum of squares. Below is the formula in each case:
 #'
 #' \emph{R & STATA}
 #' \deqn{AIC = -2(loglikelihood) + ln(n) * 2p}
@@ -98,7 +105,7 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 #'
 #' where \emph{n} is the sample size and \emph{p} is the number of model parameters including intercept.
 #'
-#' @return Bayesian Information Criterion
+#' @return The bayesian information criterion of the model.
 #'
 #' @references
 #' Schwarz, G. (1978). “Estimating the Dimension of a Model.” Annals of Statistics 6:461–464.
@@ -118,6 +125,8 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 #' # using SAS computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_sbc(model, method = 'SAS')
+#'
+#' @family model selection criteria
 #'
 #' @export
 #'
@@ -155,14 +164,19 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 
 
 
-#' @title SBIC
-#' @description Sawa's Bayesian Information Criterion
-#' @param model an object of class \code{lm}
-#' @param full_model an object of class \code{lm}
-#' @details Sawa (1978) developed a model selection criterion that was derived from a Bayesian modification of
-#' the AIC criterion. Sawa's Bayesian Information Criteria (BIC) is a function of the number of observations n,
-#' the SSE, the pure error variance fitting the full model, and the number of independent variables including
-#' the intercept.
+#' SBIC
+#'
+#' @description Sawa's bayesian information criterion.
+#'
+#' @param model An object of class \code{lm}.
+#' @param full_model An object of class \code{lm}.
+#'
+#' @details
+#' Sawa (1978) developed a model selection criterion that was derived from a
+#' Bayesian modification of the AIC criterion. Sawa's Bayesian Information
+#' Criterion (BIC) is a function of the number of observations n, the SSE, the
+#' pure error variance fitting the full model, and the number of independent
+#' variables including the intercept.
 #'
 #' \deqn{SBIC = n * ln(SSE / n) + 2(p + 2)q - 2(q^2)}
 #'
@@ -176,10 +190,14 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 #'
 #' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 #' New York: John Wiley & Sons.
+#'
 #' @examples
 #' full_model <- lm(mpg ~ ., data = mtcars)
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_sbic(model, full_model)
+#'
+#' @family model selection criteria
+#'
 #' @export
 #'
 ols_sbic <- function(model, full_model) {
@@ -275,18 +293,21 @@ sbicout <- function(model, n, p, q) {
 
 
 
-#' @title Mallow's Cp
+#' Mallow's Cp
 #'
-#' @description Mallow's Cp
+#' @description Mallow's Cp.
 #'
-#' @param model an object of class \code{lm}
-#' @param fullmodel an object of class \code{lm}
+#' @param model An object of class \code{lm}.
+#' @param fullmodel An object of class \code{lm}.
 #'
-#' @details Mallows' Cp statistic estimates the size of the bias that is introduced into the predicted responses
-#' by having an underspecified model. Use Mallows' Cp to choose between multiple regression models. Look for
-#' models where Mallows' Cp is small and close to the number of predictors in the model plus the constant (p).
+#' @details
+#' Mallows' Cp statistic estimates the size of the bias that is introduced into
+#' the predicted responses by having an underspecified model. Use Mallows' Cp
+#' to choose between multiple regression models. Look for models where
+#' Mallows' Cp is small and close to the number of predictors in the model plus
+#' the constant (p).
 #'
-#' @return Mallow's Cp
+#' @return Mallow's Cp of the model.
 #'
 #' @references
 #' Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
@@ -298,6 +319,8 @@ sbicout <- function(model, n, p, q) {
 #' full_model <- lm(mpg ~ ., data = mtcars)
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_mallows_cp(model, full_model)
+#'
+#' @family model selection criteria
 #'
 #' @export
 #'
@@ -353,19 +376,22 @@ mcpout <- function(model, fullmodel, n, p, q) {
 
 
 
-#' @title MSEP
+#' MSEP
 #'
-#' @description Estimated error of prediction, assuming multivariate normality
+#' Estimated error of prediction, assuming multivariate normality.
 #'
-#' @param model an object of class \code{lm}
+#' @param model An object of class \code{lm}.
 #'
-#' @details Computes the estimated mean square error of prediction assuming that both independent
-#' and dependent variables are multivariate normal.
+#' @details
+#' Computes the estimated mean square error of prediction assuming that both
+#' independent and dependent variables are multivariate normal.
 #'
 #' \deqn{MSE(n + 1)(n - 2) / n(n - p - 1)}
 #'
-#' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
-#' @return MSEP
+#' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of
+#' predictors including the intercept
+#'
+#' @return Estimated error of prediction of the model.
 #'
 #' @references
 #' Stein, C. (1960). “Multiple Regression.” In Contributions to Probability and Statistics: Essays in Honor
@@ -378,6 +404,8 @@ mcpout <- function(model, fullmodel, n, p, q) {
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_msep(model)
+#'
+#' @family model selection criteria
 #'
 #' @export
 #'
@@ -423,20 +451,22 @@ sepout <- function(model) {
 
 }
 
-#' @title Final Prediction Error
+#' Final prediction error
 #'
-#' @description Final prediction error
+#' @description Estimated mean square error of prediction.
 #'
-#' @param model an object of class \code{lm}
+#' @param model An object of class \code{lm}.
 #'
-#' @details Computes the estimated mean square error of prediction for each model selected
-#' assuming that the values of the regressors are fixed and that the model is correct.
+#' @details
+#' Computes the estimated mean square error of prediction for each model
+#' selected assuming that the values of the regressors are fixed and that the
+#' model is correct.
 #'
 #' \deqn{MSE((n + p) / n)}
 #'
 #' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
 #'
-#' @return Final Prediction Error
+#' @return Final prediction error of the model.
 #'
 #' @references
 #' Akaike, H. (1969). “Fitting Autoregressive Models for Prediction.” Annals of the Institute of Statistical
@@ -448,6 +478,8 @@ sepout <- function(model) {
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_fpe(model)
+#'
+#' @family model selection criteria
 #'
 #' @export
 #'
@@ -490,22 +522,23 @@ jpout <- function(model) {
 }
 
 
-#' @title Amemiya's Prediction Criterion
+#' @title Amemiya's prediction criterion
 #'
-#' @description Amemiya's prediction error
+#' @description Amemiya's prediction error.
 #'
-#' @param model an object of class \code{lm}
+#' @param model An object of class \code{lm}.
 #'
-#' @details Amemiya's Prediction Criterion penalizes R-squared more heavily than does adjusted R-squared for
-#' each addition degree of freedom used on the right-hand-side of the equation.  The higher the better for
-#' this criterion.
+#' @details
+#' Amemiya's Prediction Criterion penalizes R-squared more heavily than does
+#' adjusted R-squared for each addition degree of freedom used on the
+#' right-hand-side of the equation.  The higher the better for this criterion.
 #'
 #' \deqn{((n + p) / (n - p))(1 - (R^2))}
 #'
 #' where \emph{n} is the sample size, \emph{p} is the number of predictors including the intercept and
 #' \emph{R^2} is the coefficient of determination.
 #'
-#' @return Amemiya's prediction error
+#' @return Amemiya's prediction error of the model.
 #'
 #' @references
 #' Amemiya, T. (1976). Selection of Regressors. Technical Report 225, Stanford University, Stanford, CA.
@@ -516,6 +549,8 @@ jpout <- function(model) {
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_apc(model)
+#'
+#' @family model selection criteria
 #'
 #' @export
 #'
@@ -564,13 +599,14 @@ pcout <- function(model) {
 #'
 #' @param model An object of class \code{lm}.
 #'
-#' @details Hocking's Sp criterion is an adjustment of the residual sum of Squares. Minimize this criterion.
+#' @details Hocking's Sp criterion is an adjustment of the residual sum of
+#' Squares. Minimize this criterion.
 #'
 #' \deqn{MSE / (n - p - 1)}
 #'
 #' where \eqn{MSE = SSE / (n - p)}, n is the sample size and p is the number of predictors including the intercept
 #'
-#' @return Hocking's Sp
+#' @return Hocking's Sp of the model.
 #'
 #' @references
 #' Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
@@ -579,6 +615,8 @@ pcout <- function(model) {
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_hsp(model)
+#'
+#' @family model selection criteria
 #'
 #' @export
 #'

@@ -1,7 +1,11 @@
-#' @title Residual vs Fitted Plot
-#' @description It is a scatter plot of residuals on the y axis and fitted values on the x axis to
-#' detect non-linearity, unequal error variances, and outliers.
-#' @param model an object of class \code{lm}
+#' Residual vs fitted plot
+#'
+#' @description
+#' Scatter plot of residuals on the y axis and fitted values on the
+#' x axis to detect non-linearity, unequal error variances, and outliers.
+#'
+#' @param model An object of class \code{lm}.
+#'
 #' @details Characteristics of a well behaved residual vs fitted plot:
 #'
 #' \itemize{
@@ -10,9 +14,12 @@
 #'   \item No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.
 #' }
 #'
+#' @family residual diagnostics
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_rvsp_plot(model)
+#'
 #' @export
 #'
 ols_rvsp_plot <- function(model) {

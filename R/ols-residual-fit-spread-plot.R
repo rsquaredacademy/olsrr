@@ -1,12 +1,14 @@
-#' @importFrom stats ecdf
-#' @importFrom gridExtra grid.arrange
-#' @title Residual Fit Spread Plot
-#' @description Plot to detect non-linearity, influential observations and outliers.
-#' @param model an object of class \code{lm}
+#' Residual fit spread plot
 #'
-#' @details Consists of side-by-side quantile plots of the centered fit and the residuals. It shows how
-#' much variation in the data is explained by the fit and how much remains in the residuals. For
-#' inappropriate models, the spread of the residuals in such a plot is often greater than the spread of the
+#' Plot to detect non-linearity, influential observations and outliers.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @details
+#' Consists of side-by-side quantile plots of the centered fit and the
+#' residuals. It shows how much variation in the data is explained by the fit
+#' and how much remains in the residuals. For inappropriate models, the spread
+#' of the residuals in such a plot is often greater than the spread of the
 #' centered fit.
 #'
 #' @references
@@ -24,6 +26,9 @@
 #'
 #' # residual spread plot
 #' ols_rsd_plot(model)
+#'
+#' @importFrom stats ecdf
+#' @importFrom gridExtra grid.arrange
 #'
 #' @export
 #'

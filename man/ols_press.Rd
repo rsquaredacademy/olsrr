@@ -2,29 +2,36 @@
 % Please edit documentation in R/ols-influence-measures.R
 \name{ols_press}
 \alias{ols_press}
-\title{PRESS (Prediction Sum of Squares)}
+\title{PRESS}
 \usage{
 ols_press(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
-Predicted Sum of Squares
+Predicted sum of squares of the model.
 }
 \description{
-PRESS tells you how well the model will predict new data.
+PRESS (prediction sum of squares) tells you how well the model will predict
+new data.
 }
 \details{
-The prediction sum of squares (PRESS) is the sum of squares of the prediction error. Each fitted
-to obtain the predicted value for the ith observation. Use PRESS to assess your model's predictive ability.
-Usually, the smaller the PRESS value, the better the model's predictive ability.
+The prediction sum of squares (PRESS) is the sum of squares of the prediction
+error. Each fitted to obtain the predicted value for the ith observation. Use
+PRESS to assess your model's predictive ability. Usually, the smaller the
+PRESS value, the better the model's predictive ability.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_press(model)
+
 }
 \references{
 Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
+}
+\seealso{
+Other influence measures: \code{\link{ols_hadi}},
+  \code{\link{ols_leverage}}, \code{\link{ols_pred_rsq}}
 }

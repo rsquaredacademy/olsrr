@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-information-criteria.R
 \name{ols_aic}
 \alias{ols_aic}
-\title{Akaike Information Criterion}
+\title{Akaike information criterion}
 \usage{
 ols_aic(model, method = c("R", "STATA", "SAS"))
 }
@@ -13,15 +13,16 @@ ols_aic(model, method = c("R", "STATA", "SAS"))
 options include R, STATA and SAS.}
 }
 \value{
-Akaike information criterion.
+Akaike information criterion of the model.
 }
 \description{
 Akaike information criterion.
 }
 \details{
-AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the
-quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute AIC. SAS
-uses residual sum of squares. Below is the formula in each case:
+AIC provides a means for model selection. Given a collection of models for
+the data, AIC estimates the quality of each model, relative to each of the
+other models. R and STATA use loglikelihood to compute AIC. SAS uses residual
+sum of squares. Below is the formula in each case:
 
 \emph{R & STATA}
 \deqn{AIC = -2(loglikelihood) + 2p}
@@ -51,4 +52,10 @@ Mathematics 21:243–247.
 
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
+}
+\seealso{
+Other model selection criteria: \code{\link{ols_apc}},
+  \code{\link{ols_fpe}}, \code{\link{ols_hsp}},
+  \code{\link{ols_mallows_cp}}, \code{\link{ols_msep}},
+  \code{\link{ols_sbc}}, \code{\link{ols_sbic}}
 }

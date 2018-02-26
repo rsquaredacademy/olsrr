@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DFFITS Plot — ols_dffits_plot â€¢ olsrr</title>
+<title>DFFITS plot — ols_dffits_plot â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,7 +119,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DFFITS Plot</h1>
+    <h1>DFFITS plot</h1>
     </div>
 
     
@@ -133,7 +133,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     </table>
     
@@ -147,8 +147,9 @@ following components:</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>DFFIT - difference in fits, is used to identify influential data points. It quantifies
-the number of standard deviations that the fitted value changes when the ith data point is omitted.</p>
+    <p>DFFIT - difference in fits, is used to identify influential data points. It
+quantifies the number of standard deviations that the fitted value changes
+when the ith data point is omitted.</p>
 <p>Steps to compute DFFITs:</p><ul>
 <li><p>Delete observations one at a time.</p></li>
 <li><p>Refit the regression model on remaining \(n - 1\) observations</p></li>
@@ -165,10 +166,15 @@ Diagnostics: Identifying Influential Data and Sources of Collinearity.</p>
 <p>Wiley Series in Probability and Mathematical Statistics.
 New York: John Wiley &amp; Sons. ISBN 0-471-05856-4.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>[ols_dfbetas_panel()]</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_dffits_plot</span>(<span class='no'>model</span>)</div><div class='img'><img src='ols_dffits_plot-1.png' alt='' width='700' height='432.632880098887' /></div></pre>
+<span class='fu'>ols_dffits_plot</span>(<span class='no'>model</span>)</div><div class='img'><img src='ols_dffits_plot-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -180,6 +186,8 @@ New York: John Wiley &amp; Sons. ISBN 0-471-05856-4.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

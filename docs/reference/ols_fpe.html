@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Final Prediction Error — ols_fpe â€¢ olsrr</title>
+<title>Final prediction error — ols_fpe â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,11 +119,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Final Prediction Error</h1>
+    <h1>Final prediction error</h1>
     </div>
 
     
-    <p>Final prediction error</p>
+    <p>Estimated mean square error of prediction.</p>
     
 
     <pre class="usage"><span class='fu'>ols_fpe</span>(<span class='no'>model</span>)</pre>
@@ -133,18 +133,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Final Prediction Error</p>
+    <p>Final prediction error of the model.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Computes the estimated mean square error of prediction for each model selected
-assuming that the values of the regressors are fixed and that the model is correct.
+    <p>Computes the estimated mean square error of prediction for each model
+selected assuming that the values of the regressors are fixed and that the
+model is correct.
     $$MSE((n + p) / n)$$</p>
 <p>where \(MSE = SSE / (n - p)\), n is the sample size and p is the number of predictors including the intercept</p>
     
@@ -154,6 +155,13 @@ assuming that the values of the regressors are fixed and that the model is corre
 Mathematics 21:243–247.</p>
 <p>Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley &amp; Sons.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
+  <code><a href='ols_apc.html'>ols_apc</a></code>, <code><a href='ols_hsp.html'>ols_hsp</a></code>,
+  <code><a href='ols_mallows_cp.html'>ols_mallows_cp</a></code>, <code><a href='ols_msep.html'>ols_msep</a></code>,
+  <code><a href='ols_sbc.html'>ols_sbc</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -171,6 +179,8 @@ New York: John Wiley &amp; Sons.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

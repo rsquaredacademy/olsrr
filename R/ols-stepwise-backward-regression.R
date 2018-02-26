@@ -1,11 +1,19 @@
-#' @title Stepwise Backward Regression
-#' @description Build regression model from a set of candidate predictor variables by removing predictors based on
-#' p values, in a stepwise manner until there is no variable left to remove any more.
-#' @param model an object of class \code{lm}; the model should include all candidate predictor variables
-#' @param prem p value; variables with p more than \code{prem} will be removed from the model
-#' @param details logical; if \code{TRUE}, will print the regression result at each step
-#' @param x an object of class \code{ols_step_backward}
-#' @param ... other inputs
+#' Stepwise backward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' removing predictors based on p values, in a stepwise manner until there is
+#' no variable left to remove any more.
+#'
+#' @param model An object of class \code{lm}; the model should include all
+#'   candidate predictor variables.
+#' @param prem p value; variables with p more than \code{prem} will be removed
+#'   from the model.
+#' @param details Logical; if \code{TRUE}, will print the regression result at
+#'   each step.
+#' @param x An object of class \code{ols_step_backward}.
+#' @param ... Other inputs.
+#'
 #' @return \code{ols_step_backward} returns an object of class \code{"ols_step_backward"}.
 #' An object of class \code{"ols_step_backward"} is a list containing the
 #' following components:
@@ -37,6 +45,8 @@
 #' k <- ols_step_backward(model)
 #' plot(k)
 #' }
+#'
+#' @family variable selection procedures
 #'
 #' @export
 #'

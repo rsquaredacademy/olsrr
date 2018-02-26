@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stepwise Backward Regression — ols_step_backward â€¢ olsrr</title>
+<title>Stepwise backward regression — ols_step_backward â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,12 +119,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stepwise Backward Regression</h1>
+    <h1>Stepwise backward regression</h1>
     </div>
 
     
-    <p>Build regression model from a set of candidate predictor variables by removing predictors based on
-p values, in a stepwise manner until there is no variable left to remove any more.</p>
+    <p>Build regression model from a set of candidate predictor variables by
+removing predictors based on p values, in a stepwise manner until there is
+no variable left to remove any more.</p>
     
 
     <pre class="usage"><span class='fu'>ols_step_backward</span>(<span class='no'>model</span>, <span class='no'>...</span>)
@@ -140,23 +141,26 @@ p values, in a stepwise manner until there is no variable left to remove any mor
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code>; the model should include all candidate predictor variables</p></td>
+      <td><p>An object of class <code>lm</code>; the model should include all
+candidate predictor variables.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other inputs</p></td>
+      <td><p>Other inputs.</p></td>
     </tr>
     <tr>
       <th>prem</th>
-      <td><p>p value; variables with p more than <code>prem</code> will be removed from the model</p></td>
+      <td><p>p value; variables with p more than <code>prem</code> will be removed
+from the model.</p></td>
     </tr>
     <tr>
       <th>details</th>
-      <td><p>logical; if <code>TRUE</code>, will print the regression result at each step</p></td>
+      <td><p>Logical; if <code>TRUE</code>, will print the regression result at
+each step.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>an object of class <code>ols_step_backward</code></p></td>
+      <td><p>An object of class <code>ols_step_backward</code>.</p></td>
     </tr>
     </table>
     
@@ -181,6 +185,15 @@ following components:</p>
 
     <p>Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley &amp; Sons, 2012. Print.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other variable selection procedures: <code><a href='ols_all_subset.html'>ols_all_subset</a></code>,
+  <code><a href='ols_best_subset.html'>ols_best_subset</a></code>,
+  <code><a href='ols_step_forward.html'>ols_step_forward</a></code>,
+  <code><a href='ols_stepaic_backward.html'>ols_stepaic_backward</a></code>,
+  <code><a href='ols_stepaic_both.html'>ols_stepaic_both</a></code>,
+  <code><a href='ols_stepaic_forward.html'>ols_stepaic_forward</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -204,6 +217,8 @@ following components:</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

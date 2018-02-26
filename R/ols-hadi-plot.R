@@ -1,8 +1,11 @@
-#' @title Hadi Plot
-#' @description Hadi's measure of influence based on the fact that influential observations can be present in either
-#' the response variable or in the predictors or both. The plot is used to detect influential observations
-#' based on Hadi's measure.
-#' @param model an object of class \code{lm}
+#' Hadi plot
+#'
+#' @description
+#' Hadi's measure of influence based on the fact that influential observations
+#' can be present in either the response variable or in the predictors or both.
+#' The plot is used to detect influential observations based on Hadi's measure.
+#'
+#' @param model An object of class \code{lm}.
 #'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -10,6 +13,8 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_hadi_plot(model)
+#'
+#' @seealso [ols_potrsd_plot()]
 #'
 #' @export
 #'

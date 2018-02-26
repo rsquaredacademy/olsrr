@@ -1,7 +1,10 @@
-#' @title Potential Residual Plot
-#' @description Plot to aid in classifying unusual observations as high-leverage points,
+#' Potential residual plot
+#'
+#' @description
+#' Plot to aid in classifying unusual observations as high-leverage points,
 #' outliers, or a combination of both.
-#' @param model an object of class \code{lm}
+#'
+#' @param model An object of class \code{lm}.
 #'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -9,6 +12,8 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_potrsd_plot(model)
+#'
+#' @seealso [ols_hadi_plot()]
 #'
 #' @export
 #'

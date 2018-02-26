@@ -2,15 +2,15 @@
 % Please edit documentation in R/ols-diagnostics-panel.R
 \name{ols_diagnostic_panel}
 \alias{ols_diagnostic_panel}
-\title{Diagnostics Panel}
+\title{Diagnostics panel}
 \usage{
 ols_diagnostic_panel(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
-Panel of plots for regression diagnostics
+Panel of plots for regression diagnostics.
 }
 \examples{
 \dontrun{

@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-dffits-plot.R
 \name{ols_dffits_plot}
 \alias{ols_dffits_plot}
-\title{DFFITS Plot}
+\title{DFFITS plot}
 \usage{
 ols_dffits_plot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
 \code{ols_dffits_plot} returns  a list containing the
@@ -20,8 +20,9 @@ following components:
 Plot for detecting influential observations using DFFITs.
 }
 \details{
-DFFIT - difference in fits, is used to identify influential data points. It quantifies
-the number of standard deviations that the fitted value changes when the ith data point is omitted.
+DFFIT - difference in fits, is used to identify influential data points. It
+quantifies the number of standard deviations that the fitted value changes
+when the ith data point is omitted.
 
 Steps to compute DFFITs:
 
@@ -39,6 +40,7 @@ where n is the number of observations and p is the number of predictors includin
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_dffits_plot(model)
+
 }
 \references{
 Belsley, David A.; Kuh, Edwin; Welsh, Roy E. (1980). Regression
@@ -46,4 +48,7 @@ Diagnostics: Identifying Influential Data and Sources of Collinearity.
 
 Wiley Series in Probability and Mathematical Statistics.
 New York: John Wiley & Sons. ISBN 0-471-05856-4.
+}
+\seealso{
+[ols_dfbetas_panel()]
 }

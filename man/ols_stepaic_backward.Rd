@@ -4,7 +4,7 @@
 \alias{ols_stepaic_backward}
 \alias{ols_stepaic_backward.default}
 \alias{plot.ols_stepaic_backward}
-\title{Stepwise AIC Backward Regression}
+\title{Stepwise AIC backward regression}
 \usage{
 ols_stepaic_backward(model, ...)
 
@@ -13,13 +13,15 @@ ols_stepaic_backward(model, ...)
 \method{plot}{ols_stepaic_backward}(x, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}; the model should include all candidate predictor variables}
+\item{model}{An object of class \code{lm}; the model should include all
+candidate predictor variables.}
 
-\item{...}{other arguments}
+\item{...}{Other arguments.}
 
-\item{details}{logical; if \code{TRUE}, will print the regression result at each step}
+\item{details}{Logical; if \code{TRUE}, will print the regression result at
+each step.}
 
-\item{x}{an object of class \code{ols_stepaic_backward}}
+\item{x}{An object of class \code{ols_stepaic_backward}.}
 }
 \value{
 \code{ols_stepaic_backward} returns an object of class \code{"ols_stepaic_backward"}.
@@ -35,8 +37,9 @@ following components:
 \item{arsq}{adjusted rsquare}
 }
 \description{
-Build regression model from a set of candidate predictor variables by removing predictors based on
-Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
+Build regression model from a set of candidate predictor variables by
+removing predictors based on akaike information criterion, in a stepwise
+manner until there is no variable left to remove any more.
 }
 \examples{
 \dontrun{
@@ -55,4 +58,12 @@ plot(k)
 }
 \references{
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
+}
+\seealso{
+Other variable selection procedures: \code{\link{ols_all_subset}},
+  \code{\link{ols_best_subset}},
+  \code{\link{ols_step_backward}},
+  \code{\link{ols_step_forward}},
+  \code{\link{ols_stepaic_both}},
+  \code{\link{ols_stepaic_forward}}
 }

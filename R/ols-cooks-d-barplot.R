@@ -1,13 +1,16 @@
-#' @importFrom magrittr set_colnames
-#' @importFrom stats cooks.distance
-#' @importFrom dplyr filter select
-#' @importFrom ggplot2 geom_bar coord_flip ylim geom_hline geom_label
-#' @title Cooks' D Bar Plot
-#' @description Bar Plot of cook's distance to detect observations that strongly influence fitted values of the model.
-#' @param model an object of class \code{lm}
-#' @details Cook's distance was introduced by American statistician R Dennis Cook in 1977. It is used
-#' to identify influential data points. It depends on both the residual and leverage i.e it takes it account
-#' both the \emph{x} value and \emph{y} value of the observation.
+#' Cooks' D bar plot
+#'
+#' @description
+#' Bar Plot of cook's distance to detect observations that strongly influence
+#' fitted values of the model.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @details
+#' Cook's distance was introduced by American statistician R Dennis Cook in
+#' 1977. It is used to identify influential data points. It depends on both the
+#' residual and leverage i.e it takes it account both the \emph{x} value and
+#' \emph{y} value of the observation.
 #'
 #' Steps to compute Cook's distance:
 #'
@@ -28,6 +31,14 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_cooksd_barplot(model)
+#'
+#' @importFrom magrittr set_colnames
+#' @importFrom stats cooks.distance
+#' @importFrom dplyr filter select
+#' @importFrom ggplot2 geom_bar coord_flip ylim geom_hline geom_label
+#'
+#' @seealso [ols_cooksd_chart()]
+#'
 #' @export
 #'
 ols_cooksd_barplot <- function(model) {
@@ -64,7 +75,12 @@ ols_cooksd_barplot <- function(model) {
 
 }
 
+#' @description Prepare data for cook's d bar plot
+#'
 #' @importFrom dplyr if_else
+#'
+#' @noRd
+#'
 cdplot <- function(model) {
 
   cd        <- NULL
@@ -93,6 +109,10 @@ cdplot <- function(model) {
 
 }
 
+#' @description Data for identifying outliers in cook's d bar plot
+#'
+#' @noRd
+#'
 plot_data <- function(k) {
 
   ckd   <- NULL
@@ -107,6 +127,10 @@ plot_data <- function(k) {
 
 }
 
+#' @description Outlier data for cook's d bar plot
+#'
+#' @noRd
+#'
 outlier_data <- function(k) {
 
   color <- NULL

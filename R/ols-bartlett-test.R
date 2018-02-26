@@ -1,15 +1,16 @@
-#' @importFrom rlang quo_is_null quos
-#' @importFrom stats pchisq formula
-#' @useDynLib olsrr, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
-#' @title Bartlett Test
-#' @description Test if k samples are from populations with equal variances.
-#' @param data a \code{data.frame} or \code{tibble}
-#' @param ... columns in \code{data}
-#' @param group_var grouping variable
-#' @details Bartlett's test is used to test if variances across samples is equal.
+#' Bartlett test
+#'
+#' Test if k samples are from populations with equal variances.
+#'
+#' @param data A \code{data.frame} or \code{tibble}.
+#' @param ... Columns in \code{data}.
+#' @param group_var Grouping variable.
+#'
+#' @details
+#' Bartlett's test is used to test if variances across samples is equal.
 #' It is sensitive to departures from normality. The Levene test
 #' is an alternative test that is less sensitive to departures from normality.
+#'
 #' @return \code{ols_bartlett_test} returns an object of class \code{"ols_bartlett_test"}.
 #' An object of class \code{"ols_bartlett_test"} is a list containing the
 #' following components:
@@ -22,6 +23,8 @@
 #' Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 #' Eighth Edition, Iowa State University Press.
 #'
+#' @family heteroskedasticity tests
+#'
 #' @examples
 #' \dontrun{
 #' # using grouping variable
@@ -33,6 +36,11 @@
 #' # using variables
 #' ols_bartlett_test(hsb, read, write)
 #' }
+#'
+#' @importFrom rlang quo_is_null quos
+#' @importFrom stats pchisq formula
+#' @useDynLib olsrr, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
 #'
 #' @export
 #'
@@ -120,7 +128,15 @@ print.ols_bartlett_test <- function(x, ...) {
   print_bartlett_test(x)
 }
 
+
+#' Bartlett internal
+#'
+#' Computes the f statistic for bartlett test.
+#'
 #' @importFrom stats complete.cases var
+#'
+#' @noRd
+#'
 bartlett_fstat <- function(variable, grp_var) {
 
   n     <- length(variable)

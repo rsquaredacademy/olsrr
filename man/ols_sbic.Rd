@@ -7,21 +7,22 @@
 ols_sbic(model, full_model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{full_model}{an object of class \code{lm}}
+\item{full_model}{An object of class \code{lm}.}
 }
 \value{
 Sawa's Bayesian Information Criterion
 }
 \description{
-Sawa's Bayesian Information Criterion
+Sawa's bayesian information criterion.
 }
 \details{
-Sawa (1978) developed a model selection criterion that was derived from a Bayesian modification of
-the AIC criterion. Sawa's Bayesian Information Criteria (BIC) is a function of the number of observations n,
-the SSE, the pure error variance fitting the full model, and the number of independent variables including
-the intercept.
+Sawa (1978) developed a model selection criterion that was derived from a
+Bayesian modification of the AIC criterion. Sawa's Bayesian Information
+Criterion (BIC) is a function of the number of observations n, the SSE, the
+pure error variance fitting the full model, and the number of independent
+variables including the intercept.
 
 \deqn{SBIC = n * ln(SSE / n) + 2(p + 2)q - 2(q^2)}
 
@@ -32,6 +33,7 @@ where \eqn{q = n(\sigma^2)/SSE}, \emph{n} is the sample size, \emph{p} is the nu
 full_model <- lm(mpg ~ ., data = mtcars)
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_sbic(model, full_model)
+
 }
 \references{
 Sawa, T. (1978). “Information Criteria for Discriminating among Alternative Regression Models.” Econometrica
@@ -39,4 +41,10 @@ Sawa, T. (1978). “Information Criteria for Discriminating among Alternative Re
 
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
+}
+\seealso{
+Other model selection criteria: \code{\link{ols_aic}},
+  \code{\link{ols_apc}}, \code{\link{ols_fpe}},
+  \code{\link{ols_hsp}}, \code{\link{ols_mallows_cp}},
+  \code{\link{ols_msep}}, \code{\link{ols_sbc}}
 }

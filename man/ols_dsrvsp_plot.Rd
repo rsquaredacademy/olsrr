@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-dsresid-vs-pred-plot.R
 \name{ols_dsrvsp_plot}
 \alias{ols_dsrvsp_plot}
-\title{Deleted Studentized Residual vs Fitted Values Plot}
+\title{Deleted studentized residual vs fitted values plot}
 \usage{
 ols_dsrvsp_plot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
 \code{ols_dsrvsp_plot} returns  a list containing the
@@ -19,16 +19,23 @@ outliers/influential observations}
 \item{threshold}{\code{threshold} for classifying an observation as an outlier/influential observation}
 }
 \description{
-Plot for detecting violation of assumptions about residuals
-such as non-linearity, constant variances and outliers. It can also be used to examine model fit.
+Plot for detecting violation of assumptions about residuals such as
+non-linearity, constant variances and outliers. It can also be used to
+examine model fit.
 }
 \details{
-Studentized deleted residuals (or externally studentized residuals) is the deleted residual
-divided by its estimated standard deviation. Studentized residuals are going to be more effective for
-detecting outlying Y observations than standardized residuals. If an observation has an externally
-studentized residual that is larger than 2 (in absolute value) we can call it an outlier.
+Studentized deleted residuals (or externally studentized residuals) is the
+deleted residual divided by its estimated standard deviation. Studentized
+residuals are going to be more effective for detecting outlying Y
+observations than standardized residuals. If an observation has an externally
+studentized residual that is larger than 2 (in absolute value) we can call
+it an outlier.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_dsrvsp_plot(model)
+
+}
+\seealso{
+[ols_rsdlev_plot()], [ols_srsd_plot()], [ols_srsd_chart()]
 }

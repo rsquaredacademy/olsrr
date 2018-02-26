@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Residual vs Regressors Plot — ols_rvsr_plot â€¢ olsrr</title>
+<title>Residual vs regressor plot — ols_rvsr_plot â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,13 +119,14 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Residual vs Regressors Plot</h1>
+    <h1>Residual vs regressor plot</h1>
     </div>
 
     
-    <p>Graph to determine whether we should add a new predictor to the model already containing other predictors.
-The residuals from the model is regressed on the new predictor and if the plot shows non random pattern,
-you should consider adding the new predictor to the model.</p>
+    <p>Graph to determine whether we should add a new predictor to the model already
+containing other predictors. The residuals from the model is regressed on the
+new predictor and if the plot shows non random pattern, you should consider
+adding the new predictor to the model.</p>
     
 
     <pre class="usage"><span class='fu'>ols_rvsr_plot</span>(<span class='no'>model</span>, <span class='no'>variable</span>)</pre>
@@ -135,24 +136,31 @@ you should consider adding the new predictor to the model.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>variable</th>
-      <td><p>new predictor to be added to the <code>model</code></p></td>
+      <td><p>New predictor to be added to the <code>model</code>.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>[ols_avplots()], [ols_rpc_plot()]</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_rvsr_plot</span>(<span class='no'>model</span>, <span class='no'>mtcars</span>$<span class='no'>drat</span>)</div><div class='img'><img src='ols_rvsr_plot-1.png' alt='' width='700' height='432.632880098887' /></div></pre>
+<span class='fu'>ols_rvsr_plot</span>(<span class='no'>model</span>, <span class='no'>drat</span>)</div><div class='img'><img src='ols_rvsr_plot-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

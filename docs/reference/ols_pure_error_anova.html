@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lack of Fit F Test — ols_pure_error_anova â€¢ olsrr</title>
+<title>Lack of fit F test — ols_pure_error_anova â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,7 +119,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Lack of Fit F Test</h1>
+    <h1>Lack of fit F test</h1>
     </div>
 
     
@@ -133,11 +133,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters</p></td>
+      <td><p>Other parameters.</p></td>
     </tr>
     </table>
     
@@ -171,17 +171,19 @@ list containing the following components:</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The residual sum of squares resulting from a regression can be decomposed into 2 components:</p><ul>
+    <p>The residual sum of squares resulting from a regression can be decomposed
+into 2 components:</p><ul>
 <li><p>Due to lack of fit</p></li>
 <li><p>Due to random variation</p></li>
 </ul>
-    <p>If most of the error is due to lack of fit and not just random error, the model should be discarded and
-a new model must be built.</p>
+    <p>If most of the error is due to lack of fit and not just random error, the
+model should be discarded and a new model must be built.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The lack of fit F test works only with simple linear regression. Moreover, it is important that the
-data contains repeat observations i.e. replicates for at least one of the values of the predictor x. This
+    <p>The lack of fit F test works only with simple linear regression.
+Moreover, it is important that the data contains repeat observations i.e.
+replicates for at least one of the values of the predictor x. This
 test generally only applies to datasets with plenty of replicates.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>

@@ -1,11 +1,17 @@
-#' @importFrom dplyr filter
-#' @importFrom ggplot2 geom_vline
-#' @title Studentized Residuals vs Leverage Plot
-#' @description Graph for detecting outliers and/or observations with high leverage.
-#' @param model an object of class \code{lm}
+#' Studentized residuals vs leverage plot
+#'
+#' Graph for detecting outliers and/or observations with high leverage.
+#'
+#' @param model An object of class \code{lm}.
+#'
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
 #' ols_rsdlev_plot(model)
+#'
+#' @importFrom dplyr filter
+#' @importFrom ggplot2 geom_vline
+#'
+#' @seealso [ols_dsrvsp_plot()], [ols_rsdlev_plot()]
 #'
 #' @export
 #'
@@ -16,9 +22,9 @@ ols_rsdlev_plot <- function(model) {
   }
 
   lev_thrsh <- NULL
+  fct_color <- NULL
   leverage  <- NULL
   levrstud  <- NULL
-  fct_color <- NULL
   txt       <- NULL
   obs       <- NULL
   color     <- NULL
