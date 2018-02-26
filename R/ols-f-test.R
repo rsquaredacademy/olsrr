@@ -1,14 +1,17 @@
-#' @importFrom stats pf
-#' @title F Test for Constant Variance
-#' @description Test for heteroskedasticity under the assumption that
-#' the errors are independent and identically distributed (i.i.d.).
-#' @param model an object of class \code{lm}
-#' @param fitted_values logical; if TRUE, use fitted values of regression model
-#' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
-#' performed for the right-hand-side (explanatory) variables of the fitted
-#' regression model
-#' @param vars variables to be used for for heteroskedasticity test
-#' @param ... other arguments
+#' F test for constant variance
+#'
+#' @description
+#' Test for heteroskedasticity under the assumption that the errors are
+#' independent and identically distributed (i.i.d.).
+#'
+#' @param model An object of class \code{lm}.
+#' @param fitted_values Logical; if TRUE, use fitted values of regression model.
+#' @param rhs Logical; if TRUE, specifies that tests for heteroskedasticity be
+#'   performed for the right-hand-side (explanatory) variables of the fitted
+#'   regression model.
+#' @param vars Variables to be used for for heteroskedasticity test.
+#' @param ... Other arguments.
+#'
 #' @return \code{ols_f_test} returns an object of class \code{"ols_f_test"}.
 #' An object of class \code{"ols_f_test"} is a list containing the
 #' following components:
@@ -38,6 +41,11 @@
 #'
 #' # using fitted values
 #' ols_f_test(model, vars = c('disp', 'hp'))
+#'
+#' @family heteroskedasticity tests
+#'
+#' @importFrom stats pf
+#'
 #' @export
 #'
 ols_f_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) UseMethod("ols_f_test")

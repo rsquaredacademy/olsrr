@@ -2,26 +2,26 @@
 % Please edit documentation in R/ols-breusch-pagan-test.R
 \name{ols_bp_test}
 \alias{ols_bp_test}
-\title{Breusch Pagan Test}
+\title{Breusch pagan test}
 \usage{
 ols_bp_test(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
   p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{fitted.values}{logical; if TRUE, use fitted values of regression model}
+\item{fitted.values}{Logical; if TRUE, use fitted values of regression model.}
 
-\item{rhs}{logical; if TRUE, specifies that tests for heteroskedasticity be
+\item{rhs}{Logical; if TRUE, specifies that tests for heteroskedasticity be
 performed for the right-hand-side (explanatory) variables of the fitted
-regression model}
+regression model.}
 
-\item{multiple}{logical; if TRUE, specifies that multiple testing be performed}
+\item{multiple}{Logical; if TRUE, specifies that multiple testing be performed.}
 
-\item{p.adj}{p value adjustment, following options are available: bonferroni,
-holm, sidak and none}
+\item{p.adj}{Adjustment for p value, the following options are available:
+bonferroni, holm, sidak and none.}
 
-\item{vars}{variables to be used for for heteroskedasticity test}
+\item{vars}{Variables to be used for heteroskedasticity test.}
 }
 \value{
 \code{ols_bp_test} returns an object of class \code{"ols_bp_test"}.
@@ -39,12 +39,14 @@ following components:
 \item{preds}{predictors}
 }
 \description{
-Test for constant variance. It assumes that the error terms are normally distributed.
+Test for constant variance. It assumes that the error terms are normally
+distributed.
 }
 \details{
-Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
-test for heteroskedasticity in a linear regression model. It test whether variance of errors from a
-regression is dependent on the values of a independent variable.
+Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979.
+It is used to test for heteroskedasticity in a linear regression model.
+It test whether variance of errors from a regression is dependent on the
+values of a independent variable.
 
 \itemize{
 \item Null Hypothesis: Equal/constant variances
@@ -65,22 +67,22 @@ Computation
 # model
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 
-# Use fitted values of the model
+# use fitted values of the model
 ols_bp_test(model)
 
-# Use independent variables of the model
+# use independent variables of the model
 ols_bp_test(model, rhs = TRUE)
 
-# Use independent variables of the model and perform multiple tests
+# use independent variables of the model and perform multiple tests
 ols_bp_test(model, rhs = TRUE, multiple = TRUE)
 
-# Bonferroni p value Adjustment
+# bonferroni p value adjustment
 ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
 
-# Sidak p value Adjustment
+# sidak p value adjustment
 ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
 
-# Holm's p value Adjustment
+# holm's p value adjustment
 ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 
 }
@@ -88,4 +90,8 @@ ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and
 Random Coefficient Variation. Econometrica 47, 1287–1294
 Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
+}
+\seealso{
+Other heteroskedasticity tests: \code{\link{ols_bartlett_test}},
+  \code{\link{ols_f_test}}, \code{\link{ols_score_test}}
 }

@@ -1,12 +1,16 @@
-#' @title Score Test for heteroskedasticity
-#' @description Test for heteroskedasticity under the assumption that
-#' the errors are independent and identically distributed (i.i.d.).
-#' @param model an object of class \code{lm}
-#' @param fitted_values logical; if TRUE, use fitted values of regression model
-#' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
-#' performed for the right-hand-side (explanatory) variables of the fitted
-#' regression model
-#' @param vars variables to be used for for heteroskedasticity test
+#' Score test
+#'
+#' @description
+#' Test for heteroskedasticity under the assumption that the errors are
+#' independent and identically distributed (i.i.d.).
+#'
+#' @param model An object of class \code{lm}.
+#' @param fitted_values Logical; if TRUE, use fitted values of regression model.
+#' @param rhs Logical; if TRUE, specifies that tests for heteroskedasticity be
+#'   performed for the right-hand-side (explanatory) variables of the fitted
+#'   regression model.
+#' @param vars Variables to be used for for heteroskedasticity test.
+#'
 #' @return \code{ols_score_test} returns an object of class \code{"ols_score_test"}.
 #' An object of class \code{"ols_score_test"} is a list containing the
 #' following components:
@@ -38,6 +42,8 @@
 #'
 #' # specify predictors from the model
 #' ols_score_test(model, vars = c('disp', 'wt'))
+#'
+#' @family heteroskedasticity tests
 #'
 #' @export
 #'

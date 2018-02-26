@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Akaike Information Criterion — ols_aic â€¢ olsrr</title>
+<title>Akaike information criterion — ols_aic â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,7 +119,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Akaike Information Criterion</h1>
+    <h1>Akaike information criterion</h1>
     </div>
 
     
@@ -144,13 +144,14 @@ options include R, STATA and SAS.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Akaike information criterion.</p>
+    <p>Akaike information criterion of the model.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>AIC provides a means for model selection. Given a collection of models for the data, AIC estimates the
-quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute AIC. SAS
-uses residual sum of squares. Below is the formula in each case:
+    <p>AIC provides a means for model selection. Given a collection of models for
+the data, AIC estimates the quality of each model, relative to each of the
+other models. R and STATA use loglikelihood to compute AIC. SAS uses residual
+sum of squares. Below is the formula in each case:
     <em>R &amp; STATA</em>
 $$AIC = -2(loglikelihood) + 2p$$
     <em>SAS</em>
@@ -163,6 +164,13 @@ $$AIC = n * ln(SSE / n) + 2p$$</p>
 Mathematics 21:243–247.</p>
 <p>Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley &amp; Sons.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other model selection criteria: <code><a href='ols_apc.html'>ols_apc</a></code>,
+  <code><a href='ols_fpe.html'>ols_fpe</a></code>, <code><a href='ols_hsp.html'>ols_hsp</a></code>,
+  <code><a href='ols_mallows_cp.html'>ols_mallows_cp</a></code>, <code><a href='ols_msep.html'>ols_msep</a></code>,
+  <code><a href='ols_sbc.html'>ols_sbc</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -187,6 +195,8 @@ New York: John Wiley &amp; Sons.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -1,18 +1,24 @@
-#' @importFrom stats anova
-#' @title Breusch Pagan Test
-#' @description Test for constant variance. It assumes that the error terms are normally distributed.
-#' @param model an object of class \code{lm}
-#' @param fitted.values logical; if TRUE, use fitted values of regression model
-#' @param rhs logical; if TRUE, specifies that tests for heteroskedasticity be
+#' Breusch pagan test
+#'
+#' @description
+#' Test for constant variance. It assumes that the error terms are normally
+#' distributed.
+#'
+#' @param model An object of class \code{lm}.
+#' @param fitted.values Logical; if TRUE, use fitted values of regression model.
+#' @param rhs Logical; if TRUE, specifies that tests for heteroskedasticity be
 #' performed for the right-hand-side (explanatory) variables of the fitted
-#' regression model
-#' @param multiple logical; if TRUE, specifies that multiple testing be performed
-#' @param p.adj p value adjustment, following options are available: bonferroni,
-#' holm, sidak and none
-#' @param vars variables to be used for for heteroskedasticity test
-#' @details Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
-#' test for heteroskedasticity in a linear regression model. It test whether variance of errors from a
-#' regression is dependent on the values of a independent variable.
+#' regression model.
+#' @param multiple Logical; if TRUE, specifies that multiple testing be performed.
+#' @param p.adj Adjustment for p value, the following options are available:
+#' bonferroni, holm, sidak and none.
+#' @param vars Variables to be used for heteroskedasticity test.
+#'
+#' @details
+#' Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979.
+#' It is used to test for heteroskedasticity in a linear regression model.
+#' It test whether variance of errors from a regression is dependent on the
+#' values of a independent variable.
 #'
 #' \itemize{
 #' \item Null Hypothesis: Equal/constant variances
@@ -49,27 +55,31 @@
 
 #' Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 #'
+#' @family heteroskedasticity tests
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 #'
-#' # Use fitted values of the model
+#' # use fitted values of the model
 #' ols_bp_test(model)
 #'
-#' # Use independent variables of the model
+#' # use independent variables of the model
 #' ols_bp_test(model, rhs = TRUE)
 #'
-#' # Use independent variables of the model and perform multiple tests
+#' # use independent variables of the model and perform multiple tests
 #' ols_bp_test(model, rhs = TRUE, multiple = TRUE)
 #'
-#' # Bonferroni p value Adjustment
+#' # bonferroni p value adjustment
 #' ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
 #'
-#' # Sidak p value Adjustment
+#' # sidak p value adjustment
 #' ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
 #'
-#' # Holm's p value Adjustment
+#' # holm's p value adjustment
 #' ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
+#'
+#' @importFrom stats anova
 #'
 #' @export
 #'
@@ -180,7 +190,6 @@ ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multip
     }
   }
 
-  # output
   out <- list(
     bp       = bp,
     p        = p,
@@ -204,7 +213,17 @@ print.ols_bp_test <- function(x, ...) {
   print_bp_test(x)
 }
 
-
+#' @description
+#' Computes breusch pagan statistics and degrees of freedom when:
+#' * fit = TRUE
+#' * rhs = TRUE
+#' * multiple = TRUE
+#'
+#' @param l A tibble created using `avplots_data()`.
+#' @param model An object of class \code{lm}.
+#'
+#' @noRd
+#'
 bp_case_2 <- function(l, model) {
 
   n         <- model_rows(model)
@@ -226,6 +245,15 @@ bp_case_2 <- function(l, model) {
 
 }
 
+#' @description
+#' Computes breusch pagan statistics and degrees of freedom when:
+#' * fit = TRUE
+#' * rhs = FALSE
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @noRd
+#'
 bp_case_3 <- function(model) {
 
   `Sum Sq`     <- NULL
@@ -240,6 +268,17 @@ bp_case_3 <- function(model) {
 
 }
 
+#' @description
+#' Computes breusch pagan statistics and degrees of freedom when:
+#' * fit = FALSE
+#' * rhs = TRUE
+#' * multiple = FALSE
+#'
+#' @param l A tibble created using `avplots_data()`.
+#' @param model An object of class \code{lm}.
+#'
+#' @noRd
+#'
 bp_case_6 <- function(l, model) {
 
   n         <- nrow(l)
@@ -262,7 +301,20 @@ bp_case_6 <- function(l, model) {
 
 }
 
+#' @description
+#' Computes breusch pagan statistics and degrees of freedom when:
+#' * fit = FALSE
+#' * rhs = FALSE
+#' * multiple = FALSE
+#'
 #' @importFrom rlang !!! syms
+#'
+#' @param l A tibble created using `avplots_data()`.
+#' @param model An object of class \code{lm}.
+#' @param vars Variables to be used for the test.
+#'
+#' @noRd
+#'
 bp_case_7 <- function(l, model, vars) {
 
   n         <- nrow(l)
@@ -284,6 +336,12 @@ bp_case_7 <- function(l, model, vars) {
 
 }
 
+#' @description Fit model using the columns in the data set.
+#'
+#' @param l A tibble created using `avplots_data()`.
+#'
+#' @noRd
+#'
 bp_model <- function(l) {
 
   l %>%
@@ -314,6 +372,17 @@ ind_bp <- function(model, var_resid) {
 
 }
 
+#' @description
+#' Computes breusch pagan statistics and degrees of freedom when:
+#' * fit = TRUE
+#' * rhs = TRUE
+#' * multiple = TRUE
+#'
+#' @param l A tibble created using `avplots_data()`.
+#' @param model An object of class \code{lm}.
+#'
+#' @noRd
+#'
 bp_case_one <- function(l, model) {
 
   nam <-
@@ -333,6 +402,11 @@ bp_case_one <- function(l, model) {
 
 }
 
+#' @description
+#' Computes breusch pagan statistic and p values when multiple = TRUE
+#'
+#' @noRd
+#'
 bp_case_loop <- function(np, nam, l) {
 
   tstat <- c()
@@ -355,6 +429,11 @@ bp_case_loop <- function(np, nam, l) {
 
 }
 
+#' @description
+#' Computes breusch pagan statistic and p values when multiple = FALSE.
+#'
+#' @noRd
+#'
 bp_case_inter <- function(l, np, tstat) {
 
   comp <-
@@ -373,6 +452,10 @@ bp_case_inter <- function(l, np, tstat) {
 
 }
 
+#' @description Computes adjusted p values.
+#'
+#' @noRd
+#'
 bp_case_adj <- function(method, pvals, np, ps) {
 
   if (method == "bonferroni") {
@@ -419,7 +502,13 @@ bp_case_adj <- function(method, pvals, np, ps) {
 
 }
 
-
+#' @description Computes breusch pagan statistic and p values when:
+#' * fit = FALSE
+#' * rhs = FALSE
+#' * multiple = FALSE
+#'
+#' @noRd
+#'
 bp_case_5_inter <- function(l, model, vars, tstat) {
 
   n         <- nrow(l)

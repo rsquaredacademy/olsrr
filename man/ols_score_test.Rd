@@ -2,20 +2,20 @@
 % Please edit documentation in R/ols-score-test.R
 \name{ols_score_test}
 \alias{ols_score_test}
-\title{Score Test for heteroskedasticity}
+\title{Score test}
 \usage{
 ols_score_test(model, fitted_values = TRUE, rhs = FALSE, vars = NULL)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{fitted_values}{logical; if TRUE, use fitted values of regression model}
+\item{fitted_values}{Logical; if TRUE, use fitted values of regression model.}
 
-\item{rhs}{logical; if TRUE, specifies that tests for heteroskedasticity be
+\item{rhs}{Logical; if TRUE, specifies that tests for heteroskedasticity be
 performed for the right-hand-side (explanatory) variables of the fitted
-regression model}
+regression model.}
 
-\item{vars}{variables to be used for for heteroskedasticity test}
+\item{vars}{Variables to be used for for heteroskedasticity test.}
 }
 \value{
 \code{ols_score_test} returns an object of class \code{"ols_score_test"}.
@@ -31,8 +31,8 @@ following components:
 \item{preds}{predictors}
 }
 \description{
-Test for heteroskedasticity under the assumption that
-the errors are independent and identically distributed (i.i.d.).
+Test for heteroskedasticity under the assumption that the errors are
+independent and identically distributed (i.i.d.).
 }
 \examples{
 # model
@@ -54,4 +54,8 @@ Breusch, T. S. and Pagan, A. R. (1979) A simple test for heteroscedasticity and 
 Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regression. Biometrika 70, 1–10.
 
 Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
+}
+\seealso{
+Other heteroskedasticity tests: \code{\link{ols_bartlett_test}},
+  \code{\link{ols_bp_test}}, \code{\link{ols_f_test}}
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Part and Partial Correlations — ols_correlations â€¢ olsrr</title>
+<title>Part and partial correlations — ols_correlations â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,11 +119,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Part and Partial Correlations</h1>
+    <h1>Part and partial correlations</h1>
     </div>
 
     
-    <p>Zero-order, part and partial correlations</p>
+    <p>Zero-order, part and partial correlations.</p>
     
 
     <pre class="usage"><span class='fu'>ols_correlations</span>(<span class='no'>model</span>)</pre>
@@ -133,7 +133,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     </table>
     
@@ -149,12 +149,16 @@ following components:</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>correlations</code> returns the relative importance of independent variables in determining response variable.
-How much each variable uniquely contributes to rsquare over and above that which can be accounted for by the other predictors?
-Zero order correlation is the Pearson correlation coefficient between the dependent variable and the
-independent variables. Part correlations indicates how much rsquare will decrease if that variable is removed from the model
-and partial correlations indicates amount of variance in response variable, which is not estimated by the other
-independent variables in the model, but is estimated by the specific variable.</p>
+    <p><code>ols_correlations()</code> returns the relative importance of independent
+variables in determining response variable. How much each variable uniquely
+contributes to rsquare over and above that which can be accounted for by the
+other predictors? Zero order correlation is the Pearson correlation
+coefficient between the dependent variable and the independent variables.
+Part correlations indicates how much rsquare will decrease if that variable
+is removed from the model and partial correlations indicates amount of
+variance in response variable, which is not estimated by the other
+independent variables in the model, but is estimated by the specific
+variable.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -171,7 +175,8 @@ independent variables in the model, but is estimated by the specific variable.</
 #&gt; hp              -0.776     -0.224    -0.093 
 #&gt; wt              -0.868     -0.574    -0.285 
 #&gt; qsec             0.419      0.219     0.091 
-#&gt; -------------------------------------------</div></pre>
+#&gt; -------------------------------------------</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

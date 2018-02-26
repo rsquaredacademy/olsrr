@@ -2,19 +2,19 @@
 % Please edit documentation in R/ols-influence-measures.R
 \name{ols_hadi}
 \alias{ols_hadi}
-\title{Hadi's Measure}
+\title{Hadi's measure}
 \usage{
 ols_hadi(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
-hadi's measure
+Hadi's measure of the model.
 }
 \description{
-Measure of influence based on the fact that influential observations in either
-the response variable or in the predictors or both.
+Measure of influence based on the fact that influential observations in
+either the response variable or in the predictors or both.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
@@ -23,4 +23,8 @@ ols_hadi(model)
 }
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+}
+\seealso{
+Other influence measures: \code{\link{ols_leverage}},
+  \code{\link{ols_pred_rsq}}, \code{\link{ols_press}}
 }

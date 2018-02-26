@@ -2,21 +2,26 @@
 % Please edit documentation in R/ols-residual-vs-regressor-plot.R
 \name{ols_rvsr_plot}
 \alias{ols_rvsr_plot}
-\title{Residual vs Regressors Plot}
+\title{Residual vs regressor plot}
 \usage{
 ols_rvsr_plot(model, variable)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{variable}{new predictor to be added to the \code{model}}
+\item{variable}{New predictor to be added to the \code{model}.}
 }
 \description{
-Graph to determine whether we should add a new predictor to the model already containing other predictors.
-The residuals from the model is regressed on the new predictor and if the plot shows non random pattern,
-you should consider adding the new predictor to the model.
+Graph to determine whether we should add a new predictor to the model already
+containing other predictors. The residuals from the model is regressed on the
+new predictor and if the plot shows non random pattern, you should consider
+adding the new predictor to the model.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rvsr_plot(model, drat)
+
+}
+\seealso{
+[ols_avplots()], [ols_rpc_plot()]
 }

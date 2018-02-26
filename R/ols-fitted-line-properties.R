@@ -1,10 +1,17 @@
-#' @importFrom ggplot2 labs geom_smooth
-#' @title Simple Linear Regression Line
-#' @description Regression line always passes through xbar and ybar
-#' @param response response variable
-#' @param predictor explanatory variable
+#' Simple linear regression line
+#'
+#' @description
+#' Plot to demonstrate that the regression line always passes  through mean of
+#' the response and predictor variables.
+#'
+#' @param response Response variable.
+#' @param predictor Predictor variable.
+#'
 #' @examples
 #' ols_reg_line(mtcars$mpg, mtcars$disp)
+#'
+#' @importFrom ggplot2 labs geom_smooth
+#'
 #' @export
 #'
 ols_reg_line <- function(response, predictor) {

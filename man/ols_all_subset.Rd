@@ -3,18 +3,18 @@
 \name{ols_all_subset}
 \alias{ols_all_subset}
 \alias{plot.ols_all_subset}
-\title{All Possible Regression}
+\title{All possible regression}
 \usage{
 ols_all_subset(model, ...)
 
 \method{plot}{ols_all_subset}(x, model = NA, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{...}{other arguments}
+\item{...}{Other arguments.}
 
-\item{x}{an object of class \code{ols_best_subset}}
+\item{x}{An object of class \code{ols_best_subset}.}
 }
 \value{
 \code{ols_all_subset} returns an object of class \code{"ols_all_subset"}.
@@ -36,8 +36,9 @@ following components:
 \item{sp}{hocking's Sp}
 }
 \description{
-Fits all regressions involving one regressor, two regressors, three regressors, and so on.
-It tests all possible subsets of the set of potential independent variables.
+Fits all regressions involving one regressor, two regressors, three
+regressors, and so on. It tests all possible subsets of the set of potential
+independent variables.
 }
 \examples{
 \dontrun{
@@ -55,4 +56,12 @@ plot(k)
 \references{
 Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 Prentice Hall
+}
+\seealso{
+Other variable selection procedures: \code{\link{ols_best_subset}},
+  \code{\link{ols_step_backward}},
+  \code{\link{ols_step_forward}},
+  \code{\link{ols_stepaic_backward}},
+  \code{\link{ols_stepaic_both}},
+  \code{\link{ols_stepaic_forward}}
 }

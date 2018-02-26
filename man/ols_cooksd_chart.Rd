@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-cooks-d-chart.R
 \name{ols_cooksd_chart}
 \alias{ols_cooksd_chart}
-\title{Cooks' D Chart}
+\title{Cooks' D chart}
 \usage{
 ols_cooksd_chart(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
 \code{ols_cooksd_chart} returns  a list containing the
@@ -17,12 +17,14 @@ following components:
 \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 }
 \description{
-Chart of cook's distance to detect observations that strongly influence fitted values of the model.
+Chart of cook's distance to detect observations that strongly influence
+fitted values of the model.
 }
 \details{
-Cook's distance was introduced by American statistician R Dennis Cook in 1977. It is used
-to identify influential data points. It depends on both the residual and leverage i.e it takes it account
-both the \emph{x} value and \emph{y} value of the observation.
+Cook's distance was introduced by American statistician R Dennis Cook in
+1977. It is used to identify influential data points. It depends on both the
+residual and leverage i.e it takes it account both the \emph{x} value and
+\emph{y} value of the observation.
 
 Steps to compute Cook's distance:
 
@@ -37,4 +39,8 @@ A data point having a large cook's d indicates that the data point strongly infl
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_cooksd_chart(model)
+
+}
+\seealso{
+[ols_cooksd_barplot()]
 }

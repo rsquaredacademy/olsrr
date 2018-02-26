@@ -1,17 +1,13 @@
-#' @importFrom utils combn
-#' @importFrom dplyr group_by summarise_all
-#' @importFrom purrr map_int
-#' @importFrom tidyr nest
-#' @importFrom magrittr add use_series
+#' All possible regression
 #'
-#' @title All Possible Regression
+#' @description
+#' Fits all regressions involving one regressor, two regressors, three
+#' regressors, and so on. It tests all possible subsets of the set of potential
+#' independent variables.
 #'
-#' @description Fits all regressions involving one regressor, two regressors, three regressors, and so on.
-#' It tests all possible subsets of the set of potential independent variables.
-#'
-#' @param model an object of class \code{lm}
-#' @param x an object of class \code{ols_best_subset}
-#' @param ... other arguments
+#' @param model An object of class \code{lm}.
+#' @param x An object of class \code{ols_best_subset}.
+#' @param ... Other arguments.
 #'
 #' @return \code{ols_all_subset} returns an object of class \code{"ols_all_subset"}.
 #' An object of class \code{"ols_all_subset"} is a data frame containing the
@@ -35,6 +31,8 @@
 #' Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 #' Prentice Hall
 #'
+#' @family variable selection procedures
+#'
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
@@ -46,6 +44,12 @@
 #' # plot
 #' plot(k)
 #' }
+#'
+#' @importFrom utils combn
+#' @importFrom dplyr group_by summarise_all
+#' @importFrom purrr map_int
+#' @importFrom tidyr nest
+#' @importFrom magrittr add use_series
 #'
 #' @export
 #'
@@ -302,14 +306,14 @@ part_3 <- function(k, var, i) {
 }
 
 
-#' @title All Possible Regression Variable Coefficients
+#' All possible regression variable coefficients
 #'
-#' @description Returns the coefficients for each variable from each model
+#' Returns the coefficients for each variable from each model.
 #'
-#' @param object an object of class \code{lm}
-#' @param ... other arguments
+#' @param object An object of class \code{lm}.
+#' @param ... Other arguments.
 #'
-#' @return \code{ols_all_subset_betas} returns a tibble containing
+#' @return \code{ols_all_subset_betas} returns a tibble containing:
 #'
 #' \item{model_index}{model number}
 #' \item{predictor}{predictor}
@@ -459,8 +463,7 @@ allpos_helper <- function(model) {
 
 #' Coefficient names
 #'
-#' Returns the names of the coefficients including
-#'   interaction variables.
+#' Returns the names of the coefficients including interaction variables.
 #'
 #' @param model An object of class \code{lm}.
 #'
@@ -498,7 +501,7 @@ model_colnames <- function(model) {
 #' Returns the length of the coefficient names.
 #'
 #' @param predicts Name of the predictors in the model.
-#' @param gap A numeric vector
+#' @param gap A numeric vector.
 #'
 #' @noRd
 #'

@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-residual-qqplot.R
 \name{ols_rsd_qqplot}
 \alias{ols_rsd_qqplot}
-\title{Residual QQ Plot}
+\title{Residual QQ plot}
 \usage{
 ols_rsd_qqplot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
 Graph for detecting violation of normality assumption.
@@ -15,4 +15,11 @@ Graph for detecting violation of normality assumption.
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_rsd_qqplot(model)
+
+}
+\seealso{
+Other residual diagnostics: \code{\link{ols_corr_test}},
+  \code{\link{ols_norm_test}},
+  \code{\link{ols_rsd_boxplot}},
+  \code{\link{ols_rsd_hist}}, \code{\link{ols_rvsp_plot}}
 }

@@ -1,9 +1,13 @@
-#' @importFrom stats dffits
-#' @title DFFITS Plot
-#' @description Plot for detecting influential observations using DFFITs.
-#' @param model an object of class \code{lm}
-#' @details DFFIT - difference in fits, is used to identify influential data points. It quantifies
-#' the number of standard deviations that the fitted value changes when the ith data point is omitted.
+#' DFFITS plot
+#'
+#' Plot for detecting influential observations using DFFITs.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @details
+#' DFFIT - difference in fits, is used to identify influential data points. It
+#' quantifies the number of standard deviations that the fitted value changes
+#' when the ith data point is omitted.
 #'
 #' Steps to compute DFFITs:
 #'
@@ -34,6 +38,11 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_dffits_plot(model)
+#'
+#' @seealso [ols_dfbetas_panel()]
+#'
+#' @importFrom stats dffits
+#'
 #' @export
 #'
 ols_dffits_plot <- function(model) {

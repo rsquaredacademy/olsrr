@@ -3,18 +3,18 @@
 \name{ols_bartlett_test}
 \alias{ols_bartlett_test}
 \alias{ols_bartlett_test.default}
-\title{Bartlett Test}
+\title{Bartlett test}
 \usage{
 ols_bartlett_test(data, ...)
 
 \method{ols_bartlett_test}{default}(data, ..., group_var = NULL)
 }
 \arguments{
-\item{data}{a \code{data.frame} or \code{tibble}}
+\item{data}{A \code{data.frame} or \code{tibble}.}
 
-\item{...}{columns in \code{data}}
+\item{...}{Columns in \code{data}.}
 
-\item{group_var}{grouping variable}
+\item{group_var}{Grouping variable.}
 }
 \value{
 \code{ols_bartlett_test} returns an object of class \code{"ols_bartlett_test"}.
@@ -49,4 +49,8 @@ ols_bartlett_test(hsb, read, write)
 \references{
 Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 Eighth Edition, Iowa State University Press.
+}
+\seealso{
+Other heteroskedasticity tests: \code{\link{ols_bp_test}},
+  \code{\link{ols_f_test}}, \code{\link{ols_score_test}}
 }

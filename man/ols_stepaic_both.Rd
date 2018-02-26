@@ -3,20 +3,21 @@
 \name{ols_stepaic_both}
 \alias{ols_stepaic_both}
 \alias{plot.ols_stepaic_both}
-\title{Stepwise AIC Regression}
+\title{Stepwise AIC regression}
 \usage{
 ols_stepaic_both(model, details = FALSE)
 
 \method{plot}{ols_stepaic_both}(x, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{details}{logical; if \code{TRUE}, details of variable selection will be printed on screen}
+\item{details}{Logical; if \code{TRUE}, details of variable selection will
+be printed on screen.}
 
-\item{x}{an object of class \code{ols_stepaic_both}}
+\item{x}{An object of class \code{ols_stepaic_both}.}
 
-\item{...}{other arguments}
+\item{...}{Other arguments.}
 }
 \value{
 \code{ols_stepaic_both} returns an object of class \code{"ols_stepaic_both"}.
@@ -33,8 +34,9 @@ following components:
 \item{steps}{total number of steps}
 }
 \description{
-Build regression model from a set of candidate predictor variables by entering and removing predictors based on
-Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
+Build regression model from a set of candidate predictor variables by
+entering and removing predictors based on akaike information criteria, in a
+stepwise manner until there is no variable left to enter or remove any more.
 }
 \examples{
 \dontrun{
@@ -53,4 +55,12 @@ plot(k)
 }
 \references{
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
+}
+\seealso{
+Other variable selection procedures: \code{\link{ols_all_subset}},
+  \code{\link{ols_best_subset}},
+  \code{\link{ols_step_backward}},
+  \code{\link{ols_step_forward}},
+  \code{\link{ols_stepaic_backward}},
+  \code{\link{ols_stepaic_forward}}
 }

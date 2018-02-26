@@ -2,15 +2,15 @@
 % Please edit documentation in R/ols-normality-tests.R
 \name{ols_corr_test}
 \alias{ols_corr_test}
-\title{Correlation Test For Normality}
+\title{Correlation test for normality}
 \usage{
 ols_corr_test(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
-correlation between fitted regression model residuals and expected
+Correlation between fitted regression model residuals and expected
 values of residuals
 }
 \description{
@@ -19,4 +19,11 @@ Correlation between observed residuals and expected residuals under normality.
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_corr_test(model)
+
+}
+\seealso{
+Other residual diagnostics: \code{\link{ols_norm_test}},
+  \code{\link{ols_rsd_boxplot}},
+  \code{\link{ols_rsd_hist}}, \code{\link{ols_rsd_qqplot}},
+  \code{\link{ols_rvsp_plot}}
 }

@@ -1,10 +1,16 @@
-#' @title Stepwise AIC Regression
-#' @description Build regression model from a set of candidate predictor variables by entering and removing predictors based on
-#' Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
-#' @param model an object of class \code{lm}
-#' @param x an object of class \code{ols_stepaic_both}
-#' @param details logical; if \code{TRUE}, details of variable selection will be printed on screen
-#' @param ... other arguments
+#' Stepwise AIC regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering and removing predictors based on akaike information criteria, in a
+#' stepwise manner until there is no variable left to enter or remove any more.
+#'
+#' @param model An object of class \code{lm}.
+#' @param x An object of class \code{ols_stepaic_both}.
+#' @param details Logical; if \code{TRUE}, details of variable selection will
+#'   be printed on screen.
+#' @param ... Other arguments.
+#'
 #' @return \code{ols_stepaic_both} returns an object of class \code{"ols_stepaic_both"}.
 #' An object of class \code{"ols_stepaic_both"} is a list containing the
 #' following components:
@@ -34,6 +40,8 @@
 #' k <- ols_stepaic_both(model)
 #' plot(k)
 #' }
+#'
+#' @family variable selection procedures
 #'
 #' @export
 #'

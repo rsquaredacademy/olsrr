@@ -1,11 +1,16 @@
-#' @importFrom stats model.frame model.response
-#' @importFrom ggplot2 geom_dotplot geom_histogram
-#' @title Visualize Response Variable
-#' @description Panel of plots to explore and visualize the response variable.
-#' @param model an object of class \code{lm}
+#'  Response variable profile
+#'
+#' Panel of plots to explore and visualize the response variable.
+#'
+#' @param model An object of class \code{lm}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_resp_viz(model)
+#'
+#' @importFrom stats model.frame model.response
+#' @importFrom ggplot2 geom_dotplot geom_histogram
+#'
 #' @export
 #'
 ols_resp_viz <- function(model) {

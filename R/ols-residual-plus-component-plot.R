@@ -1,9 +1,11 @@
-#' @title Residual Plus Component Plot
-#' @description The residual plus component plot indicates whether any non-linearity is present
-#' in the relationship between response and predictor variables and can suggest possible transformations
-#' for linearizing the data.
+#' Residual plus component plot
 #'
-#' @param model an object of class \code{lm}
+#' @description
+#' The residual plus component plot indicates whether any non-linearity is
+#' present in the relationship between response and predictor variables and can
+#' suggest possible transformations for linearizing the data.
+#'
+#' @param model An object of class \code{lm}.
 #'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -14,6 +16,8 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_rpc_plot(model)
+#'
+#' @seealso [ols_avplots()], [ols_rvsr_plot()]
 #'
 #' @export
 #'

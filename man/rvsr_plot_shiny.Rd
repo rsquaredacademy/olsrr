@@ -2,23 +2,25 @@
 % Please edit documentation in R/ols-resid-vs-regressor-plot-shiny.R
 \name{rvsr_plot_shiny}
 \alias{rvsr_plot_shiny}
-\title{Residual vs Regressors Plot Shiny}
+\title{Residual vs regressors plot for shiny app}
 \usage{
 rvsr_plot_shiny(model, data, variable)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{data}{dataframe}
+\item{data}{A \code{dataframe} or \code{tibble}.}
 
-\item{variable}{character; new predictor to be added to the \code{model}}
+\item{variable}{Character; new predictor to be added to the \code{model}.}
 }
 \description{
-Graph to determine whether we should add a new predictor to the model already containing other predictors.
-The residuals from the model is regressed on the new predictor and if the plot shows non random pattern,
+Graph to determine whether we should add a new predictor to the
+model already containing other predictors. The residuals from the model is
+regressed on the new predictor and if the plot shows non random pattern,
 you should consider adding the new predictor to the model.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 rvsr_plot_shiny(model, mtcars, 'drat')
+
 }

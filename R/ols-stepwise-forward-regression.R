@@ -1,12 +1,19 @@
-#' @importFrom stats qt
-#' @title Stepwise Forward Regression
-#' @description Build regression model from a set of candidate predictor variables by entering predictors based on
-#' p values, in a stepwise manner until there is no variable left to enter any more.
-#' @param model an object of class \code{lm}; the model should include all candidate predictor variables
-#' @param penter p value; variables with p value less than \code{penter} will enter into the model
-#' @param details logical; if \code{TRUE}, will print the regression result at each step
-#' @param x an object of class \code{ols_step_forward}
-#' @param ... other arguments
+#' Stepwise forward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering predictors based on p values, in a stepwise manner until there is
+#' no variable left to enter any more.
+#'
+#' @param model An object of class \code{lm}; the model should include all
+#'   candidate predictor variables.
+#' @param penter p value; variables with p value less than \code{penter} will
+#'   .enter into the model
+#' @param details Logical; if \code{TRUE}, will print the regression result at
+#'   each step.
+#' @param x An object of class \code{ols_step_forward}.
+#' @param ... Other arguments.
+#'
 #' @return \code{ols_step_forward} returns an object of class \code{"ols_step_forward"}.
 #' An object of class \code{"ols_step_forward"} is a list containing the
 #' following components:
@@ -41,6 +48,10 @@
 #' k <- ols_step_forward(model)
 #' plot(k)
 #' }
+#'
+#' @importFrom stats qt
+#'
+#' @family variable selection procedures
 #'
 #' @export
 #'

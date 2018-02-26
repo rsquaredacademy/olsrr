@@ -4,7 +4,7 @@
 \alias{ols_step_backward}
 \alias{ols_step_backward.default}
 \alias{plot.ols_step_backward}
-\title{Stepwise Backward Regression}
+\title{Stepwise backward regression}
 \usage{
 ols_step_backward(model, ...)
 
@@ -13,15 +13,18 @@ ols_step_backward(model, ...)
 \method{plot}{ols_step_backward}(x, model = NA, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}; the model should include all candidate predictor variables}
+\item{model}{An object of class \code{lm}; the model should include all
+candidate predictor variables.}
 
-\item{...}{other inputs}
+\item{...}{Other inputs.}
 
-\item{prem}{p value; variables with p more than \code{prem} will be removed from the model}
+\item{prem}{p value; variables with p more than \code{prem} will be removed
+from the model.}
 
-\item{details}{logical; if \code{TRUE}, will print the regression result at each step}
+\item{details}{Logical; if \code{TRUE}, will print the regression result at
+each step.}
 
-\item{x}{an object of class \code{ols_step_backward}}
+\item{x}{An object of class \code{ols_step_backward}.}
 }
 \value{
 \code{ols_step_backward} returns an object of class \code{"ols_step_backward"}.
@@ -40,8 +43,9 @@ following components:
 \item{indvar}{predictors}
 }
 \description{
-Build regression model from a set of candidate predictor variables by removing predictors based on
-p values, in a stepwise manner until there is no variable left to remove any more.
+Build regression model from a set of candidate predictor variables by
+removing predictors based on p values, in a stepwise manner until there is
+no variable left to remove any more.
 }
 \examples{
 \dontrun{
@@ -60,4 +64,12 @@ plot(k)
 }
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+}
+\seealso{
+Other variable selection procedures: \code{\link{ols_all_subset}},
+  \code{\link{ols_best_subset}},
+  \code{\link{ols_step_forward}},
+  \code{\link{ols_stepaic_backward}},
+  \code{\link{ols_stepaic_both}},
+  \code{\link{ols_stepaic_forward}}
 }

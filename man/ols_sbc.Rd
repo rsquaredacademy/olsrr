@@ -7,21 +7,22 @@
 ols_sbc(model, method = c("R", "STATA", "SAS"))
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 
-\item{method}{a character vector; specify the method to compute BIC. Valid
-options include R, STATA and SAS}
+\item{method}{A character vector; specify the method to compute BIC. Valid
+options include R, STATA and SAS.}
 }
 \value{
-Bayesian Information Criterion
+The bayesian information criterion of the model.
 }
 \description{
-Bayesian Information Criterion.
+Bayesian information criterion.
 }
 \details{
-SBC provides a means for model selection. Given a collection of models for the data, SBC estimates the
-quality of each model, relative to each of the other models. R and STATA use loglikelihood to compute SBC. SAS
-uses residual sum of squares. Below is the formula in each case:
+SBC provides a means for model selection. Given a collection of models for
+the data, SBC estimates the quality of each model, relative to each of the
+other models. R and STATA use loglikelihood to compute SBC. SAS uses residual
+sum of squares. Below is the formula in each case:
 
 \emph{R & STATA}
 \deqn{AIC = -2(loglikelihood) + ln(n) * 2p}
@@ -50,4 +51,10 @@ Schwarz, G. (1978). “Estimating the Dimension of a Model.” Annals of Statist
 
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
+}
+\seealso{
+Other model selection criteria: \code{\link{ols_aic}},
+  \code{\link{ols_apc}}, \code{\link{ols_fpe}},
+  \code{\link{ols_hsp}}, \code{\link{ols_mallows_cp}},
+  \code{\link{ols_msep}}, \code{\link{ols_sbic}}
 }

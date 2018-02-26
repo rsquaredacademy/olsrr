@@ -4,7 +4,7 @@
 \alias{ols_rfs_plot}
 \alias{ols_fm_plot}
 \alias{ols_rsd_plot}
-\title{Residual Fit Spread Plot}
+\title{Residual fit spread plot}
 \usage{
 ols_rfs_plot(model)
 
@@ -13,15 +13,16 @@ ols_fm_plot(model)
 ols_rsd_plot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
 Plot to detect non-linearity, influential observations and outliers.
 }
 \details{
-Consists of side-by-side quantile plots of the centered fit and the residuals. It shows how
-much variation in the data is explained by the fit and how much remains in the residuals. For
-inappropriate models, the spread of the residuals in such a plot is often greater than the spread of the
+Consists of side-by-side quantile plots of the centered fit and the
+residuals. It shows how much variation in the data is explained by the fit
+and how much remains in the residuals. For inappropriate models, the spread
+of the residuals in such a plot is often greater than the spread of the
 centered fit.
 }
 \examples{

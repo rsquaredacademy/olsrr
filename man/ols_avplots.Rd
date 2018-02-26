@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-added-variable-plot.R
 \name{ols_avplots}
 \alias{ols_avplots}
-\title{Added Variable Plot}
+\title{Added variable plots}
 \usage{
 ols_avplots(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
 Added variable plot provides information about the marginal importance of a
@@ -16,9 +16,10 @@ the model. It shows the marginal importance of the variable in reducing the
 residual variability.
 }
 \details{
-The added variable plot was introduced by Mosteller and Tukey (1977). It enables
-us to visualize the regression coefficient of a new variable being considered to
-be included in a model. The plot can be constructed for each predictor variable.
+The added variable plot was introduced by Mosteller and Tukey
+(1977). It enables us to visualize the regression coefficient of a new
+variable being considered to be included in a model. The plot can be
+constructed for each predictor variable.
 
 Let us assume we want to test the effect of adding/removing variable \emph{X} from a
 model. Let the response variable of the model be \emph{Y}
@@ -51,4 +52,7 @@ Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.:
 
 Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
+}
+\seealso{
+[ols_rvsr_plot()], [ols_rpc_plot()]
 }

@@ -123,7 +123,7 @@
     </div>
 
     
-    <p>Sawa's Bayesian Information Criterion</p>
+    <p>Sawa's bayesian information criterion.</p>
     
 
     <pre class="usage"><span class='fu'>ols_sbic</span>(<span class='no'>model</span>, <span class='no'>full_model</span>)</pre>
@@ -133,11 +133,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>full_model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     </table>
     
@@ -147,10 +147,11 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Sawa (1978) developed a model selection criterion that was derived from a Bayesian modification of
-the AIC criterion. Sawa's Bayesian Information Criteria (BIC) is a function of the number of observations n,
-the SSE, the pure error variance fitting the full model, and the number of independent variables including
-the intercept.
+    <p>Sawa (1978) developed a model selection criterion that was derived from a
+Bayesian modification of the AIC criterion. Sawa's Bayesian Information
+Criterion (BIC) is a function of the number of observations n, the SSE, the
+pure error variance fitting the full model, and the number of independent
+variables including the intercept.
     $$SBIC = n * ln(SSE / n) + 2(p + 2)q - 2(q^2)$$</p>
 <p>where \(q = n(\sigma^2)/SSE\), <em>n</em> is the sample size, <em>p</em> is the number of model parameters including intercept
 <em>SSE</em> is the residual sum of squares.</p>
@@ -162,11 +163,19 @@ the intercept.
 <p>Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley &amp; Sons.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
+  <code><a href='ols_apc.html'>ols_apc</a></code>, <code><a href='ols_fpe.html'>ols_fpe</a></code>,
+  <code><a href='ols_hsp.html'>ols_hsp</a></code>, <code><a href='ols_mallows_cp.html'>ols_mallows_cp</a></code>,
+  <code><a href='ols_msep.html'>ols_msep</a></code>, <code><a href='ols_sbc.html'>ols_sbc</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>full_model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_sbic</span>(<span class='no'>model</span>, <span class='no'>full_model</span>)</div><div class='output co'>#&gt; [1] 70.27599</div></pre>
+<span class='fu'>ols_sbic</span>(<span class='no'>model</span>, <span class='no'>full_model</span>)</div><div class='output co'>#&gt; [1] 70.27599</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -178,6 +187,8 @@ New York: John Wiley &amp; Sons.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -4,7 +4,7 @@
 \alias{ols_stepwise}
 \alias{ols_stepwise.default}
 \alias{plot.ols_stepwise}
-\title{Stepwise Regression}
+\title{Stepwise regression}
 \usage{
 ols_stepwise(model, ...)
 
@@ -14,17 +14,21 @@ ols_stepwise(model, ...)
 \method{plot}{ols_stepwise}(x, model = NA, ...)
 }
 \arguments{
-\item{model}{an object of class \code{lm}; the model should include all candidate predictor variables}
+\item{model}{An object of class \code{lm}; the model should include all
+candidate predictor variables.}
 
-\item{...}{other arguments}
+\item{...}{Other arguments.}
 
-\item{pent}{p value; variables with p value less than \code{pent} will enter into the model}
+\item{pent}{p value; variables with p value less than \code{pent} will enter
+into the model.}
 
-\item{prem}{p value; variables with p more than \code{prem} will be removed from the model}
+\item{prem}{p value; variables with p more than \code{prem} will be removed
+from the model.}
 
-\item{details}{logical; if \code{TRUE}, will print the regression result at each step}
+\item{details}{Logical; if \code{TRUE}, will print the regression result at
+each step.}
 
-\item{x}{an object of class \code{ols_stepwise}}
+\item{x}{An object of class \code{ols_stepwise}.}
 }
 \value{
 \code{ols_stepwise} returns an object of class \code{"ols_stepwise"}.
@@ -45,8 +49,9 @@ following components:
 \item{indvar}{predictors}
 }
 \description{
-Build regression model from a set of candidate predictor variables by entering and removing predictors based on
-p values, in a stepwise manner until there is no variable left to enter or remove any more.
+Build regression model from a set of candidate predictor variables by
+entering and removing predictors based on p values, in a stepwise manner
+until there is no variable left to enter or remove any more.
 }
 \examples{
 \dontrun{

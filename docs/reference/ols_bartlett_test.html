@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bartlett Test — ols_bartlett_test â€¢ olsrr</title>
+<title>Bartlett test — ols_bartlett_test â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,42 +119,32 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bartlett Test</h1>
+    <h1>Bartlett test</h1>
     </div>
 
     
     <p>Test if k samples are from populations with equal variances.</p>
     
 
-    <pre class="usage"><span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ols_bartlett_test</span>(<span class='no'>data</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
-
-<span class='co'># S3 method for lm</span>
-<span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for formula</span>
-<span class='fu'>ols_bartlett_test</span>(<span class='no'>variable</span>, <span class='no'>data</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>variable</th>
-      <td><p>a numeric vector/an object of class <code>formula</code> or <code>lm</code></p></td>
+      <th>data</th>
+      <td><p>A <code>data.frame</code> or <code>tibble</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>numeric vectors</p></td>
+      <td><p>Columns in <code>data</code>.</p></td>
     </tr>
     <tr>
       <th>group_var</th>
-      <td><p>grouping variable</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>a data frame</p></td>
+      <td><p>Grouping variable.</p></td>
     </tr>
     </table>
     
@@ -166,8 +156,6 @@ following components:</p>
 <dt>fstat</dt><dd><p>f statistic</p></dd>
 <dt>pval</dt><dd><p>p-value of <code>fstat</code></p></dd>
 <dt>df</dt><dd><p>degrees of freedom</p></dd>
-<dt>var_c</dt><dd><p>name(s) of <code>variable</code></p></dd>
-<dt>g_var</dt><dd><p>name of <code>group_var</code></p></dd>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -181,30 +169,23 @@ is an alternative test that is less sensitive to departures from normality.</p>
     <p>Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 Eighth Edition, Iowa State University Press.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other heteroskedasticity tests: <code><a href='ols_bp_test.html'>ols_bp_test</a></code>,
+  <code><a href='ols_f_test.html'>ols_f_test</a></code>, <code><a href='ols_score_test.html'>ols_score_test</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># using grouping variable</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='no'>resid</span> <span class='kw'>&lt;-</span> <span class='fu'>residuals</span>(<span class='no'>model</span>)
-<span class='no'>cyl</span> <span class='kw'>&lt;-</span> <span class='fu'>as.factor</span>(<span class='no'>mtcars</span>$<span class='no'>cyl</span>)
-<span class='fu'>ols_bartlett_test</span>(<span class='no'>resid</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>cyl</span>)
+<span class='fu'>library</span>(<span class='no'>descriptr</span>)
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>mtcarz</span>, <span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>cyl</span>)
 <span class='co'># }</span><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='co'># using variables</span>
-<span class='fu'>ols_bartlett_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>)
+<span class='fu'>ols_bartlett_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>)
 <span class='co'># }</span><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='co'># using formula</span>
-<span class='no'>mt</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span>
-<span class='no'>mt</span>$<span class='no'>cyl</span> <span class='kw'>&lt;-</span> <span class='fu'>as.factor</span>(<span class='no'>mt</span>$<span class='no'>cyl</span>)
-<span class='fu'>ols_bartlett_test</span>(<span class='no'>mpg</span> ~ <span class='no'>cyl</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mt</span>)
-<span class='co'># }</span><div class='input'>
-</div><span class='co'># NOT RUN {</span>
-<span class='co'># using model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>cyl</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mt</span>)
-<span class='fu'>ols_bartlett_test</span>(<span class='no'>model</span>)
-<span class='co'># }</span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -216,6 +197,8 @@ Eighth Edition, Iowa State University Press.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

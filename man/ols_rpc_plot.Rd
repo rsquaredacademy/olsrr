@@ -2,17 +2,17 @@
 % Please edit documentation in R/ols-residual-plus-component-plot.R
 \name{ols_rpc_plot}
 \alias{ols_rpc_plot}
-\title{Residual Plus Component Plot}
+\title{Residual plus component plot}
 \usage{
 ols_rpc_plot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
-The residual plus component plot indicates whether any non-linearity is present
-in the relationship between response and predictor variables and can suggest possible transformations
-for linearizing the data.
+The residual plus component plot indicates whether any non-linearity is
+present in the relationship between response and predictor variables and can
+suggest possible transformations for linearizing the data.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -24,4 +24,7 @@ Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.:
 
 Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.
+}
+\seealso{
+[ols_avplots()], [ols_rvsr_plot()]
 }

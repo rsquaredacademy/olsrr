@@ -1,10 +1,17 @@
-#' @importFrom stats qqnorm qqline
-#' @title Residual QQ Plot
-#' @description Graph for detecting violation of normality assumption.
-#' @param model an object of class \code{lm}
+#' Residual QQ plot
+#'
+#' Graph for detecting violation of normality assumption.
+#'
+#' @param model An object of class \code{lm}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_rsd_qqplot(model)
+#'
+#' @family residual diagnostics
+#'
+#' @importFrom stats qqnorm qqline
+#'
 #' @export
 #'
 ols_rsd_qqplot <- function(model) {

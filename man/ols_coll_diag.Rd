@@ -4,7 +4,7 @@
 \alias{ols_coll_diag}
 \alias{ols_vif_tol}
 \alias{ols_eigen_cindex}
-\title{Collinearity Diagnostics}
+\title{Collinearity diagnostics}
 \usage{
 ols_coll_diag(model)
 
@@ -13,7 +13,7 @@ ols_vif_tol(model)
 ols_eigen_cindex(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \value{
 \code{ols_coll_diag} returns an object of class \code{"ols_coll_diag"}.
@@ -27,9 +27,10 @@ following components:
 Variance inflation factor, tolerance, eigenvalues and condition indices.
 }
 \details{
-Collinearity implies two variables are near perfect linear combinations of one another.
-Multicollinearity involves more than two variables. In the presence of multicollinearity, regression
-estimates are unstable and have high standard errors.
+Collinearity implies two variables are near perfect linear combinations of
+one another. Multicollinearity involves more than two variables. In the
+presence of multicollinearity, regression estimates are unstable and have
+high standard errors.
 
 \emph{Tolerance}
 

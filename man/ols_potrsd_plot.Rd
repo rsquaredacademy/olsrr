@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-potential-residual-plot.R
 \name{ols_potrsd_plot}
 \alias{ols_potrsd_plot}
-\title{Potential Residual Plot}
+\title{Potential residual plot}
 \usage{
 ols_potrsd_plot(model)
 }
 \arguments{
-\item{model}{an object of class \code{lm}}
+\item{model}{An object of class \code{lm}.}
 }
 \description{
 Plot to aid in classifying unusual observations as high-leverage points,
@@ -20,4 +20,7 @@ ols_potrsd_plot(model)
 }
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
+}
+\seealso{
+[ols_hadi_plot()]
 }

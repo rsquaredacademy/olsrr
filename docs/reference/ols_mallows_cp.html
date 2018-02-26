@@ -123,7 +123,7 @@
     </div>
 
     
-    <p>Mallow's Cp</p>
+    <p>Mallow's Cp.</p>
     
 
     <pre class="usage"><span class='fu'>ols_mallows_cp</span>(<span class='no'>model</span>, <span class='no'>fullmodel</span>)</pre>
@@ -133,29 +133,38 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     <tr>
       <th>fullmodel</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Mallow's Cp</p>
+    <p>Mallow's Cp of the model.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Mallows' Cp statistic estimates the size of the bias that is introduced into the predicted responses
-by having an underspecified model. Use Mallows' Cp to choose between multiple regression models. Look for
-models where Mallows' Cp is small and close to the number of predictors in the model plus the constant (p).</p>
+    <p>Mallows' Cp statistic estimates the size of the bias that is introduced into
+the predicted responses by having an underspecified model. Use Mallows' Cp
+to choose between multiple regression models. Look for models where
+Mallows' Cp is small and close to the number of predictors in the model plus
+the constant (p).</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Regression.” Biometrics
 32:1–50.</p>
 <p>Mallows, C. L. (1973). “Some Comments on Cp.” Technometrics 15:661–675.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
+  <code><a href='ols_apc.html'>ols_apc</a></code>, <code><a href='ols_fpe.html'>ols_fpe</a></code>,
+  <code><a href='ols_hsp.html'>ols_hsp</a></code>, <code><a href='ols_msep.html'>ols_msep</a></code>,
+  <code><a href='ols_sbc.html'>ols_sbc</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -174,6 +183,8 @@ models where Mallows' Cp is small and close to the number of predictors in the m
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

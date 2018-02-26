@@ -1,12 +1,20 @@
-#' @title Residual vs Regressors Plot
-#' @description Graph to determine whether we should add a new predictor to the model already containing other predictors.
-#' The residuals from the model is regressed on the new predictor and if the plot shows non random pattern,
-#' you should consider adding the new predictor to the model.
-#' @param model an object of class \code{lm}
-#' @param variable new predictor to be added to the \code{model}
+#' Residual vs regressor plot
+#'
+#' @description
+#' Graph to determine whether we should add a new predictor to the model already
+#' containing other predictors. The residuals from the model is regressed on the
+#' new predictor and if the plot shows non random pattern, you should consider
+#' adding the new predictor to the model.
+#'
+#' @param model An object of class \code{lm}.
+#' @param variable New predictor to be added to the \code{model}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_rvsr_plot(model, drat)
+#'
+#' @seealso [ols_avplots()], [ols_rpc_plot()]
+#'
 #' @export
 #'
 ols_rvsr_plot <- function(model, variable) {

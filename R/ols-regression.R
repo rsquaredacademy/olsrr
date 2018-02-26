@@ -1,13 +1,16 @@
-#' @importFrom stringr str_detect
-#' @importFrom magrittr %>% extract
-#' @importFrom rlang is_formula
-#' @title Ordinary Least Squares Regression
-#' @description Ordinary Least Squares Regression
-#' @param object an object of class "formula" (or one that can be coerced to
-#' that class): a symbolic description of the model to be fitted or class \code{lm}
-#' @param ... other inputs
-#' @return \code{ols_regress} returns an object of class \code{"ols_regress"}. An object
-#' of class \code{"ols_regress"} is a list containing the following components:
+#' Ordinary least squares regression
+#'
+#' @description Ordinary least squares regression.
+#'
+#' @param object An object of class "formula" (or one that can be coerced to
+#'   that class): a symbolic description of the model to be fitted or class
+#'   \code{lm}.
+#'
+#' @param ... Other inputs.
+#'
+#' @return \code{ols_regress} returns an object of class \code{"ols_regress"}.
+#' An object of class \code{"ols_regress"} is a list containing the following
+#' components:
 #'
 #' \item{r}{square root of rsquare, correlation between observed and predicted values of dependent variable}
 #' \item{rsq}{coefficient of determination or r-square}
@@ -43,15 +46,23 @@
 #' \item{predictors}{character vector; name of the predictor variables}
 #' \item{mvars}{character vector; name of the predictor variables including intercept}
 #' \item{model}{input model for \code{ols_regress}}
+#'
 #' @section Interaction Terms:
 #' If the model includes interaction terms, the standardized betas
 #' are computed after scaling and centering the predictors.
+#'
 #' @references https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting%20Standardized%20Coefficients%20Right.pdf
+#'
 #' @examples
 #' ols_regress(mpg ~ disp + hp + wt, data = mtcars)
 #'
 #' # if model includes interaction terms set iterm to TRUE
 #' ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)
+#'
+#' @importFrom stringr str_detect
+#' @importFrom magrittr %>% extract
+#' @importFrom rlang is_formula
+#'
 #' @export
 #'
 ols_regress <- function(object, ...) UseMethod("ols_regress")

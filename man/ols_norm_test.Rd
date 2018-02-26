@@ -10,9 +10,9 @@ ols_norm_test(y, ...)
 \method{ols_norm_test}{lm}(y, ...)
 }
 \arguments{
-\item{y}{a numeric vector or an object of class \code{lm}}
+\item{y}{A numeric vector or an object of class \code{lm}.}
 
-\item{...}{other arguments}
+\item{...}{Other arguments.}
 }
 \value{
 \code{norm_test} returns an object of class \code{"norm_test"}.
@@ -30,4 +30,11 @@ Test for detecting violation of normality assumption.
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_norm_test(model)
+
+}
+\seealso{
+Other residual diagnostics: \code{\link{ols_corr_test}},
+  \code{\link{ols_rsd_boxplot}},
+  \code{\link{ols_rsd_hist}}, \code{\link{ols_rsd_qqplot}},
+  \code{\link{ols_rvsp_plot}}
 }

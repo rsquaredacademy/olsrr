@@ -1,13 +1,18 @@
-#' @title Residual vs Regressors Plot Shiny
-#' @description Graph to determine whether we should add a new predictor to the model already containing other predictors.
-#' The residuals from the model is regressed on the new predictor and if the plot shows non random pattern,
+#' @title Residual vs regressors plot for shiny app
+#'
+#' @description Graph to determine whether we should add a new predictor to the
+#' model already containing other predictors. The residuals from the model is
+#' regressed on the new predictor and if the plot shows non random pattern,
 #' you should consider adding the new predictor to the model.
-#' @param model an object of class \code{lm}
-#' @param data dataframe
-#' @param variable character; new predictor to be added to the \code{model}
+#'
+#' @param model An object of class \code{lm}.
+#' @param data A \code{dataframe} or \code{tibble}.
+#' @param variable Character; new predictor to be added to the \code{model}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' rvsr_plot_shiny(model, mtcars, 'drat')
+#'
 #' @export
 #'
 rvsr_plot_shiny <- function(model, data, variable) {

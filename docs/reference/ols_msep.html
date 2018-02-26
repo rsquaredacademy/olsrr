@@ -123,7 +123,7 @@
     </div>
 
     
-    <p>Estimated error of prediction, assuming multivariate normality</p>
+    <p>Estimated error of prediction, assuming multivariate normality.</p>
     
 
     <pre class="usage"><span class='fu'>ols_msep</span>(<span class='no'>model</span>)</pre>
@@ -133,20 +133,21 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>MSEP</p>
+    <p>Estimated error of prediction of the model.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Computes the estimated mean square error of prediction assuming that both independent
-and dependent variables are multivariate normal.
+    <p>Computes the estimated mean square error of prediction assuming that both
+independent and dependent variables are multivariate normal.
     $$MSE(n + 1)(n - 2) / n(n - p - 1)$$</p>
-<p>where \(MSE = SSE / (n - p)\), n is the sample size and p is the number of predictors including the intercept</p>
+<p>where \(MSE = SSE / (n - p)\), n is the sample size and p is the number of
+predictors including the intercept</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -155,6 +156,13 @@ of Harold Hotelling, edited by I. Olkin, S. G. Ghurye, W. Hoeffding, W. G. Madow
 264–305. Stanford, CA: Stanford University Press.</p>
 <p>Darlington, R. B. (1968). “Multiple Regression in Psychological Research and Practice.” Psychological
 Bulletin 69:161–182.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
+  <code><a href='ols_apc.html'>ols_apc</a></code>, <code><a href='ols_fpe.html'>ols_fpe</a></code>,
+  <code><a href='ols_hsp.html'>ols_hsp</a></code>, <code><a href='ols_mallows_cp.html'>ols_mallows_cp</a></code>,
+  <code><a href='ols_sbc.html'>ols_sbc</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -172,6 +180,8 @@ Bulletin 69:161–182.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

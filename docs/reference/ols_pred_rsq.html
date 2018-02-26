@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Predicted Rsquare — ols_pred_rsq â€¢ olsrr</title>
+<title>Predicted rsquare — ols_pred_rsq â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,12 +119,13 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Predicted Rsquare</h1>
+    <h1>Predicted rsquare</h1>
     </div>
 
     
-    <p>Use predicted rsquared to determine how well the model predicts responses for new observations.
-Larger values of predicted R2 indicate models of greater predictive ability.</p>
+    <p>Use predicted rsquared to determine how well the model predicts responses for
+new observations. Larger values of predicted R2 indicate models of greater
+predictive ability.</p>
     
 
     <pre class="usage"><span class='fu'>ols_pred_rsq</span>(<span class='no'>model</span>)</pre>
@@ -134,18 +135,24 @@ Larger values of predicted R2 indicate models of greater predictive ability.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>an object of class <code>lm</code></p></td>
+      <td><p>An object of class <code>lm</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Predicted Rsquare</p>
+    <p>Predicted rsquare of the model.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other influence measures: <code><a href='ols_hadi.html'>ols_hadi</a></code>,
+  <code><a href='ols_leverage.html'>ols_leverage</a></code>, <code><a href='ols_press.html'>ols_press</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_pred_rsq</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] 0.7710297</div></pre>
+<span class='fu'>ols_pred_rsq</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; [1] 0.7710297</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -153,6 +160,8 @@ Larger values of predicted R2 indicate models of greater predictive ability.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

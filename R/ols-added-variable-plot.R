@@ -1,20 +1,17 @@
-#' @importFrom stats lm
-#' @importFrom tibble tibble
-#' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
-#' @importFrom magrittr %>%
+#' Added variable plots
 #'
-#' @title Added Variable Plot
-#'
-#' @description Added variable plot provides information about the marginal importance of a
+#' @description
+#' Added variable plot provides information about the marginal importance of a
 #' predictor variable, given the other predictor variables already in
 #' the model. It shows the marginal importance of the variable in reducing the
 #' residual variability.
 #'
-#' @param model an object of class \code{lm}
+#' @param model An object of class \code{lm}.
 #'
-#' @details The added variable plot was introduced by Mosteller and Tukey (1977). It enables
-#' us to visualize the regression coefficient of a new variable being considered to
-#' be included in a model. The plot can be constructed for each predictor variable.
+#' @details The added variable plot was introduced by Mosteller and Tukey
+#' (1977). It enables us to visualize the regression coefficient of a new
+#' variable being considered to be included in a model. The plot can be
+#' constructed for each predictor variable.
 #'
 #' Let us assume we want to test the effect of adding/removing variable \emph{X} from a
 #' model. Let the response variable of the model be \emph{Y}
@@ -46,6 +43,13 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_avplots(model)
+#'
+#' @importFrom stats lm
+#' @importFrom tibble tibble
+#' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
+#' @importFrom magrittr %>%
+#'
+#' @seealso [ols_rvsr_plot()], [ols_rpc_plot()]
 #'
 #' @export
 #'
@@ -96,7 +100,7 @@ ols_avplots <- function(model) {
 #' @importFrom stats model.frame residuals as.formula
 #' @importFrom dplyr bind_cols
 #'
-#' @param model An object of class \code{lm}
+#' @param model An object of class \code{lm}.
 #'
 #' @noRd
 #'
