@@ -73,42 +73,42 @@ The options for p value adjustments include Bonferroni, Sidak and Holm's method.
 
 ```{r bp1}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
+ols_test_breusch_pagan(model)
 ```
 
 #### Use independent variables of the model
 
 ```{r bp2}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE)
+ols_test_breusch_pagan(model, rhs = TRUE)
 ```
 
 #### Use independent variables of the model and perform multiple tests
 
 ```{r bp3}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE, multiple = TRUE)
+ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE)
 ```
 
 #### Bonferroni p value Adjustment
 
 ```{r bp4}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
+ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
 ```
 
 #### Sidak p value Adjustment
 
 ```{r bp5}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
+ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
 ```
 
 #### Holm's p value Adjustment
 
 ```{r bp6}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
+ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 ```
 
 ## Score Test

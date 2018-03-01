@@ -35,8 +35,8 @@
 #' 				 \eqn{R^2} is the coefficient of determination from the regression in step 2.
 #' }
 #'
-#' @return \code{ols_bp_test} returns an object of class \code{"ols_bp_test"}.
-#' An object of class \code{"ols_bp_test"} is a list containing the
+#' @return \code{ols_test_breusch_pagan} returns an object of class \code{"ols_test_breusch_pagan"}.
+#' An object of class \code{"ols_test_breusch_pagan"} is a list containing the
 #' following components:
 #'
 #' \item{bp}{breusch pagan statistic}
@@ -62,33 +62,33 @@
 #' model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 #'
 #' # use fitted values of the model
-#' ols_bp_test(model)
+#' ols_test_breusch_pagan(model)
 #'
 #' # use independent variables of the model
-#' ols_bp_test(model, rhs = TRUE)
+#' ols_test_breusch_pagan(model, rhs = TRUE)
 #'
 #' # use independent variables of the model and perform multiple tests
-#' ols_bp_test(model, rhs = TRUE, multiple = TRUE)
+#' ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE)
 #'
 #' # bonferroni p value adjustment
-#' ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
+#' ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = 'bonferroni')
 #'
 #' # sidak p value adjustment
-#' ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
+#' ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = 'sidak')
 #'
 #' # holm's p value adjustment
-#' ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
+#' ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 #'
 #' @importFrom stats anova
 #'
 #' @export
 #'
-ols_bp_test <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
-                        p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) UseMethod("ols_bp_test")
+ols_test_breusch_pagan <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
+                        p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) UseMethod("ols_test_breusch_pagan")
 
 #' @export
 #'
-ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
+ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
                                 p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) {
 
   if (!all(class(model) == "lm")) {
@@ -202,14 +202,23 @@ ols_bp_test.default <- function(model, fitted.values = TRUE, rhs = FALSE, multip
     preds    = predictors
   )
 
-  class(out) <- "ols_bp_test"
+  class(out) <- "ols_test_breusch_pagan"
 
   return(out)
 }
 
 #' @export
+#' @rdname ols_test_breusch_pagan
+#' @usage NULL
 #'
-print.ols_bp_test <- function(x, ...) {
+ols_bp_test <- function(model) {
+  .Deprecated("ols_test_breusch_pagan()")
+}
+
+
+#' @export
+#'
+print.ols_test_breusch_pagan <- function(x, ...) {
   print_bp_test(x)
 }
 

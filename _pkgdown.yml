@@ -81,7 +81,7 @@ reference:
 
   contents:
   - ols_test_bartlett
-  - ols_bp_test
+  - ols_test_breusch_pagan
   - ols_score_test
   - ols_f_test
 

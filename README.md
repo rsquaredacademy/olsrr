@@ -254,7 +254,7 @@ is a \(\chi^{2}\) test.
 
 ``` r
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
+ols_test_breusch_pagan(model)
 #> 
 #>  Breusch Pagan Test for Heteroskedasticity
 #>  -----------------------------------------

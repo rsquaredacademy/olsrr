@@ -123,7 +123,7 @@ Breusch Pagan test is used to test for herteroskedasticity (non-constant error v
 
 ```{r bp1}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
+ols_test_breusch_pagan(model)
 ```
 
 ##### Collinearity Diagnostics
