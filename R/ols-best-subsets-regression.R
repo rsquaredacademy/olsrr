@@ -5,11 +5,11 @@
 #' smallest MSE, Mallow's Cp or AIC.
 #'
 #' @param model An object of class \code{lm}.
-#' @param x An object of class \code{ols_best_subset}.
+#' @param x An object of class \code{ols_step_best_subset}.
 #' @param ... Other inputs.
 #'
-#' @return \code{ols_best_subset} returns an object of class \code{"ols_best_subset"}.
-#' An object of class \code{"ols_best_subset"} is a data frame containing the
+#' @return \code{ols_step_best_subset} returns an object of class \code{"ols_step_best_subset"}.
+#' An object of class \code{"ols_step_best_subset"} is a data frame containing the
 #' following components:
 #'
 #' \item{n}{model number}
@@ -35,23 +35,23 @@
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_best_subset(model)
+#' ols_step_best_subset(model)
 #' }
 #'
 #' \dontrun{
 #' # plot
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' k <- ols_best_subset(model)
+#' k <- ols_step_best_subset(model)
 #' plot(k)
 #' }
 #'
 #' @export
 #'
-ols_best_subset <- function(model, ...) UseMethod("ols_best_subset")
+ols_step_best_subset <- function(model, ...) UseMethod("ols_step_best_subset")
 
 #' @export
 #'
-ols_best_subset.default <- function(model, ...) {
+ols_step_best_subset.default <- function(model, ...) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -177,22 +177,31 @@ ols_best_subset.default <- function(model, ...) {
 
   sorted <- cbind(mindex, sorted)
 
-  class(sorted) <- c("ols_best_subset", "tibble", "data.frame")
+  class(sorted) <- c("ols_step_best_subset", "tibble", "data.frame")
 
   return(sorted)
 
 }
 
 #' @export
+#' @rdname ols_step_best_subset
+#' @usage NULL
 #'
-print.ols_best_subset <- function(x, ...) {
+ols_best_subset <- function(model) {
+  .Deprecated("ols_step_best_subset()")
+}
+
+
+#' @export
+#'
+print.ols_step_best_subset <- function(x, ...) {
   print_best_subset(x)
 }
 
 #' @export
-#' @rdname ols_best_subset
+#' @rdname ols_step_best_subset
 #'
-plot.ols_best_subset <- function(x, model = NA, ...) {
+plot.ols_step_best_subset <- function(x, model = NA, ...) {
 
   rsquare <- NULL
   adjr    <- NULL

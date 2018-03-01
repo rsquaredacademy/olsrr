@@ -255,7 +255,7 @@ test_that("best subsets regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
-  k <- plot(ols_best_subset(model))
+  k <- plot(ols_step_best_subset(model))
 
   vdiffr::expect_doppelganger("best subset rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("best subset adjusted rsquare", k$adj_rsquare_plot)

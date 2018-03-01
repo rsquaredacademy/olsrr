@@ -51,14 +51,14 @@ such as having the largest R2 value or the smallest MSE, Mallow's Cp or AIC.
 
 ```{r bestsub, size='tiny'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_best_subset(model)
+ols_step_best_subset(model)
 ```
 
 The `plot` method shows the panel of fit criteria for best subset regression methods. 
 
 ```{r bestsubplot, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-k <- ols_best_subset(model)
+k <- ols_step_best_subset(model)
 plot(k)
 ```
 
