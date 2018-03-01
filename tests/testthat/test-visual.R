@@ -230,7 +230,7 @@ test_that("added variable plot is as expected", {
   skip_on_cran()
 
   model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-  k <- olsrr::ols_avplots(model)
+  k <- ols_plot_added_variable(model)
 
   vdiffr::expect_doppelganger("avplot disp", k$plots[[1]])
   vdiffr::expect_doppelganger("avplot hp", k$plots[[2]])

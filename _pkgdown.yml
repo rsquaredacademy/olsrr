@@ -138,7 +138,7 @@ reference:
 
   contents:
   - ols_rvsr_plot
-  - ols_avplots
+  - ols_plot_added_variable
   - ols_rpc_plot
 
 - title: Miscellaneous

@@ -98,7 +98,7 @@
     <div class="page-header toc-ignore">
       <h1>Collinearity Diagnostics, Model Fit &amp; Variable Contribution</h1>
             
-            <h4 class="date">2018-02-06</h4>
+            <h4 class="date">2018-03-01</h4>
           </div>
 
     
@@ -289,7 +289,7 @@
 <a href="#residual-vs-regressor-plots" class="anchor"></a>Residual vs Regressor Plots</h3>
 <p>Graph to determine whether we should add a new predictor to the model already containing other predictors. The residuals from the model is regressed on the new predictor and if the plot shows non random pattern, you should consider adding the new predictor to the model.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="../reference/ols_rvsr_plot.html">ols_rvsr_plot</a></span>(model, mtcars<span class="op">$</span>drat)</a></code></pre></div>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="../reference/ols_rvsr_plot.html">ols_rvsr_plot</a></span>(model, drat)</a></code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/rvsrplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="added-variable-plot" class="section level3">
@@ -307,7 +307,7 @@
 <p>What do the <em>Y</em> and <em>X</em> residuals represent? The <em>Y</em> residuals represent the part of <strong>Y</strong> not explained by all the variables other than X. The <em>X</em> residuals represent the part of <strong>X</strong> not explained by other variables. The slope of the line fitted to the points in the added variable plot is equal to the regression coefficient when <strong>Y</strong> is regressed on all variables including <strong>X</strong>.</p>
 <p>A strong linear relationship in the added variable plot indicates the increased importance of the contribution of <strong>X</strong> to the model already containing the other predictors.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/ols_avplots.html">ols_avplots</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_added_variable.html">ols_plot_added_variable</a></span>(model)</a></code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/avplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="residual-plus-component-plot" class="section level3">

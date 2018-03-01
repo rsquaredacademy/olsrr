@@ -78,11 +78,11 @@ test_that("poten_resid_plot fails when model inherits other than 'lm'", {
   expect_error(ols_potrsd_plot(m), "Please specify a OLS linear regression model.")
 })
 
-test_that("ols_avplots fails when model inherits other than 'lm'", {
+test_that("added variable plot fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_avplots(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_plot_added_variable(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("cplusr_plot fails when model inherits other than 'lm'", {
