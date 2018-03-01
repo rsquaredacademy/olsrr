@@ -50,7 +50,7 @@ A data point having a large cook's d indicates that the data point strongly infl
 
 ```{r ckdbp, fig.width=7, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_cooksd_barplot(model)
+ols_plot_cooksd_bar(model)
 ```
 
 ## Cook's D Chart

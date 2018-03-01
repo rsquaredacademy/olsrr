@@ -22,7 +22,7 @@
 #'
 #' A data point having a large cook's d indicates that the data point strongly influences the fitted values.
 #'
-#' @return \code{ols_cooksd_barplot} returns  a list containing the
+#' @return \code{ols_plot_cooksd_bar} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number and \code{cooks distance} that exceed \code{threshold}}
@@ -30,7 +30,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_cooksd_barplot(model)
+#' ols_plot_cooksd_bar(model)
 #'
 #' @importFrom magrittr set_colnames
 #' @importFrom stats cooks.distance
@@ -41,7 +41,7 @@
 #'
 #' @export
 #'
-ols_cooksd_barplot <- function(model) {
+ols_plot_cooksd_bar <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -73,6 +73,14 @@ ols_cooksd_barplot <- function(model) {
   result <- list(outliers = f, threshold = k$ts, plot = p)
   invisible(result)
 
+}
+
+#' @export
+#' @rdname ols_plot_cooksd_bar
+#' @usage NULL
+#'
+ols_cooksd_barplot <- function(model) {
+  .Deprecated("ols_plot_cooksd_bar()")
 }
 
 #' @description Prepare data for cook's d bar plot

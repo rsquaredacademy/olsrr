@@ -64,7 +64,7 @@ test_that("residual vs regressor plot is as expected", {
 
 test_that("cooks d bar plot is as expected", {
   skip_on_cran()
-  p <- ols_cooksd_barplot(model)
+  p <- ols_plot_cooksd_bar(model)
   vdiffr::expect_doppelganger("cooks d bar plot", p$plot)
 })
 
