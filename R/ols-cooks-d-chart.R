@@ -22,7 +22,7 @@
 #'
 #' A data point having a large cook's d indicates that the data point strongly influences the fitted values.
 #'
-#' @return \code{ols_cooksd_chart} returns  a list containing the
+#' @return \code{ols_plot_cooksd_chart} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number and \code{cooks distance} that exceed \code{threshold}}
@@ -30,7 +30,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_cooksd_chart(model)
+#' ols_plot_cooksd_chart(model)
 #'
 #' @importFrom ggplot2 geom_linerange
 #'
@@ -38,7 +38,7 @@
 #'
 #' @export
 #'
-ols_cooksd_chart <- function(model) {
+ols_plot_cooksd_chart <- function(model) {
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -71,4 +71,10 @@ ols_cooksd_chart <- function(model) {
 }
 
 
-
+#' @export
+#' @rdname ols_plot_cooksd_chart
+#' @usage NULL
+#'
+ols_cooksd_chart <- function(model) {
+  .Deprecated("ols_plot_cooksd_chart()")
+}

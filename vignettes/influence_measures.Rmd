@@ -59,7 +59,7 @@ Chart of Cook's distance to detect observations that strongly influence fitted v
 
 ```{r ckchart, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_cooksd_chart(model)
+ols_plot_cooksd_chart(model)
 ```
 
 ## DFBETAs Panel
