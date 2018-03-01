@@ -9,8 +9,8 @@
 #' @param x An object of class \code{ols_best_subset}.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_all_subset} returns an object of class \code{"ols_all_subset"}.
-#' An object of class \code{"ols_all_subset"} is a data frame containing the
+#' @return \code{ols_step_all_possible} returns an object of class \code{"ols_step_all_possible"}.
+#' An object of class \code{"ols_step_all_possible"} is a data frame containing the
 #' following components:
 #'
 #' \item{n}{model number}
@@ -36,7 +36,7 @@
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
-#' k <- ols_all_subset(model)
+#' k <- ols_step_all_possible(model)
 #' k
 #' }
 #'
@@ -53,11 +53,11 @@
 #'
 #' @export
 #'
-ols_all_subset <- function(model, ...) UseMethod("ols_all_subset")
+ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
 
 #' @export
 #'
-ols_all_subset.default <- function(model, ...) {
+ols_step_all_possible.default <- function(model, ...) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -101,15 +101,24 @@ ols_all_subset.default <- function(model, ...) {
 
   sorted <- cbind(mindex, sorted)
 
-  class(sorted) <- c("ols_all_subset", "tibble", "data.frame")
+  class(sorted) <- c("ols_step_all_possible", "tibble", "data.frame")
 
   return(sorted)
 }
 
 
 #' @export
+#' @rdname ols_step_all_possible
+#' @usage NULL
 #'
-print.ols_all_subset <- function(x, ...) {
+ols_all_subset <- function(model, ...) {
+  .Deprecated("ols_step_all_possible()")
+}
+
+
+#' @export
+#'
+print.ols_step_all_possible <- function(x, ...) {
 
   mindex <- NULL
 
@@ -131,9 +140,9 @@ print.ols_all_subset <- function(x, ...) {
 }
 
 #' @export
-#' @rdname ols_all_subset
+#' @rdname ols_step_all_possible
 #'
-plot.ols_all_subset <- function(x, model = NA, ...) {
+plot.ols_step_all_possible <- function(x, model = NA, ...) {
 
   n       <- NULL
   y       <- NULL
@@ -313,7 +322,7 @@ part_3 <- function(k, var, i) {
 #' @param object An object of class \code{lm}.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_all_subset_betas} returns a tibble containing:
+#' @return \code{ols_step_all_possible_betas} returns a tibble containing:
 #'
 #' \item{model_index}{model number}
 #' \item{predictor}{predictor}
@@ -322,12 +331,12 @@ part_3 <- function(k, var, i) {
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_all_subset_betas(model)
+#' ols_step_all_possible_betas(model)
 #' }
 #'
 #' @export
 #'
-ols_all_subset_betas <- function(object, ...) {
+ols_step_all_possible_betas <- function(object, ...) {
 
   if (!all(class(object) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -374,6 +383,15 @@ ols_all_subset_betas <- function(object, ...) {
   )
 
 }
+
+#' @export
+#' @rdname ols_step_all_possible_betas
+#' @usage NULL
+#'
+ols_all_subset_betas <- function(model, ...) {
+  .Deprecated("ols_step_all_possible_betas()")
+}
+
 
 #' All possible regression internal
 #'

@@ -241,7 +241,7 @@ test_that("all possible regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
-  k <- plot(ols_all_subset(model))
+  k <- plot(ols_step_all_possible(model))
 
   vdiffr::expect_doppelganger("all possible rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("all possible adjusted rsquare", k$adj_rsquare_plot)

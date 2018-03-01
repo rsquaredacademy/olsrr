@@ -2,7 +2,7 @@ context("all_subsets")
 
 test_that("all subsets selection output matches the expected result", {
   model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
-  k <- ols_all_subset(model)
+  k <- ols_step_all_possible(model)
   pred_exp <- c(
     "x4", "x2", "x1", "x3", "x1 x2",
     "x1 x4", "x3 x4", "x2 x3", "x2 x4", "x1 x3",
@@ -17,12 +17,12 @@ test_that("all_subsets fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_all_subset(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_step_all_possible(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("all_subsets returns an error when number of predictors < 2", {
   model <- lm(y ~ x1, data = cement)
-  expect_error(ols_all_subset(model), "Please specify a model with at least 2 predictors.")
+  expect_error(ols_step_all_possible(model), "Please specify a model with at least 2 predictors.")
 })
 
 test_that("output from all subsets regression is as expected", {
@@ -34,12 +34,12 @@ test_that("output from all subsets regression is as expected", {
 3     3     2    disp hp    0.74824         0.73088       3.00000")
 
   model <- lm(mpg ~ disp + hp, data = mtcars)
-  expect_output(print(ols_all_subset(model)), x)
+  expect_output(print(ols_step_all_possible(model)), x)
 })
 
 test_that("all possible regression betas are as expected", {
   model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-  k <- ols_all_subset_betas(model)
+  k <- ols_step_all_possible_betas(model)
   actual <- k %>%
     select(predictor, beta) %>%
     group_by(predictor) %>%
