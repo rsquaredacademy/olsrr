@@ -49,12 +49,12 @@ a formula or a linear model.
 
 #### Use grouping variable
 ```{r bartlett1}
-ols_test_bartlett(hsb, read, group_var = female)
+ols_bartlett_test(hsb, read, group_var = female)
 ```
 
 #### Using variables
 ```{r bartlett2}
-ols_test_bartlett(hsb, read, write)
+ols_bartlett_test(hsb, read, write)
 ```
 
 
