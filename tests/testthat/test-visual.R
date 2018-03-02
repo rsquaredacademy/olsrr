@@ -198,7 +198,7 @@ test_that("stepwise regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ ., data = surgical)
-  k <- plot(ols_stepwise(model))
+  k <- plot(ols_step_both_p(model))
 
   vdiffr::expect_doppelganger("stepwise rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("stepwise adjusted rsquare", k$adj_rsquare_plot)

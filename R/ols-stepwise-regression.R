@@ -13,10 +13,10 @@
 #'   from the model.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
   #' each step.
-#' @param x An object of class \code{ols_stepwise}.
+#' @param x An object of class \code{ols_step_both_p}.
 #' @param ... Other arguments.
-#' @return \code{ols_stepwise} returns an object of class \code{"ols_stepwise"}.
-#' An object of class \code{"ols_stepwise"} is a list containing the
+#' @return \code{ols_step_both_p} returns an object of class \code{"ols_step_both_p"}.
+#' An object of class \code{"ols_step_both_p"} is a list containing the
 #' following components:
 #'
 #' \item{orders}{candidate predictor variables according to the order by which they were added or removed from the model}
@@ -39,13 +39,13 @@
 #' \dontrun{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
-#' ols_stepwise(model)
+#' ols_step_both_p(model)
 #' }
 #'
 #' \dontrun{
 #' # stepwise regression plot
 #' model <- lm(y ~ ., data = surgical)
-#' k <- ols_stepwise(model)
+#' k <- ols_step_both_p(model)
 #' plot(k)
 #' }
 #'
@@ -53,12 +53,12 @@
 #'
 #' @export
 #'
-ols_stepwise <- function(model, ...) UseMethod("ols_stepwise")
+ols_step_both_p <- function(model, ...) UseMethod("ols_step_both_p")
 
 #' @export
-#' @rdname ols_stepwise
+#' @rdname ols_step_both_p
 #'
-ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE, ...) {
+ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE, ...) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -339,14 +339,14 @@ ols_stepwise.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE,
     beta_pval  = beta_pval
   )
 
-  class(out) <- "ols_stepwise"
+  class(out) <- "ols_step_both_p"
 
   return(out)
 }
 
 #' @export
 #'
-print.ols_stepwise <- function(x, ...) {
+print.ols_step_both_p <- function(x, ...) {
   if (x$steps > 0) {
     print_stepwise(x)
   } else {
@@ -355,9 +355,9 @@ print.ols_stepwise <- function(x, ...) {
 }
 
 #' @export
-#' @rdname ols_stepwise
+#' @rdname ols_step_both_p
 #'
-plot.ols_stepwise <- function(x, model = NA, ...) {
+plot.ols_step_both_p <- function(x, model = NA, ...) {
 
   a <- NULL
   b <- NULL
@@ -401,4 +401,13 @@ plot_stepwise <- function(d, title) {
       axis.ticks = element_blank()
     )
 
+}
+
+
+#' @export
+#' @rdname ols_step_both_p
+#' @usage NULL
+#'
+ols_stepwise <- function(model) {
+  .Deprecated("ols_step_both_p()")
 }

@@ -130,14 +130,14 @@ p values, in a stepwise manner until there is no variable left to enter or remov
 ```{r stepwise1}
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
-ols_stepwise(model)
+ols_step_both_p(model)
 ```
 
 ### Plot
 
 ```{r stepwise2, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepwise(model)
+k <- ols_step_both_p(model)
 plot(k)
 ```
 
@@ -146,7 +146,7 @@ plot(k)
 ```{r stepwisedetails}
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
-ols_stepwise(model, details = TRUE)
+ols_step_both_p(model, details = TRUE)
 ```
 
 ## Stepwise AIC Forward Regression

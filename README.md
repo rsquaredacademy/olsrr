@@ -120,7 +120,7 @@ until there is no variable left to enter or remove any more.
 ``` r
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
-ols_stepwise(model)
+ols_step_both_p(model)
 #> Stepwise Selection Method   
 #> ---------------------------
 #> 
