@@ -138,7 +138,7 @@ test_that("residual fit spread plot is as expected", {
 
 test_that("response profile plot is as expected", {
   skip_on_cran()
-  p <- ols_resp_viz(model)
+  p <- ols_plot_response(model)
   vdiffr::expect_doppelganger("resp viz dot plot", p$dot_plot)
   vdiffr::expect_doppelganger("resp viz trend plot", p$trend_plot)
   vdiffr::expect_doppelganger("resp viz histogram", p$histogram)
