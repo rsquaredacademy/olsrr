@@ -27,7 +27,7 @@ Step    Removed     R-Square    R-Square     C(p)       AIC         RMSE
    3    age           0.7809      0.7581    3.1925    730.6204    195.4544
 --------------------------------------------------------------------------")
 
-  expect_output(print(ols_step_backward(model)), x)
+  expect_output(print(ols_step_backward_p(model)), x)
 })
 
 
@@ -174,5 +174,5 @@ Step    Removed     R-Square    R-Square     C(p)       AIC         RMSE
    3    age           0.7809      0.7581    3.1925    730.6204    195.4544
 --------------------------------------------------------------------------")
 
-  expect_output(print(ols_step_backward(model, details = TRUE)), x)
+  expect_output(print(ols_step_backward_p(model, details = TRUE)), x)
 })

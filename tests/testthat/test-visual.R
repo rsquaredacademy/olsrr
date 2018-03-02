@@ -170,7 +170,7 @@ test_that("stepwise backward regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ ., data = surgical)
-  k <- plot(ols_step_backward(model))
+  k <- plot(ols_step_backward_p(model))
 
   vdiffr::expect_doppelganger("stepwise backward rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("stepwise backward adjusted rsquare", k$adj_rsquare_plot)

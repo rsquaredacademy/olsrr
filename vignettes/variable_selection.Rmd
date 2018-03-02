@@ -101,14 +101,14 @@ p values, in a stepwise manner until there is no variable left to remove any mor
 ```{r stepb, fig.width=10, fig.height=15, fig.align='center'}
 # stepwise backward regression
 model <- lm(y ~ ., data = surgical)
-ols_step_backward(model)
+ols_step_backward_p(model)
 ```
 
 ### Plot
 
 ```{r stepb2, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- ols_step_backward(model)
+k <- ols_step_backward_p(model)
 plot(k)
 ```
 
@@ -117,7 +117,7 @@ plot(k)
 ```{r stepwisebdetails}
 # stepwise backward regression
 model <- lm(y ~ ., data = surgical)
-ols_step_backward(model, details = TRUE)
+ols_step_backward_p(model, details = TRUE)
 ```
 
 ## Stepwise Regression
@@ -192,6 +192,7 @@ The model should include all the candidate predictor variables. If details is se
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward_aic(model)
 k
+```
 
 ### Plot
 

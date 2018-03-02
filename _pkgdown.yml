@@ -60,7 +60,7 @@ reference:
   - ols_step_all_possible
   - ols_step_all_possible_betas
   - ols_step_best_subset
-  - ols_step_backward
+  - ols_step_backward_p
   - ols_step_forward
   - ols_stepwise
   - ols_step_backward_aic
