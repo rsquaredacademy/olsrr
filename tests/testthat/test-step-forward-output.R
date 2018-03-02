@@ -29,7 +29,7 @@ Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE
    5    bcs              0.7809      0.7581     3.1925    730.6204    195.4544
 ------------------------------------------------------------------------------")
 
-  expect_output(print(ols_step_forward(model)), x)
+  expect_output(print(ols_step_forward_p(model)), x)
 })
 
 
@@ -249,5 +249,5 @@ Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE
 ------------------------------------------------------------------------------")
 
 
-  expect_output(print(ols_step_forward(model, details = TRUE)), x)
+  expect_output(print(ols_step_forward_p(model, details = TRUE)), x)
 })

@@ -72,14 +72,14 @@ p values, in a stepwise manner until there is no variable left to enter any more
 ```{r stepf1}
 # stepwise forward regression
 model <- lm(y ~ ., data = surgical)
-ols_step_forward(model)
+ols_step_forward_p(model)
 ```
 
 ### Plot
 
 ```{r stepf2, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- ols_step_forward(model)
+k <- ols_step_forward_p(model)
 plot(k)
 ```
 
@@ -88,7 +88,7 @@ plot(k)
 ```{r stepwisefdetails}
 # stepwise forward regression
 model <- lm(y ~ ., data = surgical)
-ols_step_forward(model, details = TRUE)
+ols_step_forward_p(model, details = TRUE)
 ```
 
 ## Stepwise Backward Regression
