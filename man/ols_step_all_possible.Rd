@@ -41,6 +41,11 @@ Fits all regressions involving one regressor, two regressors, three
 regressors, and so on. It tests all possible subsets of the set of potential
 independent variables.
 }
+\section{Deprecated Function}{
+
+\code{ols_all_subset()} has been deprecated. Instead use \code{ols_step_all_possible()}.
+}
+
 \examples{
 \dontrun{
 model <- lm(mpg ~ disp + hp, data = mtcars)
@@ -59,10 +64,10 @@ Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regre
 Prentice Hall
 }
 \seealso{
-Other variable selection procedures: \code{\link{ols_best_subset}},
-  \code{\link{ols_step_backward}},
-  \code{\link{ols_step_forward}},
-  \code{\link{ols_stepaic_backward}},
-  \code{\link{ols_stepaic_both}},
-  \code{\link{ols_stepaic_forward}}
+Other variable selection procedures: \code{\link{ols_step_backward_aic}},
+  \code{\link{ols_step_backward_p}},
+  \code{\link{ols_step_best_subset}},
+  \code{\link{ols_step_both_aic}},
+  \code{\link{ols_step_forward_aic}},
+  \code{\link{ols_step_forward_p}}
 }

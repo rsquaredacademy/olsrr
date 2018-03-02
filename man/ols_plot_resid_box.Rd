@@ -13,15 +13,20 @@ ols_plot_resid_box(model)
 \description{
 Box plot of residuals to examine if residuals are normally distributed.
 }
+\section{Deprecated Function}{
+
+\code{ols_rsd_boxplot()} has been deprecated. Instead use \code{ols_plot_resid_box()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_box(model)
 
 }
 \seealso{
-Other residual diagnostics: \code{\link{ols_rsd_hist}},
-  \code{\link{ols_rsd_qqplot}},
-  \code{\link{ols_rvsp_plot}},
+Other residual diagnostics: \code{\link{ols_plot_resid_fit}},
+  \code{\link{ols_plot_resid_hist}},
+  \code{\link{ols_plot_resid_qq}},
   \code{\link{ols_test_correlation}},
   \code{\link{ols_test_normality}}
 }

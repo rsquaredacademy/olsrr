@@ -13,6 +13,11 @@ ols_plot_resid_qq(model)
 \description{
 Graph for detecting violation of normality assumption.
 }
+\section{Deprecated Function}{
+
+\code{ols_rsd_qqplot()} has been deprecated. Instead use \code{ols_plot_resid_qq()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_qq(model)
@@ -20,8 +25,8 @@ ols_plot_resid_qq(model)
 }
 \seealso{
 Other residual diagnostics: \code{\link{ols_plot_resid_box}},
+  \code{\link{ols_plot_resid_fit}},
   \code{\link{ols_plot_resid_hist}},
-  \code{\link{ols_rvsp_plot}},
   \code{\link{ols_test_correlation}},
   \code{\link{ols_test_normality}}
 }

@@ -13,11 +13,16 @@ ols_plot_resid_lev(model)
 \description{
 Graph for detecting outliers and/or observations with high leverage.
 }
+\section{Deprecated Function}{
+
+\code{ols_rsdlev_plot()} has been deprecated. Instead use \code{ols_plot_resid_lev()}.
+}
+
 \examples{
 model <- lm(read ~ write + math + science, data = hsb)
 ols_plot_resid_lev(model)
 
 }
 \seealso{
-[ols_dsrvsp_plot()], [ols_rsdlev_plot()]
+[ols_plot_resid_fit()], [ols_plot_resid_lev()]
 }

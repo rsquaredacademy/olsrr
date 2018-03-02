@@ -14,6 +14,11 @@ ols_plot_resid_pot(model)
 Plot to aid in classifying unusual observations as high-leverage points,
 outliers, or a combination of both.
 }
+\section{Deprecated Function}{
+
+\code{ols_potrsd_plot()} has been deprecated. Instead use \code{ols_plot_resid_pot()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_pot(model)
@@ -23,5 +28,5 @@ ols_plot_resid_pot(model)
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
 \seealso{
-[ols_hadi_plot()]
+[ols_plot_hadi()]
 }

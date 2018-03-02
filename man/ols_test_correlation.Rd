@@ -12,11 +12,16 @@ ols_test_correlation(model)
 }
 \value{
 Correlation between fitted regression model residuals and expected
-values of residuals
+values of residuals.
 }
 \description{
 Correlation between observed residuals and expected residuals under normality.
 }
+\section{Deprecated Function}{
+
+\code{ols_corr_test()} has been deprecated. Instead use \code{ols_test_correlation()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_test_correlation(model)
@@ -24,7 +29,8 @@ ols_test_correlation(model)
 }
 \seealso{
 Other residual diagnostics: \code{\link{ols_plot_resid_box}},
-  \code{\link{ols_rsd_hist}}, \code{\link{ols_rsd_qqplot}},
-  \code{\link{ols_rvsp_plot}},
+  \code{\link{ols_plot_resid_fit}},
+  \code{\link{ols_plot_resid_hist}},
+  \code{\link{ols_plot_resid_qq}},
   \code{\link{ols_test_normality}}
 }

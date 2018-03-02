@@ -50,6 +50,14 @@ Characteristics of a well behaved residual vs fitted plot:
   \item No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.
 }
 }
+\section{Deprecated Function}{
+
+\code{ols_dsrvsp_plot()} has been deprecated. Instead use \code{ols_plot_resid_fit()}.
+
+
+\code{ols_rvsp_plot()} has been deprecated. Instead use \code{ols_plot_resid_fit()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_resid_fit(model)
@@ -59,7 +67,7 @@ ols_plot_resid_fit(model)
 
 }
 \seealso{
-[ols_rsdlev_plot()], [ols_srsd_plot()], [ols_srsd_chart()]
+[ols_plot_resid_lev()], [ols_plot_resid_stand()], [ols_plot_resid_stud()]
 
 Other residual diagnostics: \code{\link{ols_plot_resid_box}},
   \code{\link{ols_plot_resid_hist}},

@@ -49,6 +49,11 @@ Build regression model from a set of candidate predictor variables by
 removing predictors based on p values, in a stepwise manner until there is
 no variable left to remove any more.
 }
+\section{Deprecated Function}{
+
+\code{ols_step_backward()} has been deprecated. Instead use \code{ols_step_backward_p()}.
+}
+
 \examples{
 \dontrun{
 # stepwise backward regression
@@ -73,5 +78,5 @@ Other variable selection procedures: \code{\link{ols_step_all_possible}},
   \code{\link{ols_step_best_subset}},
   \code{\link{ols_step_both_aic}},
   \code{\link{ols_step_forward_aic}},
-  \code{\link{ols_step_forward}}
+  \code{\link{ols_step_forward_p}}
 }

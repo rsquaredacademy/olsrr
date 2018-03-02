@@ -28,6 +28,11 @@ following components:
 \description{
 Test for detecting violation of normality assumption.
 }
+\section{Deprecated Function}{
+
+\code{ols_norm_test()} has been deprecated. Instead use \code{ols_test_normality()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_test_normality(model)
@@ -35,7 +40,8 @@ ols_test_normality(model)
 }
 \seealso{
 Other residual diagnostics: \code{\link{ols_plot_resid_box}},
-  \code{\link{ols_rsd_hist}}, \code{\link{ols_rsd_qqplot}},
-  \code{\link{ols_rvsp_plot}},
+  \code{\link{ols_plot_resid_fit}},
+  \code{\link{ols_plot_resid_hist}},
+  \code{\link{ols_plot_resid_qq}},
   \code{\link{ols_test_correlation}}
 }

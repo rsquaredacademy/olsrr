@@ -32,6 +32,9 @@
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
+#' @section Deprecated Function:
+#' \code{ols_step_backward()} has been deprecated. Instead use \code{ols_step_backward_p()}.
+#'
 #' @examples
 #' \dontrun{
 #' # stepwise backward regression
@@ -242,6 +245,6 @@ plot.ols_step_backward_p <- function(x, model = NA, ...) {
 #' @rdname ols_step_backward_p
 #' @usage NULL
 #'
-ols_step_backward <- function(model) {
+ols_step_backward <- function(model, prem = 0.3, details = FALSE, ...) {
   .Deprecated("ols_step_backward_p()")
 }

@@ -37,11 +37,16 @@ Steps to compute Cook's distance:
 
 A data point having a large cook's d indicates that the data point strongly influences the fitted values.
 }
+\section{Deprecated Function}{
+
+\code{ols_cooksd_chart()} has been deprecated. Instead use \code{ols_plot_cooksd_chart()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_cooksd_chart(model)
 
 }
 \seealso{
-[ols_cooksd_barplot()]
+[ols_plot_cooksd_bar()]
 }

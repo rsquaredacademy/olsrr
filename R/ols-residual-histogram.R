@@ -4,6 +4,9 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' @section Deprecated Function:
+#' \code{ols_rsd_hist()} has been deprecated. Instead use \code{ols_plot_resid_hist()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_hist(model)

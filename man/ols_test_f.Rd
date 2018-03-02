@@ -39,6 +39,11 @@ following components:
 Test for heteroskedasticity under the assumption that the errors are
 independent and identically distributed (i.i.d.).
 }
+\section{Deprecated Function}{
+
+\code{ols_f_test()} has been deprecated. Instead use \code{ols_test_f()}.
+}
+
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -57,7 +62,7 @@ ols_test_f(model, vars = c('disp', 'hp'))
 Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
 }
 \seealso{
-Other heteroskedasticity tests: \code{\link{ols_score_test}},
-  \code{\link{ols_test_bartlett}},
-  \code{\link{ols_test_breusch_pagan}}
+Other heteroskedasticity tests: \code{\link{ols_test_bartlett}},
+  \code{\link{ols_test_breusch_pagan}},
+  \code{\link{ols_test_score}}
 }

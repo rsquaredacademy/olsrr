@@ -19,13 +19,16 @@
 #' exceed \code{threshold}} for classifying an observation as an outlier
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
+#' @section Deprecated Function:
+#' \code{ols_srsd_plot()} has been deprecated. Instead use \code{ols_plot_resid_stud()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_stud(model)
 #'
 #' @importFrom ggplot2 scale_fill_manual annotate
 #'
-#' @seealso [ols_srsd_chart()]
+#' @seealso [ols_plot_resid_stand()]
 #'
 #' @export
 #'

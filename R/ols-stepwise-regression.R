@@ -35,6 +35,9 @@
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
+#' @section Deprecated Function:
+#' \code{ols_stepwise()} has been deprecated. Instead use \code{ols_step_both_p()}.
+#'
 #' @examples
 #' \dontrun{
 #' # stepwise regression
@@ -408,6 +411,6 @@ plot_stepwise <- function(d, title) {
 #' @rdname ols_step_both_p
 #' @usage NULL
 #'
-ols_stepwise <- function(model) {
+ols_stepwise <- function(model, pent = 0.1, prem = 0.3, details = FALSE, ...) {
   .Deprecated("ols_step_both_p()")
 }

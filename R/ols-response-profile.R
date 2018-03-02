@@ -4,6 +4,9 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' @section Deprecated Function:
+#' \code{ols_resp_viz()} has been deprecated. Instead use \code{ols_plot_response()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_response(model)

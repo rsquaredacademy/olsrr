@@ -31,6 +31,9 @@
 #' Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 #' Prentice Hall
 #'
+#' @section Deprecated Function:
+#' \code{ols_all_subset()} has been deprecated. Instead use \code{ols_step_all_possible()}.
+#'
 #' @family variable selection procedures
 #'
 #' @examples

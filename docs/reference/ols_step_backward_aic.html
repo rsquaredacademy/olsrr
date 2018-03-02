@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Residual histogram — ols_rsd_hist â€¢ olsrr</title>
+<title>Stepwise AIC backward regression — ols_step_backward_aic â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -119,36 +119,90 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Residual histogram</h1>
+    <h1>Stepwise AIC backward regression</h1>
     </div>
 
     
-    <p>Histogram of residuals for detecting violation of normality assumption.</p>
+    <p>Build regression model from a set of candidate predictor variables by
+removing predictors based on akaike information criterion, in a stepwise
+manner until there is no variable left to remove any more.</p>
     
 
-    <pre class="usage"><span class='fu'>ols_rsd_hist</span>(<span class='no'>model</span>)</pre>
+    <pre class="usage"><span class='fu'>ols_step_backward_aic</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>ols_step_backward_aic</span>(<span class='no'>model</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for ols_step_backward_aic</span>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>An object of class <code>lm</code>.</p></td>
+      <td><p>An object of class <code>lm</code>; the model should include all
+candidate predictor variables.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments.</p></td>
+    </tr>
+    <tr>
+      <th>details</th>
+      <td><p>Logical; if <code>TRUE</code>, will print the regression result at
+each step.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>An object of class <code>ols_step_backward_aic</code>.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>ols_step_backward_aic</code> returns an object of class <code>"ols_step_backward_aic"</code>.
+An object of class <code>"ols_step_backward_aic"</code> is a list containing the
+following components:</p>
+<dt>steps</dt><dd><p>total number of steps</p></dd>
+<dt>predictors</dt><dd><p>variables removed from the model</p></dd>
+<dt>aics</dt><dd><p>akaike information criteria</p></dd>
+<dt>ess</dt><dd><p>error sum of squares</p></dd>
+<dt>rss</dt><dd><p>regression sum of squares</p></dd>
+<dt>rsq</dt><dd><p>rsquare</p></dd>
+<dt>arsq</dt><dd><p>adjusted rsquare</p></dd>
+
+    
+    <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
+
+    <p><code>ols_stepaic_backward()</code> has been deprecated. Instead use <code>ols_step_backward_aic()</code>.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other residual diagnostics: <code>ols_plot_resid_box</code>,
-  <code><a href='ols_rsd_qqplot.html'>ols_rsd_qqplot</a></code>,
-  <code><a href='ols_rvsp_plot.html'>ols_rvsp_plot</a></code>,
-  <code>ols_test_correlation</code>,
-  <code>ols_test_normality</code></p>
+    <p>Other variable selection procedures: <code><a href='ols_step_all_possible.html'>ols_step_all_possible</a></code>,
+  <code><a href='ols_step_backward_p.html'>ols_step_backward_p</a></code>,
+  <code><a href='ols_step_best_subset.html'>ols_step_best_subset</a></code>,
+  <code><a href='ols_step_both_aic.html'>ols_step_both_aic</a></code>,
+  <code><a href='ols_step_forward_aic.html'>ols_step_forward_aic</a></code>,
+  <code><a href='ols_step_forward_p.html'>ols_step_forward_p</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_rsd_hist</span>(<span class='no'>model</span>)</div><div class='img'><img src='ols_rsd_hist-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># stepwise backward regression</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>surgical</span>)
+<span class='fu'>ols_step_backward_aic</span>(<span class='no'>model</span>)
+<span class='co'># }</span><div class='input'>
+</div><span class='co'># NOT RUN {</span>
+<span class='co'># stepwise backward regression plot</span>
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>surgical</span>)
+<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_backward_aic</span>(<span class='no'>model</span>)
+<span class='fu'>plot</span>(<span class='no'>k</span>)
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -156,6 +210,12 @@
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#deprecated-function">Deprecated Function</a></li>
+
+      <li><a href="#references">References</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>

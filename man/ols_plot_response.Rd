@@ -13,6 +13,11 @@ ols_plot_response(model)
 \description{
 Panel of plots to explore and visualize the response variable.
 }
+\section{Deprecated Function}{
+
+\code{ols_resp_viz()} has been deprecated. Instead use \code{ols_plot_response()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_response(model)

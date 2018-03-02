@@ -14,6 +14,9 @@
 #'   \item No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.
 #' }
 #'
+#' @section Deprecated Function:
+#' \code{ols_rvsp_plot()} has been deprecated. Instead use \code{ols_plot_resid_fit()}.
+#'
 #' @family residual diagnostics
 #'
 #' @examples

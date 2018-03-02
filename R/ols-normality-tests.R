@@ -6,7 +6,10 @@
 #' @param model An object of class \code{lm}.
 #'
 #' @return Correlation between fitted regression model residuals and expected
-#' values of residuals
+#' values of residuals.
+#'
+#' @section Deprecated Function:
+#' \code{ols_corr_test()} has been deprecated. Instead use \code{ols_test_correlation()}.
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -81,6 +84,9 @@ ka <- function(k, stderr, n) {
 #' \item{cramer}{cramer von mises statistic}
 #' \item{anderson}{anderson darling statistic}
 #'
+#' @section Deprecated Function:
+#' \code{ols_norm_test()} has been deprecated. Instead use \code{ols_test_normality()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_test_normality(model)
@@ -140,6 +146,6 @@ print.ols_test_normality <- function(x, ...) {
 #' @rdname ols_test_normality
 #' @usage NULL
 #'
-ols_norm_test <- function(model) {
+ols_norm_test <- function(y, ...) {
   .Deprecated("ols_test_normality()")
 }

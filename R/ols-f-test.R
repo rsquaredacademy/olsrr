@@ -29,6 +29,9 @@
 #' @references
 #' Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
 #'
+#' @section Deprecated Function:
+#' \code{ols_f_test()} has been deprecated. Instead use \code{ols_test_f()}.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -122,7 +125,7 @@ ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
 #' @rdname ols_test_f
 #' @usage NULL
 #'
-ols_f_test <- function(model) {
+ols_f_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
   .Deprecated("ols_test_f()")
 }
 

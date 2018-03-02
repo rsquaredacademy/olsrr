@@ -13,6 +13,11 @@ ols_plot_resid_hist(model)
 \description{
 Histogram of residuals for detecting violation of normality assumption.
 }
+\section{Deprecated Function}{
+
+\code{ols_rsd_hist()} has been deprecated. Instead use \code{ols_plot_resid_hist()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_hist(model)
@@ -20,8 +25,8 @@ ols_plot_resid_hist(model)
 }
 \seealso{
 Other residual diagnostics: \code{\link{ols_plot_resid_box}},
-  \code{\link{ols_rsd_qqplot}},
-  \code{\link{ols_rvsp_plot}},
+  \code{\link{ols_plot_resid_fit}},
+  \code{\link{ols_plot_resid_qq}},
   \code{\link{ols_test_correlation}},
   \code{\link{ols_test_normality}}
 }

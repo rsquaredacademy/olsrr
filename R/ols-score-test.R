@@ -30,6 +30,9 @@
 #'
 #' Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
 #'
+#' @section Deprecated Function:
+#' \code{ols_score_test()} has been deprecated. Instead use \code{ols_test_score()}.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)

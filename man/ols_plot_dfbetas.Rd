@@ -27,6 +27,11 @@ in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a
 general cutoff value to indicate influential observations and
 \eqn{2/\sqrt(n)} as a size-adjusted cutoff.
 }
+\section{Deprecated Function}{
+
+\code{ols_dfbetas_panel()} has been deprecated. Instead use \code{ols_plot_dfbetas()}.
+}
+
 \examples{
 \dontrun{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -42,5 +47,5 @@ Wiley Series in Probability and Mathematical Statistics.
 New York: John Wiley & Sons. pp. ISBN 0-471-05856-4.
 }
 \seealso{
-[ols_dffits_plot()]
+[ols_plot_dffits()]
 }

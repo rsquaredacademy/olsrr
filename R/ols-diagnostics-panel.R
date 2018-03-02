@@ -4,6 +4,9 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' #' @section Deprecated Function:
+#' \code{ols_diagnostic_panel()} has been deprecated. Instead use \code{ols_plot_diagnostics()}.
+#'
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

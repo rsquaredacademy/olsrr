@@ -65,6 +65,11 @@ Computation
 				 \eqn{R^2} is the coefficient of determination from the regression in step 2.
 }
 }
+\section{Deprecated Function}{
+
+\code{ols_bp_test()} has been deprecated. Instead use \code{ols_test_breusch_pagan()}.
+}
+
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
@@ -91,10 +96,10 @@ ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 \references{
 T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and
 Random Coefficient Variation. Econometrica 47, 1287–1294
+
 Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 }
 \seealso{
-Other heteroskedasticity tests: \code{\link{ols_f_test}},
-  \code{\link{ols_score_test}},
-  \code{\link{ols_test_bartlett}}
+Other heteroskedasticity tests: \code{\link{ols_test_bartlett}},
+  \code{\link{ols_test_f}}, \code{\link{ols_test_score}}
 }

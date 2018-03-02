@@ -54,6 +54,11 @@ Build regression model from a set of candidate predictor variables by
 entering and removing predictors based on p values, in a stepwise manner
 until there is no variable left to enter or remove any more.
 }
+\section{Deprecated Function}{
+
+\code{ols_stepwise()} has been deprecated. Instead use \code{ols_step_both_p()}.
+}
+
 \examples{
 \dontrun{
 # stepwise regression

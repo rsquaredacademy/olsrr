@@ -23,11 +23,14 @@
 #' outliers/influential observations}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier/influential observation}
 #'
+#' @section Deprecated Function:
+#' \code{ols_dsrvsp_plot()} has been deprecated. Instead use \code{ols_plot_resid_fit()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_plot_resid_fit(model)
 #'
-#' @seealso [ols_rsdlev_plot()], [ols_srsd_plot()], [ols_srsd_chart()]
+#' @seealso [ols_plot_resid_lev()], [ols_plot_resid_stand()], [ols_plot_resid_stud()]
 #'
 #' @importFrom stats fitted rstudent
 #' @importFrom dplyr mutate

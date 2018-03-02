@@ -23,6 +23,9 @@
 #' Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 #' Eighth Edition, Iowa State University Press.
 #'
+#' @section Deprecated Function:
+#' \code{ols_bartlett_test()} has been deprecated. Instead use \code{ols_test_bartlett()}.
+#'
 #' @family heteroskedasticity tests
 #'
 #' @examples
@@ -126,7 +129,7 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 #' @rdname ols_test_bartlett
 #' @usage NULL
 #'
-ols_bartlett_test <- function(model) {
+ols_bartlett_test <- function(data, ..., group_var = NULL) {
   .Deprecated("ols_test_bartlett()")
 }
 

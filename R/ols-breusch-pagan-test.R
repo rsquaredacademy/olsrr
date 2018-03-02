@@ -52,8 +52,11 @@
 #' @references
 #' T.S. Breusch & A.R. Pagan (1979), A Simple Test for Heteroscedasticity and
 #' Random Coefficient Variation. Econometrica 47, 1287–1294
-
+#'
 #' Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
+#'
+#' @section Deprecated Function:
+#' \code{ols_bp_test()} has been deprecated. Instead use \code{ols_test_breusch_pagan()}.
 #'
 #' @family heteroskedasticity tests
 #'
@@ -211,7 +214,8 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
 #' @rdname ols_test_breusch_pagan
 #' @usage NULL
 #'
-ols_bp_test <- function(model) {
+ols_bp_test <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
+                        p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) {
   .Deprecated("ols_test_breusch_pagan()")
 }
 

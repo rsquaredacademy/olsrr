@@ -25,11 +25,16 @@ Chart for identifying outliers.
 Standardized residual (internally studentized) is the residual divided by
 estimated standard deviation.
 }
+\section{Deprecated Function}{
+
+\code{ols_srsd_chart()} has been deprecated. Instead use \code{ols_plot_resid_stand()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_stand(model)
 
 }
 \seealso{
-[ols_srsd_plot()]
+[ols_plot_resid_stud()]
 }

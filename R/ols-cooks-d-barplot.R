@@ -28,6 +28,9 @@
 #' \item{outliers}{a tibble with observation number and \code{cooks distance} that exceed \code{threshold}}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
+#' @section Deprecated Function:
+#' \code{ols_cooksd_barplot()} has been deprecated. Instead use \code{ols_plot_cooksd_bar()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_cooksd_bar(model)
@@ -37,7 +40,7 @@
 #' @importFrom dplyr filter select
 #' @importFrom ggplot2 geom_bar coord_flip ylim geom_hline geom_label
 #'
-#' @seealso [ols_cooksd_chart()]
+#' @seealso [ols_plot_cooksd_chart()]
 #'
 #' @export
 #'

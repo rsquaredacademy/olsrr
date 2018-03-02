@@ -7,6 +7,9 @@
 #' @param response Response variable.
 #' @param predictor Predictor variable.
 #'
+#' @section Deprecated Function:
+#' \code{ols_reg_line()} has been deprecated. Instead use \code{ols_plot_reg_line()}.
+#'
 #' @examples
 #' ols_plot_reg_line(mtcars$mpg, mtcars$disp)
 #'
@@ -40,6 +43,6 @@ ols_plot_reg_line <- function(response, predictor) {
 #' @rdname ols_plot_reg_line
 #' @usage NULL
 #'
-ols_reg_line <- function(model) {
+ols_reg_line <- function(response, predictor) {
   .Deprecated("ols_plot_reg_line()")
 }

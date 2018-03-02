@@ -40,6 +40,9 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
 #'
+#' @section Deprecated Function:
+#' \code{ols_avplots()} has been deprecated. Instead use \code{ols_plot_added_variable()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_added_variable(model)
@@ -49,7 +52,7 @@
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
 #' @importFrom magrittr %>%
 #'
-#' @seealso [ols_rvsr_plot()], [ols_rpc_plot()]
+#' @seealso [ols_plot_resid_regressor()], [ols_plot_comp_plus_resid()]
 #'
 #' @export
 #'

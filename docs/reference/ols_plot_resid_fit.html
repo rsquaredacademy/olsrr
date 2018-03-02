@@ -171,21 +171,26 @@ it an outlier.</p>
 <li><p>No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.</p></li>
 </ul>
     
+    <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
+
+    <p><code>ols_dsrvsp_plot()</code> has been deprecated. Instead use <code>ols_plot_resid_fit()</code>.</p>
+<p><code>ols_rvsp_plot()</code> has been deprecated. Instead use <code>ols_plot_resid_fit()</code>.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>[ols_rsdlev_plot()], [ols_srsd_plot()], [ols_srsd_chart()]</p>
-<p>Other residual diagnostics: <code>ols_plot_resid_box</code>,
-  <code>ols_plot_resid_hist</code>,
-  <code>ols_plot_resid_qq</code>,
-  <code>ols_test_correlation</code>,
-  <code>ols_test_normality</code></p>
+    <p>[ols_plot_resid_lev()], [ols_plot_resid_stand()], [ols_plot_resid_stud()]</p>
+<p>Other residual diagnostics: <code><a href='ols_plot_resid_box.html'>ols_plot_resid_box</a></code>,
+  <code><a href='ols_plot_resid_hist.html'>ols_plot_resid_hist</a></code>,
+  <code><a href='ols_plot_resid_qq.html'>ols_plot_resid_qq</a></code>,
+  <code><a href='ols_test_correlation.html'>ols_test_correlation</a></code>,
+  <code><a href='ols_test_normality.html'>ols_test_normality</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_plot_resid_fit</span>(<span class='no'>model</span>)</div><div class='img'><img src='ols_plot_resid_fit-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>ols_plot_resid_fit</span>(<span class='no'>model</span>)</div><div class='img'><img src='ols_plot_resid_fit-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>ols_plot_resid_fit</span>(<span class='no'>model</span>)</div><div class='img'><img src='ols_plot_resid_fit-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
+<span class='fu'>ols_plot_resid_fit</span>(<span class='no'>model</span>)</div><div class='img'><img src='ols_plot_resid_fit-2.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -196,6 +201,8 @@ it an outlier.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#deprecated-function">Deprecated Function</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

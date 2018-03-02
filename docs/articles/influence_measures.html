@@ -98,7 +98,7 @@
     <div class="page-header toc-ignore">
       <h1>Measures of Influence</h1>
             
-            <h4 class="date">2018-02-06</h4>
+            <h4 class="date">2018-03-02</h4>
           </div>
 
     
@@ -133,7 +133,7 @@
 </ul>
 <p>A data point having a large cook’s d indicates that the data point strongly influences the fitted values.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../reference/ols_cooksd_barplot.html">ols_cooksd_barplot</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_cooksd_bar.html">ols_plot_cooksd_bar</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/ckdbp-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="cooks-d-chart" class="section level2">
@@ -141,7 +141,7 @@
 <a href="#cooks-d-chart" class="anchor"></a>Cook’s D Chart</h2>
 <p>Chart of Cook’s distance to detect observations that strongly influence fitted values of the model.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../reference/ols_cooksd_chart.html">ols_cooksd_chart</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_cooksd_chart.html">ols_plot_cooksd_chart</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/ckchart-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="dfbetas-panel" class="section level2">
@@ -149,7 +149,7 @@
 <a href="#dfbetas-panel" class="anchor"></a>DFBETAs Panel</h2>
 <p>DFBETA measures the difference in each parameter estimate with and without the influential point. There is a DFBETA for each data point i.e if there are n observations and k variables, there will be <span class="math inline">\(n * k\)</span> DFBETAs. In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a general cutoff value to indicate influential observations and <span class="math inline">\(\frac{2}{\sqrt{n}}\)</span> as a size-adjusted cutoff.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/ols_dfbetas_panel.html">ols_dfbetas_panel</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_dfbetas.html">ols_plot_dfbetas</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="dffits-plot" class="section level2">
@@ -166,7 +166,7 @@
 <p><span class="math display">\[{2}*{\frac{\sqrt{(p + 1)}}{(n - p -1)}}\]</span></p>
 <p>where n is the number of observations and p is the number of predictors including intercept.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../reference/ols_dffits_plot.html">ols_dffits_plot</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_dffits.html">ols_plot_dffits</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/dfitsplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="studentized-residual-plot" class="section level2">
@@ -174,7 +174,7 @@
 <a href="#studentized-residual-plot" class="anchor"></a>Studentized Residual Plot</h2>
 <p>Plot for detecting outliers. Studentized deleted residuals (or externally studentized residuals) is the deleted residual divided by its estimated standard deviation. Studentized residuals are going to be more effective for detecting outlying Y observations than standardized residuals. If an observation has an externally studentized residual that is larger than 3 (in absolute value) we can call it an outlier.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/ols_srsd_plot.html">ols_srsd_plot</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_resid_stud.html">ols_plot_resid_stud</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/srplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="standardized-residual-chart" class="section level2">
@@ -182,7 +182,7 @@
 <a href="#standardized-residual-chart" class="anchor"></a>Standardized Residual Chart</h2>
 <p>Chart for detecting outliers. Standardized residual (internally studentized) is the residual divided by estimated standard deviation.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/ols_srsd_chart.html">ols_srsd_chart</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_resid_stand.html">ols_plot_resid_stand</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/srchart-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="studentized-residuals-vs-leverage-plot" class="section level2">
@@ -190,7 +190,7 @@
 <a href="#studentized-residuals-vs-leverage-plot" class="anchor"></a>Studentized Residuals vs Leverage Plot</h2>
 <p>Graph for detecting influential observations.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(read <span class="op">~</span><span class="st"> </span>write <span class="op">+</span><span class="st"> </span>math <span class="op">+</span><span class="st"> </span>science, <span class="dt">data =</span> hsb)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/ols_rsdlev_plot.html">ols_rsdlev_plot</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_resid_lev.html">ols_plot_resid_lev</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/studlev-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="deleted-studentized-residual-vs-fitted-values-plot" class="section level2">
@@ -198,7 +198,7 @@
 <a href="#deleted-studentized-residual-vs-fitted-values-plot" class="anchor"></a>Deleted Studentized Residual vs Fitted Values Plot</h2>
 <p>Graph for detecting outliers.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../reference/ols_dsrvsp_plot.html">ols_dsrvsp_plot</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">ols_plot_resid_fit</span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/dsrvsp-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="hadi-plot" class="section level2">
@@ -206,7 +206,7 @@
 <a href="#hadi-plot" class="anchor"></a>Hadi Plot</h2>
 <p>Hadi’s measure of influence based on the fact that influential observations can be present in either the response variable or in the predictors or both. The plot is used to detect influential observations based on Hadi’s measure.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/ols_hadi_plot.html">ols_hadi_plot</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_hadi.html">ols_plot_hadi</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/hadiplot-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="potential-residual-plot" class="section level2">
@@ -214,7 +214,7 @@
 <a href="#potential-residual-plot" class="anchor"></a>Potential Residual Plot</h2>
 <p>Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="../reference/ols_potrsd_plot.html">ols_potrsd_plot</a></span>(model)</a></code></pre></div>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_resid_pot.html">ols_plot_resid_pot</a></span>(model)</a></code></pre></div>
 <p><img src="influence_measures_files/figure-html/potres-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 </div>

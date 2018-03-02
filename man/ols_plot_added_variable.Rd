@@ -43,6 +43,11 @@ A strong linear relationship in the added variable plot indicates the increased
 importance of the contribution of \strong{X} to the model already containing the
 other predictors.
 }
+\section{Deprecated Function}{
+
+\code{ols_avplots()} has been deprecated. Instead use \code{ols_plot_added_variable()}.
+}
+
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_added_variable(model)
@@ -55,5 +60,5 @@ Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical 
 Chicago, IL., McGraw Hill/Irwin.
 }
 \seealso{
-[ols_rvsr_plot()], [ols_rpc_plot()]
+[ols_plot_resid_regressor()], [ols_plot_comp_plus_resid()]
 }

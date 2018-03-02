@@ -41,6 +41,11 @@ Select the subset of predictors that do the best at meeting some
 well-defined objective criterion, such as having the largest R2 value or the
 smallest MSE, Mallow's Cp or AIC.
 }
+\section{Deprecated Function}{
+
+\code{ols_best_subset()} has been deprecated. Instead use \code{ols_step_best_subset()}.
+}
+
 \examples{
 \dontrun{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -61,9 +66,9 @@ Chicago, IL., McGraw Hill/Irwin.
 }
 \seealso{
 Other variable selection procedures: \code{\link{ols_step_all_possible}},
-  \code{\link{ols_step_backward}},
-  \code{\link{ols_step_forward}},
-  \code{\link{ols_stepaic_backward}},
-  \code{\link{ols_stepaic_both}},
-  \code{\link{ols_stepaic_forward}}
+  \code{\link{ols_step_backward_aic}},
+  \code{\link{ols_step_backward_p}},
+  \code{\link{ols_step_both_aic}},
+  \code{\link{ols_step_forward_aic}},
+  \code{\link{ols_step_forward_p}}
 }

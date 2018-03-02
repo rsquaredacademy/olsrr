@@ -16,6 +16,11 @@ ols_plot_reg_line(response, predictor)
 Plot to demonstrate that the regression line always passes  through mean of
 the response and predictor variables.
 }
+\section{Deprecated Function}{
+
+\code{ols_reg_line()} has been deprecated. Instead use \code{ols_plot_reg_line()}.
+}
+
 \examples{
 ols_plot_reg_line(mtcars$mpg, mtcars$disp)
 

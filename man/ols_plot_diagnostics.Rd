@@ -8,7 +8,10 @@
 ols_plot_diagnostics(model)
 }
 \arguments{
-\item{model}{An object of class \code{lm}.}
+\item{model}{An object of class \code{lm}.
+
+#' @section Deprecated Function:
+\code{ols_diagnostic_panel()} has been deprecated. Instead use \code{ols_plot_diagnostics()}.}
 }
 \description{
 Panel of plots for regression diagnostics.

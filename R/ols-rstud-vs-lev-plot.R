@@ -4,6 +4,9 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' @section Deprecated Function:
+#' \code{ols_rsdlev_plot()} has been deprecated. Instead use \code{ols_plot_resid_lev()}.
+#'
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
 #' ols_plot_resid_lev(model)
@@ -11,7 +14,7 @@
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 geom_vline
 #'
-#' @seealso [ols_dsrvsp_plot()], [ols_rsdlev_plot()]
+#' @seealso [ols_plot_resid_fit()], [ols_plot_resid_lev()]
 #'
 #' @export
 #'

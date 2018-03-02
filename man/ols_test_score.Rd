@@ -35,6 +35,11 @@ following components:
 Test for heteroskedasticity under the assumption that the errors are
 independent and identically distributed (i.i.d.).
 }
+\section{Deprecated Function}{
+
+\code{ols_score_test()} has been deprecated. Instead use \code{ols_test_score()}.
+}
+
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)

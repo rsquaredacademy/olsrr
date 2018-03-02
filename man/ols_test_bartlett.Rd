@@ -34,6 +34,11 @@ Bartlett's test is used to test if variances across samples is equal.
 It is sensitive to departures from normality. The Levene test
 is an alternative test that is less sensitive to departures from normality.
 }
+\section{Deprecated Function}{
+
+\code{ols_bartlett_test()} has been deprecated. Instead use \code{ols_test_bartlett()}.
+}
+
 \examples{
 \dontrun{
 # using grouping variable
@@ -52,6 +57,6 @@ Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 Eighth Edition, Iowa State University Press.
 }
 \seealso{
-Other heteroskedasticity tests: \code{\link{ols_bp_test}},
-  \code{\link{ols_f_test}}, \code{\link{ols_score_test}}
+Other heteroskedasticity tests: \code{\link{ols_test_breusch_pagan}},
+  \code{\link{ols_test_f}}, \code{\link{ols_test_score}}
 }

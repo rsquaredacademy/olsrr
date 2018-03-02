@@ -27,6 +27,9 @@
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #'
+#' @section Deprecated Function:
+#' \code{ols_stepaic_both()} has been deprecated. Instead use \code{ols_step_both_aic()}.
+#'
 #' @examples
 #' \dontrun{
 #' # stepwise regression
