@@ -46,7 +46,7 @@ test_that("residual fit spread plot 2 is as expected", {
 
 test_that("residual qq plot is as expected", {
   skip_on_cran()
-  p <- ols_rsd_qqplot(model)
+  p <- ols_plot_resid_qq(model)
   vdiffr::expect_doppelganger("residual qq plot", p$plot)
 })
 

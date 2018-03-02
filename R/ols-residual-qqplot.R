@@ -6,7 +6,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_rsd_qqplot(model)
+#' ols_plot_resid_qq(model)
 #'
 #' @family residual diagnostics
 #'
@@ -14,7 +14,7 @@
 #'
 #' @export
 #'
-ols_rsd_qqplot <- function(model) {
+ols_plot_resid_qq <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -34,4 +34,13 @@ ols_rsd_qqplot <- function(model) {
 
   print(p)
 
+}
+
+
+#' @export
+#' @rdname ols_plot_resid_qq
+#' @usage NULL
+#'
+ols_rsd_qqplot <- function(model) {
+  .Deprecated("ols_plot_resid_qq()")
 }

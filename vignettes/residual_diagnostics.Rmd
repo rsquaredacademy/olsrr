@@ -35,7 +35,7 @@ Graph for detecting violation of normality assumption.
 
 ```{r qqresid, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsd_qqplot(model)
+ols_plot_resid_qq(model)
 ```
 
 ## Residual Normality Test
