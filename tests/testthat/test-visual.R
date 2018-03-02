@@ -208,10 +208,10 @@ test_that("stepwise regression plots are as expected", {
   vdiffr::expect_doppelganger("stepwise sbc", k$sbc_plot)
 })
 
-test_that("studentized residual chart is as expected", {
+test_that("standardized residual chart is as expected", {
   skip_on_cran()
-  p <- ols_srsd_chart(model)
-  vdiffr::expect_doppelganger("studentized residual chart", p$plot)
+  p <- ols_plot_resid_stand(model)
+  vdiffr::expect_doppelganger("standardized residual chart", p$plot)
 })
 
 test_that("studentized residual plot is as expected", {

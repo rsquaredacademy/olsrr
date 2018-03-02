@@ -108,7 +108,7 @@ Chart for detecting outliers. Standardized residual (internally studentized) is 
 
 ```{r srchart, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_srsd_chart(model)
+ols_plot_resid_stand(model)
 ```
 
 ## Studentized Residuals vs Leverage Plot

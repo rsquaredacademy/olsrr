@@ -8,7 +8,7 @@
 #' Standardized residual (internally studentized) is the residual divided by
 #' estimated standard deviation.
 #'
-#' @return \code{ols_srsd_chart} returns  a list containing the
+#' @return \code{ols_plot_resid_stand} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number and \code{standardized resiudals} that
@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_srsd_chart(model)
+#' ols_plot_resid_stand(model)
 #'
 #' @importFrom stats rstandard
 #'
@@ -25,7 +25,7 @@
 #'
 #' @export
 #'
-ols_srsd_chart <- function(model) {
+ols_plot_resid_stand <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -42,13 +42,13 @@ ols_srsd_chart <- function(model) {
     d %>%
     filter(color == "outlier") %>%
     select(obs, sdres) %>%
-    set_colnames(c("Observation", "Studentized Residual"))
+    set_colnames(c("Observation", "Standardised Residual"))
 
   p <- ggplot(d, aes(x = obs, y = sdres, label = txt, ymin = 0, ymax = sdres)) +
     geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
     geom_hline(yintercept = 0, colour = "gray") +
     geom_hline(yintercept = c(2, -2), colour = "red") +
-    xlab("Observation") + ylab("Studentized Residuals") +
+    xlab("Observation") + ylab("Standardized Residuals") +
     ggtitle("Standardized Residuals Chart") +
     geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif",
               fontface = "italic", colour = "darkred", na.rm = TRUE) +
@@ -92,4 +92,13 @@ srchart_data <- function(model) {
       txt = ifelse(color == "outlier", obs, NA)
     )
 
+}
+
+
+#' @export
+#' @rdname ols_plot_resid_stand
+#' @usage NULL
+#'
+ols_srsd_chart <- function(model) {
+  .Deprecated("ols_plot_resid_stand()")
 }

@@ -100,7 +100,7 @@ reference:
   - ols_plot_dfbetas
   - ols_plot_dffits
   - ols_srsd_plot
-  - ols_srsd_chart
+  - ols_plot_resid_stand
   - ols_plot_resid_lev
   - ols_plot_resid_fit
   - ols_plot_hadi
