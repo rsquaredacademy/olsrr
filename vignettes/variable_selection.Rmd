@@ -220,14 +220,14 @@ The model should include all the candidate predictor variables. If details is se
 ```{r stepwiseaic1}
 # stepwise aic regression
 model <- lm(y ~ ., data = surgical)
-ols_stepaic_both(model)
+ols_step_both_aic(model)
 ```
 
 ### Plot
 
 ```{r stepwiseaic2, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_both(model)
+k <- ols_step_both_aic(model)
 plot(k)
 ```
 
@@ -236,5 +236,5 @@ plot(k)
 ```{r stepwiseaicdetails}
 # stepwise aic regression
 model <- lm(y ~ ., data = surgical)
-ols_stepaic_both(model, details = TRUE)
+ols_step_both_aic(model, details = TRUE)
 ```

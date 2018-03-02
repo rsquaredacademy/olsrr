@@ -64,7 +64,7 @@ Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourt
 Other variable selection procedures: \code{\link{ols_step_all_possible}},
   \code{\link{ols_step_backward}},
   \code{\link{ols_step_best_subset}},
+  \code{\link{ols_step_both_aic}},
   \code{\link{ols_step_forward}},
-  \code{\link{ols_stepaic_both}},
   \code{\link{ols_stepaic_forward}}
 }
