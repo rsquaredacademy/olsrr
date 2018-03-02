@@ -13,14 +13,14 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_ovsp_plot(model)
+#' ols_plot_obs_fit(model)
 #'
 #' @importFrom stats fitted.values
 #' @importFrom ggplot2 geom_abline geom_segment
 #'
 #' @export
 #'
-ols_ovsp_plot <- function(model) {
+ols_plot_obs_fit <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -48,6 +48,15 @@ ols_ovsp_plot <- function(model) {
   print(p)
 
 }
+
+#' @export
+#' @rdname ols_plot_obs_fit
+#' @usage NULL
+#'
+ols_ovsp_plot <- function(model) {
+  .Deprecated("ols_plot_obs_fit()")
+}
+
 
 obspred <- function(model) {
 

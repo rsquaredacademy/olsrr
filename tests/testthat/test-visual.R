@@ -16,7 +16,7 @@ test_that("hadi plot is as expected", {
 
 test_that("observed vs predicted plot is as expected", {
   skip_on_cran()
-  p <- ols_ovsp_plot(model)
+  p <- ols_plot_obs_fit(model)
   vdiffr::expect_doppelganger("ovsp plot", p$plot)
 })
 

@@ -124,7 +124,7 @@ Plot of observed vs fitted values to assess the fit of the model. Ideally, all y
 
 ```{r obspred, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_ovsp_plot(model)
+ols_plot_obs_fit(model)
 ```
 
 ### Lack of Fit F Test

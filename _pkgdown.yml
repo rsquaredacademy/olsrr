@@ -130,7 +130,7 @@ reference:
   - ols_fm_plot
   - ols_rsd_plot
   - ols_correlations
-  - ols_ovsp_plot
+  - ols_plot_obs_fit
   - ols_pure_error_anova
   - ols_plot_diagnostics
 
