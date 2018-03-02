@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_corr_test(model)
+#' ols_test_correlation(model)
 #'
 #' @importFrom stats qnorm
 #'
@@ -18,7 +18,7 @@
 #'
 #' @export
 #'
-ols_corr_test <- function(model) {
+ols_test_correlation <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -27,6 +27,15 @@ ols_corr_test <- function(model) {
   corrout(model)
 
 }
+
+#' @export
+#' @rdname ols_test_correlation
+#' @usage NULL
+#'
+ols_corr_test <- function(model) {
+  .Deprecated("ols_test_correlation()")
+}
+
 
 corrout <- function(model) {
 
@@ -63,8 +72,8 @@ ka <- function(k, stderr, n) {
 #' @param y A numeric vector or an object of class \code{lm}.
 #' @param ... Other arguments.
 #'
-#' @return \code{norm_test} returns an object of class \code{"norm_test"}.
-#' An object of class \code{"norm_test"} is a list containing the
+#' @return \code{ols_test_normality} returns an object of class \code{"ols_test_normality"}.
+#' An object of class \code{"ols_test_normality"} is a list containing the
 #' following components:
 #'
 #' \item{kolmogorv}{kolmogorv smirnov statistic}
@@ -74,7 +83,7 @@ ka <- function(k, stderr, n) {
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_norm_test(model)
+#' ols_test_normality(model)
 #'
 #' @importFrom stats ks.test shapiro.test
 #' @importFrom goftest cvm.test
@@ -84,11 +93,11 @@ ka <- function(k, stderr, n) {
 #'
 #' @export
 #'
-ols_norm_test <- function(y, ...) UseMethod("ols_norm_test")
+ols_test_normality <- function(y, ...) UseMethod("ols_test_normality")
 
 #' @export
 #'
-ols_norm_test.default <- function(y, ...) {
+ols_test_normality.default <- function(y, ...) {
 
   if (!is.numeric(y)) {
     stop("y must be numeric")
@@ -104,25 +113,33 @@ ols_norm_test.default <- function(y, ...) {
                  cramer    = cvm,
                  anderson  = ad)
 
-  class(result) <- "ols_norm_test"
+  class(result) <- "ols_test_normality"
   return(result)
 }
 
 #' @export
 #' @rdname ols_norm_test
 #'
-ols_norm_test.lm <- function(y, ...) {
+ols_test_normality.lm <- function(y, ...) {
 
   if (!all(class(y) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  ols_norm_test.default(residuals(y))
+  ols_test_normality.default(residuals(y))
 
 }
 
 #' @export
 #'
-print.ols_norm_test <- function(x, ...) {
+print.ols_test_normality <- function(x, ...) {
   print_norm_test(x)
+}
+
+#' @export
+#' @rdname ols_test_normality
+#' @usage NULL
+#'
+ols_norm_test <- function(model) {
+  .Deprecated("ols_test_normality()")
 }
