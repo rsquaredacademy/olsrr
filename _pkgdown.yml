@@ -101,7 +101,7 @@ reference:
   - ols_plot_dffits
   - ols_srsd_plot
   - ols_srsd_chart
-  - ols_rsdlev_plot
+  - ols_plot_resid_lev
   - ols_plot_resid_fit
   - ols_plot_hadi
   - ols_plot_resid_pot

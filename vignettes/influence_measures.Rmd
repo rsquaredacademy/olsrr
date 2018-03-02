@@ -117,7 +117,7 @@ Graph for detecting influential observations.
 
 ```{r studlev, fig.width=7, fig.height=5, fig.align='center'}
 model <- lm(read ~ write + math + science, data = hsb)
-ols_rsdlev_plot(model)
+ols_plot_resid_lev(model)
 ```
 
 ## Deleted Studentized Residual vs Fitted Values Plot

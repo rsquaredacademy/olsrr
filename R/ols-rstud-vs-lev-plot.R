@@ -6,7 +6,7 @@
 #'
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
-#' ols_rsdlev_plot(model)
+#' ols_plot_resid_lev(model)
 #'
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 geom_vline
@@ -15,7 +15,7 @@
 #'
 #' @export
 #'
-ols_rsdlev_plot <- function(model) {
+ols_plot_resid_lev <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -154,4 +154,12 @@ rstudlev <- function(model) {
        maxy      = maxy
   )
 
+}
+
+#' @export
+#' @rdname ols_plot_resid_lev
+#' @usage NULL
+#'
+ols_rsdlev_plot <- function(model) {
+  .Deprecated("ols_plot_resid_lev()")
 }
