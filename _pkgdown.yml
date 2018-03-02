@@ -71,7 +71,7 @@ reference:
 
   contents:
   - ols_rsd_qqplot
-  - ols_rsd_hist
+  - ols_plot_resid_hist
   - ols_plot_resid_box
   - ols_test_normality
   - ols_test_correlation

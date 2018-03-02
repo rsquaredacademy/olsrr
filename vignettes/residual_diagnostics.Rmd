@@ -76,5 +76,5 @@ Histogram of residuals for detecting violation of normality assumption.
 
 ```{r residhist, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsd_hist(model)
+ols_plot_resid_hist(model)
 ```
