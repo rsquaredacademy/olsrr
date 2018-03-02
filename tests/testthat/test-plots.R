@@ -117,7 +117,7 @@ test_that("dfbetas panel fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_dfbetas_panel(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_plot_dfbetas(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("dffits plot fails when model inherits other than 'lm'", {

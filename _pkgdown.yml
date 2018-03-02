@@ -97,7 +97,7 @@ reference:
   contents:
   - ols_plot_cooksd_bar
   - ols_plot_cooksd_chart
-  - ols_dfbetas_panel
+  - ols_plot_dfbetas
   - ols_dffits_plot
   - ols_srsd_plot
   - ols_srsd_chart

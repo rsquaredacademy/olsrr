@@ -69,7 +69,7 @@ $\frac{2}{\sqrt{n}}$ as a size-adjusted cutoff.
 
 ```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
+ols_plot_dfbetas_panel(model)
 ```
 
 ## DFFITS Plot

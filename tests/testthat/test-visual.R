@@ -77,7 +77,7 @@ test_that("cooks d bar chart is as expected", {
 test_that("dfbetas panel is as expected", {
   skip_on_cran()
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-  k <- ols_dfbetas_panel(model)
+  k <- ols_plot_dfbetas(model)
 
   vdiffr::expect_doppelganger("dfbetas panel intercept", k$plots[[1]])
   vdiffr::expect_doppelganger("dfbetas panel disp", k$plots[[2]])

@@ -13,7 +13,7 @@
 #' general cutoff value to indicate influential observations and
 #' \eqn{2/\sqrt(n)} as a size-adjusted cutoff.
 #'
-#' @return list; \code{ols_dfbetas_panel} returns a list of tibbles (for intercept and each predictor)
+#' @return list; \code{ols_plot_dfbetas} returns a list of tibbles (for intercept and each predictor)
 #' with the observation number and DFBETA of observations that exceed the threshold for classifying
 #' an observation as an outlier/influential observation.
 #'
@@ -27,7 +27,7 @@
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_dfbetas_panel(model)
+#' ols_plot_dfbetas(model)
 #' }
 #'
 #' @seealso [ols_dffits_plot()]
@@ -36,7 +36,7 @@
 #'
 #' @export
 #'
-ols_dfbetas_panel <- function(model) {
+ols_plot_dfbetas <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -92,6 +92,14 @@ ols_dfbetas_panel <- function(model) {
   result <- list(outliers = outliers, plots = myplots)
   invisible(result)
 
+}
+
+#' @export
+#' @rdname ols_plot_dfbetas
+#' @usage NULL
+#'
+ols_dfbetas_panel <- function(model) {
+  .Deprecated("ols_plot_dfbetas()")
 }
 
 #' @description Prepares the data for dfbetas plot.
