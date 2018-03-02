@@ -146,19 +146,19 @@ subset of the independent variables.
 
 ```{r ftest1}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_f_test(model)
+ols_test_f(model)
 ```
 
 #### Use independent variables of the model
 
 ```{r ftest2}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_f_test(model, rhs = TRUE)
+ols_test_f(model, rhs = TRUE)
 ```
 
 #### Specify variables
 
 ```{r ftest3}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_f_test(model, vars = c('disp', 'hp'))
+ols_test_f(model, vars = c('disp', 'hp'))
 ```

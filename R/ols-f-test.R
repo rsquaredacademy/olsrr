@@ -12,8 +12,8 @@
 #' @param vars Variables to be used for for heteroskedasticity test.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_f_test} returns an object of class \code{"ols_f_test"}.
-#' An object of class \code{"ols_f_test"} is a list containing the
+#' @return \code{ols_test_f} returns an object of class \code{"ols_test_f"}.
+#' An object of class \code{"ols_test_f"} is a list containing the
 #' following components:
 #'
 #' \item{f}{f statistic}
@@ -34,13 +34,13 @@
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #'
 #' # using fitted values
-#' ols_f_test(model)
+#' ols_test_f(model)
 #'
 #' # using all predictors of the model
-#' ols_f_test(model, rhs = TRUE)
+#' ols_test_f(model, rhs = TRUE)
 #'
 #' # using fitted values
-#' ols_f_test(model, vars = c('disp', 'hp'))
+#' ols_test_f(model, vars = c('disp', 'hp'))
 #'
 #' @family heteroskedasticity tests
 #'
@@ -48,11 +48,11 @@
 #'
 #' @export
 #'
-ols_f_test <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) UseMethod("ols_f_test")
+ols_test_f <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) UseMethod("ols_test_f")
 
 #' @export
 #'
-ols_f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
+ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -113,14 +113,22 @@ ols_f_test.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
     preds = nam
   )
 
-  class(out) <- "ols_f_test"
+  class(out) <- "ols_test_f"
 
   return(out)
 }
 
 #' @export
+#' @rdname ols_test_f
+#' @usage NULL
 #'
-print.ols_f_test <- function(x, ...) {
+ols_f_test <- function(model) {
+  .Deprecated("ols_test_f()")
+}
+
+#' @export
+#'
+print.ols_test_f <- function(x, ...) {
   print_ftest(x)
 }
 

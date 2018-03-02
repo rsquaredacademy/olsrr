@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>F test for constant variance — ols_f_test â€¢ olsrr</title>
+<title>F test for constant variance — ols_test_f â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -127,7 +127,7 @@
 independent and identically distributed (i.i.d.).</p>
     
 
-    <pre class="usage"><span class='fu'>ols_f_test</span>(<span class='no'>model</span>, <span class='kw'>fitted_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>ols_test_f</span>(<span class='no'>model</span>, <span class='kw'>fitted_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -158,8 +158,8 @@ regression model.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>ols_f_test</code> returns an object of class <code>"ols_f_test"</code>.
-An object of class <code>"ols_f_test"</code> is a list containing the
+    <p><code>ols_test_f</code> returns an object of class <code>"ols_test_f"</code>.
+An object of class <code>"ols_test_f"</code> is a list containing the
 following components:</p>
 <dt>f</dt><dd><p>f statistic</p></dd>
 <dt>p</dt><dd><p>p-value of <code>f</code></p></dd>
@@ -188,7 +188,7 @@ following components:</p>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 
 <span class='co'># using fitted values</span>
-<span class='fu'>ols_f_test</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>ols_test_f</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
 #&gt;  F Test for Heteroskedasticity
 #&gt;  -----------------------------
 #&gt;  Ho: Variance is homogenous
@@ -203,7 +203,7 @@ following components:</p>
 #&gt;  F          =    0.4920617 
 #&gt;  Prob &gt; F   =    0.4884154 </div><div class='input'>
 <span class='co'># using all predictors of the model</span>
-<span class='fu'>ols_f_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>ols_test_f</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt;  F Test for Heteroskedasticity
 #&gt;  -----------------------------
 #&gt;  Ho: Variance is homogenous
@@ -218,7 +218,7 @@ following components:</p>
 #&gt;  F          =    0.4594694 
 #&gt;  Prob &gt; F   =    0.7647271 </div><div class='input'>
 <span class='co'># using fitted values</span>
-<span class='fu'>ols_f_test</span>(<span class='no'>model</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>'disp'</span>, <span class='st'>'hp'</span>))</div><div class='output co'>#&gt; 
+<span class='fu'>ols_test_f</span>(<span class='no'>model</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>'disp'</span>, <span class='st'>'hp'</span>))</div><div class='output co'>#&gt; 
 #&gt;  F Test for Heteroskedasticity
 #&gt;  -----------------------------
 #&gt;  Ho: Variance is homogenous
