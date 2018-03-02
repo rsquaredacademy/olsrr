@@ -120,21 +120,21 @@ subset of the independent variables.
 
 ```{r score1}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_score_test(model)
+ols_test_score(model)
 ```
 
 #### Use independent variables of the model
 
 ```{r score2}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_score_test(model, rhs = TRUE)
+ols_test_score(model, rhs = TRUE)
 ```
 
 #### Specify variables
 
 ```{r score3}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_score_test(model, vars = c('disp', 'hp'))
+ols_test_score(model, vars = c('disp', 'hp'))
 ```
 
 ## F Test

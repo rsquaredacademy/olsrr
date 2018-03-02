@@ -82,7 +82,7 @@ reference:
   contents:
   - ols_test_bartlett
   - ols_test_breusch_pagan
-  - ols_score_test
+  - ols_test_score
   - ols_test_f
 
 - title: Collinearity Diagnostics

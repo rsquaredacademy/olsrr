@@ -11,8 +11,8 @@
 #'   regression model.
 #' @param vars Variables to be used for for heteroskedasticity test.
 #'
-#' @return \code{ols_score_test} returns an object of class \code{"ols_score_test"}.
-#' An object of class \code{"ols_score_test"} is a list containing the
+#' @return \code{ols_test_score} returns an object of class \code{"ols_test_score"}.
+#' An object of class \code{"ols_test_score"} is a list containing the
 #' following components:
 #'
 #' \item{score}{f statistic}
@@ -35,24 +35,24 @@
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #'
 #' # using fitted values of the model
-#' ols_score_test(model)
+#' ols_test_score(model)
 #'
 #' # using predictors from the model
-#' ols_score_test(model, rhs = TRUE)
+#' ols_test_score(model, rhs = TRUE)
 #'
 #' # specify predictors from the model
-#' ols_score_test(model, vars = c('disp', 'wt'))
+#' ols_test_score(model, vars = c('disp', 'wt'))
 #'
 #' @family heteroskedasticity tests
 #'
 #' @export
 #'
-ols_score_test <- function(model, fitted_values = TRUE, rhs = FALSE,
-                           vars = NULL) UseMethod("ols_score_test")
+ols_test_score <- function(model, fitted_values = TRUE, rhs = FALSE,
+                           vars = NULL) UseMethod("ols_test_score")
 
 #' @export
 #'
-ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE,
+ols_test_score.default <- function(model, fitted_values = TRUE, rhs = FALSE,
                                    vars = NULL) {
 
   if (!all(class(model) == "lm")) {
@@ -100,14 +100,14 @@ ols_score_test.default <- function(model, fitted_values = TRUE, rhs = FALSE,
               resp  = resp
   )
 
-  class(out) <- "ols_score_test"
+  class(out) <- "ols_test_score"
   return(out)
 
 }
 
 #' @export
 #'
-print.ols_score_test <- function(x, ...) {
+print.ols_test_score <- function(x, ...) {
   print_score_test(x, ...)
 }
 
@@ -266,4 +266,14 @@ score_data <- function(model, vars) {
     select(!!! syms(vars)) %>%
     bind_cols(ind)
 
+}
+
+
+#' @export
+#' @rdname ols_test_score
+#' @usage NULL
+#'
+ols_score_test <- function(model, fitted_values = TRUE, rhs = FALSE,
+                           vars = NULL) {
+  .Deprecated("ols_test_score()")
 }

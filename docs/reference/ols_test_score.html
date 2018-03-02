@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Score test — ols_score_test â€¢ olsrr</title>
+<title>Score test — ols_test_score â€¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -127,7 +127,7 @@
 independent and identically distributed (i.i.d.).</p>
     
 
-    <pre class="usage"><span class='fu'>ols_score_test</span>(<span class='no'>model</span>, <span class='kw'>fitted_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>ols_test_score</span>(<span class='no'>model</span>, <span class='kw'>fitted_values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -154,8 +154,8 @@ regression model.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>ols_score_test</code> returns an object of class <code>"ols_score_test"</code>.
-An object of class <code>"ols_score_test"</code> is a list containing the
+    <p><code>ols_test_score</code> returns an object of class <code>"ols_test_score"</code>.
+An object of class <code>"ols_test_score"</code> is a list containing the
 following components:</p>
 <dt>score</dt><dd><p>f statistic</p></dd>
 <dt>p</dt><dd><p>p value of <code>score</code></p></dd>
@@ -184,7 +184,7 @@ following components:</p>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 
 <span class='co'># using fitted values of the model</span>
-<span class='fu'>ols_score_test</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>ols_test_score</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
 #&gt;  Score Test for Heteroskedasticity
 #&gt;  ---------------------------------
 #&gt;  Ho: Variance is homogenous
@@ -198,7 +198,7 @@ following components:</p>
 #&gt;  Chi2          =    0.6452907 
 #&gt;  Prob &gt; Chi2   =    0.4218014 </div><div class='input'>
 <span class='co'># using predictors from the model</span>
-<span class='fu'>ols_score_test</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>ols_test_score</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt;  Score Test for Heteroskedasticity
 #&gt;  ---------------------------------
 #&gt;  Ho: Variance is homogenous
@@ -212,7 +212,7 @@ following components:</p>
 #&gt;  Chi2          =    0.945898 
 #&gt;  Prob &gt; Chi2   =    0.8143398 </div><div class='input'>
 <span class='co'># specify predictors from the model</span>
-<span class='fu'>ols_score_test</span>(<span class='no'>model</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>'disp'</span>, <span class='st'>'wt'</span>))</div><div class='output co'>#&gt; 
+<span class='fu'>ols_test_score</span>(<span class='no'>model</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>'disp'</span>, <span class='st'>'wt'</span>))</div><div class='output co'>#&gt; 
 #&gt;  Score Test for Heteroskedasticity
 #&gt;  ---------------------------------
 #&gt;  Ho: Variance is homogenous
