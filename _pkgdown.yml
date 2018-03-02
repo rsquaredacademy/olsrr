@@ -64,7 +64,7 @@ reference:
   - ols_step_forward
   - ols_stepwise
   - ols_step_backward_aic
-  - ols_stepaic_forward
+  - ols_step_forward_aic
   - ols_step_both_aic
 
 - title: Residual Diagnostics

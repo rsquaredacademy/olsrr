@@ -8,10 +8,10 @@
 #' @param model An object of class \code{lm}.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
-#' @param x An object of class \code{ols_stepaic_forward}.
+#' @param x An object of class \code{ols_step_forward_aic}.
 #' @param ... Other arguments.
-#' @return \code{ols_stepaic_forward} returns an object of class \code{"ols_stepaic_forward"}.
-#' An object of class \code{"ols_stepaic_forward"} is a list containing the
+#' @return \code{ols_step_forward_aic} returns an object of class \code{"ols_step_forward_aic"}.
+#' An object of class \code{"ols_step_forward_aic"} is a list containing the
 #' following components:
 #'
 #' \item{steps}{total number of steps}
@@ -29,13 +29,13 @@
 #' \dontrun{
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
-#' ols_stepaic_forward(model)
+#' ols_step_forward_aic(model)
 #' }
 #'
 #' \dontrun{
 #' # stepwise forward regression plot
 #' model <- lm(y ~ ., data = surgical)
-#' k <- ols_stepaic_forward(model)
+#' k <- ols_step_forward_aic(model)
 #' plot(k)
 #' }
 #'
@@ -45,12 +45,12 @@
 #'
 #' @export
 #'
-ols_stepaic_forward <- function(model, ...) UseMethod("ols_stepaic_forward")
+ols_step_forward_aic <- function(model, ...) UseMethod("ols_step_forward_aic")
 
 #' @export
-#' @rdname ols_stepaic_forward
+#' @rdname ols_step_forward_aic
 #'
-ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
+ols_step_forward_aic.default <- function(model, details = FALSE, ...) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -288,14 +288,14 @@ ols_stepaic_forward.default <- function(model, details = FALSE, ...) {
               rss        = lrss,
               rsq        = lrsq)
 
-  class(out) <- "ols_stepaic_forward"
+  class(out) <- "ols_step_forward_aic"
 
   return(out)
 }
 
 #' @export
 #'
-print.ols_stepaic_forward <- function(x, ...) {
+print.ols_step_forward_aic <- function(x, ...) {
   if (x$steps > 0) {
     print_stepaic_forward(x)
   } else {
@@ -303,10 +303,10 @@ print.ols_stepaic_forward <- function(x, ...) {
   }
 }
 
-#' @rdname ols_stepaic_forward
+#' @rdname ols_step_forward_aic
 #' @export
 #'
-plot.ols_stepaic_forward <- function(x, ...) {
+plot.ols_step_forward_aic <- function(x, ...) {
 
   a  <- NULL
   b  <- NULL
@@ -342,4 +342,13 @@ plot.ols_stepaic_forward <- function(x, ...) {
     geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
   print(p)
+}
+
+
+#' @export
+#' @rdname ols_step_forward_aic
+#' @usage NULL
+#'
+ols_stepaic_forward <- function(model) {
+  .Deprecated("ols_step_forward_aic()")
 }
