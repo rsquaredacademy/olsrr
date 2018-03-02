@@ -139,7 +139,7 @@ reference:
   contents:
   - ols_rvsr_plot
   - ols_plot_added_variable
-  - ols_rpc_plot
+  - ols_plot_comp_plus_resid
 
 - title: Miscellaneous
 

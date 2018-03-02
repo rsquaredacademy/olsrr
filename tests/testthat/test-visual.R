@@ -130,7 +130,7 @@ test_that("residual fit spread plot is as expected", {
 
 test_that("residual fit spread plot is as expected", {
   skip_on_cran()
-  p <- ols_rpc_plot(model)
+  p <- ols_plot_comp_plus_resid(model)
   vdiffr::expect_doppelganger("rpc plot disp", p$plots[[1]])
   vdiffr::expect_doppelganger("rpc plot hp", p$plots[[2]])
   vdiffr::expect_doppelganger("rpc plot wt", p$plots[[3]])
