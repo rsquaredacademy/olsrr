@@ -11,13 +11,13 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_potrsd_plot(model)
+#' ols_plot_resid_pot(model)
 #'
 #' @seealso [ols_hadi_plot()]
 #'
 #' @export
 #'
-ols_potrsd_plot <- function(model) {
+ols_plot_resid_pot <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -36,6 +36,15 @@ ols_potrsd_plot <- function(model) {
   print(p)
 
 }
+
+#' @export
+#' @rdname ols_plot_resid_pot
+#' @usage NULL
+#'
+ols_potrsd_plot <- function(model) {
+  .Deprecated("ols_plot_resid_pot()")
+}
+
 
 hadio <- function(model, n) {
 

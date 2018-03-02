@@ -104,7 +104,7 @@ reference:
   - ols_rsdlev_plot
   - ols_plot_resid_fit
   - ols_plot_hadi
-  - ols_potrsd_plot
+  - ols_plot_resid_pot
   - ols_leverage
   - ols_hadi
   - ols_press

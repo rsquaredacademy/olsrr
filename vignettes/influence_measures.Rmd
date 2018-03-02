@@ -146,5 +146,5 @@ Plot to aid in classifying unusual observations as high-leverage points, outlier
 
 ```{r potres, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_potrsd_plot(model)
+ols_plot_resid_pot(model)
 ```

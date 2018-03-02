@@ -22,7 +22,7 @@ test_that("observed vs predicted plot is as expected", {
 
 test_that("potential residual plot is as expected", {
   skip_on_cran()
-  p <- ols_potrsd_plot(model)
+  p <- ols_plot_resid_pot(model)
   vdiffr::expect_doppelganger("potential residual plot", p$plot)
 })
 
