@@ -137,7 +137,7 @@ reference:
 - title: Variable Contribution
 
   contents:
-  - ols_rvsr_plot
+  - ols_plot_resid_regressor
   - ols_plot_added_variable
   - ols_plot_comp_plus_resid
 
