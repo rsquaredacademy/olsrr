@@ -23,7 +23,7 @@ ols_test_correlation(model)
 
 }
 \seealso{
-Other residual diagnostics: \code{\link{ols_rsd_boxplot}},
+Other residual diagnostics: \code{\link{ols_plot_resid_box}},
   \code{\link{ols_rsd_hist}}, \code{\link{ols_rsd_qqplot}},
   \code{\link{ols_rvsp_plot}},
   \code{\link{ols_test_normality}}

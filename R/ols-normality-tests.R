@@ -118,7 +118,7 @@ ols_test_normality.default <- function(y, ...) {
 }
 
 #' @export
-#' @rdname ols_norm_test
+#' @rdname ols_test_normality
 #'
 ols_test_normality.lm <- function(y, ...) {
 

@@ -2,10 +2,13 @@
 % Please edit documentation in R/ols-normality-tests.R
 \name{ols_test_normality}
 \alias{ols_test_normality}
+\alias{ols_test_normality.lm}
 \alias{ols_norm_test}
 \title{Test for normality}
 \usage{
 ols_test_normality(y, ...)
+
+\method{ols_test_normality}{lm}(y, ...)
 }
 \arguments{
 \item{y}{A numeric vector or an object of class \code{lm}.}
@@ -31,7 +34,7 @@ ols_test_normality(model)
 
 }
 \seealso{
-Other residual diagnostics: \code{\link{ols_rsd_boxplot}},
+Other residual diagnostics: \code{\link{ols_plot_resid_box}},
   \code{\link{ols_rsd_hist}}, \code{\link{ols_rsd_qqplot}},
   \code{\link{ols_rvsp_plot}},
   \code{\link{ols_test_correlation}}
