@@ -15,7 +15,7 @@
 #' studentized residual that is larger than 2 (in absolute value) we can call
 #' it an outlier.
 #'
-#' @return \code{ols_dsrvsp_plot} returns  a list containing the
+#' @return \code{ols_plot_resid_fit} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number, fitted values and deleted studentized
@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_dsrvsp_plot(model)
+#' ols_plot_resid_fit(model)
 #'
 #' @seealso [ols_rsdlev_plot()], [ols_srsd_plot()], [ols_srsd_chart()]
 #'
@@ -34,7 +34,7 @@
 #'
 #' @export
 #'
-ols_dsrvsp_plot <- function(model) {
+ols_plot_resid_fit <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -83,6 +83,15 @@ ols_dsrvsp_plot <- function(model) {
   invisible(result)
 
 }
+
+#' @export
+#' @rdname ols_plot_resid_fit
+#' @usage NULL
+#'
+ols_dsrvsp_plot <- function(model) {
+  .Deprecated("ols_plot_resid_fit()")
+}
+
 
 #' @importFrom magrittr %<>%
 dpred <- function(model) {

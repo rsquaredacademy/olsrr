@@ -111,7 +111,7 @@ test_that("diagnostic panel is as expected", {
 
 test_that("deleted studentized residual vs fitted plot is as expected", {
   skip_on_cran()
-  p <- ols_plot_dffits(model)
+  p <- ols_plot_resid_fit(model)
   vdiffr::expect_doppelganger("dsrvsp plot", p$plot)
 })
 
