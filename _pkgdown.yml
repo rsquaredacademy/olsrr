@@ -103,7 +103,7 @@ reference:
   - ols_srsd_chart
   - ols_rsdlev_plot
   - ols_plot_resid_fit
-  - ols_hadi_plot
+  - ols_plot_hadi
   - ols_potrsd_plot
   - ols_leverage
   - ols_hadi

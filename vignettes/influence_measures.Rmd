@@ -137,7 +137,7 @@ based on Hadi's measure.
 
 ```{r hadiplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_hadi_plot(model)
+ols_plot_hadi(model)
 ```
 
 ## Potential Residual Plot

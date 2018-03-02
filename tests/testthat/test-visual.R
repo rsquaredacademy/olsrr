@@ -10,7 +10,7 @@ test_that("residual histogram plot is as expected", {
 
 test_that("hadi plot is as expected", {
   skip_on_cran()
-  p <- ols_hadi_plot(model)
+  p <- ols_plot_hadi(model)
   vdiffr::expect_doppelganger("hadi plot", p$plot)
 })
 

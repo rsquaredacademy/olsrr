@@ -12,13 +12,13 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_hadi_plot(model)
+#' ols_plot_hadi(model)
 #'
 #' @seealso [ols_potrsd_plot()]
 #'
 #' @export
 #'
-ols_hadi_plot <- function(model) {
+ols_plot_hadi <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -49,3 +49,10 @@ ols_hadi_plot <- function(model) {
 
 }
 
+#' @export
+#' @rdname ols_plot_hadi
+#' @usage NULL
+#'
+ols_hadi_plot <- function(model) {
+  .Deprecated("ols_plot_hadi()")
+}
