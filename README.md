@@ -208,7 +208,7 @@ manner until there is no variable left to remove any more.
 ``` r
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
+k <- ols_step_backward_aic(model)
 #> Backward Elimination Method 
 #> ---------------------------
 #> 

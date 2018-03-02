@@ -148,7 +148,7 @@ test_that("response profile plot is as expected", {
 test_that("stepAIC backward regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
-  p <- plot(ols_stepaic_backward(model))
+  p <- plot(ols_step_backward_aic(model))
   vdiffr::expect_doppelganger("stepaic backward regression plot", p$plot)
 })
 

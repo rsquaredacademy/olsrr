@@ -9,11 +9,11 @@
 #'   candidate predictor variables.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
-#' @param x An object of class \code{ols_stepaic_backward}.
+#' @param x An object of class \code{ols_step_backward_aic}.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_stepaic_backward} returns an object of class \code{"ols_stepaic_backward"}.
-#' An object of class \code{"ols_stepaic_backward"} is a list containing the
+#' @return \code{ols_step_backward_aic} returns an object of class \code{"ols_step_backward_aic"}.
+#' An object of class \code{"ols_step_backward_aic"} is a list containing the
 #' following components:
 #'
 #' \item{steps}{total number of steps}
@@ -31,13 +31,13 @@
 #' \dontrun{
 #' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
-#' ols_stepaic_backward(model)
+#' ols_step_backward_aic(model)
 #' }
 #'
 #' \dontrun{
 #' # stepwise backward regression plot
 #' model <- lm(y ~ ., data = surgical)
-#' k <- ols_stepaic_backward(model)
+#' k <- ols_step_backward_aic(model)
 #' plot(k)
 #' }
 #'
@@ -49,12 +49,12 @@
 #'
 #' @export
 #'
-ols_stepaic_backward <- function(model, ...) UseMethod("ols_stepaic_backward")
+ols_step_backward_aic <- function(model, ...) UseMethod("ols_step_backward_aic")
 
 #' @export
-#' @rdname ols_stepaic_backward
+#' @rdname ols_step_backward_aic
 #'
-ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
+ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -281,14 +281,14 @@ ols_stepaic_backward.default <- function(model, details = FALSE, ...) {
               rss        = lrss,
               rsq        = lrsq)
 
-  class(out) <- "ols_stepaic_backward"
+  class(out) <- "ols_step_backward_aic"
 
   return(out)
 }
 
 #' @export
 #'
-print.ols_stepaic_backward <- function(x, ...) {
+print.ols_step_backward_aic <- function(x, ...) {
   if (x$steps > 0) {
     print_stepaic_backward(x)
   } else {
@@ -296,10 +296,10 @@ print.ols_stepaic_backward <- function(x, ...) {
   }
 }
 
-#' @rdname ols_stepaic_backward
+#' @rdname ols_step_backward_aic
 #' @export
 #'
-plot.ols_stepaic_backward <- function(x, ...) {
+plot.ols_step_backward_aic <- function(x, ...) {
 
   steps <- NULL
   aics  <- NULL
@@ -355,4 +355,12 @@ plot.ols_stepaic_backward <- function(x, ...) {
 
   print(p)
 
+}
+
+#' @export
+#' @rdname ols_step_backward_aic
+#' @usage NULL
+#'
+ols_stepaic_backward <- function(model, details = FALSE, ...) {
+  .Deprecated("ols_step_backward_aic()")
 }

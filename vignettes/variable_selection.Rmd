@@ -190,14 +190,14 @@ The model should include all the candidate predictor variables. If details is se
 ```{r stepaicb1}
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
+k <- ols_step_backward_aic(model)
 k
 
 ### Plot
 
 ```{r stepaicb2, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
+k <- ols_step_backward_aic(model)
 plot(k)
 ```
 
@@ -206,7 +206,7 @@ plot(k)
 ```{r stepwiseaicbdetails}
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
-ols_stepaic_backward(model, details = TRUE)
+ols_step_backward_aic(model, details = TRUE)
 ```
 
 ## Stepwise AIC Regression
