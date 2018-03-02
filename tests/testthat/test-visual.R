@@ -28,7 +28,7 @@ test_that("potential residual plot is as expected", {
 
 test_that("residual box plot is as expected", {
   skip_on_cran()
-  p <- ols_rsd_boxplot(model)
+  p <- ols_plot_resid_box(model)
   vdiffr::expect_doppelganger("residual box plot", p$plot)
 })
 

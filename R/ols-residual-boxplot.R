@@ -6,7 +6,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_rsd_boxplot(model)
+#' ols_plot_resid_box(model)
 #'
 #' @family residual diagnostics
 #'
@@ -15,7 +15,7 @@
 #'
 #' @export
 #'
-ols_rsd_boxplot <- function(model) {
+ols_plot_resid_box <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -35,4 +35,13 @@ ols_rsd_boxplot <- function(model) {
 
   print(p)
 
+}
+
+
+#' @export
+#' @rdname ols_plot_resid_box
+#' @usage NULL
+#'
+ols_rsd_boxplot <- function(model) {
+  .Deprecated("ols_plot_resid_box()")
 }
