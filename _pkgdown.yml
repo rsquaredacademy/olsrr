@@ -75,7 +75,7 @@ reference:
   - ols_plot_resid_box
   - ols_test_normality
   - ols_test_correlation
-  - ols_rvsp_plot
+  - ols_plot_resid_fit
 
 - title: Heteroskedasticity
 

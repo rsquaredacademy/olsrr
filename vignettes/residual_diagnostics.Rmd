@@ -66,7 +66,7 @@ It is a scatter plot of residuals on the y axis and fitted values on the x axis 
 
 ```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
+ols_plot_resid_fit(model)
 ```
 
 

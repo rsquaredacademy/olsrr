@@ -52,7 +52,7 @@ test_that("residual qq plot is as expected", {
 
 test_that("residual vs fitted plot is as expected", {
   skip_on_cran()
-  p <- ols_rvsp_plot(model)
+  p <- ols_plot_resid_fit(model)
   vdiffr::expect_doppelganger("residual vs fitted plot", p$plot)
 })
 
