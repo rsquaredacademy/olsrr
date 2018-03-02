@@ -124,7 +124,7 @@ test_that("dffits plot fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_dffits_plot(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_plot_dffits(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("dsrvsp plot fails when model inherits other than 'lm'", {

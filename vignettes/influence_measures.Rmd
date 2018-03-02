@@ -90,7 +90,7 @@ where n is the number of observations and p is the number of predictors includin
 
 ```{r dfitsplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_dffits_plot(model)
+ols_plot_dffits(model)
 ```
 
 ## Studentized Residual Plot

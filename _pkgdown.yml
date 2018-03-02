@@ -98,7 +98,7 @@ reference:
   - ols_plot_cooksd_bar
   - ols_plot_cooksd_chart
   - ols_plot_dfbetas
-  - ols_dffits_plot
+  - ols_plot_dffits
   - ols_srsd_plot
   - ols_srsd_chart
   - ols_rsdlev_plot

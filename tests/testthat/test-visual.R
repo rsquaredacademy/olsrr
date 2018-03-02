@@ -88,7 +88,7 @@ test_that("dfbetas panel is as expected", {
 
 test_that("dffits plot is as expected", {
   skip_on_cran()
-  p <- ols_dffits_plot(model)
+  p <- ols_plot_dffits(model)
   vdiffr::expect_doppelganger("dffits plot", p$plot)
 })
 
@@ -111,7 +111,7 @@ test_that("diagnostic panel is as expected", {
 
 test_that("deleted studentized residual vs fitted plot is as expected", {
   skip_on_cran()
-  p <- ols_dffits_plot(model)
+  p <- ols_plot_dffits(model)
   vdiffr::expect_doppelganger("dsrvsp plot", p$plot)
 })
 
