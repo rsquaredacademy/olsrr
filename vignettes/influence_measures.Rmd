@@ -99,7 +99,7 @@ Plot for detecting outliers. Studentized deleted residuals (or externally studen
 
 ```{r srplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_srsd_plot(model)
+ols_plot_resid_stud(model)
 ```
 
 ## Standardized Residual Chart

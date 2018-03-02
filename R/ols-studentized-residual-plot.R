@@ -12,7 +12,7 @@
 #' studentized residual that is larger than 3 (in absolute value) we can call
 #' it an outlier.
 #'
-#' @return \code{ols_srsd_plot} returns  a list containing the
+#' @return \code{ols_plot_resid_stud} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number and \code{studentized residuals} that
@@ -21,7 +21,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_srsd_plot(model)
+#' ols_plot_resid_stud(model)
 #'
 #' @importFrom ggplot2 scale_fill_manual annotate
 #'
@@ -29,7 +29,7 @@
 #'
 #' @export
 #'
-ols_srsd_plot <- function(model) {
+ols_plot_resid_stud <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -135,4 +135,12 @@ srdata <- function(model) {
        pseq  = pseq,
        dsr   = dsr)
 
+}
+
+#' @export
+#' @rdname ols_plot_resid_stud
+#' @usage NULL
+#'
+ols_srsd_plot <- function(model) {
+  .Deprecated("ols_plot_resid_stud()")
 }

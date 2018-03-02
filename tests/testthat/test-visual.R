@@ -216,7 +216,7 @@ test_that("standardized residual chart is as expected", {
 
 test_that("studentized residual plot is as expected", {
   skip_on_cran()
-  p <- ols_srsd_plot(model)
+  p <- ols_plot_resid_stud(model)
   vdiffr::expect_doppelganger("studentized residual plot", p$plot)
 })
 

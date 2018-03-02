@@ -145,7 +145,7 @@ test_that("studentized residual plot fails when model inherits other than 'lm'",
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_srsd_plot(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_plot_resid_stud(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("studentized residual chart fails when model inherits other than 'lm'", {
