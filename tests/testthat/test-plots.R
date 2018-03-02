@@ -47,21 +47,21 @@ test_that("rfs_plot fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_rfs_plot(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_plot_resid_fit_spread(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("fm_plot fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_fm_plot(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_plot_fm(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("rsd_plot fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_rsd_plot(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_plot_resid_spread(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("hadi_plot fails when model inherits other than 'lm'", {

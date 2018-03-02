@@ -34,13 +34,13 @@ test_that("residual box plot is as expected", {
 
 test_that("residual fit spread plot 1 is as expected", {
   skip_on_cran()
-  p <- ols_rsd_plot(model)
+  p <- ols_plot_resid_spread(model)
   vdiffr::expect_doppelganger("residual fit spread plot", p$plot)
 })
 
 test_that("residual fit spread plot 2 is as expected", {
   skip_on_cran()
-  p <- ols_fm_plot(model)
+  p <- ols_plot_fm(model)
   vdiffr::expect_doppelganger("residual fit spread plot 2", p$plot)
 })
 
