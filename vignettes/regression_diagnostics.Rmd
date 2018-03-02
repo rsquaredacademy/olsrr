@@ -147,7 +147,7 @@ Panel of plots for regression diagnostics
 
 ```{r diagpanel, fig.width=10, fig.height=25, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_diagnostic_panel(model)
+ols_plot_diagnostics(model)
 ```
  
 

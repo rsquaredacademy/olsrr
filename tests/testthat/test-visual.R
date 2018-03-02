@@ -95,7 +95,7 @@ test_that("dffits plot is as expected", {
 test_that("diagnostic panel is as expected", {
   skip_on_cran()
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-  k <- ols_diagnostic_panel(model)
+  k <- ols_plot_diagnostics(model)
 
   vdiffr::expect_doppelganger("diag panel plot_1", k$plot_1)
   vdiffr::expect_doppelganger("diag panel plot_2", k$plot_2)

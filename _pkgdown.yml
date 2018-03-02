@@ -132,7 +132,7 @@ reference:
   - ols_correlations
   - ols_ovsp_plot
   - ols_pure_error_anova
-  - ols_diagnostic_panel
+  - ols_plot_diagnostics
 
 - title: Variable Contribution
 

@@ -7,7 +7,7 @@
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_diagnostic_panel(model)
+#' ols_plot_diagnostics(model)
 #' }
 #'
 #' @importFrom ggplot2 xlim stat_qq geom_histogram geom_line theme element_blank
@@ -15,7 +15,7 @@
 #'
 #' @export
 #'
-ols_diagnostic_panel <- function(model) {
+ols_plot_diagnostics <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -182,4 +182,13 @@ ols_diagnostic_panel <- function(model) {
   )
 
   invisible(result)
+}
+
+
+#' @export
+#' @rdname ols_plot_diagnostics
+#' @usage NULL
+#'
+ols_diagnostic_panel <- function(model) {
+  .Deprecated("ols_plot_diagnostics()")
 }
