@@ -222,7 +222,7 @@ test_that("studentized residual plot is as expected", {
 
 test_that("fitted line properties plot is as expected", {
   skip_on_cran()
-  p <- ols_reg_line(mtcars$mpg, mtcars$disp)
+  p <- ols_plot_reg_line(mtcars$mpg, mtcars$disp)
   vdiffr::expect_doppelganger("fitted line plot", p$plot)
 })
 
