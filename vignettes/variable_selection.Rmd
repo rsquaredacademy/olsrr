@@ -1,6 +1,5 @@
 ---
 title: "Variable Selection Methods"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Variable Selection Methods}
