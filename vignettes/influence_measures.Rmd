@@ -1,6 +1,5 @@
 ---
 title: "Measures of Influence"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Measures of Influence}
@@ -67,7 +66,7 @@ ols_plot_cooksd_chart(model)
 DFBETA measures the difference in each parameter estimate with and without the influential point. There is a DFBETA for each data point i.e if there are n observations and k variables, there will be $n * k$ DFBETAs. In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a general cutoff value to indicate influential observations and 
 $\frac{2}{\sqrt{n}}$ as a size-adjusted cutoff.
 
-```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
+```{r dfbpanel, fig.width=7, fig.height=7, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_dfbetas(model)
 ```

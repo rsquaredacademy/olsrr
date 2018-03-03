@@ -1,6 +1,5 @@
 ---
 title: "Introduction to olsrr"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to olsrr}
@@ -69,7 +68,7 @@ ols_plot_resid_fit(model)
 DFBETAs measure the difference in each parameter estimate with and without the influential observation.
 `dfbetas_panel` creates plots to detect influential observations using DFBETAs.
 
-```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
+```{r dfbpanel, fig.width=7, fig.height=7, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_dfbetas(model)
 ```
