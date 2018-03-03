@@ -24,5 +24,5 @@ ols_plot_resid_lev(model)
 
 }
 \seealso{
-[ols_plot_resid_fit()], [ols_plot_resid_lev()]
+[ols_plot_resid_stud_fit()], [ols_plot_resid_lev()]
 }

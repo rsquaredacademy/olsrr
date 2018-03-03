@@ -14,7 +14,7 @@
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 geom_vline
 #'
-#' @seealso [ols_plot_resid_fit()], [ols_plot_resid_lev()]
+#' @seealso [ols_plot_resid_stud_fit()], [ols_plot_resid_lev()]
 #'
 #' @export
 #'
@@ -62,9 +62,9 @@ ols_plot_resid_lev <- function(model) {
     set_colnames(c("Observation", "Leverage", "Studentized Residuals"))
 
   p <- ggplot(d, aes(leverage, rstudent, label = txt)) +
-    geom_point(shape = 1, aes(colour = fct_color)) + labs("Observation") +
+    geom_point(shape = 1, aes(colour = fct_color)) +
     scale_color_manual(values = c("blue", "red", "green", "violet")) +
-    xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) +
+    xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) + labs(colour = "Observation") +
     xlab("Leverage") + ylab("RStudent") + ggtitle(title) +
     geom_hline(yintercept = c(2, -2), colour = "maroon") +
     geom_vline(xintercept = g$lev_thrsh, colour = "maroon") +
