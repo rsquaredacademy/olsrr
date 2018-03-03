@@ -337,7 +337,7 @@ plot.ols_step_backward_aic <- function(x, ...) {
     x %>%
     use_series(aics) %>%
     min() %>%
-    add(1)
+    subtract(1)
 
   ymax <-
     x %>%

@@ -98,7 +98,7 @@
     <div class="page-header toc-ignore">
       <h1>Introduction to olsrr</h1>
             
-            <h4 class="date">2018-03-02</h4>
+            <h4 class="date">2018-03-03</h4>
           </div>
 
     
@@ -178,7 +178,7 @@
 <p>DFBETAs measure the difference in each parameter estimate with and without the influential observation. <code>dfbetas_panel</code> creates plots to detect influential observations using DFBETAs.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_dfbetas.html">ols_plot_dfbetas</a></span>(model)</a></code></pre></div>
-<p><img src="intro_files/figure-html/dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="intro_files/figure-html/dfbpanel-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="residual-fit-spread-plot" class="section level2">
 <h2 class="hasAnchor">
@@ -471,9 +471,6 @@
 ## 
 ## No more variables to be removed.</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_text).</code></pre>
 <p><img src="intro_files/figure-html/stepaicb2-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 </div>

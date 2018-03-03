@@ -98,7 +98,7 @@
     <div class="page-header toc-ignore">
       <h1>Variable Selection Methods</h1>
             
-            <h4 class="date">2018-03-02</h4>
+            <h4 class="date">2018-03-03</h4>
           </div>
 
     
@@ -1834,17 +1834,14 @@
 ## 
 ## No more variables to be removed.</code></pre>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_text).</code></pre>
 <p><img src="variable_selection_files/figure-html/stepaicb2-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-4" class="section level3">
 <h3 class="hasAnchor">
 <a href="#detailed-output-4" class="anchor"></a>Detailed Output</h3>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co"># stepwise aic backward regression</span></a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
-<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_backward_aic.html">ols_step_backward_aic</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="co"># stepwise aic backward regression</span></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb50-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_backward_aic.html">ols_step_backward_aic</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Backward Elimination Method 
 ## ---------------------------
 ## 
@@ -1992,9 +1989,9 @@
 <div id="variable-selection-5" class="section level3">
 <h3 class="hasAnchor">
 <a href="#variable-selection-5" class="anchor"></a>Variable Selection</h3>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="co"># stepwise aic regression</span></a>
-<a class="sourceLine" id="cb56-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
-<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_both_aic.html">ols_step_both_aic</a></span>(model)</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co"># stepwise aic regression</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_both_aic.html">ols_step_both_aic</a></span>(model)</a></code></pre></div>
 <pre><code>## Stepwise Selection Method 
 ## -------------------------
 ## 
@@ -2035,8 +2032,8 @@
 <div id="plot-5" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plot-5" class="anchor"></a>Plot</h3>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
-<a class="sourceLine" id="cb59-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_both_aic.html">ols_step_both_aic</a></span>(model)</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_both_aic.html">ols_step_both_aic</a></span>(model)</a></code></pre></div>
 <pre><code>## Stepwise Selection Method 
 ## -------------------------
 ## 
@@ -2061,15 +2058,15 @@
 ## - bcs added 
 ## 
 ## No more variables to be added or removed.</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
 <p><img src="variable_selection_files/figure-html/stepwiseaic2-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-5" class="section level3">
 <h3 class="hasAnchor">
 <a href="#detailed-output-5" class="anchor"></a>Detailed Output</h3>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="co"># stepwise aic regression</span></a>
-<a class="sourceLine" id="cb62-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
-<a class="sourceLine" id="cb62-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_both_aic.html">ols_step_both_aic</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co"># stepwise aic regression</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> surgical)</a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="kw"><a href="../reference/ols_step_both_aic.html">ols_step_both_aic</a></span>(model, <span class="dt">details =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Stepwise Selection Method 
 ## -------------------------
 ## 
