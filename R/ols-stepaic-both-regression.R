@@ -340,9 +340,10 @@ print.ols_step_both_aic <- function(x, ...) {
 #'
 plot.ols_step_both_aic <- function(x, ...) {
 
-  a  <- NULL
-  b  <- NULL
-  tx <- NULL
+  aic <- NULL
+  tx  <- NULL
+  a   <- NULL
+  b   <- NULL
 
   predictors <- x$predictors
 

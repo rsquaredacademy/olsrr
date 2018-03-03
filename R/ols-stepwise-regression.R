@@ -396,6 +396,9 @@ plot.ols_step_both_p <- function(x, model = NA, ...) {
 
 plot_stepwise <- function(d, title) {
 
+  a <- NULL
+  b <- NULL
+
   ggplot(d, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +

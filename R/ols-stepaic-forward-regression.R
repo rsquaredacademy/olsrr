@@ -311,9 +311,10 @@ print.ols_step_forward_aic <- function(x, ...) {
 #'
 plot.ols_step_forward_aic <- function(x, ...) {
 
-  a  <- NULL
-  b  <- NULL
-  tx <- NULL
+  aic <- NULL
+  tx  <- NULL
+  a   <- NULL
+  b   <- NULL
 
   y    <- seq_len(x$steps)
   xloc <- y - 0.1
