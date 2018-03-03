@@ -173,7 +173,7 @@ plot.ols_step_all_possible <- function(x, model = NA, ...) {
   p5 <- all_possible_plot(d, sbic, title = "SBIC")
   p6 <- all_possible_plot(d, sbc, title = "SBC")
 
-  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "All Subset Regression")
+  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "All Possible Regression")
 
   result <- list(rsquare_plot     = p1,
                  adj_rsquare_plot = p2,
@@ -214,9 +214,9 @@ all_possible_plot <- function(d, var, title = "R-Square") {
     d %>%
     select(x = n, y = !! varr)
 
-  maxs  <- all_pos_maxs(d, !! varr)
+  maxs  <- all_pos_maxs(d, !! varr, title)
   lmaxs <- all_pos_lmaxs(maxs)
-  index <- all_pos_index(d, !! varr)
+  index <- all_pos_index(d, !! varr, title)
 
   d2 <- tibble(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
 
@@ -232,17 +232,25 @@ all_possible_plot <- function(d, var, title = "R-Square") {
 }
 
 #' @importFrom dplyr summarise
-all_pos_maxs <- function(d, var) {
+all_pos_maxs <- function(d, var, title = "R-Square") {
 
   n <- NULL
 
   varr <- enquo(var)
 
-  d %>%
-    select(!! varr, n) %>%
-    group_by(n) %>%
-    summarise(max(!! varr)) %>%
-    pull(2)
+  if (title == "R-Square" | title == "Adj. R-Square") {
+    d %>%
+      select(!! varr, n) %>%
+      group_by(n) %>%
+      summarise(max(!! varr)) %>%
+      pull(2)
+  } else {
+    d %>%
+      select(!! varr, n) %>%
+      group_by(n) %>%
+      summarise(min(!! varr)) %>%
+      pull(2)
+  }
 
 }
 
@@ -254,17 +262,25 @@ all_pos_lmaxs <- function(maxs) {
 
 }
 
-all_pos_index <- function(d, var) {
+all_pos_index <- function(d, var, title = "R-Square") {
 
   n     <- NULL
   varr  <- enquo(var)
   index <- c()
 
-  m <-
-    d %>%
-    group_by(n) %>%
-    select(n, !! varr) %>%
-    summarise_all(max)
+  if (title == "R-Square" | title == "Adj. R-Square") {
+    m <-
+      d %>%
+      group_by(n) %>%
+      select(n, !! varr) %>%
+      summarise_all(max)
+  } else {
+    m <-
+      d %>%
+      group_by(n) %>%
+      select(n, !! varr) %>%
+      summarise_all(min)
+  }
 
   k <-
     d %>%
@@ -284,6 +300,7 @@ all_pos_index <- function(d, var) {
   return(index)
 
 }
+
 
 part_1 <- function(k, i) {
 
