@@ -100,7 +100,7 @@ p values, in a stepwise manner until there is no variable left to enter or remov
 ```{r stepwise1}
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
-ols_stepwise(model)
+ols_step_both_p(model)
 ```
 
 ##### Stepwise AIC Backward Regression
@@ -113,7 +113,7 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 ```{r stepaicb1}
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
+k <- ols_step_backward_aic(model)
 k
 ```
 
@@ -123,7 +123,7 @@ Breusch Pagan test is used to test for herteroskedasticity (non-constant error v
 
 ```{r bp1}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
+ols_test_breusch_pagan(model)
 ```
 
 ##### Collinearity Diagnostics

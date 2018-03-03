@@ -1,6 +1,5 @@
 ---
 title: "Measures of Influence"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Measures of Influence}
@@ -50,7 +49,7 @@ A data point having a large cook's d indicates that the data point strongly infl
 
 ```{r ckdbp, fig.width=7, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_cooksd_barplot(model)
+ols_plot_cooksd_bar(model)
 ```
 
 ## Cook's D Chart
@@ -59,7 +58,7 @@ Chart of Cook's distance to detect observations that strongly influence fitted v
 
 ```{r ckchart, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_cooksd_chart(model)
+ols_plot_cooksd_chart(model)
 ```
 
 ## DFBETAs Panel
@@ -67,9 +66,9 @@ ols_cooksd_chart(model)
 DFBETA measures the difference in each parameter estimate with and without the influential point. There is a DFBETA for each data point i.e if there are n observations and k variables, there will be $n * k$ DFBETAs. In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a general cutoff value to indicate influential observations and 
 $\frac{2}{\sqrt{n}}$ as a size-adjusted cutoff.
 
-```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
+```{r dfbpanel, fig.width=7, fig.height=7, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
+ols_plot_dfbetas(model)
 ```
 
 ## DFFITS Plot
@@ -90,7 +89,7 @@ where n is the number of observations and p is the number of predictors includin
 
 ```{r dfitsplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_dffits_plot(model)
+ols_plot_dffits(model)
 ```
 
 ## Studentized Residual Plot
@@ -99,7 +98,7 @@ Plot for detecting outliers. Studentized deleted residuals (or externally studen
 
 ```{r srplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_srsd_plot(model)
+ols_plot_resid_stud(model)
 ```
 
 ## Standardized Residual Chart
@@ -108,7 +107,7 @@ Chart for detecting outliers. Standardized residual (internally studentized) is 
 
 ```{r srchart, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_srsd_chart(model)
+ols_plot_resid_stand(model)
 ```
 
 ## Studentized Residuals vs Leverage Plot
@@ -117,7 +116,7 @@ Graph for detecting influential observations.
 
 ```{r studlev, fig.width=7, fig.height=5, fig.align='center'}
 model <- lm(read ~ write + math + science, data = hsb)
-ols_rsdlev_plot(model)
+ols_plot_resid_lev(model)
 ```
 
 ## Deleted Studentized Residual vs Fitted Values Plot
@@ -126,7 +125,7 @@ Graph for detecting outliers.
 
 ```{r dsrvsp, fig.width=7, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_dsrvsp_plot(model)
+ols_plot_resid_stud_fit(model)
 ```
 
 ## Hadi Plot
@@ -137,7 +136,7 @@ based on Hadi's measure.
 
 ```{r hadiplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_hadi_plot(model)
+ols_plot_hadi(model)
 ```
 
 ## Potential Residual Plot
@@ -146,5 +145,5 @@ Plot to aid in classifying unusual observations as high-leverage points, outlier
 
 ```{r potres, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_potrsd_plot(model)
+ols_plot_resid_pot(model)
 ```

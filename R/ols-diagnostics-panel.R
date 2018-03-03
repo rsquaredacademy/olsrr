@@ -4,10 +4,13 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' #' @section Deprecated Function:
+#' \code{ols_diagnostic_panel()} has been deprecated. Instead use \code{ols_plot_diagnostics()}.
+#'
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_diagnostic_panel(model)
+#' ols_plot_diagnostics(model)
 #' }
 #'
 #' @importFrom ggplot2 xlim stat_qq geom_histogram geom_line theme element_blank
@@ -15,7 +18,7 @@
 #'
 #' @export
 #'
-ols_diagnostic_panel <- function(model) {
+ols_plot_diagnostics <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -182,4 +185,13 @@ ols_diagnostic_panel <- function(model) {
   )
 
   invisible(result)
+}
+
+
+#' @export
+#' @rdname ols_plot_diagnostics
+#' @usage NULL
+#'
+ols_diagnostic_panel <- function(model) {
+  .Deprecated("ols_plot_diagnostics()")
 }

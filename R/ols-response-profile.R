@@ -4,16 +4,19 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' @section Deprecated Function:
+#' \code{ols_resp_viz()} has been deprecated. Instead use \code{ols_plot_response()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_resp_viz(model)
+#' ols_plot_response(model)
 #'
 #' @importFrom stats model.frame model.response
 #' @importFrom ggplot2 geom_dotplot geom_histogram
 #'
 #' @export
 #'
-ols_resp_viz <- function(model) {
+ols_plot_response <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -68,4 +71,13 @@ ols_resp_viz <- function(model) {
   result <- list(dot_plot = p1, trend_plot = p2, histogram = p3, boxplot = p4)
   invisible(result)
 
+}
+
+
+#' @export
+#' @rdname ols_plot_response
+#' @usage NULL
+#'
+ols_resp_viz <- function(model) {
+  .Deprecated("ols_plot_response()")
 }

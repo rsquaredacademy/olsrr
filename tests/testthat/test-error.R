@@ -32,7 +32,7 @@ test_that("ols_corr_test fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_corr_test(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_test_correlation(m), "Please specify a OLS linear regression model.")
 })
 
 test_that("ols_aic fails when model inherits other than 'lm'", {

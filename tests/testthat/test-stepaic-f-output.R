@@ -13,7 +13,7 @@ pindex         735.715    6278360.060    2091160.477    0.750        0.730
 bcs            730.620    6535804.090    1833716.447    0.781        0.758
 --------------------------------------------------------------------------")
 
-  expect_output(print(ols_stepaic_forward(model)), x)
+  expect_output(print(ols_step_forward_aic(model)), x)
 })
 
 
@@ -148,5 +148,5 @@ pindex         735.715    6278360.060    2091160.477    0.750        0.730
 bcs            730.620    6535804.090    1833716.447    0.781        0.758
 --------------------------------------------------------------------------")
 
-  expect_output(print(ols_stepaic_forward(model, details = TRUE)), x)
+  expect_output(print(ols_step_forward_aic(model, details = TRUE)), x)
 })

@@ -30,5 +30,5 @@ AIC: Akaike Information Criteria
  APC: Amemiya Prediction Criteria")
 
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-  expect_output(print(ols_best_subset(model)), x)
+  expect_output(print(ols_step_best_subset(model)), x)
 })

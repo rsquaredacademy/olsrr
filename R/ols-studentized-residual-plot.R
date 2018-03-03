@@ -12,24 +12,27 @@
 #' studentized residual that is larger than 3 (in absolute value) we can call
 #' it an outlier.
 #'
-#' @return \code{ols_srsd_plot} returns  a list containing the
+#' @return \code{ols_plot_resid_stud} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number and \code{studentized residuals} that
 #' exceed \code{threshold}} for classifying an observation as an outlier
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
+#' @section Deprecated Function:
+#' \code{ols_srsd_plot()} has been deprecated. Instead use \code{ols_plot_resid_stud()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_srsd_plot(model)
+#' ols_plot_resid_stud(model)
 #'
 #' @importFrom ggplot2 scale_fill_manual annotate
 #'
-#' @seealso [ols_srsd_chart()]
+#' @seealso [ols_plot_resid_stand()]
 #'
 #' @export
 #'
-ols_srsd_plot <- function(model) {
+ols_plot_resid_stud <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -59,9 +62,10 @@ ols_srsd_plot <- function(model) {
   p <- ggplot(d, aes(x = obs, y = dsr, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
     scale_fill_manual(values = c("blue", "red")) + xlab("Observation") +
-    ylab("Deleted Studentized Residuals") + ggtitle("Studentized Residuals Plot") +
-    ylim(g$cminx, g$cmaxx) + geom_hline(yintercept = c(0, g$nseq, g$pseq)) +
-    geom_hline(yintercept = c(-3, 3), color = "red") + labs("Observation") +
+    ylab("Deleted Studentized Residuals") + labs(fill = "Observation") +
+    ggtitle("Studentized Residuals Plot") + ylim(g$cminx, g$cmaxx) +
+    geom_hline(yintercept = c(0, g$nseq, g$pseq)) +
+    geom_hline(yintercept = c(-3, 3), color = "red") +
     geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +
     annotate(
       "text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
@@ -135,4 +139,12 @@ srdata <- function(model) {
        pseq  = pseq,
        dsr   = dsr)
 
+}
+
+#' @export
+#' @rdname ols_plot_resid_stud
+#' @usage NULL
+#'
+ols_srsd_plot <- function(model) {
+  .Deprecated("ols_plot_resid_stud()")
 }

@@ -4,80 +4,80 @@ model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 
 test_that("residual histogram plot is as expected", {
   skip_on_cran()
-  p <- ols_rsd_hist(model)
+  p <- ols_plot_resid_hist(model)
   vdiffr::expect_doppelganger("ggplot2 histogram", p$plot)
 })
 
 test_that("hadi plot is as expected", {
   skip_on_cran()
-  p <- ols_hadi_plot(model)
+  p <- ols_plot_hadi(model)
   vdiffr::expect_doppelganger("hadi plot", p$plot)
 })
 
 test_that("observed vs predicted plot is as expected", {
   skip_on_cran()
-  p <- ols_ovsp_plot(model)
+  p <- ols_plot_obs_fit(model)
   vdiffr::expect_doppelganger("ovsp plot", p$plot)
 })
 
 test_that("potential residual plot is as expected", {
   skip_on_cran()
-  p <- ols_potrsd_plot(model)
+  p <- ols_plot_resid_pot(model)
   vdiffr::expect_doppelganger("potential residual plot", p$plot)
 })
 
 test_that("residual box plot is as expected", {
   skip_on_cran()
-  p <- ols_rsd_boxplot(model)
+  p <- ols_plot_resid_box(model)
   vdiffr::expect_doppelganger("residual box plot", p$plot)
 })
 
 test_that("residual fit spread plot 1 is as expected", {
   skip_on_cran()
-  p <- ols_rsd_plot(model)
+  p <- ols_plot_resid_spread(model)
   vdiffr::expect_doppelganger("residual fit spread plot", p$plot)
 })
 
 test_that("residual fit spread plot 2 is as expected", {
   skip_on_cran()
-  p <- ols_fm_plot(model)
+  p <- ols_plot_fm(model)
   vdiffr::expect_doppelganger("residual fit spread plot 2", p$plot)
 })
 
 test_that("residual qq plot is as expected", {
   skip_on_cran()
-  p <- ols_rsd_qqplot(model)
+  p <- ols_plot_resid_qq(model)
   vdiffr::expect_doppelganger("residual qq plot", p$plot)
 })
 
 test_that("residual vs fitted plot is as expected", {
   skip_on_cran()
-  p <- ols_rvsp_plot(model)
+  p <- ols_plot_resid_fit(model)
   vdiffr::expect_doppelganger("residual vs fitted plot", p$plot)
 })
 
 test_that("residual vs regressor plot is as expected", {
   skip_on_cran()
-  p <- ols_rvsr_plot(model, drat)
+  p <- ols_plot_resid_regressor(model, drat)
   vdiffr::expect_doppelganger("residual vs regressor plot", p$plot)
 })
 
 test_that("cooks d bar plot is as expected", {
   skip_on_cran()
-  p <- ols_cooksd_barplot(model)
+  p <- ols_plot_cooksd_bar(model)
   vdiffr::expect_doppelganger("cooks d bar plot", p$plot)
 })
 
 test_that("cooks d bar chart is as expected", {
   skip_on_cran()
-  p <- ols_cooksd_chart(model)
+  p <- ols_plot_cooksd_chart(model)
   vdiffr::expect_doppelganger("cooks d bar chart", p$plot)
 })
 
 test_that("dfbetas panel is as expected", {
   skip_on_cran()
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-  k <- ols_dfbetas_panel(model)
+  k <- ols_plot_dfbetas(model)
 
   vdiffr::expect_doppelganger("dfbetas panel intercept", k$plots[[1]])
   vdiffr::expect_doppelganger("dfbetas panel disp", k$plots[[2]])
@@ -88,14 +88,14 @@ test_that("dfbetas panel is as expected", {
 
 test_that("dffits plot is as expected", {
   skip_on_cran()
-  p <- ols_dffits_plot(model)
+  p <- ols_plot_dffits(model)
   vdiffr::expect_doppelganger("dffits plot", p$plot)
 })
 
 test_that("diagnostic panel is as expected", {
   skip_on_cran()
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-  k <- ols_diagnostic_panel(model)
+  k <- ols_plot_diagnostics(model)
 
   vdiffr::expect_doppelganger("diag panel plot_1", k$plot_1)
   vdiffr::expect_doppelganger("diag panel plot_2", k$plot_2)
@@ -111,7 +111,7 @@ test_that("diagnostic panel is as expected", {
 
 test_that("deleted studentized residual vs fitted plot is as expected", {
   skip_on_cran()
-  p <- ols_dffits_plot(model)
+  p <- ols_plot_resid_stud_fit(model)
   vdiffr::expect_doppelganger("dsrvsp plot", p$plot)
 })
 
@@ -123,14 +123,14 @@ test_that("residual vs regressor shiny plot is as expected", {
 
 test_that("residual fit spread plot is as expected", {
   skip_on_cran()
-  p <- ols_rfs_plot(model)
+  p <- ols_plot_resid_fit_spread(model)
   vdiffr::expect_doppelganger("fm_plot", p$fm_plot)
   vdiffr::expect_doppelganger("rsd_plot", p$rsd_plot)
 })
 
 test_that("residual fit spread plot is as expected", {
   skip_on_cran()
-  p <- ols_rpc_plot(model)
+  p <- ols_plot_comp_plus_resid(model)
   vdiffr::expect_doppelganger("rpc plot disp", p$plots[[1]])
   vdiffr::expect_doppelganger("rpc plot hp", p$plots[[2]])
   vdiffr::expect_doppelganger("rpc plot wt", p$plots[[3]])
@@ -138,7 +138,7 @@ test_that("residual fit spread plot is as expected", {
 
 test_that("response profile plot is as expected", {
   skip_on_cran()
-  p <- ols_resp_viz(model)
+  p <- ols_plot_response(model)
   vdiffr::expect_doppelganger("resp viz dot plot", p$dot_plot)
   vdiffr::expect_doppelganger("resp viz trend plot", p$trend_plot)
   vdiffr::expect_doppelganger("resp viz histogram", p$histogram)
@@ -148,21 +148,21 @@ test_that("response profile plot is as expected", {
 test_that("stepAIC backward regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
-  p <- plot(ols_stepaic_backward(model))
+  p <- plot(ols_step_backward_aic(model))
   vdiffr::expect_doppelganger("stepaic backward regression plot", p$plot)
 })
 
 test_that("stepAIC forward regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
-  p <- plot(ols_stepaic_forward(model))
+  p <- plot(ols_step_forward_aic(model))
   vdiffr::expect_doppelganger("stepaic forward regression plot", p$plot)
 })
 
 test_that("stepAIC both direction regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
-  p <- plot(ols_stepaic_both(model))
+  p <- plot(ols_step_both_aic(model))
   vdiffr::expect_doppelganger("stepaic both regression plot", p$plot)
 })
 
@@ -170,7 +170,7 @@ test_that("stepwise backward regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ ., data = surgical)
-  k <- plot(ols_step_backward(model))
+  k <- plot(ols_step_backward_p(model))
 
   vdiffr::expect_doppelganger("stepwise backward rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("stepwise backward adjusted rsquare", k$adj_rsquare_plot)
@@ -184,7 +184,7 @@ test_that("stepwise forward regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ ., data = surgical)
-  k <- plot(ols_step_forward(model))
+  k <- plot(ols_step_forward_p(model))
 
   vdiffr::expect_doppelganger("stepwise forward rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("stepwise forward adjusted rsquare", k$adj_rsquare_plot)
@@ -198,7 +198,7 @@ test_that("stepwise regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ ., data = surgical)
-  k <- plot(ols_stepwise(model))
+  k <- plot(ols_step_both_p(model))
 
   vdiffr::expect_doppelganger("stepwise rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("stepwise adjusted rsquare", k$adj_rsquare_plot)
@@ -208,21 +208,21 @@ test_that("stepwise regression plots are as expected", {
   vdiffr::expect_doppelganger("stepwise sbc", k$sbc_plot)
 })
 
-test_that("studentized residual chart is as expected", {
+test_that("standardized residual chart is as expected", {
   skip_on_cran()
-  p <- ols_srsd_chart(model)
-  vdiffr::expect_doppelganger("studentized residual chart", p$plot)
+  p <- ols_plot_resid_stand(model)
+  vdiffr::expect_doppelganger("standardized residual chart", p$plot)
 })
 
 test_that("studentized residual plot is as expected", {
   skip_on_cran()
-  p <- ols_srsd_plot(model)
+  p <- ols_plot_resid_stud(model)
   vdiffr::expect_doppelganger("studentized residual plot", p$plot)
 })
 
 test_that("fitted line properties plot is as expected", {
   skip_on_cran()
-  p <- ols_reg_line(mtcars$mpg, mtcars$disp)
+  p <- ols_plot_reg_line(mtcars$mpg, mtcars$disp)
   vdiffr::expect_doppelganger("fitted line plot", p$plot)
 })
 
@@ -230,7 +230,7 @@ test_that("added variable plot is as expected", {
   skip_on_cran()
 
   model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-  k <- olsrr::ols_avplots(model)
+  k <- ols_plot_added_variable(model)
 
   vdiffr::expect_doppelganger("avplot disp", k$plots[[1]])
   vdiffr::expect_doppelganger("avplot hp", k$plots[[2]])
@@ -241,7 +241,7 @@ test_that("all possible regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
-  k <- plot(ols_all_subset(model))
+  k <- plot(ols_step_all_possible(model))
 
   vdiffr::expect_doppelganger("all possible rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("all possible adjusted rsquare", k$adj_rsquare_plot)
@@ -255,7 +255,7 @@ test_that("best subsets regression plots are as expected", {
   skip_on_cran()
 
   model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
-  k <- plot(ols_best_subset(model))
+  k <- plot(ols_step_best_subset(model))
 
   vdiffr::expect_doppelganger("best subset rsquare", k$rsquare_plot)
   vdiffr::expect_doppelganger("best subset adjusted rsquare", k$adj_rsquare_plot)
@@ -264,3 +264,4 @@ test_that("best subsets regression plots are as expected", {
   vdiffr::expect_doppelganger("best subset sbic", k$sbic_plot)
   vdiffr::expect_doppelganger("best subset sbc", k$sbc_plot)
 })
+

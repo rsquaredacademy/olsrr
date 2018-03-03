@@ -10,15 +10,18 @@
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
+#' @section Deprecated Function:
+#' \code{ols_hadi_plot()} has been deprecated. Instead use \code{ols_plot_hadi()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_hadi_plot(model)
+#' ols_plot_hadi(model)
 #'
-#' @seealso [ols_potrsd_plot()]
+#' @seealso [ols_plot_resid_pot()]
 #'
 #' @export
 #'
-ols_hadi_plot <- function(model) {
+ols_plot_hadi <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -49,3 +52,10 @@ ols_hadi_plot <- function(model) {
 
 }
 
+#' @export
+#' @rdname ols_plot_hadi
+#' @usage NULL
+#'
+ols_hadi_plot <- function(model) {
+  .Deprecated("ols_plot_hadi()")
+}

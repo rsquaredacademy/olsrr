@@ -13,15 +13,18 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
 #'
+#' @section Deprecated Function:
+#' \code{ols_rpc_plot()} has been deprecated. Instead use \code{ols_plot_comp_plus_resid()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_rpc_plot(model)
+#' ols_plot_comp_plus_resid(model)
 #'
-#' @seealso [ols_avplots()], [ols_rvsr_plot()]
+#' @seealso [ols_plot_added_variable()], [ols_plot_resid_regressor()]
 #'
 #' @export
 #'
-ols_rpc_plot <- function(model) {
+ols_plot_comp_plus_resid <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -98,4 +101,13 @@ cpout <- function(model) {
        nam    = nam,
        indvar = indvar)
 
+}
+
+
+#' @export
+#' @rdname ols_plot_comp_plus_resid
+#' @usage NULL
+#'
+ols_rpc_plot <- function(model) {
+  .Deprecated("ols_plot_comp_plus_resid()")
 }

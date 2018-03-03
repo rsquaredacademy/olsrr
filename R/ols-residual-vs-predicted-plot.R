@@ -14,15 +14,18 @@
 #'   \item No one residual is visibly away from the random pattern of the residuals indicating that there are no outliers.
 #' }
 #'
+#' @section Deprecated Function:
+#' \code{ols_rvsp_plot()} has been deprecated. Instead use \code{ols_plot_resid_fit()}.
+#'
 #' @family residual diagnostics
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_rvsp_plot(model)
+#' ols_plot_resid_fit(model)
 #'
 #' @export
 #'
-ols_rvsp_plot <- function(model) {
+ols_plot_resid_fit <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -41,6 +44,14 @@ ols_rvsp_plot <- function(model) {
 
   print(p)
 
+}
+
+#' @export
+#' @rdname ols_plot_resid_fit
+#' @usage NULL
+#'
+ols_rvsp_plot <- function(model) {
+  .Deprecated("ols_plot_resid_fit()")
 }
 
 

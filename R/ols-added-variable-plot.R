@@ -40,31 +40,30 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
 #'
+#' @section Deprecated Function:
+#' \code{ols_avplots()} has been deprecated. Instead use \code{ols_plot_added_variable()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_avplots(model)
+#' ols_plot_added_variable(model)
 #'
 #' @importFrom stats lm
 #' @importFrom tibble tibble
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
 #' @importFrom magrittr %>%
 #'
-#' @seealso [ols_rvsr_plot()], [ols_rpc_plot()]
+#' @seealso [ols_plot_resid_regressor()], [ols_plot_comp_plus_resid()]
 #'
 #' @export
 #'
-ols_avplots <- function(model) {
+ols_plot_added_variable <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  data <- avplots_data(model)
-
-  xnames <-
-    data %>%
-    colnames()
-
+  data    <- avplots_data(model)
+  xnames  <- colnames(data)
   nl      <- length(xnames)
   resp    <- xnames[1]
   myplots <- list()
@@ -91,6 +90,14 @@ ols_avplots <- function(model) {
   result <- list(plots = myplots)
   invisible(result)
 
+}
+
+#' @export
+#' @rdname ols_plot_added_variable
+#' @usage NULL
+#'
+ols_avplots <- function(model) {
+  .Deprecated("ols_plot_added_variable()")
 }
 
 #' Added variable plot data

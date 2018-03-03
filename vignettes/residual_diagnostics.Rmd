@@ -1,6 +1,5 @@
 ---
 title: "Residual Diagnostics"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Residual Diagnostics}
@@ -35,7 +34,7 @@ Graph for detecting violation of normality assumption.
 
 ```{r qqresid, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsd_qqplot(model)
+ols_plot_resid_qq(model)
 ```
 
 ## Residual Normality Test
@@ -44,14 +43,14 @@ Test for detecting violation of normality assumption.
 
 ```{r normtest}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_norm_test(model)
+ols_test_normality(model)
 ```
 
 Correlation between observed residuals and expected residuals under normality.
 
 ```{r corrtest}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_corr_test(model)
+ols_test_correlation(model)
 ```
 
 ## Residual vs Fitted Values Plot
@@ -66,7 +65,7 @@ It is a scatter plot of residuals on the y axis and fitted values on the x axis 
 
 ```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
+ols_plot_resid_fit(model)
 ```
 
 
@@ -76,5 +75,5 @@ Histogram of residuals for detecting violation of normality assumption.
 
 ```{r residhist, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rsd_hist(model)
+ols_plot_resid_hist(model)
 ```

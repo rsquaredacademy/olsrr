@@ -9,8 +9,8 @@
 #' @param x An object of class \code{ols_best_subset}.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_all_subset} returns an object of class \code{"ols_all_subset"}.
-#' An object of class \code{"ols_all_subset"} is a data frame containing the
+#' @return \code{ols_step_all_possible} returns an object of class \code{"ols_step_all_possible"}.
+#' An object of class \code{"ols_step_all_possible"} is a data frame containing the
 #' following components:
 #'
 #' \item{n}{model number}
@@ -31,12 +31,15 @@
 #' Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 #' Prentice Hall
 #'
+#' @section Deprecated Function:
+#' \code{ols_all_subset()} has been deprecated. Instead use \code{ols_step_all_possible()}.
+#'
 #' @family variable selection procedures
 #'
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
-#' k <- ols_all_subset(model)
+#' k <- ols_step_all_possible(model)
 #' k
 #' }
 #'
@@ -53,11 +56,11 @@
 #'
 #' @export
 #'
-ols_all_subset <- function(model, ...) UseMethod("ols_all_subset")
+ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
 
 #' @export
 #'
-ols_all_subset.default <- function(model, ...) {
+ols_step_all_possible.default <- function(model, ...) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -101,15 +104,24 @@ ols_all_subset.default <- function(model, ...) {
 
   sorted <- cbind(mindex, sorted)
 
-  class(sorted) <- c("ols_all_subset", "tibble", "data.frame")
+  class(sorted) <- c("ols_step_all_possible", "tibble", "data.frame")
 
   return(sorted)
 }
 
 
 #' @export
+#' @rdname ols_step_all_possible
+#' @usage NULL
 #'
-print.ols_all_subset <- function(x, ...) {
+ols_all_subset <- function(model, ...) {
+  .Deprecated("ols_step_all_possible()")
+}
+
+
+#' @export
+#'
+print.ols_step_all_possible <- function(x, ...) {
 
   mindex <- NULL
 
@@ -131,9 +143,9 @@ print.ols_all_subset <- function(x, ...) {
 }
 
 #' @export
-#' @rdname ols_all_subset
+#' @rdname ols_step_all_possible
 #'
-plot.ols_all_subset <- function(x, model = NA, ...) {
+plot.ols_step_all_possible <- function(x, model = NA, ...) {
 
   n       <- NULL
   y       <- NULL
@@ -161,7 +173,7 @@ plot.ols_all_subset <- function(x, model = NA, ...) {
   p5 <- all_possible_plot(d, sbic, title = "SBIC")
   p6 <- all_possible_plot(d, sbc, title = "SBC")
 
-  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "All Subset Regression")
+  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "All Possible Regression")
 
   result <- list(rsquare_plot     = p1,
                  adj_rsquare_plot = p2,
@@ -202,9 +214,9 @@ all_possible_plot <- function(d, var, title = "R-Square") {
     d %>%
     select(x = n, y = !! varr)
 
-  maxs  <- all_pos_maxs(d, !! varr)
+  maxs  <- all_pos_maxs(d, !! varr, title)
   lmaxs <- all_pos_lmaxs(maxs)
-  index <- all_pos_index(d, !! varr)
+  index <- all_pos_index(d, !! varr, title)
 
   d2 <- tibble(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
 
@@ -220,17 +232,25 @@ all_possible_plot <- function(d, var, title = "R-Square") {
 }
 
 #' @importFrom dplyr summarise
-all_pos_maxs <- function(d, var) {
+all_pos_maxs <- function(d, var, title = "R-Square") {
 
   n <- NULL
 
   varr <- enquo(var)
 
-  d %>%
-    select(!! varr, n) %>%
-    group_by(n) %>%
-    summarise(max(!! varr)) %>%
-    pull(2)
+  if (title == "R-Square" | title == "Adj. R-Square") {
+    d %>%
+      select(!! varr, n) %>%
+      group_by(n) %>%
+      summarise(max(!! varr)) %>%
+      pull(2)
+  } else {
+    d %>%
+      select(!! varr, n) %>%
+      group_by(n) %>%
+      summarise(min(!! varr)) %>%
+      pull(2)
+  }
 
 }
 
@@ -242,17 +262,25 @@ all_pos_lmaxs <- function(maxs) {
 
 }
 
-all_pos_index <- function(d, var) {
+all_pos_index <- function(d, var, title = "R-Square") {
 
   n     <- NULL
   varr  <- enquo(var)
   index <- c()
 
-  m <-
-    d %>%
-    group_by(n) %>%
-    select(n, !! varr) %>%
-    summarise_all(max)
+  if (title == "R-Square" | title == "Adj. R-Square") {
+    m <-
+      d %>%
+      group_by(n) %>%
+      select(n, !! varr) %>%
+      summarise_all(max)
+  } else {
+    m <-
+      d %>%
+      group_by(n) %>%
+      select(n, !! varr) %>%
+      summarise_all(min)
+  }
 
   k <-
     d %>%
@@ -272,6 +300,7 @@ all_pos_index <- function(d, var) {
   return(index)
 
 }
+
 
 part_1 <- function(k, i) {
 
@@ -313,7 +342,7 @@ part_3 <- function(k, var, i) {
 #' @param object An object of class \code{lm}.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_all_subset_betas} returns a tibble containing:
+#' @return \code{ols_step_all_possible_betas} returns a tibble containing:
 #'
 #' \item{model_index}{model number}
 #' \item{predictor}{predictor}
@@ -322,12 +351,12 @@ part_3 <- function(k, var, i) {
 #' @examples
 #' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_all_subset_betas(model)
+#' ols_step_all_possible_betas(model)
 #' }
 #'
 #' @export
 #'
-ols_all_subset_betas <- function(object, ...) {
+ols_step_all_possible_betas <- function(object, ...) {
 
   if (!all(class(object) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -374,6 +403,15 @@ ols_all_subset_betas <- function(object, ...) {
   )
 
 }
+
+#' @export
+#' @rdname ols_step_all_possible_betas
+#' @usage NULL
+#'
+ols_all_subset_betas <- function(model, ...) {
+  .Deprecated("ols_step_all_possible_betas()")
+}
+
 
 #' All possible regression internal
 #'

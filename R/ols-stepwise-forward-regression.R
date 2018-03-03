@@ -11,11 +11,11 @@
 #'   .enter into the model
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
-#' @param x An object of class \code{ols_step_forward}.
+#' @param x An object of class \code{ols_step_forward_p}.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_step_forward} returns an object of class \code{"ols_step_forward"}.
-#' An object of class \code{"ols_step_forward"} is a list containing the
+#' @return \code{ols_step_forward_p} returns an object of class \code{"ols_step_forward_p"}.
+#' An object of class \code{"ols_step_forward_p"} is a list containing the
 #' following components:
 #'
 #' \item{steps}{number of steps}
@@ -35,17 +35,20 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
 #'
+#' @section Deprecated Function:
+#' \code{ols_step_forward()} has been deprecated. Instead use \code{ols_step_forward_p()}.
+#'
 #' @examples
 #' \dontrun{
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
-#' ols_step_forward(model)
+#' ols_step_forward_p(model)
 #' }
 #'
 #' \dontrun{
 #' # stepwise forward regression plot
 #' model <- lm(y ~ ., data = surgical)
-#' k <- ols_step_forward(model)
+#' k <- ols_step_forward_p(model)
 #' plot(k)
 #' }
 #'
@@ -55,12 +58,12 @@
 #'
 #' @export
 #'
-ols_step_forward <- function(model, ...) UseMethod("ols_step_forward")
+ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 
 #' @export
-#' @rdname ols_step_forward
+#' @rdname ols_step_forward_p
 #'
-ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) {
+ols_step_forward_p.default <- function(model, penter = 0.3, details = FALSE, ...) {
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
@@ -250,14 +253,14 @@ ols_step_forward.default <- function(model, penter = 0.3, details = FALSE, ...) 
               aic        = aic,
               sbc        = sbc)
 
-  class(out) <- "ols_step_forward"
+  class(out) <- "ols_step_forward_p"
 
   return(out)
 }
 
 #' @export
 #'
-print.ols_step_forward <- function(x, ...) {
+print.ols_step_forward_p <- function(x, ...) {
   if (x$steps > 0) {
     print_step_forward(x)
   } else {
@@ -266,9 +269,9 @@ print.ols_step_forward <- function(x, ...) {
 }
 
 #' @export
-#' @rdname ols_step_forward
+#' @rdname ols_step_forward_p
 #'
-plot.ols_step_forward <- function(x, model = NA, ...) {
+plot.ols_step_forward_p <- function(x, model = NA, ...) {
 
   a <- NULL
   b <- NULL
@@ -299,4 +302,13 @@ plot.ols_step_forward <- function(x, model = NA, ...) {
                  sbc_plot         = p6)
 
   invisible(result)
+}
+
+
+#' @export
+#' @rdname ols_step_forward_p
+#' @usage NULL
+#'
+ols_step_forward <- function(model, penter = 0.3, details = FALSE, ...) {
+  .Deprecated("ols_step_forward_p()")
 }

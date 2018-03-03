@@ -1,6 +1,5 @@
 ---
 title: "Collinearity Diagnostics, Model Fit & Variable Contribution"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Collinearity Diagnostics, Model Fit & Variable Contribution}
@@ -87,7 +86,7 @@ Plot to detect non-linearity, influential observations and outliers. Consists of
 
 ```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rfs_plot(model)
+ols_plot_resid_fit_spread(model)
 ```
 
 ### Part & Partial Correlations
@@ -124,7 +123,7 @@ Plot of observed vs fitted values to assess the fit of the model. Ideally, all y
 
 ```{r obspred, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_ovsp_plot(model)
+ols_plot_obs_fit(model)
 ```
 
 ### Lack of Fit F Test
@@ -147,7 +146,7 @@ Panel of plots for regression diagnostics
 
 ```{r diagpanel, fig.width=10, fig.height=25, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_diagnostic_panel(model)
+ols_plot_diagnostics(model)
 ```
  
 
@@ -161,7 +160,7 @@ you should consider adding the new predictor to the model.
 
 ```{r rvsrplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_rvsr_plot(model, drat)
+ols_plot_resid_regressor(model, drat)
 ```
 
 
@@ -197,7 +196,7 @@ other predictors.
 
 ```{r avplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_avplots(model)
+ols_plot_added_variable(model)
 ```
 
 ### Residual Plus Component Plot
@@ -218,6 +217,6 @@ for linearizing the data.
 
 ```{r cplusr, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rpc_plot(model)
+ols_plot_comp_plus_resid(model)
 ```
 

@@ -4,9 +4,12 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' @section Deprecated Function:
+#' \code{ols_rsd_hist()} has been deprecated. Instead use \code{ols_plot_resid_hist()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_rsd_hist(model)
+#' ols_plot_resid_hist(model)
 #'
 #' @family residual diagnostics
 #'
@@ -15,7 +18,7 @@
 #'
 #' @export
 #'
-ols_rsd_hist <- function(model) {
+ols_plot_resid_hist <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -55,4 +58,13 @@ histn <- function(resid, h) {
   yfit1 <- yfit * diff(h$mids[1:2]) * length(resid)
   list(xfit = xfit, yfit = yfit1)
 
+}
+
+
+#' @export
+#' @rdname ols_plot_resid_hist
+#' @usage NULL
+#'
+ols_rsd_hist <- function(model) {
+  .Deprecated("ols_plot_resid_hist()")
 }

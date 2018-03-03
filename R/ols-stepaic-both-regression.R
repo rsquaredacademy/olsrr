@@ -6,13 +6,13 @@
 #' stepwise manner until there is no variable left to enter or remove any more.
 #'
 #' @param model An object of class \code{lm}.
-#' @param x An object of class \code{ols_stepaic_both}.
+#' @param x An object of class \code{ols_step_both_aic}.
 #' @param details Logical; if \code{TRUE}, details of variable selection will
 #'   be printed on screen.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_stepaic_both} returns an object of class \code{"ols_stepaic_both"}.
-#' An object of class \code{"ols_stepaic_both"} is a list containing the
+#' @return \code{ols_step_both_aic} returns an object of class \code{"ols_step_both_aic"}.
+#' An object of class \code{"ols_step_both_aic"} is a list containing the
 #' following components:
 #'
 #' \item{predictors}{variables added/removed from the model}
@@ -27,17 +27,20 @@
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #'
+#' @section Deprecated Function:
+#' \code{ols_stepaic_both()} has been deprecated. Instead use \code{ols_step_both_aic()}.
+#'
 #' @examples
 #' \dontrun{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = stepdata)
-#' ols_stepaic_both(model)
+#' ols_step_both_aic(model)
 #' }
 #'
 #' \dontrun{
 #' # stepwise regression plot
 #' model <- lm(y ~ ., data = stepdata)
-#' k <- ols_stepaic_both(model)
+#' k <- ols_step_both_aic(model)
 #' plot(k)
 #' }
 #'
@@ -45,11 +48,11 @@
 #'
 #' @export
 #'
-ols_stepaic_both <- function(model, details = FALSE) UseMethod("ols_stepaic_both")
+ols_step_both_aic <- function(model, details = FALSE) UseMethod("ols_step_both_aic")
 
 #' @export
 #'
-ols_stepaic_both.default <- function(model, details = FALSE) {
+ols_step_both_aic.default <- function(model, details = FALSE) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -317,14 +320,14 @@ ols_stepaic_both.default <- function(model, details = FALSE) {
               rss        = lrss,
               rsq        = lrsq)
 
-  class(out) <- "ols_stepaic_both"
+  class(out) <- "ols_step_both_aic"
 
   return(out)
 }
 
 #' @export
 #'
-print.ols_stepaic_both <- function(x, ...) {
+print.ols_step_both_aic <- function(x, ...) {
   if (x$steps > 0) {
     print_stepaic_both(x)
   } else {
@@ -332,14 +335,15 @@ print.ols_stepaic_both <- function(x, ...) {
   }
 }
 
-#' @rdname ols_stepaic_both
+#' @rdname ols_step_both_aic
 #' @export
 #'
-plot.ols_stepaic_both <- function(x, ...) {
+plot.ols_step_both_aic <- function(x, ...) {
 
-  a  <- NULL
-  b  <- NULL
-  tx <- NULL
+  aic <- NULL
+  tx  <- NULL
+  a   <- NULL
+  b   <- NULL
 
   predictors <- x$predictors
 
@@ -377,4 +381,13 @@ plot.ols_stepaic_both <- function(x, ...) {
 
   print(p)
 
+}
+
+
+#' @export
+#' @rdname ols_step_both_aic
+#' @usage NULL
+#'
+ols_stepaic_both <- function(model, details = FALSE) {
+  .Deprecated("ols_step_both_aic()")
 }

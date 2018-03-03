@@ -3,7 +3,7 @@ context("bp_test")
 model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 
 test_that("when fitted.values == TRUE, fitted values from the regression\n\tare used for the test", {
-  k <- ols_bp_test(model)
+  k <- ols_test_breusch_pagan(model)
 
   expect_equal(round(k$bp, 3), 1.256)
   expect_equal(round(k$p, 3), 0.263)
@@ -20,7 +20,7 @@ test_that("when fitted.values == TRUE, fitted values from the regression\n\tare 
 })
 
 test_that("when rhs == TRUE, predictors from the regression\n\tare used for the test", {
-  k <- ols_bp_test(model, rhs = TRUE)
+  k <- ols_test_breusch_pagan(model, rhs = TRUE)
 
   expect_equal(round(k$bp, 3), 2.489)
   expect_equal(round(k$p, 3), 0.778)
@@ -37,7 +37,7 @@ test_that("when rhs == TRUE, predictors from the regression\n\tare used for the 
 })
 
 test_that("when rhs == TRUE and multiple == TRUE, multiple p values are\n\treturned", {
-  k <- ols_bp_test(model, rhs = TRUE, multiple = TRUE)
+  k <- ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE)
 
   expect_equivalent(round(k$bp, 4), c(0.9237, 0.7652, 0.7749, 0.7751, 1.2903, 2.4890))
   expect_equivalent(round(k$p, 4), c(0.3365, 0.3817, 0.3787, 0.3786, 0.2560, 0.7781))
@@ -56,7 +56,7 @@ test_that("when rhs == TRUE and multiple == TRUE, multiple p values are\n\tretur
 
 test_that("when rhs == TRUE, multiple == TRUE and p.adj == 'bonferroni'
 	bonferroni adjusted p values are returned", {
-  k <- ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = "bonferroni")
+  k <- ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = "bonferroni")
 
   expect_equivalent(round(k$bp, 4), c(0.9237, 0.7652, 0.7749, 0.7751, 1.2903, 2.4890))
   expect_equivalent(round(k$p, 4), c(1.0000, 1.0000, 1.0000, 1.0000, 1.0000, 0.7781))
@@ -75,7 +75,7 @@ test_that("when rhs == TRUE, multiple == TRUE and p.adj == 'bonferroni'
 
 test_that("when rhs == TRUE, multiple == TRUE and p.adj == 'holm',
 	bonferroni adjusted p values are returned", {
-  k <- ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = "holm")
+  k <- ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = "holm")
 
   expect_equivalent(round(k$bp, 4), c(0.9237, 0.7652, 0.7749, 0.7751, 1.2903, 2.4890))
   expect_equivalent(round(k$p, 4), c(1.0000, 0.3817, 0.7574, 1.0000, 1.0000, 0.7781))
@@ -94,7 +94,7 @@ test_that("when rhs == TRUE, multiple == TRUE and p.adj == 'holm',
 
 test_that("when rhs == TRUE, multiple == TRUE and p.adj == 'sidak',
 	bonferroni adjusted p values are returned", {
-  k <- ols_bp_test(model, rhs = TRUE, multiple = TRUE, p.adj = "sidak")
+  k <- ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = "sidak")
 
   expect_equivalent(round(k$bp, 4), c(0.9237, 0.7652, 0.7749, 0.7751, 1.2903, 2.4890))
   expect_equivalent(round(k$p, 4), c(0.8714, 0.9096, 0.9074, 0.9074, 0.7720, 0.7781))
@@ -111,7 +111,7 @@ test_that("when rhs == TRUE, multiple == TRUE and p.adj == 'sidak',
 })
 
 test_that("when vars != NA, variables specified are used for the test", {
-  k <- ols_bp_test(model, vars = c("disp"))
+  k <- ols_test_breusch_pagan(model, vars = c("disp"))
 
   expect_equal(round(k$bp, 4), 0.9237)
   expect_equal(round(k$p, 4), 0.3365)
@@ -127,7 +127,7 @@ test_that("when vars != NA, variables specified are used for the test", {
 })
 
 test_that("when rhs == TRUE and vars != NA, variables specified\n\tused for the test", {
-  k <- ols_bp_test(model, vars = c("disp", "hp"), rhs = TRUE)
+  k <- ols_test_breusch_pagan(model, vars = c("disp", "hp"), rhs = TRUE)
 
   expect_equal(round(k$bp, 4), 2.489)
   expect_equal(round(k$p, 4), 0.7781)
@@ -145,7 +145,7 @@ test_that("when rhs == TRUE and vars != NA, variables specified\n\tused for the 
 
 
 test_that("when rhs == FALSE, multiple == TRUE and vars != NA,\n\tvariables specified are used for the test", {
-  k <- ols_bp_test(model, multiple = TRUE, rhs = FALSE, vars = c("disp", "hp"))
+  k <- ols_test_breusch_pagan(model, multiple = TRUE, rhs = FALSE, vars = c("disp", "hp"))
 
   expect_equivalent(round(k$bp, 4), c(0.9237, 0.7652, 0.9588))
   expect_equivalent(round(k$p, 4), c(0.3365, 0.3817, 0.6192))
@@ -164,7 +164,7 @@ test_that("when rhs == FALSE, multiple == TRUE and vars != NA,\n\tvariables spec
 
 test_that("when multiple == TRUE and vars != NA and p.adj == 'bonferroni',
 	variables specified are used for the test", {
-  k <- ols_bp_test(
+  k <- ols_test_breusch_pagan(
     model, multiple = TRUE, vars = c("disp", "hp"),
     p.adj = "bonferroni"
   )
@@ -186,7 +186,7 @@ test_that("when multiple == TRUE and vars != NA and p.adj == 'bonferroni',
 
 test_that("when multiple == TRUE and vars != NA and p.adj == 'sidak',
 	variables specified are used for the test", {
-  k <- ols_bp_test(model, multiple = TRUE, vars = c("disp", "hp"), p.adj = "sidak")
+  k <- ols_test_breusch_pagan(model, multiple = TRUE, vars = c("disp", "hp"), p.adj = "sidak")
 
 
   expect_equivalent(round(k$bp, 4), c(0.9237, 0.7652, 0.9588))
@@ -206,7 +206,7 @@ test_that("when multiple == TRUE and vars != NA and p.adj == 'sidak',
 
 test_that("when multiple == TRUE and vars != NA and p.adj == 'holm',
 	variables specified are used for the test", {
-  k <- ols_bp_test(
+  k <- ols_test_breusch_pagan(
     model, multiple = TRUE,
     vars = c("disp", "hp"), p.adj = "holm"
   )
@@ -230,17 +230,17 @@ test_that("bp_test fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_bp_test(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_test_breusch_pagan(m), "Please specify a OLS linear regression model.")
 })
 
 
 test_that("bp_test fails when input for fitted.values is not logical", {
   expect_error(
-    ols_bp_test(model, fitted.values = "TRUE"),
+    ols_test_breusch_pagan(model, fitted.values = "TRUE"),
     "fitted.values must be either TRUE or FALSE"
   )
   expect_error(
-    ols_bp_test(model, fitted.values = 0),
+    ols_test_breusch_pagan(model, fitted.values = 0),
     "fitted.values must be either TRUE or FALSE"
   )
 })
@@ -248,22 +248,22 @@ test_that("bp_test fails when input for fitted.values is not logical", {
 
 test_that("bp_test fails when input for rhs is not logical", {
   expect_error(
-    ols_bp_test(model, rhs = "TRUE"),
+    ols_test_breusch_pagan(model, rhs = "TRUE"),
     "rhs must be either TRUE or FALSE"
   )
   expect_error(
-    ols_bp_test(model, rhs = 0),
+    ols_test_breusch_pagan(model, rhs = 0),
     "rhs must be either TRUE or FALSE"
   )
 })
 
 test_that("bp_test fails when input for multiple is not logical", {
   expect_error(
-    ols_bp_test(model, rhs = TRUE, multiple = "TRUE"),
+    ols_test_breusch_pagan(model, rhs = TRUE, multiple = "TRUE"),
     "multiple must be either TRUE or FALSE"
   )
   expect_error(
-    ols_bp_test(model, rhs = TRUE, multiple = 1),
+    ols_test_breusch_pagan(model, rhs = TRUE, multiple = 1),
     "multiple must be either TRUE or FALSE"
   )
 })
@@ -271,7 +271,7 @@ test_that("bp_test fails when input for multiple is not logical", {
 
 test_that("bp_test fails when input for vars are not a subset of predictors", {
   expect_error(
-    ols_bp_test(model, vars = c("gear", "carb")),
+    ols_test_breusch_pagan(model, vars = c("gear", "carb")),
     "vars must be a subset of the predictors in the model"
   )
 })

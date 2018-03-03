@@ -3,7 +3,7 @@ context("f_test")
 model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 
 test_that("when fitted.values == TRUE, fitted values from the regression\n\tare used for the test", {
-  k <- ols_f_test(model)
+  k <- ols_test_f(model)
 
   expect_equal(round(k$f, 3), 1.239)
   expect_equal(round(k$p, 3), 0.275)
@@ -21,7 +21,7 @@ test_that("when fitted.values == TRUE, fitted values from the regression\n\tare 
 
 
 test_that("when fitted_values == TRUE and rhs == TRUE, predictors from the\n\tmodel are used for the test", {
-  k <- ols_f_test(model, fitted_values = TRUE, rhs = TRUE)
+  k <- ols_test_f(model, fitted_values = TRUE, rhs = TRUE)
 
   expect_equal(round(k$f, 3), 0.444)
   expect_equal(round(k$p, 3), 0.814)
@@ -39,7 +39,7 @@ test_that("when fitted_values == TRUE and rhs == TRUE, predictors from the\n\tmo
 
 
 test_that("when vars != NULL, variables specified from the are\n\tused for the test", {
-  k <- ols_f_test(model, vars = c("disp", "hp"))
+  k <- ols_test_f(model, vars = c("disp", "hp"))
 
   expect_equal(round(k$f, 3), 0.453)
   expect_equal(round(k$p, 3), 0.64)
@@ -56,7 +56,7 @@ test_that("when vars != NULL, variables specified from the are\n\tused for the t
 
 
 test_that("when vars != NULL and rhs == TRUE, predictors in the model are\n\tused for the test", {
-  k <- ols_f_test(model, rhs = TRUE, vars = c("disp", "hp"))
+  k <- ols_test_f(model, rhs = TRUE, vars = c("disp", "hp"))
 
   expect_equal(round(k$f, 3), 0.444)
   expect_equal(round(k$p, 3), 0.814)
@@ -76,17 +76,17 @@ test_that("f_test fails when model inherits other than 'lm'", {
   y <- sample(c(1:4), 100, replace = T)
   x <- sample(c(1, 2), 100, replace = T)
   m <- glm(x ~ y)
-  expect_error(ols_f_test(m), "Please specify a OLS linear regression model.")
+  expect_error(ols_test_f(m), "Please specify a OLS linear regression model.")
 })
 
 
 test_that("f_test fails when input for fitted.values is not logical", {
   expect_error(
-    ols_f_test(model, fitted_values = "TRUE"),
+    ols_test_f(model, fitted_values = "TRUE"),
     "fitted.values must be either TRUE or FALSE"
   )
   expect_error(
-    ols_f_test(model, fitted_values = 0),
+    ols_test_f(model, fitted_values = 0),
     "fitted.values must be either TRUE or FALSE"
   )
 })
@@ -94,11 +94,11 @@ test_that("f_test fails when input for fitted.values is not logical", {
 
 test_that("f_test fails when input for rhs is not logical", {
   expect_error(
-    ols_f_test(model, rhs = "TRUE"),
+    ols_test_f(model, rhs = "TRUE"),
     "rhs must be either TRUE or FALSE"
   )
   expect_error(
-    ols_f_test(model, rhs = 0),
+    ols_test_f(model, rhs = 0),
     "rhs must be either TRUE or FALSE"
   )
 })
@@ -106,7 +106,7 @@ test_that("f_test fails when input for rhs is not logical", {
 
 test_that("f_test fails when input for vars are not a subset of predictors", {
   expect_error(
-    ols_f_test(model, vars = c("gear", "carb")),
+    ols_test_f(model, vars = c("gear", "carb")),
     "vars must be a subset of the predictors in the model"
   )
 })

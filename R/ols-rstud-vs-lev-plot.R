@@ -4,18 +4,21 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' @section Deprecated Function:
+#' \code{ols_rsdlev_plot()} has been deprecated. Instead use \code{ols_plot_resid_lev()}.
+#'
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
-#' ols_rsdlev_plot(model)
+#' ols_plot_resid_lev(model)
 #'
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 geom_vline
 #'
-#' @seealso [ols_dsrvsp_plot()], [ols_rsdlev_plot()]
+#' @seealso [ols_plot_resid_stud_fit()], [ols_plot_resid_lev()]
 #'
 #' @export
 #'
-ols_rsdlev_plot <- function(model) {
+ols_plot_resid_lev <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -59,9 +62,9 @@ ols_rsdlev_plot <- function(model) {
     set_colnames(c("Observation", "Leverage", "Studentized Residuals"))
 
   p <- ggplot(d, aes(leverage, rstudent, label = txt)) +
-    geom_point(shape = 1, aes(colour = fct_color)) + labs("Observation") +
+    geom_point(shape = 1, aes(colour = fct_color)) +
     scale_color_manual(values = c("blue", "red", "green", "violet")) +
-    xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) +
+    xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) + labs(colour = "Observation") +
     xlab("Leverage") + ylab("RStudent") + ggtitle(title) +
     geom_hline(yintercept = c(2, -2), colour = "maroon") +
     geom_vline(xintercept = g$lev_thrsh, colour = "maroon") +
@@ -154,4 +157,12 @@ rstudlev <- function(model) {
        maxy      = maxy
   )
 
+}
+
+#' @export
+#' @rdname ols_plot_resid_lev
+#' @usage NULL
+#'
+ols_rsdlev_plot <- function(model) {
+  .Deprecated("ols_plot_resid_lev()")
 }

@@ -11,8 +11,8 @@
 #' It is sensitive to departures from normality. The Levene test
 #' is an alternative test that is less sensitive to departures from normality.
 #'
-#' @return \code{ols_bartlett_test} returns an object of class \code{"ols_bartlett_test"}.
-#' An object of class \code{"ols_bartlett_test"} is a list containing the
+#' @return \code{ols_test_bartlett} returns an object of class \code{"ols_test_bartlett"}.
+#' An object of class \code{"ols_test_bartlett"} is a list containing the
 #' following components:
 #'
 #' \item{fstat}{f statistic}
@@ -23,18 +23,21 @@
 #' Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 #' Eighth Edition, Iowa State University Press.
 #'
+#' @section Deprecated Function:
+#' \code{ols_bartlett_test()} has been deprecated. Instead use \code{ols_test_bartlett()}.
+#'
 #' @family heteroskedasticity tests
 #'
 #' @examples
 #' \dontrun{
 #' # using grouping variable
 #' library(descriptr)
-#' ols_bartlett_test(mtcarz, mpg, group_var = cyl)
+#' ols_test_bartlett(mtcarz, mpg, group_var = cyl)
 #' }
 #'
 #' \dontrun{
 #' # using variables
-#' ols_bartlett_test(hsb, read, write)
+#' ols_test_bartlett(hsb, read, write)
 #' }
 #'
 #' @importFrom rlang quo_is_null quos
@@ -44,12 +47,12 @@
 #'
 #' @export
 #'
-ols_bartlett_test <- function(data, ...) UseMethod("ols_bartlett_test")
+ols_test_bartlett <- function(data, ...) UseMethod("ols_test_bartlett")
 
 #' @export
-#' @rdname ols_bartlett_test
+#' @rdname ols_test_bartlett
 #'
-ols_bartlett_test.default <- function(data, ..., group_var = NULL) {
+ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 
   groupvar  <- enquo(group_var)
   varyables <- quos(...)
@@ -116,15 +119,24 @@ ols_bartlett_test.default <- function(data, ..., group_var = NULL) {
     g_var = g_var
   )
 
-  class(out) <- "ols_bartlett_test"
+  class(out) <- "ols_test_bartlett"
 
   return(out)
 
 }
 
 #' @export
+#' @rdname ols_test_bartlett
+#' @usage NULL
 #'
-print.ols_bartlett_test <- function(x, ...) {
+ols_bartlett_test <- function(data, ..., group_var = NULL) {
+  .Deprecated("ols_test_bartlett()")
+}
+
+
+#' @export
+#'
+print.ols_test_bartlett <- function(x, ...) {
   print_bartlett_test(x)
 }
 

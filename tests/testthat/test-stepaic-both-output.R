@@ -17,7 +17,7 @@ bcs            addition    730.620    1833716.447    6535804.090    0.781       
 --------------------------------------------------------------------------------------")
 
 
-  expect_output(print(ols_stepaic_both(model)), x)
+  expect_output(print(ols_step_both_aic(model)), x)
 })
 
 
@@ -54,5 +54,5 @@ bcs            addition    730.620    1833716.447    6535804.090    0.781       
 --------------------------------------------------------------------------------------")
 
 
-  expect_output(print(ols_stepaic_both(model, details = TRUE)), x)
+  expect_output(print(ols_step_both_aic(model, details = TRUE)), x)
 })

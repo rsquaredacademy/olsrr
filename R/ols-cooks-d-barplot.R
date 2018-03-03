@@ -22,26 +22,29 @@
 #'
 #' A data point having a large cook's d indicates that the data point strongly influences the fitted values.
 #'
-#' @return \code{ols_cooksd_barplot} returns  a list containing the
+#' @return \code{ols_plot_cooksd_bar} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number and \code{cooks distance} that exceed \code{threshold}}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
+#' @section Deprecated Function:
+#' \code{ols_cooksd_barplot()} has been deprecated. Instead use \code{ols_plot_cooksd_bar()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_cooksd_barplot(model)
+#' ols_plot_cooksd_bar(model)
 #'
 #' @importFrom magrittr set_colnames
 #' @importFrom stats cooks.distance
 #' @importFrom dplyr filter select
 #' @importFrom ggplot2 geom_bar coord_flip ylim geom_hline geom_label
 #'
-#' @seealso [ols_cooksd_chart()]
+#' @seealso [ols_plot_cooksd_chart()]
 #'
 #' @export
 #'
-ols_cooksd_barplot <- function(model) {
+ols_plot_cooksd_bar <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -73,6 +76,14 @@ ols_cooksd_barplot <- function(model) {
   result <- list(outliers = f, threshold = k$ts, plot = p)
   invisible(result)
 
+}
+
+#' @export
+#' @rdname ols_plot_cooksd_bar
+#' @usage NULL
+#'
+ols_cooksd_barplot <- function(model) {
+  .Deprecated("ols_plot_cooksd_bar()")
 }
 
 #' @description Prepare data for cook's d bar plot

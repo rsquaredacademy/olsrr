@@ -11,16 +11,19 @@
 #' diagonal line. The lower the R Square, the weaker the Goodness of fit of your
 #' model, the more foggy or dispersed your points are from this diagonal line.
 #'
+#' @section Deprecated Function:
+#' \code{ols_ovsp_plot()} has been deprecated. Instead use \code{ols_plot_obs_fit()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_ovsp_plot(model)
+#' ols_plot_obs_fit(model)
 #'
 #' @importFrom stats fitted.values
 #' @importFrom ggplot2 geom_abline geom_segment
 #'
 #' @export
 #'
-ols_ovsp_plot <- function(model) {
+ols_plot_obs_fit <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -48,6 +51,15 @@ ols_ovsp_plot <- function(model) {
   print(p)
 
 }
+
+#' @export
+#' @rdname ols_plot_obs_fit
+#' @usage NULL
+#'
+ols_ovsp_plot <- function(model) {
+  .Deprecated("ols_plot_obs_fit()")
+}
+
 
 obspred <- function(model) {
 

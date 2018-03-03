@@ -29,7 +29,7 @@ Step     Variable      Removed     R-Square    R-Square     C(p)        AIC     
    5        bcs        addition       0.781       0.758     3.1920    730.6204    195.4544
 ------------------------------------------------------------------------------------------")
 
-  expect_output(print(ols_stepwise(model)), x)
+  expect_output(print(ols_step_both_p(model)), x)
 })
 
 test_that("output from stepwise regression is as expected when details == TRUE", {
@@ -248,5 +248,5 @@ Step     Variable      Removed     R-Square    R-Square     C(p)        AIC     
 ------------------------------------------------------------------------------------------")
 
 
-  expect_output(print(ols_stepwise(model, details = TRUE)), x)
+  expect_output(print(ols_step_both_p(model, details = TRUE)), x)
 })

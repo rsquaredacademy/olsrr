@@ -98,6 +98,8 @@ corsign <- function(model) {
 
 corout <- function(model, r2) {
 
+  r.squared <- NULL
+
   r1  <-
     model %>%
     summary() %>%

@@ -2,7 +2,7 @@ context("bartlett_test")
 
 test_that("all output from the test match the result", {
 
-  b <- ols_bartlett_test(mtcars, mpg, disp)
+  b <- ols_test_bartlett(mtcars, mpg, disp)
 
   expect_equal(round(b$fstat, 3), 142.336)
   expect_equal(b$pval, 0)
@@ -10,7 +10,7 @@ test_that("all output from the test match the result", {
   expect_equivalent(b$var_c, c("mpg", "disp"))
   expect_null(b$g_var)
 
-  b <- ols_bartlett_test(descriptr::mtcarz, mpg, group_var = vs)
+  b <- ols_test_bartlett(descriptr::mtcarz, mpg, group_var = vs)
 
   expect_equal(round(b$fstat, 3), 1.585)
   expect_equal(round(b$pval, 3), 0.208)
@@ -23,7 +23,7 @@ test_that("all output from the test match the result", {
 
 test_that("when group_var = NA, at least two variables must be specified", {
   expect_error(
-    ols_bartlett_test(mtcars, mpg),
+    ols_test_bartlett(mtcars, mpg),
     "Please specify at least two variables."
   )
 })

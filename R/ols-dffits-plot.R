@@ -22,7 +22,7 @@
 #'
 #' where n is the number of observations and p is the number of predictors including intercept.
 #'
-#' @return \code{ols_dffits_plot} returns  a list containing the
+#' @return \code{ols_plot_dffits} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number and \code{DFFITs} that exceed \code{threshold}}
@@ -35,17 +35,20 @@
 #' Wiley Series in Probability and Mathematical Statistics.
 #' New York: John Wiley & Sons. ISBN 0-471-05856-4.
 #'
+#' @section Deprecated Function:
+#' \code{ols_dffits_plot()} has been deprecated. Instead use \code{ols_plot_dffits()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_dffits_plot(model)
+#' ols_plot_dffits(model)
 #'
-#' @seealso [ols_dfbetas_panel()]
+#' @seealso [ols_plot_dfbetas()]
 #'
 #' @importFrom stats dffits
 #'
 #' @export
 #'
-ols_dffits_plot <- function(model) {
+ols_plot_dffits <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -98,4 +101,13 @@ ols_dffits_plot <- function(model) {
   result <- list(outliers = f, threshold = round(dffits_t, 2), plot = p)
   invisible(result)
 
+}
+
+
+#' @export
+#' @rdname ols_plot_dffits
+#' @usage NULL
+#'
+ols_dffits_plot <- function(model) {
+  .Deprecated("ols_plot_dffits()")
 }

@@ -1,6 +1,5 @@
 ---
 title: "Introduction to olsrr"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to olsrr}
@@ -61,7 +60,7 @@ Plot to detect non-linearity, unequal error variances, and outliers.
 
 ```{r rvsfplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rvsp_plot(model)
+ols_plot_resid_fit(model)
 ```
 
 ## DFBETAs Panel
@@ -69,9 +68,9 @@ ols_rvsp_plot(model)
 DFBETAs measure the difference in each parameter estimate with and without the influential observation.
 `dfbetas_panel` creates plots to detect influential observations using DFBETAs.
 
-```{r dfbpanel, fig.width=5, fig.height=5, fig.align='center'}
+```{r dfbpanel, fig.width=7, fig.height=7, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_dfbetas_panel(model)
+ols_plot_dfbetas(model)
 ```
 
 ## Residual Fit Spread Plot
@@ -80,7 +79,7 @@ Plot to detect non-linearity, influential observations and outliers.
 
 ```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-ols_rfs_plot(model)
+ols_plot_resid_fit_spread(model)
 ```
 
 ## Breusch Pagan Test
@@ -89,7 +88,7 @@ Breusch Pagan test is used to test for herteroskedasticity (non-constant error v
 
 ```{r bp1}
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
+ols_test_breusch_pagan(model)
 ```
 
 ## Collinearity Diagnostics
@@ -109,14 +108,14 @@ p values, in a stepwise manner until there is no variable left to enter or remov
 ```{r stepwise1}
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
-ols_stepwise(model)
+ols_step_both_p(model)
 ```
 
 ### Plot
 
 ```{r stepwise2, fig.width=10, fig.height=15, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepwise(model)
+k <- ols_step_both_p(model)
 plot(k)
 ```
 
@@ -131,13 +130,14 @@ Akaike Information Criteria, in a stepwise manner until there is no variable lef
 ```{r stepaicb1}
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
+k <- ols_step_backward_aic(model)
 k
+```
 
 ### Plot
 
 ```{r stepaicb2, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
+k <- ols_step_backward_aic(model)
 plot(k)
 ```

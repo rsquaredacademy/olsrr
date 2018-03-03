@@ -9,15 +9,18 @@
 #' @param model An object of class \code{lm}.
 #' @param variable New predictor to be added to the \code{model}.
 #'
+#' @section Deprecated Function:
+#' \code{ols_rvsr_plot()} has been deprecated. Instead use \code{ols_plot_resid_regressor()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_rvsr_plot(model, drat)
+#' ols_plot_resid_regressor(model, drat)
 #'
-#' @seealso [ols_avplots()], [ols_rpc_plot()]
+#' @seealso [ols_plot_added_variable()], [ols_plot_comp_plus_resid()]
 #'
 #' @export
 #'
-ols_rvsr_plot <- function(model, variable) {
+ols_plot_resid_regressor <- function(model, variable) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -69,4 +72,12 @@ rvsrdata <- function(model) {
 
   list(np = np, dat = dat, pnames = pnames)
 
+}
+
+#' @export
+#' @rdname ols_plot_resid_regressor
+#' @usage NULL
+#'
+ols_rvsr_plot <- function(model, variable) {
+  .Deprecated("ols_plot_resid_regressor()")
 }

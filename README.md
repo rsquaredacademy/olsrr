@@ -120,7 +120,7 @@ until there is no variable left to enter or remove any more.
 ``` r
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
-ols_stepwise(model)
+ols_step_both_p(model)
 #> Stepwise Selection Method   
 #> ---------------------------
 #> 
@@ -208,7 +208,7 @@ manner until there is no variable left to remove any more.
 ``` r
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
-k <- ols_stepaic_backward(model)
+k <- ols_step_backward_aic(model)
 #> Backward Elimination Method 
 #> ---------------------------
 #> 
@@ -254,7 +254,7 @@ is a \(\chi^{2}\) test.
 
 ``` r
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-ols_bp_test(model)
+ols_test_breusch_pagan(model)
 #> 
 #>  Breusch Pagan Test for Heteroskedasticity
 #>  -----------------------------------------

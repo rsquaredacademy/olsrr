@@ -16,7 +16,7 @@ age           730.620    1833716.447    6535804.090    0.781        0.758
 -------------------------------------------------------------------------")
 
 
-  expect_output(print(ols_stepaic_backward(model)), x)
+  expect_output(print(ols_step_backward_aic(model)), x)
 })
 
 
@@ -93,5 +93,5 @@ age           730.620    1833716.447    6535804.090    0.781        0.758
 -------------------------------------------------------------------------")
 
 
-  expect_output(print(ols_stepaic_backward(model, details = TRUE)), x)
+  expect_output(print(ols_step_backward_aic(model, details = TRUE)), x)
 })

@@ -15,7 +15,7 @@
 #' studentized residual that is larger than 2 (in absolute value) we can call
 #' it an outlier.
 #'
-#' @return \code{ols_dsrvsp_plot} returns  a list containing the
+#' @return \code{ols_plot_resid_stud_fit} returns  a list containing the
 #' following components:
 #'
 #' \item{outliers}{a tibble with observation number, fitted values and deleted studentized
@@ -23,18 +23,22 @@
 #' outliers/influential observations}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier/influential observation}
 #'
+#' @section Deprecated Function:
+#' \code{ols_dsrvsp_plot()} has been deprecated. Instead use \code{ols_plot_resid_stud_fit()}.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#' ols_dsrvsp_plot(model)
+#' ols_plot_resid_stud_fit(model)
 #'
-#' @seealso [ols_rsdlev_plot()], [ols_srsd_plot()], [ols_srsd_chart()]
+#' @seealso [ols_plot_resid_lev()], [ols_plot_resid_stand()],
+#'   [ols_plot_resid_stud()]
 #'
 #' @importFrom stats fitted rstudent
 #' @importFrom dplyr mutate
 #'
 #' @export
 #'
-ols_dsrvsp_plot <- function(model) {
+ols_plot_resid_stud_fit <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -83,6 +87,15 @@ ols_dsrvsp_plot <- function(model) {
   invisible(result)
 
 }
+
+#' @export
+#' @rdname ols_plot_resid_stud_fit
+#' @usage NULL
+#'
+ols_dsrvsp_plot <- function(model) {
+  .Deprecated("ols_plot_resid_stud_fit()")
+}
+
 
 #' @importFrom magrittr %<>%
 dpred <- function(model) {

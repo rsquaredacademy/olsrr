@@ -14,25 +14,30 @@
 #' @references
 #' Cleveland, W. S. (1993). Visualizing Data. Summit, NJ: Hobart Press.
 #'
+#' @section Deprecated Function:
+#' \code{ols_rfs_plot()}, \code{ols_fm_plot()} and \code{ols_rsd_plot()}
+#'   has been deprecated. Instead use \code{ols_plot_resid_fit_spread()},
+#'   \code{ols_plot_fm()} and \code{ols_plot_resid_spread()}.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #'
 #' # residual fit spread plot
-#' ols_rfs_plot(model)
+#' ols_plot_resid_fit_spread(model)
 #'
 #' # fit mean plot
-#' ols_fm_plot(model)
+#' ols_plot_fm(model)
 #'
 #' # residual spread plot
-#' ols_rsd_plot(model)
+#' ols_plot_resid_spread(model)
 #'
 #' @importFrom stats ecdf
 #' @importFrom gridExtra grid.arrange
 #'
 #' @export
 #'
-ols_rfs_plot <- function(model) {
+ols_plot_resid_fit_spread <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -64,10 +69,10 @@ ols_rfs_plot <- function(model) {
 
 }
 
-#' @rdname ols_rfs_plot
+#' @rdname ols_plot_resid_fit_spread
 #' @export
 #'
-ols_fm_plot <- function(model) {
+ols_plot_fm <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -101,10 +106,10 @@ fmdata <- function(model) {
 }
 
 
-#' @rdname ols_rfs_plot
+#' @rdname ols_plot_resid_fit_spread
 #' @export
 #'
-ols_rsd_plot <- function(model) {
+ols_plot_resid_spread <- function(model) {
 
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
@@ -135,4 +140,27 @@ rsdata <- function(model) {
 
 }
 
+#' @export
+#' @rdname ols_plot_resid_fit_spread
+#' @usage NULL
+#'
+ols_rfs_plot <- function(model) {
+  .Deprecated("ols_plot_resid_fit_spread()")
+}
 
+
+#' @export
+#' @rdname ols_plot_resid_fit_spread
+#' @usage NULL
+#'
+ols_rsd_plot <- function(model) {
+  .Deprecated("ols_plot_resid_spread()")
+}
+
+#' @export
+#' @rdname ols_plot_resid_fit_spread
+#' @usage NULL
+#'
+ols_fm_plot <- function(model) {
+  .Deprecated("ols_plot_fm()")
+}

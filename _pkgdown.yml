@@ -57,33 +57,33 @@ reference:
 - title: Variable Selection Procedures
 
   contents:
-  - ols_all_subset
-  - ols_all_subset_betas
-  - ols_best_subset
-  - ols_step_backward
-  - ols_step_forward
-  - ols_stepwise
-  - ols_stepaic_backward
-  - ols_stepaic_forward
-  - ols_stepaic_both
+  - ols_step_all_possible
+  - ols_step_all_possible_betas
+  - ols_step_best_subset
+  - ols_step_backward_p
+  - ols_step_forward_p
+  - ols_step_both_p
+  - ols_step_backward_aic
+  - ols_step_forward_aic
+  - ols_step_both_aic
 
 - title: Residual Diagnostics
 
   contents:
-  - ols_rsd_qqplot
-  - ols_rsd_hist
-  - ols_rsd_boxplot
-  - ols_norm_test
-  - ols_corr_test
-  - ols_rvsp_plot
+  - ols_plot_resid_qq
+  - ols_plot_resid_hist
+  - ols_plot_resid_box
+  - ols_test_normality
+  - ols_test_correlation
+  - ols_plot_resid_fit
 
 - title: Heteroskedasticity
 
   contents:
-  - ols_bartlett_test
-  - ols_bp_test
-  - ols_score_test
-  - ols_f_test
+  - ols_test_bartlett
+  - ols_test_breusch_pagan
+  - ols_test_score
+  - ols_test_f
 
 - title: Collinearity Diagnostics
 
@@ -95,16 +95,16 @@ reference:
 - title: Measures of Influence
 
   contents:
-  - ols_cooksd_barplot
-  - ols_cooksd_chart
-  - ols_dfbetas_panel
-  - ols_dffits_plot
-  - ols_srsd_plot
-  - ols_srsd_chart
-  - ols_rsdlev_plot
-  - ols_dsrvsp_plot
-  - ols_hadi_plot
-  - ols_potrsd_plot
+  - ols_plot_cooksd_bar
+  - ols_plot_cooksd_chart
+  - ols_plot_dfbetas
+  - ols_plot_dffits
+  - ols_plot_resid_stud
+  - ols_plot_resid_stand
+  - ols_plot_resid_lev
+  - ols_plot_resid_stud_fit
+  - ols_plot_hadi
+  - ols_plot_resid_pot
   - ols_leverage
   - ols_hadi
   - ols_press
@@ -126,26 +126,26 @@ reference:
 - title: Model Fit Assessment
 
   contents:
-  - ols_rfs_plot
-  - ols_fm_plot
-  - ols_rsd_plot
+  - ols_plot_resid_fit_spread
+  - ols_plot_fm
+  - ols_plot_resid_spread
   - ols_correlations
-  - ols_ovsp_plot
+  - ols_plot_obs_fit
   - ols_pure_error_anova
-  - ols_diagnostic_panel
+  - ols_plot_diagnostics
 
 - title: Variable Contribution
 
   contents:
-  - ols_rvsr_plot
-  - ols_avplots
-  - ols_rpc_plot
+  - ols_plot_resid_regressor
+  - ols_plot_added_variable
+  - ols_plot_comp_plus_resid
 
 - title: Miscellaneous
 
   contents:
-  - ols_resp_viz
-  - ols_reg_line
+  - ols_plot_response
+  - ols_plot_reg_line
   - ols_update
   - ols_deps
 

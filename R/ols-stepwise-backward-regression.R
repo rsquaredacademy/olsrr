@@ -11,11 +11,11 @@
 #'   from the model.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
-#' @param x An object of class \code{ols_step_backward}.
+#' @param x An object of class \code{ols_step_backward_p}.
 #' @param ... Other inputs.
 #'
-#' @return \code{ols_step_backward} returns an object of class \code{"ols_step_backward"}.
-#' An object of class \code{"ols_step_backward"} is a list containing the
+#' @return \code{ols_step_backward_p} returns an object of class \code{"ols_step_backward_p"}.
+#' An object of class \code{"ols_step_backward_p"} is a list containing the
 #' following components:
 #'
 #' \item{steps}{total number of steps}
@@ -32,17 +32,20 @@
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
+#' @section Deprecated Function:
+#' \code{ols_step_backward()} has been deprecated. Instead use \code{ols_step_backward_p()}.
+#'
 #' @examples
 #' \dontrun{
 #' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
-#' ols_step_backward(model)
+#' ols_step_backward_p(model)
 #' }
 #'
 #' \dontrun{
 #' # stepwise backward regression plot
 #' model <- lm(y ~ ., data = surgical)
-#' k <- ols_step_backward(model)
+#' k <- ols_step_backward_p(model)
 #' plot(k)
 #' }
 #'
@@ -50,12 +53,12 @@
 #'
 #' @export
 #'
-ols_step_backward <- function(model, ...) UseMethod("ols_step_backward")
+ols_step_backward_p <- function(model, ...) UseMethod("ols_step_backward_p")
 
 #' @export
-#' @rdname ols_step_backward
+#' @rdname ols_step_backward_p
 #'
-ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
+ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...) {
   if (!all(class(model) == "lm")) {
     stop("Please specify a OLS regression model.", call. = FALSE)
   }
@@ -183,14 +186,14 @@ ols_step_backward.default <- function(model, prem = 0.3, details = FALSE, ...) {
               aic        = aic,
               sbc        = sbc)
 
-  class(out) <- "ols_step_backward"
+  class(out) <- "ols_step_backward_p"
 
   return(out)
 }
 
 #' @export
 #'
-print.ols_step_backward <- function(x, ...) {
+print.ols_step_backward_p <- function(x, ...) {
   if (x$steps > 0) {
     print_step_backward(x)
   } else {
@@ -201,9 +204,9 @@ print.ols_step_backward <- function(x, ...) {
 
 
 #' @export
-#' @rdname ols_step_backward
+#' @rdname ols_step_backward_p
 #'
-plot.ols_step_backward <- function(x, model = NA, ...) {
+plot.ols_step_backward_p <- function(x, model = NA, ...) {
 
   a <- NULL
   b <- NULL
@@ -235,4 +238,13 @@ plot.ols_step_backward <- function(x, model = NA, ...) {
 
   invisible(result)
 
+}
+
+
+#' @export
+#' @rdname ols_step_backward_p
+#' @usage NULL
+#'
+ols_step_backward <- function(model, prem = 0.3, details = FALSE, ...) {
+  .Deprecated("ols_step_backward_p()")
 }
