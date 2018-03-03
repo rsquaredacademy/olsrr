@@ -98,7 +98,6 @@
     <div class="page-header toc-ignore">
       <h1>Measures of Influence</h1>
             
-            <h4 class="date">2018-03-02</h4>
           </div>
 
     
@@ -150,7 +149,7 @@
 <p>DFBETA measures the difference in each parameter estimate with and without the influential point. There is a DFBETA for each data point i.e if there are n observations and k variables, there will be <span class="math inline">\(n * k\)</span> DFBETAs. In general, large values of DFBETAS indicate observations that are influential in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a general cutoff value to indicate influential observations and <span class="math inline">\(\frac{2}{\sqrt{n}}\)</span> as a size-adjusted cutoff.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_dfbetas.html">ols_plot_dfbetas</a></span>(model)</a></code></pre></div>
-<p><img src="influence_measures_files/figure-html/dfbpanel-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/dfbpanel-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="dffits-plot" class="section level2">
 <h2 class="hasAnchor">
