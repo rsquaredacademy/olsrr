@@ -123,7 +123,7 @@ test_that("residual vs regressor shiny plot is as expected", {
 
 test_that("residual fit spread plot is as expected", {
   skip_on_cran()
-  p <- ols_rfs_plot(model)
+  p <- ols_plot_resid_fit_spread(model)
   vdiffr::expect_doppelganger("fm_plot", p$fm_plot)
   vdiffr::expect_doppelganger("rsd_plot", p$rsd_plot)
 })
@@ -264,3 +264,4 @@ test_that("best subsets regression plots are as expected", {
   vdiffr::expect_doppelganger("best subset sbic", k$sbic_plot)
   vdiffr::expect_doppelganger("best subset sbc", k$sbc_plot)
 })
+
