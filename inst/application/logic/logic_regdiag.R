@@ -1,9 +1,9 @@
 d_cprp_mod <- eventReactive(input$submit_cprp_plot, {
   if(input$cprp_use_prev) {
-    ols_rpc_plot(all_use_n())
+    ols_plot_comp_plus_resid(all_use_n())
   } else {
     k <- lm(input$cprp_fmla, data = final_split$train)
-    ols_rpc_plot(k)
+    ols_plot_comp_plus_resid(k)
   }
 })
 
@@ -23,7 +23,7 @@ d_diag_advar <- eventReactive(input$submit_avplot, {
     myplots <- list()
 
     for(i in seq_len(nl)) {
-        
+
         x <- olsrr:::advarx(data, i, xnames)
         y <- olsrr:::advary(data, i, resp, xnames)
         d <- tibble(x, y)
@@ -32,11 +32,11 @@ d_diag_advar <- eventReactive(input$submit_avplot, {
                                  xlab(paste(xnames[i], " | Others")) +
                                  ylab(paste(resp, " | Others")) +
                                  stat_smooth(method="lm", se=FALSE), list(i = i)))
-        
+
         # print(p)
-        j <- i 
+        j <- i
         myplots[[j]] <- p
-        
+
     }
 
     do.call(grid.arrange, c(myplots, list(ncol = 2)))
@@ -49,7 +49,7 @@ d_diag_advar <- eventReactive(input$submit_avplot, {
     myplots <- list()
 
     for(i in seq_len(nl)) {
-        
+
         x <- olsrr:::advarx(data, i, xnames)
         y <- olsrr:::advary(data, i, resp, xnames)
         d <- tibble(x, y)
@@ -58,11 +58,11 @@ d_diag_advar <- eventReactive(input$submit_avplot, {
                                  xlab(paste(xnames[i], " | Others")) +
                                  ylab(paste(resp, " | Others")) +
                                  stat_smooth(method="lm", se=FALSE), list(i = i)))
-        
+
         # print(p)
-        j <- i 
+        j <- i
         myplots[[j]] <- p
-        
+
     }
 
     do.call(grid.arrange, c(myplots, list(ncol = 2)))

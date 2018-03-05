@@ -3,8 +3,8 @@ output$ui_mselectlink <- renderUI({
     fluidRow(
                 column(6, align = 'left',
                   h4('All Subset Regression'),
-                  p('Fits all regressions involving one regressor, two regressors, 
-                    three regressors, and so on. It tests all possible subsets of 
+                  p('Fits all regressions involving one regressor, two regressors,
+                    three regressors, and so on. It tests all possible subsets of
                     the set of potential independent variables.')
                 ),
                 column(6, align = 'right',
@@ -16,8 +16,8 @@ output$ui_mselectlink <- renderUI({
     fluidRow(
                 column(6, align = 'left',
                   h4('Best Subset Regression'),
-                  p("Select the subset of predictors that do the best at meeting 
-                    some well-defined objective criterion, such as having the 
+                  p("Select the subset of predictors that do the best at meeting
+                    some well-defined objective criterion, such as having the
                     largest R2 value or the smallest MSE, Mallow's Cp or AIC.")
                 ),
                 column(6, align = 'right',
@@ -25,14 +25,14 @@ output$ui_mselectlink <- renderUI({
                     onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_best_subset.html', '_blank')")
                 )
               )
-    
+
   } else if (input$mselect == "Stepwise") {
     fluidRow(
                 column(6, align = 'left',
                   h4('Stepwise Regression'),
-                  p('Build regression model from a set of candidate predictor 
-                    variables by entering and removing predictors based on p 
-                    values, in a stepwise manner until there is no variable 
+                  p('Build regression model from a set of candidate predictor
+                    variables by entering and removing predictors based on p
+                    values, in a stepwise manner until there is no variable
                     left to enter or remove any more.')
                 ),
                 column(6, align = 'right',
@@ -40,14 +40,14 @@ output$ui_mselectlink <- renderUI({
                     onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepwise.html', '_blank')")
                 )
               )
-    
+
   } else if (input$mselect == "Forward") {
     fluidRow(
                 column(6, align = 'left',
                   h4('Stepwise Forward Regression'),
-                  p('Build regression model from a set of candidate predictor 
-                    variables by entering predictors based on p values, in a 
-                    stepwise manner until there is no variable left to enter 
+                  p('Build regression model from a set of candidate predictor
+                    variables by entering predictors based on p values, in a
+                    stepwise manner until there is no variable left to enter
                     any more.')
                 ),
                 column(6, align = 'right',
@@ -55,14 +55,14 @@ output$ui_mselectlink <- renderUI({
                     onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_step_forward.html', '_blank')")
                 )
               )
-    
+
   } else if (input$mselect == "Backward") {
     fluidRow(
                 column(6, align = 'left',
                   h4('Stepwise Backward Regression'),
-                  p('Build regression model from a set of candidate predictor 
-                    variables by removing predictors based on p values, in a 
-                    stepwise manner until there is no variable left to remove 
+                  p('Build regression model from a set of candidate predictor
+                    variables by removing predictors based on p values, in a
+                    stepwise manner until there is no variable left to remove
                     any more.')
                 ),
                 column(6, align = 'right',
@@ -70,14 +70,14 @@ output$ui_mselectlink <- renderUI({
                     onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_step_backward.html', '_blank')")
                 )
               )
-    
+
   } else if (input$mselect == "stepAIC Forward") {
     fluidRow(
                 column(6, align = 'left',
                   h4('stepAIC Forward Regression'),
-                  p('Build regression model from a set of candidate predictor 
-                    variables by entering predictors based on Akaike Information 
-                    Criteria, in a stepwise manner until there is no variable 
+                  p('Build regression model from a set of candidate predictor
+                    variables by entering predictors based on Akaike Information
+                    Criteria, in a stepwise manner until there is no variable
                     left to enter any more.')
                 ),
                 column(6, align = 'right',
@@ -85,14 +85,14 @@ output$ui_mselectlink <- renderUI({
                     onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_forward.html', '_blank')")
                 )
               )
-    
+
   } else if (input$mselect == "stepAIC Backward") {
     fluidRow(
                 column(6, align = 'left',
                   h4('stepAIC Backward Regression'),
-                  p('Build regression model from a set of candidate predictor 
-                    variables by removing predictors based on Akaike Information 
-                    Criteria, in a stepwise manner until there is no variable 
+                  p('Build regression model from a set of candidate predictor
+                    variables by removing predictors based on Akaike Information
+                    Criteria, in a stepwise manner until there is no variable
                     left to remove any more.')
                 ),
                 column(6, align = 'right',
@@ -100,14 +100,14 @@ output$ui_mselectlink <- renderUI({
                     onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_backward.html', '_blank')")
                 )
               )
-    
+
   } else if (input$mselect == "stepAIC Both") {
     fluidRow(
                 column(6, align = 'left',
                   h4('stepAIC(Both) Regression'),
-                  p('Build regression model from a set of candidate predictor 
-                    variables by entering and removing predictors based on Akaike 
-                    Information Criteria, in a stepwise manner until there is no 
+                  p('Build regression model from a set of candidate predictor
+                    variables by entering and removing predictors based on Akaike
+                    Information Criteria, in a stepwise manner until there is no
                     variable left to enter or remove any more.')
                 ),
                 column(6, align = 'right',
@@ -140,7 +140,7 @@ output$ui_mselectfmla <- renderUI({
                     bsTooltip("bestsub_fmla", "Specify model formula",
                               "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Stepwise") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Model Formula:')),
@@ -150,7 +150,7 @@ output$ui_mselectfmla <- renderUI({
                     bsTooltip("stepwise_fmla", "Specify model formula",
                               "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Forward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Model Formula:')),
@@ -160,7 +160,7 @@ output$ui_mselectfmla <- renderUI({
                     bsTooltip("forward_fmla", "Specify model formula",
                               "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Backward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Model Formula:')),
@@ -170,7 +170,7 @@ output$ui_mselectfmla <- renderUI({
                     bsTooltip("backrward_fmla", "Specify model formula",
                               "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Forward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Model Formula:')),
@@ -180,7 +180,7 @@ output$ui_mselectfmla <- renderUI({
                     bsTooltip("aicforward_fmla", "Specify model formula",
                               "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Backward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Model Formula:')),
@@ -190,7 +190,7 @@ output$ui_mselectfmla <- renderUI({
                     bsTooltip("aicbackrward_fmla", "Specify model formula",
                               "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Both") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Model Formula:')),
@@ -216,7 +216,7 @@ output$ui_mselectprev <- renderUI({
               )
 
   } else if (input$mselect == "Best Subset") {
-    
+
     fluidRow(
                 column(2, align = 'right', br(), h5('Use previous model:')),
                 column(2, align = 'left', br(),
@@ -236,7 +236,7 @@ output$ui_mselectprev <- renderUI({
                               "left", options = list(container = "body"))
                 )
               )
-    
+
   } else if (input$mselect == "Forward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Use previous model:')),
@@ -247,7 +247,7 @@ output$ui_mselectprev <- renderUI({
                               "left", options = list(container = "body"))
                 )
               )
-    
+
   } else if (input$mselect == "Backward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Use previous model:')),
@@ -258,7 +258,7 @@ output$ui_mselectprev <- renderUI({
                               "left", options = list(container = "body"))
                 )
               )
-    
+
   } else if (input$mselect == "stepAIC Forward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Use previous model:')),
@@ -269,7 +269,7 @@ output$ui_mselectprev <- renderUI({
                               "left", options = list(container = "body"))
                 )
               )
-    
+
   } else if (input$mselect == "stepAIC Backward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Use previous model:')),
@@ -280,7 +280,7 @@ output$ui_mselectprev <- renderUI({
                               "left", options = list(container = "body"))
                 )
               )
-    
+
   } else if (input$mselect == "stepAIC Both") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Use previous model:')),
@@ -298,7 +298,7 @@ output$ui_mselectrow1 <- renderUI({
   if (input$mselect == "All Possible") {
 
   } else if (input$mselect == "Best Subset") {
-    
+
   } else if (input$mselect == "Stepwise") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Prob (Enter):')),
@@ -321,7 +321,7 @@ output$ui_mselectrow1 <- renderUI({
                   bsTooltip("stepwise_details", "Print model selection details.",
                     "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Forward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Prob (Enter):')),
@@ -331,7 +331,7 @@ output$ui_mselectrow1 <- renderUI({
                     bsTooltip("forward_pent", "Minimum p value for adding variable to model.",
                               "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Backward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Prob (Removal):')),
@@ -341,7 +341,7 @@ output$ui_mselectrow1 <- renderUI({
                     bsTooltip("backward_prem", "Minimum p value for removing variables from model.",
                               "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Forward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Details:')),
@@ -352,7 +352,7 @@ output$ui_mselectrow1 <- renderUI({
                   bsTooltip("aicforward_details", "Print model selection details.",
                     "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Backward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Details:')),
@@ -363,7 +363,7 @@ output$ui_mselectrow1 <- renderUI({
                   bsTooltip("aicbackward_details", "Print model selection details.",
                     "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Both") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Details:')),
@@ -381,9 +381,9 @@ output$ui_mselectrow2 <- renderUI({
   if (input$mselect == "All Possible") {
 
   } else if (input$mselect == "Best Subset") {
-    
+
   } else if (input$mselect == "Stepwise") {
-    
+
   } else if (input$mselect == "Forward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Details:')),
@@ -394,7 +394,7 @@ output$ui_mselectrow2 <- renderUI({
                   bsTooltip("forward_details", "Print model selection details.",
                     "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Backward") {
     fluidRow(
                 column(2, align = 'right', br(), h5('Details:')),
@@ -405,14 +405,14 @@ output$ui_mselectrow2 <- renderUI({
                   bsTooltip("backward_details", "Print model selection details.",
                     "left", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Forward") {
 
-    
+
   } else if (input$mselect == "stepAIC Backward") {
-    
+
   } else if (input$mselect == "stepAIC Both") {
-    
+
   }
 })
 
@@ -436,7 +436,7 @@ output$ui_mselectsubmit <- renderUI({
                   bsTooltip("submit_bestsub", "Click here to view best subsets regression.",
                                 "bottom", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Stepwise") {
     fluidRow(
                     column(12, align = 'center',
@@ -446,7 +446,7 @@ output$ui_mselectsubmit <- renderUI({
                   bsTooltip("submit_stepwise", "Click here to view stepwise regression.",
                                 "bottom", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Forward") {
     fluidRow(
                   column(12, align = 'center',
@@ -456,7 +456,7 @@ output$ui_mselectsubmit <- renderUI({
                   bsTooltip("submit_forward", "Click here to view best stepwise forward regression.",
                                 "bottom", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "Backward") {
     fluidRow(
                   column(12, align = 'center',
@@ -466,7 +466,7 @@ output$ui_mselectsubmit <- renderUI({
                   bsTooltip("submit_backward", "Click here to view stepwise backward elimination.",
                                 "bottom", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Forward") {
     fluidRow(
                   column(12, align = 'center',
@@ -476,7 +476,7 @@ output$ui_mselectsubmit <- renderUI({
                   bsTooltip("submit_aicforward", "Click here to view forward selection based on AIC.",
                                 "bottom", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Backward") {
     fluidRow(
                   column(12, align = 'center',
@@ -486,7 +486,7 @@ output$ui_mselectsubmit <- renderUI({
                   bsTooltip("submit_aicbackward", "Click here to view backward elimination based on AIC.",
                                 "bottom", options = list(container = "body")))
               )
-    
+
   } else if (input$mselect == "stepAIC Both") {
     fluidRow(
                   column(12, align = 'center',
@@ -519,7 +519,7 @@ output$ui_mseloutput <- renderUI({
                   column(12, align = 'center', verbatimTextOutput('bestsub_out')),
                   hr()
               )
-    
+
   } else if (input$mselect == "Stepwise") {
     fluidRow(
                   br(),
@@ -529,7 +529,7 @@ output$ui_mseloutput <- renderUI({
                   column(12, align = 'center', verbatimTextOutput('stepwise_out')),
                   hr()
               )
-    
+
   } else if (input$mselect == "Forward") {
     fluidRow(
                   br(),
@@ -539,7 +539,7 @@ output$ui_mseloutput <- renderUI({
                   column(12, align = 'center', verbatimTextOutput('forward_out')),
                   hr()
               )
-    
+
   } else if (input$mselect == "Backward") {
     fluidRow(
                   br(),
@@ -549,7 +549,7 @@ output$ui_mseloutput <- renderUI({
                   column(12, align = 'center', verbatimTextOutput('backward_out')),
                   hr()
               )
-    
+
   } else if (input$mselect == "stepAIC Forward") {
     fluidRow(
                   br(),
@@ -559,7 +559,7 @@ output$ui_mseloutput <- renderUI({
                   column(12, align = 'center', verbatimTextOutput('aicforward_out')),
                   hr()
               )
-    
+
   } else if (input$mselect == "stepAIC Backward") {
     fluidRow(
                   br(),
@@ -569,7 +569,7 @@ output$ui_mseloutput <- renderUI({
                   column(12, align = 'center', verbatimTextOutput('aicbackward_out')),
                   hr()
               )
-    
+
   } else if (input$mselect == "stepAIC Both") {
     fluidRow(
                   br(),
@@ -602,7 +602,7 @@ output$ui_mselplot <- renderUI({
                   br(),
                   column(12, plotOutput('bestsub_plot', height = '1500px'))
               )
-    
+
   } else if (input$mselect == "Stepwise") {
     fluidRow(
                   br(),
@@ -612,7 +612,7 @@ output$ui_mselplot <- renderUI({
                   br(),
                   column(12, plotOutput('stepwise_plot', height = '1500px'))
               )
-    
+
   } else if (input$mselect == "Forward") {
     fluidRow(
                   br(),
@@ -622,7 +622,7 @@ output$ui_mselplot <- renderUI({
                   br(),
                   column(12, plotOutput('forward_plot', height = '1500px'))
               )
-    
+
   } else if (input$mselect == "Backward") {
     fluidRow(
                   br(),
@@ -632,7 +632,7 @@ output$ui_mselplot <- renderUI({
                   br(),
                   column(12, plotOutput('backward_plot', height = '1500px'))
               )
-    
+
   } else if (input$mselect == "stepAIC Forward") {
     fluidRow(
                   br(),
@@ -642,7 +642,7 @@ output$ui_mselplot <- renderUI({
                   br(),
                   column(12, plotOutput('aicforward_plot', height = '500px'))
               )
-    
+
   } else if (input$mselect == "stepAIC Backward") {
     fluidRow(
                   br(),
@@ -652,7 +652,7 @@ output$ui_mselplot <- renderUI({
                   br(),
                   column(12, plotOutput('aicbackward_plot', height = '500px'))
               )
-    
+
   } else if (input$mselect == "stepAIC Both") {
     fluidRow(
                   br(),
@@ -669,7 +669,7 @@ output$ui_mselplot <- renderUI({
 # all_use_n <- reactive({
 #   k <- model()
 #   object <- k$model
-#   formul <- formula(object)  
+#   formul <- formula(object)
 #   data <- eval(object$call$data)
 #   n <- lm(formul, data = data)
 #   n
@@ -683,10 +683,10 @@ output$ui_mselplot <- renderUI({
 
 allsub_model <- eventReactive(input$submit_allsub, {
   if (input$all_use_model) {
-    ols_all_subset(all_use_n())
+    ols_step_all_possible(all_use_n())
   } else {
     model <- lm(input$allsub_fmla, data = final_split$train)
-    ols_all_subset(model)
+    ols_step_all_possible(model)
   }
 })
 
@@ -717,11 +717,11 @@ output$allsub_out <- renderPrint({
 
 bestsub_model <- eventReactive(input$submit_bestsub, {
   if (input$best_use_prev) {
-    ols_best_subset(all_use_n())
+    ols_step_best_subset(all_use_n())
   } else {
     data <- final_split$train
     model <- lm(input$bestsub_fmla, data = data)
-    ols_best_subset(model)
+    ols_step_best_subset(model)
   }
 })
 
@@ -752,11 +752,11 @@ output$bestsub_plot <- renderPlot({
 
 stepwise_model <- eventReactive(input$submit_stepwise, {
   if (input$step_use_prev) {
-    ols_stepwise(all_use_n(), input$stepwise_pent, input$stepwise_prem,
+    ols_step_both_p(all_use_n(), input$stepwise_pent, input$stepwise_prem,
       as.logical(input$stepwise_details))
   } else {
     model <- lm(input$stepwise_fmla, data = final_split$train)
-    ols_stepwise(model, input$stepwise_pent, input$stepwise_prem,
+    ols_step_both_p(model, input$stepwise_pent, input$stepwise_prem,
       as.logical(input$stepwise_details))
   }
 })
@@ -788,11 +788,11 @@ output$stepwise_plot <- renderPlot({
 
 forward_model <- eventReactive(input$submit_forward, {
   if (input$stepf_use_model) {
-    ols_step_forward(all_use_n(), input$forward_pent,
+    ols_step_forward_p(all_use_n(), input$forward_pent,
       as.logical(input$forward_details))
   } else {
     model <- lm(input$forward_fmla, data = final_split$train)
-    ols_step_forward(model, input$forward_pent,
+    ols_step_forward_p(model, input$forward_pent,
       as.logical(input$forward_details))
   }
 })
@@ -806,7 +806,7 @@ output$forward_title1 <- renderUI({
 })
 
 f2_title <- eventReactive(input$submit_forward, {
-  column(12, align = 'center', h4('Stepwise Forward Regression Plot')) 
+  column(12, align = 'center', h4('Stepwise Forward Regression Plot'))
 })
 
 output$forward_title2 <- renderUI({
@@ -825,11 +825,11 @@ output$forward_plot <- renderPlot({
 
 backward_model <- eventReactive(input$submit_backward, {
   if (input$stepb_use_model) {
-    ols_step_backward(all_use_n(), input$backward_prem,
+    ols_step_backward_p(all_use_n(), input$backward_prem,
       as.logical(input$backward_details))
   } else {
     model <- lm(input$backward_fmla, data = final_split$train)
-    ols_step_backward(model, input$backward_prem,
+    ols_step_backward_p(model, input$backward_prem,
       as.logical(input$backward_details))
   }
 })
@@ -843,7 +843,7 @@ output$backward_title1 <- renderUI({
 })
 
 ba2_title <- eventReactive(input$submit_backward, {
-  column(12, align = 'center', h4('Stepwise Backward Regression Plot')) 
+  column(12, align = 'center', h4('Stepwise Backward Regression Plot'))
 })
 
 output$backward_title2 <- renderUI({
@@ -862,10 +862,10 @@ output$backward_plot <- renderPlot({
 
 aicforward_model <- eventReactive(input$submit_aicforward, {
   if (input$stepaicf_use_model) {
-    ols_stepaic_forward(all_use_n(), as.logical(input$aicforward_details))
+    ols_step_forward_aic(all_use_n(), as.logical(input$aicforward_details))
   } else {
     model <- lm(input$aicforward_fmla, data = final_split$train)
-    ols_stepaic_forward(model, as.logical(input$aicforward_details))
+    ols_step_forward_aic(model, as.logical(input$aicforward_details))
   }
 })
 
@@ -897,11 +897,11 @@ output$aicforward_plot <- renderPlot({
 
 aicbackward_model <- eventReactive(input$submit_aicbackward, {
   if (input$stepaicb_use_model) {
-    ols_stepaic_backward(all_use_n(),
+    ols_step_backward_aic(all_use_n(),
       as.logical(input$aicbackward_details))
   } else {
     model <- lm(input$aicbackward_fmla, data = final_split$train)
-    ols_stepaic_backward(model,
+    ols_step_backward_aic(model,
       as.logical(input$aicbackward_details))
   }
 })
@@ -933,11 +933,11 @@ output$aicbackward_plot <- renderPlot({
 
 aicboth_model <- eventReactive(input$submit_aicboth, {
   if (input$saicbo_use_model) {
-    ols_stepaic_both(all_use_n(),
+    ols_step_both_aic(all_use_n(),
       as.logical(input$aicboth_details))
   } else {
     model <- lm(input$aicboth_fmla, data = final_split$train)
-    ols_stepaic_both(model,
+    ols_step_both_aic(model,
       as.logical(input$aicboth_details))
   }
 })

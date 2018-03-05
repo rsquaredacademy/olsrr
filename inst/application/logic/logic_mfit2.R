@@ -54,7 +54,7 @@ output$ui_mfitlink <- renderUI({
             onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_diagnostic_panel.html', '_blank')")
         )
       )
-    } 
+    }
 })
 
 output$ui_mfitfmla <- renderUI({
@@ -103,7 +103,7 @@ output$ui_mfitfmla <- renderUI({
             bsTooltip("dpanel_fmla", "Specify model formula",
                       "left", options = list(container = "body")))
       )
-    } 
+    }
 })
 
 output$ui_mfitsubmit <- renderUI({
@@ -152,7 +152,7 @@ output$ui_mfitsubmit <- renderUI({
           bsTooltip("submit_dpanel", "Click here to view panel.",
                         "bottom", options = list(container = "body")))
       )
-    } 
+    }
 })
 
 output$ui_mfitprev <- renderUI({
@@ -206,7 +206,7 @@ output$ui_mfitprev <- renderUI({
                     "left", options = list(container = "body"))
       )
     )
-  } 
+  }
 })
 
 
@@ -236,15 +236,15 @@ output$ui_mfitout <- renderUI({
       br(),
       column(12, align = 'center', plotOutput('mfitdpanel', height = '2500px'))
     )
-  } 
+  }
 })
 
 d_rfs_mod <- eventReactive(input$submit_rfsplot, {
   if (input$rfs_use_prev) {
-    ols_rfs_plot(all_use_n())
+    ols_plot_resid_fit_spread(all_use_n())
   } else {
     k <- lm(input$rfs_fmla, data = final_split$train)
-    ols_rfs_plot(k)
+    ols_plot_resid_fit_spread(k)
   }
 })
 
@@ -259,11 +259,11 @@ d_corr_mod <- eventReactive(input$submit_corr, {
 
 d_ovsp_mod <- eventReactive(input$submit_ovsplot, {
   if (input$ovsp_use_prev) {
-    ols_ovsp_plot(all_use_n())
+    ols_plot_obs_fit(all_use_n())
   } else {
-    k <- lm(input$ovsp_fmla, data = final_split$train) 
-    ols_ovsp_plot(k)
-  }   
+    k <- lm(input$ovsp_fmla, data = final_split$train)
+    ols_plot_obs_fit(k)
+  }
 })
 
 d_lfit_mod <- eventReactive(input$submit_lfit, {
@@ -277,11 +277,11 @@ d_lfit_mod <- eventReactive(input$submit_lfit, {
 
 d_dpanel_mod <- eventReactive(input$submit_dpanel, {
   if(input$dpanel_use_prev) {
-    ols_diagnostic_panel(all_use_n())
+    ols_plot_diagnostics(all_use_n())
   } else {
     k <- lm(input$dpanel_fmla, data = final_split$train)
-    ols_diagnostic_panel(k)
-  }  
+    ols_plot_diagnostics(k)
+  }
 })
 
 
