@@ -109,7 +109,7 @@ output$ui_inflobslink <- renderUI({
             onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_potrsd_plot.html', '_blank')")
         )
       )
-    } 
+    }
 })
 
 output$ui_inflobsfmla <- renderUI({
@@ -203,7 +203,7 @@ output$ui_inflobsfmla <- renderUI({
                     bsTooltip("hadiplot_fmla", "Specify model formula",
                               "left", options = list(container = "body")))
               )
-    } 
+    }
 })
 
 output$ui_inflobssubmit <- renderUI({
@@ -297,7 +297,7 @@ output$ui_inflobssubmit <- renderUI({
                 bsTooltip("submit_hadiplot", "Click here to view test results.",
                               "bottom", options = list(container = "body")))
               )
-    } 
+    }
 })
 
 
@@ -402,7 +402,7 @@ output$ui_inflobsprev <- renderUI({
                               "left", options = list(container = "body"))
                 )
               )
-  } 
+  }
 })
 
 
@@ -540,7 +540,7 @@ output$ui_inflobsplot <- renderUI({
     column(12, align = 'center', plotOutput('inflobsplot', height = '500px'))
   } else if (input$inflobs_select == "Hadi Plot") {
     column(12, align = 'center', plotOutput('inflobsplot', height = '500px'))
-  } 
+  }
 })
 
 output$ui_inflobsprint <- renderUI({
@@ -564,92 +564,92 @@ output$ui_inflobsprint <- renderUI({
     column(12, align = 'center', verbatimTextOutput('inflobs'))
   } else if (input$inflobs_select == "Hadi Plot") {
     column(12, align = 'center', verbatimTextOutput('inflobs'))
-  } 
+  }
 })
 
 result_cdbp <- eventReactive(input$submit_cooksb, {
   if (input$cdbp_use_prev) {
-    ols_cooksd_barplot(all_use_n())
+    ols_plot_cooksd_bar(all_use_n())
   } else {
-    ols_cooksd_barplot(cdbp_mod())
+    ols_plot_cooksd_bar(cdbp_mod())
   }
 })
 
 result_cdc <- eventReactive(input$submit_cooksc, {
   if (input$cooksc_use_prev) {
-      ols_cooksd_chart(all_use_n())
+    ols_plot_cooksd_chart(all_use_n())
   } else {
-      ols_cooksd_chart(cdc_mod())
+    ols_plot_cooksd_chart(cdc_mod())
   }
 })
 
 result_potres <- eventReactive(input$submit_potres_plot, {
   if(input$potres_use_prev) {
-      ols_potrsd_plot(all_use_n())
+    ols_plot_resid_pot(all_use_n())
   } else {
-      ols_potrsd_plot(potres_mod())
+    ols_plot_resid_pot(potres_mod())
   }
 })
 
 result_dfbetas <- eventReactive(input$submit_dfbetas, {
   if (input$dfb_use_prev) {
-      ols_dfbetas_panel(all_use_n())
+    ols_plot_dfbetas(all_use_n())
   } else {
-      ols_dfbetas_panel(dfbetas_mod())
+    ols_plot_dfbetas(dfbetas_mod())
   }
 })
 
 result_dsrvsp <- eventReactive(input$submit_dsresp_plot, {
   if(input$dsresp_use_prev) {
-      ols_dsrvsp_plot(all_use_n())
+    ols_plot_resid_stud_fit(all_use_n())
   } else {
-      ols_dsrvsp_plot(dsresp_mod())
+    ols_plot_resid_stud_fit(dsresp_mod())
   }
 })
 
 result_dffits <- eventReactive(input$submit_dffits, {
   if (input$dfits_use_prev) {
-    ols_dffits_plot(all_use_n())
+    ols_plot_dffits(all_use_n())
   } else {
-    ols_dffits_plot(dfits_mod())
+    ols_plot_dffits(dfits_mod())
   }
 })
 
 result_srvslev <- eventReactive(input$submit_sreslev_plot, {
   if(input$sreslev_use_prev) {
-    ols_rsdlev_plot(all_use_n())
+    ols_plot_resid_lev(all_use_n())
   } else {
-    ols_rsdlev_plot(sreslev_mod())
+    ols_plot_resid_lev(sreslev_mod())
   }
 })
 
 result_srplot <- eventReactive(input$submit_sresp_plot, {
   if(input$sres_use_prev) {
-    ols_srsd_plot(all_use_n())
+    ols_plot_resid_stud(all_use_n())
   } else {
-    ols_srsd_plot(sres_mod())
+    ols_plot_resid_stud(sres_mod())
   }
 })
 
 result_srchart <- eventReactive(input$submit_sreschart_plot, {
   if(input$sreschart_use_prev) {
-    ols_srsd_chart(all_use_n())
+    ols_plot_resid_stand(all_use_n())
   } else {
-    ols_srsd_chart(sreschart_mod())
+    ols_plot_resid_stand(sreschart_mod())
   }
 })
 
 result_hadi <- eventReactive(input$submit_hadiplot, {
   if (input$hadip_use_prev) {
-    ols_hadi_plot(all_use_n())
+    ols_plot_hadi(all_use_n())
   } else {
-    ols_hadi_plot(hadi_mod())
+    ols_plot_hadi(hadi_mod())
   }
 })
 
 output$inflobsplot <- renderPlot({
   if (input$inflobs_select == "Cook's D Bar Plot") {
-    result_cdbp()    
+    result_cdbp()
   } else if (input$inflobs_select == "Potential Residual Plot") {
     result_potres()
   } else if (input$inflobs_select == "Cook's D Chart") {
@@ -664,11 +664,11 @@ output$inflobsplot <- renderPlot({
     result_srvslev()
   } else if (input$inflobs_select == "Studentized Residual Plot") {
     result_srplot()
-  } else if (input$inflobs_select == "Studentized Residual Chart") {
+  } else if (input$inflobs_select == "Standardized Residual Chart") {
     result_srchart()
   } else if (input$inflobs_select == "Hadi Plot") {
     result_hadi()
-  } 
+  }
 })
 
 output$inflobs <- renderPrint({
@@ -696,5 +696,5 @@ output$inflobs <- renderPrint({
   } else if (input$inflobs_select == "Studentized Residual Chart") {
     k <- result_srchart()
     k
-  } 
+  }
 })

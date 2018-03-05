@@ -43,18 +43,18 @@ observe({
 result_bp <- eventReactive(input$submit_het_bp, {
   if (input$het_bp_fv == FALSE) {
     if (input$bp_use_prev) {
-      ols_bp_test(all_use_n(), as.logical(input$het_bp_fv), as.logical(input$het_bp_rhs),
+      ols_test_breusch_pagan(all_use_n(), as.logical(input$het_bp_fv), as.logical(input$het_bp_rhs),
         as.logical(input$het_bp_mult), as.character(input$het_bp_padj), input$het_bp_vars)
     } else {
-      ols_bp_test(het_bp_mod(), as.logical(input$het_bp_fv), as.logical(input$het_bp_rhs),
+      ols_test_breusch_pagan(het_bp_mod(), as.logical(input$het_bp_fv), as.logical(input$het_bp_rhs),
         as.logical(input$het_bp_mult), as.character(input$het_bp_padj), input$het_bp_vars)
     }
   } else {
     if (input$bp_use_prev) {
-      ols_bp_test(all_use_n(), as.logical(input$het_bp_fv), as.logical(input$het_bp_rhs),
+      ols_test_breusch_pagan(all_use_n(), as.logical(input$het_bp_fv), as.logical(input$het_bp_rhs),
         as.logical(input$het_bp_mult), as.character(input$het_bp_padj))
     } else {
-      ols_bp_test(het_bp_mod(), as.logical(input$het_bp_fv), as.logical(input$het_bp_rhs),
+      ols_test_breusch_pagan(het_bp_mod(), as.logical(input$het_bp_fv), as.logical(input$het_bp_rhs),
         as.logical(input$het_bp_mult), as.character(input$het_bp_padj))
     }
   }
@@ -103,17 +103,17 @@ observe({
 result_f <- eventReactive(input$submit_het_f, {
   if (input$het_f_fv == FALSE) {
     if (input$f_use_prev) {
-      ols_f_test(all_use_n(), as.logical(input$het_f_fv), as.logical(input$het_f_rhs),
+      ols_test_f(all_use_n(), as.logical(input$het_f_fv), as.logical(input$het_f_rhs),
         input$het_f_vars)
     } else {
-      ols_f_test(het_f_mod(), as.logical(input$het_f_fv), as.logical(input$het_f_rhs),
+      ols_test_f(het_f_mod(), as.logical(input$het_f_fv), as.logical(input$het_f_rhs),
         input$het_f_vars)
     }
   } else {
     if (input$f_use_prev) {
-      ols_f_test(all_use_n(), as.logical(input$het_f_fv), as.logical(input$het_f_rhs))
+      ols_test_f(all_use_n(), as.logical(input$het_f_fv), as.logical(input$het_f_rhs))
     } else {
-      ols_f_test(het_f_mod(), as.logical(input$het_f_fv), as.logical(input$het_f_rhs))
+      ols_test_f(het_f_mod(), as.logical(input$het_f_fv), as.logical(input$het_f_rhs))
     }
   }
 })
@@ -163,17 +163,17 @@ observe({
 result_score <- eventReactive(input$submit_het_score, {
   if (input$het_score_fv == FALSE) {
     if (input$score_use_prev) {
-      ols_score_test(all_use_n(), as.logical(input$het_score_fv), as.logical(input$het_score_rhs),
+      ols_test_score(all_use_n(), as.logical(input$het_score_fv), as.logical(input$het_score_rhs),
         input$het_score_vars)
     } else {
-      ols_score_test(het_score_mod(), as.logical(input$het_score_fv), as.logical(input$het_score_rhs),
+      ols_test_score(het_score_mod(), as.logical(input$het_score_fv), as.logical(input$het_score_rhs),
         input$het_score_vars)
     }
   } else {
     if (input$score_use_prev) {
-      ols_score_test(all_use_n(), as.logical(input$het_score_fv), as.logical(input$het_score_rhs))
+      ols_test_score(all_use_n(), as.logical(input$het_score_fv), as.logical(input$het_score_rhs))
     } else {
-      ols_score_test(het_score_mod(), as.logical(input$het_score_fv), as.logical(input$het_score_rhs))
+      ols_test_score(het_score_mod(), as.logical(input$het_score_fv), as.logical(input$het_score_rhs))
     }
   }
 })
@@ -243,7 +243,7 @@ observeEvent(input$button_split_no, {
               choices = names(fdata), selected = names(fdata))
         } else if (ncol(f_data) < 1) {
              updateSelectInput(session, 'var_bartestg2',
-              choices = '', selected = '')             
+              choices = '', selected = '')
         } else {
              updateSelectInput(session, 'var_bartestg2', choices = names(f_data))
         }
@@ -280,7 +280,7 @@ observeEvent(input$submit_part_train_per, {
               choices = names(fdata), selected = names(fdata))
         } else if (ncol(f_data) < 1) {
              updateSelectInput(session, 'var_bartestg2',
-              choices = '', selected = '')             
+              choices = '', selected = '')
         } else {
              updateSelectInput(session, 'var_bartestg2', choices = names(f_data))
         }
@@ -290,7 +290,7 @@ d_bartest <- eventReactive(input$submit_bartest, {
 	# validate(need((input$var_bartest != ''), 'Please select variables'))
   req(input$var_bartest)
   data <- final_split$train[, c(input$var_bartest)]
-  ols_bartlett_test(data)
+  ols_test_bartlett(data)
 })
 
 output$bartest_out <- renderPrint({
@@ -302,7 +302,7 @@ d_bartestg <- eventReactive(input$submit_bartestg, {
   req(input$var_bartestg1)
   req(input$var_bartestg2)
   data <- final_split$train[, c(input$var_bartestg1, input$var_bartestg2)]
-  k <- ols_bartlett_test(data[, 1], group_var = data[, 2])
+  k <- ols_test_bartlett(data[, 1], group_var = data[, 2])
   k
 })
 
@@ -315,14 +315,14 @@ d_bartmod <- eventReactive(input$submit_bartestf, {
 	# validate(need((input$bartest_fmla != ''), 'Please specify a model.'))
 	data <- final_split$train
   k <- lm(input$bartest_fmla, data = data)
-  ols_bartlett_test(k)
+  ols_test_bartlett(k)
 })
 
 # bartmod <- reactive({
-	
+
 # 	k
 # })
 
 output$bartestf_out <- renderPrint({
-  d_bartmod()    
+  d_bartmod()
 })
