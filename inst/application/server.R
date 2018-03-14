@@ -39,6 +39,7 @@ shinyServer(function(input, output, session) {
     source("logic/logic_mfit2.R", local = T)
     source("logic/logic_regdiag.R", local = T)
     source("logic/logic_home.R", local = T)
+    source("logic/logic_exit_button.R", local = T)
 })
 
 
