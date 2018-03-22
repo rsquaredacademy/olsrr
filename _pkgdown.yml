@@ -38,7 +38,9 @@ navbar:
 home:
   links:
   - text: Learn more
-    href: http://www.rsquaredacademy.com
+    href: https://www.rsquaredacademy.com
+  - test: Try shiny app at
+    href: https://apps.rsquaredacademy.com
   - text: Docker Image
     href: https://hub.docker.com/r/rsquaredacademy/olsrr/
 
