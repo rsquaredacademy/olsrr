@@ -83,7 +83,7 @@ ols_plot_diagnostics <- function(model) {
   title <- paste("Outlier and Leverage Diagnostics for", resp)
 
   d3 <- ggplot(d33, aes(leverage, rstudent, label = txt)) +
-    geom_point(shape = 1, aes(colour = fct_color)) + labs("Observation") +
+    geom_point(shape = 1, aes(colour = fct_color)) + labs(color = "Observation") +
     scale_color_manual(values = c("blue", "red", "green", "violet")) +
     xlim(j$minx, j$maxx) + ylim(j$miny, j$maxy) +
     xlab("Leverage") + ylab("RStudent") + ggtitle(title) +

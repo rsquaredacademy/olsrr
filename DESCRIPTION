@@ -48,7 +48,7 @@ Suggests:
     tools,
     vdiffr
 License: MIT + file LICENSE
-URL: https://rsquaredacademy.github.io/olsrr/, https://github.com/rsquaredacademy/olsrr
+URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues
 Encoding: UTF-8
 LazyData: true

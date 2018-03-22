@@ -48,16 +48,16 @@ Use `ols_launch_app()` to explore the package using a shiny app.
 ## Vignettes
 
   - [Quick
-    Overview](http://www.rsquaredacademy.com/olsrr/articles/intro.html)
+    Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
   - [Variable Selection
-    Methods](http://www.rsquaredacademy.com/olsrr/articles/variable_selection.html)
+    Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
   - [Residual
-    Diagnostics](http://www.rsquaredacademy.com/olsrr/articles/residual_diagnostics.html)
-  - [Heteroskedasticity](http://www.rsquaredacademy.com/olsrr/articles/heteroskedasticity.html)
+    Diagnostics](https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html)
+  - [Heteroskedasticity](https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html)
   - [Measures of
-    Influence](http://www.rsquaredacademy.com/olsrr/articles/influence_measures.html)
+    Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
   - [Collinearity
-    Diagnostics](http://www.rsquaredacademy.com/olsrr/articles/regression_diagnostics.html)
+    Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
 
 ## Consistent Prefix
 

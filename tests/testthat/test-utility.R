@@ -138,7 +138,7 @@ test_that("output from histdata matches the expected result", {
 test_that("output from rstudlev matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- rstudlev(model)
-  expect_equal(round(k$lev_thrsh, 3), 0.375)
+  expect_equal(round(k$lev_thrsh, 3), 0.312)
   expect_equal(round(k$minx, 3), 0.046)
   expect_equal(round(k$miny, 3), -4.44)
   expect_equal(round(k$maxx, 3), 0.508)

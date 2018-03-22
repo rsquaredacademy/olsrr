@@ -109,7 +109,6 @@ rstudlev <- function(model) {
   lev_thrsh <-
     2 %>%
     multiply_by(k) %>%
-    add(2) %>%
     divide_by(n)
 
   rst_thrsh <- 2
