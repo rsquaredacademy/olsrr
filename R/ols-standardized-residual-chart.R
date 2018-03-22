@@ -45,7 +45,7 @@ ols_plot_resid_stand <- function(model) {
     d %>%
     filter(color == "outlier") %>%
     select(obs, sdres) %>%
-    set_colnames(c("Observation", "Standardised Residual"))
+    set_colnames(c("observation", "stand_resid"))
 
   p <- ggplot(d, aes(x = obs, y = sdres, label = txt, ymin = 0, ymax = sdres)) +
     geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
