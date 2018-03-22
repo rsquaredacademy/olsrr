@@ -1,6 +1,6 @@
 #' @importFrom shiny runApp
-#' @title Launch Shiny App
-#' @description Launches shiny app
+#' @title Launch shiny app
+#' @description Launches shiny app for interactive model building.
 #' @examples
 #' \dontrun{
 #' ols_launch_app()

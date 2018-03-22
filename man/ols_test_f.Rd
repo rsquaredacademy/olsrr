@@ -3,7 +3,7 @@
 \name{ols_test_f}
 \alias{ols_test_f}
 \alias{ols_f_test}
-\title{F test for constant variance}
+\title{F test}
 \usage{
 ols_test_f(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...)
 }

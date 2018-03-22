@@ -37,7 +37,7 @@ ols_leverage <- function(model) {
 }
 
 
-#' Hadi's measure
+#' Hadi's influence measure
 #'
 #' @description
 #' Measure of influence based on the fact that influential observations in

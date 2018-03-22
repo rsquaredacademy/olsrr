@@ -16,7 +16,7 @@ options include R, STATA and SAS.}
 Akaike information criterion of the model.
 }
 \description{
-Akaike information criterion.
+Akaike information criterion for model selection.
 }
 \details{
 AIC provides a means for model selection. Given a collection of models for

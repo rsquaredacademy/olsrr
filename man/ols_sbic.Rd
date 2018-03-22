@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-information-criteria.R
 \name{ols_sbic}
 \alias{ols_sbic}
-\title{SBIC}
+\title{Sawa's bayesian information criterion}
 \usage{
 ols_sbic(model, full_model)
 }
@@ -15,7 +15,7 @@ ols_sbic(model, full_model)
 Sawa's Bayesian Information Criterion
 }
 \description{
-Sawa's bayesian information criterion.
+Sawa's bayesian information criterion for model selection.
 }
 \details{
 Sawa (1978) developed a model selection criterion that was derived from a
