@@ -1,6 +1,14 @@
 # olsrr 0.5.0
 
-This is a minor release for bug fixes.
+This is a minor release for bug fixes and API changes.
+
+## API Changes
+
+We have made some changes to the API to make it more user friendly:
+
+- all the variable selection procedures start with `ols_step_*`
+- all the test start with `ols_test_*`
+- all the plots start with `ols_plot_*`
 
 ## Bug Fixes 
 
