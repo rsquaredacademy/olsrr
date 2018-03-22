@@ -1,6 +1,6 @@
 #' Akaike information criterion
 #'
-#' @description Akaike information criterion.
+#' @description Akaike information criterion for model selection.
 #'
 #' @param model An object of class \code{lm}.
 #'
@@ -83,9 +83,9 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 }
 
 
-#' SBC
+#' Bayesian information criterion
 #'
-#' Bayesian information criterion.
+#' Bayesian information criterion for model selection.
 #'
 #' @param model An object of class \code{lm}.
 #' @param method A character vector; specify the method to compute BIC. Valid
@@ -164,9 +164,9 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 
 
 
-#' SBIC
+#' Sawa's bayesian information criterion
 #'
-#' @description Sawa's bayesian information criterion.
+#' @description Sawa's bayesian information criterion for model selection.
 #'
 #' @param model An object of class \code{lm}.
 #' @param full_model An object of class \code{lm}.

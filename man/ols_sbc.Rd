@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-information-criteria.R
 \name{ols_sbc}
 \alias{ols_sbc}
-\title{SBC}
+\title{Bayesian information criterion}
 \usage{
 ols_sbc(model, method = c("R", "STATA", "SAS"))
 }
@@ -16,7 +16,7 @@ options include R, STATA and SAS.}
 The bayesian information criterion of the model.
 }
 \description{
-Bayesian information criterion.
+Bayesian information criterion for model selection.
 }
 \details{
 SBC provides a means for model selection. Given a collection of models for

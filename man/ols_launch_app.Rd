@@ -2,12 +2,12 @@
 % Please edit documentation in R/ols-launch-app.R
 \name{ols_launch_app}
 \alias{ols_launch_app}
-\title{Launch Shiny App}
+\title{Launch shiny app}
 \usage{
 ols_launch_app()
 }
 \description{
-Launches shiny app
+Launches shiny app for interactive model building.
 }
 \examples{
 \dontrun{

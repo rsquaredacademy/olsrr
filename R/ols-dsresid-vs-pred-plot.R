@@ -65,7 +65,7 @@ ols_plot_resid_stud_fit <- function(model) {
     d %>%
     filter(color == "outlier") %>%
     select(obs, pred, dsr) %>%
-    set_colnames(c("Observation", "Fitted Values", "Deleted Studentized Residual"))
+    set_colnames(c("observation", "fitted_values", "del_stud_resid"))
 
   p <- ggplot(d, aes(x = pred, y = dsr, label = txt)) +
     geom_point(aes(colour = fct_color)) +

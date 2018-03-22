@@ -155,6 +155,6 @@ outlier_data <- function(k) {
       color == "outlier"
     ) %>%
     select(obs, cd) %>%
-    set_colnames(c("Observation", "Cook's Distance"))
+    set_colnames(c("observation", "cooks_distance"))
 
 }

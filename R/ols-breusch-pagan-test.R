@@ -111,7 +111,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   }
 
   suppressWarnings(
-    if (!is.na(vars)) {
+    if (!is.na(vars[1])) {
       if (!all(vars %in% names(model$coefficients))) {
         stop("vars must be a subset of the predictors in the model")
       }

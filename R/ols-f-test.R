@@ -1,4 +1,4 @@
-#' F test for constant variance
+#' F test
 #'
 #' @description
 #' Test for heteroskedasticity under the assumption that the errors are

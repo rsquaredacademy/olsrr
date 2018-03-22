@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-influence-measures.R
 \name{ols_hadi}
 \alias{ols_hadi}
-\title{Hadi's measure}
+\title{Hadi's influence measure}
 \usage{
 ols_hadi(model)
 }
