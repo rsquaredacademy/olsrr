@@ -59,7 +59,7 @@ ols_plot_resid_lev <- function(model) {
     d %>%
     filter(color == "outlier") %>%
     select(obs, leverage, rstudent) %>%
-    set_colnames(c("Observation", "Leverage", "Studentized Residuals"))
+    set_colnames(c("observation", "leverage", "stud_resid"))
 
   p <- ggplot(d, aes(leverage, rstudent, label = txt)) +
     geom_point(shape = 1, aes(colour = fct_color)) +

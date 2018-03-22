@@ -57,7 +57,7 @@ ols_plot_resid_stud <- function(model) {
     d %>%
     filter(color == "outlier") %>%
     select(obs, dsr) %>%
-    set_colnames(c("Observation", "Studentized Residuals"))
+    set_colnames(c("observation", "stud_resid"))
 
   p <- ggplot(d, aes(x = obs, y = dsr, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
