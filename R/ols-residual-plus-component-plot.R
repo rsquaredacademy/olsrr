@@ -46,10 +46,12 @@ ols_plot_comp_plus_resid <- function(model) {
     myplots[[i]] <- p
   }
 
-  do.call(grid.arrange, c(myplots, list(ncol = 2)))
+  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
+  result
 
-  result <- list(plots = myplots)
-  invisible(result)
+  # do.call(grid.arrange, c(myplots, list(ncol = 2)))
+  # result <- list(plots = myplots)
+  # invisible(result)
 
 }
 

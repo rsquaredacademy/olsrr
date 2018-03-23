@@ -144,7 +144,7 @@ ols_pure_error_anova(model)
 
 Panel of plots for regression diagnostics
 
-```{r diagpanel, fig.width=10, fig.height=25, fig.align='center'}
+```{r diagpanel, fig.width=10, fig.height=10, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_diagnostics(model)
 ```
@@ -194,7 +194,7 @@ A strong linear relationship in the added variable plot indicates the increased
 importance of the contribution of **X** to the model already containing the
 other predictors.
 
-```{r avplot, fig.width=5, fig.height=5, fig.align='center'}
+```{r avplot, fig.width=10, fig.height=10, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_added_variable(model)
 ```
@@ -215,7 +215,7 @@ The residual plus component plot indicates whether any non-linearity is present
 in the relationship between **Y** and **X** and can suggest possible transformations
 for linearizing the data.
 
-```{r cplusr, fig.width=5, fig.height=5, fig.align='center'}
+```{r cplusr, fig.width=10, fig.height=10, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_comp_plus_resid(model)
 ```

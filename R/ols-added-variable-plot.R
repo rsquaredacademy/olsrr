@@ -51,6 +51,7 @@
 #' @importFrom tibble tibble
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
 #' @importFrom magrittr %>%
+#' @importFrom gridExtra marrangeGrob
 #'
 #' @seealso [ols_plot_resid_regressor()], [ols_plot_comp_plus_resid()]
 #'
@@ -85,10 +86,11 @@ ols_plot_added_variable <- function(model) {
 
   }
 
-  do.call(grid.arrange, c(myplots, list(ncol = 2)))
-
-  result <- list(plots = myplots)
-  invisible(result)
+  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
+  result
+  # do.call(grid.arrange, c(myplots, list(ncol = 2)))
+  # result <- list(plots = myplots)
+  # invisible(result)
 
 }
 

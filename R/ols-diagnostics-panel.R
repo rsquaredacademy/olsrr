@@ -176,15 +176,16 @@ ols_plot_diagnostics <- function(model) {
     xlab(" ") + ylab("Residuals") + ggtitle("Residual Box Plot") +
     theme(axis.text.x = element_blank())
 
-  grid.arrange(p1, d2, d3, p4, p5, d6, d7, d8, p9, p10, ncol = 2)
+  # grid.arrange(p1, d2, d3, p4, p5, d6, d7, d8, p9, p10, ncol = 2)
 
   result <- list(
     plot_1 = p1, plot_2 = d2, plot_3 = d3, plot_4 = p4,
-    plot_5 = p5, plot_6 = d6, plot_7 = d7, plot_8 = d8, plot_9 = p9,
-    plot_10 = p10
+    plot_5 = p5, plot_6 = d6, plot_7 = d7, plot_8 = d8,
+    plot_9 = p9, plot_10 = p10
   )
 
-  invisible(result)
+  result_plot <- marrangeGrob(result, nrow = 2, ncol = 2)
+  result_plot
 }
 
 

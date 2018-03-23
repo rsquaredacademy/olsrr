@@ -85,15 +85,18 @@ ols_plot_dfbetas <- function(model) {
 
   }
 
-  suppressWarnings(do.call(grid.arrange, c(myplots, list(ncol = 2))))
+  # suppressWarnings(do.call(grid.arrange, c(myplots, list(ncol = 2))))
 
-  names(outliers) <-
-    model %>%
-    coefficients() %>%
-    names()
+  plots <- marrangeGrob(myplots, nrow = 2, ncol = 2)
+  plots
 
-  result <- list(outliers = outliers, plots = myplots)
-  invisible(result)
+  # names(outliers) <-
+  #   model %>%
+  #   coefficients() %>%
+  #   names()
+
+  # result <- list(outliers = outliers)
+  # invisible(result)
 
 }
 
