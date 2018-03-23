@@ -38,7 +38,7 @@ ols_plot_resid_regressor <- function(model, variable) {
 
   x <- pull(inter, 1)
   y <- residuals(model)
-  v <- names(x)
+  v <- names(inter)
   k <- tibble(x = x, y = y)
 
   p <- ggplot(k, aes(x = x, y = y)) +
