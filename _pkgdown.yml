@@ -39,7 +39,7 @@ home:
   links:
   - text: Learn more
     href: https://www.rsquaredacademy.com
-  - test: Try shiny app at
+  - text: Try shiny app
     href: https://apps.rsquaredacademy.com
   - text: Docker Image
     href: https://hub.docker.com/r/rsquaredacademy/olsrr/

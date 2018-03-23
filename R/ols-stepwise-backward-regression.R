@@ -220,23 +220,19 @@ plot.ols_step_backward_p <- function(x, model = NA, ...) {
   d5 <- tibble(a = y, b = x$sbic)
   d6 <- tibble(a = y, b = x$sbc)
 
-  p1 <- plot_stepwise(d1, "R-Square") + theme(axis.text.x = element_blank())
-  p2 <- plot_stepwise(d2, "Adj. R-Square") + theme(axis.text.x = element_blank())
-  p3 <- plot_stepwise(d3, "C(p)") + theme(axis.text.x = element_blank())
-  p4 <- plot_stepwise(d4, "AIC") + theme(axis.text.x = element_blank())
+  p1 <- plot_stepwise(d1, "R-Square")
+  p2 <- plot_stepwise(d2, "Adj. R-Square")
+  p3 <- plot_stepwise(d3, "C(p)")
+  p4 <- plot_stepwise(d4, "AIC")
   p5 <- plot_stepwise(d5, "SBIC")
   p6 <- plot_stepwise(d6, "SBC")
 
-  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "Stepwise Backward Regression")
+  # grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "Stepwise Backward Regression")
 
-  result <- list(rsquare_plot     = p1,
-                 adj_rsquare_plot = p2,
-                 mallows_cp_plot  = p3,
-                 aic_plot         = p4,
-                 sbic_plot        = p5,
-                 sbc_plot         = p6)
-
-  invisible(result)
+  myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
+                  plot_4 = p4, plot_5 = p5, plot_6 = p6)
+  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
+  result
 
 }
 

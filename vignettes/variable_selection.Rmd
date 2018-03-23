@@ -37,7 +37,7 @@ ols_step_all_possible(model)
 
 The `plot` method shows the panel of fit criteria for all possible regression methods. 
 
-```{r allsubplot, fig.width=10, fig.height=15, fig.align='center'}
+```{r allsubplot, fig.width=10, fig.height=10, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 k <- ols_step_all_possible(model)
 plot(k)
@@ -55,7 +55,7 @@ ols_step_best_subset(model)
 
 The `plot` method shows the panel of fit criteria for best subset regression methods. 
 
-```{r bestsubplot, fig.width=10, fig.height=15, fig.align='center'}
+```{r bestsubplot, fig.width=10, fig.height=10, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 k <- ols_step_best_subset(model)
 plot(k)
@@ -76,7 +76,7 @@ ols_step_forward_p(model)
 
 ### Plot
 
-```{r stepf2, fig.width=10, fig.height=15, fig.align='center'}
+```{r stepf2, fig.width=10, fig.height=10, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_forward_p(model)
 plot(k)
@@ -97,7 +97,7 @@ p values, in a stepwise manner until there is no variable left to remove any mor
 
 ### Variable Selection
 
-```{r stepb, fig.width=10, fig.height=15, fig.align='center'}
+```{r stepb, fig.width=10, fig.height=10, fig.align='center'}
 # stepwise backward regression
 model <- lm(y ~ ., data = surgical)
 ols_step_backward_p(model)
@@ -105,7 +105,7 @@ ols_step_backward_p(model)
 
 ### Plot
 
-```{r stepb2, fig.width=10, fig.height=15, fig.align='center'}
+```{r stepb2, fig.width=10, fig.height=10, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward_p(model)
 plot(k)
@@ -134,7 +134,7 @@ ols_step_both_p(model)
 
 ### Plot
 
-```{r stepwise2, fig.width=10, fig.height=15, fig.align='center'}
+```{r stepwise2, fig.width=10, fig.height=10, fig.align='center'}
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_both_p(model)
 plot(k)

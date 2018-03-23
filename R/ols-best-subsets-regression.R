@@ -226,14 +226,11 @@ plot.ols_step_best_subset <- function(x, model = NA, ...) {
   p5 <- best_subset_plot(d, sbic, title = "SBIC")
   p6 <- best_subset_plot(d, sbc, title = "SBC")
 
-  grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "Best Subsets Regression")
-
-  result <- list(
-    rsquare_plot = p1, adj_rsquare_plot = p2, mallows_cp_plot = p3,
-    aic_plot = p4, sbic_plot = p5, sbc_plot = p6
-  )
-
-  invisible(result)
+  # grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "Best Subsets Regression")
+  myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
+                  plot_4 = p4, plot_5 = p5, plot_6 = p6)
+  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
+  result
 
 }
 
@@ -262,9 +259,6 @@ best_subset_plot <- function(d, var, title = "R-Square") {
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
     xlab("") + ylab("") + ggtitle(title) +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks = element_blank()
-    )
+    theme(axis.ticks = element_blank())
 
 }
