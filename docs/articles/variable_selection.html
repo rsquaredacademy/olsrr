@@ -140,7 +140,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_all_possible.html">ols_step_all_possible</a></span>(model)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">plot</span>(k)</a></code></pre></div>
-<p><img src="variable_selection_files/figure-html/allsubplot-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="variable_selection_files/figure-html/allsubplot-1.png" width="960" style="display: block; margin: auto;"><img src="variable_selection_files/figure-html/allsubplot-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="best-subset-regression" class="section level2">
 <h2 class="hasAnchor">
@@ -179,7 +179,7 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">k &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ols_step_best_subset.html">ols_step_best_subset</a></span>(model)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(k)</a></code></pre></div>
-<p><img src="variable_selection_files/figure-html/bestsubplot-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="variable_selection_files/figure-html/bestsubplot-1.png" width="960" style="display: block; margin: auto;"><img src="variable_selection_files/figure-html/bestsubplot-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="stepwise-forward-regression" class="section level2">
 <h2 class="hasAnchor">
@@ -332,7 +332,7 @@
 ##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
 ## ------------------------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
-<p><img src="variable_selection_files/figure-html/stepf2-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="variable_selection_files/figure-html/stepf2-1.png" width="960" style="display: block; margin: auto;"><img src="variable_selection_files/figure-html/stepf2-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output" class="section level3">
 <h3 class="hasAnchor">
@@ -750,7 +750,7 @@
 ##   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
 ## ------------------------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
-<p><img src="variable_selection_files/figure-html/stepb2-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="variable_selection_files/figure-html/stepb2-1.png" width="960" style="display: block; margin: auto;"><img src="variable_selection_files/figure-html/stepb2-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-1" class="section level3">
 <h3 class="hasAnchor">
@@ -1109,7 +1109,7 @@
 ##         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
 ## ------------------------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">plot</span>(k)</a></code></pre></div>
-<p><img src="variable_selection_files/figure-html/stepwise2-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="variable_selection_files/figure-html/stepwise2-1.png" width="960" style="display: block; margin: auto;"><img src="variable_selection_files/figure-html/stepwise2-2.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="detailed-output-2" class="section level3">
 <h3 class="hasAnchor">

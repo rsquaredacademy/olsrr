@@ -277,7 +277,7 @@
 <p>Panel of plots for regression diagnostics</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_diagnostics.html">ols_plot_diagnostics</a></span>(model)</a></code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/diagpanel-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="regression_diagnostics_files/figure-html/diagpanel-1.png" width="960" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/diagpanel-2.png" width="960" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/diagpanel-3.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div id="variable-contributions" class="section level2">
@@ -307,7 +307,7 @@
 <p>A strong linear relationship in the added variable plot indicates the increased importance of the contribution of <strong>X</strong> to the model already containing the other predictors.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_added_variable.html">ols_plot_added_variable</a></span>(model)</a></code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/avplot-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="regression_diagnostics_files/figure-html/avplot-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="residual-plus-component-plot" class="section level3">
 <h3 class="hasAnchor">
@@ -323,7 +323,7 @@
 <p>The residual plus component plot indicates whether any non-linearity is present in the relationship between <strong>Y</strong> and <strong>X</strong> and can suggest possible transformations for linearizing the data.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>qsec, <span class="dt">data =</span> mtcars)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="../reference/ols_plot_comp_plus_resid.html">ols_plot_comp_plus_resid</a></span>(model)</a></code></pre></div>
-<p><img src="regression_diagnostics_files/figure-html/cplusr-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="regression_diagnostics_files/figure-html/cplusr-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
 </div>
