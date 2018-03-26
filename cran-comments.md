@@ -1,5 +1,5 @@
 ## Test environments
-* local Windows 10, R 3.4.3
+* local Windows 10, R 3.4.4
 * ubuntu 12.04 (on travis-ci), R 3.3.3, R 3.4.1, R-devel
 * win-builder (devel and release)
 
