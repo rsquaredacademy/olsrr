@@ -9,7 +9,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='allsub1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_all_subset.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.html', '_blank')")
                 )
               )
   } else if (input$mselect == "Best Subset") {
@@ -22,7 +22,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='bestsub1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_best_subset.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.html', '_blank')")
                 )
               )
 
@@ -37,7 +37,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepwise1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepwise.html', '_blank')")
+                    onclick ="window.open('https:/olsrr.rsquaredacademy.com/reference/ols_step_both_p.html', '_blank')")
                 )
               )
 
@@ -52,7 +52,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepf1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_step_forward.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.html', '_blank')")
                 )
               )
 
@@ -67,7 +67,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepb1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_step_backward.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_step_backward_p.html', '_blank')")
                 )
               )
 
@@ -82,7 +82,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepaicf1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_forward.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_step_forward_aic.html', '_blank')")
                 )
               )
 
@@ -97,7 +97,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepaicb1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_backward.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_step_backward_aic.html', '_blank')")
                 )
               )
 
@@ -112,9 +112,7 @@ output$ui_mselectlink <- renderUI({
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='stepaicbo1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_stepaic_both.html', '_blank')"),
-                  actionButton(inputId='stepaicbo3', label="Demo", icon = icon("video-camera"),
-                    onclick ="window.open('http://google.com', '_blank')")
+                    onclick ="window.open('olsrr.rsquaredacademy.com/reference/ols_step_both_aic.html', '_blank')")
                 )
               )
   }
