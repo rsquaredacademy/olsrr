@@ -47,16 +47,12 @@ independent variables.
 }
 
 \examples{
-\dontrun{
 model <- lm(mpg ~ disp + hp, data = mtcars)
 k <- ols_step_all_possible(model)
 k
-}
 
-\dontrun{
 # plot
 plot(k)
-}
 
 }
 \references{

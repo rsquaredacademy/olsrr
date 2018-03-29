@@ -40,16 +40,12 @@ is an alternative test that is less sensitive to departures from normality.
 }
 
 \examples{
-\dontrun{
 # using grouping variable
 library(descriptr)
 ols_test_bartlett(mtcarz, mpg, group_var = cyl)
-}
 
-\dontrun{
 # using variables
 ols_test_bartlett(hsb, read, write)
-}
 
 }
 \references{

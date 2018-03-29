@@ -17,9 +17,7 @@ ols_plot_diagnostics(model)
 Panel of plots for regression diagnostics.
 }
 \examples{
-\dontrun{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_diagnostics(model)
-}
 
 }

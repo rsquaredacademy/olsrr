@@ -47,17 +47,13 @@ smallest MSE, Mallow's Cp or AIC.
 }
 
 \examples{
-\dontrun{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_step_best_subset(model)
-}
 
-\dontrun{
 # plot
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 k <- ols_step_best_subset(model)
 plot(k)
-}
 
 }
 \references{

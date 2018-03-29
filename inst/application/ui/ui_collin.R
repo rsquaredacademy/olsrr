@@ -8,7 +8,7 @@ tabPanel('Collinearity Diagnostics', value = 'tab_regcollin',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='cdiaglink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_coll_diag.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.html', '_blank')")
                 )
               ),
               hr(),

@@ -39,18 +39,14 @@
 #' \code{ols_stepwise()} has been deprecated. Instead use \code{ols_step_both_p()}.
 #'
 #' @examples
-#' \dontrun{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_both_p(model)
-#' }
 #'
-#' \dontrun{
 #' # stepwise regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_both_p(model)
 #' plot(k)
-#' }
 #'
 #' @family variable selection_procedures
 #'

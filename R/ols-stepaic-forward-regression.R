@@ -29,18 +29,14 @@
 #' \code{ols_stepaic_forward()} has been deprecated. Instead use \code{ols_step_forward_aic()}.
 #'
 #' @examples
-#' \dontrun{
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_forward_aic(model)
-#' }
 #'
-#' \dontrun{
 #' # stepwise forward regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_forward_aic(model)
 #' plot(k)
-#' }
 #'
 #' @importFrom dplyr desc
 #'

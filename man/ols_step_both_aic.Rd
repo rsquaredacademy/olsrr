@@ -45,18 +45,14 @@ stepwise manner until there is no variable left to enter or remove any more.
 }
 
 \examples{
-\dontrun{
 # stepwise regression
 model <- lm(y ~ ., data = stepdata)
 ols_step_both_aic(model)
-}
 
-\dontrun{
 # stepwise regression plot
 model <- lm(y ~ ., data = stepdata)
 k <- ols_step_both_aic(model)
 plot(k)
-}
 
 }
 \references{

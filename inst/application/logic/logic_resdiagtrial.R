@@ -7,7 +7,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rvsp1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rvsp_plot.html', '_blank')")
+            onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit.html', '_blank')")
         )
       )
     } else if (input$restrial1 == "Residual Box Plot") {
@@ -17,7 +17,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rbplot1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_boxplot.html', '_blank')")
+            onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_box.html', '_blank')")
         )
       )
     } else if (input$restrial1 == "Residual Histogram") {
@@ -28,7 +28,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rhist1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_hist.html', '_blank')")
+            onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_hist.html', '_blank')")
         )
       )
     } else if (input$restrial1 == "Residual QQ Plot") {
@@ -39,7 +39,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='rqq1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rsd_qqplot.html', '_blank')")
+            onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_qq.html', '_blank')")
         )
       )
     } else if (input$restrial1 == "Normality Test") {
@@ -50,7 +50,7 @@ output$ui_resdiaglink <- renderUI({
         ),
         column(6, align = 'right',
           actionButton(inputId='resnorm1', label="Help", icon = icon("question-circle"),
-            onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_norm_test.html', '_blank')")
+            onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_test_normality.html', '_blank')")
         )
       )
     }

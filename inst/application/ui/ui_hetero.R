@@ -13,7 +13,7 @@ tabPanel('Heteroskedasticity', value = 'tab_hetero',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='bplink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_bp_test.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.html', '_blank')")
                 )
               ),
               hr(),
@@ -99,7 +99,7 @@ tabPanel('Heteroskedasticity', value = 'tab_hetero',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='bartlink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_bartlett_test.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.html', '_blank')")
                 )
               ),
               fluidRow(
@@ -205,7 +205,7 @@ tabPanel('Heteroskedasticity', value = 'tab_hetero',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='freglink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_f_test.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_test_f.html', '_blank')")
                 )
               ),
               hr(),
@@ -277,7 +277,7 @@ tabPanel('Heteroskedasticity', value = 'tab_hetero',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='scorelink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_score_test.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_test_score.html', '_blank')")
                 )
               ),
               hr(),

@@ -31,18 +31,14 @@
 #' \code{ols_stepaic_backward()} has been deprecated. Instead use \code{ols_step_backward_aic()}.
 #'
 #' @examples
-#' \dontrun{
 #' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_backward_aic(model)
-#' }
 #'
-#' \dontrun{
 #' # stepwise backward regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_backward_aic(model)
 #' plot(k)
-#' }
 #'
 #' @importFrom ggplot2 geom_text
 #' @importFrom rlang prepend

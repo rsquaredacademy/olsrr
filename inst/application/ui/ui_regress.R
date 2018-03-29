@@ -8,7 +8,7 @@ tabPanel('Regression', value = 'tab_regress',
       ),
       column(6, align = 'right',
         actionButton(inputId='mlr1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_regress.html', '_blank')"),
+          onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_regress.html', '_blank')"),
         actionButton(inputId='mlr3', label="Demo", icon = icon("video-camera"),
           onclick ="window.open('https://www.youtube.com/watch?v=X8b0beNJ64A#t=04m50s', '_blank')")
       )

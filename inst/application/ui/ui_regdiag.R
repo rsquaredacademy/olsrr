@@ -16,7 +16,7 @@ tabPanel('Variable Contribution', value = 'tab_regvarcont',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='advarlink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_avplots.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.html', '_blank')")
                 )
               ),
               hr(),
@@ -68,7 +68,7 @@ tabPanel('Variable Contribution', value = 'tab_regvarcont',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='regcprp1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rpc_plot.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.html', '_blank')")
                 )
               ),
               hr(),
@@ -117,7 +117,7 @@ tabPanel('Variable Contribution', value = 'tab_regvarcont',
                 ),
                 column(6, align = 'right',
                   actionButton(inputId='rvsrlink1', label="Help", icon = icon("question-circle"),
-                    onclick ="window.open('https://rsquaredacademy.github.io/olsrr/reference/ols_rvsr_plot.html', '_blank')")
+                    onclick ="window.open('https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_regressor.html', '_blank')")
                 )
               ),
               hr(),

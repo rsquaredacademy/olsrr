@@ -37,16 +37,12 @@
 #' @family variable selection procedures
 #'
 #' @examples
-#' \dontrun{
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
 #' k <- ols_step_all_possible(model)
 #' k
-#' }
 #'
-#' \dontrun{
 #' # plot
 #' plot(k)
-#' }
 #'
 #' @importFrom utils combn
 #' @importFrom dplyr group_by summarise_all
