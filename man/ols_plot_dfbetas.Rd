@@ -33,10 +33,8 @@ general cutoff value to indicate influential observations and
 }
 
 \examples{
-\dontrun{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_dfbetas(model)
-}
 
 }
 \references{

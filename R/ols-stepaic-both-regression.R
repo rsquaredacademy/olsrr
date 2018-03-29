@@ -31,18 +31,14 @@
 #' \code{ols_stepaic_both()} has been deprecated. Instead use \code{ols_step_both_aic()}.
 #'
 #' @examples
-#' \dontrun{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = stepdata)
 #' ols_step_both_aic(model)
-#' }
 #'
-#' \dontrun{
 #' # stepwise regression plot
 #' model <- lm(y ~ ., data = stepdata)
 #' k <- ols_step_both_aic(model)
 #' plot(k)
-#' }
 #'
 #' @family variable selection procedures
 #'

@@ -55,18 +55,14 @@ no variable left to remove any more.
 }
 
 \examples{
-\dontrun{
 # stepwise backward regression
 model <- lm(y ~ ., data = surgical)
 ols_step_backward_p(model)
-}
 
-\dontrun{
 # stepwise backward regression plot
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward_p(model)
 plot(k)
-}
 
 }
 \references{

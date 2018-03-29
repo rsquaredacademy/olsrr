@@ -189,17 +189,69 @@ following components:</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># stepwise regression</span>
+    <pre class="examples"><div class='input'><span class='co'># stepwise regression</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>stepdata</span>)
-<span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)
-<span class='co'># }</span><div class='input'>
-</div><span class='co'># NOT RUN {</span>
+<span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; Stepwise Selection Method 
+#&gt; -------------------------
+#&gt; 
+#&gt; Candidate Terms: 
+#&gt; 
+#&gt; 1 . x1 
+#&gt; 2 . x2 
+#&gt; 3 . x3 
+#&gt; 4 . x4 
+#&gt; 5 . x5 
+#&gt; 6 . x6 
+#&gt; 
+#&gt; 
+#&gt; Variables Entered/Removed: 
+#&gt; 
+#&gt; &lt;U+2714&gt; x6 
+#&gt; &lt;U+2714&gt; x1 
+#&gt; &lt;U+2714&gt; x3 
+#&gt; &lt;U+2714&gt; x2 
+#&gt; &lt;U+2716&gt; x6 
+#&gt; &lt;U+2714&gt; x4 
+#&gt; 
+#&gt; No more variables to be added or removed.</div><div class='output co'>#&gt; 
+#&gt; 
+#&gt;                                   Stepwise Summary                                  
+#&gt; ----------------------------------------------------------------------------------
+#&gt; Variable     Method        AIC         RSS        Sum Sq       R-Sq      Adj. R-Sq 
+#&gt; ----------------------------------------------------------------------------------
+#&gt; x6          addition    33473.297    6241.497    13986.736    0.69145      0.69143 
+#&gt; x1          addition    32931.758    6074.156    14154.076    0.69972      0.69969 
+#&gt; x3          addition    31912.722    5771.842    14456.391    0.71466      0.71462 
+#&gt; x2          addition    29304.296    5065.587    15162.646    0.74958      0.74953 
+#&gt; x6          removal     29302.317    5065.592    15162.641    0.74958      0.74954 
+#&gt; x4          addition    29300.814    5064.705    15163.528    0.74962      0.74957 
+#&gt; ----------------------------------------------------------------------------------
+#&gt; </div><div class='input'>
 <span class='co'># stepwise regression plot</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>stepdata</span>)
-<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)
-<span class='fu'>plot</span>(<span class='no'>k</span>)
-<span class='co'># }</span><div class='input'>
+<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; Stepwise Selection Method 
+#&gt; -------------------------
+#&gt; 
+#&gt; Candidate Terms: 
+#&gt; 
+#&gt; 1 . x1 
+#&gt; 2 . x2 
+#&gt; 3 . x3 
+#&gt; 4 . x4 
+#&gt; 5 . x5 
+#&gt; 6 . x6 
+#&gt; 
+#&gt; 
+#&gt; Variables Entered/Removed: 
+#&gt; 
+#&gt; &lt;U+2714&gt; x6 
+#&gt; &lt;U+2714&gt; x1 
+#&gt; &lt;U+2714&gt; x3 
+#&gt; &lt;U+2714&gt; x2 
+#&gt; &lt;U+2716&gt; x6 
+#&gt; &lt;U+2714&gt; x4 
+#&gt; 
+#&gt; No more variables to be added or removed.</div><div class='input'><span class='fu'>plot</span>(<span class='no'>k</span>)</div><div class='img'><img src='ols_step_both_aic-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

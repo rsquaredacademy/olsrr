@@ -190,16 +190,17 @@ Prentice Hall</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+    <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_all_possible</span>(<span class='no'>model</span>)
-<span class='no'>k</span>
-<span class='co'># }</span><div class='input'>
-</div><span class='co'># NOT RUN {</span>
+<span class='no'>k</span></div><div class='output co'>#&gt; # A tibble: 3 x 6
+#&gt;   Index     N Predictors `R-Square` `Adj. R-Square` `Mallow's Cp`
+#&gt; * &lt;int&gt; &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;         &lt;dbl&gt;
+#&gt; 1     1     1 disp            0.718           0.709          4.44
+#&gt; 2     2     1 hp              0.602           0.589         17.8 
+#&gt; 3     3     2 disp hp         0.748           0.731          3.00</div><div class='input'>
 <span class='co'># plot</span>
-<span class='fu'>plot</span>(<span class='no'>k</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+<span class='fu'>plot</span>(<span class='no'>k</span>)</div><div class='input'>
+</div><div class='img'><img src='ols_step_all_possible-1.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

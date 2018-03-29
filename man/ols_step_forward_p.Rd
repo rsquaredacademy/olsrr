@@ -55,18 +55,14 @@ no variable left to enter any more.
 }
 
 \examples{
-\dontrun{
 # stepwise forward regression
 model <- lm(y ~ ., data = surgical)
 ols_step_forward_p(model)
-}
 
-\dontrun{
 # stepwise forward regression plot
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_forward_p(model)
 plot(k)
-}
 
 }
 \references{

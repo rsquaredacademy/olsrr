@@ -180,15 +180,37 @@ Eighth Edition, Iowa State University Press.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># using grouping variable</span>
-<span class='fu'>library</span>(<span class='no'>descriptr</span>)
-<span class='fu'>ols_test_bartlett</span>(<span class='no'>mtcarz</span>, <span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>cyl</span>)
-<span class='co'># }</span><div class='input'>
-</div><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'><span class='co'># using grouping variable</span>
+<span class='fu'>library</span>(<span class='no'>descriptr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘descriptr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:olsrr’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    hsb</span></div><div class='input'><span class='fu'>ols_test_bartlett</span>(<span class='no'>mtcarz</span>, <span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>cyl</span>)</div><div class='output co'>#&gt; 
+#&gt;     Bartlett's Test of Homogenity of Variances    
+#&gt; ------------------------------------------------
+#&gt; Ho: Variances are equal across groups
+#&gt; Ha: Variances are unequal for atleast two groups
+#&gt; 
+#&gt;         Test Summary          
+#&gt;  -----------------------------
+#&gt;  DF            =    2 
+#&gt;  Chi2          =    8.39345 
+#&gt;  Prob &gt; Chi2   =    0.01504477 </div><div class='input'>
 <span class='co'># using variables</span>
-<span class='fu'>ols_test_bartlett</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>)
-<span class='co'># }</span><div class='input'>
+<span class='fu'>ols_test_bartlett</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>)</div><div class='output co'>#&gt; 
+#&gt;     Bartlett's Test of Homogenity of Variances    
+#&gt; ------------------------------------------------
+#&gt; Ho: Variances are equal across groups
+#&gt; Ha: Variances are unequal for atleast two groups
+#&gt; 
+#&gt;         Data          
+#&gt;  ---------------------
+#&gt;  Variables: read write 
+#&gt; 
+#&gt;         Test Summary         
+#&gt;  ----------------------------
+#&gt;  DF            =    1 
+#&gt;  Chi2          =    1.222871 
+#&gt;  Prob &gt; Chi2   =    0.2687979 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

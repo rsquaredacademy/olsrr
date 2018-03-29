@@ -29,16 +29,12 @@
 #' @family heteroskedasticity tests
 #'
 #' @examples
-#' \dontrun{
 #' # using grouping variable
 #' library(descriptr)
 #' ols_test_bartlett(mtcarz, mpg, group_var = cyl)
-#' }
 #'
-#' \dontrun{
 #' # using variables
 #' ols_test_bartlett(hsb, read, write)
-#' }
 #'
 #' @importFrom rlang quo_is_null quos
 #' @importFrom stats pchisq formula

@@ -36,18 +36,14 @@
 #' \code{ols_step_backward()} has been deprecated. Instead use \code{ols_step_backward_p()}.
 #'
 #' @examples
-#' \dontrun{
 #' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_backward_p(model)
-#' }
 #'
-#' \dontrun{
 #' # stepwise backward regression plot
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_backward_p(model)
 #' plot(k)
-#' }
 #'
 #' @family variable selection procedures
 #'
