@@ -7,7 +7,7 @@ Description: Tools for building OLS regression models . Includes
     comprehensive regression output, heteroskedasticity tests, collinearity diagnostics, 
     residual diagnostics, measures of influence, model fit assessment and variable selection procedures.
 Depends:
-    R(>= 3.2.4)
+    R(>= 3.3.3)
 Imports: 
     cli,
     clisymbols,
