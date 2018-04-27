@@ -98,7 +98,6 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   check_logic(fitted.values)
   check_logic(rhs)
   check_logic(multiple)
-  check_options(p.adj)
 
   suppressWarnings(
     if (!is.na(vars[1])) {
@@ -108,6 +107,8 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   )
 
   method <- match.arg(p.adj)
+  p.adj <- match.arg(p.adj)
+  check_options(p.adj)
   l      <- avplots_data(model)
   n      <- nrow(l)
 

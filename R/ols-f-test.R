@@ -62,7 +62,7 @@ ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
   check_logic(rhs)
 
   if (length(vars) > 0) {
-    check_npredictors(model, vars)
+    check_modelvars(model, vars)
     fitted_values <- FALSE
   }
 
