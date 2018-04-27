@@ -15,8 +15,8 @@
   tips <- c(
     "Learn more about olsrr at http://github.com/rsquaredacademy/olsrr/.",
     "Use suppressPackageStartupMessages() to eliminate package startup messages.",
-    "Need help getting started with regression models? Visit: http://www.rsquaredacademy.com",
-    "Check out our interactive app for quick data exploration. Visit: http://www.rsquaredlabs.com:3838/explorer/."
+    "Need help getting started with regression models? Visit: https://www.rsquaredacademy.com",
+    "Check out our interactive app for quick data exploration. Visit: https://apps.rsquaredacademy.com/."
   )
 
   tip <- sample(tips, 1)
