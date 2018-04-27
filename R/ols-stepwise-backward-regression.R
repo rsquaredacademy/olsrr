@@ -72,7 +72,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
   }
 
 
-  l        <- mod_sel_data(model)
+  l        <- eval(model$call$data)
   nam      <- colnames(attr(model$terms, "factors"))
   response <- names(model$model)[1]
   preds    <- nam
@@ -106,9 +106,10 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
   }
 
   while (!end) {
-    m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-    pvals <- m$pvalues[-1]
-    maxp  <- which(pvals == max(pvals))
+    m <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
+    m_sum <- Anova(m)
+    pvals <- m_sum$`Pr(>F)`
+    maxp  <- which(pvals == max(pvals, na.rm = TRUE))
 
     suppressWarnings(
       if (pvals[maxp] > prem) {

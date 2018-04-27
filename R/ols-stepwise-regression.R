@@ -85,8 +85,8 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
     names() %>%
     extract(1)
 
-  l        <- mod_sel_data(model)
-  nam      <- coeff_names(model)
+  l        <- eval(model$call$data)
+  nam      <- colnames(attr(model$terms, "factors"))
   df       <- nrow(l) - 2
   tenter   <- qt(1 - (pent) / 2, df)
   trem     <- qt(1 - (prem) / 2, df)
@@ -103,7 +103,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
   pvals   <- c()
   tvals   <- c()
   step    <- 1
-  ppos    <- step + 1
+  ppos    <- step
   rsq     <- c()
   cp      <- c()
   f       <- c()
@@ -131,15 +131,17 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
 
   for (i in seq_len(mlen_p)) {
     predictors <- all_pred[i]
-    m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), l)
-    pvals[i] <- m$pvalues[ppos]
-    tvals[i] <- m$tvalues[ppos]
+    m <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m_sum <- Anova(m)
+    pvals[i] <- m_sum$`Pr(>F)`[ppos]
+    # pvals[i] <- m$pvalues[ppos]
+    # tvals[i] <- m$tvalues[ppos]
   }
 
-  minp    <- which(pvals == min(pvals))
-  tvals   <- abs(tvals)
-  maxt    <- which(tvals == max(tvals))
-  preds   <- all_pred[maxt]
+  minp    <- which(pvals == min(pvals, na.rm = TRUE))
+  # tvals   <- abs(tvals)
+  # maxt    <- which(tvals == max(tvals))
+  preds   <- all_pred[minp]
   lpreds  <- length(preds)
   fr      <- ols_regress(paste(response, "~",
                                paste(preds, collapse = " + ")), l)
@@ -148,6 +150,8 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
   cp      <- ols_mallows_cp(fr$model, model)
   aic     <- ols_aic(fr$model)
   sbc     <- ols_sbc(fr$model)
+
+
   sbic    <- ols_sbic(fr$model, model)
   rmse    <- sqrt(fr$ems)
   betas   <- append(betas, fr$betas)
@@ -180,30 +184,32 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
 
   while (step < mlen_p) {
 
-    all_pred <- all_pred[-maxt]
+    all_pred <- all_pred[-minp]
     len_p    <- length(all_pred)
     step     <- step + 1
-    ppos     <- ppos + length(maxt)
+    ppos     <- ppos + length(minp)
     pvals    <- c()
     tvals    <- c()
 
     for (i in seq_len(len_p)) {
 
       predictors <- c(preds, all_pred[i])
-      m          <- ols_regress(paste(response, "~",
+      m          <- lm(paste(response, "~",
                                       paste(predictors, collapse = " + ")), l)
-      pvals[i]   <- m$pvalues[ppos]
-      tvals[i]   <- m$tvalues[ppos]
+      m_sum <- Anova(m)
+      pvals[i] <- m_sum$`Pr(>F)`[ppos]
+      # pvals[i]   <- m$pvalues[ppos]
+      # tvals[i]   <- m$tvalues[ppos]
     }
 
-    minp  <- which(pvals == min(pvals))
-    tvals <- abs(tvals)
-    maxt  <- which(tvals == max(tvals))
+    minp  <- which(pvals == min(pvals, na.rm = TRUE))
+    # tvals <- abs(tvals)
+    # maxt  <- which(tvals == max(tvals))
 
-    if (tvals[maxt] >= tenter) {
+    if (pvals[minp] <= pent) {
 
-      preds     <- c(preds, all_pred[maxt])
-      var_index <- c(var_index, all_pred[maxt])
+      preds     <- c(preds, all_pred[minp])
+      var_index <- c(var_index, all_pred[minp])
       method    <- c(method, tech[1])
       lpreds    <- length(preds)
       all_step  <- all_step + 1
@@ -247,18 +253,20 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
         cat("\n\n")
       }
 
-      m2      <- ols_regress(paste(response, "~",
+      m2      <- lm(paste(response, "~",
                                    paste(preds, collapse = " + ")), l)
-      tvals_r <- abs(m2$tvalues[-1])
-      mint    <- which(tvals_r == min(tvals_r))
-      if (tvals_r[mint] < trem) {
+      m2_sum <- Anova(m2)
+      # pvals[i] <- m_sum$`Pr(>F)`[ppos]
+      pvals_r <- m2_sum$`Pr(>F)`
+      maxp    <- which(pvals_r == max(pvals_r, na.rm = TRUE))
+      if (pvals_r[maxp] > prem) {
 
-        var_index <- c(var_index, preds[mint])
+        var_index <- c(var_index, preds[maxp])
         lvar      <- length(var_index)
         method    <- c(method, tech[2])
-        preds     <- preds[-mint]
+        preds     <- preds[-maxp]
         all_step  <- all_step + 1
-        ppos      <- ppos - length(mint)
+        ppos      <- ppos - length(maxp)
         fr        <- ols_regress(paste(response, "~",
                                        paste(preds, collapse = " + ")), l)
         rsq       <- c(rsq, fr$rsq)

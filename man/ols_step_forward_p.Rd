@@ -21,7 +21,7 @@ candidate predictor variables.}
 \item{...}{Other arguments.}
 
 \item{penter}{p value; variables with p value less than \code{penter} will
-.enter into the model}
+enter into the model}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}
