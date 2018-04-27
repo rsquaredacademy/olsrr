@@ -39,8 +39,11 @@ ols_update <- function(owner = "rsquaredacademy", repo = "olsrr") {
 #' }
 #' @export
 ols_deps <- function(owner = "rsquaredacademy", repo = "olsrr") {
+  
   pkgs <- utils::available.packages()
-  cran_version <- pkgs %>%
+  
+  cran_version <- 
+    pkgs %>%
     extract(repo, "Version") %>%
     package_version()
 

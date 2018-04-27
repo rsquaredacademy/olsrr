@@ -10,4 +10,19 @@
 
   tip <- sample(tips, 1)
   packageStartupMessage(paste(strwrap(tip), collapse = "\n"))
+
+  pkgs <- utils::available.packages()
+  
+  cran_version <- 
+    pkgs %>%
+    extract(repo, "Version") %>%
+    package_version()
+
+  local_version <- packageVersion(repo)
+  behind_cran <- cran_version > local_version
+
+  if (behind_cran) {
+  	cat("A new version of olsrr (0.5.1) is available with bug fixes and new features.")
+  }
+
 }
