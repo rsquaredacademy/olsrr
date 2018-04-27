@@ -41,9 +41,7 @@ ols_correlations <- function(model) UseMethod("ols_correlations")
 #'
 ols_correlations.default <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   result <- corout(model, corm2(model))
   class(result) <- c("ols_correlations", "data.frame")

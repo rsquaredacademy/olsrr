@@ -39,9 +39,7 @@
 #'
 ols_plot_dfbetas <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   obs <- NULL
   txt <- NULL

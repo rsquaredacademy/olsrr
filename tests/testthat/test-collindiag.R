@@ -39,29 +39,6 @@ test_that("output from eigen_cindex matches expected result", {
 })
 
 
-test_that("vif_tol fails when model inherits other than 'lm'", {
-  y <- sample(c(1:4), 100, replace = T)
-  x <- sample(c(1, 2), 100, replace = T)
-  m <- glm(x ~ y)
-  expect_error(ols_vif_tol(m), "Please specify a OLS linear regression model.")
-})
-
-
-test_that("eigen_cindex fails when model inherits other than 'lm'", {
-  y <- sample(c(1:4), 100, replace = T)
-  x <- sample(c(1, 2), 100, replace = T)
-  m <- glm(x ~ y)
-  expect_error(ols_eigen_cindex(m), "Please specify a OLS linear regression model.")
-})
-
-
-test_that("coll_diag fails when model inherits other than 'lm'", {
-  y <- sample(c(1:4), 100, replace = T)
-  x <- sample(c(1, 2), 100, replace = T)
-  m <- glm(x ~ y)
-  expect_error(ols_coll_diag(m), "Please specify a OLS linear regression model.")
-})
-
 test_that("output from ols_coll_diag is as expected", {
   x <- cat("Tolerance and Variance Inflation Factor
 ---------------------------------------

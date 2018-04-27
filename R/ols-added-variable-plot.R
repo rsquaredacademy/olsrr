@@ -59,9 +59,7 @@
 #'
 ols_plot_added_variable <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   data    <- avplots_data(model)
   xnames  <- colnames(data)

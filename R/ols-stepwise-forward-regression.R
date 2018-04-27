@@ -8,7 +8,7 @@
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
 #' @param penter p value; variables with p value less than \code{penter} will
-#'   .enter into the model
+#'   enter into the model
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
 #' @param x An object of class \code{ols_step_forward_p}.
@@ -49,6 +49,8 @@
 #' plot(k)
 #'
 #' @importFrom stats qt
+#' @importFrom dplyr full_join
+#' @importFrom car Anova
 #'
 #' @family variable selection procedures
 #'
@@ -60,34 +62,24 @@ ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 #' @rdname ols_step_forward_p
 #'
 ols_step_forward_p.default <- function(model, penter = 0.3, details = FALSE, ...) {
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  
+  check_model(model)
+  check_logic(details)
+  check_values(penter, 0, 1)
+  check_npredictors(model, 3)
 
-  if ((penter < 0) | (penter > 1)) {
-    stop("p value for entering variables into the model must be between 0 and 1.", call. = FALSE)
-  }
-
-  if (!is.logical(details)) {
-    stop("details must be either TRUE or FALSE", call. = FALSE)
-  }
-
-  if (length(model$coefficients) < 3) {
-    stop("Please specify a model with at least 2 predictors.", call. = FALSE)
-  }
-
-  l        <- mod_sel_data(model)
+  l        <- eval(model$call$data)
+  nam      <- colnames(attr(model$terms, "factors"))
   df       <- nrow(l) - 2
   tenter   <- qt(1 - (penter) / 2, df)
   n        <- ncol(l)
-  nam      <- colnames(attr(model$terms, "factors"))
   response <- names(model$model)[1]
   all_pred <- nam
   cterms   <- all_pred
   mlen_p   <- length(all_pred)
 
   step     <- 1
-  ppos     <- step + 1
+  ppos     <- step 
   preds    <- c()
   pvals    <- c()
   tvals    <- c()
@@ -116,15 +108,17 @@ ols_step_forward_p.default <- function(model, penter = 0.3, details = FALSE, ...
 
   for (i in seq_len(mlen_p)) {
     predictors <- all_pred[i]
-    m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), l)
-    pvals[i] <- m$pvalues[ppos]
-    tvals[i] <- m$tvalues[ppos]
+    m <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m_sum <- Anova(m)
+    pvals[i] <- m_sum$`Pr(>F)`[ppos]
+    # pvals[i] <- m$pvalues[ppos]
+    # tvals[i] <- m$tvalues[ppos]
   }
 
-  minp   <- which(pvals == min(pvals))
-  tvals  <- abs(tvals)
-  maxt   <- which(tvals == max(tvals))
-  preds  <- all_pred[maxt]
+  minp   <- which(pvals == min(pvals, na.rm = TRUE))
+  # tvals  <- abs(tvals)
+  # maxt   <- which(tvals == max(tvals))
+  preds  <- all_pred[minp]
   lpreds <- length(preds)
   fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
   rsq    <- fr$rsq
@@ -155,29 +149,31 @@ ols_step_forward_p.default <- function(model, penter = 0.3, details = FALSE, ...
 
   while (step < mlen_p) {
 
-    all_pred <- all_pred[-maxt]
+    all_pred <- all_pred[-minp]
     len_p    <- length(all_pred)
-    ppos     <- ppos + length(maxt)
+    ppos     <- ppos + length(minp)
     pvals    <- c()
     tvals    <- c()
 
     for (i in seq_len(len_p)) {
 
       predictors <- c(preds, all_pred[i])
-      m <- ols_regress(paste(response, "~",
+      m <- lm(paste(response, "~",
                              paste(predictors, collapse = " + ")), l)
-      pvals[i] <- m$pvalues[ppos]
-      tvals[i] <- m$tvalues[ppos]
+      m_sum <- Anova(m)
+      pvals[i] <- m_sum$`Pr(>F)`[ppos]
+      # pvals[i] <- m$pvalues[ppos]
+      # tvals[i] <- m$tvalues[ppos]
     }
 
-    minp  <- which(pvals == min(pvals))
-    tvals <- abs(tvals)
-    maxt  <- which(tvals == max(tvals))
+    minp  <- which(pvals == min(pvals, na.rm = TRUE))
+    # tvals <- abs(tvals)
+    # maxt  <- which(tvals == max(tvals))
 
-    if (tvals[maxt] >= tenter) {
+    if (pvals[minp] <= penter) {
 
       step   <- step + 1
-      preds  <- c(preds, all_pred[maxt])
+      preds  <- c(preds, all_pred[minp])
       lpreds <- length(preds)
       fr     <- ols_regress(paste(response, "~",
                                   paste(preds, collapse = " + ")), l)

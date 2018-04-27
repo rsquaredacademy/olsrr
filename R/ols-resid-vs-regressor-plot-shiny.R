@@ -17,9 +17,8 @@
 #'
 rvsr_plot_shiny <- function(model, data, variable) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
+  check_data(data)
 
   x <- NULL
   y <- NULL

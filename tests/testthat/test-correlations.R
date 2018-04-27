@@ -12,9 +12,4 @@ test_that("correlations output match", {
   expect_equal(round(expt, 3), data)
 })
 
-test_that("correlations fails when model does not inherit 'lm'", {
-  y <- sample(c(1:4), 100, replace = T)
-  x <- sample(c(1, 2), 100, replace = T)
-  m <- glm(x ~ y)
-  expect_error(ols_correlations(m), "Please specify a OLS linear regression model.")
-})
+

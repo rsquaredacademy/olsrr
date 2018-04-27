@@ -39,11 +39,9 @@
 #'
 ols_plot_resid_fit_spread <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
-    x <- NULL
+  x <- NULL
   y <- NULL
 
   d1    <- fmdata(model)
@@ -74,9 +72,7 @@ ols_plot_resid_fit_spread <- function(model) {
 #'
 ols_plot_fm <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   x <- NULL
   y <- NULL
@@ -111,9 +107,7 @@ fmdata <- function(model) {
 #'
 ols_plot_resid_spread <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   x <- NULL
   y <- NULL

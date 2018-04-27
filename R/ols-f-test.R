@@ -57,22 +57,12 @@ ols_test_f <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ..
 #'
 ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
-  if (!is.logical(fitted_values)) {
-    stop("fitted.values must be either TRUE or FALSE")
-  }
-
-  if (!is.logical(rhs)) {
-    stop("rhs must be either TRUE or FALSE")
-  }
+  check_model(model)
+  check_logic(fitted_values)
+  check_logic(rhs)
 
   if (length(vars) > 0) {
-    if (!all(vars %in% names(model$coefficients))) {
-      stop("vars must be a subset of the predictors in the model")
-    }
+    check_modelvars(model, vars)
     fitted_values <- FALSE
   }
 

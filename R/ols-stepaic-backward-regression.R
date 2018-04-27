@@ -55,17 +55,9 @@ ols_step_backward_aic <- function(model, ...) UseMethod("ols_step_backward_aic")
 #'
 ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
-  if (!is.logical(details)) {
-    stop("details must be either TRUE or FALSE", call. = FALSE)
-  }
-
-  if (length(model$coefficients) < 3) {
-    stop("Please specify a model with at least 2 predictors.", call. = FALSE)
-  }
+  check_model(model)
+  check_logic(details)
+  check_npredictors(model, 3)
 
   response <-
     model %>%

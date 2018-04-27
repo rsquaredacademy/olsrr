@@ -26,9 +26,7 @@
 #'
 ols_leverage <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   model %>%
     hatvalues() %>%
@@ -60,9 +58,7 @@ ols_leverage <- function(model) {
 #'
 ols_hadi <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   potential <- hadipot(model)
   residual  <- hadires(model)
@@ -148,9 +144,7 @@ hadires <- function(model) {
 #'
 ols_press <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   lev <- ols_leverage(model)
   k   <- 1 - lev
@@ -184,9 +178,7 @@ ols_press <- function(model) {
 #'
 ols_pred_rsq <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   tss <-
     model %>%
