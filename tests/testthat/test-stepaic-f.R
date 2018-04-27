@@ -13,14 +13,3 @@ test_that("output from stepaic_forward matches the expected outptu", {
 })
 
 
-test_that("forward selection fails when model inherits other than 'lm'", {
-  y <- sample(c(1:4), 100, replace = T)
-  x <- sample(c(1, 2), 100, replace = T)
-  m <- glm(x ~ y)
-  expect_error(ols_step_forward_aic(m), "Please specify a OLS linear regression model.")
-})
-
-test_that("forward selection fails when model contains less than 2 predictors", {
-  model <- lm(y ~ x1, data = cement)
-  expect_error(ols_step_forward_aic(model), "Please specify a model with at least 2 predictors.")
-})

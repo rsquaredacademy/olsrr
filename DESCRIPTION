@@ -10,6 +10,7 @@ Depends:
     R(>= 3.3.0)
 Imports: 
     car,
+    checkmate,
     cli,
     clisymbols,
     crayon,

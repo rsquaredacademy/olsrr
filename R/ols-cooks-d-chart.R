@@ -42,9 +42,8 @@
 #' @export
 #'
 ols_plot_cooksd_chart <- function(model) {
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  
+  check_model(model)
 
   obs <- NULL
   ckd <- NULL

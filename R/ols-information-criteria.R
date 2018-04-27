@@ -51,9 +51,7 @@
 #'
 ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   method <- match.arg(method)
   n      <- model_rows(model)
@@ -132,9 +130,7 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
 #'
 ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   method <- match.arg(method)
   n      <- model_rows(model)
@@ -202,13 +198,8 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 #'
 ols_sbic <- function(model, full_model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
-  if (!all(class(full_model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
+  check_model(full_model)
 
   n <- model_rows(model)
   p <- anova_coeffs(model)
@@ -326,13 +317,8 @@ sbicout <- function(model, n, p, q) {
 #'
 ols_mallows_cp <- function(model, fullmodel) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
-  if (!all(class(fullmodel) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
+  check_model(fullmodel)
 
   n <- model_rows(model)
   p <- anova_coeffs(model)
@@ -411,10 +397,7 @@ mcpout <- function(model, fullmodel, n, p, q) {
 #'
 ols_msep <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
+  check_model(model)
   sepout(model)
 
 }
@@ -485,10 +468,7 @@ sepout <- function(model) {
 #'
 ols_fpe <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
+  check_model(model)
   jpout(model)
 
 }
@@ -556,10 +536,7 @@ jpout <- function(model) {
 #'
 ols_apc <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
+  check_model(model)
   pcout(model)
 
 }
@@ -622,10 +599,7 @@ pcout <- function(model) {
 #'
 ols_hsp <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
+  check_model(model)
   spout(model)
 
 }

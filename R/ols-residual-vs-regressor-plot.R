@@ -22,9 +22,7 @@
 #'
 ols_plot_resid_regressor <- function(model, variable) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   x <- NULL
   y <- NULL

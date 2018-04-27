@@ -21,9 +21,4 @@ test_that("all output from the test match the result", {
 })
 
 
-test_that("when group_var = NA, at least two variables must be specified", {
-  expect_error(
-    ols_test_bartlett(mtcars, mpg),
-    "Please specify at least two variables."
-  )
-})
+

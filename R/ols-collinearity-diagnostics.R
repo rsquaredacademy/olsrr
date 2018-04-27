@@ -85,9 +85,7 @@ ols_coll_diag <- function(model) UseMethod("ols_coll_diag")
 #'
 ols_coll_diag.default <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   vift    <- ols_vif_tol(model)
   eig_ind <- ols_eigen_cindex(model)
@@ -115,9 +113,7 @@ print.ols_coll_diag <- function(x, ...) {
 #'
 ols_vif_tol <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   vt <- viftol(model)
 
@@ -132,9 +128,7 @@ ols_vif_tol <- function(model) {
 #'
 ols_eigen_cindex <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   pvdata <- NULL
 

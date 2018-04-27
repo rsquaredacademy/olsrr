@@ -62,21 +62,11 @@ ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 #' @rdname ols_step_forward_p
 #'
 ols_step_forward_p.default <- function(model, penter = 0.3, details = FALSE, ...) {
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
-  if ((penter < 0) | (penter > 1)) {
-    stop("p value for entering variables into the model must be between 0 and 1.", call. = FALSE)
-  }
-
-  if (!is.logical(details)) {
-    stop("details must be either TRUE or FALSE", call. = FALSE)
-  }
-
-  if (length(model$coefficients) < 3) {
-    stop("Please specify a model with at least 2 predictors.", call. = FALSE)
-  }
+  
+  check_model(model)
+  check_logic(details)
+  check_values(penter, 0, 1)
+  check_npredictors(model, 3)
 
   l        <- eval(model$call$data)
   nam      <- colnames(attr(model$terms, "factors"))

@@ -94,28 +94,15 @@ ols_test_breusch_pagan <- function(model, fitted.values = TRUE, rhs = FALSE, mul
 ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
                                 p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
-  if (!is.logical(fitted.values)) {
-    stop("fitted.values must be either TRUE or FALSE")
-  }
-
-  if (!is.logical(rhs)) {
-    stop("rhs must be either TRUE or FALSE")
-  }
-
-  if (!is.logical(multiple)) {
-    stop("multiple must be either TRUE or FALSE")
-  }
+  check_model(model)
+  check_logic(fitted.values)
+  check_logic(rhs)
+  check_logic(multiple)
+  check_options(p.adj)
 
   suppressWarnings(
     if (!is.na(vars[1])) {
-      if (!all(vars %in% names(model$coefficients))) {
-        stop("vars must be a subset of the predictors in the model")
-      }
-
+      check_npredictors(model, vars)
       fitted.values <- FALSE
     }
   )

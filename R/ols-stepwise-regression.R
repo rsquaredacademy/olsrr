@@ -59,25 +59,11 @@ ols_step_both_p <- function(model, ...) UseMethod("ols_step_both_p")
 #'
 ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FALSE, ...) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
-
-  if ((pent < 0) | (pent > 1)) {
-    stop("p value for entering variables into the model must be between 0 and 1.", call. = FALSE)
-  }
-
-  if ((prem < 0) | (prem > 1)) {
-    stop("p value for removing variables from the model must be between 0 and 1.", call. = FALSE)
-  }
-
-  if (!is.logical(details)) {
-    stop("details must be either TRUE or FALSE", call. = FALSE)
-  }
-
-  if (length(model$coefficients) < 3) {
-    stop("Please specify a model with at least 2 predictors.", call. = FALSE)
-  }
+  check_model(model)
+  check_logic(details)
+  check_values(pent, 0, 1)
+  check_values(prem, 0, 1)
+  check_npredictors(model, 3)
 
   response <-
     model %>%

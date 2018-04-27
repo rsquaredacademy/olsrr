@@ -18,9 +18,7 @@
 #'
 ols_plot_diagnostics <- function(model) {
 
-  if (!all(class(model) == "lm")) {
-    stop("Please specify a OLS linear regression model.", call. = FALSE)
-  }
+  check_model(model)
 
   predicted <- NULL
   fct_color <- NULL

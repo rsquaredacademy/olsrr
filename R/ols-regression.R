@@ -75,9 +75,7 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
     stop("data missing", call. = FALSE)
   }
 
-  if (!is.data.frame(data)) {
-    stop("data must be a data frame", call. = FALSE)
-  }
+  check_data(data)
 
   if (!is.numeric(conf.level)) {
     stop("conf.level must be numeric", call. = FALSE)
@@ -86,6 +84,8 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
   if ((conf.level < 0) | (conf.level > 1)) {
     stop("conf.level must be between 0 and 1", call. = FALSE)
   }
+
+  check_logic(iterm)
 
   if (!is.character(title)) {
     stop(paste(title, "is not a string, Please specify a string as title."), call. = FALSE)
@@ -115,6 +115,8 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
 #' @export
 #'
 ols_regress.lm <- function(object, ...) {
+
+  check_model(object)
 
   formula <- formula(object)
   data    <- eval(object$call$data)
