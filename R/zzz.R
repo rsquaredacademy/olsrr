@@ -6,7 +6,7 @@
   
   cran_version <- 
     pkgs %>%
-    extract(repo, "Version") %>%
+    extract("olsrr", "Version") %>%
     package_version()
 
   local_version <- packageVersion("olsrr")
