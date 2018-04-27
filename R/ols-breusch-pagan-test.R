@@ -101,7 +101,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
 
   suppressWarnings(
     if (!is.na(vars[1])) {
-      check_npredictors(model, vars)
+      check_modelvars(model, vars)
       fitted.values <- FALSE
     }
   )
