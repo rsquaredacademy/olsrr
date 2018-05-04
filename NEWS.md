@@ -1,3 +1,17 @@
+# olsrr 0.5.1
+
+This is a patch release to fix minor bugs and improve error messages.
+
+## Enhancements
+
+olsrr now throws better error messages keeping in mind beginner and intermediate R users. It is 
+a work in progress and should get better in future releases.
+
+## Bug Fixes
+
+Variable selection procedures based on p values now handle categorical variables in the 
+same way as the procedures based on AIC values. 
+
 # olsrr 0.5.0
 
 This is a minor release for bug fixes and API changes.
