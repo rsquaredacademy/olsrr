@@ -1,11 +1,12 @@
 Package: olsrr
 Type: Package
 Title: Tools for Building OLS Regression Models 
-Version: 0.5.1
+Version: 0.5.1.9000
 Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
-Description: Tools for building OLS regression models . Includes 
-    comprehensive regression output, heteroskedasticity tests, collinearity diagnostics, 
-    residual diagnostics, measures of influence, model fit assessment and variable selection procedures.
+Description: Tools designed to make it easier for users, particularly beginner/intermediate R users 
+    to build ordinary least squares regression models. Includes comprehensive regression output, 
+    heteroskedasticity tests, collinearity diagnostics, residual diagnostics, measures of influence, 
+    model fit assessment and variable selection procedures.
 Depends:
     R(>= 3.3)
 Imports: 
