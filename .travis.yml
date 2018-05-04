@@ -11,6 +11,7 @@ addons:
       - libnlopt-dev
 
 r:
+    - 3.3
     - 3.4
     - release
     - devel

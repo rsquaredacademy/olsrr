@@ -7,7 +7,7 @@ Description: Tools for building OLS regression models . Includes
     comprehensive regression output, heteroskedasticity tests, collinearity diagnostics, 
     residual diagnostics, measures of influence, model fit assessment and variable selection procedures.
 Depends:
-    R(>= 3.4.0)
+    R(>= 3.3)
 Imports: 
     car,
     checkmate,
