@@ -1,37 +1,28 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+olsrr: Tools for building OLS Regression models <img src="hex_olsrr.png" align="right" />
+-----------------------------------------------------------------------------------------
 
-## olsrr: Tools for building OLS Regression models
+**Author:** [Aravind Hebbali](https://www.aravindhebbali.com/)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
-**Author:** [Aravind Hebbali](https://www.aravindhebbali.com/)<br/>
-**License:**
-[MIT](https://opensource.org/licenses/MIT)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr) [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr) [![Coverage status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
-[![Travis-CI Build
-Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)
-[![Coverage
-status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master)
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+Overview
+--------
 
-## Overview
+The olsrr package provides following tools for teaching and learning OLS regression using R:
 
-The olsrr package provides following tools for teaching and learning OLS
-regression using R:
+-   Comprehensive Regression Output
+-   Variable Selection Procedures
+-   Heteroskedasticity Tests
+-   Collinearity Diagnostics
+-   Model Fit Assessment
+-   Measures of Influence
+-   Residual Diagnostics
+-   Variable Contribution Assessment
 
-  - Comprehensive Regression Output
-  - Variable Selection Procedures
-  - Heteroskedasticity Tests
-  - Collinearity Diagnostics
-  - Model Fit Assessment
-  - Measures of Influence
-  - Residual Diagnostics
-  - Variable Contribution Assessment
-
-## Installation
+Installation
+------------
 
 You can install olsrr from github with:
 
@@ -44,36 +35,30 @@ install.packages("olsrr")
 devtools::install_github("rsquaredacademy/olsrr")
 ```
 
-## Shiny App
+Shiny App
+---------
 
 Use `ols_launch_app()` to explore the package using a shiny app.
 
-## Vignettes
+Vignettes
+---------
 
-  - [Quick
-    Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
-  - [Variable Selection
-    Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
-  - [Residual
-    Diagnostics](https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html)
-  - [Heteroskedasticity](https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html)
-  - [Measures of
-    Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
-  - [Collinearity
-    Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
+-   [Quick Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
+-   [Variable Selection Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
+-   [Residual Diagnostics](https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html)
+-   [Heteroskedasticity](https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html)
+-   [Measures of Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
+-   [Collinearity Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
 
-## Consistent Prefix
+Consistent Prefix
+-----------------
 
 olsrr uses consistent prefix `ols_` for easy tab completion.
 
-## Quick Demo
+Quick Demo
+----------
 
-olsrr is built with the aim of helping those users who are new to the R
-language. If you know how to write a `formula` or build models using
-`lm`, you will find olsrr very useful. Most of the functions use an
-object of class `lm` as input. So you just need to build a model using
-`lm` and then pass it onto the functions in olsrr. Below is a quick
-demo:
+olsrr is built with the aim of helping those users who are new to the R language. If you know how to write a `formula` or build models using `lm`, you will find olsrr very useful. Most of the functions use an object of class `lm` as input. So you just need to build a model using `lm` and then pass it onto the functions in olsrr. Below is a quick demo:
 
 ##### Regression
 
@@ -114,9 +99,7 @@ ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
 
 ##### Stepwise Regression
 
-Build regression model from a set of candidate predictor variables by
-entering and removing predictors based on p values, in a stepwise manner
-until there is no variable left to enter or remove any more.
+Build regression model from a set of candidate predictor variables by entering and removing predictors based on p values, in a stepwise manner until there is no variable left to enter or remove any more.
 
 ###### Variable Selection
 
@@ -202,9 +185,7 @@ ols_step_both_p(model)
 
 ##### Stepwise AIC Backward Regression
 
-Build regression model from a set of candidate predictor variables by
-removing predictors based on Akaike Information Criteria, in a stepwise
-manner until there is no variable left to remove any more.
+Build regression model from a set of candidate predictor variables by removing predictors based on Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
 
 ###### Variable Selection
 
@@ -250,10 +231,7 @@ k
 
 ##### Breusch Pagan Test
 
-Breusch Pagan test is used to test for herteroskedasticity (non-constant
-error variance). It tests whether the variance of the errors from a
-regression is dependent on the values of the independent variables. It
-is a \(\chi^{2}\) test.
+Breusch Pagan test is used to test for herteroskedasticity (non-constant error variance). It tests whether the variance of the errors from a regression is dependent on the values of the independent variables. It is a *χ*<sup>2</sup> test.
 
 ``` r
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
@@ -308,6 +286,4 @@ ols_coll_diag(model)
 #> 5 0.2598094157 0.9925403056
 ```
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
