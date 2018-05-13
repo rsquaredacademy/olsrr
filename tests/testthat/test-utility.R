@@ -97,6 +97,9 @@ test_that("output from rsdata matches the expected output", {
 })
 
 test_that("output from fmdata matches the expected output", {
+
+  skip_on_cran()
+
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- fmdata(model)
   expect_equal(round(mean(k$x), 3), 0.517)
