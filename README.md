@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-olsrr: Tools for building OLS Regression models <img src="hex_olsrr.png" align="right" />
------------------------------------------------------------------------------------------
+olsrr: Tools for building OLS Regression models <img src="hex_olsrr.png" height="100px" align="right" />
+--------------------------------------------------------------------------------------------------------
 
 **Author:** [Aravind Hebbali](https://www.aravindhebbali.com/)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
