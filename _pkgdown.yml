@@ -40,7 +40,7 @@ home:
   - text: Learn more
     href: https://www.rsquaredacademy.com
   - text: Try shiny app
-    href: https://apps.rsquaredacademy.com
+    href: https://www.rsquaredcomputing.com/shiny/olsrr/
   - text: Docker Image
     href: https://hub.docker.com/r/rsquaredacademy/olsrr/
 
