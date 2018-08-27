@@ -86,10 +86,7 @@ ols_plot_added_variable <- function(model) {
 
   result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
   result
-  # do.call(grid.arrange, c(myplots, list(ncol = 2)))
-  # result <- list(plots = myplots)
-  # invisible(result)
-
+  
 }
 
 #' @export

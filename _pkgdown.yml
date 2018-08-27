@@ -1,6 +1,15 @@
+url: https://olsrr.rsquaredacademy.com
+
+authors:
+  Aravind Hebbali:
+    href: https://www.aravindhebbali.com
+
 templates:
   params:
     bootswatch: cosmo
+    docsearch:
+      api_key:
+      index_name: olsrr
 
 navbar:
   title: "olsrr"
