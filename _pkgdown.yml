@@ -145,6 +145,13 @@ reference:
   - ols_pure_error_anova
   - ols_plot_diagnostics
 
+- title: Plot Data
+
+  contents:
+  - ols_prep_avplot_data
+  - ols_prep_regress_x
+  - ols_prep_regress_y
+
 - title: Variable Contribution
 
   contents:

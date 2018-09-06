@@ -61,7 +61,7 @@ ols_plot_added_variable <- function(model) {
 
   check_model(model)
 
-  data    <- avplots_data(model)
+  data    <- ols_prep_avplot_data(model)
   xnames  <- colnames(data)
   nl      <- length(xnames)
   resp    <- xnames[1]
@@ -69,8 +69,8 @@ ols_plot_added_variable <- function(model) {
 
   for (i in 2:nl) {
 
-    x <- advarx(data, i)
-    y <- advary(data, i)
+    x <- ols_prep_regress_x(data, i)
+    y <- ols_prep_regress_y(data, i)
     d <- tibble(x, y)
 
     p <- eval(substitute(ggplot(d, aes(x = x, y = y)) +
@@ -86,7 +86,7 @@ ols_plot_added_variable <- function(model) {
 
   result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
   result
-  
+
 }
 
 #' @export
@@ -97,74 +97,6 @@ ols_avplots <- function(model) {
   .Deprecated("ols_plot_added_variable()")
 }
 
-#' Added variable plot data
-#'
-#' Data for generating the added variable plots.
-#'
-#' @importFrom stats model.frame residuals as.formula
-#' @importFrom dplyr bind_cols
-#'
-#' @param model An object of class \code{lm}.
-#'
-#' @noRd
-#'
-avplots_data <- function(model) {
-
-  m1 <-
-    model %>%
-    model.frame() %>%
-    as_data_frame()
-
-  m2 <-
-    model %>%
-    model.matrix() %>%
-    as_data_frame() %>%
-    select(-1)
-
-  m1 %>%
-    select(1) %>%
-    bind_cols(m2) %>%
-    as_data_frame()
-
-}
-
-#' Regress predictor on other predictors
-#'
-#' Regress a predictor in the model on all the other predictors.
-#'
-#' @importFrom stats lsfit
-#'
-#' @param data A \code{data.frame}.
-#' @param i A numeric vector.
-#'
-#' @noRd
-#'
-advarx <- function(data, i) {
-
-  x <- remove_columns(data, i)
-  y <- select_columns(data, i)
-  lsfit(x, y) %>%
-    use_series(residuals)
-
-}
-
-#' Regress y on other predictors
-#'
-#' Regress y on all the predictors except the ith predictor.
-#'
-#' @param data A \code{data.frame}.
-#' @param i A numeric vector (indicates the predictor in the model).
-#'
-#' @noRd
-#'
-advary <- function(data, i) {
-
-  x <- remove_columns(data, i)
-  y <- select_columns(data)
-  lsfit(x, y) %>%
-    use_series(residuals)
-
-}
 
 #' Remove columns
 #'

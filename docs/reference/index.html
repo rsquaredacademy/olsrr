@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +53,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">olsrr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">olsrr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -109,6 +119,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,470 +127,491 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.5.0.9000</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-shiny-app" class="hasAnchor"><a href="#section-shiny-app" class="anchor"></a>Shiny App</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_launch_app.html">ols_launch_app</a></code> </p>
-          </td>
-          <td><p>Launch shiny app</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-regression" class="hasAnchor"><a href="#section-regression" class="anchor"></a>Regression</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_regress.html">ols_regress</a></code> </p>
-          </td>
-          <td><p>Ordinary least squares regression</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-variable-selection-procedures" class="hasAnchor"><a href="#section-variable-selection-procedures" class="anchor"></a>Variable Selection Procedures</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_all_possible.html">ols_step_all_possible</a></code> <code><a href="ols_step_all_possible.html">plot</a></code> </p>
-          </td>
-          <td><p>All possible regression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_all_possible_betas.html">ols_step_all_possible_betas</a></code> </p>
-          </td>
-          <td><p>All possible regression variable coefficients</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_best_subset.html">ols_step_best_subset</a></code> <code><a href="ols_step_best_subset.html">plot</a></code> </p>
-          </td>
-          <td><p>Best subsets regression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_backward_p.html">ols_step_backward_p</a></code> <code><a href="ols_step_backward_p.html">plot</a></code> </p>
-          </td>
-          <td><p>Stepwise backward regression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_forward_p.html">ols_step_forward_p</a></code> <code><a href="ols_step_forward_p.html">plot</a></code> </p>
-          </td>
-          <td><p>Stepwise forward regression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_both_p.html">ols_step_both_p</a></code> <code><a href="ols_step_both_p.html">plot</a></code> </p>
-          </td>
-          <td><p>Stepwise regression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_backward_aic.html">ols_step_backward_aic</a></code> <code><a href="ols_step_backward_aic.html">plot</a></code> </p>
-          </td>
-          <td><p>Stepwise AIC backward regression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_forward_aic.html">ols_step_forward_aic</a></code> <code><a href="ols_step_forward_aic.html">plot</a></code> </p>
-          </td>
-          <td><p>Stepwise AIC forward regression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_step_both_aic.html">ols_step_both_aic</a></code> <code><a href="ols_step_both_aic.html">plot</a></code> </p>
-          </td>
-          <td><p>Stepwise AIC regression</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-residual-diagnostics" class="hasAnchor"><a href="#section-residual-diagnostics" class="anchor"></a>Residual Diagnostics</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_qq.html">ols_plot_resid_qq</a></code> </p>
-          </td>
-          <td><p>Residual QQ plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_hist.html">ols_plot_resid_hist</a></code> </p>
-          </td>
-          <td><p>Residual histogram</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_box.html">ols_plot_resid_box</a></code> </p>
-          </td>
-          <td><p>Residual box plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_test_normality.html">ols_test_normality</a></code> </p>
-          </td>
-          <td><p>Test for normality</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_test_correlation.html">ols_test_correlation</a></code> </p>
-          </td>
-          <td><p>Correlation test for normality</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_fit.html">ols_plot_resid_fit</a></code> </p>
-          </td>
-          <td><p>Residual vs fitted plot</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-heteroskedasticity" class="hasAnchor"><a href="#section-heteroskedasticity" class="anchor"></a>Heteroskedasticity</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_test_bartlett.html">ols_test_bartlett</a></code> </p>
-          </td>
-          <td><p>Bartlett test</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></code> </p>
-          </td>
-          <td><p>Breusch pagan test</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_test_score.html">ols_test_score</a></code> </p>
-          </td>
-          <td><p>Score test</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_test_f.html">ols_test_f</a></code> </p>
-          </td>
-          <td><p>F test</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-collinearity-diagnostics" class="hasAnchor"><a href="#section-collinearity-diagnostics" class="anchor"></a>Collinearity Diagnostics</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_coll_diag.html">ols_coll_diag</a></code> <code><a href="ols_coll_diag.html">ols_vif_tol</a></code> <code><a href="ols_coll_diag.html">ols_eigen_cindex</a></code> </p>
-          </td>
-          <td><p>Collinearity diagnostics</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-measures-of-influence" class="hasAnchor"><a href="#section-measures-of-influence" class="anchor"></a>Measures of Influence</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_cooksd_bar.html">ols_plot_cooksd_bar</a></code> </p>
-          </td>
-          <td><p>Cooks' D bar plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_cooksd_chart.html">ols_plot_cooksd_chart</a></code> </p>
-          </td>
-          <td><p>Cooks' D chart</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_dfbetas.html">ols_plot_dfbetas</a></code> </p>
-          </td>
-          <td><p>DFBETAs panel</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_dffits.html">ols_plot_dffits</a></code> </p>
-          </td>
-          <td><p>DFFITS plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_stud.html">ols_plot_resid_stud</a></code> </p>
-          </td>
-          <td><p>Studentized residual plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_stand.html">ols_plot_resid_stand</a></code> </p>
-          </td>
-          <td><p>Standardized residual chart</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_lev.html">ols_plot_resid_lev</a></code> </p>
-          </td>
-          <td><p>Studentized residuals vs leverage plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_stud_fit.html">ols_plot_resid_stud_fit</a></code> </p>
-          </td>
-          <td><p>Deleted studentized residual vs fitted values plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_hadi.html">ols_plot_hadi</a></code> </p>
-          </td>
-          <td><p>Hadi plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_pot.html">ols_plot_resid_pot</a></code> </p>
-          </td>
-          <td><p>Potential residual plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_leverage.html">ols_leverage</a></code> </p>
-          </td>
-          <td><p>Leverage</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_hadi.html">ols_hadi</a></code> </p>
-          </td>
-          <td><p>Hadi's influence measure</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_press.html">ols_press</a></code> </p>
-          </td>
-          <td><p>PRESS</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_pred_rsq.html">ols_pred_rsq</a></code> </p>
-          </td>
-          <td><p>Predicted rsquare</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-information-criteria" class="hasAnchor"><a href="#section-information-criteria" class="anchor"></a>Information Criteria</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_aic.html">ols_aic</a></code> </p>
-          </td>
-          <td><p>Akaike information criterion</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_sbc.html">ols_sbc</a></code> </p>
-          </td>
-          <td><p>Bayesian information criterion</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_sbic.html">ols_sbic</a></code> </p>
-          </td>
-          <td><p>Sawa's bayesian information criterion</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_mallows_cp.html">ols_mallows_cp</a></code> </p>
-          </td>
-          <td><p>Mallow's Cp</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_msep.html">ols_msep</a></code> </p>
-          </td>
-          <td><p>MSEP</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_fpe.html">ols_fpe</a></code> </p>
-          </td>
-          <td><p>Final prediction error</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_apc.html">ols_apc</a></code> </p>
-          </td>
-          <td><p>Amemiya's prediction criterion</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_hsp.html">ols_hsp</a></code> </p>
-          </td>
-          <td><p>Hocking's Sp</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-model-fit-assessment" class="hasAnchor"><a href="#section-model-fit-assessment" class="anchor"></a>Model Fit Assessment</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_fit_spread.html">ols_plot_resid_fit_spread</a></code> <code><a href="ols_plot_resid_fit_spread.html">ols_plot_fm</a></code> <code><a href="ols_plot_resid_fit_spread.html">ols_plot_resid_spread</a></code> </p>
-          </td>
-          <td><p>Residual fit spread plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_correlations.html">ols_correlations</a></code> </p>
-          </td>
-          <td><p>Part and partial correlations</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_obs_fit.html">ols_plot_obs_fit</a></code> </p>
-          </td>
-          <td><p>Observed vs fitted values plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_pure_error_anova.html">ols_pure_error_anova</a></code> </p>
-          </td>
-          <td><p>Lack of fit F test</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_diagnostics.html">ols_plot_diagnostics</a></code> </p>
-          </td>
-          <td><p>Diagnostics panel</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-variable-contribution" class="hasAnchor"><a href="#section-variable-contribution" class="anchor"></a>Variable Contribution</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_resid_regressor.html">ols_plot_resid_regressor</a></code> </p>
-          </td>
-          <td><p>Residual vs regressor plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_added_variable.html">ols_plot_added_variable</a></code> </p>
-          </td>
-          <td><p>Added variable plots</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_comp_plus_resid.html">ols_plot_comp_plus_resid</a></code> </p>
-          </td>
-          <td><p>Residual plus component plot</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-miscellaneous" class="hasAnchor"><a href="#section-miscellaneous" class="anchor"></a>Miscellaneous</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_response.html">ols_plot_response</a></code> </p>
-          </td>
-          <td><p>Response variable profile</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_plot_reg_line.html">ols_plot_reg_line</a></code> </p>
-          </td>
-          <td><p>Simple linear regression line</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_update.html">ols_update</a></code> </p>
-          </td>
-          <td><p>Update olsrr package</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ols_deps.html">ols_deps</a></code> </p>
-          </td>
-          <td><p>Check olsrr Version</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
-            <p class="section-desc"><p>olsrr comes with a built-in datasets which are used to illustrate the functions as well as for running tests.</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="surgical.html">surgical</a></code> </p>
-          </td>
-          <td><p>Surgical Unit Data Set</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="stepdata.html">stepdata</a></code> </p>
-          </td>
-          <td><p>Test Data Set</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-shiny-app" class="hasAnchor"><a href="#section-shiny-app" class="anchor"></a>Shiny App</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_launch_app.html">ols_launch_app()</a></code> </p>
+        </td>
+        <td><p>Launch shiny app</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-regression" class="hasAnchor"><a href="#section-regression" class="anchor"></a>Regression</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_regress.html">ols_regress()</a></code> </p>
+        </td>
+        <td><p>Ordinary least squares regression</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-variable-selection-procedures" class="hasAnchor"><a href="#section-variable-selection-procedures" class="anchor"></a>Variable Selection Procedures</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_all_possible.html">ols_step_all_possible()</a></code> <code><a href="ols_step_all_possible.html">plot(<i>&lt;ols_step_all_possible&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>All possible regression</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_all_possible_betas.html">ols_step_all_possible_betas()</a></code> </p>
+        </td>
+        <td><p>All possible regression variable coefficients</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_best_subset.html">ols_step_best_subset()</a></code> <code><a href="ols_step_best_subset.html">plot(<i>&lt;ols_step_best_subset&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Best subsets regression</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_backward_p.html">ols_step_backward_p()</a></code> <code><a href="ols_step_backward_p.html">plot(<i>&lt;ols_step_backward_p&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Stepwise backward regression</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_forward_p.html">ols_step_forward_p()</a></code> <code><a href="ols_step_forward_p.html">plot(<i>&lt;ols_step_forward_p&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Stepwise forward regression</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_both_p.html">ols_step_both_p()</a></code> <code><a href="ols_step_both_p.html">plot(<i>&lt;ols_step_both_p&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Stepwise regression</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_backward_aic.html">ols_step_backward_aic()</a></code> <code><a href="ols_step_backward_aic.html">plot(<i>&lt;ols_step_backward_aic&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Stepwise AIC backward regression</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_forward_aic.html">ols_step_forward_aic()</a></code> <code><a href="ols_step_forward_aic.html">plot(<i>&lt;ols_step_forward_aic&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Stepwise AIC forward regression</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_step_both_aic.html">ols_step_both_aic()</a></code> <code><a href="ols_step_both_aic.html">plot(<i>&lt;ols_step_both_aic&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Stepwise AIC regression</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-residual-diagnostics" class="hasAnchor"><a href="#section-residual-diagnostics" class="anchor"></a>Residual Diagnostics</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_qq.html">ols_plot_resid_qq()</a></code> </p>
+        </td>
+        <td><p>Residual QQ plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_hist.html">ols_plot_resid_hist()</a></code> </p>
+        </td>
+        <td><p>Residual histogram</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_box.html">ols_plot_resid_box()</a></code> </p>
+        </td>
+        <td><p>Residual box plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_test_normality.html">ols_test_normality()</a></code> </p>
+        </td>
+        <td><p>Test for normality</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_test_correlation.html">ols_test_correlation()</a></code> </p>
+        </td>
+        <td><p>Correlation test for normality</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_fit.html">ols_plot_resid_fit()</a></code> </p>
+        </td>
+        <td><p>Residual vs fitted plot</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-heteroskedasticity" class="hasAnchor"><a href="#section-heteroskedasticity" class="anchor"></a>Heteroskedasticity</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_test_bartlett.html">ols_test_bartlett()</a></code> </p>
+        </td>
+        <td><p>Bartlett test</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_test_breusch_pagan.html">ols_test_breusch_pagan()</a></code> </p>
+        </td>
+        <td><p>Breusch pagan test</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_test_score.html">ols_test_score()</a></code> </p>
+        </td>
+        <td><p>Score test</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_test_f.html">ols_test_f()</a></code> </p>
+        </td>
+        <td><p>F test</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-collinearity-diagnostics" class="hasAnchor"><a href="#section-collinearity-diagnostics" class="anchor"></a>Collinearity Diagnostics</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_coll_diag.html">ols_coll_diag()</a></code> <code><a href="ols_coll_diag.html">ols_vif_tol()</a></code> <code><a href="ols_coll_diag.html">ols_eigen_cindex()</a></code> </p>
+        </td>
+        <td><p>Collinearity diagnostics</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-measures-of-influence" class="hasAnchor"><a href="#section-measures-of-influence" class="anchor"></a>Measures of Influence</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_cooksd_bar.html">ols_plot_cooksd_bar()</a></code> </p>
+        </td>
+        <td><p>Cooks' D bar plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_cooksd_chart.html">ols_plot_cooksd_chart()</a></code> </p>
+        </td>
+        <td><p>Cooks' D chart</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_dfbetas.html">ols_plot_dfbetas()</a></code> </p>
+        </td>
+        <td><p>DFBETAs panel</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_dffits.html">ols_plot_dffits()</a></code> </p>
+        </td>
+        <td><p>DFFITS plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_stud.html">ols_plot_resid_stud()</a></code> </p>
+        </td>
+        <td><p>Studentized residual plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_stand.html">ols_plot_resid_stand()</a></code> </p>
+        </td>
+        <td><p>Standardized residual chart</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_lev.html">ols_plot_resid_lev()</a></code> </p>
+        </td>
+        <td><p>Studentized residuals vs leverage plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_stud_fit.html">ols_plot_resid_stud_fit()</a></code> </p>
+        </td>
+        <td><p>Deleted studentized residual vs fitted values plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_hadi.html">ols_plot_hadi()</a></code> </p>
+        </td>
+        <td><p>Hadi plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_pot.html">ols_plot_resid_pot()</a></code> </p>
+        </td>
+        <td><p>Potential residual plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_leverage.html">ols_leverage()</a></code> </p>
+        </td>
+        <td><p>Leverage</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_hadi.html">ols_hadi()</a></code> </p>
+        </td>
+        <td><p>Hadi's influence measure</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_press.html">ols_press()</a></code> </p>
+        </td>
+        <td><p>PRESS</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_pred_rsq.html">ols_pred_rsq()</a></code> </p>
+        </td>
+        <td><p>Predicted rsquare</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-information-criteria" class="hasAnchor"><a href="#section-information-criteria" class="anchor"></a>Information Criteria</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_aic.html">ols_aic()</a></code> </p>
+        </td>
+        <td><p>Akaike information criterion</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_sbc.html">ols_sbc()</a></code> </p>
+        </td>
+        <td><p>Bayesian information criterion</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_sbic.html">ols_sbic()</a></code> </p>
+        </td>
+        <td><p>Sawa's bayesian information criterion</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_mallows_cp.html">ols_mallows_cp()</a></code> </p>
+        </td>
+        <td><p>Mallow's Cp</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_msep.html">ols_msep()</a></code> </p>
+        </td>
+        <td><p>MSEP</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_fpe.html">ols_fpe()</a></code> </p>
+        </td>
+        <td><p>Final prediction error</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_apc.html">ols_apc()</a></code> </p>
+        </td>
+        <td><p>Amemiya's prediction criterion</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_hsp.html">ols_hsp()</a></code> </p>
+        </td>
+        <td><p>Hocking's Sp</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-model-fit-assessment" class="hasAnchor"><a href="#section-model-fit-assessment" class="anchor"></a>Model Fit Assessment</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_fit_spread.html">ols_plot_resid_fit_spread()</a></code> <code><a href="ols_plot_resid_fit_spread.html">ols_plot_fm()</a></code> <code><a href="ols_plot_resid_fit_spread.html">ols_plot_resid_spread()</a></code> </p>
+        </td>
+        <td><p>Residual fit spread plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_correlations.html">ols_correlations()</a></code> </p>
+        </td>
+        <td><p>Part and partial correlations</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_obs_fit.html">ols_plot_obs_fit()</a></code> </p>
+        </td>
+        <td><p>Observed vs fitted values plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_pure_error_anova.html">ols_pure_error_anova()</a></code> </p>
+        </td>
+        <td><p>Lack of fit F test</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_diagnostics.html">ols_plot_diagnostics()</a></code> </p>
+        </td>
+        <td><p>Diagnostics panel</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-plot-data" class="hasAnchor"><a href="#section-plot-data" class="anchor"></a>Plot Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_prep_avplot_data.html">ols_prep_avplot_data()</a></code> </p>
+        </td>
+        <td><p>Added variable plot data</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_prep_regress_x.html">ols_prep_regress_x()</a></code> </p>
+        </td>
+        <td><p>Regress predictor on other predictors</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_prep_regress_y.html">ols_prep_regress_y()</a></code> </p>
+        </td>
+        <td><p>Regress y on other predictors</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-variable-contribution" class="hasAnchor"><a href="#section-variable-contribution" class="anchor"></a>Variable Contribution</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_resid_regressor.html">ols_plot_resid_regressor()</a></code> </p>
+        </td>
+        <td><p>Residual vs regressor plot</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_added_variable.html">ols_plot_added_variable()</a></code> </p>
+        </td>
+        <td><p>Added variable plots</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_comp_plus_resid.html">ols_plot_comp_plus_resid()</a></code> </p>
+        </td>
+        <td><p>Residual plus component plot</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-miscellaneous" class="hasAnchor"><a href="#section-miscellaneous" class="anchor"></a>Miscellaneous</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_response.html">ols_plot_response()</a></code> </p>
+        </td>
+        <td><p>Response variable profile</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_plot_reg_line.html">ols_plot_reg_line()</a></code> </p>
+        </td>
+        <td><p>Simple linear regression line</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_update.html">ols_update()</a></code> </p>
+        </td>
+        <td><p>Update olsrr package</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="ols_deps.html">ols_deps()</a></code> </p>
+        </td>
+        <td><p>Check olsrr Version</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"><p>olsrr comes with a built-in datasets which are used to illustrate the functions as well as for running tests.</p></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="surgical.html">surgical</a></code> </p>
+        </td>
+        <td><p>Surgical Unit Data Set</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="stepdata.html">stepdata</a></code> </p>
+        </td>
+        <td><p>Test Data Set</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -594,6 +626,7 @@
       <li><a href="#section-measures-of-influence">Measures of Influence</a></li>
       <li><a href="#section-information-criteria">Information Criteria</a></li>
       <li><a href="#section-model-fit-assessment">Model Fit Assessment</a></li>
+      <li><a href="#section-plot-data">Plot Data</a></li>
       <li><a href="#section-variable-contribution">Variable Contribution</a></li>
       <li><a href="#section-miscellaneous">Miscellaneous</a></li>
       <li><a href="#section-data">Data</a></li>
@@ -603,15 +636,18 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href="https://www.aravindhebbali.com/">Aravind Hebbali</a>.</p>
+  <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
