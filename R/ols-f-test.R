@@ -66,7 +66,7 @@ ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
     fitted_values <- FALSE
   }
 
-  l <- avplots_data(model)
+  l <- ols_prep_avplot_data(model)
 
   nam <-
     l %>%

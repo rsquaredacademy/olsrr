@@ -59,7 +59,7 @@ print.ols_correlations <- function(x, ...) {
 #' @importFrom purrr map_df
 cordata <- function(model) {
 
-  avplots_data(model)
+  ols_prep_avplot_data(model)
 
 }
 
