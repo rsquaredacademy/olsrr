@@ -156,6 +156,7 @@ reference:
   - ols_prep_cdplot_outliers
   - ols_prep_dfbeta_data
   - ols_prep_dfbeta_outliers
+  - ols_prep_dsrvf_data
 
 - title: Variable Contribution
 

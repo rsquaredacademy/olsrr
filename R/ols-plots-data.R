@@ -240,3 +240,65 @@ ols_prep_dfbeta_outliers <- function(d) {
     select(obs, dbetas)
 
 }
+
+
+#' Deleted studentized residual plot data
+#'
+#' Generates data for deleted studentized residual vs fitted plot.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' ols_prep_dsrvf_data(model)
+#'
+#' @importFrom magrittr %<>%
+#'
+#' @export
+#'
+ols_prep_dsrvf_data <- function(model) {
+
+  dsr   <- NULL
+  color <- NULL
+  pred  <- fitted(model)
+
+  dsresid <-
+    model %>%
+    rstudent() %>%
+    unname()
+
+  n  <- length(dsresid)
+  ds <- tibble(obs = seq_len(n), dsr = dsresid)
+
+  ds %<>%
+    mutate(
+      color = ifelse((abs(dsr) >= 2), "outlier", "normal"),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier"))
+    )
+
+  ds2 <- tibble(obs       = seq_len(n),
+                pred      = pred,
+                dsr       = ds$dsr,
+                color     = ds$color,
+                fct_color = ds$fct_color)
+
+  minx <-
+    ds2 %>%
+    use_series(dsr) %>%
+    min() %>%
+    subtract(1)
+
+  maxx <-
+    ds2 %>%
+    use_series(dsr) %>%
+    max() %>%
+    add(1)
+
+  cminx <- ifelse(minx < -2, minx, -2.5)
+  cmaxx <- ifelse(maxx > 2, maxx, 2.5)
+
+  list(ds = ds2, cminx = cminx, cmaxx = cmaxx)
+
+}
