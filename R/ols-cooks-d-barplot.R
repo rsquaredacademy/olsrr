@@ -53,9 +53,9 @@ ols_plot_cooksd_bar <- function(model) {
   txt       <- NULL
   cd        <- NULL
 
-  k <- cdplot(model)
-  d <- plot_data(k)
-  f <- outlier_data(k)
+  k <- ols_prep_cdplot_data(model)
+  d <- ols_prep_outlier_obs(k)
+  f <- ols_prep_cdplot_outliers(k)
 
   p <- ggplot(d, aes(x = obs, y = cd, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
@@ -84,75 +84,3 @@ ols_cooksd_barplot <- function(model) {
   .Deprecated("ols_plot_cooksd_bar()")
 }
 
-#' @description Prepare data for cook's d bar plot
-#'
-#' @importFrom dplyr if_else
-#'
-#' @noRd
-#'
-cdplot <- function(model) {
-
-  cd        <- NULL
-  color     <- NULL
-  cooksd    <- cooks.distance(model)
-  n         <- length(cooksd)
-  obs       <- seq_len(n)
-  ckd       <- tibble(obs = obs, cd = cooksd)
-  ts        <- 4 / n
-  cooks_max <- max(cooksd)
-
-  ckd %<>%
-    mutate(
-      color = if_else(cd >= ts, "outlier", "normal"),
-      fct_color = color %>%
-        factor() %>%
-        ordered(levels = c("normal", "outlier"))
-    )
-
-  maxx <-
-    cooks_max %>%
-    multiply_by(0.01) %>%
-    add(cooks_max)
-
-  list(ckd = ckd, maxx = maxx, ts = ts)
-
-}
-
-#' @description Data for identifying outliers in cook's d bar plot
-#'
-#' @noRd
-#'
-plot_data <- function(k) {
-
-  ckd   <- NULL
-  color <- NULL
-  obs   <- NULL
-
-  k %>%
-    use_series(ckd) %>%
-    mutate(
-      txt = ifelse(color == "outlier", obs, NA)
-    )
-
-}
-
-#' @description Outlier data for cook's d bar plot
-#'
-#' @noRd
-#'
-outlier_data <- function(k) {
-
-  color <- NULL
-  ckd   <- NULL
-  obs   <- NULL
-  cd    <- NULL
-
-  k %>%
-    use_series(ckd) %>%
-    filter(
-      color == "outlier"
-    ) %>%
-    select(obs, cd) %>%
-    set_colnames(c("observation", "cooks_distance"))
-
-}

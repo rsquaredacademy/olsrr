@@ -80,3 +80,96 @@ ols_prep_regress_y <- function(data, i) {
     use_series(residuals)
 
 }
+
+#' Cooks' D plot data
+#'
+#' Prepare data for cook's d bar plot.
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' ols_prep_cdplot_data(model)
+#'
+#' @importFrom dplyr if_else
+#'
+#' @export
+#'
+ols_prep_cdplot_data <- function(model) {
+
+  cd        <- NULL
+  color     <- NULL
+  cooksd    <- cooks.distance(model)
+  n         <- length(cooksd)
+  obs       <- seq_len(n)
+  ckd       <- tibble(obs = obs, cd = cooksd)
+  ts        <- 4 / n
+  cooks_max <- max(cooksd)
+
+  ckd %<>%
+    mutate(
+      color = if_else(cd >= ts, "outlier", "normal"),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier"))
+    )
+
+  maxx <-
+    cooks_max %>%
+    multiply_by(0.01) %>%
+    add(cooks_max)
+
+  list(ckd = ckd, maxx = maxx, ts = ts)
+
+}
+
+#' Cooks' D outlier observations
+#'
+#' Identify outliers in cook's d plot.
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' k <- ols_prep_cdplot_data(model)
+#' ols_prep_outlier_obs(k)
+#'
+#' @export
+#'
+ols_prep_outlier_obs <- function(k) {
+
+  ckd   <- NULL
+  color <- NULL
+  obs   <- NULL
+
+  k %>%
+    use_series(ckd) %>%
+    mutate(
+      txt = ifelse(color == "outlier", obs, NA)
+    )
+
+}
+
+#' Cooks' d outlier data
+#'
+#' Outlier data for cook's d bar plot.
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+#' k <- ols_prep_cdplot_data(model)
+#' ols_prep_cdplot_outliers(k)
+#'
+#' @export
+#'
+ols_prep_cdplot_outliers <- function(k) {
+
+  color <- NULL
+  ckd   <- NULL
+  obs   <- NULL
+  cd    <- NULL
+
+  k %>%
+    use_series(ckd) %>%
+    filter(
+      color == "outlier"
+    ) %>%
+    select(obs, cd) %>%
+    set_colnames(c("observation", "cooks_distance"))
+
+}
