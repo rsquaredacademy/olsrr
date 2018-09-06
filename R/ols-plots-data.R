@@ -302,3 +302,42 @@ ols_prep_dsrvf_data <- function(model) {
   list(ds = ds2, cminx = cminx, cmaxx = cmaxx)
 
 }
+
+
+#' Residual fit spread plot data
+#'
+#' Data for generating residual fit spread plot.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' ols_prep_rfsplot_fmdata(model)
+#' ols_prep_rfsplot_rsdata(model)
+#'
+#' @export
+#'
+ols_prep_rfsplot_fmdata<- function(model) {
+
+  predicted <- fitted(model)
+  pred_m    <- mean(predicted)
+  y         <- predicted - pred_m
+  percenti  <- ecdf(y)
+  x         <- percenti(y)
+
+  tibble(x, y)
+
+}
+
+#' @rdname ols_prep_rfsplot_fmdata
+#' @export
+#'
+ols_prep_rfsplot_rsdata <- function(model) {
+
+  y         <- residuals(model)
+  residtile <- ecdf(y)
+  x         <- residtile(y)
+
+  tibble(x, y)
+
+}
