@@ -63,7 +63,7 @@ ols_step_best_subset.default <- function(model, ...) {
 
   r <-
     n %>%
-    seq_len()
+    seq_len(.)
 
   combs <- list()
 
@@ -167,7 +167,7 @@ ols_step_best_subset.default <- function(model, ...) {
   mindex <-
     sorted %>%
     nrow() %>%
-    seq_len()
+    seq_len(.)
 
   sorted <- cbind(mindex, sorted)
 

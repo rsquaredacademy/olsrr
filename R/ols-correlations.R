@@ -90,7 +90,7 @@ corsign <- function(model) {
     use_series(coefficients) %>%
     `[`(, 1) %>%
     extract(-1) %>%
-    sign()
+    sign(.)
 
 }
 

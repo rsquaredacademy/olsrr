@@ -474,7 +474,7 @@ bp_case_adj <- function(method, pvals, np, ps) {
     j <-
       pvals %>%
       length() %>%
-      seq_len() %>%
+      seq_len(.) %>%
       rev()
 
     h <-

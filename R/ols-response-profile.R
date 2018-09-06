@@ -36,7 +36,7 @@ ols_plot_response <- function(model) {
   xval <-
     predictor %>%
     length() %>%
-    seq_len()
+    seq_len(.)
 
   d1 <- tibble(x = predictor)
   p1 <- ggplot(d1, aes(x = x)) +

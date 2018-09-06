@@ -94,7 +94,7 @@ hadires <- function(model) {
   den <-
     aov_m %>%
     extract(j, 2) %>%
-    sqrt()
+    sqrt(.)
 
   dii <-
     model %>%

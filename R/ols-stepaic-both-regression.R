@@ -340,7 +340,7 @@ plot.ols_step_both_aic <- function(x, ...) {
     x %>%
     use_series(aic) %>%
     length() %>%
-    seq_len()
+    seq_len(.)
 
   xloc  <- y - 0.1
   yloc  <- x$aic - 0.2

@@ -91,7 +91,7 @@ ols_step_all_possible.default <- function(model, ...) {
   mindex <-
     sorted %>%
     nrow() %>%
-    seq_len()
+    seq_len(.)
 
   sorted <- cbind(mindex, sorted)
 
@@ -244,7 +244,7 @@ all_pos_lmaxs <- function(maxs) {
 
   maxs %>%
     length() %>%
-    seq_len()
+    seq_len(.)
 
 }
 
@@ -367,7 +367,7 @@ ols_step_all_possible_betas <- function(object, ...) {
     metrics %>%
     use_series(rsq) %>%
     length() %>%
-    seq_len()
+    seq_len(.)
 
   reps <-
     metrics %>%

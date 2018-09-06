@@ -36,7 +36,7 @@ ols_plot_hadi <- function(model) {
   obs <-
     hdi %>%
     length() %>%
-    seq_len()
+    seq_len(.)
 
   d <- tibble(obs = obs, hdi = hdi)
 

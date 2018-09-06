@@ -48,7 +48,7 @@ corrout <- function(model) {
 
   h <-
     n %>%
-    seq_len() %>%
+    seq_len(.) %>%
     ka(stderr = stderr, n = n)
 
   out <-

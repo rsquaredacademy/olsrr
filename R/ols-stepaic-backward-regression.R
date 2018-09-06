@@ -301,7 +301,7 @@ plot.ols_step_backward_aic <- function(x, ...) {
   y <-
     x %>%
     use_series(steps) %>%
-    seq_len() %>%
+    seq_len(.) %>%
     prepend(0)
 
   xloc <- y - 0.1

@@ -491,7 +491,7 @@ ols_prep_srplot_data<- function(model) {
   obs <-
     dstud %>%
     length() %>%
-    seq_len()
+    seq_len(.)
 
   dsr <-
     tibble(obs = obs, dsr = dstud) %>%
@@ -507,14 +507,14 @@ ols_prep_srplot_data<- function(model) {
     use_series(dsr) %>%
     min() %>%
     subtract(1) %>%
-    floor()
+    floor(.)
 
   cmaxxx <-
     dsr %>%
     use_series(dsr) %>%
     max() %>%
     subtract(1) %>%
-    floor()
+    floor(.)
 
   cminx <- ifelse(cminxx > -3, -3, cminxx)
   cmaxx <- ifelse(cmaxxx < 3, 3, cmaxxx)
@@ -524,14 +524,14 @@ ols_prep_srplot_data<- function(model) {
     add(cminx) %>%
     add(1) %>%
     abs() %>%
-    seq_len() %>%
+    seq_len(.) %>%
     multiply_by(-1)
 
   pseq <-
     0 %>%
     add(cmaxx) %>%
     subtract(1) %>%
-    seq_len()
+    seq_len(.)
 
   list(cminx = cminx,
        cmaxx = cmaxx,
@@ -573,7 +573,7 @@ ols_prep_srchart_data <- function(model) {
   obs <-
     sdres %>%
     length() %>%
-    seq_len()
+    seq_len(.)
 
   tibble(obs = obs, sdres = sdres) %>%
     mutate(

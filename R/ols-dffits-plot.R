@@ -67,7 +67,7 @@ ols_plot_dffits <- function(model) {
   dffits_t <-
     k %>%
     divide_by(n) %>%
-    sqrt() %>%
+    sqrt(.) %>%
     multiply_by(2)
 
   title <-
