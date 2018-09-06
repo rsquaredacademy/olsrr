@@ -161,6 +161,7 @@ reference:
   - ols_prep_rvsrplot_data
   - ols_prep_rstudlev_data
   - ols_prep_srplot_data
+  - ols_prep_srchart_data
 
 - title: Variable Contribution
 

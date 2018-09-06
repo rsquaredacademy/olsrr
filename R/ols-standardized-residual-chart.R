@@ -37,7 +37,7 @@ ols_plot_resid_stand <- function(model) {
   sdres <- NULL
   txt   <- NULL
 
-  d <- srchart_data(model)
+  d <- ols_prep_srchart_data(model)
 
   f <-
     d %>%
@@ -62,39 +62,6 @@ ols_plot_resid_stand <- function(model) {
   invisible(result)
 
 }
-
-#' @importFrom magrittr is_greater_than
-srchart_data <- function(model) {
-
-  color <- NULL
-
-  sdres <- rstandard(model)
-
-  sdres_out <-
-    sdres %>%
-    abs() %>%
-    is_greater_than(2)
-
-  outlier <-
-    sdres %>%
-    extract(sdres_out)
-
-  obs <-
-    sdres %>%
-    length() %>%
-    seq_len()
-
-  tibble(obs = obs, sdres = sdres) %>%
-    mutate(
-      color = ifelse(((sdres >= 2) | (sdres <= -2)), c("outlier"), c("normal")),
-      fct_color = color %>%
-        factor() %>%
-        ordered(levels = c("normal", "outlier")),
-      txt = ifelse(color == "outlier", obs, NA)
-    )
-
-}
-
 
 #' @export
 #' @rdname ols_plot_resid_stand

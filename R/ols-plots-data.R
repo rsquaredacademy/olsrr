@@ -540,3 +540,48 @@ ols_prep_srplot_data<- function(model) {
        dsr   = dsr)
 
 }
+
+#' Standardized residual chart data
+#'
+#' Generates data for standardized residual chart.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @examples
+#' model <- lm(read ~ write + math + science, data = hsb)
+#' ols_prep_srchart_data(model)
+#'
+#' @importFrom magrittr is_greater_than
+#'
+#' @export
+#'
+ols_prep_srchart_data <- function(model) {
+
+  color <- NULL
+
+  sdres <- rstandard(model)
+
+  sdres_out <-
+    sdres %>%
+    abs() %>%
+    is_greater_than(2)
+
+  outlier <-
+    sdres %>%
+    extract(sdres_out)
+
+  obs <-
+    sdres %>%
+    length() %>%
+    seq_len()
+
+  tibble(obs = obs, sdres = sdres) %>%
+    mutate(
+      color = ifelse(((sdres >= 2) | (sdres <= -2)), c("outlier"), c("normal")),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier")),
+      txt = ifelse(color == "outlier", obs, NA)
+    )
+
+}
