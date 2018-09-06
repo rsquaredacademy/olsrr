@@ -173,3 +173,70 @@ ols_prep_cdplot_outliers <- function(k) {
     set_colnames(c("observation", "cooks_distance"))
 
 }
+
+#' DFBETAs plot data
+#'
+#' Prepares the data for dfbetas plot.
+#'
+#' @param d A \code{tibble} or \code{data.frame} with dfbetas.
+#' @param threshold The threshold for outliers.
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' dfb <- dfbetas(model)
+#' n <- nrow(dfb)
+#' threshold <- 2 / sqrt(n)
+#' dbetas  <- dfb[, 1]
+#' df_data <- tibble::tibble(obs = seq_len(n), dbetas = dbetas)
+#' ols_prep_dfbeta_data(df_data, threshold)
+#'
+#' @export
+#'
+ols_prep_dfbeta_data <- function(d, threshold) {
+
+  color <- NULL
+  obs   <- NULL
+
+  d %>%
+    mutate(
+      color = ifelse(((d$dbetas >= threshold) | (d$dbetas <= -threshold)),
+                     c("outlier"), c("normal")),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier")),
+      txt = ifelse(color == "outlier", obs, NA)
+    )
+
+}
+
+#' DFBETAs plot outliers
+#'
+#' Data for identifying outliers in dfbetas plot.
+#'
+#' @param d A \code{tibble} or \code{data.frame}.
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' dfb <- dfbetas(model)
+#' n <- nrow(dfb)
+#' threshold <- 2 / sqrt(n)
+#' dbetas  <- dfb[, 1]
+#' df_data <- tibble::tibble(obs = seq_len(n), dbetas = dbetas)
+#' d <- ols_prep_dfbeta_data(df_data, threshold)
+#' ols_prep_dfbeta_outliers(d)
+#'
+#' @export
+#'
+ols_prep_dfbeta_outliers <- function(d) {
+
+  color  <- NULL
+  obs    <- NULL
+  dbetas <- NULL
+
+  d %>%
+    filter(
+      color == "outlier"
+    ) %>%
+    select(obs, dbetas)
+
+}

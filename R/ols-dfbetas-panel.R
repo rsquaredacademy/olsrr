@@ -56,8 +56,8 @@ ols_plot_dfbetas <- function(model) {
 
     dbetas  <- dfb[, i]
     df_data <- tibble(obs = seq_len(n), dbetas = dbetas)
-    d       <- dfb_plot_data(df_data, threshold)
-    f       <- dfb_outlier_data(d)
+    d       <- ols_prep_dfbeta_data(df_data, threshold)
+    f       <- ols_prep_dfbeta_outliers(d)
 
     p <- eval(substitute(
       ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dbetas)) +
@@ -94,41 +94,3 @@ ols_dfbetas_panel <- function(model) {
   .Deprecated("ols_plot_dfbetas()")
 }
 
-#' @description Prepares the data for dfbetas plot.
-#'
-#' @noRd
-#'
-dfb_plot_data <- function(d, threshold) {
-
-  color <- NULL
-  obs   <- NULL
-
-  d %>%
-    mutate(
-      color = ifelse(((d$dbetas >= threshold) | (d$dbetas <= -threshold)),
-                     c("outlier"), c("normal")),
-      fct_color = color %>%
-        factor() %>%
-        ordered(levels = c("normal", "outlier")),
-      txt = ifelse(color == "outlier", obs, NA)
-    )
-
-}
-
-#' @description Data for identifying outliers in dfbetas plot.
-#'
-#' @noRd
-#'
-dfb_outlier_data <- function(d) {
-
-  color  <- NULL
-  obs    <- NULL
-  dbetas <- NULL
-
-  d %>%
-    filter(
-      color == "outlier"
-    ) %>%
-    select(obs, dbetas)
-
-}
