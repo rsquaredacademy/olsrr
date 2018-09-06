@@ -85,6 +85,9 @@ ols_prep_regress_y <- function(data, i) {
 #'
 #' Prepare data for cook's d bar plot.
 #'
+#' @param model An object of class \code{lm}.
+#'
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_prep_cdplot_data(model)
@@ -125,6 +128,8 @@ ols_prep_cdplot_data <- function(model) {
 #'
 #' Identify outliers in cook's d plot.
 #'
+#' @param k Cooks' d bar plot data.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' k <- ols_prep_cdplot_data(model)
@@ -149,6 +154,8 @@ ols_prep_outlier_obs <- function(k) {
 #' Cooks' d outlier data
 #'
 #' Outlier data for cook's d bar plot.
+#'
+#' @param k Cooks' d bar plot data.
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
