@@ -158,6 +158,8 @@ reference:
   - ols_prep_dfbeta_outliers
   - ols_prep_dsrvf_data
   - ols_prep_rfsplot_fmdata
+  - ols_prep_rvsrplot_data
+  - ols_prep_rstudlev_data
 
 - title: Variable Contribution
 

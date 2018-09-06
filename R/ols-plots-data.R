@@ -341,3 +341,128 @@ ols_prep_rfsplot_rsdata <- function(model) {
   tibble(x, y)
 
 }
+
+#' Residual vs regressor plot data
+#'
+#' Data for generating residual vs regressor plot.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @examples
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' ols_prep_rvsrplot_data(model)
+#'
+#' @export
+#'
+ols_prep_rvsrplot_data <- function(model) {
+
+  np <-
+    model %>%
+    coefficients() %>%
+    length() %>%
+    subtract(1)
+
+  dat <-
+    model %>%
+    model.frame() %>%
+    select(-1)
+
+  pnames <-
+    model %>%
+    coefficients() %>%
+    names() %>%
+    extract(-1)
+
+  list(np = np, dat = dat, pnames = pnames)
+
+}
+
+#' Studentized residual vs leverage plot data
+#'
+#' Generates data for studentized resiudual vs leverage plot.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @examples
+#' model <- lm(read ~ write + math + science, data = hsb)
+#' ols_prep_rstudlev_data(model)
+#'
+#' @importFrom dplyr case_when
+#'
+#' @export
+#'
+ols_prep_rstudlev_data <- function(model) {
+
+  color <- NULL
+
+  leverage <-
+    model %>%
+    hatvalues() %>%
+    unname()
+
+  rstudent <-
+    model %>%
+    rstudent() %>%
+    unname()
+
+  k <-
+    model %>%
+    coefficients() %>%
+    length()
+
+  n <-
+    model %>%
+    model.frame() %>%
+    nrow()
+
+  lev_thrsh <-
+    2 %>%
+    multiply_by(k) %>%
+    divide_by(n)
+
+  rst_thrsh <- 2
+
+  miny <-
+    rstudent %>%
+    min() %>%
+    subtract(3)
+
+  maxy <-
+    rstudent %>%
+    max() %>%
+    add(3)
+
+  minx <- min(leverage)
+  maxx <- ifelse((max(leverage) > lev_thrsh), max(leverage),
+                 (lev_thrsh + 0.05))
+
+  levrstud <-
+    tibble(obs = seq_len(n), leverage, rstudent) %>%
+    mutate(
+      color = case_when(
+        (leverage < lev_thrsh & abs(rstudent) < 2) ~ "normal",
+        (leverage > lev_thrsh & abs(rstudent) < 2) ~ "leverage",
+        (leverage < lev_thrsh & abs(rstudent) > 2) ~ "outlier",
+        TRUE ~ "outlier & leverage"
+      ),
+
+      fct_color = color %>%
+        factor() %>%
+        ordered(
+          levels = c(
+            "normal", "leverage", "outlier",
+            "outlier & leverage"
+          )
+        )
+
+    )
+
+  list(levrstud  = levrstud,
+       lev_thrsh = lev_thrsh,
+       minx      = minx,
+       miny      = miny,
+       maxx      = maxx,
+       maxy      = maxy
+  )
+
+}
