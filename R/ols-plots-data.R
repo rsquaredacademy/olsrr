@@ -466,3 +466,77 @@ ols_prep_rstudlev_data <- function(model) {
   )
 
 }
+
+#' Studentized residual plot data
+#'
+#' Generates data for studentized residual plot.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @examples
+#' model <- lm(read ~ write + math + science, data = hsb)
+#' ols_prep_srplot_data(model)
+#'
+#' @export
+#'
+ols_prep_srplot_data<- function(model) {
+
+  color <- NULL
+
+  dstud <-
+    model %>%
+    rstudent() %>%
+    unname()
+
+  obs <-
+    dstud %>%
+    length() %>%
+    seq_len()
+
+  dsr <-
+    tibble(obs = obs, dsr = dstud) %>%
+    mutate(
+      color = ifelse((abs(dsr) >= 3), "outlier", "normal"),
+      fct_color = color %>%
+        factor() %>%
+        ordered(levels = c("normal", "outlier"))
+    )
+
+  cminxx <-
+    dsr %>%
+    use_series(dsr) %>%
+    min() %>%
+    subtract(1) %>%
+    floor()
+
+  cmaxxx <-
+    dsr %>%
+    use_series(dsr) %>%
+    max() %>%
+    subtract(1) %>%
+    floor()
+
+  cminx <- ifelse(cminxx > -3, -3, cminxx)
+  cmaxx <- ifelse(cmaxxx < 3, 3, cmaxxx)
+
+  nseq <-
+    0 %>%
+    add(cminx) %>%
+    add(1) %>%
+    abs() %>%
+    seq_len() %>%
+    multiply_by(-1)
+
+  pseq <-
+    0 %>%
+    add(cmaxx) %>%
+    subtract(1) %>%
+    seq_len()
+
+  list(cminx = cminx,
+       cmaxx = cmaxx,
+       nseq  = nseq,
+       pseq  = pseq,
+       dsr   = dsr)
+
+}

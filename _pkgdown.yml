@@ -160,6 +160,7 @@ reference:
   - ols_prep_rfsplot_fmdata
   - ols_prep_rvsrplot_data
   - ols_prep_rstudlev_data
+  - ols_prep_srplot_data
 
 - title: Variable Contribution
 

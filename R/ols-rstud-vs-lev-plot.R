@@ -37,7 +37,7 @@ ols_plot_resid_lev <- function(model) {
     extract(1)
 
   title <- paste("Outlier and Leverage Diagnostics for", resp)
-  g     <- rstudlev(model)
+  g     <- ols_prep_rstudlev_data(model)
 
   ann_paste <-
     g %>%
@@ -75,84 +75,6 @@ ols_plot_resid_lev <- function(model) {
   suppressWarnings(print(p))
   result <- list(leverage = f, threshold = g$lev_thrsh, plot = p)
   invisible(result)
-
-}
-
-
-#' @importFrom dplyr case_when
-rstudlev <- function(model) {
-
-  color <- NULL
-
-  leverage <-
-    model %>%
-    hatvalues() %>%
-    unname()
-
-  rstudent <-
-    model %>%
-    rstudent() %>%
-    unname()
-
-  k <-
-    model %>%
-    coefficients() %>%
-    length()
-
-  n <-
-    model %>%
-    model.frame() %>%
-    nrow()
-
-  lev_thrsh <-
-    2 %>%
-    multiply_by(k) %>%
-    divide_by(n)
-
-  rst_thrsh <- 2
-
-  miny <-
-    rstudent %>%
-    min() %>%
-    subtract(3)
-
-  maxy <-
-    rstudent %>%
-    max() %>%
-    add(3)
-
-  minx <- min(leverage)
-  maxx <- ifelse((max(leverage) > lev_thrsh), max(leverage),
-                 (lev_thrsh + 0.05))
-
-  levrstud <-
-    tibble(obs = seq_len(n), leverage, rstudent) %>%
-    mutate(
-      color = case_when(
-        (leverage < lev_thrsh & abs(rstudent) < 2) ~ "normal",
-        (leverage > lev_thrsh & abs(rstudent) < 2) ~ "leverage",
-        (leverage < lev_thrsh & abs(rstudent) > 2) ~ "outlier",
-        TRUE ~ "outlier & leverage"
-      ),
-
-      fct_color = color %>%
-        factor() %>%
-        ordered(
-          levels = c(
-            "normal", "leverage", "outlier",
-            "outlier & leverage"
-          )
-        )
-
-    )
-
-  list(levrstud  = levrstud,
-       lev_thrsh = lev_thrsh,
-       minx      = minx,
-       miny      = miny,
-       maxx      = maxx,
-       maxy      = maxy
-  )
 
 }
 
