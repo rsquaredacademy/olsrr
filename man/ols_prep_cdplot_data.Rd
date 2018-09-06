@@ -6,6 +6,9 @@
 \usage{
 ols_prep_cdplot_data(model)
 }
+\arguments{
+\item{model}{An object of class \code{lm}.}
+}
 \description{
 Prepare data for cook's d bar plot.
 }

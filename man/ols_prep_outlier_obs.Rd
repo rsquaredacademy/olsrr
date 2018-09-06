@@ -6,6 +6,9 @@
 \usage{
 ols_prep_outlier_obs(k)
 }
+\arguments{
+\item{k}{Cooks' d bar plot data.}
+}
 \description{
 Identify outliers in cook's d plot.
 }

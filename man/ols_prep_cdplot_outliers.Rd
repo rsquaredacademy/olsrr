@@ -6,6 +6,9 @@
 \usage{
 ols_prep_cdplot_outliers(k)
 }
+\arguments{
+\item{k}{Cooks' d bar plot data.}
+}
 \description{
 Outlier data for cook's d bar plot.
 }
