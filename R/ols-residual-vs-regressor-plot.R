@@ -27,7 +27,7 @@ ols_plot_resid_regressor <- function(model, variable) {
   x <- NULL
   y <- NULL
 
-  d        <- rvsrdata(model)
+  d        <- ols_prep_rvsrplot_data(model)
   varyable <- enquo(variable)
 
   inter <-
@@ -49,28 +49,6 @@ ols_plot_resid_regressor <- function(model, variable) {
 
 }
 
-rvsrdata <- function(model) {
-
-  np <-
-    model %>%
-    coefficients() %>%
-    length() %>%
-    subtract(1)
-
-  dat <-
-    model %>%
-    model.frame() %>%
-    select(-1)
-
-  pnames <-
-    model %>%
-    coefficients() %>%
-    names() %>%
-    extract(-1)
-
-  list(np = np, dat = dat, pnames = pnames)
-
-}
 
 #' @export
 #' @rdname ols_plot_resid_regressor

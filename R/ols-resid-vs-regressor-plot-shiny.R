@@ -22,7 +22,7 @@ rvsr_plot_shiny <- function(model, data, variable) {
 
   x <- NULL
   y <- NULL
-  d <- rvsrdata(model)
+  d <- ols_prep_rvsrplot_data(model)
   v <- l(deparse(substitute(variable)))
 
   xvar <-

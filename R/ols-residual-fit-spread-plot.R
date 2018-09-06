@@ -44,7 +44,7 @@ ols_plot_resid_fit_spread <- function(model) {
   x <- NULL
   y <- NULL
 
-  d1    <- fmdata(model)
+  d1    <- ols_prep_rfsplot_fmdata(model)
   ymin1 <- min(d1$y) + (0.25 * min(d1$y))
   ymax1 <- max(d1$y) + (0.25 * max(d1$y))
 
@@ -52,7 +52,7 @@ ols_plot_resid_fit_spread <- function(model) {
     xlim(c(-0.2, 1.2)) + ylim(c(ymin1, ymax1)) + xlab("Proportion Less") +
     ylab("") + ggtitle("Fit - Mean")
 
-  d2    <- rsdata(model)
+  d2    <- ols_prep_rfsplot_rsdata(model)
   ymin2 <- min(d2$y) + (0.25 * min(d2$y))
   ymax2 <- max(d2$y) + (0.25 * max(d2$y))
 
@@ -77,7 +77,7 @@ ols_plot_fm <- function(model) {
   x <- NULL
   y <- NULL
 
-  d    <- fmdata(model)
+  d    <- ols_prep_rfsplot_fmdata(model)
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
 
@@ -86,18 +86,6 @@ ols_plot_fm <- function(model) {
     ylab("Fit - Mean") + ggtitle("Residual Fit Spread Plot")
 
   print(p)
-
-}
-
-fmdata <- function(model) {
-
-  predicted <- fitted(model)
-  pred_m    <- mean(predicted)
-  y         <- predicted - pred_m
-  percenti  <- ecdf(y)
-  x         <- percenti(y)
-
-  tibble(x, y)
 
 }
 
@@ -112,7 +100,7 @@ ols_plot_resid_spread <- function(model) {
   x <- NULL
   y <- NULL
 
-  d    <- rsdata(model)
+  d    <- ols_prep_rfsplot_rsdata(model)
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
 
@@ -124,15 +112,6 @@ ols_plot_resid_spread <- function(model) {
 
 }
 
-rsdata <- function(model) {
-
-  y         <- residuals(model)
-  residtile <- ecdf(y)
-  x         <- residtile(y)
-
-  tibble(x, y)
-
-}
 
 #' @export
 #' @rdname ols_plot_resid_fit_spread

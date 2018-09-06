@@ -184,7 +184,7 @@ cindx <- function(e) {
   e %>%
     extract(1) %>%
     divide_by(e) %>%
-    sqrt()
+    sqrt(.)
 
 }
 

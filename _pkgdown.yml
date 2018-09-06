@@ -1,6 +1,15 @@
+url: https://olsrr.rsquaredacademy.com
+
+authors:
+  Aravind Hebbali:
+    href: https://www.aravindhebbali.com
+
 templates:
   params:
     bootswatch: cosmo
+    docsearch:
+      api_key:
+      index_name: olsrr
 
 navbar:
   title: "olsrr"
@@ -135,6 +144,24 @@ reference:
   - ols_plot_obs_fit
   - ols_pure_error_anova
   - ols_plot_diagnostics
+
+- title: Plot Data
+
+  contents:
+  - ols_prep_avplot_data
+  - ols_prep_regress_x
+  - ols_prep_regress_y
+  - ols_prep_cdplot_data
+  - ols_prep_outlier_obs
+  - ols_prep_cdplot_outliers
+  - ols_prep_dfbeta_data
+  - ols_prep_dfbeta_outliers
+  - ols_prep_dsrvf_data
+  - ols_prep_rfsplot_fmdata
+  - ols_prep_rvsrplot_data
+  - ols_prep_rstudlev_data
+  - ols_prep_srplot_data
+  - ols_prep_srchart_data
 
 - title: Variable Contribution
 

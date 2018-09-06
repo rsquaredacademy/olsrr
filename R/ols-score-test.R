@@ -106,7 +106,7 @@ print.ols_test_score <- function(x, ...) {
 
 rhsout <- function(model) {
 
-  l <- avplots_data(model)
+  l <- ols_prep_avplot_data(model)
   n <- nrow(l)
 
   nam <-
@@ -204,7 +204,7 @@ fit_score <- function(model) {
 
   pred         <- fitted(model)
   scaled_resid <- resid_scaled(model, pred)
-  l            <- avplots_data(model)
+  l            <- ols_prep_avplot_data(model)
   n            <- nrow(l)
 
   lm(scaled_resid ~ pred) %>%
@@ -233,7 +233,7 @@ var_score <- function(model, vars) {
 
   n <-
     model %>%
-    avplots_data() %>%
+    ols_prep_avplot_data() %>%
     nrow()
 
   score_data(model, vars) %>%
@@ -246,7 +246,7 @@ var_score <- function(model, vars) {
 
 score_data <- function(model, vars) {
 
-  l         <- avplots_data(model)
+  l         <- ols_prep_avplot_data(model)
   n         <- nrow(l)
   var_resid <- residual_var(model, n)
 

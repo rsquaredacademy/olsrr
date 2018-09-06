@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stepwise AIC regression � ols_step_both_aic • olsrr</title>
+<title>Stepwise AIC regression — ols_step_both_aic • olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,24 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Stepwise AIC regression — ols_step_both_aic" />
+
+<meta property="og:description" content="Build regression model from a set of candidate predictor variables by
+entering and removing predictors based on akaike information criteria, in a
+stepwise manner until there is no variable left to enter or remove any more." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +58,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">olsrr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">olsrr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -109,6 +124,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,24 +132,28 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Stepwise AIC regression</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/olsrr/blob/master/R/ols-stepaic-both-regression.R'><code>R/ols-stepaic-both-regression.R</code></a></small>
+    <div class="hidden name"><code>ols_step_both_aic.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Build regression model from a set of candidate predictor variables by
 entering and removing predictors based on akaike information criteria, in a
 stepwise manner until there is no variable left to enter or remove any more.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for ols_step_both_aic</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -172,6 +192,7 @@ following components:</p>
     
     <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
 
+    
     <p><code>ols_stepaic_both()</code> has been deprecated. Instead use <code>ols_step_both_aic()</code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -180,79 +201,25 @@ following components:</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other variable selection procedures: <code><a href='ols_step_all_possible.html'>ols_step_all_possible</a></code>,
+    <div class='dont-index'><p>Other variable selection procedures: <code><a href='ols_step_all_possible.html'>ols_step_all_possible</a></code>,
   <code><a href='ols_step_backward_aic.html'>ols_step_backward_aic</a></code>,
   <code><a href='ols_step_backward_p.html'>ols_step_backward_p</a></code>,
   <code><a href='ols_step_best_subset.html'>ols_step_best_subset</a></code>,
   <code><a href='ols_step_forward_aic.html'>ols_step_forward_aic</a></code>,
-  <code><a href='ols_step_forward_p.html'>ols_step_forward_p</a></code></p>
+  <code><a href='ols_step_forward_p.html'>ols_step_forward_p</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># stepwise regression</span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># stepwise regression</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>stepdata</span>)
-<span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; Stepwise Selection Method 
-#&gt; -------------------------
-#&gt; 
-#&gt; Candidate Terms: 
-#&gt; 
-#&gt; 1 . x1 
-#&gt; 2 . x2 
-#&gt; 3 . x3 
-#&gt; 4 . x4 
-#&gt; 5 . x5 
-#&gt; 6 . x6 
-#&gt; 
-#&gt; 
-#&gt; Variables Entered/Removed: 
-#&gt; 
-#&gt; &lt;U+2714&gt; x6 
-#&gt; &lt;U+2714&gt; x1 
-#&gt; &lt;U+2714&gt; x3 
-#&gt; &lt;U+2714&gt; x2 
-#&gt; &lt;U+2716&gt; x6 
-#&gt; &lt;U+2714&gt; x4 
-#&gt; 
-#&gt; No more variables to be added or removed.</div><div class='output co'>#&gt; 
-#&gt; 
-#&gt;                                   Stepwise Summary                                  
-#&gt; ----------------------------------------------------------------------------------
-#&gt; Variable     Method        AIC         RSS        Sum Sq       R-Sq      Adj. R-Sq 
-#&gt; ----------------------------------------------------------------------------------
-#&gt; x6          addition    33473.297    6241.497    13986.736    0.69145      0.69143 
-#&gt; x1          addition    32931.758    6074.156    14154.076    0.69972      0.69969 
-#&gt; x3          addition    31912.722    5771.842    14456.391    0.71466      0.71462 
-#&gt; x2          addition    29304.296    5065.587    15162.646    0.74958      0.74953 
-#&gt; x6          removal     29302.317    5065.592    15162.641    0.74958      0.74954 
-#&gt; x4          addition    29300.814    5064.705    15163.528    0.74962      0.74957 
-#&gt; ----------------------------------------------------------------------------------
-#&gt; </div><div class='input'>
+<span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)
+
 <span class='co'># stepwise regression plot</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>stepdata</span>)
-<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; Stepwise Selection Method 
-#&gt; -------------------------
-#&gt; 
-#&gt; Candidate Terms: 
-#&gt; 
-#&gt; 1 . x1 
-#&gt; 2 . x2 
-#&gt; 3 . x3 
-#&gt; 4 . x4 
-#&gt; 5 . x5 
-#&gt; 6 . x6 
-#&gt; 
-#&gt; 
-#&gt; Variables Entered/Removed: 
-#&gt; 
-#&gt; &lt;U+2714&gt; x6 
-#&gt; &lt;U+2714&gt; x1 
-#&gt; &lt;U+2714&gt; x3 
-#&gt; &lt;U+2714&gt; x2 
-#&gt; &lt;U+2716&gt; x6 
-#&gt; &lt;U+2714&gt; x4 
-#&gt; 
-#&gt; No more variables to be added or removed.</div><div class='input'><span class='fu'>plot</span>(<span class='no'>k</span>)</div><div class='img'><img src='ols_step_both_aic-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'>
-</div></pre>
+<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)
+<span class='fu'>plot</span>(<span class='no'>k</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -275,15 +242,18 @@ following components:</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali.</p>
+  <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

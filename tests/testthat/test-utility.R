@@ -54,14 +54,14 @@ test_that("output from cpdata matches the expected result", {
 
 test_that("output from cdplot matches the expected output", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- cdplot(model)
+  k <- ols_prep_cdplot_data(model)
   expect_equal(round(k$maxx, 3), 0.398)
   expect_equal(k$ts, 0.125)
 })
 
 test_that("output from dpred matches the expected output", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- dpred(model)
+  k <- ols_prep_dsrvf_data(model)
   expect_equal(round(k$cmaxx, 3), 3.516)
   expect_equal(round(k$cminx, 3), -2.44)
 })
@@ -91,7 +91,7 @@ test_that("output from hadio matches the expected output", {
 
 test_that("output from rsdata matches the expected output", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- rsdata(model)
+  k <- ols_prep_rfsplot_rsdata(model)
   expect_equal(round(mean(k$x), 3), 0.516)
   expect_equal(round(max(k$y), 3), 5.688)
 })
@@ -101,7 +101,7 @@ test_that("output from fmdata matches the expected output", {
   skip_on_cran()
 
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- fmdata(model)
+  k <- ols_prep_rfsplot_fmdata(model)
   expect_equal(round(mean(k$x), 3), 0.517)
   expect_equal(round(max(k$y), 3), 10.635)
 })
@@ -115,7 +115,7 @@ test_that("output from rvspdata matches the expected output", {
 
 test_that("output from rvsrdata matches the expected output", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- rvsrdata(model)
+  k <- ols_prep_rvsrplot_data(model)
   expect_equal(k$np, 4)
   expect_equivalent(k$pnames, c("disp", "hp", "wt", "drat"))
   expect_equal(round(mean(k$dat[[1]]), 3), 230.722)
@@ -123,7 +123,7 @@ test_that("output from rvsrdata matches the expected output", {
 
 test_that("output from srdata matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- srdata(model)
+  k <- ols_prep_srplot_data(model)
   expect_equal(k$cmaxx, 3)
   expect_equal(k$cminx, -3)
   expect_equivalent(k$nseq, c(-1, -2))
@@ -140,7 +140,7 @@ test_that("output from histdata matches the expected result", {
 
 test_that("output from rstudlev matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  k <- rstudlev(model)
+  k <- ols_prep_rstudlev_data(model)
   expect_equal(round(k$lev_thrsh, 3), 0.312)
   expect_equal(round(k$minx, 3), 0.046)
   expect_equal(round(k$miny, 3), -4.44)
@@ -154,7 +154,7 @@ test_that("output from corrout matches the expected result", {
 })
 
 test_that("output from advarx matches the expected output", {
-  actual <- advarx(mtcars, 1)
+  actual <- ols_prep_regress_x(mtcars, 1)
 
   expected <- lm(mpg ~., data = mtcars) %>%
     residuals() %>%

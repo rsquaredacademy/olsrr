@@ -109,7 +109,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   method <- match.arg(p.adj)
   p.adj <- match.arg(p.adj)
   check_options(p.adj)
-  l      <- avplots_data(model)
+  l      <- ols_prep_avplot_data(model)
   n      <- nrow(l)
 
   response <-
@@ -474,7 +474,7 @@ bp_case_adj <- function(method, pvals, np, ps) {
     j <-
       pvals %>%
       length() %>%
-      seq_len() %>%
+      seq_len(.) %>%
       rev()
 
     h <-

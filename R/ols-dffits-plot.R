@@ -67,7 +67,7 @@ ols_plot_dffits <- function(model) {
   dffits_t <-
     k %>%
     divide_by(n) %>%
-    sqrt() %>%
+    sqrt(.) %>%
     multiply_by(2)
 
   title <-
@@ -77,8 +77,8 @@ ols_plot_dffits <- function(model) {
     extract(1)
 
   dfits_data <- tibble(obs = seq_len(n), dbetas = dffitsm)
-  d          <- dfb_plot_data(dfits_data, dffits_t)
-  f          <- dfb_outlier_data(d)
+  d          <- ols_prep_dfbeta_data(dfits_data, dffits_t)
+  f          <- ols_prep_dfbeta_outliers(d)
 
   p <- ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dffitsm)) +
     geom_linerange(colour = "blue") +

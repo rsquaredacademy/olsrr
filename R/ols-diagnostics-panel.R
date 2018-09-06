@@ -43,7 +43,7 @@ ols_plot_diagnostics <- function(model) {
     geom_hline(yintercept = 0, colour = "red")
 
   # deleted studentized residual vs predicted values
-  k <- dpred(model)
+  k <- ols_prep_dsrvf_data(model)
 
   d22 <-
     k %>%
@@ -61,7 +61,7 @@ ols_plot_diagnostics <- function(model) {
     geom_hline(yintercept = c(-2, 2), colour = "red")
 
   # studentized residuals vs leverage plot
-  j <- rstudlev(model)
+  j <- ols_prep_rstudlev_data(model)
 
   d33 <-
     j %>%
@@ -120,8 +120,8 @@ ols_plot_diagnostics <- function(model) {
     )
 
   # cook's d chart
-  k <- cdplot(model)
-  d <- plot_data(k)
+  k <- ols_prep_cdplot_data(model)
+  d <- ols_prep_outlier_obs(k)
 
   d6 <- ggplot(d, aes(x = obs, y = cd, label = txt, ymin = min(cd), ymax = cd)) +
     geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
@@ -129,7 +129,7 @@ ols_plot_diagnostics <- function(model) {
     ylab("Cook's D") + ggtitle("Cook's D Chart")
 
   # residual fit spread plot
-  d    <- fmdata(model)
+  d    <- ols_prep_rfsplot_fmdata(model)
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
 
@@ -139,7 +139,7 @@ ols_plot_diagnostics <- function(model) {
     xlab("Proportion Less") + ylab("Fit - Mean") +
     ggtitle("Residual Fit Spread Plot")
 
-  da    <- rsdata(model)
+  da    <- ols_prep_rfsplot_rsdata(model)
   ymina <- min(da$y) + (0.25 * min(da$y))
   ymaxa <- max(da$y) + (0.25 * max(da$y))
 
@@ -171,8 +171,6 @@ ols_plot_diagnostics <- function(model) {
     ) +
     xlab(" ") + ylab("Residuals") + ggtitle("Residual Box Plot") +
     theme(axis.text.x = element_blank())
-
-  # grid.arrange(p1, d2, d3, p4, p5, d6, d7, d8, p9, p10, ncol = 2)
 
   result <- list(
     plot_1 = p1, plot_2 = d2, plot_3 = d3, plot_4 = p4,

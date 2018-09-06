@@ -69,7 +69,7 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
     ly <-
       z %>%
       length() %>%
-      seq_len()
+      seq_len(.)
 
     if (length(z) < 2) {
       stop("Please specify at least two variables.", call. = FALSE)
