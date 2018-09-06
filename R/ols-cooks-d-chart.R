@@ -42,7 +42,7 @@
 #' @export
 #'
 ols_plot_cooksd_chart <- function(model) {
-  
+
   check_model(model)
 
   obs <- NULL
@@ -50,9 +50,9 @@ ols_plot_cooksd_chart <- function(model) {
   txt <- NULL
   cd  <- NULL
 
-  k <- cdplot(model)
-  d <- plot_data(k)
-  f <- outlier_data(k)
+  k <- ols_prep_cdplot_data(model)
+  d <- ols_prep_outlier_obs(k)
+  f <- ols_prep_cdplot_outliers(k)
 
   p <- ggplot(d, aes(x = obs, y = cd, label = txt, ymin = min(cd), ymax = cd)) +
     geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
