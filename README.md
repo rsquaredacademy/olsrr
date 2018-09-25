@@ -7,8 +7,7 @@ olsrr: Tools for building OLS Regression models <img src="hex_olsrr.png" height=
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr) [![cran checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr) [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr) [![Coverage status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
-Overview
---------
+### Overview
 
 The olsrr package provides following tools for teaching and learning OLS regression using R:
 
@@ -21,8 +20,7 @@ The olsrr package provides following tools for teaching and learning OLS regress
 -   Residual Diagnostics
 -   Variable Contribution Assessment
 
-Installation
-------------
+### Installation
 
 You can install olsrr from github with:
 
@@ -35,13 +33,11 @@ install.packages("olsrr")
 devtools::install_github("rsquaredacademy/olsrr")
 ```
 
-Shiny App
----------
+### Shiny App
 
 Use `ols_launch_app()` to explore the package using a shiny app.
 
-Vignettes
----------
+### Articles
 
 -   [Quick Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
 -   [Variable Selection Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
@@ -50,13 +46,9 @@ Vignettes
 -   [Measures of Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
 -   [Collinearity Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
 
-Consistent Prefix
------------------
+### Usage
 
 olsrr uses consistent prefix `ols_` for easy tab completion.
-
-Quick Demo
-----------
 
 olsrr is built with the aim of helping those users who are new to the R language. If you know how to write a `formula` or build models using `lm`, you will find olsrr very useful. Most of the functions use an object of class `lm` as input. So you just need to build a model using `lm` and then pass it onto the functions in olsrr. Below is a quick demo:
 
@@ -285,5 +277,11 @@ ols_coll_diag(model)
 #> 4 0.7017528428 0.0024577686
 #> 5 0.2598094157 0.9925403056
 ```
+
+### Getting Help
+
+If you encounter a bug, please file a minimal reproducible example using [reprex](https://reprex.tidyverse.org/index.html) on github. For questions and clarifications, use [StackOverflow](https://stackoverflow.com/).
+
+### Code of Conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
