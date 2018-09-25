@@ -14,9 +14,6 @@ knitr::opts_chunk$set(
 
 # olsrr <img src="hex_olsrr.png" height="100px" align="right" />
 
-**Author:** [Aravind Hebbali](https://www.aravindhebbali.com/)<br/>
-**License:** [MIT](https://opensource.org/licenses/MIT)
-
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![cran checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
 [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr)
