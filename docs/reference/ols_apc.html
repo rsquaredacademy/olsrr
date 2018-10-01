@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Amemiya's prediction criterion � ols_apc • olsrr</title>
+<title>Amemiya's prediction criterion — ols_apc • olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,22 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Amemiya's prediction criterion — ols_apc" />
+
+<meta property="og:description" content="Amemiya's prediction error." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">olsrr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">olsrr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -109,6 +122,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,19 +130,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Amemiya's prediction criterion</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/olsrr/blob/master/R/ols-information-criteria.R'><code>R/ols-information-criteria.R</code></a></small>
+    <div class="hidden name"><code>ols_apc.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Amemiya's prediction error.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>ols_apc</span>(<span class='no'>model</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -145,8 +163,8 @@
 
     <p>Amemiya's Prediction Criterion penalizes R-squared more heavily than does
 adjusted R-squared for each addition degree of freedom used on the
-right-hand-side of the equation.  The higher the better for this criterion.
-    $$((n + p) / (n - p))(1 - (R^2))$$</p>
+right-hand-side of the equation.  The higher the better for this criterion.</p>
+<p>$$((n + p) / (n - p))(1 - (R^2))$$</p>
 <p>where <em>n</em> is the sample size, <em>p</em> is the number of predictors including the intercept and
 <em>R^2</em> is the coefficient of determination.</p>
     
@@ -158,10 +176,10 @@ New York: John Wiley &amp; Sons.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
+    <div class='dont-index'><p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
   <code><a href='ols_fpe.html'>ols_fpe</a></code>, <code><a href='ols_hsp.html'>ols_hsp</a></code>,
   <code><a href='ols_mallows_cp.html'>ols_mallows_cp</a></code>, <code><a href='ols_msep.html'>ols_msep</a></code>,
-  <code><a href='ols_sbc.html'>ols_sbc</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p>
+  <code><a href='ols_sbc.html'>ols_sbc</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -190,15 +208,18 @@ New York: John Wiley &amp; Sons.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali.</p>
+  <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
