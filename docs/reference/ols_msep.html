@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MSEP ó ols_msep ‚Ä¢ olsrr</title>
+<title>MSEP ‚Äî ols_msep ‚Ä¢ olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,22 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="MSEP ‚Äî ols_msep" />
+
+<meta property="og:description" content="Estimated error of prediction, assuming multivariate normality." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">olsrr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">olsrr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -109,6 +122,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,19 +130,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>MSEP</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/olsrr/blob/master/R/ols-information-criteria.R'><code>R/ols-information-criteria.R</code></a></small>
+    <div class="hidden name"><code>ols_msep.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Estimated error of prediction, assuming multivariate normality.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>ols_msep</span>(<span class='no'>model</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -144,25 +162,25 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Computes the estimated mean square error of prediction assuming that both
-independent and dependent variables are multivariate normal.
-    $$MSE(n + 1)(n - 2) / n(n - p - 1)$$</p>
+independent and dependent variables are multivariate normal.</p>
+<p>$$MSE(n + 1)(n - 2) / n(n - p - 1)$$</p>
 <p>where \(MSE = SSE / (n - p)\), n is the sample size and p is the number of
 predictors including the intercept</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Stein, C. (1960). ìMultiple Regression.î In Contributions to Probability and Statistics: Essays in Honor
+    <p>Stein, C. (1960). ‚ÄúMultiple Regression.‚Äù In Contributions to Probability and Statistics: Essays in Honor
 of Harold Hotelling, edited by I. Olkin, S. G. Ghurye, W. Hoeffding, W. G. Madow, and H. B. Mann,
-264ñ305. Stanford, CA: Stanford University Press.</p>
-<p>Darlington, R. B. (1968). ìMultiple Regression in Psychological Research and Practice.î Psychological
-Bulletin 69:161ñ182.</p>
+264‚Äì305. Stanford, CA: Stanford University Press.</p>
+<p>Darlington, R. B. (1968). ‚ÄúMultiple Regression in Psychological Research and Practice.‚Äù Psychological
+Bulletin 69:161‚Äì182.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
+    <div class='dont-index'><p>Other model selection criteria: <code><a href='ols_aic.html'>ols_aic</a></code>,
   <code><a href='ols_apc.html'>ols_apc</a></code>, <code><a href='ols_fpe.html'>ols_fpe</a></code>,
   <code><a href='ols_hsp.html'>ols_hsp</a></code>, <code><a href='ols_mallows_cp.html'>ols_mallows_cp</a></code>,
-  <code><a href='ols_sbc.html'>ols_sbc</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p>
+  <code><a href='ols_sbc.html'>ols_sbc</a></code>, <code><a href='ols_sbic.html'>ols_sbic</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -191,15 +209,18 @@ Bulletin 69:161ñ182.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali.</p>
+  <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

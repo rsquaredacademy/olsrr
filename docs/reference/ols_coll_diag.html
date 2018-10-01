@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Collinearity diagnostics � ols_coll_diag • olsrr</title>
+<title>Collinearity diagnostics — ols_coll_diag • olsrr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,22 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Collinearity diagnostics — ols_coll_diag" />
+
+<meta property="og:description" content="Variance inflation factor, tolerance, eigenvalues and condition indices." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">olsrr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">olsrr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -109,6 +122,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -116,15 +130,19 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Collinearity diagnostics</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/olsrr/blob/master/R/ols-collinearity-diagnostics.R'><code>R/ols-collinearity-diagnostics.R</code></a></small>
+    <div class="hidden name"><code>ols_coll_diag.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Variance inflation factor, tolerance, eigenvalues and condition indices.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>ols_coll_diag</span>(<span class='no'>model</span>)
 
@@ -132,7 +150,7 @@
 
 <span class='fu'>ols_eigen_cindex</span>(<span class='no'>model</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -155,14 +173,16 @@ following components:</p>
     <p>Collinearity implies two variables are near perfect linear combinations of
 one another. Multicollinearity involves more than two variables. In the
 presence of multicollinearity, regression estimates are unstable and have
-high standard errors.
-    <em>Tolerance</em></p>
+high standard errors.</p>
+<p><em>Tolerance</em></p>
 <p>Percent of variance in the predictor that cannot be accounted for by other predictors.</p>
-<p>Steps to calculate tolerance:</p><ul>
+<p>Steps to calculate tolerance:</p>
+<ul>
 <li><p>Regress the kth predictor on rest of the predictors in the model.</p></li>
 <li><p>Compute \(R^2\) - the coefficient of determination from the regression in the above step.</p></li>
 <li><p>\(Tolerance = 1 - R^2\)</p></li>
-</ul><p><em>Variance Inflation Factor</em></p>
+</ul>
+    <p><em>Variance Inflation Factor</em></p>
 <p>Variance inflation factors measure the inflation in the variances of the parameter estimates due to
 collinearities that exist among the predictors. It is a measure of how much the variance of the estimated
 regression coefficient \(\beta_k\)  is inflated by the existence of correlation among the predictor variables
@@ -170,11 +190,13 @@ in the model. A VIF of 1 means that there is no correlation among the kth predic
 variables, and hence the variance of \(\beta_k\) is not inflated at all. The general rule of thumb is that VIFs
 exceeding 4 warrant further investigation, while VIFs exceeding 10 are signs of serious multicollinearity
 requiring correction.</p>
-<p>Steps to calculate VIF:</p><ul>
+<p>Steps to calculate VIF:</p>
+<ul>
 <li><p>Regress the kth predictor on rest of the predictors in the model.</p></li>
 <li><p>Compute \(R^2\) - the coefficient of determination from the regression in the above step.</p></li>
 <li><p>\(Tolerance = 1 / 1 - R^2 = 1 / Tolerance\)</p></li>
-</ul><p><em>Condition Index</em></p>
+</ul>
+    <p><em>Condition Index</em></p>
 <p>Most multivariate statistical approaches involve decomposing a correlation matrix into linear
 combinations of variables. The linear combinations are chosen so that the first combination has
 the largest possible variance (subject to some restrictions), the second combination
@@ -262,15 +284,18 @@ Sources of Collinearity. New York: John Wiley &amp; Sons.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali.</p>
+  <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
