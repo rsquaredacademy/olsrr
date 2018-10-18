@@ -29,6 +29,7 @@ each step.}
 An object of class \code{"ols_step_backward_aic"} is a list containing the
 following components:
 
+\item{model}{model with the least AIC; an object of class \code{lm}}
 \item{steps}{total number of steps}
 \item{predictors}{variables removed from the model}
 \item{aics}{akaike information criteria}
@@ -56,6 +57,9 @@ ols_step_backward_aic(model)
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward_aic(model)
 plot(k)
+
+# final model
+k$model
 
 }
 \references{

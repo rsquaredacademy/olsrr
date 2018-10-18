@@ -18,6 +18,7 @@
 #' An object of class \code{"ols_step_backward_p"} is a list containing the
 #' following components:
 #'
+#' \item{model}{final model; an object of class \code{lm}}
 #' \item{steps}{total number of steps}
 #' \item{removed}{variables removed from the model}
 #' \item{rsquare}{coefficient of determination}
@@ -44,6 +45,9 @@
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_backward_p(model)
 #' plot(k)
+#'
+#' # final model
+#' k$model
 #'
 #' @family variable selection procedures
 #'
@@ -162,6 +166,8 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
   )
   print(fi)
 
+  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+
   out <- list(mallows_cp = cp,
               removed    = rpred,
               rsquare    = rsq,
@@ -171,7 +177,8 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
               adjr       = adjrsq,
               rmse       = rmse,
               aic        = aic,
-              sbc        = sbc)
+              sbc        = sbc,
+              model      = final_model)
 
   class(out) <- "ols_step_backward_p"
 

@@ -19,6 +19,7 @@
 #' An object of class \code{"ols_step_both_p"} is a list containing the
 #' following components:
 #'
+#' \item{model}{final model; an object of class \code{lm}}
 #' \item{orders}{candidate predictor variables according to the order by which they were added or removed from the model}
 #' \item{method}{addition/deletion}
 #' \item{steps}{total number of steps}
@@ -47,6 +48,9 @@
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_both_p(model)
 #' plot(k)
+#'
+#' # final model
+#' k$model
 #'
 #' @family variable selection_procedures
 #'
@@ -297,6 +301,8 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
   )
   print(fi)
 
+  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+
   beta_pval <- tibble(
     model     = rep(seq_len(all_step), lbetas),
     predictor = names(betas),
@@ -320,7 +326,8 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
     betas      = betas,
     lbetas     = lbetas,
     pvalues    = pvalues,
-    beta_pval  = beta_pval
+    beta_pval  = beta_pval,
+    model      = final_model
   )
 
   class(out) <- "ols_step_both_p"

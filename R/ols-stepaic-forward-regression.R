@@ -14,6 +14,7 @@
 #' An object of class \code{"ols_step_forward_aic"} is a list containing the
 #' following components:
 #'
+#' \item{model}{model with the least AIC; an object of class \code{lm}}
 #' \item{steps}{total number of steps}
 #' \item{predictors}{variables added to the model}
 #' \item{aics}{akaike information criteria}
@@ -37,6 +38,9 @@
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_forward_aic(model)
 #' plot(k)
+#'
+#' # final model
+#' k$model
 #'
 #' @importFrom dplyr desc
 #'
@@ -271,13 +275,17 @@ ols_step_forward_aic.default <- function(model, details = FALSE, ...) {
     print(fi)
   }
 
+  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+
   out <- list(predictors = preds,
               steps      = step,
               arsq       = larsq,
               aics       = laic,
               ess        = less,
               rss        = lrss,
-              rsq        = lrsq)
+              rsq        = lrsq,
+              model      = final_model)
+
 
   class(out) <- "ols_step_forward_aic"
 

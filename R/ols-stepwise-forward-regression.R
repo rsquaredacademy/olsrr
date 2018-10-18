@@ -18,6 +18,7 @@
 #' An object of class \code{"ols_step_forward_p"} is a list containing the
 #' following components:
 #'
+#' \item{model}{final model; an object of class \code{lm}}
 #' \item{steps}{number of steps}
 #' \item{predictors}{variables added to the model}
 #' \item{rsquare}{coefficient of determination}
@@ -47,6 +48,9 @@
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_forward_p(model)
 #' plot(k)
+#'
+#' # final model
+#' k$model
 #'
 #' @importFrom stats qt
 #' @importFrom dplyr full_join
@@ -225,6 +229,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, details = FALSE, ...
   )
   print(fi)
 
+  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
   out <- list(predictors = preds,
               mallows_cp = cp,
@@ -235,7 +240,8 @@ ols_step_forward_p.default <- function(model, penter = 0.3, details = FALSE, ...
               adjr       = adjrsq,
               rmse       = rmse,
               aic        = aic,
-              sbc        = sbc)
+              sbc        = sbc,
+              model      = final_model)
 
   class(out) <- "ols_step_forward_p"
 

@@ -25,6 +25,7 @@ be printed on screen.}
 An object of class \code{"ols_step_both_aic"} is a list containing the
 following components:
 
+\item{model}{model with the least AIC; an object of class \code{lm}}
 \item{predictors}{variables added/removed from the model}
 \item{method}{addition/deletion}
 \item{aics}{akaike information criteria}
@@ -54,6 +55,10 @@ ols_step_both_aic(model)
 model <- lm(y ~ ., data = stepdata)
 k <- ols_step_both_aic(model)
 plot(k)
+
+# final model
+k$model
+
 }
 }
 \references{

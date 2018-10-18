@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,6 +36,7 @@
 entering predictors based on akaike information criterion, in a stepwise
 manner until there is no variable left to enter any more." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -183,6 +186,7 @@ each step.</p></td>
     <p><code>ols_step_forward_aic</code> returns an object of class <code>"ols_step_forward_aic"</code>.
 An object of class <code>"ols_step_forward_aic"</code> is a list containing the
 following components:</p>
+<dt>model</dt><dd><p>model with the least AIC; an object of class <code>lm</code></p></dd>
 <dt>steps</dt><dd><p>total number of steps</p></dd>
 <dt>predictors</dt><dd><p>variables added to the model</p></dd>
 <dt>aics</dt><dd><p>akaike information criteria</p></dd>
@@ -274,6 +278,16 @@ following components:</p>
 #&gt; &lt;U+2714&gt; bcs 
 #&gt; 
 #&gt; No more variables to be added.</div><div class='input'><span class='fu'>plot</span>(<span class='no'>k</span>)</div><div class='img'><img src='ols_step_forward_aic-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># final model</span>
+<span class='no'>k</span>$<span class='no'>model</span></div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = paste(response, "~", paste(preds, collapse = " + ")), 
+#&gt;     data = l)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)   liver_test    alc_heavy  enzyme_test       pindex          bcs  
+#&gt;   -1178.330       58.064      317.848        9.748        8.924       59.864  
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

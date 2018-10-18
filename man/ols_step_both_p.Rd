@@ -36,6 +36,7 @@ each step.}
 An object of class \code{"ols_step_both_p"} is a list containing the
 following components:
 
+\item{model}{final model; an object of class \code{lm}}
 \item{orders}{candidate predictor variables according to the order by which they were added or removed from the model}
 \item{method}{addition/deletion}
 \item{steps}{total number of steps}
@@ -68,6 +69,9 @@ ols_step_both_p(model)
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_both_p(model)
 plot(k)
+
+# final model
+k$model
 
 }
 \references{

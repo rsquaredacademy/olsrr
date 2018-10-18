@@ -33,6 +33,7 @@ each step.}
 An object of class \code{"ols_step_forward_p"} is a list containing the
 following components:
 
+\item{model}{final model; an object of class \code{lm}}
 \item{steps}{number of steps}
 \item{predictors}{variables added to the model}
 \item{rsquare}{coefficient of determination}
@@ -63,6 +64,9 @@ ols_step_forward_p(model)
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_forward_p(model)
 plot(k)
+
+# final model
+k$model
 
 }
 \references{
