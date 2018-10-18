@@ -16,6 +16,7 @@
 #' An object of class \code{"ols_step_backward_aic"} is a list containing the
 #' following components:
 #'
+#' \item{model}{model with the least AIC; an object of class \code{lm}}
 #' \item{steps}{total number of steps}
 #' \item{predictors}{variables removed from the model}
 #' \item{aics}{akaike information criteria}
@@ -39,6 +40,9 @@
 #' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_backward_aic(model)
 #' plot(k)
+#'
+#' # final model
+#' k$model
 #'
 #' @importFrom ggplot2 geom_text
 #' @importFrom rlang prepend
@@ -264,13 +268,16 @@ ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
     print(fi)
   }
 
+  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+
   out <- list(predictors = rpred,
               steps      = step,
               arsq       = larsq,
               aics       = laic,
               ess        = less,
               rss        = lrss,
-              rsq        = lrsq)
+              rsq        = lrsq,
+              model      = final_model)
 
   class(out) <- "ols_step_backward_aic"
 

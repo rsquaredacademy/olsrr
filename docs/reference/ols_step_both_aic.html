@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,6 +36,7 @@
 entering and removing predictors based on akaike information criteria, in a
 stepwise manner until there is no variable left to enter or remove any more." />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -180,6 +183,7 @@ be printed on screen.</p></td>
     <p><code>ols_step_both_aic</code> returns an object of class <code>"ols_step_both_aic"</code>.
 An object of class <code>"ols_step_both_aic"</code> is a list containing the
 following components:</p>
+<dt>model</dt><dd><p>model with the least AIC; an object of class <code>lm</code></p></dd>
 <dt>predictors</dt><dd><p>variables added/removed from the model</p></dd>
 <dt>method</dt><dd><p>addition/deletion</p></dd>
 <dt>aics</dt><dd><p>akaike information criteria</p></dd>
@@ -219,6 +223,10 @@ following components:</p>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>stepdata</span>)
 <span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_both_aic</span>(<span class='no'>model</span>)
 <span class='fu'>plot</span>(<span class='no'>k</span>)
+
+<span class='co'># final model</span>
+<span class='no'>k</span>$<span class='no'>model</span>
+
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
