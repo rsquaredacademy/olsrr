@@ -27,14 +27,14 @@ Imports:
     nortest,
     purrr,
     Rcpp,
-    recipes,
+    recipes (>= 0.1.3.9002),
     rlang,
     shiny,
     stringr,
     tibble,
     tidyr
 Suggests:
-    caret,
+    caret (>= 6.0.81),
     covr,
     descriptr,
     grid,
@@ -51,11 +51,14 @@ Suggests:
     testthat,
     tools,
     vdiffr
+Remotes:
+    topepo/caret/pkg/caret,
+    tidymodels/recipes
 License: MIT + file LICENSE
 URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0.9000
 LinkingTo: Rcpp
