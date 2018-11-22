@@ -7,6 +7,9 @@
 ^codecov\.yml$
 ^appveyor\.yml$
 ^CONDUCT\.md$
+^CONTRIBUTING\.MD$
+^ISSUE_TEMPLATE\.md$
+^SUPPORT\.md$
 ^olsrr\.jpg$
 ^_pkgdown\.yml$
 ^docs$
