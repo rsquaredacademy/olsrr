@@ -52,7 +52,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
       step_scale(all_numeric())
 
     trained_rec <- prep(standardized, training = data)
-    newdata     <- bake(trained_rec, newdata = data_scaled)
+    newdata     <- bake(trained_rec, new_data = data_scaled)
     model2      <- lm(formula, data = newdata)
     output2     <- summary(model2)
     b           <- output2$coef[-1, 1]
