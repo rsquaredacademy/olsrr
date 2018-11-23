@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# olsrr <img src="hex_olsrr.png" height="100px" align="right" />
+# olsrr 
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![cran checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html)

@@ -1,3 +1,17 @@
+# olsrr 0.5.2
+
+This is a minor release to fix bugs from breaking changes in recipes package 
+and other enhancements.
+
+## Enhancements
+
+- variable selection procedures now return the final model as an object of 
+class `lm` ([#81](https://github.com/rsquaredacademy/olsrr/issues/81))
+- data preparation functions of selected plots are now exported to enable end 
+users to create customized plots and to use plotting library of their 
+choice ([#86](https://github.com/rsquaredacademy/olsrr/issues/81))
+
+
 # olsrr 0.5.1
 
 This is a patch release to fix minor bugs and improve error messages.
