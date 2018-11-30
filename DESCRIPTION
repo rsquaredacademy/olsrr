@@ -33,7 +33,7 @@ Imports:
     tibble,
     tidyr
 Suggests:
-    caret,
+    caret (>= 6.0.81),
     covr,
     descriptr,
     grid,
@@ -50,6 +50,9 @@ Suggests:
     testthat,
     tools,
     vdiffr
+Remotes:
+    topepo/caret/pkg/caret,
+    tidymodels/recipes
 License: MIT + file LICENSE
 URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues
