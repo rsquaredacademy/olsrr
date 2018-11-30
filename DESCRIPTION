@@ -1,7 +1,7 @@
 Package: olsrr
 Type: Package
 Title: Tools for Building OLS Regression Models 
-Version: 0.5.2
+Version: 0.5.2.9000
 Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
 Description: Tools designed to make it easier for users, particularly beginner/intermediate R users 
     to build ordinary least squares regression models. Includes comprehensive regression output, 
@@ -50,9 +50,6 @@ Suggests:
     testthat,
     tools,
     vdiffr
-Remotes:
-    topepo/caret/pkg/caret,
-    tidymodels/recipes
 License: MIT + file LICENSE
 URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues
