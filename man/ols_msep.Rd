@@ -43,3 +43,4 @@ Other model selection criteria: \code{\link{ols_aic}},
   \code{\link{ols_hsp}}, \code{\link{ols_mallows_cp}},
   \code{\link{ols_sbc}}, \code{\link{ols_sbic}}
 }
+\concept{model selection criteria}

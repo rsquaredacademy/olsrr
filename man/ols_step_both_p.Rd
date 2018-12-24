@@ -77,3 +77,4 @@ k$model
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
+\concept{variable selection_procedures}

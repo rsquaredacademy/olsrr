@@ -9,8 +9,8 @@
 \usage{
 ols_step_forward_p(model, ...)
 
-\method{ols_step_forward_p}{default}(model, penter = 0.3, details = FALSE,
-  ...)
+\method{ols_step_forward_p}{default}(model, penter = 0.3,
+  details = FALSE, ...)
 
 \method{plot}{ols_step_forward_p}(x, model = NA, ...)
 }
@@ -83,3 +83,4 @@ Other variable selection procedures: \code{\link{ols_step_all_possible}},
   \code{\link{ols_step_both_aic}},
   \code{\link{ols_step_forward_aic}}
 }
+\concept{variable selection procedures}

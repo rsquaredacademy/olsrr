@@ -17,7 +17,6 @@ Imports:
     crayon,
     dplyr,
     ggplot2,
-    gh,
     glue,
     goftest,
     graphics,
@@ -28,27 +27,14 @@ Imports:
     Rcpp,
     recipes (>= 0.1.4),
     rlang,
-    shiny,
-    stringr,
     tibble,
     tidyr
 Suggests:
-    caret (>= 6.0.81),
     covr,
     descriptr,
-    grid,
-    haven,
-    jsonlite,
     knitr,
-    lubridate,
-    readr,
-    readxl,
     rmarkdown,
-    scales,
-    shinyBS,
-    shinythemes,
     testthat,
-    tools,
     vdiffr
 License: MIT + file LICENSE
 URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr

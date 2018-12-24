@@ -138,7 +138,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
       } else {
         end <- TRUE
         cat("\n")
-        cat(crayon::bold$red(glue("No more variables satisfy the condition of p value = {prem}")))
+        cat(crayon::bold$red(paste0("No more variables satisfy the condition of p value = ", prem)))
         cat("\n")
       }
     )

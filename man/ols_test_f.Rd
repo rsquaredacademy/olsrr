@@ -5,7 +5,8 @@
 \alias{ols_f_test}
 \title{F test}
 \usage{
-ols_test_f(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...)
+ols_test_f(model, fitted_values = TRUE, rhs = FALSE, vars = NULL,
+  ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -66,3 +67,4 @@ Other heteroskedasticity tests: \code{\link{ols_test_bartlett}},
   \code{\link{ols_test_breusch_pagan}},
   \code{\link{ols_test_score}}
 }
+\concept{heteroskedasticity tests}

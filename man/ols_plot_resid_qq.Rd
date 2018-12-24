@@ -30,3 +30,4 @@ Other residual diagnostics: \code{\link{ols_plot_resid_box}},
   \code{\link{ols_test_correlation}},
   \code{\link{ols_test_normality}}
 }
+\concept{residual diagnostics}

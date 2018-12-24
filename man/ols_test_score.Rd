@@ -66,3 +66,4 @@ Other heteroskedasticity tests: \code{\link{ols_test_bartlett}},
   \code{\link{ols_test_breusch_pagan}},
   \code{\link{ols_test_f}}
 }
+\concept{heteroskedasticity tests}

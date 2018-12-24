@@ -31,20 +31,14 @@ models using R:
 
 ## Installation
 
-You can install olsrr from github with:
-
 ``` r
-# install olsrr from CRAN
+# Install release version from CRAN
 install.packages("olsrr")
 
-# the development version from github
+# Install development version from GitHub
 # install.packages("devtools")
 devtools::install_github("rsquaredacademy/olsrr")
 ```
-
-## Shiny App
-
-Use `ols_launch_app()` to explore the package using a shiny app.
 
 ## Articles
 

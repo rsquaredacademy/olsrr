@@ -35,3 +35,4 @@ Chicago, IL., McGraw Hill/Irwin.
 Other influence measures: \code{\link{ols_hadi}},
   \code{\link{ols_leverage}}, \code{\link{ols_pred_rsq}}
 }
+\concept{influence measures}
