@@ -55,11 +55,6 @@ home:
 
 
 reference:
-- title: Shiny App
-
-  contents:
-  - ols_launch_app
-
 - title: Regression
 
   contents:
