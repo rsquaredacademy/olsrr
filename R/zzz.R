@@ -9,7 +9,7 @@
     extract("olsrr", "Version") %>%
     package_version()
 
-  local_version <- packageVersion("olsrr")
+  local_version <- utils::packageVersion("olsrr")
   behind_cran <- cran_version > local_version
 
   tips <- c(
@@ -22,7 +22,7 @@
   tip <- sample(tips, 1)
 
   if (behind_cran) {
-    packageStartupMessage("A new version of olsrr (0.5.1) is available with bug fixes and new features.")
+    packageStartupMessage("A new version of olsrr (0.5.2) is available with bug fixes and new features.")
   } else {
     packageStartupMessage(paste(strwrap(tip), collapse = "\n"))
   }   
