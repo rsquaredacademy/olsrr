@@ -175,9 +175,6 @@ reference:
   contents:
   - ols_plot_response
   - ols_plot_reg_line
-  - ols_update
-  - ols_deps
-
 
 - title: Data
   desc: >

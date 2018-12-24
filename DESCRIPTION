@@ -17,7 +17,6 @@ Imports:
     crayon,
     dplyr,
     ggplot2,
-    gh,
     glue,
     goftest,
     graphics,
