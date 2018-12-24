@@ -309,6 +309,7 @@ bp_case_6 <- function(l, model) {
 #' * multiple = FALSE
 #'
 #' @importFrom rlang !!! syms
+#' @importFrom magrittr subtract
 #'
 #' @param l A tibble created using `avplots_data()`.
 #' @param model An object of class \code{lm}.

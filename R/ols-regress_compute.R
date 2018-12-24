@@ -1,6 +1,5 @@
 #' @importFrom stats model.matrix confint.lm
 #' @importFrom recipes recipe step_center step_scale prep bake all_numeric
-#' @importFrom glue glue
 #' @importFrom magrittr extract2
 #' @importFrom stats as.formula
 reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
