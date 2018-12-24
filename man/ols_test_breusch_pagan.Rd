@@ -103,3 +103,4 @@ Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regress
 Other heteroskedasticity tests: \code{\link{ols_test_bartlett}},
   \code{\link{ols_test_f}}, \code{\link{ols_test_score}}
 }
+\concept{heteroskedasticity tests}

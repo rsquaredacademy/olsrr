@@ -72,3 +72,4 @@ Other variable selection procedures: \code{\link{ols_step_all_possible}},
   \code{\link{ols_step_both_aic}},
   \code{\link{ols_step_forward_p}}
 }
+\concept{variable selection procedures}

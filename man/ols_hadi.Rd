@@ -28,3 +28,4 @@ Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.:
 Other influence measures: \code{\link{ols_leverage}},
   \code{\link{ols_pred_rsq}}, \code{\link{ols_press}}
 }
+\concept{influence measures}

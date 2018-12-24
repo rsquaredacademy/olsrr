@@ -56,3 +56,4 @@ Eighth Edition, Iowa State University Press.
 Other heteroskedasticity tests: \code{\link{ols_test_breusch_pagan}},
   \code{\link{ols_test_f}}, \code{\link{ols_test_score}}
 }
+\concept{heteroskedasticity tests}
