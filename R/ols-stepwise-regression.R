@@ -285,7 +285,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, details = FAL
       }
     } else {
       cat("\n")
-      cat(crayon::bold$red(glue("No more variables to be added/removed.")))
+      cat(crayon::bold$red("No more variables to be added/removed."))
       cat("\n")
       break
     }

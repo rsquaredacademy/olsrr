@@ -42,7 +42,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
 
     mod_formula <- formula %>%
       extract2(2) %>%
-      glue(" ~ .") %>%
+      paste0(" ~ .") %>%
       as.formula()
 
     rec_obj <- recipe(mod_formula, data = data)
