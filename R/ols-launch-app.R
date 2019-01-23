@@ -1,4 +1,3 @@
-#' @importFrom shiny runApp
 #' @title Launch shiny app
 #' @description Launches shiny app for interactive model building.
 #' @examples
