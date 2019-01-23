@@ -28,7 +28,8 @@ Imports:
     recipes (>= 0.1.4),
     rlang,
     tibble,
-    tidyr
+    tidyr,
+    xplorerr
 Suggests:
     covr,
     descriptr,
