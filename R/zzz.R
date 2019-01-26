@@ -21,10 +21,16 @@
 
   tip <- sample(tips, 1)
 
-  if (behind_cran) {
-    packageStartupMessage("A new version of olsrr (0.5.2) is available with bug fixes and new features.")
-  } else {
-    packageStartupMessage(paste(strwrap(tip), collapse = "\n"))
+  if (interactive()) {
+    if (behind_cran) {
+      msg <- message("A new version of olsrr is available with bug fixes and new features.")
+      message(msg, "\nWould you like to install it?")
+      if (utils::menu(c("Yes", "No")) == 1) {
+        utils::update.packages("olsrr")
+      } 
+    } else {
+      packageStartupMessage(paste(strwrap(tip), collapse = "\n"))
+    }   
   }   
 
 }

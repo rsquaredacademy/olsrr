@@ -2,7 +2,7 @@
 title: "Media"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to olsrr}
+  %\VignetteIndexEntry{Media}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
