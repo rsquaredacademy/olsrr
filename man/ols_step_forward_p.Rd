@@ -10,7 +10,7 @@
 ols_step_forward_p(model, ...)
 
 \method{ols_step_forward_p}{default}(model, penter = 0.3,
-  details = FALSE, ...)
+  progress = FALSE, details = FALSE, ...)
 
 \method{plot}{ols_step_forward_p}(x, model = NA, ...)
 }
@@ -22,6 +22,8 @@ candidate predictor variables.}
 
 \item{penter}{p value; variables with p value less than \code{penter} will
 enter into the model}
+
+\item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}

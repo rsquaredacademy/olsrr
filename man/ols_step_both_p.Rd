@@ -10,7 +10,7 @@
 ols_step_both_p(model, ...)
 
 \method{ols_step_both_p}{default}(model, pent = 0.1, prem = 0.3,
-  details = FALSE, ...)
+  progress = FALSE, details = FALSE, ...)
 
 \method{plot}{ols_step_both_p}(x, model = NA, ...)
 }
@@ -25,6 +25,8 @@ into the model.}
 
 \item{prem}{p value; variables with p more than \code{prem} will be removed
 from the model.}
+
+\item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}

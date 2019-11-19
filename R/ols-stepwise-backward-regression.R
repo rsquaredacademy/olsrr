@@ -9,6 +9,7 @@
 #'   candidate predictor variables.
 #' @param prem p value; variables with p more than \code{prem} will be removed
 #'   from the model.
+#' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
 #' @param x An object of class \code{ols_step_backward_p}.
@@ -58,7 +59,11 @@ ols_step_backward_p <- function(model, ...) UseMethod("ols_step_backward_p")
 #' @export
 #' @rdname ols_step_backward_p
 #'
-ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...) {
+ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, details = FALSE, ...) {
+
+  if (details) {
+    progress <- TRUE
+  }
   
   check_model(model)
   check_logic(details)
@@ -83,22 +88,24 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
   cp       <- c()
   rmse     <- c()
 
-  cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
-  cat(rep("-", 27), sep = "", "\n\n")
-  cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-  for (i in seq_len(length(nam))) {
-    cat(paste(i, ".", nam[i]), "\n")
+  if (progress) {
+    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
+    cat(rep("-", 27), sep = "", "\n\n")
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste(i, ".", nam[i]), "\n")
+    }
+    cat("\n")
+
+    cat(crayon::bold$red("We are eliminating variables based on p value..."))
+    cat("\n")
+
+    cat("\n")
+    if (!details) {
+      cat("Variables Removed:", "\n\n")
+    }
   }
-  cat("\n")
-
-  cat(crayon::bold$red("We are eliminating variables based on p value..."))
-  cat("\n")
-
-  cat("\n")
-  if (!details) {
-    cat("Variables Removed:", "\n\n")
-  }
-
+    
   while (!end) {
     m <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
     m_sum <- Anova(m)
@@ -122,13 +129,15 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
         cp     <- c(cp, ols_mallows_cp(fr$model, model))
         rmse   <- c(rmse, sqrt(fr$ems))
 
-        if (interactive()) {
-          cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), "\n")
-        } else {
-          cat(paste("-", dplyr::last(rpred)), "\n")
+        if (progress) {
+          if (interactive()) {
+            cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), "\n")
+          } else {
+            cat(paste("-", dplyr::last(rpred)), "\n")
+          }
         }
 
-        if (details == TRUE) {
+        if (details) {
           cat("\n")
           cat(paste("Backward Elimination: Step", step, "\n\n"), paste("Variable", rpred[lp], "Removed"), "\n\n")
           m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
@@ -137,14 +146,16 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
         }
       } else {
         end <- TRUE
-        cat("\n")
-        cat(crayon::bold$red(paste0("No more variables satisfy the condition of p value = ", prem)))
-        cat("\n")
+        if (progress) {
+          cat("\n")
+          cat(crayon::bold$red(paste0("No more variables satisfy the condition of p value = ", prem)))
+          cat("\n")
+        }
       }
     )
   }
 
-  if (details == TRUE) {
+  if (details) {
     cat("\n\n")
     cat("Variables Removed:", "\n\n")
     for (i in seq_len(length(rpred))) {
@@ -156,16 +167,18 @@ ols_step_backward_p.default <- function(model, prem = 0.3, details = FALSE, ...)
     }
   }
 
-  cat("\n\n")
-  cat("Final Model Output", "\n")
-  cat(rep("-", 18), sep = "", "\n\n")
+  if (progress) {
+    cat("\n\n")
+    cat("Final Model Output", "\n")
+    cat(rep("-", 18), sep = "", "\n\n")
 
-  fi <- ols_regress(
-    paste(response, "~", paste(preds, collapse = " + ")),
-    data = l
-  )
-  print(fi)
-
+    fi <- ols_regress(
+      paste(response, "~", paste(preds, collapse = " + ")),
+      data = l
+    )
+    print(fi)
+  }
+    
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
   out <- list(mallows_cp = cp,

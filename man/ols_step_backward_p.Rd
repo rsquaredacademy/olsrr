@@ -10,7 +10,7 @@
 ols_step_backward_p(model, ...)
 
 \method{ols_step_backward_p}{default}(model, prem = 0.3,
-  details = FALSE, ...)
+  progress = FALSE, details = FALSE, ...)
 
 \method{plot}{ols_step_backward_p}(x, model = NA, ...)
 }
@@ -22,6 +22,8 @@ candidate predictor variables.}
 
 \item{prem}{p value; variables with p more than \code{prem} will be removed
 from the model.}
+
+\item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}

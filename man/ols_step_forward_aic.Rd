@@ -9,7 +9,8 @@
 \usage{
 ols_step_forward_aic(model, ...)
 
-\method{ols_step_forward_aic}{default}(model, details = FALSE, ...)
+\method{ols_step_forward_aic}{default}(model, progress = FALSE,
+  details = FALSE, ...)
 
 \method{plot}{ols_step_forward_aic}(x, ...)
 }
@@ -17,6 +18,8 @@ ols_step_forward_aic(model, ...)
 \item{model}{An object of class \code{lm}.}
 
 \item{...}{Other arguments.}
+
+\item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}

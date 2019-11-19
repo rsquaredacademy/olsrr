@@ -9,7 +9,8 @@
 \usage{
 ols_step_backward_aic(model, ...)
 
-\method{ols_step_backward_aic}{default}(model, details = FALSE, ...)
+\method{ols_step_backward_aic}{default}(model, progress = FALSE,
+  details = FALSE, ...)
 
 \method{plot}{ols_step_backward_aic}(x, ...)
 }
@@ -18,6 +19,8 @@ ols_step_backward_aic(model, ...)
 candidate predictor variables.}
 
 \item{...}{Other arguments.}
+
+\item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}

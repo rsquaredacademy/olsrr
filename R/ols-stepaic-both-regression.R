@@ -7,6 +7,7 @@
 #'
 #' @param model An object of class \code{lm}.
 #' @param x An object of class \code{ols_step_both_aic}.
+#' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, details of variable selection will
 #'   be printed on screen.
 #' @param ... Other arguments.
@@ -50,11 +51,15 @@
 #'
 #' @export
 #'
-ols_step_both_aic <- function(model, details = FALSE) UseMethod("ols_step_both_aic")
+ols_step_both_aic <- function(model, progress  = FALSE, details = FALSE) UseMethod("ols_step_both_aic")
 
 #' @export
 #'
-ols_step_both_aic.default <- function(model, details = FALSE) {
+ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) {
+
+  if (details) {
+    progress <- TRUE
+  }
 
   check_model(model)
   check_logic(details)
@@ -74,15 +79,17 @@ ols_step_both_aic.default <- function(model, details = FALSE) {
   mo         <- lm(paste(response, "~", 1), data = l)
   aic_c      <- ols_aic(mo)
 
-  cat(format("Stepwise Selection Method", justify = "left", width = 25), "\n")
-  cat(rep("-", 25), sep = "", "\n\n")
-  cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-  for (i in seq_len(length(nam))) {
-    cat(paste(i, ".", nam[i]), "\n")
+  if (progress) {
+    cat(format("Stepwise Selection Method", justify = "left", width = 25), "\n")
+    cat(rep("-", 25), sep = "", "\n\n")
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste(i, ".", nam[i]), "\n")
+    }
+    cat("\n")
   }
-  cat("\n")
 
-  if (details == TRUE) {
+  if (details) {
     cat(" Step 0: AIC =", aic_c, "\n", paste(response, "~", 1, "\n\n"))
   }
 
@@ -97,8 +104,8 @@ ols_step_both_aic.default <- function(model, details = FALSE) {
   lrsq      <- c()
   larsq     <- c()
 
-  cat("\n")
-  if (!details) {
+  if (progress) {
+    cat("\n")
     cat("Variables Entered/Removed:", "\n\n")
   }
 
@@ -127,7 +134,7 @@ ols_step_both_aic.default <- function(model, details = FALSE) {
     da <- data.frame(predictors = predictors, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
     da2 <- arrange(da, desc(rss))
 
-    if (details == TRUE) {
+    if (details) {
       w1 <- max(nchar("Predictor"), nchar(predictors))
       w2 <- 2
       w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
@@ -183,13 +190,15 @@ ols_step_both_aic.default <- function(model, details = FALSE) {
       lrsq       <- c(lrsq, mrsq)
       larsq      <- c(larsq, marsq)
 
-      if (interactive()) {
-        cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
-      } else {
-        cat(paste("-", dplyr::last(preds), "added"), "\n")
+      if (progress) {
+        if (interactive()) {
+          cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+        } else {
+          cat(paste("-", dplyr::last(preds), "added"), "\n")
+        }
       }
 
-      if (details == TRUE) {
+      if (details) {
         cat("\n\n", "Step", all_step, ": AIC =", maic, "\n", paste(response, "~", paste(preds, collapse = " + ")), "\n\n")
       }
 
@@ -217,7 +226,7 @@ ols_step_both_aic.default <- function(model, details = FALSE) {
         da <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
         da2 <- arrange(da, desc(rss))
 
-        if (details == TRUE) {
+        if (details) {
           w1 <- max(nchar("Predictor"), nchar(preds))
           w2 <- 2
           w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
@@ -269,16 +278,18 @@ ols_step_both_aic.default <- function(model, details = FALSE) {
           method    <- c(method, tech[2])
           all_step  <- all_step + 1
 
-          if (interactive()) {
-            cat(crayon::red(clisymbols::symbol$cross), crayon::bold(preds[minc2]), "\n")
-          } else {
-            cat(paste("-", preds[minc2], "removed"), "\n")
+          if (progress) {
+            if (interactive()) {
+              cat(crayon::red(clisymbols::symbol$cross), crayon::bold(preds[minc2]), "\n")
+            } else {
+              cat(paste("-", preds[minc2], "removed"), "\n")
+            }
           }
 
           preds <- preds[-minc2]
           lpreds <- length(preds)
 
-          if (details == TRUE) {
+          if (details) {
             cat("\n\n", "Step", all_step, ": AIC =", maic, "\n", paste(response, "~", paste(preds, collapse = " + ")), "\n\n")
           }
         }
@@ -287,13 +298,15 @@ ols_step_both_aic.default <- function(model, details = FALSE) {
         all_step <- all_step
       }
     } else {
-      cat("\n")
-      cat(crayon::bold$red("No more variables to be added or removed."))
+      if (progress) {
+        cat("\n")
+        cat(crayon::bold$red("No more variables to be added or removed."))
+      }
       break
     }
   }
 
-  if (details == TRUE) {
+  if (progress) {
     cat("\n\n")
     cat("Final Model Output", "\n")
     cat(rep("-", 18), sep = "", "\n\n")
