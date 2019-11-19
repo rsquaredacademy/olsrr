@@ -6,12 +6,14 @@
 \alias{ols_stepaic_both}
 \title{Stepwise AIC regression}
 \usage{
-ols_step_both_aic(model, details = FALSE)
+ols_step_both_aic(model, progress = FALSE, details = FALSE)
 
 \method{plot}{ols_step_both_aic}(x, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
 \item{details}{Logical; if \code{TRUE}, details of variable selection will
 be printed on screen.}

@@ -7,6 +7,7 @@
 #'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
+#' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
 #' @param x An object of class \code{ols_step_backward_aic}.
@@ -57,7 +58,11 @@ ols_step_backward_aic <- function(model, ...) UseMethod("ols_step_backward_aic")
 #' @export
 #' @rdname ols_step_backward_aic
 #'
-ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
+ols_step_backward_aic.default <- function(model, progress = FALSE, details = FALSE, ...) {
+
+  if (details) {
+    progress <- TRUE
+  }
 
   check_model(model)
   check_logic(details)
@@ -84,15 +89,17 @@ ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
   lrsq  <- mi$rsq
   larsq <- mi$adjr
 
-  cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
-  cat(rep("-", 27), sep = "", "\n\n")
-  cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-  for (i in seq_len(length(nam))) {
-    cat(paste(i, ".", nam[i]), "\n")
+  if (progress) {
+    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
+    cat(rep("-", 27), sep = "", "\n\n")
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste(i, ".", nam[i]), "\n")
+    }
+    cat("\n")
   }
-  cat("\n")
 
-  if (details == TRUE) {
+  if (details) {
     cat(" Step 0: AIC =", aic_f, "\n", paste(response, "~", paste(preds, collapse = " + "), "\n\n"))
   }
 
@@ -122,7 +129,7 @@ ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
   da <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
   da2 <- arrange(da, rss)
 
-  if (details == TRUE) {
+  if (details) {
     w1 <- max(nchar("Predictor"), nchar(predictors))
     w2 <- 2
     w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
@@ -152,8 +159,8 @@ ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
     cat(rep("-", w), sep = "", "\n\n")
   }
 
-  cat("\n")
-  if (!details) {
+  if (progress) {
+    cat("\n")
     cat("Variables Removed:", "\n\n")
   }
 
@@ -183,10 +190,12 @@ ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
       rsq   <- c()
       arsq  <- c()
 
-      if (interactive()) {
-        cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), "\n")
-      } else {
-        cat(paste("-", dplyr::last(rpred)), "\n")
+      if (progress) {
+        if (interactive()) {
+          cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), "\n")
+        } else {
+          cat(paste("-", dplyr::last(rpred)), "\n")
+        }
       }
 
       for (i in seq_len(ilp)) {
@@ -204,7 +213,7 @@ ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
       }
 
 
-      if (details == TRUE) {
+      if (details) {
         cat("\n\n", " Step", step, ": AIC =", aic_f, "\n", paste(response, "~", paste(preds, collapse = " + "), "\n\n"))
 
 
@@ -240,13 +249,15 @@ ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
       }
     } else {
       end <- TRUE
-      cat("\n")
-      cat(crayon::bold$red("No more variables to be removed."))
+      if (progress) {
+        cat("\n")
+        cat(crayon::bold$red("No more variables to be removed."))
+      }
     }
   }
 
 
-  if (details == TRUE) {
+  if (details) {
     cat("\n\n")
     cat("Variables Removed:", "\n\n")
     for (i in seq_len(length(rpred))) {
@@ -256,7 +267,9 @@ ols_step_backward_aic.default <- function(model, details = FALSE, ...) {
         cat(paste("-", rpred[i]), "\n")
       }
     }
+  }
 
+  if (progress) {
     cat("\n\n")
     cat("Final Model Output", "\n")
     cat(rep("-", 18), sep = "", "\n\n")
