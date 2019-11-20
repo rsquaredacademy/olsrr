@@ -42,7 +42,7 @@
 #'
 #' @export
 #'
-ols_plot_cooksd_chart <- function(model) {
+ols_plot_cooksd_chart <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
