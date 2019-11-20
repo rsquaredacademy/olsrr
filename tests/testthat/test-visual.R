@@ -64,26 +64,26 @@ test_that("residual vs regressor plot is as expected", {
 
 test_that("cooks d bar plot is as expected", {
   skip_on_cran()
-  p <- ols_plot_cooksd_bar(model)
-  vdiffr::expect_doppelganger("cooks d bar plot", p)
+  p <- ols_plot_cooksd_bar(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("cooks d bar plot", p$plot)
 })
 
 test_that("cooks d bar chart is as expected", {
   skip_on_cran()
-  p <- ols_plot_cooksd_chart(model)
-  vdiffr::expect_doppelganger("cooks d bar chart", p)
+  p <- ols_plot_cooksd_chart(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("cooks d bar chart", p$plot)
 })
 
 test_that("dffits plot is as expected", {
   skip_on_cran()
-  p <- ols_plot_dffits(model)
-  vdiffr::expect_doppelganger("dffits plot", p)
+  p <- ols_plot_dffits(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("dffits plot", p$plot)
 })
 
 test_that("deleted studentized residual vs fitted plot is as expected", {
   skip_on_cran()
-  p <- ols_plot_resid_stud_fit(model)
-  vdiffr::expect_doppelganger("dsrvsp plot", p)
+  p <- ols_plot_resid_stud_fit(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("dsrvsp plot", p$plot)
 })
 
 test_that("residual vs regressor shiny plot is as expected", {
@@ -94,14 +94,14 @@ test_that("residual vs regressor shiny plot is as expected", {
 
 test_that("residual fit spread plot is as expected", {
   skip_on_cran()
-  p <- ols_plot_resid_fit_spread(model)
+  p <- ols_plot_resid_fit_spread(model, print_plot = TRUE)
   vdiffr::expect_doppelganger("fm_plot", p$fm_plot)
   vdiffr::expect_doppelganger("rsd_plot", p$rsd_plot)
 })
 
 test_that("response profile plot is as expected", {
   skip_on_cran()
-  p <- ols_plot_response(model)
+  p <- ols_plot_response(model, print_plot = FALSE)
   vdiffr::expect_doppelganger("resp viz dot plot", p$dot_plot)
   vdiffr::expect_doppelganger("resp viz trend plot", p$trend_plot)
   vdiffr::expect_doppelganger("resp viz histogram", p$histogram)

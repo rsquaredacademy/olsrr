@@ -64,7 +64,7 @@ ols_plot_resid_fit_spread <- function(model, print_plot = TRUE) {
   if (print_plot) {
     grid.arrange(p1, p2, ncol = 2)
   } else {
-    result(list(fm_plot = p1, rsd_plot = p2))
+    return(list(fm_plot = p1, rsd_plot = p2))
   }
 
 }

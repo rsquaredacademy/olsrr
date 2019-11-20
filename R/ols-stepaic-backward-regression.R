@@ -47,7 +47,7 @@
 #' k$model
 #'
 #' @importFrom ggplot2 geom_text
-#' @importFrom rlang prepend
+#' @importFrom purrr prepend
 #'
 #'
 #' @family variable selection procedures
