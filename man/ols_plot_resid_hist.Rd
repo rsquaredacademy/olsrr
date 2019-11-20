@@ -5,10 +5,12 @@
 \alias{ols_rsd_hist}
 \title{Residual histogram}
 \usage{
-ols_plot_resid_hist(model)
+ols_plot_resid_hist(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Histogram of residuals for detecting violation of normality assumption.

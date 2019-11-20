@@ -3,6 +3,7 @@
 #' Graph for detecting violation of normality assumption.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @section Deprecated Function:
 #' \code{ols_rsd_qqplot()} has been deprecated. Instead use \code{ols_plot_resid_qq()}.
@@ -17,7 +18,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_qq <- function(model) {
+ols_plot_resid_qq <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -28,12 +29,17 @@ ols_plot_resid_qq <- function(model) {
   int   <- y[1L] - slope * x[1L]
   d     <- tibble(x = resid)
 
-  p <- ggplot(d, aes(sample = x)) + stat_qq(color = "blue") +
+  p <-
+    ggplot(d, aes(sample = x)) + stat_qq(color = "blue") +
     geom_abline(slope = slope, intercept = int, color = "red") +
     xlab("Theoretical Quantiles") + ylab("Sample Quantiles") +
     ggtitle("Normal Q-Q Plot")
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 
 }
 

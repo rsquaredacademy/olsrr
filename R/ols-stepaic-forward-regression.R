@@ -10,6 +10,7 @@
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
 #' @param x An object of class \code{ols_step_forward_aic}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #' @return \code{ols_step_forward_aic} returns an object of class \code{"ols_step_forward_aic"}.
 #' An object of class \code{"ols_step_forward_aic"} is a list containing the
@@ -322,7 +323,7 @@ print.ols_step_forward_aic <- function(x, ...) {
 #' @rdname ols_step_forward_aic
 #' @export
 #'
-plot.ols_step_forward_aic <- function(x, ...) {
+plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
 
   aic <- NULL
   tx  <- NULL
@@ -352,13 +353,19 @@ plot.ols_step_forward_aic <- function(x, ...) {
   d2 <- tibble(x = xloc, y = yloc, tx = predictors)
   d  <- tibble(a = y, b = x$aics)
 
-  p <- ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
+  p <-
+    ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
     ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
     ggtitle("Stepwise AIC Forward Selection") +
     geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+
 }
 
 

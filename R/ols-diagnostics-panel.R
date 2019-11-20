@@ -3,6 +3,7 @@
 #' Panel of plots for regression diagnostics.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' #' @section Deprecated Function:
 #' \code{ols_diagnostic_panel()} has been deprecated. Instead use \code{ols_plot_diagnostics()}.
@@ -16,7 +17,7 @@
 #'
 #' @export
 #'
-ols_plot_diagnostics <- function(model) {
+ols_plot_diagnostics <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -178,8 +179,12 @@ ols_plot_diagnostics <- function(model) {
     plot_9 = p9, plot_10 = p10
   )
 
-  result_plot <- marrangeGrob(result, nrow = 2, ncol = 2)
-  result_plot
+  if (print_plot) {
+    marrangeGrob(result, nrow = 2, ncol = 2)
+  } else {
+    return(result)
+  }
+
 }
 
 

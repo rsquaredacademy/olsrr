@@ -15,6 +15,7 @@
 #' @param details Logical; if \code{TRUE}, will print the regression result at
   #' each step.
 #' @param x An object of class \code{ols_step_both_p}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #' @return \code{ols_step_both_p} returns an object of class \code{"ols_step_both_p"}.
 #' An object of class \code{"ols_step_both_p"} is a list containing the
@@ -223,7 +224,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
         } else {
           cat(paste("-", dplyr::last(preds), "added"), "\n")
         }
-      }  
+      }
 
       if (details) {
         cat("\n")
@@ -358,7 +359,7 @@ print.ols_step_both_p <- function(x, ...) {
 #' @export
 #' @rdname ols_step_both_p
 #'
-plot.ols_step_both_p <- function(x, model = NA, ...) {
+plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
   a <- NULL
   b <- NULL
@@ -381,9 +382,12 @@ plot.ols_step_both_p <- function(x, model = NA, ...) {
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
                   plot_4 = p4, plot_5 = p5, plot_6 = p6)
-  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
-  result
 
+  if (print_plot) {
+    marrangeGrob(myplots, nrow = 2, ncol = 2)
+  } else {
+    return(myplots)
+  }
 
 }
 

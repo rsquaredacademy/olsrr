@@ -3,6 +3,7 @@
 #' Chart for identifying outliers.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
 #' Standardized residual (internally studentized) is the residual divided by
@@ -28,7 +29,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_stand <- function(model) {
+ols_plot_resid_stand <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -45,7 +46,8 @@ ols_plot_resid_stand <- function(model) {
     select(obs, sdres) %>%
     set_colnames(c("observation", "stand_resid"))
 
-  p <- ggplot(d, aes(x = obs, y = sdres, label = txt, ymin = 0, ymax = sdres)) +
+  p <-
+    ggplot(d, aes(x = obs, y = sdres, label = txt, ymin = 0, ymax = sdres)) +
     geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
     geom_hline(yintercept = 0, colour = "gray") +
     geom_hline(yintercept = c(2, -2), colour = "red") +
@@ -57,9 +59,15 @@ ols_plot_resid_stand <- function(model) {
              fontface = "italic", colour = "darkred",
              label = paste0("Threshold: abs(", 2, ")"))
 
-  suppressWarnings(print(p))
-  result <- list(outliers = f, threshold = 2, plot = p)
-  invisible(result)
+  if (print_plot) {
+    suppressWarnings(print(p))
+  } else {
+    result(
+      list(plot      = p,
+           outliers  = f,
+           threshold = 2)
+      )
+  }
 
 }
 

@@ -3,6 +3,7 @@
 #' Plot for detecting influential observations using DFFITs.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
 #' DFFIT - difference in fits, is used to identify influential data points. It
@@ -48,7 +49,7 @@
 #'
 #' @export
 #'
-ols_plot_dffits <- function(model) {
+ols_plot_dffits <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -94,10 +95,12 @@ ols_plot_dffits <- function(model) {
       label = paste("Threshold:", round(dffits_t, 2))
     )
 
-  suppressWarnings(print(p))
-  colnames(f) <- c("observation", "dffits")
-  result <- list(outliers = f, threshold = round(dffits_t, 2), plot = p)
-  invisible(result)
+  if (print_plot) {
+    suppressWarnings(print(p))
+  } else {
+    colnames(f) <- c("observation", "dffits")
+    return(list(plot = p, outliers = f, threshold = round(dffits_t, 2)))
+  }
 
 }
 

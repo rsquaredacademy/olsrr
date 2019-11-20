@@ -6,6 +6,7 @@
 #' The plot is used to detect influential observations based on Hadi's measure.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -21,7 +22,7 @@
 #'
 #' @export
 #'
-ols_plot_hadi <- function(model) {
+ols_plot_hadi <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -40,13 +41,18 @@ ols_plot_hadi <- function(model) {
 
   d <- tibble(obs = obs, hdi = hdi)
 
-  p <- ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
+  p <-
+    ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
     geom_linerange(colour = "blue") +
     geom_point(shape = 1, colour = "blue") +
     xlab("Observation") + ylab("Hadi's Measure") +
     ggtitle("Hadi's Influence Measure")
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 
 }
 

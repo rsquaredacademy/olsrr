@@ -5,6 +5,7 @@
 #' x axis to detect non-linearity, unequal error variances, and outliers.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details Characteristics of a well behaved residual vs fitted plot:
 #'
@@ -25,7 +26,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_fit <- function(model) {
+ols_plot_resid_fit <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -34,13 +35,18 @@ ols_plot_resid_fit <- function(model) {
 
   d <- rvspdata(model)
 
-  p <- ggplot(d, aes(x = predicted, y = resid)) +
+  p <-
+    ggplot(d, aes(x = predicted, y = resid)) +
     geom_point(shape = 1, colour = "blue") +
     xlab("Fitted Value") + ylab("Residual") +
     ggtitle("Residual vs Fitted Values") +
     geom_hline(yintercept = 0, colour = "red")
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 
 }
 

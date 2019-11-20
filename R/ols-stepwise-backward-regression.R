@@ -13,6 +13,7 @@
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
 #' @param x An object of class \code{ols_step_backward_p}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other inputs.
 #'
 #' @return \code{ols_step_backward_p} returns an object of class \code{"ols_step_backward_p"}.
@@ -64,7 +65,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
   if (details) {
     progress <- TRUE
   }
-  
+
   check_model(model)
   check_logic(details)
   check_values(prem, 0, 1)
@@ -105,7 +106,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
       cat("Variables Removed:", "\n\n")
     }
   }
-    
+
   while (!end) {
     m <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
     m_sum <- Anova(m)
@@ -178,7 +179,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
     )
     print(fi)
   }
-    
+
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
   out <- list(mallows_cp = cp,
@@ -213,7 +214,7 @@ print.ols_step_backward_p <- function(x, ...) {
 #' @export
 #' @rdname ols_step_backward_p
 #'
-plot.ols_step_backward_p <- function(x, model = NA, ...) {
+plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
   a <- NULL
   b <- NULL
@@ -234,12 +235,14 @@ plot.ols_step_backward_p <- function(x, model = NA, ...) {
   p5 <- plot_stepwise(d5, "SBIC")
   p6 <- plot_stepwise(d6, "SBC")
 
-  # grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "Stepwise Backward Regression")
-
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
                   plot_4 = p4, plot_5 = p5, plot_6 = p6)
-  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
-  result
+
+  if (print_plot) {
+    marrangeGrob(myplots, nrow = 2, ncol = 2)
+  } else {
+    return(myplots)
+  }
 
 }
 

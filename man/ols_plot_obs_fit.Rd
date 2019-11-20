@@ -5,10 +5,12 @@
 \alias{ols_ovsp_plot}
 \title{Observed vs fitted values plot}
 \usage{
-ols_plot_obs_fit(model)
+ols_plot_obs_fit(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Plot of observed vs fitted values to assess the fit of the model.

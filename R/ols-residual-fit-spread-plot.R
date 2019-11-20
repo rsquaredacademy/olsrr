@@ -3,6 +3,7 @@
 #' Plot to detect non-linearity, influential observations and outliers.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
 #' Consists of side-by-side quantile plots of the centered fit and the
@@ -37,7 +38,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_fit_spread <- function(model) {
+ols_plot_resid_fit_spread <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -60,17 +61,18 @@ ols_plot_resid_fit_spread <- function(model) {
     ylim(c(ymin2, ymax2)) + xlim(c(-0.2, 1.2)) + xlab("Proportion Less") +
     ylab("") + ggtitle("Residual")
 
-  grid.arrange(p1, p2, ncol = 2)
-
-  result <- list(fm_plot = p1, rsd_plot = p2)
-  invisible(result)
+  if (print_plot) {
+    grid.arrange(p1, p2, ncol = 2)
+  } else {
+    result(list(fm_plot = p1, rsd_plot = p2))
+  }
 
 }
 
 #' @rdname ols_plot_resid_fit_spread
 #' @export
 #'
-ols_plot_fm <- function(model) {
+ols_plot_fm <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -81,11 +83,16 @@ ols_plot_fm <- function(model) {
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
 
-  p <- ggplot(d, aes(x = x, y = y)) + geom_point(shape = 1, color = "blue") +
+  p <-
+    ggplot(d, aes(x = x, y = y)) + geom_point(shape = 1, color = "blue") +
     xlim(c(-0.2, 1.2)) + ylim(c(ymin, ymax)) + xlab("Proportion Less") +
     ylab("Fit - Mean") + ggtitle("Residual Fit Spread Plot")
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 
 }
 
@@ -93,7 +100,7 @@ ols_plot_fm <- function(model) {
 #' @rdname ols_plot_resid_fit_spread
 #' @export
 #'
-ols_plot_resid_spread <- function(model) {
+ols_plot_resid_spread <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -104,11 +111,16 @@ ols_plot_resid_spread <- function(model) {
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
 
-  p <- ggplot(d, aes(x = x, y = y)) + geom_point(color = "blue", shape = 1) +
+  p <-
+    ggplot(d, aes(x = x, y = y)) + geom_point(color = "blue", shape = 1) +
     ylim(c(ymin, ymax)) + xlim(c(-0.2, 1.2)) + ylab("Residual") +
     xlab("Proportion Less") + ggtitle("Residual Fit Spread Plot")
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 
 }
 

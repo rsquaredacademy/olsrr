@@ -7,6 +7,7 @@
 #' residual variability.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details The added variable plot was introduced by Mosteller and Tukey
 #' (1977). It enables us to visualize the regression coefficient of a new
@@ -57,7 +58,7 @@
 #'
 #' @export
 #'
-ols_plot_added_variable <- function(model) {
+ols_plot_added_variable <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -84,8 +85,11 @@ ols_plot_added_variable <- function(model) {
 
   }
 
-  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
-  result
+  if (print_plot) {
+    marrangeGrob(myplots, nrow = 2, ncol = 2)
+  } else {
+    return(myplots)
+  }
 
 }
 

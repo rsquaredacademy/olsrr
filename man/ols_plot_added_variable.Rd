@@ -5,10 +5,12 @@
 \alias{ols_avplots}
 \title{Added variable plots}
 \usage{
-ols_plot_added_variable(model)
+ols_plot_added_variable(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Added variable plot provides information about the marginal importance of a

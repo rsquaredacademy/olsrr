@@ -5,10 +5,12 @@
 \alias{ols_resp_viz}
 \title{Response variable profile}
 \usage{
-ols_plot_response(model)
+ols_plot_response(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Panel of plots to explore and visualize the response variable.

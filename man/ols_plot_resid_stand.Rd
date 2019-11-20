@@ -5,10 +5,12 @@
 \alias{ols_srsd_chart}
 \title{Standardized residual chart}
 \usage{
-ols_plot_resid_stand(model)
+ols_plot_resid_stand(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
 \code{ols_plot_resid_stand} returns  a list containing the

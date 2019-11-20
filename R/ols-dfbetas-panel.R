@@ -3,6 +3,7 @@
 #' Panel of plots to detect influential observations using DFBETAs.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
 #' DFBETA measures the difference in each parameter estimate with and without
@@ -37,7 +38,7 @@
 #'
 #' @export
 #'
-ols_plot_dfbetas <- function(model) {
+ols_plot_dfbetas <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -81,8 +82,11 @@ ols_plot_dfbetas <- function(model) {
 
   }
 
-  plots <- marrangeGrob(myplots, nrow = 2, ncol = 2)
-  plots
+  if (print_plot) {
+    marrangeGrob(myplots, nrow = 2, ncol = 2)
+  } else {
+    return(list(plots = myplots, outliers = outliers))
+  }
 
 }
 

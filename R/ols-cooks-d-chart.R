@@ -5,6 +5,7 @@
 #' fitted values of the model.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
 #' Cook's distance was introduced by American statistician R Dennis Cook in
@@ -66,9 +67,11 @@ ols_plot_cooksd_chart <- function(model) {
       label = paste("Threshold:", round(k$ts, 3))
     )
 
-  suppressWarnings(print(p))
-  result <- list(outliers = f, threshold = k$ts, plot = p)
-  invisible(result)
+  if (print_plot) {
+    suppressWarnings(print(p))
+  } else {
+    return(list(plot = p, outliers = f, threshold = k$ts))
+  }
 
 }
 

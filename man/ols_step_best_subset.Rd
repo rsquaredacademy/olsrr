@@ -8,7 +8,8 @@
 \usage{
 ols_step_best_subset(model, ...)
 
-\method{plot}{ols_step_best_subset}(x, model = NA, ...)
+\method{plot}{ols_step_best_subset}(x, model = NA, print_plot = TRUE,
+  ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -16,6 +17,8 @@ ols_step_best_subset(model, ...)
 \item{...}{Other inputs.}
 
 \item{x}{An object of class \code{ols_step_best_subset}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
 \code{ols_step_best_subset} returns an object of class \code{"ols_step_best_subset"}.
