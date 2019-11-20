@@ -5,6 +5,7 @@
 #' fitted values of the model.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
 #' Cook's distance was introduced by American statistician R Dennis Cook in
@@ -44,7 +45,7 @@
 #'
 #' @export
 #'
-ols_plot_cooksd_bar <- function(model) {
+ols_plot_cooksd_bar <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -57,7 +58,8 @@ ols_plot_cooksd_bar <- function(model) {
   d <- ols_prep_outlier_obs(k)
   f <- ols_prep_cdplot_outliers(k)
 
-  p <- ggplot(d, aes(x = obs, y = cd, label = txt)) +
+  p <- 
+    ggplot(d, aes(x = obs, y = cd, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
     scale_fill_manual(values = c("blue", "red")) + labs(fill = "Observation") +
     ylim(0, k$maxx) + ylab("Cook's D") + xlab("Observation") +
@@ -70,9 +72,11 @@ ols_plot_cooksd_bar <- function(model) {
       label = paste("Threshold:", round(k$ts, 3))
     )
 
-  suppressWarnings(print(p))
-  result <- list(outliers = f, threshold = k$ts, plot = p)
-  invisible(result)
+  if (print_plot) {
+    suppressWarnings(print(p))
+  } else {
+    return(list(plot = p, outliers = f, threshold = k$ts))
+  }
 
 }
 

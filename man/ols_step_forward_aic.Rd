@@ -12,7 +12,7 @@ ols_step_forward_aic(model, ...)
 \method{ols_step_forward_aic}{default}(model, progress = FALSE,
   details = FALSE, ...)
 
-\method{plot}{ols_step_forward_aic}(x, ...)
+\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -25,6 +25,8 @@ ols_step_forward_aic(model, ...)
 each step.}
 
 \item{x}{An object of class \code{ols_step_forward_aic}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
 \code{ols_step_forward_aic} returns an object of class \code{"ols_step_forward_aic"}.

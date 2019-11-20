@@ -3,6 +3,7 @@
 #' Panel of plots to explore and visualize the response variable.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @section Deprecated Function:
 #' \code{ols_resp_viz()} has been deprecated. Instead use \code{ols_plot_response()}.
@@ -16,7 +17,7 @@
 #'
 #' @export
 #'
-ols_plot_response <- function(model) {
+ols_plot_response <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -64,10 +65,16 @@ ols_plot_response <- function(model) {
     ggtitle(paste("Boxplot of", nam[1])) +
     theme(axis.text.x = element_blank())
 
-  grid.arrange(p1, p2, p3, p4, ncol = 2, top = "Response Diagnostics")
-
-  result <- list(dot_plot = p1, trend_plot = p2, histogram = p3, boxplot = p4)
-  invisible(result)
+  if (print_plot) {
+    grid.arrange(p1, p2, p3, p4, ncol = 2, top = "Response Diagnostics")
+  } else {
+    return(
+      list(dot_plot   = p1,
+           trend_plot = p2,
+           histogram  = p3,
+           boxplot    = p4)
+      )
+  }
 
 }
 

@@ -5,10 +5,12 @@
 \alias{ols_potrsd_plot}
 \title{Potential residual plot}
 \usage{
-ols_plot_resid_pot(model)
+ols_plot_resid_pot(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Plot to aid in classifying unusual observations as high-leverage points,

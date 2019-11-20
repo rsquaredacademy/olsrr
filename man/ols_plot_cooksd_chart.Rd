@@ -5,10 +5,12 @@
 \alias{ols_cooksd_chart}
 \title{Cooks' D chart}
 \usage{
-ols_plot_cooksd_chart(model)
+ols_plot_cooksd_chart(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
 \code{ols_plot_cooksd_chart} returns  a list containing the

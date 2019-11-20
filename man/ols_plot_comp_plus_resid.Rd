@@ -5,10 +5,12 @@
 \alias{ols_rpc_plot}
 \title{Residual plus component plot}
 \usage{
-ols_plot_comp_plus_resid(model)
+ols_plot_comp_plus_resid(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 The residual plus component plot indicates whether any non-linearity is

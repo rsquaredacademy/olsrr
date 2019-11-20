@@ -7,6 +7,7 @@
 #'
 #' @param model An object of class \code{lm}.
 #' @param x An object of class \code{ols_best_subset}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #'
 #' @return \code{ols_step_all_possible} returns an object of class \code{"ols_step_all_possible"}.
@@ -136,7 +137,7 @@ print.ols_step_all_possible <- function(x, ...) {
 #' @export
 #' @rdname ols_step_all_possible
 #'
-plot.ols_step_all_possible <- function(x, model = NA, ...) {
+plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 
   n       <- NULL
   y       <- NULL
@@ -164,11 +165,14 @@ plot.ols_step_all_possible <- function(x, model = NA, ...) {
   p5 <- all_possible_plot(d, sbic, title = "SBIC")
   p6 <- all_possible_plot(d, sbc, title = "SBC")
 
-  # grid.arrange(p1, p2, p3, p4, p5, p6, ncol = 2, top = "All Possible Regression")
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
                   plot_4 = p4, plot_5 = p5, plot_6 = p6)
-  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
-  result
+
+  if (print_plot) {
+    marrangeGrob(myplots, nrow = 2, ncol = 2)
+  } else {
+    return(myplots)
+  }
 
 }
 

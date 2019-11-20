@@ -5,10 +5,12 @@
 \alias{ols_rsdlev_plot}
 \title{Studentized residuals vs leverage plot}
 \usage{
-ols_plot_resid_lev(model)
+ols_plot_resid_lev(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Graph for detecting outliers and/or observations with high leverage.

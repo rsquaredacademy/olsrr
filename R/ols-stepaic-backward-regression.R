@@ -11,6 +11,7 @@
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
 #' @param x An object of class \code{ols_step_backward_aic}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #'
 #' @return \code{ols_step_backward_aic} returns an object of class \code{"ols_step_backward_aic"}.
@@ -46,7 +47,7 @@
 #' k$model
 #'
 #' @importFrom ggplot2 geom_text
-#' @importFrom rlang prepend
+#' @importFrom purrr prepend
 #'
 #'
 #' @family variable selection procedures
@@ -310,7 +311,7 @@ print.ols_step_backward_aic <- function(x, ...) {
 #' @rdname ols_step_backward_aic
 #' @export
 #'
-plot.ols_step_backward_aic <- function(x, ...) {
+plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
 
   steps <- NULL
   aics  <- NULL
@@ -358,13 +359,18 @@ plot.ols_step_backward_aic <- function(x, ...) {
   d2 <- tibble(x = xloc, y = yloc, tx = predictors)
   d  <- tibble(a = y, b = x$aics)
 
-  p <- ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
+  p <-
+    ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
     ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
     ggtitle("Stepwise AIC Backward Elimination") +
     geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 
 }
 

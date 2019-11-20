@@ -5,12 +5,14 @@
 \alias{ols_rvsr_plot}
 \title{Residual vs regressor plot}
 \usage{
-ols_plot_resid_regressor(model, variable)
+ols_plot_resid_regressor(model, variable, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
 \item{variable}{New predictor to be added to the \code{model}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Graph to determine whether we should add a new predictor to the model already

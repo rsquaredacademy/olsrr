@@ -8,7 +8,8 @@
 \usage{
 ols_step_all_possible(model, ...)
 
-\method{plot}{ols_step_all_possible}(x, model = NA, ...)
+\method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE,
+  ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -16,6 +17,8 @@ ols_step_all_possible(model, ...)
 \item{...}{Other arguments.}
 
 \item{x}{An object of class \code{ols_best_subset}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
 \code{ols_step_all_possible} returns an object of class \code{"ols_step_all_possible"}.

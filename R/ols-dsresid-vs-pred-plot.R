@@ -6,6 +6,7 @@
 #' examine model fit.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
 #' Studentized deleted residuals (or externally studentized residuals) is the
@@ -38,7 +39,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_stud_fit <- function(model) {
+ols_plot_resid_stud_fit <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -80,9 +81,11 @@ ols_plot_resid_stud_fit <- function(model) {
       label = paste0("Threshold: abs(", 2, ")")
     )
 
-  suppressWarnings(print(p))
-  result <- list(outliers = f, threshold = 2, plot = p)
-  invisible(result)
+  if (print_plot) {
+    suppressWarnings(print(p))
+  } else {
+    return(list(plot = p, outliers = f, threshold = 2))
+  }
 
 }
 

@@ -5,10 +5,12 @@
 \alias{ols_rvsp_plot}
 \title{Residual vs fitted plot}
 \usage{
-ols_plot_resid_fit(model)
+ols_plot_resid_fit(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Scatter plot of residuals on the y axis and fitted values on the

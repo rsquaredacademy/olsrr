@@ -3,6 +3,7 @@
 #' Graph for detecting outliers and/or observations with high leverage.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @section Deprecated Function:
 #' \code{ols_rsdlev_plot()} has been deprecated. Instead use \code{ols_plot_resid_lev()}.
@@ -18,7 +19,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_lev <- function(model) {
+ols_plot_resid_lev <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -59,7 +60,8 @@ ols_plot_resid_lev <- function(model) {
     select(obs, leverage, rstudent) %>%
     set_colnames(c("observation", "leverage", "stud_resid"))
 
-  p <- ggplot(d, aes(leverage, rstudent, label = txt)) +
+  p <-
+    ggplot(d, aes(leverage, rstudent, label = txt)) +
     geom_point(shape = 1, aes(colour = fct_color)) +
     scale_color_manual(values = c("blue", "red", "green", "violet")) +
     xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) + labs(colour = "Observation") +
@@ -72,9 +74,15 @@ ols_plot_resid_lev <- function(model) {
       family = "serif", fontface = "italic", colour = "darkred",
       label = ann_label)
 
-  suppressWarnings(print(p))
-  result <- list(leverage = f, threshold = g$lev_thrsh, plot = p)
-  invisible(result)
+  if (print_plot) {
+    suppressWarnings(print(p))
+  } else {
+    result(
+      list(plot      = p,
+           leverage  = f,
+           threshold = g$lev_thrsh)
+      )
+  }
 
 }
 

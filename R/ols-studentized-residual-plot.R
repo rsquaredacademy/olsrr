@@ -3,6 +3,7 @@
 #' Graph for identifying outliers.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
 #' Studentized deleted residuals (or externally studentized residuals) is the
@@ -32,7 +33,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_stud <- function(model) {
+ols_plot_resid_stud <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -57,7 +58,8 @@ ols_plot_resid_stud <- function(model) {
     select(obs, dsr) %>%
     set_colnames(c("observation", "stud_resid"))
 
-  p <- ggplot(d, aes(x = obs, y = dsr, label = txt)) +
+  p <-
+    ggplot(d, aes(x = obs, y = dsr, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
     scale_fill_manual(values = c("blue", "red")) + xlab("Observation") +
     ylab("Deleted Studentized Residuals") + labs(fill = "Observation") +
@@ -71,9 +73,15 @@ ols_plot_resid_stud <- function(model) {
       label = paste0("Threshold: abs(", 3, ")")
     )
 
-  suppressWarnings(print(p))
-  result <- list(outliers = f, threshold = 3, plot = p)
-  invisible(result)
+  if (print_plot) {
+    suppressWarnings(print(p))
+  } else {
+    return(
+      list(plot = p,
+           outliers = f,
+           threshold = 3)
+      )
+  }
 
 }
 

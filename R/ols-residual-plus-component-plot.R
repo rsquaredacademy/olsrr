@@ -6,6 +6,7 @@
 #' suggest possible transformations for linearizing the data.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -24,7 +25,7 @@
 #'
 #' @export
 #'
-ols_plot_comp_plus_resid <- function(model) {
+ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -44,8 +45,11 @@ ols_plot_comp_plus_resid <- function(model) {
     myplots[[i]] <- p
   }
 
-  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
-  result
+  if (print_plot) {
+    marrangeGrob(myplots, nrow = 2, ncol = 2)
+  } else {
+    return(myplots)
+  }
 
 }
 

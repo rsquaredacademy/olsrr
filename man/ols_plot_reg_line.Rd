@@ -5,12 +5,14 @@
 \alias{ols_reg_line}
 \title{Simple linear regression line}
 \usage{
-ols_plot_reg_line(response, predictor)
+ols_plot_reg_line(response, predictor, print_plot = TRUE)
 }
 \arguments{
 \item{response}{Response variable.}
 
 \item{predictor}{Predictor variable.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Plot to demonstrate that the regression line always passes  through mean of

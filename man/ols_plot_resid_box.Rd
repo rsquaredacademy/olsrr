@@ -5,10 +5,12 @@
 \alias{ols_rsd_boxplot}
 \title{Residual box plot}
 \usage{
-ols_plot_resid_box(model)
+ols_plot_resid_box(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Box plot of residuals to examine if residuals are normally distributed.

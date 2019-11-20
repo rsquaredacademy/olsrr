@@ -13,6 +13,7 @@
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
 #' @param x An object of class \code{ols_step_forward_p}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #'
 #' @return \code{ols_step_forward_p} returns an object of class \code{"ols_step_forward_p"}.
@@ -71,7 +72,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
   if (details) {
     progress <- TRUE
   }
-  
+
   check_model(model)
   check_logic(details)
   check_values(penter, 0, 1)
@@ -88,7 +89,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
   mlen_p   <- length(all_pred)
 
   step     <- 1
-  ppos     <- step 
+  ppos     <- step
   preds    <- c()
   pvals    <- c()
   tvals    <- c()
@@ -147,7 +148,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
     } else {
       cat(paste("-", dplyr::last(preds)), "\n")
     }
-  } 
+  }
 
   if (details) {
     cat("\n")
@@ -199,9 +200,9 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
         if (interactive()) {
           cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
         } else {
-          cat(paste("-", dplyr::last(preds)), "\n")      
+          cat(paste("-", dplyr::last(preds)), "\n")
         }
-      } 
+      }
 
       if (details) {
         cat("\n")
@@ -276,7 +277,7 @@ print.ols_step_forward_p <- function(x, ...) {
 #' @export
 #' @rdname ols_step_forward_p
 #'
-plot.ols_step_forward_p <- function(x, model = NA, ...) {
+plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
   a <- NULL
   b <- NULL
@@ -299,8 +300,12 @@ plot.ols_step_forward_p <- function(x, model = NA, ...) {
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
                   plot_4 = p4, plot_5 = p5, plot_6 = p6)
-  result <- marrangeGrob(myplots, nrow = 2, ncol = 2)
-  result
+
+  if (print_plot) {
+    marrangeGrob(myplots, nrow = 2, ncol = 2)
+  } else {
+    return(myplots)
+  }
 
 }
 

@@ -8,6 +8,7 @@
 #'
 #' @param model An object of class \code{lm}.
 #' @param variable New predictor to be added to the \code{model}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @section Deprecated Function:
 #' \code{ols_rvsr_plot()} has been deprecated. Instead use \code{ols_plot_resid_regressor()}.
@@ -20,7 +21,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_regressor <- function(model, variable) {
+ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
 
   check_model(model)
 
@@ -39,13 +40,18 @@ ols_plot_resid_regressor <- function(model, variable) {
   v <- names(inter)
   k <- tibble(x = x, y = y)
 
-  p <- ggplot(k, aes(x = x, y = y)) +
+  p <-
+    ggplot(k, aes(x = x, y = y)) +
     geom_point(shape = 1, colour = "blue") +
     xlab(paste(v)) + ylab("Residual") +
     ggtitle(paste("Residual vs", v)) +
     geom_hline(yintercept = 0, colour = "red")
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 
 }
 

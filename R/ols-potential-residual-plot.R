@@ -5,6 +5,7 @@
 #' outliers, or a combination of both.
 #'
 #' @param model An object of class \code{lm}.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
@@ -20,21 +21,25 @@
 #'
 #' @export
 #'
-ols_plot_resid_pot <- function(model) {
+ols_plot_resid_pot <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
   res <- NULL
   pot <- NULL
+  d   <- tibble(res = hadio(model, 3), pot = hadio(model, 2))
 
-  d <- tibble(res = hadio(model, 3), pot = hadio(model, 2))
-
-  p <- ggplot(d, aes(x = res, y = pot)) +
+  p <-
+    ggplot(d, aes(x = res, y = pot)) +
     geom_point(colour = "blue", shape = 1) +
     xlab("Residual") + ylab("Potential") +
     ggtitle("Potential-Residual Plot")
 
-  print(p)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 
 }
 

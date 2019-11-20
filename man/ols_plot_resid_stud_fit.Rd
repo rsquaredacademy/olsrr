@@ -5,10 +5,12 @@
 \alias{ols_dsrvsp_plot}
 \title{Deleted studentized residual vs fitted values plot}
 \usage{
-ols_plot_resid_stud_fit(model)
+ols_plot_resid_stud_fit(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
 \code{ols_plot_resid_stud_fit} returns  a list containing the

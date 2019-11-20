@@ -12,7 +12,7 @@ ols_step_both_p(model, ...)
 \method{ols_step_both_p}{default}(model, pent = 0.1, prem = 0.3,
   progress = FALSE, details = FALSE, ...)
 
-\method{plot}{ols_step_both_p}(x, model = NA, ...)
+\method{plot}{ols_step_both_p}(x, model = NA, print_plot = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}; the model should include all
@@ -32,6 +32,8 @@ from the model.}
 each step.}
 
 \item{x}{An object of class \code{ols_step_both_p}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
 \code{ols_step_both_p} returns an object of class \code{"ols_step_both_p"}.

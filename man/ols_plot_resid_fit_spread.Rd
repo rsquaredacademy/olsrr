@@ -9,14 +9,16 @@
 \alias{ols_fm_plot}
 \title{Residual fit spread plot}
 \usage{
-ols_plot_resid_fit_spread(model)
+ols_plot_resid_fit_spread(model, print_plot = TRUE)
 
-ols_plot_fm(model)
+ols_plot_fm(model, print_plot = TRUE)
 
-ols_plot_resid_spread(model)
+ols_plot_resid_spread(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Plot to detect non-linearity, influential observations and outliers.

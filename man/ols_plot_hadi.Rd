@@ -5,10 +5,12 @@
 \alias{ols_hadi_plot}
 \title{Hadi plot}
 \usage{
-ols_plot_hadi(model)
+ols_plot_hadi(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Hadi's measure of influence based on the fact that influential observations
