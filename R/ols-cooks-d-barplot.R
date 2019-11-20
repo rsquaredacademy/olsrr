@@ -45,7 +45,7 @@
 #'
 #' @export
 #'
-ols_plot_cooksd_bar <- function(model) {
+ols_plot_cooksd_bar <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
@@ -58,7 +58,8 @@ ols_plot_cooksd_bar <- function(model) {
   d <- ols_prep_outlier_obs(k)
   f <- ols_prep_cdplot_outliers(k)
 
-  p <- ggplot(d, aes(x = obs, y = cd, label = txt)) +
+  p <- 
+    ggplot(d, aes(x = obs, y = cd, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
     scale_fill_manual(values = c("blue", "red")) + labs(fill = "Observation") +
     ylim(0, k$maxx) + ylab("Cook's D") + xlab("Observation") +

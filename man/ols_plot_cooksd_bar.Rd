@@ -5,7 +5,7 @@
 \alias{ols_cooksd_barplot}
 \title{Cooks' D bar plot}
 \usage{
-ols_plot_cooksd_bar(model)
+ols_plot_cooksd_bar(model, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
