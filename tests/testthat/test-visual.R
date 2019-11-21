@@ -129,3 +129,141 @@ test_that("stepAIC both direction regression plot is as expected", {
   vdiffr::expect_doppelganger("stepaic both regression plot", p)
 })
 
+test_that("added variable plot is as expected", {
+  skip_on_cran()
+  p <- ols_plot_added_variable(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("avplot_1", p[[1]])
+  vdiffr::expect_doppelganger("avplot_2", p[[2]])
+  vdiffr::expect_doppelganger("avplot_3", p[[3]])
+})
+
+test_that("all possible regression plots are as expected", {
+  skip_on_cran()
+  model <- lm(mpg ~ disp + hp, data = mtcars)
+  k     <- ols_step_all_possible(model)
+  p     <- plot(k, print_plot = FALSE)  
+  vdiffr::expect_doppelganger("allplot_1", p$plot_1)
+  vdiffr::expect_doppelganger("allplot_2", p$plot_2)
+  vdiffr::expect_doppelganger("allplot_3", p$plot_3)
+  vdiffr::expect_doppelganger("allplot_4", p$plot_4)
+  vdiffr::expect_doppelganger("allplot_5", p$plot_5)
+  vdiffr::expect_doppelganger("allplot_6", p$plot_6)
+})
+
+test_that("best subset regression plots are as expected", {
+  skip_on_cran()
+  model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+  k     <- ols_step_best_subset(model)
+  p     <- plot(k, print_plot = FALSE)  
+  vdiffr::expect_doppelganger("bestplot_1", p$plot_1)
+  vdiffr::expect_doppelganger("bestplot_2", p$plot_2)
+  vdiffr::expect_doppelganger("bestplot_3", p$plot_3)
+  vdiffr::expect_doppelganger("bestplot_4", p$plot_4)
+  vdiffr::expect_doppelganger("bestplot_5", p$plot_5)
+  vdiffr::expect_doppelganger("bestplot_6", p$plot_6)
+})
+
+test_that("dfbetas plot is as expected", {
+  skip_on_cran()
+  model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+  p <- ols_plot_dfbetas(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("dfbetas_1", p$plots[[1]])
+  vdiffr::expect_doppelganger("dfbetas_2", p$plots[[2]])
+  vdiffr::expect_doppelganger("dfbetas_3", p$plots[[3]])
+  vdiffr::expect_doppelganger("dfbetas_4", p$plots[[4]])
+  vdiffr::expect_doppelganger("dfbetas_5", p$plots[[5]])
+})
+
+test_that("diagnostics panel is as expected", {
+  skip_on_cran()
+  model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+  p <- ols_plot_diagnostics(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("diag_1", p[[1]])
+  vdiffr::expect_doppelganger("diag_2", p[[2]])
+  vdiffr::expect_doppelganger("diag_3", p[[3]])
+  vdiffr::expect_doppelganger("diag_4", p[[4]])
+  vdiffr::expect_doppelganger("diag_5", p[[5]])
+  vdiffr::expect_doppelganger("diag_6", p[[6]])
+  vdiffr::expect_doppelganger("diag_7", p[[7]])
+  vdiffr::expect_doppelganger("diag_8", p[[8]])
+  vdiffr::expect_doppelganger("diag_9", p[[9]])
+  vdiffr::expect_doppelganger("diag_10", p[[10]])
+})
+
+
+test_that("fitted line plot is as expected", {
+  skip_on_cran()
+  p <- ols_plot_reg_line(mtcars$mpg, mtcars$disp, print_plot = FALSE)
+  vdiffr::expect_doppelganger("reg_line_plot", p)
+})
+
+test_that("residual plus component plot is as expected", {
+  skip_on_cran()
+  model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+  p     <- ols_plot_comp_plus_resid(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("rpcplot_1", p[[1]])
+  vdiffr::expect_doppelganger("rpcplot_2", p[[2]])
+  vdiffr::expect_doppelganger("rpcplot_3", p[[3]])
+  vdiffr::expect_doppelganger("rpcplot_4", p[[4]])
+})
+
+test_that("rstud vs lev plot is as expected", {
+  skip_on_cran()
+  model <- lm(read ~ write + math + science, data = hsb)
+  p     <- ols_plot_resid_lev(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("rslev_1", p$plot)
+})
+
+test_that("standardized residual plot is as expected", {
+  skip_on_cran()
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  p     <- ols_plot_resid_stand(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("stanres_1", p$plot)
+})
+
+test_that("studentized residual plot is as expected", {
+  skip_on_cran()
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  p     <- ols_plot_resid_stud(model, print_plot = FALSE)
+  vdiffr::expect_doppelganger("studres_1", p$plot)
+})
+
+test_that("stepwise backward regression plots are as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = surgical)
+  k     <- ols_step_backward_p(model)
+  p     <- plot(k, print_plot = FALSE)  
+  vdiffr::expect_doppelganger("step_back_1", p$plot_1)
+  vdiffr::expect_doppelganger("step_back_2", p$plot_2)
+  vdiffr::expect_doppelganger("step_back_3", p$plot_3)
+  vdiffr::expect_doppelganger("step_back_4", p$plot_4)
+  vdiffr::expect_doppelganger("step_back_5", p$plot_5)
+  vdiffr::expect_doppelganger("step_back_6", p$plot_6)
+})
+
+test_that("stepwise forward regression plots are as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = surgical)
+  k     <- ols_step_forward_p(model)
+  p     <- plot(k, print_plot = FALSE)  
+  vdiffr::expect_doppelganger("step_forward_1", p$plot_1)
+  vdiffr::expect_doppelganger("step_forward_2", p$plot_2)
+  vdiffr::expect_doppelganger("step_forward_3", p$plot_3)
+  vdiffr::expect_doppelganger("step_forward_4", p$plot_4)
+  vdiffr::expect_doppelganger("step_forward_5", p$plot_5)
+  vdiffr::expect_doppelganger("step_forward_6", p$plot_6)
+})
+
+test_that("stepwise both regression plots are as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = surgical)
+  k     <- ols_step_both_p(model)
+  p     <- plot(k, print_plot = FALSE)  
+  vdiffr::expect_doppelganger("step_both_1", p$plot_1)
+  vdiffr::expect_doppelganger("step_both_2", p$plot_2)
+  vdiffr::expect_doppelganger("step_both_3", p$plot_3)
+  vdiffr::expect_doppelganger("step_both_4", p$plot_4)
+  vdiffr::expect_doppelganger("step_both_5", p$plot_5)
+  vdiffr::expect_doppelganger("step_both_6", p$plot_6)
+})
+

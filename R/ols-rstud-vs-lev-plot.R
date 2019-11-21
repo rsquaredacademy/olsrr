@@ -77,7 +77,7 @@ ols_plot_resid_lev <- function(model, print_plot = TRUE) {
   if (print_plot) {
     suppressWarnings(print(p))
   } else {
-    result(
+    return(
       list(plot      = p,
            leverage  = f,
            threshold = g$lev_thrsh)
