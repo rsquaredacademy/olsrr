@@ -5,12 +5,14 @@
 #' @param model An object of class \code{lm}.
 #' @param cut_off Bonferroni p-values cut off for reporting observations.
 #' @param n_max Maximum number of observations to report, default is 10.
+#' @param ... Other arguments.
 #'
 #' @examples
 #' # model
 #' model <- lm(y ~ ., data = surgical)
 #' ols_test_outlier(model)
 #'
+#' @importFrom stats df.residual pt
 #' @export
 #'
 ols_test_outlier <- function(model, cut_off = 0.05, n_max = 10, ...) {

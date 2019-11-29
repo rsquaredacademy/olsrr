@@ -12,6 +12,8 @@ ols_test_outlier(model, cut_off = 0.05, n_max = 10, ...)
 \item{cut_off}{Bonferroni p-values cut off for reporting observations.}
 
 \item{n_max}{Maximum number of observations to report, default is 10.}
+
+\item{...}{Other arguments.}
 }
 \description{
 Detect outliers using Bonferroni p values.
