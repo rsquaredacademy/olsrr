@@ -1,3 +1,9 @@
+# olsrr 0.5.2.9000
+
+## New Features
+
+- Bonferroni outlier test ([#129](https://github.com/rsquaredacademy/olsrr/issues/129))
+
 # olsrr 0.5.2
 
 This is a minor release to fix bugs from breaking changes in recipes package 
