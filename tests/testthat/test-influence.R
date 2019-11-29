@@ -48,3 +48,13 @@ test_that("predicted rsquared output matches the expected result", {
   act <- round(ols_pred_rsq(model), 3)
   expect_equal(act, 0.959)
 })
+
+
+test_that("output from ols_test_outlier is as expected", {
+
+  model <- lm(y ~ ., data = stepdata)
+  act   <- ols_test_outlier(model)
+  expect_equal(round(act$studentized_residual, 2), 4.33)
+  expect_equal(round(act$unadjusted_p_val, 2), 0)
+  expect_equal(round(act$bonferroni_p_val, 2), 0.3)
+})

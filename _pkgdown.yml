@@ -115,6 +115,7 @@ reference:
   - ols_hadi
   - ols_press
   - ols_pred_rsq
+  - ols_test_outlier
 
 - title: Information Criteria
 
