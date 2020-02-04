@@ -47,7 +47,6 @@
 #'
 #' @importFrom utils combn
 #' @importFrom dplyr group_by summarise_all
-#' @importFrom purrr map_int
 #' @importFrom tidyr nest
 #' @importFrom magrittr add use_series
 #'
@@ -429,7 +428,7 @@ allpos_helper <- function(model) {
   gap       <- len_preds - 1
   data      <- mod_sel_data(model)
   space     <- coeff_length(predicts, gap)
-  colas     <- map_int(combs, ncol)
+  colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
   p         <- colas
   t         <- cumsum(colas)

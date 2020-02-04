@@ -446,9 +446,7 @@ bp_case_inter <- function(l, np, tstat) {
 
   ps <- pchisq(comp, df = np, lower.tail = FALSE)
 
-  bp <-
-    comp %>%
-    prepend(tstat)
+  bp <- c(tstat, comp)
 
   list(bp = bp, ps = ps)
 
@@ -532,10 +530,7 @@ bp_case_5_inter <- function(l, model, vars, tstat) {
     bp_model() %>%
     pchisq(df = np, lower.tail = FALSE)
 
-  bp <-
-    l %>%
-    bp_model() %>%
-    prepend(tstat)
+  bp <- c(tstat, bp_model(l))
 
   list(bp = bp, ps = ps, np = np)
 

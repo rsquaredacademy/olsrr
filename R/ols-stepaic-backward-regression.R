@@ -47,7 +47,6 @@
 #' k$model
 #'
 #' @importFrom ggplot2 geom_text
-#' @importFrom purrr prepend
 #'
 #'
 #' @family variable selection procedures
@@ -319,12 +318,8 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
   a     <- NULL
   b     <- NULL
 
-  y <-
-    x %>%
-    use_series(steps) %>%
-    seq_len(.) %>%
-    prepend(0)
-
+  y <- c(0, seq_len(x$steps))
+    
   xloc <- y - 0.1
 
   yloc <-

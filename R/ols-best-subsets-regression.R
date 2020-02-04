@@ -90,9 +90,7 @@ ols_step_best_subset.default <- function(model, ...) {
 
   data <- mod_sel_data(model)
 
-  colas <-
-    combs %>%
-    map_int(ncol)
+  colas <- unname(unlist(lapply(combs, ncol)))
 
   response <-
     varnames %>%

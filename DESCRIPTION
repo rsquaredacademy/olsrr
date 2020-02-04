@@ -18,7 +18,6 @@ Imports:
     gridExtra,
     magrittr,
     nortest,
-    purrr,
     Rcpp,
     recipes (>= 0.1.4),
     rlang,

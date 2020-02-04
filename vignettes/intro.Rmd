@@ -25,7 +25,6 @@ library(olsrr)
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
-library(purrr)
 library(nortest)
 library(goftest)
 ```
