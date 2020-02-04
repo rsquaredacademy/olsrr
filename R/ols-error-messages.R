@@ -1,4 +1,3 @@
-#' @importFrom checkmate check_tibble check_data_frame check_logical check_choice check_number
 check_model <- function(model) {
 
   if (!all(class(model) == "lm")) {
@@ -17,25 +16,9 @@ Below is an example using mtcars data:\n lm(formula = mpg ~ disp + hp + wt, data
   }
 }
 
-check_data <- function(data) {
-
-  tib <- check_tibble(data)
-  df  <- check_data_frame(data)
-  data_class <- class(data)
-  data_name <- deparse(substitute(data))
-
-  if (tib != TRUE & df != TRUE) {
-
-    cat(data_name, "must either be a data.frame or a tibble but you have used a", data_class, "vector. Use the class() function to check the type of", data_name, " as shown below:\n\n", paste0("class(", data_name, ")"), "\n\n If", data_name, "is a column in a data set, use the name of the data set as the input.", "\n\n Type ?data.frame or ?tibble to learn how to create and use them.\n")
-
-    stop("", call. = FALSE)
-  }
-
-}
-
 check_logic <- function(logic) {
 
-  lval <- check_logical(logic)
+  lval <- is.logical(logic)
   logic_class <- class(logic)
   logic_name <- deparse(substitute(logic))
 
@@ -51,7 +34,8 @@ check_logic <- function(logic) {
 
 check_options <- function(option) {
 
-  valid <- check_choice(option, c("none", "bonferroni", "sidak", "holm"))
+  default_options <- c("none", "bonferroni", "sidak", "holm")
+  valid <- any(default_options == option)
   option_class <- class(option)
   option_name <- deparse(substitute(option))
 
@@ -67,7 +51,7 @@ check_options <- function(option) {
 
 check_values <- function(value, lower, upper) {
 
-  valid <- check_number(value, lower = lower, upper = upper)
+  valid <- (value >= lower && value <= upper)
   value_class <- class(value)
   value_name <- deparse(substitute(value))
 

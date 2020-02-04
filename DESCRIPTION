@@ -11,7 +11,6 @@ Depends:
     R(>= 3.3)
 Imports: 
     car,
-    checkmate,
     dplyr,
     ggplot2,
     goftest,

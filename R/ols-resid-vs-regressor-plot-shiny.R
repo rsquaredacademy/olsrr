@@ -19,7 +19,6 @@
 rvsr_plot_shiny <- function(model, data, variable, print_plot = TRUE) {
 
   check_model(model)
-  check_data(data)
 
   x <- NULL
   y <- NULL

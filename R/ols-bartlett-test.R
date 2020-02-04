@@ -50,8 +50,6 @@ ols_test_bartlett <- function(data, ...) UseMethod("ols_test_bartlett")
 #'
 ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 
-  check_data(data)
-
   groupvar  <- enquo(group_var)
   varyables <- quos(...)
 
