@@ -12,7 +12,6 @@ Depends:
 Imports: 
     car,
     checkmate,
-    clisymbols,
     dplyr,
     ggplot2,
     goftest,

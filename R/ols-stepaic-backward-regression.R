@@ -193,7 +193,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
       if (progress) {
         if (interactive()) {
-          cat(clisymbols::symbol$cross, dplyr::last(rpred), "\n")
+          cat("x", dplyr::last(rpred), "\n")
         } else {
           cat(paste("-", dplyr::last(rpred)), "\n")
         }
@@ -263,7 +263,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
     cat("Variables Removed:", "\n\n")
     for (i in seq_len(length(rpred))) {
       if (interactive()) {
-        cat(clisymbols::symbol$cross, rpred[i], "\n")
+        cat("x", rpred[i], "\n")
       } else {
         cat(paste("-", rpred[i]), "\n")
       }

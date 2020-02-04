@@ -193,7 +193,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
       if (progress) {
         if (interactive()) {
-          cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
+          cat("+", dplyr::last(preds), "\n")
         } else {
           cat(paste("-", dplyr::last(preds), "added"), "\n")
         }
@@ -281,7 +281,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
           if (progress) {
             if (interactive()) {
-              cat(clisymbols::symbol$cross, preds[minc2], "\n")
+              cat("x", preds[minc2], "\n")
             } else {
               cat(paste("-", preds[minc2], "removed"), "\n")
             }

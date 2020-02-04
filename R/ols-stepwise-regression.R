@@ -155,7 +155,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   if (progress) {
     if (interactive()) {
-      cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
+      cat("+", dplyr::last(preds), "\n")
     } else {
       cat(paste("-", dplyr::last(preds), "added"), "\n")
     }
@@ -220,7 +220,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
       if (progress) {
         if (interactive()) {
-          cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
+          cat("+", dplyr::last(preds), "\n")
         } else {
           cat(paste("-", dplyr::last(preds), "added"), "\n")
         }
@@ -274,7 +274,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
         if (progress) {
           if (interactive()) {
-            cat(clisymbols::symbol$cross, dplyr::last(var_index), "\n")
+            cat("x", dplyr::last(var_index), "\n")
           } else {
             cat(paste("-", dplyr::last(var_index), "added"), "\n")
           }
