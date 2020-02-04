@@ -166,7 +166,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
   if (progress) {
     if (interactive()) {
-      cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+      cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
     } else {
       cat(paste("-", dplyr::last(preds)), "\n")
     }
@@ -258,7 +258,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
       if (progress) {
         if (interactive()) {
-          cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+          cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
         } else {
           cat(paste("-", dplyr::last(preds)), "\n")
         }
@@ -266,7 +266,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     } else {
       if (progress) {
         cat("\n")
-        cat(crayon::bold$red("No more variables to be added."))
+        cat("No more variables to be added.")
       }
       break
     }
@@ -277,7 +277,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     cat("Variables Entered:", "\n\n")
     for (i in seq_len(length(preds))) {
       if (interactive()) {
-        cat(crayon::green(clisymbols::symbol$tick), crayon::bold(preds[i]), "\n")
+        cat(clisymbols::symbol$tick, preds[i], "\n")
       } else {
         cat(paste("-", preds[i]), "\n")
       }

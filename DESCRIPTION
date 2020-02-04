@@ -13,7 +13,6 @@ Imports:
     car,
     checkmate,
     clisymbols,
-    crayon,
     dplyr,
     ggplot2,
     goftest,

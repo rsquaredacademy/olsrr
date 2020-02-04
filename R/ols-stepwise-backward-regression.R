@@ -98,7 +98,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
     }
     cat("\n")
 
-    cat(crayon::bold$red("We are eliminating variables based on p value..."))
+    cat("We are eliminating variables based on p value...")
     cat("\n")
 
     cat("\n")
@@ -132,7 +132,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
 
         if (progress) {
           if (interactive()) {
-            cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), "\n")
+            cat(clisymbols::symbol$cross, dplyr::last(rpred), "\n")
           } else {
             cat(paste("-", dplyr::last(rpred)), "\n")
           }
@@ -149,7 +149,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
         end <- TRUE
         if (progress) {
           cat("\n")
-          cat(crayon::bold$red(paste0("No more variables satisfy the condition of p value = ", prem)))
+          cat(paste0("No more variables satisfy the condition of p value = ", prem))
           cat("\n")
         }
       }
@@ -161,7 +161,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
     cat("Variables Removed:", "\n\n")
     for (i in seq_len(length(rpred))) {
       if (interactive()) {
-        cat(crayon::red(clisymbols::symbol$cross), crayon::bold(rpred[i]), "\n")
+        cat(clisymbols::symbol$cross, rpred[i], "\n")
       } else {
         cat(paste("-", rpred[i]), "\n")
       }

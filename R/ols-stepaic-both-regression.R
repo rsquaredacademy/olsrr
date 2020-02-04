@@ -146,7 +146,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
       w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
       ln <- length(aics)
 
-      cat(fc(crayon::bold$green("  Enter New Variables"), w), sep = "", "\n")
+      cat(fc("  Enter New Variables", w), sep = "", "\n")
       cat(rep("-", w), sep = "", "\n")
       cat(
         fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
@@ -193,7 +193,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
       if (progress) {
         if (interactive()) {
-          cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+          cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
         } else {
           cat(paste("-", dplyr::last(preds), "added"), "\n")
         }
@@ -238,7 +238,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
           w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
           ln <- length(aics)
 
-          cat(fc(crayon::bold$red("Remove Existing Variables"), w), sep = "", "\n")
+          cat(fc("Remove Existing Variables", w), sep = "", "\n")
           cat(rep("-", w), sep = "", "\n")
           cat(
             fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
@@ -281,7 +281,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
           if (progress) {
             if (interactive()) {
-              cat(crayon::red(clisymbols::symbol$cross), crayon::bold(preds[minc2]), "\n")
+              cat(clisymbols::symbol$cross, preds[minc2], "\n")
             } else {
               cat(paste("-", preds[minc2], "removed"), "\n")
             }
@@ -301,7 +301,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
     } else {
       if (progress) {
         cat("\n")
-        cat(crayon::bold$red("No more variables to be added or removed."))
+        cat("No more variables to be added or removed.")
       }
       break
     }

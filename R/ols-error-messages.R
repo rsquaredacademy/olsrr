@@ -5,12 +5,10 @@ check_model <- function(model) {
 
     cat("Hmmm.. Looks like you have specified the wrong model. Follow the below steps to debug this error.
 
-* Check if you have used the", crayon::bold$blue("lm()"), "function to build the model.
-* If you have never used it before, you can learn more by typing", crayon::bold$red("?lm"), "or", crayon::bold$red("help(lm)"), "in the Console\n.
+* Check if you have used the lm() function to build the model.
+* If you have never used it before, you can learn more by typing ?lm or help(lm) in the Console\n.
 
-Below is an example using mtcars data:\n",
-
-crayon::bold$blue("lm(formula = mpg ~ disp + hp + wt, data = mtcars)"), "\n",
+Below is an example using mtcars data:\n lm(formula = mpg ~ disp + hp + wt, data = mtcars)\n",
 
 "Happy modeling :)\n")
 
@@ -28,7 +26,7 @@ check_data <- function(data) {
 
   if (tib != TRUE & df != TRUE) {
 
-    cat(crayon::bold$red(data_name), "must either be a", crayon::bold$blue("data.frame"), "or a", crayon::bold$blue("tibble"), "but you have used a", crayon::bold$blue(data_class), "vector. Use the", crayon::bold$blue("class()"), "function to check the type of", crayon::bold$red(data_name), " as shown below:\n\n", crayon::bold$blue(paste0("class(", data_name, ")")), "\n\n If", crayon::bold$red(data_name), "is a column in a data set, use the name of the data set as the input.", "\n\n Type", crayon::bold$red("?data.frame"), "or", crayon::bold$red("?tibble"), "to learn how to create and use them.\n")
+    cat(data_name, "must either be a data.frame or a tibble but you have used a", data_class, "vector. Use the class() function to check the type of", data_name, " as shown below:\n\n", paste0("class(", data_name, ")"), "\n\n If", data_name, "is a column in a data set, use the name of the data set as the input.", "\n\n Type ?data.frame or ?tibble to learn how to create and use them.\n")
 
     stop("", call. = FALSE)
   }
@@ -43,7 +41,7 @@ check_logic <- function(logic) {
 
   if (lval != TRUE) {
 
-    cat("\n *", crayon::bold$red(logic_name), "can take only 2 values, either", crayon::bold$blue("TRUE"), "or", crayon::bold$blue("FALSE"), "\n * You have used", crayon::bold$red(logic), "\n * Replace",  crayon::bold$blue(logic), "with either", crayon::bold$blue("TRUE"), "or", crayon::bold$blue("FALSE"), "\n\n")
+    cat("\n *", logic_name, "can take only 2 values, either TRUE or FALSE", "\n * You have used", logic, "\n * Replace", logic, "with either TRUE or FALSE", "\n\n")
 
     stop("", call. = FALSE)
 
@@ -59,7 +57,7 @@ check_options <- function(option) {
 
   if (valid != TRUE) {
 
-    cat("\n", crayon::bold$red(option_name), "can take the following values only: \n", "* 'none'\n", "* 'bonferroni'\n", "* 'sidak'\n", "* 'holm'\n\n", "You have used", paste0(crayon::bold$blue(option), ","), "please use any one of the above listed value.\n\n")
+    cat("\n", option_name, "can take the following values only: \n", "* 'none'\n", "* 'bonferroni'\n", "* 'sidak'\n", "* 'holm'\n\n", "You have used", paste0(option, ","), "please use any one of the above listed value.\n\n")
 
     stop("", call. = FALSE)
 
@@ -76,7 +74,7 @@ check_values <- function(value, lower, upper) {
   if (valid != TRUE) {
 
     cat("\n")
-    cat(crayon::bold$red(value_name), "can take on values between", crayon::bold$red(lower) , "and", crayon::bold$red(upper), "only.", "You have used", paste0(crayon::bold$blue(value), ","), "please specify a value between", crayon::bold$red(lower) , "and", crayon::bold$red(upper), "only.", "\n\n")
+    cat(value_name, "can take on values between", lower, "and", upper, "only.", "You have used", paste0(value, ","), "please specify a value between", lower, "and", upper, "only.", "\n\n")
 
     stop("", call. = FALSE)
 
@@ -115,7 +113,7 @@ check_lfit <- function(model) {
   if (n > 2) {
 
     cat("\n")
-    cat("Hello there.. the lack of fit F test is available only for simple linear regression model i.e. model with a single predictor. The specified model contains", crayon::bold$red(preds), "predictors. Please specify a model with a single predictor.", "\n\n")
+    cat("Hello there.. the lack of fit F test is available only for simple linear regression model i.e. model with a single predictor. The specified model contains", preds, "predictors. Please specify a model with a single predictor.", "\n\n")
 
     stop("", call. = FALSE)
 
@@ -133,7 +131,7 @@ check_modelvars <- function(model, vars) {
   if (nvars > 0) {
 
     cat("\n")
-    cat("The specified model:", "\n\n", crayon::bold$blue(fmla), "\n\n", "does not contain the predictor(s)", crayon::bold$red(paste(wvars, collapse = ", ")), ".\n\n", "Please specify the correct predictor(s).\n\n")
+    cat("The specified model:", "\n\n", fmla, "\n\n", "does not contain the predictor(s)", paste(wvars, collapse = ", "), ".\n\n", "Please specify the correct predictor(s).\n\n")
 
     stop("", call. = FALSE)
 

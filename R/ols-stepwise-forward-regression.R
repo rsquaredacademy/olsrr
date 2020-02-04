@@ -108,7 +108,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
     }
     cat("\n")
 
-    cat(crayon::bold$red("We are selecting variables based on p value..."))
+    cat("We are selecting variables based on p value...")
     cat("\n")
 
     cat("\n")
@@ -144,7 +144,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
   if (progress) {
     if (interactive()) {
-      cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+      cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
     } else {
       cat(paste("-", dplyr::last(preds)), "\n")
     }
@@ -198,7 +198,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
       if (progress) {
         if (interactive()) {
-          cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+          cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
         } else {
           cat(paste("-", dplyr::last(preds)), "\n")
         }
@@ -213,7 +213,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
     } else {
       if (progress) {
         cat("\n")
-        cat(crayon::bold$red("No more variables to be added."))
+        cat("No more variables to be added.")
       }
       break
     }
@@ -226,7 +226,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
     cat("Variables Entered:", "\n\n")
     for (i in seq_len(length(preds))) {
       if (details) {
-        cat(crayon::green(clisymbols::symbol$tick), crayon::bold(preds[i]), "\n")
+        cat(clisymbols::symbol$tick, preds[i], "\n")
       } else {
         cat(paste("+", preds[i]), "\n")
       }

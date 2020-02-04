@@ -193,7 +193,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
       if (progress) {
         if (interactive()) {
-          cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(rpred)), "\n")
+          cat(clisymbols::symbol$cross, dplyr::last(rpred), "\n")
         } else {
           cat(paste("-", dplyr::last(rpred)), "\n")
         }
@@ -252,7 +252,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
       end <- TRUE
       if (progress) {
         cat("\n")
-        cat(crayon::bold$red("No more variables to be removed."))
+        cat("No more variables to be removed.")
       }
     }
   }
@@ -263,7 +263,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
     cat("Variables Removed:", "\n\n")
     for (i in seq_len(length(rpred))) {
       if (interactive()) {
-        cat(crayon::red(clisymbols::symbol$cross), crayon::bold(rpred[i]), "\n")
+        cat(clisymbols::symbol$cross, rpred[i], "\n")
       } else {
         cat(paste("-", rpred[i]), "\n")
       }

@@ -114,7 +114,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     }
     cat("\n")
 
-    cat(crayon::bold$red("We are selecting variables based on p value..."))
+    cat("We are selecting variables based on p value...")
     cat("\n")
 
     cat("\n")
@@ -155,7 +155,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   if (progress) {
     if (interactive()) {
-      cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+      cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
     } else {
       cat(paste("-", dplyr::last(preds), "added"), "\n")
     }
@@ -220,7 +220,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
       if (progress) {
         if (interactive()) {
-          cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+          cat(clisymbols::symbol$tick, dplyr::last(preds), "\n")
         } else {
           cat(paste("-", dplyr::last(preds), "added"), "\n")
         }
@@ -274,7 +274,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
         if (progress) {
           if (interactive()) {
-            cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(var_index)), "\n")
+            cat(clisymbols::symbol$cross, dplyr::last(var_index), "\n")
           } else {
             cat(paste("-", dplyr::last(var_index), "added"), "\n")
           }
@@ -293,7 +293,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     } else {
       if (progress) {
         cat("\n")
-        cat(crayon::bold$red("No more variables to be added/removed."))
+        cat("No more variables to be added/removed.")
         cat("\n")
       }
       break
