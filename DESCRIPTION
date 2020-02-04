@@ -12,7 +12,6 @@ Depends:
 Imports: 
     car,
     checkmate,
-    cli,
     clisymbols,
     crayon,
     dplyr,
