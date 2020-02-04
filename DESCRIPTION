@@ -22,15 +22,15 @@ Imports:
     Rcpp,
     recipes (>= 0.1.4),
     rlang,
-    tidyr,
-    xplorerr
+    tidyr
 Suggests:
     covr,
     descriptr,
     knitr,
     rmarkdown,
     testthat,
-    vdiffr
+    vdiffr,
+    xplorerr
 License: MIT + file LICENSE
 URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues
