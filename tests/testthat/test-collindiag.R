@@ -16,7 +16,7 @@ test_that("output from vif_tol matches expected result", {
   Variables <- c("read", "math", "science", "race_2", "race_3", "race_4")
   Tolerance <- c(0.482, 0.469, 0.475, 0.692, 0.602, 0.467)
   VIF <- c(2.074, 2.132, 2.104, 1.446, 1.662, 2.141)
-  exp <- tibble(Variables, Tolerance, VIF)
+  exp <- data.frame(Variables, Tolerance, VIF)
   expect_equivalent(round(act$Tolerance, 3), exp$Tolerance)
   expect_equivalent(round(act$VIF, 3), exp$VIF)
 })

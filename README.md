@@ -114,68 +114,6 @@ until there is no variable left to enter or remove any more.
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
 ols_step_both_p(model)
-#> Stepwise Selection Method   
-#> ---------------------------
-#> 
-#> Candidate Terms: 
-#> 
-#> 1. bcs 
-#> 2. pindex 
-#> 3. enzyme_test 
-#> 4. liver_test 
-#> 5. age 
-#> 6. gender 
-#> 7. alc_mod 
-#> 8. alc_heavy 
-#> 
-#> We are selecting variables based on p value...
-#> 
-#> Variables Entered/Removed: 
-#> 
-#> - liver_test added 
-#> - alc_heavy added 
-#> - enzyme_test added 
-#> - pindex added 
-#> - bcs added 
-#> 
-#> No more variables to be added/removed.
-#> 
-#> 
-#> Final Model Output 
-#> ------------------
-#> 
-#>                           Model Summary                           
-#> -----------------------------------------------------------------
-#> R                       0.884       RMSE                 195.454 
-#> R-Squared               0.781       Coef. Var             27.839 
-#> Adj. R-Squared          0.758       MSE                38202.426 
-#> Pred R-Squared          0.700       MAE                  137.656 
-#> -----------------------------------------------------------------
-#>  RMSE: Root Mean Square Error 
-#>  MSE: Mean Square Error 
-#>  MAE: Mean Absolute Error 
-#> 
-#>                                  ANOVA                                  
-#> -----------------------------------------------------------------------
-#>                    Sum of                                              
-#>                   Squares        DF    Mean Square      F         Sig. 
-#> -----------------------------------------------------------------------
-#> Regression    6535804.090         5    1307160.818    34.217    0.0000 
-#> Residual      1833716.447        48      38202.426                     
-#> Total         8369520.537        53                                    
-#> -----------------------------------------------------------------------
-#> 
-#>                                       Parameter Estimates                                        
-#> ------------------------------------------------------------------------------------------------
-#>       model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
-#> ------------------------------------------------------------------------------------------------
-#> (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
-#>  liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
-#>   alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
-#> enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
-#>      pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
-#>         bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
-#> ------------------------------------------------------------------------------------------------
 #> 
 #>                                 Stepwise Selection Summary                                 
 #> ------------------------------------------------------------------------------------------
@@ -202,28 +140,6 @@ manner until there is no variable left to remove any more.
 # stepwise aic backward regression
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward_aic(model)
-#> Backward Elimination Method 
-#> ---------------------------
-#> 
-#> Candidate Terms: 
-#> 
-#> 1 . bcs 
-#> 2 . pindex 
-#> 3 . enzyme_test 
-#> 4 . liver_test 
-#> 5 . age 
-#> 6 . gender 
-#> 7 . alc_mod 
-#> 8 . alc_heavy 
-#> 
-#> 
-#> Variables Removed: 
-#> 
-#> - alc_mod 
-#> - gender 
-#> - age 
-#> 
-#> No more variables to be removed.
 k
 #> 
 #> 
@@ -273,13 +189,11 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_coll_diag(model)
 #> Tolerance and Variance Inflation Factor
 #> ---------------------------------------
-#> # A tibble: 4 x 3
-#>   Variables Tolerance   VIF
-#>   <chr>         <dbl> <dbl>
-#> 1 disp          0.125  7.99
-#> 2 hp            0.194  5.17
-#> 3 wt            0.145  6.92
-#> 4 qsec          0.319  3.13
+#>   Variables Tolerance      VIF
+#> 1      disp 0.1252279 7.985439
+#> 2        hp 0.1935450 5.166758
+#> 3        wt 0.1445726 6.916942
+#> 4      qsec 0.3191708 3.133119
 #> 
 #> 
 #> Eigenvalue and Condition Index

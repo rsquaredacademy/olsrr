@@ -27,7 +27,7 @@ ols_plot_resid_box <- function(model, print_plot = TRUE) {
     model %>%
     residuals()
 
-  d <- tibble(resid = resid)
+  d <- data.frame(resid = resid)
 
   p <-
     ggplot(d, aes(x = factor(0), y = resid)) +

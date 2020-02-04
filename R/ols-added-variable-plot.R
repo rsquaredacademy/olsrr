@@ -49,7 +49,6 @@
 #' ols_plot_added_variable(model)
 #'
 #' @importFrom stats lm
-#' @importFrom tibble tibble
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
 #' @importFrom magrittr %>%
 #' @importFrom gridExtra marrangeGrob
@@ -72,7 +71,7 @@ ols_plot_added_variable <- function(model, print_plot = TRUE) {
 
     x <- ols_prep_regress_x(data, i)
     y <- ols_prep_regress_y(data, i)
-    d <- tibble(x, y)
+    d <- data.frame(x, y)
 
     p <- eval(substitute(ggplot(d, aes(x = x, y = y)) +
       geom_point(colour = "blue", size = 2) +

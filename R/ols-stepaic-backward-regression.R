@@ -356,8 +356,8 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
 
   predictors <- c("Full Model", x$predictors)
 
-  d2 <- tibble(x = xloc, y = yloc, tx = predictors)
-  d  <- tibble(a = y, b = x$aics)
+  d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
+  d  <- data.frame(a = y, b = x$aics)
 
   p <-
     ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +

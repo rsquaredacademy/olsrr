@@ -117,7 +117,7 @@ ols_vif_tol <- function(model) {
 
   vt <- viftol(model)
 
-  tibble(Variables = vt$nam,
+  data.frame(Variables = vt$nam,
          Tolerance = vt$tol,
          VIF       = vt$vifs)
 
@@ -135,7 +135,7 @@ ols_eigen_cindex <- function(model) {
   x <-
     model %>%
     model.matrix() %>%
-    as_data_frame()
+    as.data.frame()
 
   e <-
     x %>%
@@ -250,7 +250,7 @@ viftol <- function(model) {
   m <-
     model %>%
     model.matrix() %>%
-    as_data_frame() %>%
+    as.data.frame() %>%
     select(-1)
 
   nam <- names(m)

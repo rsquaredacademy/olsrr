@@ -14,7 +14,7 @@
 #' general cutoff value to indicate influential observations and
 #' \eqn{2/\sqrt(n)} as a size-adjusted cutoff.
 #'
-#' @return list; \code{ols_plot_dfbetas} returns a list of tibbles (for intercept and each predictor)
+#' @return list; \code{ols_plot_dfbetas} returns a list of \code{data.frame} (for intercept and each predictor)
 #' with the observation number and DFBETA of observations that exceed the threshold for classifying
 #' an observation as an outlier/influential observation.
 #'
@@ -56,7 +56,7 @@ ols_plot_dfbetas <- function(model, print_plot = TRUE) {
   for (i in seq_len(np)) {
 
     dbetas  <- dfb[, i]
-    df_data <- tibble(obs = seq_len(n), dbetas = dbetas)
+    df_data <- data.frame(obs = seq_len(n), dbetas = dbetas)
     d       <- ols_prep_dfbeta_data(df_data, threshold)
     f       <- ols_prep_dfbeta_outliers(d)
 

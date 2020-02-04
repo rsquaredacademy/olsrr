@@ -9,7 +9,7 @@ rvsr_plot_shiny(model, data, variable, print_plot = TRUE)
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
-\item{data}{A \code{dataframe} or \code{tibble}.}
+\item{data}{A \code{data.frame} or \code{tibble}.}
 
 \item{variable}{Character; new predictor to be added to the \code{model}.}
 

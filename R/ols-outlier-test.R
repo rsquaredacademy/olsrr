@@ -37,7 +37,7 @@ ols_test_outlier <- function(model, cut_off = 0.05, n_max = 10, ...) {
   p_bon <- n * p_val
 
   data_bon <-
-    tibble(stud_resid, p_val, p_bon) %>%
+    data.frame(stud_resid, p_val, p_bon) %>%
     tidyr::drop_na()
 
   data_co <-

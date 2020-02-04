@@ -27,7 +27,7 @@ ols_plot_resid_pot <- function(model, print_plot = TRUE) {
 
   res <- NULL
   pot <- NULL
-  d   <- tibble(res = hadio(model, 3), pot = hadio(model, 2))
+  d   <- data.frame(res = hadio(model, 3), pot = hadio(model, 2))
 
   p <-
     ggplot(d, aes(x = res, y = pot)) +

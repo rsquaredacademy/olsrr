@@ -284,12 +284,12 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
   y <- seq_len(length(x$rsquare))
 
-  d1 <- tibble(a = y, b = x$rsquare)
-  d2 <- tibble(a = y, b = x$adjr)
-  d3 <- tibble(a = y, b = x$mallows_cp)
-  d4 <- tibble(a = y, b = x$aic)
-  d5 <- tibble(a = y, b = x$sbic)
-  d6 <- tibble(a = y, b = x$sbc)
+  d1 <- data.frame(a = y, b = x$rsquare)
+  d2 <- data.frame(a = y, b = x$adjr)
+  d3 <- data.frame(a = y, b = x$mallows_cp)
+  d4 <- data.frame(a = y, b = x$aic)
+  d5 <- data.frame(a = y, b = x$sbic)
+  d6 <- data.frame(a = y, b = x$sbc)
 
   p1 <- plot_stepwise(d1, "R-Square")
   p2 <- plot_stepwise(d2, "Adj. R-Square")

@@ -66,7 +66,7 @@ cpdata <- function(data, mc, e, i) {
     add(e) %>%
     pull(1)
 
-  tibble(x = x, y = y)
+  data.frame(x = x, y = y)
 
 }
 
@@ -82,7 +82,7 @@ cpout <- function(model) {
   data <-
     model %>%
     model.matrix() %>%
-    as_data_frame() %>%
+    as.data.frame() %>%
     select(-1)
 
   lmc <- length(mc)

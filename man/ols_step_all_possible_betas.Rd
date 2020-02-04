@@ -13,7 +13,7 @@ ols_step_all_possible_betas(object, ...)
 \item{...}{Other arguments.}
 }
 \value{
-\code{ols_step_all_possible_betas} returns a tibble containing:
+\code{ols_step_all_possible_betas} returns a \code{data.frame} containing:
 
 \item{model_index}{model number}
 \item{predictor}{predictor}

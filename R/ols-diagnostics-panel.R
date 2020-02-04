@@ -93,7 +93,7 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
   x     <- qnorm(c(0.25, 0.75))
   slope <- diff(y) / diff(x)
   int   <- y[1L] - slope * x[1L]
-  d4    <- tibble(x = resid)
+  d4    <- data.frame(x = resid)
 
   p4 <- ggplot(d4, aes(sample = x)) + stat_qq(color = "blue") +
     geom_abline(slope = slope, intercept = int, color = "red") +
@@ -154,8 +154,8 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
   b  <- histdata(model)
   h  <- hist(b$resid, plot = FALSE)
   f  <- histn(b$resid, h)
-  db <- tibble(x = f$xfit, y = f$yfit)
-  d9 <- tibble(x = b$resid)
+  db <- data.frame(x = f$xfit, y = f$yfit)
+  d9 <- data.frame(x = b$resid)
 
   p9 <- ggplot(d9, aes(x = x)) +
     geom_histogram(bins = 6, color = "black", fill = "#ADD8E6") +
@@ -163,7 +163,7 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
     xlab("Residuals") + ggtitle("Residual Histogram")
 
   # residual box plot
-  d10 <- tibble(resid = residuals(model))
+  d10 <- data.frame(resid = residuals(model))
 
   p10 <- ggplot(d10, aes(x = factor(0), y = resid)) +
     geom_boxplot(

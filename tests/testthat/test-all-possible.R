@@ -15,12 +15,10 @@ test_that("all subsets selection output matches the expected result", {
 
 
 test_that("output from all subsets regression is as expected", {
-  x <- cat("# A tibble: 3 x 6
-  Index     N Predictors `R-Square` `Adj. R-Square` `Mallow's Cp`
-  <int> <int>      <chr>      <chr>           <chr>         <chr>
-1     1     1       disp    0.71834         0.70895       4.44379
-2     2     1         hp    0.60244         0.58919      17.79491
-3     3     2    disp hp    0.74824         0.73088       3.00000")
+  x <- cat("Index N Predictors  R-Square Adj. R-Square Mallow's Cp
+1     1 1       disp 0.7183433     0.7089548    4.443792
+2     2 1         hp 0.6024373     0.5891853   17.794906
+3     3 2    disp hp 0.7482402     0.7308774    3.000000")
 
   model <- lm(mpg ~ disp + hp, data = mtcars)
   expect_output(print(ols_step_all_possible(model)), x)
@@ -37,7 +35,7 @@ test_that("all possible regression betas are as expected", {
   predictor <- c("(Intercept)", "disp", "hp", "wt")
   beta <- c(33.85901073, -0.02255579, -0.03899945, -4.09350456)
 
-  expected <- tibble(predictor, beta)
+  expected <- data.frame(predictor, beta)
   expect_equivalent(actual$predictor, expected$predictor)
   expect_equivalent(actual$beta, expected$beta)
 })
