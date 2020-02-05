@@ -232,16 +232,15 @@ all_pos_maxs <- function(d, var, title = "R-Square") {
       select(!! varr, n) %>%
       group_by(n) %>%
       summarise(max(!! varr)) 
-    out[[2]]
   } else {
     out <- 
       d %>%
       select(!! varr, n) %>%
       group_by(n) %>%
-      summarise(min(!! varr)) %>%
-    out[[2]]
+      summarise(min(!! varr)) 
   }
 
+  out[[2]]
 }
 
 all_pos_lmaxs <- function(maxs) {
