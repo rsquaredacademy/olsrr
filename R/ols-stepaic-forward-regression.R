@@ -112,7 +112,8 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
   }
 
   da <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-  da2 <- arrange(da, desc(rss))
+  # da2 <- arrange(da, desc(rss))
+  da2 <- da[order(-da$rss), ]
 
   if (details) {
     w1 <- max(nchar("Predictor"), nchar(all_pred))
@@ -205,7 +206,8 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     if (details) {
 
       da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-      da2 <- arrange(da, desc(rss))
+      # da2 <- arrange(da, desc(rss))
+      da2 <- da[order(-da$rss), ]
       w1  <- max(nchar("Predictor"), nchar(as.character(da2$predictors)))
       w2  <- 2
       w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))

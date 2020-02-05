@@ -189,7 +189,7 @@ rhs_score <- function(l, ind, n) {
 
   ind <- data.frame(ind = ind)
 
-  bind_cols(l, ind) %>%
+  cbind(l, ind) %>%
     select(-1) %>%
     lm(ind ~ ., data = .) %>%
     summary() %>%
@@ -257,7 +257,7 @@ score_data <- function(model, vars) {
 
   l %>%
     select(!!! syms(vars)) %>%
-    bind_cols(ind)
+    cbind(ind)
 
 }
 

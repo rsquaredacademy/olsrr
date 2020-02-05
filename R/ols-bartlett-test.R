@@ -85,11 +85,9 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 
   } else {
 
-    fdata <-
-      fdata %>%
-      pull(1)
+    fdata <- fdata[[1]]
 
-    groupvars <-
+    groupvars <- 
       data %>%
       pull(!! groupvar)
 

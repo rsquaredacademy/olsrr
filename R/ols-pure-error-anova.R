@@ -68,10 +68,7 @@ ols_pure_error_anova.default <- function(model, ...) {
 
   check_model(model)
 
-  ln <-
-    model %>%
-    coefficients() %>%
-    length()
+  ln <- length(coefficients(model))
 
   if (ln > 2) {
     stop("Lack of fit F test is available only for simple linear regression.", call. = FALSE)
@@ -177,23 +174,23 @@ pea_data <- function(model) {
 #' @importFrom dplyr pull
 pred_table <- function(model) {
 
-  model %>%
-    model.frame() %>%
-    pull(2) %>%
-    table()
+  table(model.frame(model)[[2]])
+
+  # model %>%
+  #   model.frame() %>%
+  #   pull(2) %>%
+  #   table()
 
 }
 
 pred_table_length <- function(model) {
 
-  model %>%
-    pred_table() %>%
-    length()
+  length(pred_table(model))
 
 }
 
 #' @importFrom rlang sym
-#' @importFrom dplyr select_all funs
+#' @importFrom dplyr select_all 
 predictor_mean <- function(data, pred_name) {
 
   data %>%
@@ -205,9 +202,7 @@ predictor_mean <- function(data, pred_name) {
 
 rss_model <- function(model) {
 
-  model %>%
-    anova() %>%
-    extract(1, 2)
+  anova(model)[1, 2]
 
 }
 
@@ -236,7 +231,7 @@ pea_data_comp <- function(data, model, mean_rep) {
     ) %>%
     set_colnames(c("y", "pred", "yhat")) %>%
     arrange(pred) %>%
-    bind_cols(mean_rep) %>%
+    cbind(mean_rep) %>%
     mutate(
       lfit   = (ybar - yhat) ^ 2,
       rerror = (y - ybar) ^ 2

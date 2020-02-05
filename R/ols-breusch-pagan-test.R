@@ -238,7 +238,7 @@ bp_case_2 <- function(l, model) {
 
   l %<>%
     select(-1) %>%
-    bind_cols(ind)
+    cbind(ind)
 
   bp <- bp_model(l)
 
@@ -294,7 +294,7 @@ bp_case_6 <- function(l, model) {
 
   bp <-
     l %>%
-    bind_cols(ind) %>%
+    cbind(ind) %>%
     select(-1) %>%
     bp_model()
 
@@ -325,7 +325,7 @@ bp_case_7 <- function(l, model, vars) {
 
   l %<>%
     select(!!! syms(vars)) %>%
-    bind_cols(ind)
+    cbind(ind)
 
   bp <- bp_model(l)
 
@@ -398,7 +398,7 @@ bp_case_one <- function(l, model) {
   ind       <- ind_bp(model, var_resid)
 
   l %<>%
-    bind_cols(ind)
+    cbind(ind)
 
   list(np = np, nam = nam, l = l)
 
@@ -518,7 +518,7 @@ bp_case_5_inter <- function(l, model, vars, tstat) {
   l %<>%
     select(-1) %>%
     select(!!! syms(vars)) %>%
-    bind_cols(ind)
+    cbind(ind)
 
   np <-
     l %>%

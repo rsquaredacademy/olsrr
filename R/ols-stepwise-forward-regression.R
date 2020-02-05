@@ -55,7 +55,6 @@
 #' k$model
 #'
 #' @importFrom stats qt
-#' @importFrom dplyr full_join
 #' @importFrom car Anova
 #'
 #' @family variable selection procedures

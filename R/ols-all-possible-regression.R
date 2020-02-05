@@ -227,26 +227,26 @@ all_pos_maxs <- function(d, var, title = "R-Square") {
   varr <- enquo(var)
 
   if (title == "R-Square" | title == "Adj. R-Square") {
-    d %>%
+    out <- 
+      d %>%
       select(!! varr, n) %>%
       group_by(n) %>%
-      summarise(max(!! varr)) %>%
-      pull(2)
+      summarise(max(!! varr)) 
+    out[[2]]
   } else {
-    d %>%
+    out <- 
+      d %>%
       select(!! varr, n) %>%
       group_by(n) %>%
       summarise(min(!! varr)) %>%
-      pull(2)
+    out[[2]]
   }
 
 }
 
 all_pos_lmaxs <- function(maxs) {
 
-  maxs %>%
-    length() %>%
-    seq_len(.)
+  seq_len(length(maxs))
 
 }
 
