@@ -39,7 +39,7 @@
 #' \item{lf}{lack of fit f statistic}
 #' \item{pr}{p-value of f statistic}
 #' \item{pl}{p-value pf lack of fit f statistic}
-#' \item{mpred}{tibble containing data for the response and predictor of the \code{model}}
+#' \item{mpred}{\code{data.frame} containing data for the response and predictor of the \code{model}}
 #' \item{df_rss}{regression sum of squares degrees of freedom}
 #' \item{df_ess}{error sum of squares degrees of freedom}
 #' \item{df_lof}{lack of fit degrees of freedom}
@@ -199,7 +199,7 @@ predictor_mean <- function(data, pred_name) {
   data %>%
     group_by(!! sym(pred_name)) %>%
     select_all() %>%
-    summarise_all(funs(mean))
+    summarise_all(list(mean = mean))
 
 }
 
@@ -211,13 +211,13 @@ rss_model <- function(model) {
 
 }
 
-#' @importFrom tibble as_tibble
+
 replicate_mean <- function(mean_pred, pred_u) {
 
   mean_pred %>%
     extract2(2) %>%
     rep(times = pred_u) %>%
-    as_tibble() %>%
+    as.data.frame() %>%
     set_colnames("ybar")
 
 }

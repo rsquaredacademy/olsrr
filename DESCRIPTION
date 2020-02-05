@@ -11,32 +11,23 @@ Depends:
     R(>= 3.3)
 Imports: 
     car,
-    checkmate,
-    cli,
-    clisymbols,
-    crayon,
     dplyr,
     ggplot2,
-    glue,
     goftest,
     graphics,
     gridExtra,
     magrittr,
     nortest,
-    purrr,
     Rcpp,
-    recipes (>= 0.1.4),
-    rlang,
-    tibble,
-    tidyr,
-    xplorerr
+    rlang
 Suggests:
     covr,
     descriptr,
     knitr,
     rmarkdown,
     testthat,
-    vdiffr
+    vdiffr,
+    xplorerr
 License: MIT + file LICENSE
 URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues

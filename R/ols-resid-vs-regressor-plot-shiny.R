@@ -6,7 +6,7 @@
 #' you should consider adding the new predictor to the model.
 #'
 #' @param model An object of class \code{lm}.
-#' @param data A \code{dataframe} or \code{tibble}.
+#' @param data A \code{data.frame} or \code{tibble}.
 #' @param variable Character; new predictor to be added to the \code{model}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
@@ -19,7 +19,6 @@
 rvsr_plot_shiny <- function(model, data, variable, print_plot = TRUE) {
 
   check_model(model)
-  check_data(data)
 
   x <- NULL
   y <- NULL

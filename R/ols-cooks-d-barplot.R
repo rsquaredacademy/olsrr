@@ -26,7 +26,7 @@
 #' @return \code{ols_plot_cooksd_bar} returns  a list containing the
 #' following components:
 #'
-#' \item{outliers}{a tibble with observation number and \code{cooks distance} that exceed \code{threshold}}
+#' \item{outliers}{a \code{data.frame} with observation number and \code{cooks distance} that exceed \code{threshold}}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
 #' @section Deprecated Function:

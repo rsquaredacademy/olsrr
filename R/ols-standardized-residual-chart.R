@@ -12,7 +12,7 @@
 #' @return \code{ols_plot_resid_stand} returns  a list containing the
 #' following components:
 #'
-#' \item{outliers}{a tibble with observation number and \code{standardized resiudals} that
+#' \item{outliers}{a \code{data.frame} with observation number and \code{standardized resiudals} that
 #' exceed \code{threshold}} for classifying an observation as an outlier
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'

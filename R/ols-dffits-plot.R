@@ -26,7 +26,7 @@
 #' @return \code{ols_plot_dffits} returns  a list containing the
 #' following components:
 #'
-#' \item{outliers}{a tibble with observation number and \code{DFFITs} that exceed \code{threshold}}
+#' \item{outliers}{a \code{data.frame} with observation number and \code{DFFITs} that exceed \code{threshold}}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
 #' @references
@@ -77,7 +77,7 @@ ols_plot_dffits <- function(model, print_plot = TRUE) {
     names() %>%
     extract(1)
 
-  dfits_data <- tibble(obs = seq_len(n), dbetas = dffitsm)
+  dfits_data <- data.frame(obs = seq_len(n), dbetas = dffitsm)
   d          <- ols_prep_dfbeta_data(dfits_data, dffits_t)
   f          <- ols_prep_dfbeta_outliers(d)
 

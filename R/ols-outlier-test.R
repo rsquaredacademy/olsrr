@@ -12,7 +12,7 @@
 #' model <- lm(y ~ ., data = surgical)
 #' ols_test_outlier(model)
 #'
-#' @importFrom stats df.residual pt
+#' @importFrom stats df.residual pt na.omit
 #' @export
 #'
 ols_test_outlier <- function(model, cut_off = 0.05, n_max = 10, ...) {
@@ -37,8 +37,8 @@ ols_test_outlier <- function(model, cut_off = 0.05, n_max = 10, ...) {
   p_bon <- n * p_val
 
   data_bon <-
-    tibble(stud_resid, p_val, p_bon) %>%
-    tidyr::drop_na()
+    data.frame(stud_resid, p_val, p_bon) %>%
+    na.omit()
 
   data_co <-
     data_bon %>%

@@ -29,7 +29,7 @@ list containing the following components:
 \item{lf}{lack of fit f statistic}
 \item{pr}{p-value of f statistic}
 \item{pl}{p-value pf lack of fit f statistic}
-\item{mpred}{tibble containing data for the response and predictor of the \code{model}}
+\item{mpred}{\code{data.frame} containing data for the response and predictor of the \code{model}}
 \item{df_rss}{regression sum of squares degrees of freedom}
 \item{df_ess}{error sum of squares degrees of freedom}
 \item{df_lof}{lack of fit degrees of freedom}

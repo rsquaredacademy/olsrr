@@ -63,6 +63,6 @@ rvspdata <- function(model) {
 
   resid     <- residuals(model)
   predicted <- fitted(model)
-  tibble(predicted = predicted, resid = resid)
+  data.frame(predicted = predicted, resid = resid)
 
 }

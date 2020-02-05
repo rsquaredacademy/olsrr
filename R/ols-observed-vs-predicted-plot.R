@@ -73,6 +73,6 @@ obspred <- function(model) {
     model.frame() %>%
     extract2(1)
 
-  tibble(x, y)
+  data.frame(x, y)
 
 }

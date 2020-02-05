@@ -16,7 +16,7 @@
 #' @return \code{ols_plot_resid_stud} returns  a list containing the
 #' following components:
 #'
-#' \item{outliers}{a tibble with observation number and \code{studentized residuals} that
+#' \item{outliers}{a \code{data.frame} with observation number and \code{studentized residuals} that
 #' exceed \code{threshold}} for classifying an observation as an outlier
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'

@@ -187,7 +187,7 @@ rhs_score <- function(l, ind, n) {
 
   r.squared <- NULL
 
-  ind <- tibble(ind = ind)
+  ind <- data.frame(ind = ind)
 
   bind_cols(l, ind) %>%
     select(-1) %>%
@@ -252,7 +252,7 @@ score_data <- function(model, vars) {
 
   ind <-
     ind_score(model, var_resid) %>%
-    tibble() %>%
+    as.data.frame() %>%
     set_colnames("ind")
 
   l %>%

@@ -29,8 +29,8 @@ ols_plot_resid_hist <- function(model, print_plot = TRUE) {
   k  <- histdata(model)
   h  <- hist(k$resid, plot = FALSE)
   l  <- histn(k$resid, h)
-  d2 <- tibble(x = l$xfit, y = l$yfit)
-  d  <- tibble(x = k$resid)
+  d2 <- data.frame(x = l$xfit, y = l$yfit)
+  d  <- data.frame(x = k$resid)
 
   p <-
     ggplot(d, aes(x = x)) +

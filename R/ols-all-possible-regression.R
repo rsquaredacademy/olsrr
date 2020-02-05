@@ -47,8 +47,6 @@
 #'
 #' @importFrom utils combn
 #' @importFrom dplyr group_by summarise_all
-#' @importFrom purrr map_int
-#' @importFrom tidyr nest
 #' @importFrom magrittr add use_series
 #'
 #' @export
@@ -96,7 +94,7 @@ ols_step_all_possible.default <- function(model, ...) {
 
   sorted <- cbind(mindex, sorted)
 
-  class(sorted) <- c("ols_step_all_possible", "tibble", "data.frame")
+  class(sorted) <- c("ols_step_all_possible", "data.frame")
 
   return(sorted)
 }
@@ -124,7 +122,7 @@ print.ols_step_all_possible <- function(x, ...) {
 
   k <-
     x %>%
-    as_tibble() %>%
+    data.frame() %>%
     select(c(1:5, 7))
 
   names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square",
@@ -154,7 +152,7 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
   sbc     <- NULL
 
   d <-
-    tibble(index = x$mindex, n = x$n, rsquare = x$rsquare, adjr = x$adjr,
+    data.frame(index = x$mindex, n = x$n, rsquare = x$rsquare, adjr = x$adjr,
            cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc) %>%
     mutate(cps = abs(n - cp))
 
@@ -183,8 +181,8 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 #' @importFrom ggplot2 ggtitle scale_shape_manual scale_size_manual scale_color_manual ggtitle geom_text
 #' @importFrom rlang enquo !!
 #'
-#' @param d1 A tibble.
-#' @param d2 A tibble.
+#' @param d1 A data.frame.
+#' @param d2 A data.frame.
 #' @param title Plot title.
 #'
 #' @noRd
@@ -208,7 +206,7 @@ all_possible_plot <- function(d, var, title = "R-Square") {
   lmaxs <- all_pos_lmaxs(maxs)
   index <- all_pos_index(d, !! varr, title)
 
-  d2 <- tibble(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
+  d2 <- data.frame(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
 
   ggplot(d1, aes(x = x, y = y)) + geom_point(color = "blue", size = 2) +
     xlab("") + ylab("") + ggtitle(title) +
@@ -272,10 +270,11 @@ all_pos_index <- function(d, var, title = "R-Square") {
       summarise_all(min)
   }
 
-  k <-
-    d %>%
-    group_by(n) %>%
-    nest()
+  d1 <- group_by(d, n)
+  k  <- split(d1, d1$n)
+    # d %>%
+    # group_by(n) %>%
+    # nest()
 
   for (i in m$n) {
 
@@ -297,7 +296,7 @@ part_1 <- function(k, i) {
   index <- NULL
 
   k %>%
-    extract2(2) %>%
+    # extract2(2) %>%
     extract2(i) %>%
     use_series(index)
 
@@ -318,7 +317,7 @@ part_3 <- function(k, var, i) {
   varr <- enquo(var)
 
   k %>%
-    extract2(2) %>%
+    # extract2(2) %>%
     extract2(i) %>%
     pull(!! varr)
 
@@ -332,7 +331,7 @@ part_3 <- function(k, var, i) {
 #' @param object An object of class \code{lm}.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_step_all_possible_betas} returns a tibble containing:
+#' @return \code{ols_step_all_possible_betas} returns a \code{data.frame} containing:
 #'
 #' \item{model_index}{model number}
 #' \item{predictor}{predictor}
@@ -386,7 +385,7 @@ ols_step_all_possible_betas <- function(object, ...) {
     metrics %>%
     use_series(betas)
 
-  tibble(
+  data.frame(
     model = m_index,
     predictor = beta_names,
     beta = beta
@@ -429,7 +428,7 @@ allpos_helper <- function(model) {
   gap       <- len_preds - 1
   data      <- mod_sel_data(model)
   space     <- coeff_length(predicts, gap)
-  colas     <- map_int(combs, ncol)
+  colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
   p         <- colas
   t         <- cumsum(colas)

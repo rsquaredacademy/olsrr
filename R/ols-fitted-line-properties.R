@@ -28,8 +28,8 @@ ols_plot_reg_line <- function(response, predictor, print_plot = TRUE) {
   x  <- NULL
   y  <- NULL
 
-  d2 <- tibble(x = m_predictor, y = m_response)
-  d  <- tibble(x = predictor, y = response)
+  d2 <- data.frame(x = m_predictor, y = m_response)
+  d  <- data.frame(x = predictor, y = response)
 
   p <-
     ggplot(d, aes(x = x, y = y)) + geom_point(fill = "blue") +

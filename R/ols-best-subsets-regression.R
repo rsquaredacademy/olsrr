@@ -90,9 +90,7 @@ ols_step_best_subset.default <- function(model, ...) {
 
   data <- mod_sel_data(model)
 
-  colas <-
-    combs %>%
-    map_int(ncol)
+  colas <- unname(unlist(lapply(combs, ncol)))
 
   response <-
     varnames %>%
@@ -172,7 +170,7 @@ ols_step_best_subset.default <- function(model, ...) {
 
   sorted <- cbind(mindex, sorted)
 
-  class(sorted) <- c("ols_step_best_subset", "tibble", "data.frame")
+  class(sorted) <- c("ols_step_best_subset", "data.frame")
 
   return(sorted)
 
@@ -208,7 +206,7 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
   b       <- NULL
 
 
-  d <- tibble(mindex = x$mindex, rsquare = x$rsquare, adjr = x$adjr,
+  d <- data.frame(mindex = x$mindex, rsquare = x$rsquare, adjr = x$adjr,
                cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
 
   p1 <- best_subset_plot(d, rsquare)
@@ -235,7 +233,7 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
 #'
 #' @importFrom ggplot2 geom_line theme element_blank
 #'
-#' @param d1 A tibble.
+#' @param d1 A data.frame.
 #' @param title Plot title.
 #'
 #' @noRd

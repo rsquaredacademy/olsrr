@@ -74,8 +74,6 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
     stop("data missing", call. = FALSE)
   }
 
-  check_data(data)
-
   if (!is.numeric(conf.level)) {
     stop("conf.level must be numeric", call. = FALSE)
   }

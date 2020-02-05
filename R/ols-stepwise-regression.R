@@ -114,7 +114,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     }
     cat("\n")
 
-    cat(crayon::bold$red("We are selecting variables based on p value..."))
+    cat("We are selecting variables based on p value...")
     cat("\n")
 
     cat("\n")
@@ -155,7 +155,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   if (progress) {
     if (interactive()) {
-      cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+      cat("+", dplyr::last(preds), "\n")
     } else {
       cat(paste("-", dplyr::last(preds), "added"), "\n")
     }
@@ -220,7 +220,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
       if (progress) {
         if (interactive()) {
-          cat(crayon::green(clisymbols::symbol$tick), crayon::bold(dplyr::last(preds)), "\n")
+          cat("+", dplyr::last(preds), "\n")
         } else {
           cat(paste("-", dplyr::last(preds), "added"), "\n")
         }
@@ -274,7 +274,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
         if (progress) {
           if (interactive()) {
-            cat(crayon::red(clisymbols::symbol$cross), crayon::bold(dplyr::last(var_index)), "\n")
+            cat("x", dplyr::last(var_index), "\n")
           } else {
             cat(paste("-", dplyr::last(var_index), "added"), "\n")
           }
@@ -293,7 +293,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     } else {
       if (progress) {
         cat("\n")
-        cat(crayon::bold$red("No more variables to be added/removed."))
+        cat("No more variables to be added/removed.")
         cat("\n")
       }
       break
@@ -314,7 +314,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  beta_pval <- tibble(
+  beta_pval <- data.frame(
     model     = rep(seq_len(all_step), lbetas),
     predictor = names(betas),
     beta      = betas,
@@ -366,12 +366,12 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
   y <- seq_len(x$steps)
 
-  d1 <- tibble(a = y, b = x$rsquare)
-  d2 <- tibble(a = y, b = x$adjr)
-  d3 <- tibble(a = y, b = x$mallows_cp)
-  d4 <- tibble(a = y, b = x$aic)
-  d5 <- tibble(a = y, b = x$sbic)
-  d6 <- tibble(a = y, b = x$sbc)
+  d1 <- data.frame(a = y, b = x$rsquare)
+  d2 <- data.frame(a = y, b = x$adjr)
+  d3 <- data.frame(a = y, b = x$mallows_cp)
+  d4 <- data.frame(a = y, b = x$aic)
+  d5 <- data.frame(a = y, b = x$sbic)
+  d6 <- data.frame(a = y, b = x$sbc)
 
   p1 <- plot_stepwise(d1, "R-Square")
   p2 <- plot_stepwise(d2, "Adj. R-Square")

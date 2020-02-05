@@ -20,7 +20,7 @@ dfb <- dfbetas(model)
 n <- nrow(dfb)
 threshold <- 2 / sqrt(n)
 dbetas  <- dfb[, 1]
-df_data <- tibble::tibble(obs = seq_len(n), dbetas = dbetas)
+df_data <- data.frame(obs = seq_len(n), dbetas = dbetas)
 ols_prep_dfbeta_data(df_data, threshold)
 
 }

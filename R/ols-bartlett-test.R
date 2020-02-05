@@ -50,8 +50,6 @@ ols_test_bartlett <- function(data, ...) UseMethod("ols_test_bartlett")
 #'
 ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 
-  check_data(data)
-
   groupvar  <- enquo(group_var)
   varyables <- quos(...)
 
@@ -64,7 +62,7 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
   if (quo_is_null(groupvar)) {
 
     z  <- as.list(fdata)
-    ln <- map_int(z, length)
+    ln <- unname(unlist(lapply(z, length)))
 
     ly <-
       z %>%

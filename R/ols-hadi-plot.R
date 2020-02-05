@@ -39,7 +39,7 @@ ols_plot_hadi <- function(model, print_plot = TRUE) {
     length() %>%
     seq_len(.)
 
-  d <- tibble(obs = obs, hdi = hdi)
+  d <- data.frame(obs = obs, hdi = hdi)
 
   p <-
     ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +

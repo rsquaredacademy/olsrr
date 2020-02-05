@@ -55,8 +55,7 @@ print.ols_correlations <- function(x, ...) {
   print_correlations(x)
 }
 
-#' @importFrom tibble as_data_frame
-#' @importFrom purrr map_df
+
 cordata <- function(model) {
 
   ols_prep_avplot_data(model)

@@ -18,18 +18,18 @@ ols_prep_avplot_data <- function(model) {
   m1 <-
     model %>%
     model.frame() %>%
-    as_data_frame()
+    as.data.frame()
 
   m2 <-
     model %>%
     model.matrix() %>%
-    as_data_frame() %>%
+    as.data.frame() %>%
     select(-1)
 
   m1 %>%
     select(1) %>%
     bind_cols(m2) %>%
-    as_data_frame()
+    as.data.frame()
 
 }
 
@@ -103,7 +103,7 @@ ols_prep_cdplot_data <- function(model) {
   cooksd    <- cooks.distance(model)
   n         <- length(cooksd)
   obs       <- seq_len(n)
-  ckd       <- tibble(obs = obs, cd = cooksd)
+  ckd       <- data.frame(obs = obs, cd = cooksd)
   ts        <- 4 / n
   cooks_max <- max(cooksd)
 
@@ -194,7 +194,7 @@ ols_prep_cdplot_outliers <- function(k) {
 #' n <- nrow(dfb)
 #' threshold <- 2 / sqrt(n)
 #' dbetas  <- dfb[, 1]
-#' df_data <- tibble::tibble(obs = seq_len(n), dbetas = dbetas)
+#' df_data <- data.frame(obs = seq_len(n), dbetas = dbetas)
 #' ols_prep_dfbeta_data(df_data, threshold)
 #'
 #' @export
@@ -228,7 +228,7 @@ ols_prep_dfbeta_data <- function(d, threshold) {
 #' n <- nrow(dfb)
 #' threshold <- 2 / sqrt(n)
 #' dbetas  <- dfb[, 1]
-#' df_data <- tibble::tibble(obs = seq_len(n), dbetas = dbetas)
+#' df_data <- data.frame(obs = seq_len(n), dbetas = dbetas)
 #' d <- ols_prep_dfbeta_data(df_data, threshold)
 #' ols_prep_dfbeta_outliers(d)
 #'
@@ -275,7 +275,7 @@ ols_prep_dsrvf_data <- function(model) {
     unname()
 
   n  <- length(dsresid)
-  ds <- tibble(obs = seq_len(n), dsr = dsresid)
+  ds <- data.frame(obs = seq_len(n), dsr = dsresid)
 
   ds %<>%
     mutate(
@@ -285,7 +285,7 @@ ols_prep_dsrvf_data <- function(model) {
         ordered(levels = c("normal", "outlier"))
     )
 
-  ds2 <- tibble(obs       = seq_len(n),
+  ds2 <- data.frame(obs       = seq_len(n),
                 pred      = pred,
                 dsr       = ds$dsr,
                 color     = ds$color,
@@ -332,7 +332,7 @@ ols_prep_rfsplot_fmdata<- function(model) {
   percenti  <- ecdf(y)
   x         <- percenti(y)
 
-  tibble(x, y)
+  data.frame(x, y)
 
 }
 
@@ -345,7 +345,7 @@ ols_prep_rfsplot_rsdata <- function(model) {
   residtile <- ecdf(y)
   x         <- residtile(y)
 
-  tibble(x, y)
+  data.frame(x, y)
 
 }
 
@@ -444,7 +444,7 @@ ols_prep_rstudlev_data <- function(model) {
                  (lev_thrsh + 0.05))
 
   levrstud <-
-    tibble(obs = seq_len(n), leverage, rstudent) %>%
+    data.frame(obs = seq_len(n), leverage, rstudent) %>%
     mutate(
       color = case_when(
         (leverage < lev_thrsh & abs(rstudent) < 2) ~ "normal",
@@ -501,7 +501,7 @@ ols_prep_srplot_data<- function(model) {
     seq_len(.)
 
   dsr <-
-    tibble(obs = obs, dsr = dstud) %>%
+    data.frame(obs = obs, dsr = dstud) %>%
     mutate(
       color = ifelse((abs(dsr) >= 3), "outlier", "normal"),
       fct_color = color %>%
@@ -582,7 +582,7 @@ ols_prep_srchart_data <- function(model) {
     length() %>%
     seq_len(.)
 
-  tibble(obs = obs, sdres = sdres) %>%
+  data.frame(obs = obs, sdres = sdres) %>%
     mutate(
       color = ifelse(((sdres >= 2) | (sdres <= -2)), c("outlier"), c("normal")),
       fct_color = color %>%

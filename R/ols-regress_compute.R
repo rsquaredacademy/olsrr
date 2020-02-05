@@ -1,5 +1,4 @@
 #' @importFrom stats model.matrix confint.lm
-#' @importFrom recipes recipe step_center step_scale prep bake all_numeric
 #' @importFrom magrittr extract2
 #' @importFrom stats as.formula
 reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
@@ -39,27 +38,17 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
 
     data_scaled <- data
 
-    mod_formula <- formula %>%
-      extract2(2) %>%
-      paste0(" ~ .") %>%
-      as.formula()
-
-    rec_obj <- recipe(mod_formula, data = data)
-
-    standardized <- rec_obj %>%
-      step_center(all_numeric()) %>%
-      step_scale(all_numeric())
-
-    trained_rec <- prep(standardized, training = data)
-    newdata     <- bake(trained_rec, new_data = data_scaled)
-    model2      <- lm(formula, data = newdata)
-    output2     <- summary(model2)
-    b           <- output2$coef[-1, 1]
-    g           <- as.data.frame(model.matrix(model2)[, -1])
-    sx          <- sapply(g, sd)
-    sy          <- sapply(model2$model[1], sd)
-    sbeta       <- b * sx / sy
-    sbetas      <- sbeta
+    is_num    <- unname(unlist(lapply(data_scaled, is.numeric)))
+    num_scale <- as.data.frame(lapply(data_scaled[, is_num], scale))
+    newdata   <- cbind(data_scaled[, !is_num], num_scale)
+    model2    <- lm(formula, data = newdata)
+    output2   <- summary(model2)
+    b         <- output2$coef[-1, 1]
+    g         <- as.data.frame(model.matrix(model2)[, -1])
+    sx        <- sapply(g, sd)
+    sy        <- sapply(model2$model[1], sd)
+    sbeta     <- b * sx / sy
+    sbetas    <- sbeta
 
   } else {
 

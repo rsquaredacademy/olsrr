@@ -220,7 +220,7 @@ print.ols_test_breusch_pagan <- function(x, ...) {
 #' * rhs = TRUE
 #' * multiple = TRUE
 #'
-#' @param l A tibble created using `avplots_data()`.
+#' @param l A \code{data.frame} created using `avplots_data()`.
 #' @param model An object of class \code{lm}.
 #'
 #' @noRd
@@ -275,7 +275,7 @@ bp_case_3 <- function(model) {
 #' * rhs = TRUE
 #' * multiple = FALSE
 #'
-#' @param l A tibble created using `avplots_data()`.
+#' @param l A \code{data.frame} created using `avplots_data()`.
 #' @param model An object of class \code{lm}.
 #'
 #' @noRd
@@ -311,7 +311,7 @@ bp_case_6 <- function(l, model) {
 #' @importFrom rlang !!! syms
 #' @importFrom magrittr subtract
 #'
-#' @param l A tibble created using `avplots_data()`.
+#' @param l A \code{data.frame} created using `avplots_data()`.
 #' @param model An object of class \code{lm}.
 #' @param vars Variables to be used for the test.
 #'
@@ -340,7 +340,7 @@ bp_case_7 <- function(l, model, vars) {
 
 #' @description Fit model using the columns in the data set.
 #'
-#' @param l A tibble created using `avplots_data()`.
+#' @param l A \code{data.frame} created using `avplots_data()`.
 #'
 #' @noRd
 #'
@@ -369,7 +369,7 @@ ind_bp <- function(model, var_resid) {
     raise_to_power(2) %>%
     divide_by(var_resid) %>%
     subtract(1) %>%
-    tibble() %>%
+    data.frame() %>%
     set_colnames("ind")
 
 }
@@ -380,7 +380,7 @@ ind_bp <- function(model, var_resid) {
 #' * rhs = TRUE
 #' * multiple = TRUE
 #'
-#' @param l A tibble created using `avplots_data()`.
+#' @param l A \code{data.frame} created using `avplots_data()`.
 #' @param model An object of class \code{lm}.
 #'
 #' @noRd
@@ -446,9 +446,7 @@ bp_case_inter <- function(l, np, tstat) {
 
   ps <- pchisq(comp, df = np, lower.tail = FALSE)
 
-  bp <-
-    comp %>%
-    prepend(tstat)
+  bp <- c(tstat, comp)
 
   list(bp = bp, ps = ps)
 
@@ -532,10 +530,7 @@ bp_case_5_inter <- function(l, model, vars, tstat) {
     bp_model() %>%
     pchisq(df = np, lower.tail = FALSE)
 
-  bp <-
-    l %>%
-    bp_model() %>%
-    prepend(tstat)
+  bp <- c(tstat, bp_model(l))
 
   list(bp = bp, ps = ps, np = np)
 
