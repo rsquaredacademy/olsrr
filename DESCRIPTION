@@ -19,8 +19,7 @@ Imports:
     magrittr,
     nortest,
     Rcpp,
-    rlang,
-    tidyr
+    rlang
 Suggests:
     covr,
     descriptr,

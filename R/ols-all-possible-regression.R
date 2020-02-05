@@ -47,7 +47,6 @@
 #'
 #' @importFrom utils combn
 #' @importFrom dplyr group_by summarise_all
-#' @importFrom tidyr nest
 #' @importFrom magrittr add use_series
 #'
 #' @export
@@ -271,10 +270,11 @@ all_pos_index <- function(d, var, title = "R-Square") {
       summarise_all(min)
   }
 
-  k <-
-    d %>%
-    group_by(n) %>%
-    nest()
+  d1 <- group_by(d, n)
+  k  <- split(d1, d1$n)
+    # d %>%
+    # group_by(n) %>%
+    # nest()
 
   for (i in m$n) {
 
@@ -296,7 +296,7 @@ part_1 <- function(k, i) {
   index <- NULL
 
   k %>%
-    extract2(2) %>%
+    # extract2(2) %>%
     extract2(i) %>%
     use_series(index)
 
@@ -317,7 +317,7 @@ part_3 <- function(k, var, i) {
   varr <- enquo(var)
 
   k %>%
-    extract2(2) %>%
+    # extract2(2) %>%
     extract2(i) %>%
     pull(!! varr)
 
