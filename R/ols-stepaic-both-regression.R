@@ -193,9 +193,9 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
       if (progress) {
         if (interactive()) {
-          cat("+", dplyr::last(preds), "\n")
+          cat("+", tail(preds, n = 1), "\n")
         } else {
-          cat(paste("-", dplyr::last(preds), "added"), "\n")
+          cat(paste("-", tail(preds, n = 1), "added"), "\n")
         }
       }
 

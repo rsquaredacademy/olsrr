@@ -166,9 +166,9 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
   if (progress) {
     if (interactive()) {
-      cat("+", dplyr::last(preds), "\n")
+      cat("+", tail(preds, n = 1), "\n")
     } else {
-      cat(paste("-", dplyr::last(preds)), "\n")
+      cat(paste("-", tail(preds, n = 1)), "\n")
     }
   }
 
@@ -258,9 +258,9 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
       if (progress) {
         if (interactive()) {
-          cat("+", dplyr::last(preds), "\n")
+          cat("+", tail(preds, n = 1), "\n")
         } else {
-          cat(paste("-", dplyr::last(preds)), "\n")
+          cat(paste("-", tail(preds, n = 1)), "\n")
         }
       }
     } else {

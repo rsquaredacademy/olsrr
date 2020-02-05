@@ -192,9 +192,9 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
       if (progress) {
         if (interactive()) {
-          cat("x", dplyr::last(rpred), "\n")
+          cat("x", tail(rpred, n = 1), "\n")
         } else {
-          cat(paste("-", dplyr::last(rpred)), "\n")
+          cat(paste("-", tail(rpred, n = 1)), "\n")
         }
       }
 
