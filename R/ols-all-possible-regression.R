@@ -141,7 +141,7 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 
   d <- data.frame(index = x$mindex, n = x$n, rsquare = x$rsquare, adjr = x$adjr,
                   cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
-  d$cps <- abs(d$n) - d$cp
+  d$cps <- abs(d$n - d$cp)
 
   p1 <- all_possible_plot(d, "rsquare", title = "R-Square")
   p2 <- all_possible_plot(d, "adjr", title = "Adj. R-Square")

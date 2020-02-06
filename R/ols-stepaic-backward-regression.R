@@ -47,7 +47,7 @@
 #' k$model
 #'
 #' @importFrom ggplot2 geom_text
-#'
+#' @importFrom utils tail
 #'
 #' @family variable selection procedures
 #'
