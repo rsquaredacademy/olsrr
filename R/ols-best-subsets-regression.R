@@ -220,8 +220,9 @@ best_subset_plot <- function(d, var, title = "R-Square") {
   a      <- NULL
   b      <- NULL
   
-  d1 <- d[, c(mindex, var)]   
-  
+  d1 <- d[, c("mindex", var)]   
+  colnames(d1) <- c("a", "b")
+
   ggplot(d1, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
