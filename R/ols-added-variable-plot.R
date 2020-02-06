@@ -111,11 +111,7 @@ ols_avplots <- function(model) {
 #' @noRd
 #'
 remove_columns <- function(data, i) {
-
-  data %>%
-    select(-1, -i) %>%
-    as.matrix()
-
+	as.matrix(data[, c(-1, -i)])
 }
 
 #' Select columns
@@ -128,9 +124,5 @@ remove_columns <- function(data, i) {
 #' @noRd
 #'
 select_columns <- function(data, i = 1) {
-
-  data %>%
-    select(i) %>%
-    as.matrix()
-
+	as.matrix(data[, i])
 }
