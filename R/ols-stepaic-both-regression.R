@@ -133,7 +133,8 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
     }
 
     da <- data.frame(predictors = predictors, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-    da2 <- arrange(da, desc(rss))
+    # da2 <- arrange(da, desc(rss))
+    da2 <- da[order(-da$rss), ]
 
     if (details) {
       w1 <- max(nchar("Predictor"), nchar(predictors))
@@ -193,9 +194,9 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
       if (progress) {
         if (interactive()) {
-          cat("+", dplyr::last(preds), "\n")
+          cat("+", tail(preds, n = 1), "\n")
         } else {
-          cat(paste("-", dplyr::last(preds), "added"), "\n")
+          cat(paste("-", tail(preds, n = 1), "added"), "\n")
         }
       }
 
@@ -225,7 +226,8 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
         }
 
         da <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-        da2 <- arrange(da, desc(rss))
+        # da2 <- arrange(da, desc(rss))
+        da2 <- da[order(-da$rss), ]
 
         if (details) {
           w1 <- max(nchar("Predictor"), nchar(preds))

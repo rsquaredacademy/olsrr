@@ -53,30 +53,14 @@ ols_plot_dffits <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  dbetas <- NULL
-  obs    <- NULL
-  txt    <- NULL
-
-  dffitsm <-
-    model %>%
-    dffits() %>%
-    unlist()
-
-  k <- model_n_coeffs(model)
-  n <- model_rows(model)
-
-  dffits_t <-
-    k %>%
-    divide_by(n) %>%
-    sqrt(.) %>%
-    multiply_by(2)
-
-  title <-
-    model %>%
-    model.frame() %>%
-    names() %>%
-    extract(1)
-
+  dbetas     <- NULL
+  obs        <- NULL
+  txt        <- NULL
+  dffitsm    <- unlist(dffits(model))
+  k          <- model_n_coeffs(model)
+  n          <- model_rows(model)
+  dffits_t   <- sqrt(k / n) * 2
+  title      <- names(model.frame(model))[1]
   dfits_data <- data.frame(obs = seq_len(n), dbetas = dffitsm)
   d          <- ols_prep_dfbeta_data(dfits_data, dffits_t)
   f          <- ols_prep_dfbeta_outliers(d)

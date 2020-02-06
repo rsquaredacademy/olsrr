@@ -9,7 +9,6 @@
 #' ols_prep_avplot_data(model)
 #'
 #' @importFrom stats model.frame residuals as.formula
-#' @importFrom dplyr bind_cols
 #'
 #' @export
 #'
@@ -28,7 +27,7 @@ ols_prep_avplot_data <- function(model) {
 
   m1 %>%
     select(1) %>%
-    bind_cols(m2) %>%
+    cbind(m2) %>%
     as.data.frame()
 
 }
@@ -92,8 +91,6 @@ ols_prep_regress_y <- function(data, i) {
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_prep_cdplot_data(model)
 #'
-#' @importFrom dplyr if_else
-#'
 #' @export
 #'
 ols_prep_cdplot_data <- function(model) {
@@ -109,7 +106,7 @@ ols_prep_cdplot_data <- function(model) {
 
   ckd %<>%
     mutate(
-      color = if_else(cd >= ts, "outlier", "normal"),
+      color = ifelse(cd >= ts, "outlier", "normal"),
       fct_color = color %>%
         factor() %>%
         ordered(levels = c("normal", "outlier"))

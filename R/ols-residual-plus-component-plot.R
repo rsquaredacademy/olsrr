@@ -56,15 +56,15 @@ ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
 
 cpdata <- function(data, mc, e, i) {
 
-  x <- pull(data, i)
+  x <- data[[i]]
 
-  y <-
-    mc %>%
-    extract(i) %>%
-    multiply_by((data %>%
-                  select(i))) %>%
-    add(e) %>%
-    pull(1)
+  y <- ((mc[i] * select(data, i)) + e)[[1]]
+    # mc %>%
+    # extract(i) %>%
+    # multiply_by((data %>%
+    #               select(i))) %>%
+    # add(e) %>%
+    # pull(1)
 
   data.frame(x = x, y = y)
 

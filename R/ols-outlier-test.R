@@ -17,54 +17,29 @@
 #'
 ols_test_outlier <- function(model, cut_off = 0.05, n_max = 10, ...) {
 
-  stud_resid <-
-    model %>%
-    rstudent()
-
-  df_resid <-
-    model %>%
-    df.residual() %>%
-    subtract(1)
-
-  n  <- length(stud_resid)
-
-  p_val  <-
-    stud_resid %>%
-    abs() %>%
-    pt(df = df_resid, lower.tail = FALSE) %>%
-    multiply_by(2)
-
-  p_bon <- n * p_val
-
-  data_bon <-
-    data.frame(stud_resid, p_val, p_bon) %>%
-    na.omit()
-
-  data_co <-
-    data_bon %>%
-    filter(p_bon <= cut_off) %>%
-    arrange(desc(p_bon))
-
-  nf <- nrow(data_co)
+  stud_resid <- rstudent(model)
+  df_resid   <- df.residual(model) - 1
+  n          <- length(stud_resid)
+  p_val      <- pt(q = abs(stud_resid), df = df_resid, lower.tail = FALSE) * 2
+  p_bon      <- n * p_val
+  data_bon   <- na.omit(data.frame(stud_resid, p_val, p_bon))
+  data_bonf  <- data_bon[data_bon$p_bon <= cut_off, ]
+  data_co    <- data_bonf[order(-data_bonf$p_bon), ]
+  nf         <- nrow(data_co)
 
   if (nf == 0) {
-    out <-
-      data_bon %>%
-      filter(stud_resid == max(stud_resid))
+    out <- data_bon[data_bon$stud_resid == max(data_bon$stud_resid), ]
   } else {
     if (nf < n_max) {
       out <- data_co
     } else {
-      out <-
-        data_co %>%
-        dplyr::slice(1:n_max)
+      out <- data_co[1:n_max, ]
     }
   }
 
-  out %>%
-    dplyr::rename(studentized_residual = stud_resid,
-           unadjusted_p_val     = p_val,
-           bonferroni_p_val     = p_bon)
+  out_names <- c("studentized_residual", "unadjusted_p_val", "bonferroni_p_val")
+  colnames(out) <- out_names
+  return(out)
 
 }
 

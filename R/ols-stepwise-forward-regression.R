@@ -55,7 +55,6 @@
 #' k$model
 #'
 #' @importFrom stats qt
-#' @importFrom dplyr full_join
 #' @importFrom car Anova
 #'
 #' @family variable selection procedures
@@ -144,9 +143,9 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
   if (progress) {
     if (interactive()) {
-      cat("+", dplyr::last(preds), "\n")
+      cat("+", tail(preds, n = 1), "\n")
     } else {
-      cat(paste("-", dplyr::last(preds)), "\n")
+      cat(paste("-", tail(preds, n = 1)), "\n")
     }
   }
 
@@ -198,9 +197,9 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
       if (progress) {
         if (interactive()) {
-          cat("+", dplyr::last(preds), "\n")
+          cat("+", tail(preds, n = 1), "\n")
         } else {
-          cat(paste("-", dplyr::last(preds)), "\n")
+          cat(paste("-", tail(preds, n = 1)), "\n")
         }
       }
 

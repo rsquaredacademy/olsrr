@@ -155,9 +155,9 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   if (progress) {
     if (interactive()) {
-      cat("+", dplyr::last(preds), "\n")
+      cat("+", tail(preds, n = 1), "\n")
     } else {
-      cat(paste("-", dplyr::last(preds), "added"), "\n")
+      cat(paste("-", tail(preds, n = 1), "added"), "\n")
     }
   }
 
@@ -220,9 +220,9 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
       if (progress) {
         if (interactive()) {
-          cat("+", dplyr::last(preds), "\n")
+          cat("+", tail(preds, n = 1), "\n")
         } else {
-          cat(paste("-", dplyr::last(preds), "added"), "\n")
+          cat(paste("-", tail(preds, n = 1), "added"), "\n")
         }
       }
 
@@ -274,9 +274,9 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
         if (progress) {
           if (interactive()) {
-            cat("x", dplyr::last(var_index), "\n")
+            cat("x", tail(var_index, n = 1), "\n")
           } else {
-            cat(paste("-", dplyr::last(var_index), "added"), "\n")
+            cat(paste("-", tail(var_index, n = 1), "added"), "\n")
           }
         }
 

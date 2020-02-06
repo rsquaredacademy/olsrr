@@ -56,122 +56,98 @@ ols_step_best_subset.default <- function(model, ...) {
   check_model(model)
   check_npredictors(model, 3)
 
-  nam <- coeff_names(model)
-
-  n <-
-    nam %>%
-    length()
-
-  r <-
-    n %>%
-    seq_len(.)
-
+  nam   <- coeff_names(model)
+  n     <- length(nam)
+  r     <- seq_len(n)
   combs <- list()
 
   for (i in seq_len(n)) {
     combs[[i]] <- combn(n, r[i])
   }
 
-  lc <-
-    combs %>%
-    length()
-
-  varnames <- model_colnames(model)
-
-  predicts <- nam
-
-  len_preds <-
-    predicts %>%
-    length()
-
-  gap <- len_preds - 1
-
-  space <- coeff_length(predicts, gap)
-
-  data <- mod_sel_data(model)
-
-  colas <- unname(unlist(lapply(combs, ncol)))
-
-  response <-
-    varnames %>%
-    extract(1)
-
-  p <- colas
-  t <- cumsum(colas)
-  q <- c(1, t[-lc] + 1)
-  mcount <- 0
-  rsq <- list()
-  adjr <- list()
-  cp <- list()
-  aic <- list()
-  sbic <- list()
-  sbc <- list()
-  mse <- list()
-  gmsep <- list()
-  jp <- list()
-  pc <- list()
-  sp <- list()
-  press <- list()
-  predrsq <- list()
-  preds <- list()
-  lpreds <- c()
+  lc        <- length(combs)
+  varnames  <- model_colnames(model)
+  predicts  <- nam
+  len_preds <- length(predicts)
+  gap       <- len_preds - 1
+  space     <- coeff_length(predicts, gap)
+  data      <- mod_sel_data(model)
+  colas     <- unname(unlist(lapply(combs, ncol)))
+  response  <- varnames[1]
+  p         <- colas
+  t         <- cumsum(colas)
+  q         <- c(1, t[-lc] + 1)
+  
+  mcount    <- 0
+  rsq       <- list()
+  adjr      <- list()
+  cp        <- list()
+  aic       <- list()
+  sbic      <- list()
+  sbc       <- list()
+  mse       <- list()
+  gmsep     <- list()
+  jp        <- list()
+  pc        <- list()
+  sp        <- list()
+  press     <- list()
+  predrsq   <- list()
+  preds     <- list()
+  lpreds    <- c()
 
   for (i in seq_len(lc)) {
     for (j in seq_len(colas[i])) {
-      predictors <- nam[combs[[i]][, j]]
-      lp <- length(predictors)
-      out <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = data)
-      mcount <- mcount + 1
-      lpreds[mcount] <- lp
-      rsq[[mcount]] <- out$rsq
-      adjr[[mcount]] <- out$adjr
-      cp[[mcount]] <- ols_mallows_cp(out$model, model)
-      aic[[mcount]] <- ols_aic(out$model)
-      sbic[[mcount]] <- ols_sbic(out$model, model)
-      sbc[[mcount]] <- ols_sbc(out$model)
-      gmsep[[mcount]] <- ols_msep(out$model)
-      jp[[mcount]] <- ols_fpe(out$model)
-      pc[[mcount]] <- ols_apc(out$model)
-      sp[[mcount]] <- ols_hsp(out$model)
+      predictors        <- nam[combs[[i]][, j]]
+      lp                <- length(predictors)
+      out               <- ols_regress(paste(response, "~", 
+                                       paste(predictors, collapse = " + ")), 
+                                       data = data)
+      mcount            <- mcount + 1
+      lpreds[mcount]    <- lp
+      rsq[[mcount]]     <- out$rsq
+      adjr[[mcount]]    <- out$adjr
+      cp[[mcount]]      <- ols_mallows_cp(out$model, model)
+      aic[[mcount]]     <- ols_aic(out$model)
+      sbic[[mcount]]    <- ols_sbic(out$model, model)
+      sbc[[mcount]]     <- ols_sbc(out$model)
+      gmsep[[mcount]]   <- ols_msep(out$model)
+      jp[[mcount]]      <- ols_fpe(out$model)
+      pc[[mcount]]      <- ols_apc(out$model)
+      sp[[mcount]]      <- ols_hsp(out$model)
       predrsq[[mcount]] <- ols_pred_rsq(out$model)
-      preds[[mcount]] <- paste(predictors, collapse = " ")
+      preds[[mcount]]   <- paste(predictors, collapse = " ")
     }
   }
 
   ui <- data.frame(
-    n = lpreds,
+    n          = lpreds,
     predictors = unlist(preds),
-    rsquare = unlist(rsq),
-    adjr = unlist(adjr),
-    predrsq = unlist(predrsq),
-    cp = unlist(cp),
-    aic = unlist(aic),
-    sbic = unlist(sbic),
-    sbc = unlist(sbc),
-    msep = unlist(gmsep),
-    fpe = unlist(jp),
-    apc = unlist(pc),
-    hsp = unlist(sp),
+    rsquare    = unlist(rsq),
+    adjr       = unlist(adjr),
+    predrsq    = unlist(predrsq),
+    cp         = unlist(cp),
+    aic        = unlist(aic),
+    sbic       = unlist(sbic),
+    sbc        = unlist(sbc),
+    msep       = unlist(gmsep),
+    fpe        = unlist(jp),
+    apc        = unlist(pc),
+    hsp        = unlist(sp),
     stringsAsFactors = F
   )
 
   sorted <- c()
 
   for (i in seq_len(lc)) {
-    temp <- ui[q[i]:t[i], ]
-    temp <- temp[order(temp$rsquare, decreasing = TRUE), ]
+    temp   <- ui[q[i]:t[i], ]
+    temp   <- temp[order(temp$rsquare, decreasing = TRUE), ]
     sorted <- rbind(sorted, temp[1, ])
   }
 
-  mindex <-
-    sorted %>%
-    nrow() %>%
-    seq_len(.)
-
+  mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
 
   class(sorted) <- c("ols_step_best_subset", "data.frame")
-
   return(sorted)
 
 }
@@ -209,12 +185,12 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
   d <- data.frame(mindex = x$mindex, rsquare = x$rsquare, adjr = x$adjr,
                cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
 
-  p1 <- best_subset_plot(d, rsquare)
-  p2 <- best_subset_plot(d, adjr, title = "Adj. R-Square")
-  p3 <- best_subset_plot(d, cp, title = "C(p)")
-  p4 <- best_subset_plot(d, aic, title = "AIC")
-  p5 <- best_subset_plot(d, sbic, title = "SBIC")
-  p6 <- best_subset_plot(d, sbc, title = "SBC")
+  p1 <- best_subset_plot(d, "rsquare")
+  p2 <- best_subset_plot(d, "adjr", title = "Adj. R-Square")
+  p3 <- best_subset_plot(d, "cp", title = "C(p)")
+  p4 <- best_subset_plot(d, "aic", title = "AIC")
+  p5 <- best_subset_plot(d, "sbic", title = "SBIC")
+  p6 <- best_subset_plot(d, "sbc", title = "SBC")
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
                   plot_4 = p4, plot_5 = p5, plot_6 = p6)
@@ -233,7 +209,7 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
 #'
 #' @importFrom ggplot2 geom_line theme element_blank
 #'
-#' @param d1 A data.frame.
+#' @param d A data.frame.
 #' @param title Plot title.
 #'
 #' @noRd
@@ -243,12 +219,11 @@ best_subset_plot <- function(d, var, title = "R-Square") {
   mindex <- NULL
   a      <- NULL
   b      <- NULL
+  
+  d1 <- d[, c("mindex", var)]   
+  colnames(d1) <- c("a", "b")
 
-  varr   <- enquo(var)
-
-  d %>%
-    select(a = mindex, b = !! varr) %>%
-    ggplot(aes(x = a, y = b)) +
+  ggplot(d1, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
     xlab("") + ylab("") + ggtitle(title) +

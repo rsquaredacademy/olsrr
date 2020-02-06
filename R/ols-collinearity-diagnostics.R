@@ -114,12 +114,8 @@ print.ols_coll_diag <- function(x, ...) {
 ols_vif_tol <- function(model) {
 
   check_model(model)
-
   vt <- viftol(model)
-
-  data.frame(Variables = vt$nam,
-         Tolerance = vt$tol,
-         VIF       = vt$vifs)
+  data.frame(Variables = vt$nam, Tolerance = vt$tol, VIF = vt$vifs)
 
 }
 
@@ -131,29 +127,12 @@ ols_eigen_cindex <- function(model) {
   check_model(model)
 
   pvdata <- NULL
-
-  x <-
-    model %>%
-    model.matrix() %>%
-    as.data.frame()
-
-  e <-
-    x %>%
-    evalue() %>%
-    use_series(e)
-
-
-  cindex <-
-    e %>%
-    cindx()
-
-  pv <-
-    x %>%
-    evalue() %>%
-    use_series(pvdata) %>%
-    pveindex()
-
-  out <- data.frame(Eigenvalue = cbind(e, cindex, pv))
+  x      <- as.data.frame(model.matrix(model))
+  e      <- evalue(x)$e
+  cindex <- cindx(e)
+  pv     <- pveindex(evalue(x)$pvdata)
+  out    <- data.frame(Eigenvalue = cbind(e, cindex, pv))
+  
   colnames(out) <- c("Eigenvalue", "Condition Index", colnames(evalue(x)$pvdata))
   return(out)
 
@@ -168,24 +147,14 @@ evalue <- function(x) {
   z              <- scale(y, scale = T, center = F)
   tu             <- t(z) %*% z
 
-  e <-
-    tu %>%
-    divide_by(diag(tu)) %>%
-    eigen() %>%
-    use_series(values)
-
+  e <- eigen(tu / diag(tu))$values
   list(e = e, pvdata = z)
 
 }
 
 
 cindx <- function(e) {
-
-  e %>%
-    extract(1) %>%
-    divide_by(e) %>%
-    sqrt(.)
-
+  sqrt(e[1] / e) 
 }
 
 #' @importFrom magrittr multiply_by_matrix
@@ -196,29 +165,12 @@ pveindex <- function(z) {
   svdx  <- svd(z)
   svdxd <- svdx$d
 
-  phi_diag <-
-    1 %>%
-    divide_by(svdxd) %>%
-    diag()
-
-  phi <-
-    svdx %>%
-    use_series(v) %>%
-    multiply_by_matrix(phi_diag)
-
-  ph <-
-    phi %>%
-    raise_to_power(2) %>%
-    t()
-
-  diag_sum <-
-    ph %>%
-    rowSums(dims = 1) %>%
-    diag()
-
-  ph %>%
-    multiply_by_matrix(diag_sum) %>%
-    prop.table(margin = 2)
+  phi_diag <- diag(1 / svdxd)
+  phi      <- svdx$v %*% phi_diag
+  ph       <- t(phi ^ 2)
+    
+  diag_sum <- diag(rowSums(ph, dims = 1))
+  prop.table(ph %*% diag_sum, margin = 2)
 
 }
 
@@ -226,15 +178,8 @@ pveindex <- function(z) {
 fmrsq <- function(nam, data, i) {
 
   r.squared <- NULL
-
-  fm <-
-    paste0("`", nam[i], "` ", "~ .") %>%
-    as.formula()
-
-  m1 <-
-    lm(fm, data = data) %>%
-    summary() %>%
-    use_series(r.squared)
+  fm        <- as.formula(paste0("`", nam[i], "` ", "~ ."))
+  m1        <- summary(lm(fm, data = data))$r.squared
 
   1 - m1
 
@@ -247,20 +192,9 @@ fmrsq <- function(nam, data, i) {
 #'
 viftol <- function(model) {
 
-  m <-
-    model %>%
-    model.matrix() %>%
-    as.data.frame() %>%
-    select(-1)
-
+  m   <- as.data.frame(model.matrix(model))[, -1]
   nam <- names(m)
-
-  p <-
-    model %>%
-    use_series(coefficients) %>%
-    length() %>%
-    subtract(1)
-
+  p   <- length(model$coefficients) - 1
   tol <- c()
 
   for (i in seq_len(p)) {
@@ -268,7 +202,6 @@ viftol <- function(model) {
   }
 
   vifs <- 1 / tol
-
   list(nam = names(m), tol = tol, vifs = vifs)
 
 }

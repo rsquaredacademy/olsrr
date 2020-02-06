@@ -44,14 +44,9 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
     geom_hline(yintercept = 0, colour = "red")
 
   # deleted studentized residual vs predicted values
-  k <- ols_prep_dsrvf_data(model)
-
-  d22 <-
-    k %>%
-    use_series(ds) %>%
-    mutate(
-      txt = ifelse(color == "outlier", obs, NA)
-    )
+  k       <- ols_prep_dsrvf_data(model)
+  d22     <- k$ds
+  d22$txt <- ifelse(d22$color == "outlier", d22$obs, NA)
 
   d2 <- ggplot(d22, aes(x = pred, y = dsr, label = txt)) +
     geom_point(aes(colour = fct_color)) +
@@ -62,22 +57,11 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
     geom_hline(yintercept = c(-2, 2), colour = "red")
 
   # studentized residuals vs leverage plot
-  j <- ols_prep_rstudlev_data(model)
-
-  d33 <-
-    j %>%
-    use_series(levrstud) %>%
-    mutate(
-      txt = ifelse(color == "normal", NA, obs)
-    )
-
-  resp <-
-    model %>%
-    model.frame() %>%
-    names() %>%
-    extract(1)
-
-  title <- paste("Outlier and Leverage Diagnostics for", resp)
+  j       <- ols_prep_rstudlev_data(model)
+  d33     <- j$levrstud
+  d33$txt <- ifelse(d33$color == "normal", NA, d33$obs)
+  resp    <- names(model.frame(model))[1]
+  title   <- paste("Outlier and Leverage Diagnostics for", resp)
 
   d3 <- ggplot(d33, aes(leverage, rstudent, label = txt)) +
     geom_point(shape = 1, aes(colour = fct_color)) + labs(color = "Observation") +
@@ -102,13 +86,8 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
 
 
   # observed vs fitted values plot
-  oname <-
-    model %>%
-    model.frame() %>%
-    names() %>%
-    extract(1)
-
-  d5 <- obspred(model)
+  oname <- names(model.frame(model))[1]
+  d5    <- obspred(model)
 
   p5 <- ggplot(d5, aes(x = x, y = y)) +
     geom_point(color = "blue", shape = 1) +
