@@ -18,9 +18,9 @@ Below is an example using mtcars data:\n lm(formula = mpg ~ disp + hp + wt, data
 
 check_logic <- function(logic) {
 
-  lval <- is.logical(logic)
+  lval        <- is.logical(logic)
   logic_class <- class(logic)
-  logic_name <- deparse(substitute(logic))
+  logic_name  <- deparse(substitute(logic))
 
   if (lval != TRUE) {
 
@@ -35,9 +35,9 @@ check_logic <- function(logic) {
 check_options <- function(option) {
 
   default_options <- c("none", "bonferroni", "sidak", "holm")
-  valid <- any(default_options == option)
-  option_class <- class(option)
-  option_name <- deparse(substitute(option))
+  valid           <- any(default_options == option)
+  option_class    <- class(option)
+  option_name     <- deparse(substitute(option))
 
   if (valid != TRUE) {
 
@@ -51,9 +51,9 @@ check_options <- function(option) {
 
 check_values <- function(value, lower, upper) {
 
-  valid <- (value >= lower && value <= upper)
+  valid       <- (value >= lower && value <= upper)
   value_class <- class(value)
-  value_name <- deparse(substitute(value))
+  value_name  <- deparse(substitute(value))
 
   if (valid != TRUE) {
 
@@ -68,11 +68,7 @@ check_values <- function(value, lower, upper) {
 
 check_npredictors <- function(model, min) {
 
-  n <-
-    model %>%
-    coefficients() %>%
-    length()
-
+  n <- length(coefficients(model))
   if (n < min) {
 
     cat("\n")
@@ -87,11 +83,7 @@ check_npredictors <- function(model, min) {
 
 check_lfit <- function(model) {
 
-  n <-
-    model %>%
-    coefficients() %>%
-    length()
-
+  n     <- length(coefficients(model))
   preds <- n - 1
 
   if (n > 2) {
@@ -107,8 +99,8 @@ check_lfit <- function(model) {
 
 check_modelvars <- function(model, vars) {
 
-  fmla <- deparse(formula(model))
-  k <- vars %in% names(model$coefficients)
+  fmla  <- deparse(formula(model))
+  k     <- vars %in% names(model$coefficients)
   wvars <- vars[!k]
   nvars <- length(wvars)
 

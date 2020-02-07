@@ -43,20 +43,11 @@ ols_plot_resid_stud <- function(model, print_plot = TRUE) {
   dsr       <- NULL
   txt       <- NULL
 
-  g <- ols_prep_srplot_data(model)
-
-  d <-
-    g %>%
-    use_series(dsr) %>%
-    mutate(
-      txt = ifelse(color == "outlier", obs, NA)
-    )
-
-  f <-
-    d %>%
-    filter(color == "outlier") %>%
-    select(obs, dsr) %>%
-    set_colnames(c("observation", "stud_resid"))
+  g           <- ols_prep_srplot_data(model)
+  d           <- g$dsr
+  d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
+  f           <- d[color == "outlier", c("obs", "dsr")] 
+  colnames(f) <- c("observation", "stud_resid")
 
   p <-
     ggplot(d, aes(x = obs, y = dsr, label = txt)) +

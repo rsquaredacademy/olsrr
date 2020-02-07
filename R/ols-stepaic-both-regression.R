@@ -66,12 +66,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
   check_logic(details)
   check_npredictors(model, 3)
 
-  response <-
-    model %>%
-    use_series(model) %>%
-    names() %>%
-    extract(1)
-
+  response   <- names(model$model)[1]
   l          <- mod_sel_data(model)
   nam        <- coeff_names(model)
   predictors <- nam
@@ -359,28 +354,13 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, ...) {
 
   predictors <- x$predictors
 
-  y <-
-    x %>%
-    use_series(aic) %>%
-    length() %>%
-    seq_len(.)
-
+  y     <- seq_len(length(x$aic))
   xloc  <- y - 0.1
   yloc  <- x$aic - 0.2
   xmin  <- min(y) - 0.4
   xmax  <- max(y) + 1
-
-  ymin <-
-    x %>%
-    use_series(aic) %>%
-    min() %>%
-    subtract(1)
-
-  ymax <-
-    x %>%
-    use_series(aic) %>%
-    max() %>%
-    add(1)
+  ymin  <- min(x$aic) - 1
+  ymax  <- max(x$aic) + 1
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
   d  <- data.frame(a = y, b = x$aic)

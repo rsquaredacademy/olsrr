@@ -108,15 +108,8 @@ peanova <- function(model) {
   pred_name <- comp$pred_name
   dep_name  <- comp$resp
 
-  lackoffit <-
-    final %>%
-    use_series(lfit) %>%
-    sum()
-
-  random_error <-
-    final %>%
-    use_series(rerror) %>%
-    sum()
+  lackoffit <- sum(final$lfit)
+  random_error <- sum(final$rerror)
 
   rss      <- rss_model(model)
   ess      <- sum(lackoffit, random_error)
@@ -148,16 +141,8 @@ peanova <- function(model) {
 pea_data <- function(model) {
 
   data <- model.frame(model)
-
-  pred_name <-
-    data %>%
-    names() %>%
-    extract(2)
-
-  resp <-
-    data %>%
-    names() %>%
-    extract(1)
+  pred_name <- names(data)[2]
+  resp <- names(data)[1]
 
   pred_u    <- pred_table(model)
   mean_pred <- predictor_mean(data, pred_name)
@@ -173,20 +158,11 @@ pea_data <- function(model) {
 
 #' @importFrom dplyr pull
 pred_table <- function(model) {
-
   table(model.frame(model)[[2]])
-
-  # model %>%
-  #   model.frame() %>%
-  #   pull(2) %>%
-  #   table()
-
 }
 
 pred_table_length <- function(model) {
-
   length(pred_table(model))
-
 }
 
 #' @importFrom rlang sym
@@ -201,19 +177,15 @@ predictor_mean <- function(data, pred_name) {
 }
 
 rss_model <- function(model) {
-
   anova(model)[1, 2]
-
 }
 
 
 replicate_mean <- function(mean_pred, pred_u) {
 
-  mean_pred %>%
-    extract2(2) %>%
-    rep(times = pred_u) %>%
-    as.data.frame() %>%
-    set_colnames("ybar")
+  out <- as.data.frame(rep(mean_pred[[2]], times = pred_u))
+  colnames(out) <- c("ybar")
+  return(out)
 
 }
 

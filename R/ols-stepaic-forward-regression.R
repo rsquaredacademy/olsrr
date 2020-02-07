@@ -65,12 +65,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
   check_logic(details)
   check_npredictors(model, 3)
 
-  response <-
-    model %>%
-    use_series(model) %>%
-    names() %>%
-    extract(1)
-
+  response <- names(model$model)[1]
   l        <- mod_sel_data(model)
   nam      <- coeff_names(model)
   all_pred <- nam
@@ -337,19 +332,9 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
   yloc <- x$aics - 0.2
   xmin <- min(y) - 1
   xmax <- max(y) + 1
-
-  ymin <-
-    x %>%
-    use_series(aic) %>%
-    min() %>%
-    subtract(1)
-
-  ymax <-
-    x %>%
-    use_series(aic) %>%
-    max() %>%
-    add(1)
-
+  ymin <- min(x$aic) - 1
+  ymax <- max(x$aic) + 1
+  
   predictors <- x$predictors
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)

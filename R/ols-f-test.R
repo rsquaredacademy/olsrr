@@ -66,19 +66,10 @@ ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
     fitted_values <- FALSE
   }
 
-  l <- ols_prep_avplot_data(model)
-
-  nam <-
-    l %>%
-    names() %>%
-    extract(-1)
-
-  resp <-
-    l %>%
-    names() %>%
-    extract(1)
-
-  n <- nrow(l)
+  l    <- ols_prep_avplot_data(model)
+  nam  <- names(l)[-1]
+  resp <- names(l)[1]
+  n    <- nrow(l)
 
   if (rhs) {
     fitted_values <- FALSE
@@ -128,74 +119,39 @@ print.ols_test_f <- function(x, ...) {
 frhs <- function(nam, model, n, l) {
 
   fstatistic <- NULL
+  np         <- length(nam)
+  var_resid  <- (model_rss(model) / n) - 1
+  ind        <- (residuals(model) ^ 2) / var_resid
+  l          <- cbind(l, ind)
+  mdata      <- l[-1]
 
-  np <- length(nam)
-
-  var_resid <-
-    model_rss(model) %>%
-    divide_by(n) %>%
-    subtract(1)
-
-  ind <- model %>%
-    residuals() %>%
-    raise_to_power(2) %>%
-    divide_by(var_resid)
-
-  l     <- cbind(l, ind)
-  mdata <- l[-1]
-
-  lm(ind ~ ., data = mdata) %>%
-    summary() %>%
-    use_series(fstatistic)
+  summary(lm(ind ~ ., data = mdata))$fstatistic 
 
 }
 
 fvar <- function(n, l, model, vars) {
 
   fstatistic <- NULL
+  var_resid  <- (model_rss(model) / n) - 1
+  ind        <- (residuals(model) ^ 2) / var_resid
+  mdata      <- l[-1]
+  dl         <- mdata[, vars]
+  dk         <- as.data.frame(cbind(ind, dl))
 
-  var_resid <-
-    model_rss(model) %>%
-    divide_by(n) %>%
-    subtract(1)
-
-  ind <- model %>%
-    residuals() %>%
-    raise_to_power(2) %>%
-    divide_by(var_resid)
-
-  mdata <- l[-1]
-  dl    <- mdata[, vars]
-  dk    <- as.data.frame(cbind(ind, dl))
-
-  lm(ind ~ ., data = dk) %>%
-    summary() %>%
-    use_series(fstatistic)
+  summary(lm(ind ~ ., data = dk))$fstatistic
 
 }
 
 ffit <- function(model) {
 
-  fstatistic <- NULL
-
-  pred     <- fitted(model)
-  pred_len <- length(pred)
-
-  resid <-
-    model %>%
-    use_series(residuals) %>%
-    raise_to_power(2)
-
-  avg_resid <-
-    resid %>%
-    sum() %>%
-    divide_by(pred_len)
-
+  fstatistic   <- NULL
+  pred         <- fitted(model)
+  pred_len     <- length(pred)
+  resid        <- model$residuals ^ 2
+  avg_resid    <- sum(resid) / pred_len
   scaled_resid <- resid / avg_resid
 
-  lm(scaled_resid ~ pred) %>%
-    summary() %>%
-    use_series(fstatistic)
+  summary(lm(scaled_resid ~ pred))$fstatistic
 
 }
 

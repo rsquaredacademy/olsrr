@@ -75,12 +75,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
   check_values(prem, 0, 1)
   check_npredictors(model, 3)
 
-  response <-
-    model %>%
-    use_series(model) %>%
-    names() %>%
-    extract(1)
-
+  response <- names(model$model)[1]
   l        <- eval(model$call$data)
   nam      <- colnames(attr(model$terms, "factors"))
   df       <- nrow(l) - 2

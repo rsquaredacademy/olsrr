@@ -68,16 +68,11 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
   check_logic(details)
   check_npredictors(model, 3)
 
-  response <-
-    model %>%
-    use_series(model) %>%
-    names() %>%
-    extract(1)
-
-  l     <- mod_sel_data(model)
-  nam   <- coeff_names(model)
-  preds <- nam
-  aic_f <- ols_aic(model)
+  response <- names(model$model)[1]
+  l        <- mod_sel_data(model)
+  nam      <- coeff_names(model)
+  preds    <- nam
+  aic_f    <- ols_aic(model)
 
   mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")),
                     data = l)
@@ -318,37 +313,14 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
   a     <- NULL
   b     <- NULL
 
-  y <- c(0, seq_len(x$steps))
-    
+     y <- c(0, seq_len(x$steps))
   xloc <- y - 0.1
-
-  yloc <-
-    x %>%
-    use_series(aics) %>%
-    subtract(0.2)
-
-  xmin <-
-    y %>%
-    min() %>%
-    subtract(0.4)
-
-  xmax <-
-    y %>%
-    max() %>%
-    add(1)
-
-  ymin <-
-    x %>%
-    use_series(aics) %>%
-    min() %>%
-    subtract(1)
-
-  ymax <-
-    x %>%
-    use_series(aics) %>%
-    max() %>%
-    add(1)
-
+  yloc <- x$aics - 0.2
+  xmin <- min(y) - 0.4
+  xmax <- max(y) + 1
+  ymin <- min(x$aics) - 1
+  ymax <- max(x$aics) + 1
+  
   predictors <- c("Full Model", x$predictors)
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)

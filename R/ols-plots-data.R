@@ -14,22 +14,10 @@
 #'
 ols_prep_avplot_data <- function(model) {
 
-  m1 <-
-    model %>%
-    model.frame() %>%
-    as.data.frame()
-
-  m2 <-
-    model %>%
-    model.matrix() %>%
-    as.data.frame() %>%
-    select(-1)
-
-  m1 %>%
-    select(1) %>%
-    cbind(m2) %>%
-    as.data.frame()
-
+  m1 <- as.data.frame(model.frame(model))
+  m2 <- as.data.frame(model.matrix(model))[, -1]
+  as.data.frame(cbind(m1[, 1], m2))
+  
 }
 
 #' Regress predictor on other predictors
@@ -52,8 +40,7 @@ ols_prep_regress_x <- function(data, i) {
 
   x <- remove_columns(data, i)
   y <- select_columns(data, i)
-  lsfit(x, y) %>%
-    use_series(residuals)
+  lsfit(x, y)$residuals
 
 }
 
@@ -75,8 +62,7 @@ ols_prep_regress_y <- function(data, i) {
 
   x <- remove_columns(data, i)
   y <- select_columns(data)
-  lsfit(x, y) %>%
-    use_series(residuals)
+  lsfit(x, y)$residuals
 
 }
 
@@ -112,10 +98,7 @@ ols_prep_cdplot_data <- function(model) {
         ordered(levels = c("normal", "outlier"))
     )
 
-  maxx <-
-    cooks_max %>%
-    multiply_by(0.01) %>%
-    add(cooks_max)
+  maxx <- cooks_max * 0.01 + cooks_max
 
   list(ckd = ckd, maxx = maxx, ts = ts)
 
@@ -140,11 +123,9 @@ ols_prep_outlier_obs <- function(k) {
   color <- NULL
   obs   <- NULL
 
-  k %>%
-    use_series(ckd) %>%
-    mutate(
-      txt = ifelse(color == "outlier", obs, NA)
-    )
+  data <- k$ckd
+  data$txt <- ifelse(data$color == "outlier", data$obs, NA)
+  return(data)
 
 }
 
@@ -168,13 +149,8 @@ ols_prep_cdplot_outliers <- function(k) {
   obs   <- NULL
   cd    <- NULL
 
-  k %>%
-    use_series(ckd) %>%
-    filter(
-      color == "outlier"
-    ) %>%
-    select(obs, cd) %>%
-    set_colnames(c("observation", "cooks_distance"))
+  result <- k$ckd[color == "outlier", c("obs", "cd")]
+  names(result) <- c("observation", "cooks_distance")
 
 }
 
@@ -237,11 +213,7 @@ ols_prep_dfbeta_outliers <- function(d) {
   obs    <- NULL
   dbetas <- NULL
 
-  d %>%
-    filter(
-      color == "outlier"
-    ) %>%
-    select(obs, dbetas)
+  d[color == "outlier", c("obs", "dbetas")]
 
 }
 
@@ -262,17 +234,12 @@ ols_prep_dfbeta_outliers <- function(d) {
 #'
 ols_prep_dsrvf_data <- function(model) {
 
-  dsr   <- NULL
-  color <- NULL
-  pred  <- fitted(model)
-
-  dsresid <-
-    model %>%
-    rstudent() %>%
-    unname()
-
-  n  <- length(dsresid)
-  ds <- data.frame(obs = seq_len(n), dsr = dsresid)
+  dsr     <- NULL
+  color   <- NULL
+  pred    <- fitted(model)
+  dsresid <- unname(rstudent(model))
+  n       <- length(dsresid)
+  ds      <- data.frame(obs = seq_len(n), dsr = dsresid)
 
   ds %<>%
     mutate(
@@ -283,23 +250,13 @@ ols_prep_dsrvf_data <- function(model) {
     )
 
   ds2 <- data.frame(obs       = seq_len(n),
-                pred      = pred,
-                dsr       = ds$dsr,
-                color     = ds$color,
-                fct_color = ds$fct_color)
+                    pred      = pred,
+                    dsr       = ds$dsr,
+                    color     = ds$color,
+                    fct_color = ds$fct_color)
 
-  minx <-
-    ds2 %>%
-    use_series(dsr) %>%
-    min() %>%
-    subtract(1)
-
-  maxx <-
-    ds2 %>%
-    use_series(dsr) %>%
-    max() %>%
-    add(1)
-
+  minx <- min(ds2$dsr) - 1
+  maxx <- max(ds2$dsr) + 1
   cminx <- ifelse(minx < -2, minx, -2.5)
   cmaxx <- ifelse(maxx > 2, maxx, 2.5)
 
@@ -360,23 +317,10 @@ ols_prep_rfsplot_rsdata <- function(model) {
 #'
 ols_prep_rvsrplot_data <- function(model) {
 
-  np <-
-    model %>%
-    coefficients() %>%
-    length() %>%
-    subtract(1)
-
-  dat <-
-    model %>%
-    model.frame() %>%
-    select(-1)
-
-  pnames <-
-    model %>%
-    coefficients() %>%
-    names() %>%
-    extract(-1)
-
+  np     <- length(coefficients(model)) - 1
+  dat    <- model.frame(model)[, -1]
+  pnames <- names(coefficients(model))[-1]
+    
   list(np = np, dat = dat, pnames = pnames)
 
 }
@@ -399,44 +343,16 @@ ols_prep_rstudlev_data <- function(model) {
 
   color <- NULL
 
-  leverage <-
-    model %>%
-    hatvalues() %>%
-    unname()
-
-  rstudent <-
-    model %>%
-    rstudent() %>%
-    unname()
-
-  k <-
-    model %>%
-    coefficients() %>%
-    length()
-
-  n <-
-    model %>%
-    model.frame() %>%
-    nrow()
-
-  lev_thrsh <-
-    2 %>%
-    multiply_by(k) %>%
-    divide_by(n)
-
+  leverage  <- unname(hatvalues(model))
+  rstudent  <- unname(rstudent(model))
+  k         <- length(coefficients(model))
+  n         <- nrow(model.frame(model))
+  lev_thrsh <- (2 * k) / n
   rst_thrsh <- 2
+  miny      <- min(rstudent) - 3
+  maxy      <- max(rstudent) + 3
+  minx      <- min(leverage)
 
-  miny <-
-    rstudent %>%
-    min() %>%
-    subtract(3)
-
-  maxy <-
-    rstudent %>%
-    max() %>%
-    add(3)
-
-  minx <- min(leverage)
   maxx <- ifelse((max(leverage) > lev_thrsh), max(leverage),
                  (lev_thrsh + 0.05))
 
@@ -486,17 +402,9 @@ ols_prep_rstudlev_data <- function(model) {
 ols_prep_srplot_data<- function(model) {
 
   color <- NULL
-
-  dstud <-
-    model %>%
-    rstudent() %>%
-    unname()
-
-  obs <-
-    dstud %>%
-    length() %>%
-    seq_len(.)
-
+  dstud <- unname(rstudent(model))
+  obs   <- seq_len(length(dstud))
+    
   dsr <-
     data.frame(obs = obs, dsr = dstud) %>%
     mutate(
@@ -506,37 +414,13 @@ ols_prep_srplot_data<- function(model) {
         ordered(levels = c("normal", "outlier"))
     )
 
-  cminxx <-
-    dsr %>%
-    use_series(dsr) %>%
-    min() %>%
-    subtract(1) %>%
-    floor(.)
-
-  cmaxxx <-
-    dsr %>%
-    use_series(dsr) %>%
-    max() %>%
-    subtract(1) %>%
-    floor(.)
-
-  cminx <- ifelse(cminxx > -3, -3, cminxx)
-  cmaxx <- ifelse(cmaxxx < 3, 3, cmaxxx)
-
-  nseq <-
-    0 %>%
-    add(cminx) %>%
-    add(1) %>%
-    abs() %>%
-    seq_len(.) %>%
-    multiply_by(-1)
-
-  pseq <-
-    0 %>%
-    add(cmaxx) %>%
-    subtract(1) %>%
-    seq_len(.)
-
+  cminxx <- floor(min(dsr$dsr) - 1)
+  cmaxxx <- floor(max(dsr$dsr) - 1)
+  cminx  <- ifelse(cminxx > -3, -3, cminxx)
+  cmaxx  <- ifelse(cmaxxx < 3, 3, cmaxxx)
+  nseq   <- seq_len(abs(cminx + 1)) * -1
+  pseq   <- seq_len(cmaxx - 1)
+    
   list(cminx = cminx,
        cmaxx = cmaxx,
        nseq  = nseq,
@@ -563,22 +447,11 @@ ols_prep_srchart_data <- function(model) {
 
   color <- NULL
 
-  sdres <- rstandard(model)
-
-  sdres_out <-
-    sdres %>%
-    abs() %>%
-    is_greater_than(2)
-
-  outlier <-
-    sdres %>%
-    extract(sdres_out)
-
-  obs <-
-    sdres %>%
-    length() %>%
-    seq_len(.)
-
+  sdres     <- rstandard(model)
+  sdres_out <- abs(sdres) > 2
+  outlier   <- sdres[sdres_out]
+  obs       <- seq_len(length(sdres))
+    
   data.frame(obs = obs, sdres = sdres) %>%
     mutate(
       color = ifelse(((sdres >= 2) | (sdres <= -2)), c("outlier"), c("normal")),

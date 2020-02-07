@@ -53,9 +53,5 @@ ols_potrsd_plot <- function(model) {
 
 
 hadio <- function(model, n) {
-
-  model %>%
-    ols_hadi() %>%
-    extract2(n)
-
+  ols_hadi(model)[[n]]
 }

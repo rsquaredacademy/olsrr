@@ -23,11 +23,8 @@ ols_plot_resid_box <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  resid <-
-    model %>%
-    residuals()
-
-  d <- data.frame(resid = resid)
+  resid <- residuals(model)
+  d     <- data.frame(resid = resid)
 
   p <-
     ggplot(d, aes(x = factor(0), y = resid)) +

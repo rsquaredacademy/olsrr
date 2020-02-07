@@ -24,22 +24,11 @@ ols_plot_response <- function(model, print_plot = TRUE) {
   x <- NULL
   y <- NULL
 
-  nam <-
-    model %>%
-    model.frame() %>%
-    names()
+  nam       <- names(model.frame(model))
+  predictor <- model.response(model.frame(model))
+  xval      <- seq_len(length(predictor))
+  d1        <- data.frame(x = predictor)
 
-  predictor <-
-    model %>%
-    model.frame() %>%
-    model.response()
-
-  xval <-
-    predictor %>%
-    length() %>%
-    seq_len(.)
-
-  d1 <- data.frame(x = predictor)
   p1 <- ggplot(d1, aes(x = x)) +
     geom_dotplot(binwidth = 1, fill = "blue") +
     xlab(nam[1]) + ggtitle(paste("Dot Plot of", nam[1]))

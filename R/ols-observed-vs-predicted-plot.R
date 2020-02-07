@@ -28,16 +28,10 @@ ols_plot_obs_fit <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x <- NULL
-  y <- NULL
-
-  oname <-
-    model %>%
-    model.frame() %>%
-    names() %>%
-    extract(1)
-
-  d <- obspred(model)
+  x     <- NULL
+  y     <- NULL
+  oname <- names(model.frame(model))[1]
+  d     <- obspred(model)
 
   p <-
     ggplot(d, aes(x = x, y = y)) +
@@ -68,11 +62,7 @@ ols_ovsp_plot <- function(model) {
 obspred <- function(model) {
 
   y <- fitted(model)
-  x <-
-    model %>%
-    model.frame() %>%
-    extract2(1)
-
+  x <- model.frame(model)[[1]]
   data.frame(x, y)
 
 }

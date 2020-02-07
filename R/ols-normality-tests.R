@@ -39,22 +39,10 @@ ols_corr_test <- function(model) {
 
 corrout <- function(model) {
 
-  n <- model_rows(model)
-
-  stderr <-
-    model %>%
-    summary() %>%
-    extract2(6)
-
-  h <-
-    n %>%
-    seq_len(.) %>%
-    ka(stderr = stderr, n = n)
-
-  out <-
-    model %>%
-    residuals() %>%
-    sort()
+  n      <- model_rows(model)
+  stderr <- summary(model)[[6]]
+  h      <- ka(seq_len(n), stderr = stderr, n = n)
+  out    <- sort(residuals(model))
 
   cor(h, out)
 
