@@ -14,9 +14,9 @@
 #'
 ols_prep_avplot_data <- function(model) {
 
-  m1 <- as.data.frame(model.frame(model))
+  m1 <- as.data.frame(model.frame(model))[1]
   m2 <- as.data.frame(model.matrix(model))[, -1]
-  as.data.frame(cbind(m1[, 1], m2))
+  as.data.frame(cbind(m1, m2))
   
 }
 
