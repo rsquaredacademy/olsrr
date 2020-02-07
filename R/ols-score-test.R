@@ -102,10 +102,9 @@ print.ols_test_score <- function(x, ...) {
 
 rhsout <- function(model) {
 
-  l   <- ols_prep_avplot_data(model)
-  n   <- nrow(l)
-  nam <- names(l)[-1]
-
+  l         <- ols_prep_avplot_data(model)
+  n         <- nrow(l)
+  nam       <- names(l)[-1]
   np        <- length(nam)
   var_resid <- residual_var(model, n)
   ind       <- ind_score(model, var_resid)
@@ -170,8 +169,7 @@ rhs_score <- function(l, ind, n) {
 
 fit_score <- function(model) {
 
-  r.squared <- NULL
-
+  r.squared    <- NULL
   pred         <- fitted(model)
   scaled_resid <- resid_scaled(model, pred)
   l            <- ols_prep_avplot_data(model)
@@ -199,17 +197,13 @@ var_score <- function(model, vars) {
 
 score_data <- function(model, vars) {
 
-  l         <- ols_prep_avplot_data(model)
-  n         <- nrow(l)
-  var_resid <- residual_var(model, n)
-
-  ind <- as.data.frame(ind_score(model, var_resid)) 
+  l              <- ols_prep_avplot_data(model)
+  n              <- nrow(l)
+  var_resid      <- residual_var(model, n)
+  ind            <- as.data.frame(ind_score(model, var_resid)) 
   colnames(ind)  <- c("ind")
 
-  l %>%
-    select(!!! syms(vars)) %>%
-    cbind(ind)
-
+  cbind(l[, vars], ind)
 }
 
 

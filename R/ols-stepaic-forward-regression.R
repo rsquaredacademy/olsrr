@@ -107,7 +107,6 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
   }
 
   da <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-  # da2 <- arrange(da, desc(rss))
   da2 <- da[order(-da$rss), ]
 
   if (details) {

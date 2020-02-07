@@ -167,10 +167,9 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
     for (i in seq_len(len_p)) {
 
       predictors <- c(preds, all_pred[i])
-      m <- lm(paste(response, "~",
-                             paste(predictors, collapse = " + ")), l)
-      m_sum <- Anova(m)
-      pvals[i] <- m_sum$`Pr(>F)`[ppos]
+      m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+      m_sum      <- Anova(m)
+      pvals[i]   <- m_sum$`Pr(>F)`[ppos]
     }
 
     minp  <- which(pvals == min(pvals, na.rm = TRUE))
@@ -180,8 +179,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
       step   <- step + 1
       preds  <- c(preds, all_pred[minp])
       lpreds <- length(preds)
-      fr     <- ols_regress(paste(response, "~",
-                                  paste(preds, collapse = " + ")), l)
+      fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))

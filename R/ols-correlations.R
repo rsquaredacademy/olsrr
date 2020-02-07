@@ -61,22 +61,12 @@ cordata <- function(model) {
 }
 
 cmdata <- function(mdata) {
-
   cor(mdata)[-1, 1]
-  # mdata %>%
-  #   cor() %>%
-  #   `[`(-1, 1)
-
 }
 
 rtwo <- function(i, mdata) {
-
   dat <- mdata[, c(-1, -i)]
-    # mdata %>%
-    # select(-1, -i)
-
   summary(lm(mdata[[1]] ~ ., data = dat))[[8]]
-
 }
 
 corsign <- function(model) {

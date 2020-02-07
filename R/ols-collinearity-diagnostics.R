@@ -168,8 +168,8 @@ pveindex <- function(z) {
   phi_diag <- diag(1 / svdxd)
   phi      <- svdx$v %*% phi_diag
   ph       <- t(phi ^ 2)
-    
   diag_sum <- diag(rowSums(ph, dims = 1))
+  
   prop.table(ph %*% diag_sum, margin = 2)
 
 }

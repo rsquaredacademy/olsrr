@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-#' ols_plot_resid_regressor(model, drat)
+#' ols_plot_resid_regressor(model, 'drat')
 #'
 #' @seealso [ols_plot_added_variable()], [ols_plot_comp_plus_resid()]
 #'
@@ -25,20 +25,14 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
 
   check_model(model)
 
-  x <- NULL
-  y <- NULL
-
-  d        <- ols_prep_rvsrplot_data(model)
-  varyable <- enquo(variable)
-
-  inter <-
-    eval(model$call$data) %>%
-    select(!! varyable)
-
-  x <- pull(inter, 1)
-  y <- residuals(model)
-  v <- names(inter)
-  k <- data.frame(x = x, y = y)
+  x     <- NULL
+  y     <- NULL
+  d     <- ols_prep_rvsrplot_data(model)
+  inter <- eval(model$call$data)[variable]
+  x     <- inter[[1]]
+  y     <- residuals(model)
+  v     <- names(inter)
+  k     <- data.frame(x = x, y = y)
 
   p <-
     ggplot(k, aes(x = x, y = y)) +

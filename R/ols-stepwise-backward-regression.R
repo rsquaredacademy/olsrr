@@ -108,7 +108,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
   }
 
   while (!end) {
-    m <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
+    m     <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
     m_sum <- Anova(m)
     pvals <- m_sum$`Pr(>F)`
     maxp  <- which(pvals == max(pvals, na.rm = TRUE))
@@ -120,8 +120,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
         rpred  <- c(rpred, preds[maxp])
         preds  <- preds[-maxp]
         lp     <- length(rpred)
-        fr     <- ols_regress(paste(response, "~",
-                                paste(preds, collapse = " + ")), l)
+        fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
         rsq    <- c(rsq, fr$rsq)
         adjrsq <- c(adjrsq, fr$adjr)
         aic    <- c(aic, ols_aic(fr$model))

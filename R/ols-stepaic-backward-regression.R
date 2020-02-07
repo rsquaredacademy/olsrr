@@ -74,9 +74,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
   preds    <- nam
   aic_f    <- ols_aic(model)
 
-  mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")),
-                    data = l)
-
+  mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
   rss_f <- mi$rss
   laic  <- aic_f
   lrss  <- rss_f

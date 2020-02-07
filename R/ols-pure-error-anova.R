@@ -107,8 +107,8 @@ peanova <- function(model) {
   mean_pred <- comp$mean_pred
   pred_name <- comp$pred_name
   dep_name  <- comp$resp
-
   lackoffit <- sum(final$lfit)
+  
   random_error <- sum(final$rerror)
 
   rss      <- rss_model(model)
@@ -135,17 +135,15 @@ peanova <- function(model) {
     preds = pred_name
   )
 
-
 }
 
 pea_data <- function(model) {
 
-  data <- model.frame(model)
+  data      <- model.frame(model)
   pred_name <- names(data)[2]
-  resp <- names(data)[1]
-
+  resp      <- names(data)[1]
   pred_u    <- pred_table(model)
-  mean_pred <- predictor_mean(data, pred_name)
+  mean_pred <- predictor_mean(data, pred_name, resp)
   mean_rep  <- replicate_mean(mean_pred, pred_u)
   result    <- pea_data_comp(data, model, mean_rep)
 
@@ -167,12 +165,26 @@ pred_table_length <- function(model) {
 
 #' @importFrom rlang sym
 #' @importFrom dplyr select_all 
-predictor_mean <- function(data, pred_name) {
+predictor_mean <- function(data, pred_name, resp) {
 
-  data %>%
-    group_by(!! sym(pred_name)) %>%
-    select_all() %>%
-    summarise_all(list(mean = mean))
+  is_dt   <- is.data.table(data)
+  d_class <- class(data)
+
+  if(!is_dt) {
+    data <- data.table(data)
+  }
+
+  out <- data[, list(mean = mean(get(resp))), by = pred_name]
+  if(!is_dt) {
+    class(out) <- d_class
+  }
+  
+  out[order(out[[1]]), ]
+  
+  # data %>%
+  #   group_by(!! sym(pred_name)) %>%
+  #   select_all() %>%
+  #   summarise_all(list(mean = mean))
 
 }
 
