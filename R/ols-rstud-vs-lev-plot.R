@@ -12,7 +12,6 @@
 #' model <- lm(read ~ write + math + science, data = hsb)
 #' ols_plot_resid_lev(model)
 #'
-#' @importFrom dplyr filter
 #' @importFrom ggplot2 geom_vline
 #'
 #' @seealso [ols_plot_resid_stud_fit()], [ols_plot_resid_lev()]
@@ -23,43 +22,23 @@ ols_plot_resid_lev <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  lev_thrsh <- NULL
-  fct_color <- NULL
-  leverage  <- NULL
-  levrstud  <- NULL
-  txt       <- NULL
-  obs       <- NULL
-  color     <- NULL
-
-  resp <-
-    model %>%
-    model.frame() %>%
-    names() %>%
-    extract(1)
-
-  title <- paste("Outlier and Leverage Diagnostics for", resp)
-  g     <- ols_prep_rstudlev_data(model)
-
-  ann_paste <-
-    g %>%
-    use_series(lev_thrsh) %>%
-    round(3)
-
-  ann_label <- paste("Threshold:", ann_paste)
-
-  d <-
-    g %>%
-    use_series(levrstud) %>%
-    mutate(
-      txt = ifelse(color == "normal", NA, obs)
-    )
-
-  f <-
-    d %>%
-    filter(color == "outlier") %>%
-    select(obs, leverage, rstudent) %>%
-    set_colnames(c("observation", "leverage", "stud_resid"))
-
+  lev_thrsh   <- NULL
+  fct_color   <- NULL
+  leverage    <- NULL
+  levrstud    <- NULL
+  txt         <- NULL
+  obs         <- NULL
+  color       <- NULL
+  resp        <- names(model.frame(model))[1]
+  title       <- paste("Outlier and Leverage Diagnostics for", resp)
+  g           <- ols_prep_rstudlev_data(model)
+  ann_paste   <- round(g$lev_thrsh, 3)
+  ann_label   <- paste("Threshold:", ann_paste)
+  d           <- g$levrstud
+  d$txt       <- ifelse(d$color == "normal", NA, d$obs)
+  f           <- d[d$color == "outlier", c("obs", "leverage", "rstudent")]
+  colnames(f) <- c("observation", "leverage", "stud_resid")
+    
   p <-
     ggplot(d, aes(leverage, rstudent, label = txt)) +
     geom_point(shape = 1, aes(colour = fct_color)) +

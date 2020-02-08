@@ -12,15 +12,12 @@ Depends:
 Imports: 
     car,
     data.table,
-    dplyr,
     ggplot2,
     goftest,
     graphics,
     gridExtra,
-    magrittr,
     nortest,
-    Rcpp,
-    rlang
+    Rcpp
 Suggests:
     covr,
     descriptr,

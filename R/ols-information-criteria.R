@@ -204,11 +204,7 @@ ols_sbic <- function(model, full_model) {
   n <- model_rows(model)
   p <- anova_coeffs(model)
   r <- full_model_coeffs(full_model)
-
-  q <-
-    q1(full_model, r) %>%
-    divide_by(q2(model, p)) %>%
-    multiply_by(n)
+  q <- (q1(full_model, r) / (q2(model, p))) * (n)
 
   sbicout(model, n, p, q)
 
@@ -226,12 +222,7 @@ ols_sbic <- function(model, full_model) {
 #' @noRd
 #'
 q1 <- function(full_model, r) {
-
-  full_model %>%
-    anova() %>%
-    extract2(3) %>%
-    extract(r)
-
+  anova(full_model)[[3]][r]
 }
 
 #' Extract sum of squares
@@ -246,12 +237,7 @@ q1 <- function(full_model, r) {
 #' @noRd
 #'
 q2 <- function(model, p) {
-
-  model %>%
-    anova() %>%
-    extract2(2) %>%
-    extract(p)
-
+  anova(model)[[2]][p] 
 }
 
 #' SBIC internal
@@ -271,14 +257,7 @@ sbicout <- function(model, n, p, q) {
 
   a <- (2 * (p + 2) * q)
   b <- (2 * (q ^ 2))
-
-  model %>%
-    model_rss() %>%
-    divide_by(n) %>%
-    log() %>%
-    multiply_by(n) %>%
-    add(a) %>%
-    subtract(b)
+  (log(model_rss(model) / n) * n) + a - b
 
 }
 
@@ -346,17 +325,9 @@ mcpout <- function(model, fullmodel, n, p, q) {
 
   sse <- model_rss(model)
   sec <- (n - (2 * p))
-
-  mse <-
-    fullmodel %>%
-    anova() %>%
-    extract2(3) %>%
-    rev() %>%
-    extract(1)
-
-  sse %>%
-    divide_by(mse) %>%
-    subtract(sec)
+  mse <- rev(anova(fullmodel)[[3]])[1]
+  
+  (sse / mse) - sec
 
 }
 
@@ -414,20 +385,10 @@ ols_msep <- function(model) {
 #'
 sepout <- function(model) {
 
-  n <- model_rows(model)
-  p <- anova_coeffs(model)
-
-  mse <-
-    model %>%
-    anova() %>%
-    extract2(3) %>%
-    extract(p)
-
-  num <-
-    (n + 1) %>%
-    multiply_by((n - 2)) %>%
-    multiply_by(mse)
-
+  n   <- model_rows(model)
+  p   <- anova_coeffs(model)
+  mse <- anova(model)[[2]][p]
+  num <- ((n + 1) * (n - 2)) * mse
   den <- n * (n - p - 1)
 
   num / den
@@ -485,19 +446,10 @@ ols_fpe <- function(model) {
 #'
 jpout <- function(model) {
 
-  n <- model_rows(model)
-  p <- anova_coeffs(model)
-
-  mse <-
-    model %>%
-    anova() %>%
-    extract2(3) %>%
-    extract(p)
-
-  n %>%
-    add(p) %>%
-    divide_by(n) %>%
-    multiply_by(mse)
+  n   <- model_rows(model)
+  p   <- anova_coeffs(model)
+  mse <- anova(model)[[3]][p]
+  ((n + p) / n) * mse
 
 }
 
@@ -547,25 +499,16 @@ ols_apc <- function(model) {
 #'
 #' @param model An object of class \code{lm}.
 #'
-#' @importFrom magrittr multiply_by
-#'
 #' @keywords internal
 #'
 #' @noRd
 #'
 pcout <- function(model) {
 
-  n <- model_rows(model)
-  p <- anova_coeffs(model)
-
-  rse <-
-    model %>%
-    summary() %>%
-    extract2(8)
-
-  (n + p) %>%
-    divide_by((n - p)) %>%
-    multiply_by((1 - rse))
+  n   <- model_rows(model)
+  p   <- anova_coeffs(model)
+  rse <- summary(model)[[8]]
+  ((n + p) / (n - p)) * (1 - rse)
 
 }
 
@@ -610,23 +553,16 @@ ols_hsp <- function(model) {
 #'
 #' @param model An object of class \code{lm}.
 #'
-#' @importFrom magrittr divide_by
-#'
 #' @keywords internal
 #'
 #' @noRd
 #'
 spout <- function(model) {
 
-  n <- model_rows(model)
-  p <- anova_coeffs(model)
-
-  mse <-
-    model %>%
-    anova() %>%
-    extract2(3) %>%
-    extract(p)
-
+  n   <- model_rows(model)
+  p   <- anova_coeffs(model)
+  mse <- anova(model)[[3]][p]
+    
   mse / (n - p - 1)
 
 }
@@ -640,11 +576,7 @@ spout <- function(model) {
 #' @noRd
 #'
 model_rows <- function(model) {
-
-  model %>%
-    model.frame() %>%
-    nrow()
-
+  nrow(model.frame(model))
 }
 
 #' Model Coefficients
@@ -656,30 +588,19 @@ model_rows <- function(model) {
 #' @noRd
 #'
 model_n_coeffs <- function(model) {
-
-  model %>%
-    use_series(coefficients) %>%
-    length()
-
+  length(model$coefficients)
 }
 
 #' Residual sum of squares
 #'
 #' Returns the residual sum of squares.
 #'
-#' @importFrom magrittr raise_to_power
-#'
 #' @param model An object of class \code{lm}.
 #'
 #' @noRd
 #'
 model_rss <- function(model) {
-
-  model %>%
-    residuals() %>%
-    raise_to_power(2) %>%
-    sum()
-
+  sum(residuals(model) ^ 2)
 }
 
 #' Coefficients
@@ -692,12 +613,7 @@ model_rss <- function(model) {
 #' @noRd
 #'
 anova_coeffs <- function(model) {
-
-  model %>%
-    anova() %>%
-    extract2(1) %>%
-    length()
-
+  length(anova(model)[[1]])
 }
 
 #' Number of columns
@@ -709,10 +625,6 @@ anova_coeffs <- function(model) {
 #' @noRd
 #'
 full_model_coeffs <- function(model) {
-
-  model %>%
-    model.frame() %>%
-    length()
-
+  length(model.frame(model)) 
 }
 

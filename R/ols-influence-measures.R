@@ -25,13 +25,8 @@
 #' @export
 #'
 ols_leverage <- function(model) {
-
   check_model(model)
-
-  model %>%
-    hatvalues() %>%
-    unname()
-
+  unname(hatvalues(model))  
 }
 
 
@@ -80,33 +75,15 @@ hadipot <- function(model) {
 
 hadires <- function(model) {
 
-  Df    <- NULL
-  pii   <- 1 - ols_leverage(model)
-  q     <- model$rank
-  p     <- q - 1
-  aov_m <- anova(model)
-
-  j <-
-    aov_m %>%
-    use_series(Df) %>%
-    length()
-
-  den <-
-    aov_m %>%
-    extract(j, 2) %>%
-    sqrt(.)
-
-  dii <-
-    model %>%
-    use_series(residuals) %>%
-    divide_by(den) %>%
-    raise_to_power(2)
-
-  first <-
-    p %>%
-    add(1) %>%
-    divide_by(pii)
-
+  Df     <- NULL
+  pii    <- 1 - ols_leverage(model)
+  q      <- model$rank
+  p      <- q - 1
+  aov_m  <- anova(model)
+  j      <- length(aov_m$Df)
+  den    <- sqrt(aov_m[j, 2])
+  dii    <- (model$residuals / den) ^ 2    
+  first  <- (p + 1) / pii
   second <- dii / (1 - dii)
 
   first * second
@@ -145,16 +122,10 @@ hadires <- function(model) {
 ols_press <- function(model) {
 
   check_model(model)
-
   lev <- ols_leverage(model)
   k   <- 1 - lev
-
-  model %>%
-    residuals() %>%
-    divide_by(k) %>%
-    raise_to_power(2) %>%
-    sum()
-
+  sum((residuals(model) / k) ^ 2) 
+  
 }
 
 #' Predicted rsquare
@@ -179,18 +150,8 @@ ols_press <- function(model) {
 ols_pred_rsq <- function(model) {
 
   check_model(model)
-
-  tss <-
-    model %>%
-    anova() %>%
-    extract2(2) %>%
-    sum()
-
-  prts <-
-    model %>%
-    ols_press() %>%
-    divide_by(tss)
-
+  tss  <- sum(anova(model)[[2]])
+  prts <- ols_press(model) / tss
   1 - prts
 
 }

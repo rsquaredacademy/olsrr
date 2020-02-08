@@ -68,20 +68,13 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
   check_logic(details)
   check_npredictors(model, 3)
 
-  response <-
-    model %>%
-    use_series(model) %>%
-    names() %>%
-    extract(1)
+  response <- names(model$model)[1]
+  l        <- mod_sel_data(model)
+  nam      <- coeff_names(model)
+  preds    <- nam
+  aic_f    <- ols_aic(model)
 
-  l     <- mod_sel_data(model)
-  nam   <- coeff_names(model)
-  preds <- nam
-  aic_f <- ols_aic(model)
-
-  mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")),
-                    data = l)
-
+  mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
   rss_f <- mi$rss
   laic  <- aic_f
   lrss  <- rss_f
@@ -127,7 +120,8 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
   }
 
   da <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-  da2 <- arrange(da, rss)
+  da2 <- da[order(da$rss), ]
+  # da2 <- arrange(da, rss)
 
   if (details) {
     w1 <- max(nchar("Predictor"), nchar(predictors))
@@ -218,7 +212,8 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
 
         da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-        da2 <- arrange(da, rss)
+        da2 <- da[order(da$rss), ]
+        # da2 <- arrange(da, rss)
         w1  <- max(nchar("Predictor"), nchar(predictors))
         w2  <- 2
         w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
@@ -318,37 +313,14 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
   a     <- NULL
   b     <- NULL
 
-  y <- c(0, seq_len(x$steps))
-    
+     y <- c(0, seq_len(x$steps))
   xloc <- y - 0.1
-
-  yloc <-
-    x %>%
-    use_series(aics) %>%
-    subtract(0.2)
-
-  xmin <-
-    y %>%
-    min() %>%
-    subtract(0.4)
-
-  xmax <-
-    y %>%
-    max() %>%
-    add(1)
-
-  ymin <-
-    x %>%
-    use_series(aics) %>%
-    min() %>%
-    subtract(1)
-
-  ymax <-
-    x %>%
-    use_series(aics) %>%
-    max() %>%
-    add(1)
-
+  yloc <- x$aics - 0.2
+  xmin <- min(y) - 0.4
+  xmax <- max(y) + 1
+  ymin <- min(x$aics) - 1
+  ymax <- max(x$aics) + 1
+  
   predictors <- c("Full Model", x$predictors)
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)

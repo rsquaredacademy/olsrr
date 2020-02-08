@@ -9,7 +9,6 @@ vignette: >
 
 ```{r, echo=FALSE, message=FALSE}
 library(olsrr)
-library(dplyr)
 library(ggplot2)
 library(gridExtra)
 library(nortest)

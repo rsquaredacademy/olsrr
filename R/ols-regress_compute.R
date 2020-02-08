@@ -1,5 +1,4 @@
 #' @importFrom stats model.matrix confint.lm
-#' @importFrom magrittr extract2
 #' @importFrom stats as.formula
 reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
 
@@ -52,12 +51,12 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
 
   } else {
 
-    b      <- output$coef[-1, 1]
-    g      <- as.data.frame(model.matrix(model)[, -1])
-    sx     <- sapply(g, sd)
-    sy     <- sapply(model$model[1], sd)
-    sbeta  <- b * sx / sy
-    sbetas <- sbeta
+    b        <- output$coef[-1, 1]
+    g        <- as.data.frame(model.matrix(model)[, -1])
+    sx       <- sapply(g, sd)
+    sy       <- sapply(model$model[1], sd)
+    sbeta    <- b * sx / sy
+    sbetas   <- sbeta
 
   }
 

@@ -35,7 +35,6 @@
 #'   [ols_plot_resid_stud()]
 #'
 #' @importFrom stats fitted rstudent
-#' @importFrom dplyr mutate
 #'
 #' @export
 #'
@@ -43,29 +42,19 @@ ols_plot_resid_stud_fit <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  fct_color <- NULL
-  color     <- NULL
-  pred      <- NULL
-  dsr       <- NULL
-  txt       <- NULL
-  obs       <- NULL
-  ds        <- NULL
-
-  k <- ols_prep_dsrvf_data(model)
-
-  d <-
-    k %>%
-    use_series(ds) %>%
-    mutate(
-      txt = ifelse(color == "outlier", obs, NA)
-    )
-
-  f <-
-    d %>%
-    filter(color == "outlier") %>%
-    select(obs, pred, dsr) %>%
-    set_colnames(c("observation", "fitted_values", "del_stud_resid"))
-
+  fct_color   <- NULL
+  color       <- NULL
+  pred        <- NULL
+  dsr         <- NULL
+  txt         <- NULL
+  obs         <- NULL
+  ds          <- NULL
+  k           <- ols_prep_dsrvf_data(model)
+  d           <- k$ds
+  d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
+  f           <- d[color == "outlier", c("obs", "pred", "dsr")]
+  colnames(f) <- c("observation", "fitted_values", "del_stud_resid")
+    
   p <- ggplot(d, aes(x = pred, y = dsr, label = txt)) +
     geom_point(aes(colour = fct_color)) +
     scale_color_manual(values = c("blue", "red")) +

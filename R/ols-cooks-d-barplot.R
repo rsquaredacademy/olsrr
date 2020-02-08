@@ -36,9 +36,7 @@
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_cooksd_bar(model)
 #'
-#' @importFrom magrittr set_colnames
 #' @importFrom stats cooks.distance
-#' @importFrom dplyr filter select
 #' @importFrom ggplot2 geom_bar coord_flip ylim geom_hline geom_label
 #'
 #' @seealso [ols_plot_cooksd_chart()]

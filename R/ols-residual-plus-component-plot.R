@@ -57,14 +57,7 @@ ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
 cpdata <- function(data, mc, e, i) {
 
   x <- data[[i]]
-
-  y <- ((mc[i] * select(data, i)) + e)[[1]]
-    # mc %>%
-    # extract(i) %>%
-    # multiply_by((data %>%
-    #               select(i))) %>%
-    # add(e) %>%
-    # pull(1)
+  y <- ((mc[i] * data[i]) + e)[[1]]
 
   data.frame(x = x, y = y)
 
@@ -72,27 +65,12 @@ cpdata <- function(data, mc, e, i) {
 
 cpout <- function(model) {
 
-  e <- residuals(model)
-
-  mc <-
-    model %>%
-    coefficients() %>%
-    extract(-1)
-
-  data <-
-    model %>%
-    model.matrix() %>%
-    as.data.frame() %>%
-    select(-1)
-
-  lmc <- length(mc)
-  nam <- names(data)
-
-  indvar <-
-    model %>%
-    model.frame() %>%
-    names() %>%
-    extract(1)
+  e      <- residuals(model)
+  mc     <- coefficients(model)[-1]
+  data   <- as.data.frame(model.matrix(model))[, -1]
+  lmc    <- length(mc)
+  nam    <- names(data)
+  indvar <- names(model.frame(model))[1]
 
   list(e      = e,
        mc     = mc,

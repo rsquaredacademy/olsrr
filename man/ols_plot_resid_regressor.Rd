@@ -27,7 +27,7 @@ adding the new predictor to the model.
 
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_plot_resid_regressor(model, drat)
+ols_plot_resid_regressor(model, 'drat')
 
 }
 \seealso{

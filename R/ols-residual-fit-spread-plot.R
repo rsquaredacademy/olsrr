@@ -42,9 +42,8 @@ ols_plot_resid_fit_spread <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x <- NULL
-  y <- NULL
-
+  x     <- NULL
+  y     <- NULL
   d1    <- ols_prep_rfsplot_fmdata(model)
   ymin1 <- min(d1$y) + (0.25 * min(d1$y))
   ymax1 <- max(d1$y) + (0.25 * max(d1$y))
@@ -76,9 +75,8 @@ ols_plot_fm <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x <- NULL
-  y <- NULL
-
+  x    <- NULL
+  y    <- NULL
   d    <- ols_prep_rfsplot_fmdata(model)
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))
@@ -104,9 +102,8 @@ ols_plot_resid_spread <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x <- NULL
-  y <- NULL
-
+  x    <- NULL
+  y    <- NULL
   d    <- ols_prep_rfsplot_rsdata(model)
   ymin <- min(d$y) + (0.25 * min(d$y))
   ymax <- max(d$y) + (0.25 * max(d$y))

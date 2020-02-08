@@ -27,19 +27,9 @@ ols_plot_hadi <- function(model, print_plot = TRUE) {
   check_model(model)
 
   hadi <- NULL
-
-  hdi <-
-    model %>%
-    ols_hadi() %>%
-    use_series(hadi) %>%
-    unname()
-
-  obs <-
-    hdi %>%
-    length() %>%
-    seq_len(.)
-
-  d <- data.frame(obs = obs, hdi = hdi)
+  hdi  <- unname(ols_hadi(model)$hadi)
+  obs  <- seq_len(length(hdi))
+  d    <- data.frame(obs = obs, hdi = hdi)
 
   p <-
     ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +

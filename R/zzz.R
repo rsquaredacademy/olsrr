@@ -2,15 +2,10 @@
 
   if (!interactive() || stats::runif(1) > 0.1) return()
 
-  pkgs <- utils::available.packages()
-
-  cran_version <-
-    pkgs %>%
-    extract("olsrr", "Version") %>%
-    package_version()
-
+  pkgs          <- utils::available.packages()
+  cran_version  <- package_version(pkgs["olsrr", "Version"])
   local_version <- utils::packageVersion("olsrr")
-  behind_cran <- cran_version > local_version
+  behind_cran   <- cran_version > local_version
 
   tips <- c(
     "Learn more about olsrr at https://github.com/rsquaredacademy/olsrr/.",

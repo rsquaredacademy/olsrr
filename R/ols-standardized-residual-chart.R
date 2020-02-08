@@ -39,12 +39,8 @@ ols_plot_resid_stand <- function(model, print_plot = TRUE) {
   txt   <- NULL
 
   d <- ols_prep_srchart_data(model)
-
-  f <-
-    d %>%
-    filter(color == "outlier") %>%
-    select(obs, sdres) %>%
-    set_colnames(c("observation", "stand_resid"))
+  f <- d[color == "outlier", c("obs", "sdres")]
+  colnames(f) <- c("observation", "stand_resid")
 
   p <-
     ggplot(d, aes(x = obs, y = sdres, label = txt, ymin = 0, ymax = sdres)) +

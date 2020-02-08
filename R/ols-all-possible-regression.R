@@ -46,8 +46,6 @@
 #' plot(k)
 #'
 #' @importFrom utils combn
-#' @importFrom dplyr group_by summarise_all
-#' @importFrom magrittr add use_series
 #'
 #' @export
 #'
@@ -166,7 +164,6 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 #' Generate plots for best subset regression.
 #'
 #' @importFrom ggplot2 ggtitle scale_shape_manual scale_size_manual scale_color_manual ggtitle geom_text
-#' @importFrom rlang enquo !!
 #'
 #' @param d1 A data.frame.
 #' @param d2 A data.frame.
@@ -202,7 +199,6 @@ all_possible_plot <- function(d, var, title = "R-Square") {
 
 }
 
-#' @importFrom dplyr summarise
 #' @import data.table
 all_pos_maxs <- function(d, var, title = "R-Square") {
 

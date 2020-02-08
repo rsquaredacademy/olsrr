@@ -23,9 +23,8 @@ ols_plot_resid_hist <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x <- NULL
-  y <- NULL
-
+  x  <- NULL
+  y  <- NULL
   k  <- histdata(model)
   h  <- hist(k$resid, plot = FALSE)
   l  <- histn(k$resid, h)

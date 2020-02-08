@@ -67,11 +67,7 @@ ols_test_score.default <- function(model, fitted_values = TRUE, rhs = FALSE,
     fitted_values <- FALSE
   }
 
-  resp <-
-    model %>%
-    model.frame() %>%
-    names() %>%
-    extract(1)
+  resp <- names(model.frame(model))[1]
 
   if (rhs) {
     fitted_values <- FALSE
@@ -106,14 +102,9 @@ print.ols_test_score <- function(x, ...) {
 
 rhsout <- function(model) {
 
-  l <- ols_prep_avplot_data(model)
-  n <- nrow(l)
-
-  nam <-
-    l %>%
-    names() %>%
-    extract(-1)
-
+  l         <- ols_prep_avplot_data(model)
+  n         <- nrow(l)
+  nam       <- names(l)[-1]
   np        <- length(nam)
   var_resid <- residual_var(model, n)
   ind       <- ind_score(model, var_resid)
@@ -145,12 +136,7 @@ fitout <- function(model, resp) {
 varout <- function(model, vars) {
 
   score <- var_score(model, vars)
-
-  nd <-
-    score_data(model, vars) %>%
-    ncol() %>%
-    subtract(1)
-
+  nd    <- ncol(score_data(model, vars)) - 1
   p     <- pchisq(score, nd, lower.tail = F)
   np    <- nd
   preds <- vars
@@ -163,66 +149,40 @@ varout <- function(model, vars) {
 }
 
 residual_var <- function(model, n) {
-
-  model %>%
-    residuals() %>%
-    raise_to_power(2) %>%
-    sum() %>%
-    divide_by(n)
-
+  sum(residuals(model) ^ 2) / n
 }
 
 ind_score <- function(model, var_resid) {
 
   vresid <- var_resid - 1
-
-  model %>%
-    residuals() %>%
-    raise_to_power(2) %>%
-    divide_by(vresid)
+  (residuals(model) ^ 2) / vresid
 
 }
 
 rhs_score <- function(l, ind, n) {
 
   r.squared <- NULL
-
   ind <- data.frame(ind = ind)
-
-  cbind(l, ind) %>%
-    select(-1) %>%
-    lm(ind ~ ., data = .) %>%
-    summary() %>%
-    use_series(r.squared) %>%
-    multiply_by(n)
+  (summary(lm(ind ~ ., data = cbind(l, ind)[, -1]))$r.squared) * n
 
 }
 
 fit_score <- function(model) {
 
-  r.squared <- NULL
-
+  r.squared    <- NULL
   pred         <- fitted(model)
   scaled_resid <- resid_scaled(model, pred)
   l            <- ols_prep_avplot_data(model)
   n            <- nrow(l)
 
-  lm(scaled_resid ~ pred) %>%
-    summary() %>%
-    use_series(r.squared) %>%
-    multiply_by(n)
+  (summary(lm(scaled_resid ~ pred))$r.squared) * n
 
 }
 
 resid_scaled <- function(model, pred) {
 
-  resid <-
-    model %>%
-    residuals() %>%
-    raise_to_power(2)
-
+  resid     <- residuals(model) ^ 2
   avg_resid <- sum(resid) / length(pred)
-
   resid / avg_resid
 
 }
@@ -230,35 +190,20 @@ resid_scaled <- function(model, pred) {
 var_score <- function(model, vars) {
 
   r.squared <- NULL
-
-  n <-
-    model %>%
-    ols_prep_avplot_data() %>%
-    nrow()
-
-  score_data(model, vars) %>%
-    lm(ind ~ ., data = .) %>%
-    summary() %>%
-    use_series(r.squared) %>%
-    multiply_by(n)
-
+  n <- nrow(ols_prep_avplot_data(model)) 
+  (summary(lm(ind ~ ., data = score_data(model, vars)))$r.squared) * n
+    
 }
 
 score_data <- function(model, vars) {
 
-  l         <- ols_prep_avplot_data(model)
-  n         <- nrow(l)
-  var_resid <- residual_var(model, n)
+  l              <- ols_prep_avplot_data(model)
+  n              <- nrow(l)
+  var_resid      <- residual_var(model, n)
+  ind            <- as.data.frame(ind_score(model, var_resid)) 
+  colnames(ind)  <- c("ind")
 
-  ind <-
-    ind_score(model, var_resid) %>%
-    as.data.frame() %>%
-    set_colnames("ind")
-
-  l %>%
-    select(!!! syms(vars)) %>%
-    cbind(ind)
-
+  cbind(l[, vars], ind)
 }
 
 
