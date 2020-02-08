@@ -1,4 +1,7 @@
-# olsrr 0.5.2.9000
+# olsrr 0.5.3
+
+This is a patch release to reduce the number of packages imported and
+fix other CRAN errors.
 
 ## New Features
 
