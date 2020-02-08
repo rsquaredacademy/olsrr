@@ -58,7 +58,7 @@ test_that("residual vs fitted plot is as expected", {
 
 test_that("residual vs regressor plot is as expected", {
   skip_on_cran()
-  p <- ols_plot_resid_regressor(model, drat)
+  p <- ols_plot_resid_regressor(model, 'drat')
   vdiffr::expect_doppelganger("residual vs regressor plot", p)
 })
 
