@@ -176,11 +176,6 @@ predictor_mean <- function(data, pred_name, resp) {
   }
   
   out[order(out[[1]]), ]
-  
-  # data %>%
-  #   group_by(!! sym(pred_name)) %>%
-  #   select_all() %>%
-  #   summarise_all(list(mean = mean))
 
 }
 
@@ -205,25 +200,13 @@ pea_data_comp <- function(data, model, mean_rep) {
   yhat <- NULL
   y    <- NULL
 
-  data$yhat <- fitted(model)
+  data$yhat      <- fitted(model)
   colnames(data) <- c("y", "pred", "yhat")
-  data <- data[order(data$pred), ]
-  data <- cbind(data, mean_rep)
-  data$lfit <- (data$ybar - data$yhat) ^ 2
-  data$rerror <- (data$y - data$ybar) ^ 2
+  data           <- data[order(data$pred), ]
+  data           <- cbind(data, mean_rep)
+  data$lfit      <- (data$ybar - data$yhat) ^ 2
+  data$rerror    <- (data$y - data$ybar) ^ 2
 
   return(data)
-
-  # data %<>%
-  #   mutate(
-  #     yhat = fitted(model)
-  #   ) %>%
-  #   set_colnames(c("y", "pred", "yhat")) %>%
-  #   arrange(pred) %>%
-  #   cbind(mean_rep) %>%
-  #   mutate(
-  #     lfit   = (ybar - yhat) ^ 2,
-  #     rerror = (y - ybar) ^ 2
-  #   )
 
 }

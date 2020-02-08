@@ -51,50 +51,31 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 
   groupvar  <- group_var
   varyables <- unlist(list(...))
-
-  fdata <- data[varyables]
-    # data %>%
-    # select(!!! varyables)
-
-  var_c <- names(fdata)
+  fdata     <- data[varyables]
+  var_c     <- names(fdata)
 
   if (is.null(groupvar)) {
 
     z  <- as.list(fdata)
     ln <- unname(unlist(lapply(z, length)))
-
     ly <- seq_len(length(z))
-      # z %>%
-      # length() %>%
-      # seq_len(.)
-
+  
     if (length(z) < 2) {
       stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    out   <- gvar(ln, ly)
-    fdata <- unlist(z)
-
+    out       <- gvar(ln, ly)
+    fdata     <- unlist(z)
     groupvars <- as.factor(unlist(out))
-      # out %>%
-      # unlist() %>%
-      # as.factor()
-
+  
     g_var <- NULL
 
   } else {
 
-    fdata <- fdata[[1]]
-
+    fdata     <- fdata[[1]]
     groupvars <- data[[groupvar]]
-      # data %>%
-      # pull(!! groupvar)
-
-    g_var <- names(data[groupvar])
-      # data %>%
-      # select(!! groupvar) %>%
-      # names()
-
+    g_var     <- names(data[groupvar])
+     
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)
     }
