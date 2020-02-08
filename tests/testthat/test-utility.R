@@ -141,7 +141,7 @@ test_that("output from histdata matches the expected result", {
 test_that("output from rstudlev matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- ols_prep_rstudlev_data(model)
-  expect_equal(round(k$lev_thrsh, 3), 0.312)
+  expect_equal(k$lev_thrsh, 0.3125)
   expect_equal(round(k$minx, 3), 0.046)
   expect_equal(round(k$miny, 3), -4.44)
   expect_equal(round(k$maxx, 3), 0.508)
@@ -154,11 +154,9 @@ test_that("output from corrout matches the expected result", {
 })
 
 test_that("output from advarx matches the expected output", {
-  actual <- ols_prep_regress_x(mtcars, 1)
-
-  expected <- lm(mpg ~., data = mtcars) %>%
-    residuals() %>%
-    unname()
-
+  
+  actual   <- ols_prep_regress_x(mtcars, 1)
+  expected <- unname(residuals(lm(mpg ~., data = mtcars)))
+  
   expect_equivalent(actual, expected)
 })
