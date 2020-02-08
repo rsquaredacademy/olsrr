@@ -157,7 +157,6 @@ cindx <- function(e) {
   sqrt(e[1] / e) 
 }
 
-#' @importFrom magrittr multiply_by_matrix
 pveindex <- function(z) {
 
   d     <- NULL

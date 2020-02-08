@@ -44,7 +44,6 @@
 #' # final model
 #' k$model
 #'
-#' @importFrom dplyr desc
 #'
 #' @family variable selection procedures
 #'

@@ -12,7 +12,6 @@
 #' model <- lm(read ~ write + math + science, data = hsb)
 #' ols_plot_resid_lev(model)
 #'
-#' @importFrom dplyr filter
 #' @importFrom ggplot2 geom_vline
 #'
 #' @seealso [ols_plot_resid_stud_fit()], [ols_plot_resid_lev()]
@@ -37,7 +36,7 @@ ols_plot_resid_lev <- function(model, print_plot = TRUE) {
   ann_label   <- paste("Threshold:", ann_paste)
   d           <- g$levrstud
   d$txt       <- ifelse(d$color == "normal", NA, d$obs)
-  f           <- d[color == "outlier", c("obs", "leverage", "rstudent")]
+  f           <- d[d$color == "outlier", c("obs", "leverage", "rstudent")]
   colnames(f) <- c("observation", "leverage", "stud_resid")
     
   p <-

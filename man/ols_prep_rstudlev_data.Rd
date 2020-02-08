@@ -16,4 +16,5 @@ Generates data for studentized resiudual vs leverage plot.
 model <- lm(read ~ write + math + science, data = hsb)
 ols_prep_rstudlev_data(model)
 
+
 }

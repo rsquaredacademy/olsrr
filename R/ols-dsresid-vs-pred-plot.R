@@ -35,7 +35,6 @@
 #'   [ols_plot_resid_stud()]
 #'
 #' @importFrom stats fitted rstudent
-#' @importFrom dplyr mutate
 #'
 #' @export
 #'

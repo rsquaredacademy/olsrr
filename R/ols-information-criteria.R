@@ -499,8 +499,6 @@ ols_apc <- function(model) {
 #'
 #' @param model An object of class \code{lm}.
 #'
-#' @importFrom magrittr multiply_by
-#'
 #' @keywords internal
 #'
 #' @noRd
@@ -555,8 +553,6 @@ ols_hsp <- function(model) {
 #'
 #' @param model An object of class \code{lm}.
 #'
-#' @importFrom magrittr divide_by
-#'
 #' @keywords internal
 #'
 #' @noRd
@@ -598,8 +594,6 @@ model_n_coeffs <- function(model) {
 #' Residual sum of squares
 #'
 #' Returns the residual sum of squares.
-#'
-#' @importFrom magrittr raise_to_power
 #'
 #' @param model An object of class \code{lm}.
 #'

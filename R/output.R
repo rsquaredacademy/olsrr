@@ -511,8 +511,6 @@ print_bp_test <- function(data) {
 }
 
 
-
-#' @importFrom rlang is_null
 print_bartlett_test <- function(data) {
 
   # width
@@ -525,7 +523,7 @@ print_bartlett_test <- function(data) {
   w <- w1 + 19
 
   # variable names
-  if (is_null(data$g_var)) {
+  if (is.null(data$g_var)) {
     ln <- length(data$var_c)
     w2 <- sum(nchar(unlist(lapply(data$var_c, l))))
     w3 <- w2 + ln + 10
@@ -546,7 +544,7 @@ print_bartlett_test <- function(data) {
     "Ha: Variances are unequal for atleast two groups\n\n"
   )
 
-  if (is_null(data$g_var)) {
+  if (is.null(data$g_var)) {
     cat(format("Data", width = w3, justify = "centre"), "\n")
     cat(" ", rep("-", w3), sep = "", "\n")
     cat(" Variables:", unlist(lapply(data$var_c, l)), "\n\n")

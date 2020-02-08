@@ -94,7 +94,6 @@ print.ols_pure_error_anova <- function(x, ...) {
   print_pure_error_anova(x)
 }
 
-#' @importFrom dplyr arrange
 peanova <- function(model) {
 
   lfit   <- NULL
@@ -154,7 +153,6 @@ pea_data <- function(model) {
 
 }
 
-#' @importFrom dplyr pull
 pred_table <- function(model) {
   table(model.frame(model)[[2]])
 }
@@ -163,8 +161,6 @@ pred_table_length <- function(model) {
   length(pred_table(model))
 }
 
-#' @importFrom rlang sym
-#' @importFrom dplyr select_all 
 predictor_mean <- function(data, pred_name, resp) {
 
   is_dt   <- is.data.table(data)

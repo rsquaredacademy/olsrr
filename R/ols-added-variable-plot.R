@@ -50,7 +50,6 @@
 #'
 #' @importFrom stats lm
 #' @importFrom ggplot2 ggplot aes geom_point xlab ylab stat_smooth
-#' @importFrom magrittr %>%
 #' @importFrom gridExtra marrangeGrob
 #'
 #' @seealso [ols_plot_resid_regressor()], [ols_plot_comp_plus_resid()]

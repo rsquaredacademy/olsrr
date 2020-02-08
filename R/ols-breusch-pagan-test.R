@@ -280,9 +280,6 @@ bp_case_6 <- function(l, model) {
 #' * rhs = FALSE
 #' * multiple = FALSE
 #'
-#' @importFrom rlang !!! syms
-#' @importFrom magrittr subtract
-#'
 #' @param l A \code{data.frame} created using `avplots_data()`.
 #' @param model An object of class \code{lm}.
 #' @param vars Variables to be used for the test.

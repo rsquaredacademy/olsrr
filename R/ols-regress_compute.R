@@ -1,5 +1,4 @@
 #' @importFrom stats model.matrix confint.lm
-#' @importFrom magrittr extract2
 #' @importFrom stats as.formula
 reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
 

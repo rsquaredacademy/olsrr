@@ -31,12 +31,11 @@
 #' @examples
 #' # using grouping variable
 #' library(descriptr)
-#' ols_test_bartlett(mtcarz, mpg, group_var = cyl)
+#' ols_test_bartlett(mtcarz, 'mpg', group_var = 'cyl')
 #'
 #' # using variables
-#' ols_test_bartlett(hsb, read, write)
+#' ols_test_bartlett(hsb, 'read', 'write')
 #'
-#' @importFrom rlang quo_is_null quos
 #' @importFrom stats pchisq formula
 #' @useDynLib olsrr, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
@@ -50,24 +49,24 @@ ols_test_bartlett <- function(data, ...) UseMethod("ols_test_bartlett")
 #'
 ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 
-  groupvar  <- enquo(group_var)
-  varyables <- quos(...)
+  groupvar  <- group_var
+  varyables <- unlist(list(...))
 
-  fdata <-
-    data %>%
-    select(!!! varyables)
+  fdata <- data[varyables]
+    # data %>%
+    # select(!!! varyables)
 
   var_c <- names(fdata)
 
-  if (quo_is_null(groupvar)) {
+  if (is.null(groupvar)) {
 
     z  <- as.list(fdata)
     ln <- unname(unlist(lapply(z, length)))
 
-    ly <-
-      z %>%
-      length() %>%
-      seq_len(.)
+    ly <- seq_len(length(z))
+      # z %>%
+      # length() %>%
+      # seq_len(.)
 
     if (length(z) < 2) {
       stop("Please specify at least two variables.", call. = FALSE)
@@ -76,10 +75,10 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
     out   <- gvar(ln, ly)
     fdata <- unlist(z)
 
-    groupvars <-
-      out %>%
-      unlist() %>%
-      as.factor()
+    groupvars <- as.factor(unlist(out))
+      # out %>%
+      # unlist() %>%
+      # as.factor()
 
     g_var <- NULL
 
@@ -87,14 +86,14 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 
     fdata <- fdata[[1]]
 
-    groupvars <- 
-      data %>%
-      pull(!! groupvar)
+    groupvars <- data[[groupvar]]
+      # data %>%
+      # pull(!! groupvar)
 
-    g_var <-
-      data %>%
-      select(!! groupvar) %>%
-      names()
+    g_var <- names(data[groupvar])
+      # data %>%
+      # select(!! groupvar) %>%
+      # names()
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)

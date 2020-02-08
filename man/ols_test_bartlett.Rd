@@ -42,10 +42,10 @@ is an alternative test that is less sensitive to departures from normality.
 \examples{
 # using grouping variable
 library(descriptr)
-ols_test_bartlett(mtcarz, mpg, group_var = cyl)
+ols_test_bartlett(mtcarz, 'mpg', group_var = 'cyl')
 
 # using variables
-ols_test_bartlett(hsb, read, write)
+ols_test_bartlett(hsb, 'read', 'write')
 
 }
 \references{

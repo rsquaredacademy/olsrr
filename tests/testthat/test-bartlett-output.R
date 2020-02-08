@@ -17,7 +17,7 @@ Ha: Variances are unequal for atleast two groups
  Chi2          =    1.222871
  Prob > Chi2   =    0.2687979")
 
-  expect_output(print(ols_test_bartlett(hsb, read, write)), x)
+  expect_output(print(ols_test_bartlett(hsb, 'read', 'write')), x)
 })
 
 
@@ -34,7 +34,7 @@ test_that("output from bartlett test is as expected when using grouping variable
            Chi2          =    1.584876
            Prob > Chi2   =    0.2080597")
 
-  expect_output(print(ols_test_bartlett(descriptr::mtcarz, mpg, group_var = vs)), x)
+  expect_output(print(ols_test_bartlett(descriptr::mtcarz, 'mpg', group_var = 'vs')), x)
 })
 
 

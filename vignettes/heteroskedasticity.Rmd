@@ -9,7 +9,6 @@ vignette: >
 
 ```{r, echo=FALSE, message=FALSE}
 library(olsrr)
-library(dplyr)
 library(ggplot2)
 library(gridExtra)
 library(nortest)
@@ -46,12 +45,12 @@ a formula or a linear model.
 
 #### Use grouping variable
 ```{r bartlett1}
-ols_test_bartlett(hsb, read, group_var = female)
+ols_test_bartlett(hsb, 'read', group_var = 'female')
 ```
 
 #### Using variables
 ```{r bartlett2}
-ols_test_bartlett(hsb, read, write)
+ols_test_bartlett(hsb, 'read', 'write')
 ```
 
 
