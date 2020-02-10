@@ -68,7 +68,7 @@ independent variables." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">olsrr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9000</span>
       </span>
     </div>
 
@@ -228,15 +228,13 @@ Prentice Hall</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_all_possible</span>(<span class='no'>model</span>)
-<span class='no'>k</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 6</span><span>
-#&gt;   Index     N Predictors `R-Square` `Adj. R-Square` `Mallow's Cp`
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     1 disp            0.718           0.709          4.44
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     1 hp              0.602           0.589         17.8 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3     2 disp hp         0.748           0.731          3.00</div><div class='input'>
+<span class='no'>k</span></div><div class='output co'>#&gt;   Index N Predictors  R-Square Adj. R-Square Mallow's Cp
+#&gt; 1     1 1       disp 0.7183433     0.7089548    4.443792
+#&gt; 2     2 1         hp 0.6024373     0.5891853   17.794906
+#&gt; 3     3 2    disp hp 0.7482402     0.7308774    3.000000</div><div class='input'>
 <span class='co'># plot</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='input'>
-</div><div class='img'><img src='ols_step_all_possible-1.png' alt='' width='700' height='433' /></div></span></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='img'><img src='ols_step_all_possible-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='ols_step_all_possible-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -264,7 +262,7 @@ Prentice Hall</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
