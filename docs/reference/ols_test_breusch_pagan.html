@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -48,6 +50,7 @@ distributed." />
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -64,7 +67,7 @@ distributed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">olsrr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.3.9000</span>
       </span>
     </div>
 
@@ -134,6 +137,7 @@ distributed." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -152,7 +156,7 @@ distributed.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>fitted.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"bonferroni"</span>, <span class='st'>"sidak"</span>, <span class='st'>"holm"</span>),
+  <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"bonferroni"</span>, <span class='st'>"sidak"</span>, <span class='st'>"holm"</span>),
   <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -213,7 +217,8 @@ values of a independent variable.</p>
 <li><p>Null Hypothesis: Equal/constant variances</p></li>
 <li><p>Alternative Hypothesis: Unequal/non-constant variances</p></li>
 </ul>
-    <p>Computation</p>
+
+<p>Computation</p>
 <ul>
 <li><p>Fit a regression model</p></li>
 <li><p>Regress the squared residuals from the above model on the independent variables</p></li>
@@ -221,11 +226,13 @@ values of a independent variable.</p>
         freedom, where p is the number of independent variables, n is the sample size and
 				 \(R^2\) is the coefficient of determination from the regression in step 2.</p></li>
 </ul>
+
     
     <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
 
     
-    <p><code>ols_bp_test()</code> has been deprecated. Instead use <code>ols_test_breusch_pagan()</code>.</p>
+
+<p><code>ols_bp_test()</code> has been deprecated. Instead use <code>ols_test_breusch_pagan()</code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -241,7 +248,7 @@ Random Coefficient Variation. Econometrica 47, 1287–1294</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>drat</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 
 <span class='co'># use fitted values of the model</span>
 <span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
@@ -261,15 +268,114 @@ Random Coefficient Variation. Econometrica 47, 1287–1294</p>
 #&gt;  Chi2          =    1.429672 
 #&gt;  Prob &gt; Chi2   =    0.231818 </div><div class='input'>
 <span class='co'># use independent variables of the model</span>
-<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in subtract(., 1): could not find function "subtract"</span></div><div class='input'>
+<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;         Test Summary         
+#&gt;  ----------------------------
+#&gt;  DF            =    4 
+#&gt;  Chi2          =    1.513808 
+#&gt;  Prob &gt; Chi2   =    0.8241927 </div><div class='input'>
 <span class='co'># use independent variables of the model and perform multiple tests</span>
-<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in subtract(., 1): could not find function "subtract"</span></div><div class='input'>
+<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;         Test Summary (Unadjusted p values)       
+#&gt;  ----------------------------------------------
+#&gt;   Variable           chi2       df        p     
+#&gt;  ----------------------------------------------
+#&gt;   disp             1.2355345     1    0.2663334 
+#&gt;   hp               0.9209878     1    0.3372157 
+#&gt;   wt               1.2529988     1    0.2629805 
+#&gt;   drat             1.1668486     1    0.2800497 
+#&gt;  ----------------------------------------------
+#&gt;   simultaneous     1.5138083     4    0.8241927 
+#&gt;  ----------------------------------------------</div><div class='input'>
 <span class='co'># bonferroni p value adjustment</span>
-<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'bonferroni'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in subtract(., 1): could not find function "subtract"</span></div><div class='input'>
+<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'bonferroni'</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;         Test Summary (Bonferroni p values)       
+#&gt;  ----------------------------------------------
+#&gt;   Variable           chi2       df        p     
+#&gt;  ----------------------------------------------
+#&gt;   disp             1.2355345     1    1.0000000 
+#&gt;   hp               0.9209878     1    1.0000000 
+#&gt;   wt               1.2529988     1    1.0000000 
+#&gt;   drat             1.1668486     1    1.0000000 
+#&gt;  ----------------------------------------------
+#&gt;   simultaneous     1.5138083     4    0.8241927 
+#&gt;  ----------------------------------------------</div><div class='input'>
 <span class='co'># sidak p value adjustment</span>
-<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'sidak'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in subtract(., 1): could not find function "subtract"</span></div><div class='input'>
+<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'sidak'</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;           Test Summary (Sidak p values)          
+#&gt;  ----------------------------------------------
+#&gt;   Variable           chi2       df        p     
+#&gt;  ----------------------------------------------
+#&gt;   disp             1.2355345     1    0.7102690 
+#&gt;   hp               0.9209878     1    0.8070305 
+#&gt;   wt               1.2529988     1    0.7049362 
+#&gt;   drat             1.1668486     1    0.7313356 
+#&gt;  ----------------------------------------------
+#&gt;   simultaneous     1.5138083     4    0.8241927 
+#&gt;  ----------------------------------------------</div><div class='input'>
 <span class='co'># holm's p value adjustment</span>
-<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'holm'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in subtract(., 1): could not find function "subtract"</span></div><div class='input'>
+<span class='fu'>ols_test_breusch_pagan</span>(<span class='no'>model</span>, <span class='kw'>rhs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>multiple</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adj</span> <span class='kw'>=</span> <span class='st'>'holm'</span>)</div><div class='output co'>#&gt; 
+#&gt;  Breusch Pagan Test for Heteroskedasticity
+#&gt;  -----------------------------------------
+#&gt;  Ho: the variance is constant            
+#&gt;  Ha: the variance is not constant        
+#&gt; 
+#&gt;            Data            
+#&gt;  --------------------------
+#&gt;  Response : mpg 
+#&gt;  Variables: disp hp wt drat 
+#&gt; 
+#&gt;           Test Summary (Holm's p values)         
+#&gt;  ----------------------------------------------
+#&gt;   Variable           chi2       df        p     
+#&gt;  ----------------------------------------------
+#&gt;   disp             1.2355345     1    0.7990002 
+#&gt;   hp               0.9209878     1    0.3372157 
+#&gt;   wt               1.2529988     1    1.0000000 
+#&gt;   drat             1.1668486     1    0.5600994 
+#&gt;  ----------------------------------------------
+#&gt;   simultaneous     1.5138083     4    0.8241927 
+#&gt;  ----------------------------------------------</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -293,19 +399,23 @@ Random Coefficient Variation. Econometrica 47, 1287–1294</p>
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

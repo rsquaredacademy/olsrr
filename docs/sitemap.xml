@@ -1,437 +1,261 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
-
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/index.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/articles/intro.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/articles/influence_measures.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/articles/variable_selection.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/index.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/articles/reference-media.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/news/index.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_launch_app.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_regress.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_aic.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/conduct</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/license-text</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_dfbetas.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit_spread.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_qq.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_normality.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_correlation.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_hist.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_cooksd_bar.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_cooksd_chart.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_dffits.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stud.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stand.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_lev.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stud_fit.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_hadi.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_pot.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_score.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_f.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_correlations.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_obs_fit.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_diagnostics.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_regressor.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_p.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_aic.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_aic.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible_betas.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_box.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_leverage.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_hadi.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_press.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_pred_rsq.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_aic.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_sbc.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_sbic.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_mallows_cp.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_msep.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_fpe.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_apc.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_hsp.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_avplot_data.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_regress_x.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_regress_y.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_cdplot_data.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_outlier_obs.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_cdplot_outliers.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_dfbeta_data.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_dfbeta_outliers.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_dsrvf_data.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_rfsplot_fmdata.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_rvsrplot_data.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_rstudlev_data.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_srplot_data.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_srchart_data.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_response.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_reg_line.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_update.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/ols_deps.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/surgical.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://olsrr.rsquaredacademy.com/reference/stepdata.html</loc>
-  <lastmod>2018-09-29T18:10:26+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/index.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/auto.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/cement.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/fitness.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/hsb.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/olsrr.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_aic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_apc.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_correlations.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_fpe.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_hadi.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_hsp.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_launch_app.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_leverage.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_mallows_cp.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_msep.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_cooksd_bar.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_cooksd_chart.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_dfbetas.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_dffits.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_diagnostics.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_hadi.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_obs_fit.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_reg_line.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_box.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit_spread.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_hist.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_lev.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_pot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_qq.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_regressor.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stand.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stud.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stud_fit.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_response.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_pred_rsq.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_avplot_data.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_cdplot_data.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_cdplot_outliers.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_dfbeta_data.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_dfbeta_outliers.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_dsrvf_data.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_outlier_obs.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_regress_x.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_regress_y.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_rfsplot_fmdata.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_rstudlev_data.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_rvsrplot_data.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_srchart_data.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_prep_srplot_data.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_press.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_regress.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_sbc.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_sbic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible_betas.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_aic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_p.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_aic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_aic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_correlation.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_f.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_normality.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_outlier.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_score.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/rivers.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/rvsr_plot_shiny.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/stepdata.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/surgical.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/influence_measures.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/intro.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/reference-media.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/variable_selection.html</loc>
+  </url>
 </urlset>
