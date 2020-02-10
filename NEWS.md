@@ -1,8 +1,18 @@
-# olsrr 0.5.2.9000
+# olsrr 0.5.3
+
+This is a patch release to reduce the number of packages imported and
+fix other CRAN errors.
 
 ## New Features
 
 - Bonferroni outlier test ([#129](https://github.com/rsquaredacademy/olsrr/issues/129))
+
+## Breaking Changes
+
+The following functions will now require the variable names to be enclosed within quotes
+
+- `ols_test_bartlett()`
+- `ols_plot_resid_regressor()`
 
 # olsrr 0.5.2
 
