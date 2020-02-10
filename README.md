@@ -3,7 +3,7 @@
 
 # olsrr
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![cran
 checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
 [![Travis-CI Build
