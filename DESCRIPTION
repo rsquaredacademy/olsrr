@@ -17,7 +17,9 @@ Imports:
     graphics,
     gridExtra,
     nortest,
-    Rcpp
+    Rcpp,
+    stats,
+    utils
 Suggests:
     covr,
     descriptr,

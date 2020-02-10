@@ -7,6 +7,13 @@ fix other CRAN errors.
 
 - Bonferroni outlier test ([#129](https://github.com/rsquaredacademy/olsrr/issues/129))
 
+## Breaking Changes
+
+The following functions will now require the variable names to be enclosed within quotes
+
+- `ols_test_bartlett()`
+- `ols_plot_resid_regressor()`
+
 # olsrr 0.5.2
 
 This is a minor release to fix bugs from breaking changes in recipes package 
