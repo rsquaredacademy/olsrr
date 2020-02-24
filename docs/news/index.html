@@ -143,6 +143,18 @@
       <small>Source: <a href='https://github.com/rsquaredacademy/olsrr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="olsrr-0539000" class="section level1">
+<h1 class="page-header">
+<a href="#olsrr-0539000" class="anchor"></a>olsrr 0.5.3.9000<small> Unreleased </small>
+</h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<ul>
+<li>ols_plot_resid_stud() fails to plot outliers due to y-axis range (<a href="https://github.com/rsquaredacademy/olsrr/issues/155"><a href='https://github.com/rsquaredacademy/olsrr/issues/155'>#155</a></a>)</li>
+</ul>
+</div>
+</div>
     <div id="olsrr-053" class="section level1">
 <h1 class="page-header">
 <a href="#olsrr-053" class="anchor"></a>olsrr 0.5.3<small> 2020-02-10 </small>
@@ -189,9 +201,9 @@
 <a href="#enhancements-1" class="anchor"></a>Enhancements</h2>
 <p>olsrr now throws better error messages keeping in mind beginner and intermediate R users. It is a work in progress and should get better in future releases.</p>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
 <p>Variable selection procedures based on p values now handle categorical variables in the same way as the procedures based on AIC values.</p>
 </div>
 </div>
@@ -213,9 +225,9 @@
 </li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li><p>ols_regress returns error in the presence of interaction terms in the formula (<a href="https://github.com/rsquaredacademy/olsrr/issues/49"><a href='https://github.com/rsquaredacademy/olsrr/issues/49'>#49</a></a>)</p></li>
 <li><p>ols_regress returns error in the presence of interaction terms in the formula (<a href="https://github.com/rsquaredacademy/olsrr/issues/47"><a href='https://github.com/rsquaredacademy/olsrr/issues/47'>#47</a></a>)</p></li>
@@ -235,9 +247,9 @@
 <li>save beta coefficients for each independent variable in <code><a href="../reference/ols_step_all_possible.html">ols_all_subset()</a></code> (<a href="https://github.com/rsquaredacademy/olsrr/issues/41"><a href='https://github.com/rsquaredacademy/olsrr/issues/41'>#41</a></a>)</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>mismatch in sign of partial and semi partial correlations (<a href="https://github.com/rsquaredacademy/olsrr/issues/44"><a href='https://github.com/rsquaredacademy/olsrr/issues/44'>#44</a></a>)</li>
 <li>error in diagnostic panel (<a href="https://github.com/rsquaredacademy/olsrr/issues/45"><a href='https://github.com/rsquaredacademy/olsrr/issues/45'>#45</a></a>)</li>
@@ -251,9 +263,9 @@
 <a href="#olsrr-030" class="anchor"></a>olsrr 0.3.0<small> 2017-08-31 </small>
 </h1>
 <p>This is a minor release containing bug fixes.</p>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>output from reg_compute rounded up to 3 decimal points (<a href="https://github.com/rsquaredacademy/olsrr/issues/24"><a href='https://github.com/rsquaredacademy/olsrr/issues/24'>#24</a></a>)</li>
 <li>added variable plot fails when model includes categorical variables (<a href="https://github.com/rsquaredacademy/olsrr/issues/25"><a href='https://github.com/rsquaredacademy/olsrr/issues/25'>#25</a></a>)</li>
@@ -280,9 +292,9 @@
 <a href="#olsrr-020" class="anchor"></a>olsrr 0.2.0<small> 2017-06-05 </small>
 </h1>
 <p>This is a minor release containing bug fixes and minor improvements.</p>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>inline functions in model formula caused errors in stepwise regression (<a href="https://github.com/rsquaredacademy/olsrr/issues/2"><a href='https://github.com/rsquaredacademy/olsrr/issues/2'>#2</a></a>)</li>
 <li>added variable plots (<code>ols_avplots</code>) returns error when model formula contains inline functions (<a href="https://github.com/rsquaredacademy/olsrr/issues/3"><a href='https://github.com/rsquaredacademy/olsrr/issues/3'>#3</a></a>)</li>
@@ -331,6 +343,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#olsrr-0539000">0.5.3.9000</a></li>
         <li><a href="#olsrr-053">0.5.3</a></li>
         <li><a href="#olsrr-052">0.5.2</a></li>
         <li><a href="#olsrr-051">0.5.1</a></li>

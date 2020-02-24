@@ -17,7 +17,7 @@ ols_prep_avplot_data <- function(model) {
   m1 <- as.data.frame(model.frame(model))[1]
   m2 <- as.data.frame(model.matrix(model))[, -1]
   as.data.frame(cbind(m1, m2))
-  
+
 }
 
 #' Regress predictor on other predictors
@@ -153,7 +153,7 @@ ols_prep_cdplot_outliers <- function(k) {
 
   result <- k$ckd[k$ckd$color == "outlier", c("obs", "cd")]
   names(result) <- c("observation", "cooks_distance")
-  return(result)  
+  return(result)
 
 }
 
@@ -329,7 +329,7 @@ ols_prep_rvsrplot_data <- function(model) {
   np     <- length(coefficients(model)) - 1
   dat    <- model.frame(model)[, -1]
   pnames <- names(coefficients(model))[-1]
-    
+
   list(np = np, dat = dat, pnames = pnames)
 
 }
@@ -408,24 +408,17 @@ ols_prep_srplot_data<- function(model) {
   color <- NULL
   dstud <- unname(rstudent(model))
   obs   <- seq_len(length(dstud))
-  dsr   <- data.frame(obs = obs, dsr = dstud) 
+  dsr   <- data.frame(obs = obs, dsr = dstud)
   dsr$color     <- ifelse((abs(dsr$dsr) >= 3), "outlier", "normal")
   dsr$fct_color <- ordered(factor(dsr$color), levels = c("normal", "outlier"))
-    
-    # mutate(
-    #   color = ifelse((abs(dsr) >= 3), "outlier", "normal"),
-    #   fct_color = color %>%
-    #     factor() %>%
-    #     ordered(levels = c("normal", "outlier"))
-    # )
 
   cminxx <- floor(min(dsr$dsr) - 1)
-  cmaxxx <- floor(max(dsr$dsr) - 1)
+  cmaxxx <- ceiling(max(dsr$dsr) + 1)
   cminx  <- ifelse(cminxx > -3, -3, cminxx)
   cmaxx  <- ifelse(cmaxxx < 3, 3, cmaxxx)
   nseq   <- seq_len(abs(cminx + 1)) * -1
   pseq   <- seq_len(cmaxx - 1)
-    
+
   list(cminx = cminx,
        cmaxx = cmaxx,
        nseq  = nseq,
@@ -453,8 +446,8 @@ ols_prep_srchart_data <- function(model) {
   sdres_out <- abs(sdres) > 2
   outlier   <- sdres[sdres_out]
   obs       <- seq_len(length(sdres))
-    
-  out           <- data.frame(obs = obs, sdres = sdres) 
+
+  out           <- data.frame(obs = obs, sdres = sdres)
   out$color     <- ifelse(((out$sdres >= 2) | (out$sdres <= -2)), c("outlier"), c("normal"))
   out$fct_color <- ordered( factor(out$color), levels = c("normal", "outlier"))
   out$txt       <- ifelse(out$color == "outlier", out$obs, NA)
