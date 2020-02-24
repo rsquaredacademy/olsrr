@@ -124,10 +124,10 @@ test_that("output from rvsrdata matches the expected output", {
 test_that("output from srdata matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- ols_prep_srplot_data(model)
-  expect_equal(k$cmaxx, 3)
+  expect_equal(k$cmaxx, 4)
   expect_equal(k$cminx, -3)
   expect_equivalent(k$nseq, c(-1, -2))
-  expect_equivalent(k$pseq, c(1, 2))
+  expect_equivalent(k$pseq, c(1, 2, 3))
 })
 
 test_that("output from histdata matches the expected result", {

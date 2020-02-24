@@ -1,3 +1,9 @@
+# olsrr 0.5.3.9000
+
+## Bug Fixes
+
+- ols_plot_resid_stud() fails to plot outliers due to y-axis range ([#155](https://github.com/rsquaredacademy/olsrr/issues/155))
+
 # olsrr 0.5.3
 
 This is a patch release to reduce the number of packages imported and

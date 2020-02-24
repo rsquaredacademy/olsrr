@@ -38,7 +38,8 @@ ols_plot_resid_lev <- function(model, print_plot = TRUE) {
   d$txt       <- ifelse(d$color == "normal", NA, d$obs)
   f           <- d[d$color == "outlier", c("obs", "leverage", "rstudent")]
   colnames(f) <- c("observation", "leverage", "stud_resid")
-    
+  d2          <- d[!is.na(d$txt), ]  
+
   p <-
     ggplot(d, aes(leverage, rstudent, label = txt)) +
     geom_point(shape = 1, aes(colour = fct_color)) +
@@ -47,7 +48,7 @@ ols_plot_resid_lev <- function(model, print_plot = TRUE) {
     xlab("Leverage") + ylab("RStudent") + ggtitle(title) +
     geom_hline(yintercept = c(2, -2), colour = "maroon") +
     geom_vline(xintercept = g$lev_thrsh, colour = "maroon") +
-    geom_text(vjust = -1, size = 3, family = "serif", fontface = "italic",
+    geom_text(data = d2, vjust = -1, size = 3, family = "serif", fontface = "italic",
               colour = "darkred") +
     annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
       family = "serif", fontface = "italic", colour = "darkred",
