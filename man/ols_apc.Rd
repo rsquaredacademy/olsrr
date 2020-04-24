@@ -18,7 +18,7 @@ Amemiya's prediction error.
 \details{
 Amemiya's Prediction Criterion penalizes R-squared more heavily than does
 adjusted R-squared for each addition degree of freedom used on the
-right-hand-side of the equation.  The higher the better for this criterion.
+right-hand-side of the equation.  The lower the better for this criterion.
 
 \deqn{((n + p) / (n - p))(1 - (R^2))}
 

@@ -6,13 +6,16 @@
 \alias{plot.ols_step_best_subset}
 \title{Best subsets regression}
 \usage{
-ols_step_best_subset(model, ...)
+ols_step_best_subset(model, metric = c("rsquare", "adjr", "predrsq",
+  "cp", "aic", "sbic", "sbc", "msep", "fpe", "apc", "hsp"), ...)
 
 \method{plot}{ols_step_best_subset}(x, model = NA, print_plot = TRUE,
   ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{metric}{Metric to select model.}
 
 \item{...}{Other inputs.}
 
@@ -42,7 +45,8 @@ following components:
 \description{
 Select the subset of predictors that do the best at meeting some
 well-defined objective criterion, such as having the largest R2 value or the
-smallest MSE, Mallow's Cp or AIC.
+smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
+model is R2 but the user can choose any of the other available metrics.
 }
 \section{Deprecated Function}{
 
@@ -52,6 +56,8 @@ smallest MSE, Mallow's Cp or AIC.
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_step_best_subset(model)
+ols_step_best_subset(model, metric = "adjr")
+ols_step_best_subset(model, metric = "cp")
 
 # plot
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

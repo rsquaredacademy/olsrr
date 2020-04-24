@@ -36,7 +36,8 @@
 
 <meta property="og:description" content="Select the subset of predictors that do the best at meeting some
 well-defined objective criterion, such as having the largest R2 value or the
-smallest MSE, Mallow's Cp or AIC." />
+smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
+model is R2 but the user can choose any of the other available metrics." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -153,11 +154,13 @@ smallest MSE, Mallow's Cp or AIC." />
     
     <p>Select the subset of predictors that do the best at meeting some
 well-defined objective criterion, such as having the largest R2 value or the
-smallest MSE, Mallow's Cp or AIC.</p>
+smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
+model is R2 but the user can choose any of the other available metrics.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>ols_step_best_subset</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ols_step_best_subset</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"rsquare"</span>, <span class='st'>"adjr"</span>, <span class='st'>"predrsq"</span>,
+  <span class='st'>"cp"</span>, <span class='st'>"aic"</span>, <span class='st'>"sbic"</span>, <span class='st'>"sbc"</span>, <span class='st'>"msep"</span>, <span class='st'>"fpe"</span>, <span class='st'>"apc"</span>, <span class='st'>"hsp"</span>), <span class='no'>...</span>)
 
 <span class='co'># S3 method for ols_step_best_subset</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>print_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -169,6 +172,10 @@ smallest MSE, Mallow's Cp or AIC.</p>
     <tr>
       <th>model</th>
       <td><p>An object of class <code>lm</code>.</p></td>
+    </tr>
+    <tr>
+      <th>metric</th>
+      <td><p>Metric to select model.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -254,12 +261,66 @@ Chicago, IL., McGraw Hill/Irwin.</p>
 #&gt;  FPE: Final Prediction Error 
 #&gt;  HSP: Hocking's Sp 
 #&gt;  APC: Amemiya Prediction Criteria 
+#&gt; </div><div class='input'><span class='fu'>ols_step_best_subset</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"adjr"</span>)</div><div class='output co'>#&gt;    Best Subsets Regression    
+#&gt; ------------------------------
+#&gt; Model Index    Predictors
+#&gt; ------------------------------
+#&gt;      1         wt              
+#&gt;      2         hp wt           
+#&gt;      3         hp wt qsec      
+#&gt;      4         disp hp wt qsec 
+#&gt; ------------------------------
+#&gt; 
+#&gt;                                                    Subsets Regression Summary                                                    
+#&gt; ---------------------------------------------------------------------------------------------------------------------------------
+#&gt;                        Adj.        Pred                                                                                           
+#&gt; Model    R-Square    R-Square    R-Square     C(p)        AIC        SBIC        SBC         MSEP       FPE       HSP       APC  
+#&gt; ---------------------------------------------------------------------------------------------------------------------------------
+#&gt;   1        0.7528      0.7446      0.7087    12.4809    166.0294    74.2916    170.4266    296.9167    9.8572    0.3199    0.2801 
+#&gt;   2        0.8268      0.8148      0.7811     2.3690    156.6523    66.5755    162.5153    215.5104    7.3563    0.2402    0.2091 
+#&gt;   3        0.8348      0.8171       0.782     3.0617    157.1426    67.7238    164.4713    213.1929    7.4756    0.2461    0.2124 
+#&gt;   4        0.8351      0.8107       0.771     5.0000    159.0696    70.0408    167.8640    220.8882    7.9497    0.2644    0.2259 
+#&gt; ---------------------------------------------------------------------------------------------------------------------------------
+#&gt; AIC: Akaike Information Criteria 
+#&gt;  SBIC: Sawa's Bayesian Information Criteria 
+#&gt;  SBC: Schwarz Bayesian Criteria 
+#&gt;  MSEP: Estimated error of prediction, assuming multivariate normality 
+#&gt;  FPE: Final Prediction Error 
+#&gt;  HSP: Hocking's Sp 
+#&gt;  APC: Amemiya Prediction Criteria 
+#&gt; </div><div class='input'><span class='fu'>ols_step_best_subset</span>(<span class='no'>model</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"cp"</span>)</div><div class='output co'>#&gt;    Best Subsets Regression    
+#&gt; ------------------------------
+#&gt; Model Index    Predictors
+#&gt; ------------------------------
+#&gt;      1         wt              
+#&gt;      2         hp wt           
+#&gt;      3         hp wt qsec      
+#&gt;      4         disp hp wt qsec 
+#&gt; ------------------------------
+#&gt; 
+#&gt;                                                    Subsets Regression Summary                                                    
+#&gt; ---------------------------------------------------------------------------------------------------------------------------------
+#&gt;                        Adj.        Pred                                                                                           
+#&gt; Model    R-Square    R-Square    R-Square     C(p)        AIC        SBIC        SBC         MSEP       FPE       HSP       APC  
+#&gt; ---------------------------------------------------------------------------------------------------------------------------------
+#&gt;   1        0.7528      0.7446      0.7087    12.4809    166.0294    74.2916    170.4266    296.9167    9.8572    0.3199    0.2801 
+#&gt;   2        0.8268      0.8148      0.7811     2.3690    156.6523    66.5755    162.5153    215.5104    7.3563    0.2402    0.2091 
+#&gt;   3        0.8348      0.8171       0.782     3.0617    157.1426    67.7238    164.4713    213.1929    7.4756    0.2461    0.2124 
+#&gt;   4        0.8351      0.8107       0.771     5.0000    159.0696    70.0408    167.8640    220.8882    7.9497    0.2644    0.2259 
+#&gt; ---------------------------------------------------------------------------------------------------------------------------------
+#&gt; AIC: Akaike Information Criteria 
+#&gt;  SBIC: Sawa's Bayesian Information Criteria 
+#&gt;  SBC: Schwarz Bayesian Criteria 
+#&gt;  MSEP: Estimated error of prediction, assuming multivariate normality 
+#&gt;  FPE: Final Prediction Error 
+#&gt;  HSP: Hocking's Sp 
+#&gt;  APC: Amemiya Prediction Criteria 
 #&gt; </div><div class='input'>
 <span class='co'># plot</span>
 <span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span> + <span class='no'>wt</span> + <span class='no'>qsec</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_best_subset</span>(<span class='no'>model</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='img'><img src='ols_step_best_subset-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='ols_step_best_subset-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='input'>
+</div><div class='img'><img src='ols_step_best_subset-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
