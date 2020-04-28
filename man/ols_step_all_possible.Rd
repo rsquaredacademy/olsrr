@@ -6,13 +6,15 @@
 \alias{plot.ols_step_all_possible}
 \title{All possible regression}
 \usage{
-ols_step_all_possible(model, ...)
+ols_step_all_possible(model, data = NULL, ...)
 
 \method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE,
   ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{data}{Data set used in the model.}
 
 \item{...}{Other arguments.}
 

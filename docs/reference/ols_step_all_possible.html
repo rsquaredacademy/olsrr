@@ -157,7 +157,7 @@ independent variables.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>ols_step_all_possible</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ols_step_all_possible</span>(<span class='no'>model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for ols_step_all_possible</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>print_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -169,6 +169,10 @@ independent variables.</p>
     <tr>
       <th>model</th>
       <td><p>An object of class <code>lm</code>.</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>Data set used in the model.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -233,8 +237,8 @@ Prentice Hall</p>
 #&gt; 2     2 1         hp 0.6024373     0.5891853   17.794906
 #&gt; 3     3 2    disp hp 0.7482402     0.7308774    3.000000</div><div class='input'>
 <span class='co'># plot</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='img'><img src='ols_step_all_possible-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='ols_step_all_possible-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='input'>
+</div><div class='img'><img src='ols_step_all_possible-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -6,6 +6,7 @@
 #' independent variables.
 #'
 #' @param model An object of class \code{lm}.
+#' @param data Data set used in the model.
 #' @param x An object of class \code{ols_best_subset}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
@@ -49,16 +50,16 @@
 #'
 #' @export
 #'
-ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
+ols_step_all_possible <- function(model, data = NULL, ...) UseMethod("ols_step_all_possible")
 
 #' @export
 #'
-ols_step_all_possible.default <- function(model, ...) {
+ols_step_all_possible.default <- function(model, data = NULL, ...) {
 
   check_model(model)
   check_npredictors(model, 3)
 
-  metrics <- allpos_helper(model)
+  metrics <- allpos_helper(model, data)
 
   ui <- data.frame(
     n          = metrics$lpreds,
@@ -335,7 +336,7 @@ ols_all_subset_betas <- function(model, ...) {
 #'
 #' @noRd
 #'
-allpos_helper <- function(model) {
+allpos_helper <- function(model, data = NULL) {
 
   nam   <- coeff_names(model)
   n     <- length(nam)
@@ -346,12 +347,17 @@ allpos_helper <- function(model) {
     combs[[i]] <- combn(n, r[i])
   }
 
+  if (is.null(data)) {
+  	pos_data <- mod_sel_data(model)
+  } else {
+  	pos_data <- data
+  }
+
   predicts  <- nam
   lc        <- length(combs)
   varnames  <- model_colnames(model)
   len_preds <- length(predicts)
   gap       <- len_preds - 1
-  data      <- mod_sel_data(model)
   space     <- coeff_length(predicts, gap)
   colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
@@ -383,7 +389,7 @@ allpos_helper <- function(model) {
 
       out <- ols_regress(paste(response, "~",
                                paste(predictors, collapse = " + ")),
-                         data = data)
+                         data = pos_data)
 
       mcount            <- mcount + 1
       lpreds[mcount]    <- lp
