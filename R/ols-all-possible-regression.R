@@ -251,7 +251,7 @@ all_pos_index <- function(d, var, title = "R-Square") {
 
   for (i in m$n) {
     j <- which(part_2(m, var, i) == part_3(k, var, i))
-    index[i] <- part_1(k, i)[j] 
+    index[i] <- part_1(k, i)[j]
   }
 
   return(index)
@@ -348,7 +348,7 @@ allpos_helper <- function(model, data = NULL) {
   }
 
   if (is.null(data)) {
-  	pos_data <- mod_sel_data(model)
+  	pos_data <- model$model
   } else {
   	pos_data <- data
   }
