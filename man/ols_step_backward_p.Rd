@@ -9,11 +9,9 @@
 \usage{
 ols_step_backward_p(model, ...)
 
-\method{ols_step_backward_p}{default}(model, prem = 0.3,
-  progress = FALSE, details = FALSE, ...)
+\method{ols_step_backward_p}{default}(model, prem = 0.3, progress = FALSE, details = FALSE, ...)
 
-\method{plot}{ols_step_backward_p}(x, model = NA, print_plot = TRUE,
-  ...)
+\method{plot}{ols_step_backward_p}(x, model = NA, print_plot = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}; the model should include all
@@ -78,11 +76,12 @@ k$model
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
 \seealso{
-Other variable selection procedures: \code{\link{ols_step_all_possible}},
-  \code{\link{ols_step_backward_aic}},
-  \code{\link{ols_step_best_subset}},
-  \code{\link{ols_step_both_aic}},
-  \code{\link{ols_step_forward_aic}},
-  \code{\link{ols_step_forward_p}}
+Other variable selection procedures: 
+\code{\link{ols_step_all_possible}()},
+\code{\link{ols_step_backward_aic}()},
+\code{\link{ols_step_best_subset}()},
+\code{\link{ols_step_both_aic}()},
+\code{\link{ols_step_forward_aic}()},
+\code{\link{ols_step_forward_p}()}
 }
 \concept{variable selection procedures}

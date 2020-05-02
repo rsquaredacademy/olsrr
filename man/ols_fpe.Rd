@@ -37,9 +37,13 @@ Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory a
 New York: John Wiley & Sons.
 }
 \seealso{
-Other model selection criteria: \code{\link{ols_aic}},
-  \code{\link{ols_apc}}, \code{\link{ols_hsp}},
-  \code{\link{ols_mallows_cp}}, \code{\link{ols_msep}},
-  \code{\link{ols_sbc}}, \code{\link{ols_sbic}}
+Other model selection criteria: 
+\code{\link{ols_aic}()},
+\code{\link{ols_apc}()},
+\code{\link{ols_hsp}()},
+\code{\link{ols_mallows_cp}()},
+\code{\link{ols_msep}()},
+\code{\link{ols_sbc}()},
+\code{\link{ols_sbic}()}
 }
 \concept{model selection criteria}

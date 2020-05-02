@@ -4,7 +4,8 @@
 \name{surgical}
 \alias{surgical}
 \title{Surgical Unit Data Set}
-\format{A data frame with 54 rows and 9 variables:
+\format{
+A data frame with 54 rows and 9 variables:
 \describe{
   \item{bcs}{blood clotting score}
   \item{pindex}{prognostic index}
@@ -15,7 +16,8 @@
   \item{alc_mod}{indicator variable for history of alcohol use (0 = None, 1 = Moderate)}
   \item{alc_heavy}{indicator variable for history of alcohol use (0 = None, 1 = Heavy)}
   \item{y}{Survival Time}
-}}
+}
+}
 \source{
 Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 Chicago, IL., McGraw Hill/Irwin.

@@ -6,11 +6,14 @@
 \alias{plot.ols_step_best_subset}
 \title{Best subsets regression}
 \usage{
-ols_step_best_subset(model, metric = c("rsquare", "adjr", "predrsq",
-  "cp", "aic", "sbic", "sbc", "msep", "fpe", "apc", "hsp"), ...)
+ols_step_best_subset(
+  model,
+  metric = c("rsquare", "adjr", "predrsq", "cp", "aic", "sbic", "sbc", "msep", "fpe",
+    "apc", "hsp"),
+  ...
+)
 
-\method{plot}{ols_step_best_subset}(x, model = NA, print_plot = TRUE,
-  ...)
+\method{plot}{ols_step_best_subset}(x, model = NA, print_plot = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -70,11 +73,12 @@ Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical 
 Chicago, IL., McGraw Hill/Irwin.
 }
 \seealso{
-Other variable selection procedures: \code{\link{ols_step_all_possible}},
-  \code{\link{ols_step_backward_aic}},
-  \code{\link{ols_step_backward_p}},
-  \code{\link{ols_step_both_aic}},
-  \code{\link{ols_step_forward_aic}},
-  \code{\link{ols_step_forward_p}}
+Other variable selection procedures: 
+\code{\link{ols_step_all_possible}()},
+\code{\link{ols_step_backward_aic}()},
+\code{\link{ols_step_backward_p}()},
+\code{\link{ols_step_both_aic}()},
+\code{\link{ols_step_forward_aic}()},
+\code{\link{ols_step_forward_p}()}
 }
 \concept{variable selection procedures}

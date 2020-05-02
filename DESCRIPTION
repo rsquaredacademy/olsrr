@@ -34,5 +34,5 @@ BugReports: https://github.com/rsquaredacademy/olsrr/issues
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 LinkingTo: Rcpp

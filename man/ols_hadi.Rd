@@ -25,7 +25,9 @@ ols_hadi(model)
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
 \seealso{
-Other influence measures: \code{\link{ols_leverage}},
-  \code{\link{ols_pred_rsq}}, \code{\link{ols_press}}
+Other influence measures: 
+\code{\link{ols_leverage}()},
+\code{\link{ols_pred_rsq}()},
+\code{\link{ols_press}()}
 }
 \concept{influence measures}

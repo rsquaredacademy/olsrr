@@ -5,8 +5,7 @@
 \alias{ols_f_test}
 \title{F test}
 \usage{
-ols_test_f(model, fitted_values = TRUE, rhs = FALSE, vars = NULL,
-  ...)
+ols_test_f(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -63,8 +62,9 @@ ols_test_f(model, vars = c('disp', 'hp'))
 Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
 }
 \seealso{
-Other heteroskedasticity tests: \code{\link{ols_test_bartlett}},
-  \code{\link{ols_test_breusch_pagan}},
-  \code{\link{ols_test_score}}
+Other heteroskedasticity tests: 
+\code{\link{ols_test_bartlett}()},
+\code{\link{ols_test_breusch_pagan}()},
+\code{\link{ols_test_score}()}
 }
 \concept{heteroskedasticity tests}

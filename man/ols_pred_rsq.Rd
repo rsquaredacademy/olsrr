@@ -23,7 +23,9 @@ ols_pred_rsq(model)
 
 }
 \seealso{
-Other influence measures: \code{\link{ols_hadi}},
-  \code{\link{ols_leverage}}, \code{\link{ols_press}}
+Other influence measures: 
+\code{\link{ols_hadi}()},
+\code{\link{ols_leverage}()},
+\code{\link{ols_press}()}
 }
 \concept{influence measures}

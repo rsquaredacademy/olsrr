@@ -38,9 +38,13 @@ Darlington, R. B. (1968). “Multiple Regression in Psychological Research and P
 Bulletin 69:161–182.
 }
 \seealso{
-Other model selection criteria: \code{\link{ols_aic}},
-  \code{\link{ols_apc}}, \code{\link{ols_fpe}},
-  \code{\link{ols_hsp}}, \code{\link{ols_mallows_cp}},
-  \code{\link{ols_sbc}}, \code{\link{ols_sbic}}
+Other model selection criteria: 
+\code{\link{ols_aic}()},
+\code{\link{ols_apc}()},
+\code{\link{ols_fpe}()},
+\code{\link{ols_hsp}()},
+\code{\link{ols_mallows_cp}()},
+\code{\link{ols_sbc}()},
+\code{\link{ols_sbic}()}
 }
 \concept{model selection criteria}

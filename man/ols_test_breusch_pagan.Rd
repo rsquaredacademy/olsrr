@@ -5,9 +5,14 @@
 \alias{ols_bp_test}
 \title{Breusch pagan test}
 \usage{
-ols_test_breusch_pagan(model, fitted.values = TRUE, rhs = FALSE,
-  multiple = FALSE, p.adj = c("none", "bonferroni", "sidak", "holm"),
-  vars = NA)
+ols_test_breusch_pagan(
+  model,
+  fitted.values = TRUE,
+  rhs = FALSE,
+  multiple = FALSE,
+  p.adj = c("none", "bonferroni", "sidak", "holm"),
+  vars = NA
+)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -100,7 +105,9 @@ Random Coefficient Variation. Econometrica 47, 1287–1294
 Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 }
 \seealso{
-Other heteroskedasticity tests: \code{\link{ols_test_bartlett}},
-  \code{\link{ols_test_f}}, \code{\link{ols_test_score}}
+Other heteroskedasticity tests: 
+\code{\link{ols_test_bartlett}()},
+\code{\link{ols_test_f}()},
+\code{\link{ols_test_score}()}
 }
 \concept{heteroskedasticity tests}
