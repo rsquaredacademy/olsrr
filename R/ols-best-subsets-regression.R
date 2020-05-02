@@ -82,7 +82,7 @@ ols_step_best_subset.default <- function(model,
   len_preds <- length(predicts)
   gap       <- len_preds - 1
   space     <- coeff_length(predicts, gap)
-  data      <- mod_sel_data(model)
+  data      <- model$model
   colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
   p         <- colas

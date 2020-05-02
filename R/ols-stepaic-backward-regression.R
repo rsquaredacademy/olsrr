@@ -69,7 +69,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
   check_npredictors(model, 3)
 
   response <- names(model$model)[1]
-  l        <- mod_sel_data(model)
+  l        <- model$model
   nam      <- coeff_names(model)
   preds    <- nam
   aic_f    <- ols_aic(model)

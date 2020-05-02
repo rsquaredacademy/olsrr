@@ -6,15 +6,12 @@
 \alias{plot.ols_step_all_possible}
 \title{All possible regression}
 \usage{
-ols_step_all_possible(model, data = NULL, ...)
+ols_step_all_possible(model, ...)
 
-\method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE,
-  ...)
+\method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
-
-\item{data}{Data set used in the model.}
 
 \item{...}{Other arguments.}
 
@@ -65,11 +62,12 @@ Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regre
 Prentice Hall
 }
 \seealso{
-Other variable selection procedures: \code{\link{ols_step_backward_aic}},
-  \code{\link{ols_step_backward_p}},
-  \code{\link{ols_step_best_subset}},
-  \code{\link{ols_step_both_aic}},
-  \code{\link{ols_step_forward_aic}},
-  \code{\link{ols_step_forward_p}}
+Other variable selection procedures: 
+\code{\link{ols_step_backward_aic}()},
+\code{\link{ols_step_backward_p}()},
+\code{\link{ols_step_best_subset}()},
+\code{\link{ols_step_both_aic}()},
+\code{\link{ols_step_forward_aic}()},
+\code{\link{ols_step_forward_p}()}
 }
 \concept{variable selection procedures}

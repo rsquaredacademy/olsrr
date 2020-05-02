@@ -65,7 +65,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
   check_npredictors(model, 3)
 
   response <- names(model$model)[1]
-  l        <- mod_sel_data(model)
+  l        <- model$model
   nam      <- coeff_names(model)
   all_pred <- nam
   mlen_p   <- length(all_pred)

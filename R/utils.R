@@ -54,20 +54,6 @@ formats_t <- function() {
   return(x)
 }
 
-#' Model data
-#'
-#' Returns the data used in the model.
-#'
-#' @param model An object of class \code{lm}.
-#'
-#' @noRd
-#'
-mod_sel_data <- function(model) {
-
-  eval(model$call$data)
-
-}
-
 l <- function(x) {
   x <- as.character(x)
   k <- grep("\\$", x)
