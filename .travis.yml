@@ -14,11 +14,6 @@ matrix:
   include:
   - r: oldrel 
   - r: release
-  - r: release
-    os: osx
-    osx_image: xcode8.3
-    before_install:
-      - sudo tlmgr install framed titling
   - r: devel
 
 r_packages:
