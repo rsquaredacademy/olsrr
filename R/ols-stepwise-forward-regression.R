@@ -77,7 +77,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
   check_values(penter, 0, 1)
   check_npredictors(model, 3)
 
-  l        <- eval(model$call$data)
+  l        <- model$model
   nam      <- colnames(attr(model$terms, "factors"))
   df       <- nrow(l) - 2
   tenter   <- qt(1 - (penter) / 2, df)

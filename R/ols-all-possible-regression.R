@@ -88,9 +88,11 @@ ols_step_all_possible.default <- function(model, ...) {
   mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
 
-  class(sorted) <- c("ols_step_all_possible", "data.frame")
+  out <- list(result = sorted)
 
-  return(sorted)
+  class(out) <- c("ols_step_all_possible")
+
+  return(out)
 }
 
 
@@ -108,8 +110,8 @@ ols_all_subset <- function(model, ...) {
 print.ols_step_all_possible <- function(x, ...) {
 
   mindex <- NULL
-  n <- max(x$mindex)
-  k <- data.frame(x)[, c(1:5, 7)]
+  n <- max(x$result$mindex)
+  k <- data.frame(x$result)[, c(1:5, 7)]
 
   names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square",
                 "Mallow's Cp")
@@ -137,8 +139,9 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
   sbic    <- NULL
   sbc     <- NULL
 
-  d <- data.frame(index = x$mindex, n = x$n, rsquare = x$rsquare, adjr = x$adjr,
-                  cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
+  k <- x$result
+  d <- data.frame(index = k$mindex, n = k$n, rsquare = k$rsquare, adjr = k$adjr,
+                  cp = k$cp, aic = k$aic, sbic = k$sbic, sbc = k$sbc)
   d$cps <- abs(d$n - d$cp)
 
   p1 <- all_possible_plot(d, "rsquare", title = "R-Square")
@@ -346,7 +349,7 @@ allpos_helper <- function(model) {
     combs[[i]] <- combn(n, r[i])
   }
 
-  
+
   pos_data  <- model$model
   predicts  <- nam
   lc        <- length(combs)
