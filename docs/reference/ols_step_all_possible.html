@@ -191,19 +191,21 @@ independent variables.</p>
     <p><code>ols_step_all_possible</code> returns an object of class <code>"ols_step_all_possible"</code>.
 An object of class <code>"ols_step_all_possible"</code> is a data frame containing the
 following components:</p>
+<dt>mindex</dt><dd><p>model index</p></dd>
 <dt>n</dt><dd><p>model number</p></dd>
 <dt>predictors</dt><dd><p>predictors in the model</p></dd>
 <dt>rsquare</dt><dd><p>rsquare of the model</p></dd>
 <dt>adjr</dt><dd><p>adjusted rsquare of the model</p></dd>
+<dt>rmse</dt><dd><p>root mean squared error of the model</p></dd>
 <dt>predrsq</dt><dd><p>predicted rsquare of the model</p></dd>
 <dt>cp</dt><dd><p>mallow's Cp</p></dd>
 <dt>aic</dt><dd><p>akaike information criteria</p></dd>
 <dt>sbic</dt><dd><p>sawa bayesian information criteria</p></dd>
 <dt>sbc</dt><dd><p>schwarz bayes information criteria</p></dd>
-<dt>gmsep</dt><dd><p>estimated MSE of prediction, assuming multivariate normality</p></dd>
-<dt>jp</dt><dd><p>final prediction error</p></dd>
-<dt>pc</dt><dd><p>amemiya prediction criteria</p></dd>
-<dt>sp</dt><dd><p>hocking's Sp</p></dd>
+<dt>msep</dt><dd><p>estimated MSE of prediction, assuming multivariate normality</p></dd>
+<dt>fpe</dt><dd><p>final prediction error</p></dd>
+<dt>apc</dt><dd><p>amemiya prediction criteria</p></dd>
+<dt>hsp</dt><dd><p>hocking's Sp</p></dd>
 
     <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
 
@@ -228,12 +230,17 @@ Prentice Hall</p>
     <pre class="examples"><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_all_possible</span>(<span class='no'>model</span>)
 <span class='no'>k</span></div><div class='output co'>#&gt;   Index N Predictors  R-Square Adj. R-Square Mallow's Cp
-#&gt; 1     1 1       disp 0.7183433     0.7089548    4.443792
-#&gt; 2     2 1         hp 0.6024373     0.5891853   17.794906
-#&gt; 3     3 2    disp hp 0.7482402     0.7308774    3.000000</div><div class='input'>
+#&gt; 1     1 1       disp 0.7183433     0.7089548   0.6751205
+#&gt; 2     2 1         hp 0.6024373     0.5891853   0.5096958
+#&gt; 3     3 2    disp hp 0.7482402     0.7308774   0.6945438</div><div class='input'>
 <span class='co'># plot</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='input'>
-</div><div class='img'><img src='ols_step_all_possible-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='output co'>#&gt; $plot_1</div><div class='img'><img src='ols_step_all_possible-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $plot_2</div><div class='img'><img src='ols_step_all_possible-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $plot_3</div><div class='img'><img src='ols_step_all_possible-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $plot_4</div><div class='img'><img src='ols_step_all_possible-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $plot_5</div><div class='img'><img src='ols_step_all_possible-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; $plot_6</div><div class='img'><img src='ols_step_all_possible-6.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

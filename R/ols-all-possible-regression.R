@@ -14,19 +14,21 @@
 #' An object of class \code{"ols_step_all_possible"} is a data frame containing the
 #' following components:
 #'
+#' \item{mindex}{model index}
 #' \item{n}{model number}
 #' \item{predictors}{predictors in the model}
 #' \item{rsquare}{rsquare of the model}
 #' \item{adjr}{adjusted rsquare of the model}
+#' \item{rmse}{root mean squared error of the model}
 #' \item{predrsq}{predicted rsquare of the model}
 #' \item{cp}{mallow's Cp}
 #' \item{aic}{akaike information criteria}
 #' \item{sbic}{sawa bayesian information criteria}
 #' \item{sbc}{schwarz bayes information criteria}
-#' \item{gmsep}{estimated MSE of prediction, assuming multivariate normality}
-#' \item{jp}{final prediction error}
-#' \item{pc}{amemiya prediction criteria}
-#' \item{sp}{hocking's Sp}
+#' \item{msep}{estimated MSE of prediction, assuming multivariate normality}
+#' \item{fpe}{final prediction error}
+#' \item{apc}{amemiya prediction criteria}
+#' \item{hsp}{hocking's Sp}
 #'
 #' @references
 #' Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
@@ -65,6 +67,7 @@ ols_step_all_possible.default <- function(model, ...) {
     predictors = unlist(metrics$preds),
     rsquare    = unlist(metrics$rsq),
     adjr       = unlist(metrics$adjrsq),
+    rmse       = unlist(metrics$rmse),
     predrsq    = unlist(metrics$predrsq),
     cp         = unlist(metrics$cp),
     aic        = unlist(metrics$aic),
@@ -156,9 +159,9 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 
   if (print_plot) {
     marrangeGrob(myplots, nrow = 2, ncol = 2)
-  } else {
-    return(myplots)
   }
+
+  return(myplots)
 
 }
 
@@ -366,6 +369,7 @@ allpos_helper <- function(model) {
   mcount    <- 0
   rsq       <- list()
   adjrsq    <- list()
+  sigma     <- list()
   predrsq   <- list()
   cp        <- list()
   aic       <- list()
@@ -393,6 +397,7 @@ allpos_helper <- function(model) {
       lpreds[mcount]    <- lp
       rsq[[mcount]]     <- out$rsq
       adjrsq[[mcount]]  <- out$adjr
+      sigma[[mcount]]   <- out$sigma
       predrsq[[mcount]] <- ols_pred_rsq(out$model)
       cp[[mcount]]      <- ols_mallows_cp(out$model, model)
       aic[[mcount]]     <- ols_aic(out$model)
@@ -408,7 +413,7 @@ allpos_helper <- function(model) {
   }
 
   result <- list(
-    lpreds = lpreds, rsq = rsq, adjrsq = adjrsq,
+    lpreds = lpreds, rsq = rsq, adjrsq = adjrsq, rmse = sigma,
     predrsq = predrsq, cp = cp, aic = aic, sbic = sbic,
     sbc = sbc, msep = msep, fpe = fpe, apc = apc, hsp = hsp,
     preds = preds, lc = lc, q = q, t = t, betas = betas
