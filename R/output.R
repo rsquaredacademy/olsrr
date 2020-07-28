@@ -9,7 +9,7 @@ print_reg <- function(data) {
   )
   d <- c("RMSE", "Coef. Var", "MSE", "MAE")
   e <- c(
-    format(round(data$sigma, 3), nsmall = 3), format(round(data$cv, 3), nsmall = 3), format(round(data$mse, 3), nsmall = 3),
+    format(round(data$rmse, 3), nsmall = 3), format(round(data$cv, 3), nsmall = 3), format(round(data$mse, 3), nsmall = 3),
     format(round(data$mae, 3), nsmall = 3)
   )
 

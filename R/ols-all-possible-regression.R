@@ -397,7 +397,7 @@ allpos_helper <- function(model) {
       lpreds[mcount]    <- lp
       rsq[[mcount]]     <- out$rsq
       adjrsq[[mcount]]  <- out$adjr
-      sigma[[mcount]]   <- out$sigma
+      sigma[[mcount]]   <- out$rmse
       predrsq[[mcount]] <- ols_pred_rsq(out$model)
       cp[[mcount]]      <- ols_mallows_cp(out$model, model)
       aic[[mcount]]     <- ols_aic(out$model)
