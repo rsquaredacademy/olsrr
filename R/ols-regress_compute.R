@@ -12,7 +12,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   rsq        <- output$r.squared
   r          <- sqrt(rsq)
   adjr       <- output$adj.r.squared
-  sigma      <- output$sigma
+  rmse       <- sqrt(mean(model$residuals ^ 2))
   cv         <- (output$sigma / mean(dep[[1]])) * 100
   mae        <- mean(abs(residuals(model)))
   aic        <- ols_aic(model)
@@ -73,7 +73,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
     r          = r,
     rsq        = rsq,
     adjr       = adjr,
-    sigma      = sigma,
+    rmse       = rmse,
     cv         = cv,
     mse        = mse,
     mae        = mae,

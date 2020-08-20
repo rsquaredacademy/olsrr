@@ -9,8 +9,14 @@
 \usage{
 ols_step_both_p(model, ...)
 
-\method{ols_step_both_p}{default}(model, pent = 0.1, prem = 0.3,
-  progress = FALSE, details = FALSE, ...)
+\method{ols_step_both_p}{default}(
+  model,
+  pent = 0.1,
+  prem = 0.3,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
 
 \method{plot}{ols_step_both_p}(x, model = NA, print_plot = TRUE, ...)
 }

@@ -4,7 +4,9 @@
 \name{hsb}
 \alias{hsb}
 \title{Test Data Set}
-\format{An object of class \code{data.frame} with 200 rows and 15 columns.}
+\format{
+An object of class \code{data.frame} with 200 rows and 15 columns.
+}
 \usage{
 hsb
 }

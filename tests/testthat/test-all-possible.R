@@ -9,8 +9,8 @@ test_that("all subsets selection output matches the expected result", {
     "x1 x2 x4", "x1 x2 x3", "x1 x3 x4", "x2 x3 x4",
     "x1 x2 x3 x4"
   )
-  expect_equal(k$mindex, c(1:15))
-  expect_equivalent(k$predictors, pred_exp)
+  expect_equal(k$result$mindex, c(1:15))
+  expect_equivalent(k$result$predictors, pred_exp)
 })
 
 

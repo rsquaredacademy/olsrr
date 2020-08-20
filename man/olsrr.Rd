@@ -3,7 +3,6 @@
 \docType{package}
 \name{olsrr}
 \alias{olsrr}
-\alias{olsrr-package}
 \title{\code{olsrr} package}
 \description{
 Tools for teaching and learning OLS regression

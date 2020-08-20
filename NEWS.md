@@ -2,6 +2,7 @@
 
 ## Bug Fixes
 
+- `ols_regress()` returned residual standard error instead of RMSE (@jens-daniel-mueller, [#165](https://github.com/rsquaredacademy/olsrr/issues/165))
 - ols_plot_resid_stud() fails to plot outliers due to y-axis range ([#155](https://github.com/rsquaredacademy/olsrr/issues/155))
 
 # olsrr 0.5.3

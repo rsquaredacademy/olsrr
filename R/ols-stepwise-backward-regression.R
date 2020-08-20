@@ -72,7 +72,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
   check_npredictors(model, 3)
 
 
-  l        <- eval(model$call$data)
+  l        <- model$model
   nam      <- colnames(attr(model$terms, "factors"))
   response <- names(model$model)[1]
   preds    <- nam

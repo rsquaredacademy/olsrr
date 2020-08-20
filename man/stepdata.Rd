@@ -4,7 +4,9 @@
 \name{stepdata}
 \alias{stepdata}
 \title{Test Data Set}
-\format{An object of class \code{data.frame} with 20000 rows and 7 columns.}
+\format{
+An object of class \code{data.frame} with 20000 rows and 7 columns.
+}
 \usage{
 stepdata
 }

@@ -24,7 +24,7 @@ components:
 \item{r}{square root of rsquare, correlation between observed and predicted values of dependent variable}
 \item{rsq}{coefficient of determination or r-square}
 \item{adjr}{adjusted rsquare}
-\item{sigma}{root mean squared error}
+\item{rmse}{root mean squared error}
 \item{cv}{coefficient of variation}
 \item{mse}{mean squared error}
 \item{mae}{mean absolute error}

@@ -69,11 +69,12 @@ k$model
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 }
 \seealso{
-Other variable selection procedures: \code{\link{ols_step_all_possible}},
-  \code{\link{ols_step_backward_aic}},
-  \code{\link{ols_step_backward_p}},
-  \code{\link{ols_step_best_subset}},
-  \code{\link{ols_step_forward_aic}},
-  \code{\link{ols_step_forward_p}}
+Other variable selection procedures: 
+\code{\link{ols_step_all_possible}()},
+\code{\link{ols_step_backward_aic}()},
+\code{\link{ols_step_backward_p}()},
+\code{\link{ols_step_best_subset}()},
+\code{\link{ols_step_forward_aic}()},
+\code{\link{ols_step_forward_p}()}
 }
 \concept{variable selection procedures}

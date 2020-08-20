@@ -32,7 +32,9 @@ Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical 
 Chicago, IL., McGraw Hill/Irwin.
 }
 \seealso{
-Other influence measures: \code{\link{ols_hadi}},
-  \code{\link{ols_leverage}}, \code{\link{ols_pred_rsq}}
+Other influence measures: 
+\code{\link{ols_hadi}()},
+\code{\link{ols_leverage}()},
+\code{\link{ols_pred_rsq}()}
 }
 \concept{influence measures}

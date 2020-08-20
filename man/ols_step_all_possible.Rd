@@ -8,8 +8,7 @@
 \usage{
 ols_step_all_possible(model, ...)
 
-\method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE,
-  ...)
+\method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -25,19 +24,21 @@ ols_step_all_possible(model, ...)
 An object of class \code{"ols_step_all_possible"} is a data frame containing the
 following components:
 
+\item{mindex}{model index}
 \item{n}{model number}
 \item{predictors}{predictors in the model}
 \item{rsquare}{rsquare of the model}
 \item{adjr}{adjusted rsquare of the model}
+\item{rmse}{root mean squared error of the model}
 \item{predrsq}{predicted rsquare of the model}
 \item{cp}{mallow's Cp}
 \item{aic}{akaike information criteria}
 \item{sbic}{sawa bayesian information criteria}
 \item{sbc}{schwarz bayes information criteria}
-\item{gmsep}{estimated MSE of prediction, assuming multivariate normality}
-\item{jp}{final prediction error}
-\item{pc}{amemiya prediction criteria}
-\item{sp}{hocking's Sp}
+\item{msep}{estimated MSE of prediction, assuming multivariate normality}
+\item{fpe}{final prediction error}
+\item{apc}{amemiya prediction criteria}
+\item{hsp}{hocking's Sp}
 }
 \description{
 Fits all regressions involving one regressor, two regressors, three
@@ -63,11 +64,12 @@ Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regre
 Prentice Hall
 }
 \seealso{
-Other variable selection procedures: \code{\link{ols_step_backward_aic}},
-  \code{\link{ols_step_backward_p}},
-  \code{\link{ols_step_best_subset}},
-  \code{\link{ols_step_both_aic}},
-  \code{\link{ols_step_forward_aic}},
-  \code{\link{ols_step_forward_p}}
+Other variable selection procedures: 
+\code{\link{ols_step_backward_aic}()},
+\code{\link{ols_step_backward_p}()},
+\code{\link{ols_step_best_subset}()},
+\code{\link{ols_step_both_aic}()},
+\code{\link{ols_step_forward_aic}()},
+\code{\link{ols_step_forward_p}()}
 }
 \concept{variable selection procedures}

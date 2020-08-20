@@ -2,9 +2,11 @@
 #'
 #' Select the subset of predictors that do the best at meeting some
 #' well-defined objective criterion, such as having the largest R2 value or the
-#' smallest MSE, Mallow's Cp or AIC.
+#' smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
+#' model is R2 but the user can choose any of the other available metrics.
 #'
 #' @param model An object of class \code{lm}.
+#' @param metric Metric to select model.
 #' @param x An object of class \code{ols_step_best_subset}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other inputs.
@@ -39,6 +41,8 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_step_best_subset(model)
+#' ols_step_best_subset(model, metric = "adjr")
+#' ols_step_best_subset(model, metric = "cp")
 #'
 #' # plot
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -47,11 +51,18 @@
 #'
 #' @export
 #'
-ols_step_best_subset <- function(model, ...) UseMethod("ols_step_best_subset")
+ols_step_best_subset <- function(model, metric = c("rsquare", "adjr", "predrsq",
+                                                   "cp", "aic", "sbic", "sbc",
+                                                   "msep", "fpe", "apc", "hsp"),
+                                 ...) UseMethod("ols_step_best_subset")
 
 #' @export
 #'
-ols_step_best_subset.default <- function(model, ...) {
+ols_step_best_subset.default <- function(model,
+                                         metric = c("rsquare", "adjr", "predrsq",
+                                                    "cp", "aic", "sbic", "sbc",
+                                                    "msep", "fpe", "apc", "hsp"),
+                                         ...) {
 
   check_model(model)
   check_npredictors(model, 3)
@@ -71,13 +82,13 @@ ols_step_best_subset.default <- function(model, ...) {
   len_preds <- length(predicts)
   gap       <- len_preds - 1
   space     <- coeff_length(predicts, gap)
-  data      <- mod_sel_data(model)
+  data      <- model$model
   colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
   p         <- colas
   t         <- cumsum(colas)
   q         <- c(1, t[-lc] + 1)
-  
+
   mcount    <- 0
   rsq       <- list()
   adjr      <- list()
@@ -99,8 +110,8 @@ ols_step_best_subset.default <- function(model, ...) {
     for (j in seq_len(colas[i])) {
       predictors        <- nam[combs[[i]][, j]]
       lp                <- length(predictors)
-      out               <- ols_regress(paste(response, "~", 
-                                       paste(predictors, collapse = " + ")), 
+      out               <- ols_regress(paste(response, "~",
+                                       paste(predictors, collapse = " + ")),
                                        data = data)
       mcount            <- mcount + 1
       lpreds[mcount]    <- lp
@@ -136,11 +147,17 @@ ols_step_best_subset.default <- function(model, ...) {
     stringsAsFactors = F
   )
 
+  metrics <- match.arg(metric)
+
   sorted <- c()
 
   for (i in seq_len(lc)) {
     temp   <- ui[q[i]:t[i], ]
-    temp   <- temp[order(temp$rsquare, decreasing = TRUE), ]
+    if (metrics == "rsquare" || metrics == "adjr" || metrics == "predrsq") {
+      temp   <- temp[order(temp[[metrics]], decreasing = TRUE), ]
+    } else {
+      temp   <- temp[order(temp[[metrics]]), ]
+    }
     sorted <- rbind(sorted, temp[1, ])
   }
 
@@ -219,8 +236,8 @@ best_subset_plot <- function(d, var, title = "R-Square") {
   mindex <- NULL
   a      <- NULL
   b      <- NULL
-  
-  d1 <- d[, c("mindex", var)]   
+
+  d1 <- d[, c("mindex", var)]
   colnames(d1) <- c("a", "b")
 
   ggplot(d1, aes(x = a, y = b)) +

@@ -76,7 +76,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
   check_npredictors(model, 3)
 
   response <- names(model$model)[1]
-  l        <- eval(model$call$data)
+  l        <- model$model
   nam      <- colnames(attr(model$terms, "factors"))
   df       <- nrow(l) - 2
   tenter   <- qt(1 - (pent) / 2, df)

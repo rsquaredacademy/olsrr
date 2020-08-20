@@ -14,19 +14,21 @@
 #' An object of class \code{"ols_step_all_possible"} is a data frame containing the
 #' following components:
 #'
+#' \item{mindex}{model index}
 #' \item{n}{model number}
 #' \item{predictors}{predictors in the model}
 #' \item{rsquare}{rsquare of the model}
 #' \item{adjr}{adjusted rsquare of the model}
+#' \item{rmse}{root mean squared error of the model}
 #' \item{predrsq}{predicted rsquare of the model}
 #' \item{cp}{mallow's Cp}
 #' \item{aic}{akaike information criteria}
 #' \item{sbic}{sawa bayesian information criteria}
 #' \item{sbc}{schwarz bayes information criteria}
-#' \item{gmsep}{estimated MSE of prediction, assuming multivariate normality}
-#' \item{jp}{final prediction error}
-#' \item{pc}{amemiya prediction criteria}
-#' \item{sp}{hocking's Sp}
+#' \item{msep}{estimated MSE of prediction, assuming multivariate normality}
+#' \item{fpe}{final prediction error}
+#' \item{apc}{amemiya prediction criteria}
+#' \item{hsp}{hocking's Sp}
 #'
 #' @references
 #' Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
@@ -65,6 +67,7 @@ ols_step_all_possible.default <- function(model, ...) {
     predictors = unlist(metrics$preds),
     rsquare    = unlist(metrics$rsq),
     adjr       = unlist(metrics$adjrsq),
+    rmse       = unlist(metrics$rmse),
     predrsq    = unlist(metrics$predrsq),
     cp         = unlist(metrics$cp),
     aic        = unlist(metrics$aic),
@@ -88,9 +91,11 @@ ols_step_all_possible.default <- function(model, ...) {
   mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
 
-  class(sorted) <- c("ols_step_all_possible", "data.frame")
+  out <- list(result = sorted)
 
-  return(sorted)
+  class(out) <- c("ols_step_all_possible")
+
+  return(out)
 }
 
 
@@ -108,8 +113,8 @@ ols_all_subset <- function(model, ...) {
 print.ols_step_all_possible <- function(x, ...) {
 
   mindex <- NULL
-  n <- max(x$mindex)
-  k <- data.frame(x)[, c(1:5, 7)]
+  n <- max(x$result$mindex)
+  k <- data.frame(x$result)[, c(1:5, 7)]
 
   names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square",
                 "Mallow's Cp")
@@ -137,8 +142,9 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
   sbic    <- NULL
   sbc     <- NULL
 
-  d <- data.frame(index = x$mindex, n = x$n, rsquare = x$rsquare, adjr = x$adjr,
-                  cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
+  k <- x$result
+  d <- data.frame(index = k$mindex, n = k$n, rsquare = k$rsquare, adjr = k$adjr,
+                  cp = k$cp, aic = k$aic, sbic = k$sbic, sbc = k$sbc)
   d$cps <- abs(d$n - d$cp)
 
   p1 <- all_possible_plot(d, "rsquare", title = "R-Square")
@@ -153,9 +159,9 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 
   if (print_plot) {
     marrangeGrob(myplots, nrow = 2, ncol = 2)
-  } else {
-    return(myplots)
   }
+
+  return(myplots)
 
 }
 
@@ -250,7 +256,7 @@ all_pos_index <- function(d, var, title = "R-Square") {
 
   for (i in m$n) {
     j <- which(part_2(m, var, i) == part_3(k, var, i))
-    index[i] <- part_1(k, i)[j] 
+    index[i] <- part_1(k, i)[j]
   }
 
   return(index)
@@ -346,12 +352,13 @@ allpos_helper <- function(model) {
     combs[[i]] <- combn(n, r[i])
   }
 
+
+  pos_data  <- model$model
   predicts  <- nam
   lc        <- length(combs)
   varnames  <- model_colnames(model)
   len_preds <- length(predicts)
   gap       <- len_preds - 1
-  data      <- mod_sel_data(model)
   space     <- coeff_length(predicts, gap)
   colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
@@ -362,6 +369,7 @@ allpos_helper <- function(model) {
   mcount    <- 0
   rsq       <- list()
   adjrsq    <- list()
+  sigma     <- list()
   predrsq   <- list()
   cp        <- list()
   aic       <- list()
@@ -383,12 +391,13 @@ allpos_helper <- function(model) {
 
       out <- ols_regress(paste(response, "~",
                                paste(predictors, collapse = " + ")),
-                         data = data)
+                         data = pos_data)
 
       mcount            <- mcount + 1
       lpreds[mcount]    <- lp
       rsq[[mcount]]     <- out$rsq
       adjrsq[[mcount]]  <- out$adjr
+      sigma[[mcount]]   <- out$rmse
       predrsq[[mcount]] <- ols_pred_rsq(out$model)
       cp[[mcount]]      <- ols_mallows_cp(out$model, model)
       aic[[mcount]]     <- ols_aic(out$model)
@@ -404,7 +413,7 @@ allpos_helper <- function(model) {
   }
 
   result <- list(
-    lpreds = lpreds, rsq = rsq, adjrsq = adjrsq,
+    lpreds = lpreds, rsq = rsq, adjrsq = adjrsq, rmse = sigma,
     predrsq = predrsq, cp = cp, aic = aic, sbic = sbic,
     sbc = sbc, msep = msep, fpe = fpe, apc = apc, hsp = hsp,
     preds = preds, lc = lc, q = q, t = t, betas = betas

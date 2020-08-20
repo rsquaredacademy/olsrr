@@ -18,7 +18,7 @@ Amemiya's prediction error.
 \details{
 Amemiya's Prediction Criterion penalizes R-squared more heavily than does
 adjusted R-squared for each addition degree of freedom used on the
-right-hand-side of the equation.  The higher the better for this criterion.
+right-hand-side of the equation.  The lower the better for this criterion.
 
 \deqn{((n + p) / (n - p))(1 - (R^2))}
 
@@ -37,9 +37,13 @@ Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory a
 New York: John Wiley & Sons.
 }
 \seealso{
-Other model selection criteria: \code{\link{ols_aic}},
-  \code{\link{ols_fpe}}, \code{\link{ols_hsp}},
-  \code{\link{ols_mallows_cp}}, \code{\link{ols_msep}},
-  \code{\link{ols_sbc}}, \code{\link{ols_sbic}}
+Other model selection criteria: 
+\code{\link{ols_aic}()},
+\code{\link{ols_fpe}()},
+\code{\link{ols_hsp}()},
+\code{\link{ols_mallows_cp}()},
+\code{\link{ols_msep}()},
+\code{\link{ols_sbc}()},
+\code{\link{ols_sbic}()}
 }
 \concept{model selection criteria}
