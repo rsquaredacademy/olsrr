@@ -138,7 +138,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
 
   sbic    <- ols_sbic(fr$model, model)
-  rmse    <- sqrt(fr$ems)
+  rmse    <- fr$rmse
   betas   <- append(betas, fr$betas)
   lbetas  <- append(lbetas, length(fr$betas))
   pvalues <- append(pvalues, fr$pvalues)
@@ -203,7 +203,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       sbc       <- c(sbc, ols_sbc(fr$model))
       sbic      <- c(sbic, ols_sbic(fr$model, model))
       cp        <- c(cp, ols_mallows_cp(fr$model, model))
-      rmse      <- c(rmse, sqrt(fr$ems))
+      rmse      <- c(rmse, fr$rmse)
       betas     <- append(betas, fr$betas)
       lbetas    <- append(lbetas, length(fr$betas))
       pvalues   <- append(pvalues, fr$pvalues)
@@ -257,7 +257,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
         sbc       <- c(sbc, ols_sbc(fr$model))
         sbic      <- c(sbic, ols_sbic(fr$model, model))
         cp        <- c(cp, ols_mallows_cp(fr$model, model))
-        rmse      <- c(rmse, sqrt(fr$ems))
+        rmse      <- c(rmse, fr$rmse)
         betas     <- append(betas, fr$betas)
         lbetas    <- append(lbetas, length(fr$betas))
         pvalues   <- append(pvalues, fr$pvalues)
@@ -308,6 +308,10 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+  
+  metrics     <- data.frame(r2 = rsq[all_step], adj_r2 = adjrsq[all_step], aic = aic[all_step], 
+                            sbic = sbic[all_step], sbc = sbc[all_step], 
+                            mallows_cp = cp[all_step], rmse = rmse[all_step])
 
   beta_pval <- data.frame(
     model     = rep(seq_len(all_step), lbetas),
@@ -317,24 +321,24 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
   )
 
   out <- list(
-    orders     = var_index,
-    method     = method,
-    steps      = all_step,
-    predictors = preds,
-    rsquare    = rsq,
+    adjr       = adjrsq,
     aic        = aic,
+    beta_pval  = beta_pval,
+    betas      = betas,
+    indvar     = cterms,
+    lbetas     = lbetas,
+    mallows_cp = cp,
+    method     = method,
+    metrics    = metrics,
+    model      = final_model,
+    orders     = var_index,
+    predictors = preds,
+    pvalues    = pvalues,
+    rmse       = rmse,
+    rsquare    = rsq,
     sbc        = sbc,
     sbic       = sbic,
-    adjr       = adjrsq,
-    rmse       = rmse,
-    mallows_cp = cp,
-    indvar     = cterms,
-    betas      = betas,
-    lbetas     = lbetas,
-    pvalues    = pvalues,
-    beta_pval  = beta_pval,
-    model      = final_model
-  )
+    steps      = all_step)
 
   class(out) <- "ols_step_both_p"
 
