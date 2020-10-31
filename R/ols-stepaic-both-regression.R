@@ -318,14 +318,15 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  out <- list(predictors = var_index,
-              method     = method,
-              steps      = all_step,
+  out <- list(aic        = laic,
               arsq       = larsq,
-              aic        = laic,
               ess        = less,
+              method     = method,
+              model      = final_model,
+              predictors = var_index,
+              rsq        = lrsq,
               rss        = lrss,
-              rsq        = lrsq)
+              steps      = all_step)
 
   class(out) <- "ols_step_both_aic"
 
