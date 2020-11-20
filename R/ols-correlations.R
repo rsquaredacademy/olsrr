@@ -65,7 +65,7 @@ cmdata <- function(mdata) {
 }
 
 rtwo <- function(i, mdata) {
-  dat <- mdata[, c(-1, -i)]
+  dat <- mdata[, c(-1, -i), drop = FALSE]
   summary(lm(mdata[[1]] ~ ., data = dat))[[8]]
 }
 
