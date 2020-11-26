@@ -3,17 +3,19 @@
 
 # olsrr
 
+<!-- badges: start -->
+
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![cran
 checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
-[![Travis-CI Build
-Status](https://travis-ci.org/rsquaredacademy/olsrr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/olsrr)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/olsrr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/olsrr)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)
+[![R build
+status](https://github.com/rsquaredacademy/olsrr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/olsrr/actions)
 [![Coverage
 status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master)
+[![status](https://tinyverse.netlify.com/badge/olsrr)](https://CRAN.R-project.org/package=olsrr)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr)
+<!-- badges: end -->
 
 ## Overview
 
@@ -71,7 +73,7 @@ demo:
 ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #>                         Model Summary                          
 #> --------------------------------------------------------------
-#> R                       0.914       RMSE                2.622 
+#> R                       0.914       RMSE                2.409 
 #> R-Squared               0.835       Coef. Var          13.051 
 #> Adj. R-Squared          0.811       MSE                 6.875 
 #> Pred R-Squared          0.771       MAE                 1.858 
@@ -120,11 +122,11 @@ ols_step_both_p(model)
 #>                         Added/                   Adj.                                         
 #> Step     Variable      Removed     R-Square    R-Square     C(p)        AIC         RMSE      
 #> ------------------------------------------------------------------------------------------
-#>    1    liver_test     addition       0.455       0.444    62.5120    771.8753    296.2992    
-#>    2     alc_heavy     addition       0.567       0.550    41.3680    761.4394    266.6484    
-#>    3    enzyme_test    addition       0.659       0.639    24.3380    750.5089    238.9145    
-#>    4      pindex       addition       0.750       0.730     7.5370    735.7146    206.5835    
-#>    5        bcs        addition       0.781       0.758     3.1920    730.6204    195.4544    
+#>    1    liver_test     addition       0.455       0.444    62.5120    771.8753    290.7604    
+#>    2     alc_heavy     addition       0.567       0.550    41.3680    761.4394    259.1357    
+#>    3    enzyme_test    addition       0.659       0.639    24.3380    750.5089    229.8956    
+#>    4      pindex       addition       0.750       0.730     7.5370    735.7146    196.7872    
+#>    5        bcs        addition       0.781       0.758     3.1920    730.6204    184.2762    
 #> ------------------------------------------------------------------------------------------
 ```
 
@@ -198,18 +200,18 @@ ols_coll_diag(model)
 #> 
 #> Eigenvalue and Condition Index
 #> ------------------------------
-#>    Eigenvalue Condition Index   intercept        disp          hp
-#> 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094
-#> 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289
-#> 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164
-#> 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623
-#> 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831
-#>             wt         qsec
-#> 1 0.0005253393 0.0001277169
-#> 2 0.0002096014 0.0046789491
-#> 3 0.0377028008 0.0001952599
-#> 4 0.7017528428 0.0024577686
-#> 5 0.2598094157 0.9925403056
+#>    Eigenvalue Condition Index   intercept        disp          hp           wt
+#> 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094 0.0005253393
+#> 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289 0.0002096014
+#> 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164 0.0377028008
+#> 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623 0.7017528428
+#> 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831 0.2598094157
+#>           qsec
+#> 1 0.0001277169
+#> 2 0.0046789491
+#> 3 0.0001952599
+#> 4 0.0024577686
+#> 5 0.9925403056
 ```
 
 ## Getting Help

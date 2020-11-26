@@ -127,7 +127,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
         sbc    <- c(sbc, ols_sbc(fr$model))
         sbic   <- c(sbic, ols_sbic(fr$model, model))
         cp     <- c(cp, ols_mallows_cp(fr$model, model))
-        rmse   <- c(rmse, sqrt(fr$ems))
+        rmse   <- c(rmse, fr$rmse)
 
         if (progress) {
           if (interactive()) {
@@ -180,18 +180,23 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+  
+  metrics     <- data.frame(r2 = rsq[step], adj_r2 = adjrsq[step], aic = aic[step], 
+                            sbic = sbic[step], sbc = sbc[step], mallows_cp = cp[step], 
+                            rmse = rmse[step])
 
-  out <- list(mallows_cp = cp,
-              removed    = rpred,
-              rsquare    = rsq,
-              indvar     = cterms,
-              steps      = step,
-              sbic       = sbic,
-              adjr       = adjrsq,
-              rmse       = rmse,
+  out <- list(adjr       = adjrsq,
               aic        = aic,
+              indvar     = cterms,
+              mallows_cp = cp,
+              metrics    = metrics,
+              model      = final_model,
+              removed    = rpred,
+              rmse       = rmse,
+              rsquare    = rsq,
               sbc        = sbc,
-              model      = final_model)
+              sbic       = sbic,
+              steps      = step)
 
   class(out) <- "ols_step_backward_p"
 

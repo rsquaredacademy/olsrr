@@ -15,6 +15,7 @@ test_that("hadi plot is as expected", {
 })
 
 test_that("observed vs predicted plot is as expected", {
+  skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   p <- ols_plot_obs_fit(model)
   vdiffr::expect_doppelganger("ovsp plot", p)
@@ -45,6 +46,7 @@ test_that("residual fit spread plot 2 is as expected", {
 })
 
 test_that("residual qq plot is as expected", {
+  skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   p <- ols_plot_resid_qq(model)
   vdiffr::expect_doppelganger("residual qq plot", p)
@@ -138,10 +140,11 @@ test_that("added variable plot is as expected", {
 })
 
 test_that("all possible regression plots are as expected", {
+  skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   model <- lm(mpg ~ disp + hp, data = mtcars)
   k     <- ols_step_all_possible(model)
-  p     <- plot(k, print_plot = FALSE)  
+  p     <- plot(k, print_plot = FALSE)
   vdiffr::expect_doppelganger("allplot_1", p$plot_1)
   vdiffr::expect_doppelganger("allplot_2", p$plot_2)
   vdiffr::expect_doppelganger("allplot_3", p$plot_3)
@@ -154,7 +157,7 @@ test_that("best subset regression plots are as expected", {
   skip_on_cran()
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
   k     <- ols_step_best_subset(model)
-  p     <- plot(k, print_plot = FALSE)  
+  p     <- plot(k, print_plot = FALSE)
   vdiffr::expect_doppelganger("bestplot_1", p$plot_1)
   vdiffr::expect_doppelganger("bestplot_2", p$plot_2)
   vdiffr::expect_doppelganger("bestplot_3", p$plot_3)
@@ -175,6 +178,7 @@ test_that("dfbetas plot is as expected", {
 })
 
 test_that("diagnostics panel is as expected", {
+  skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
   p <- ols_plot_diagnostics(model, print_plot = FALSE)
@@ -192,6 +196,7 @@ test_that("diagnostics panel is as expected", {
 
 
 test_that("fitted line plot is as expected", {
+  skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   p <- ols_plot_reg_line(mtcars$mpg, mtcars$disp, print_plot = FALSE)
   vdiffr::expect_doppelganger("reg_line_plot", p)
@@ -232,7 +237,7 @@ test_that("stepwise backward regression plots are as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
   k     <- ols_step_backward_p(model)
-  p     <- plot(k, print_plot = FALSE)  
+  p     <- plot(k, print_plot = FALSE)
   vdiffr::expect_doppelganger("step_back_1", p$plot_1)
   vdiffr::expect_doppelganger("step_back_2", p$plot_2)
   vdiffr::expect_doppelganger("step_back_3", p$plot_3)
@@ -245,7 +250,7 @@ test_that("stepwise forward regression plots are as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
   k     <- ols_step_forward_p(model)
-  p     <- plot(k, print_plot = FALSE)  
+  p     <- plot(k, print_plot = FALSE)
   vdiffr::expect_doppelganger("step_forward_1", p$plot_1)
   vdiffr::expect_doppelganger("step_forward_2", p$plot_2)
   vdiffr::expect_doppelganger("step_forward_3", p$plot_3)
@@ -258,7 +263,7 @@ test_that("stepwise both regression plots are as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
   k     <- ols_step_both_p(model)
-  p     <- plot(k, print_plot = FALSE)  
+  p     <- plot(k, print_plot = FALSE)
   vdiffr::expect_doppelganger("step_both_1", p$plot_1)
   vdiffr::expect_doppelganger("step_both_2", p$plot_2)
   vdiffr::expect_doppelganger("step_both_3", p$plot_3)
