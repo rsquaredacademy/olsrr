@@ -4,7 +4,7 @@
 \alias{ols_prep_cdplot_data}
 \title{Cooks' D plot data}
 \usage{
-ols_prep_cdplot_data(model)
+ols_prep_cdplot_data(model, type = 1)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}

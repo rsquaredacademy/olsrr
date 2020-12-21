@@ -79,7 +79,7 @@ ols_prep_regress_y <- function(data, i) {
 #'
 #' @export
 #'
-ols_prep_cdplot_data <- function(model) {
+ols_prep_cdplot_data <- function(model, type = 1) {
 
   cd        <- NULL
   color     <- NULL
@@ -87,22 +87,29 @@ ols_prep_cdplot_data <- function(model) {
   n         <- length(cooksd)
   obs       <- seq_len(n)
   ckd       <- data.frame(obs = obs, cd = cooksd)
-  ts        <- 4 / n
+  ts        <- ols_cooks_ts(model, type)
   cooks_max <- max(cooksd)
 
   ckd$color     <- ifelse(ckd$cd >= ts, "outlier", "normal")
   ckd$fct_color <- ordered(factor(ckd$color), levels = c("normal", "outlier"))
 
-  # ckd %<>%
-  #   mutate(
-  #     color = ifelse(cd >= ts, "outlier", "normal"),
-  #     fct_color = color %>%
-  #       factor() %>%
-  #       ordered(levels = c("normal", "outlier"))
-  #   )
-
   maxx <- cooks_max * 0.01 + cooks_max
   list(ckd = ckd, maxx = maxx, ts = ts)
+
+}
+
+ols_cooks_ts <- function(model, type = 1) {
+
+  cooksd    <- cooks.distance(model)
+  n         <- length(cooksd)
+  k         <- length(model$coefficients) - 1
+
+  switch(type,
+         `1` = (4 / n),
+         `2` = (4 / (n - k - 1)),
+         `3` = (1),
+         `4` = (1 / (n - k - 1)),
+         `5` = (3 * mean(cooksd)))
 
 }
 
@@ -185,16 +192,6 @@ ols_prep_dfbeta_data <- function(d, threshold) {
 
   return(d)
 
-  # d %>%
-  #   mutate(
-  #     color = ifelse(((d$dbetas >= threshold) | (d$dbetas <= -threshold)),
-  #                    c("outlier"), c("normal")),
-  #     fct_color = color %>%
-  #       factor() %>%
-  #       ordered(levels = c("normal", "outlier")),
-  #     txt = ifelse(color == "outlier", obs, NA)
-  #   )
-
 }
 
 #' DFBETAs plot outliers
@@ -249,14 +246,6 @@ ols_prep_dsrvf_data <- function(model) {
 
   ds$color     <- ifelse((abs(ds$dsr) >= 2), "outlier", "normal")
   ds$fct_color <- ordered(factor(ds$color), levels = c("normal", "outlier"))
-
-  # ds %<>%
-  #   mutate(
-  #     color = ifelse((abs(dsr) >= 2), "outlier", "normal"),
-  #     fct_color = color %>%
-  #       factor() %>%
-  #       ordered(levels = c("normal", "outlier"))
-  #   )
 
   ds2 <- data.frame(obs       = seq_len(n),
                     pred      = pred,
