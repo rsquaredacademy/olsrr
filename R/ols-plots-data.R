@@ -71,6 +71,7 @@ ols_prep_regress_y <- function(data, i) {
 #' Prepare data for cook's d bar plot.
 #'
 #' @param model An object of class \code{lm}.
+#' @param type An integer between 1 and 5 selecting one of the 6 methods for computing the threshold.
 #'
 #'
 #' @examples

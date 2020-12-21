@@ -8,6 +8,8 @@ ols_prep_cdplot_data(model, type = 1)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{type}{An integer between 1 and 5 selecting one of the 6 methods for computing the threshold.}
 }
 \description{
 Prepare data for cook's d bar plot.
