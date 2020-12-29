@@ -160,6 +160,11 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
     all_pred <- all_pred[-minp]
     len_p    <- length(all_pred)
+
+    if (len_p == 0) {
+      break
+    }
+
     ppos     <- ppos + length(minp)
     pvals    <- c()
     tvals    <- c()

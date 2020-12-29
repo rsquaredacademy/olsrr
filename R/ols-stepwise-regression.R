@@ -172,6 +172,11 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
     all_pred <- all_pred[-minp]
     len_p    <- length(all_pred)
+
+    if (len_p == 0) {
+      break
+    }
+
     step     <- step + 1
     ppos     <- ppos + length(minp)
     pvals    <- c()
@@ -238,7 +243,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
       m2      <- lm(paste(response, "~",
                                    paste(preds, collapse = " + ")), l)
-      m2_sum <- Anova(m2)
+      m2_sum  <- Anova(m2)
       pvals_r <- m2_sum$`Pr(>F)`
       maxp    <- which(pvals_r == max(pvals_r, na.rm = TRUE))
       if (pvals_r[maxp] > prem) {
