@@ -132,12 +132,15 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
   aic_model <- ols_step_forward_aic(model)
 
-  if (details) {
-    cat("\n")
-    cat(paste("Forward Selection: Step", step), "\n\n")
-  }
-
   for (i in seq_len(lpreds)) {
+
+    step <- step + 1
+
+    if (details) {
+      cat("\n")
+      cat(paste("Forward Selection: Step", step), "\n\n")
+    }
+
     npreds <- aic_model$predictors[1:i]
     fr     <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
     rsq    <- c(rsq, fr$rsq)
@@ -149,12 +152,19 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
     rmse   <- c(rmse, fr$rmse)
 
     if (progress) {
-    if (interactive()) {
-      cat("+", tail(npreds, n = 1), "\n")
-    } else {
-      cat(paste("-", tail(npreds, n = 1)), "\n")
+      if (interactive()) {
+        cat("+", tail(npreds, n = 1), "\n")
+      } else {
+        cat(paste("-", tail(npreds, n = 1)), "\n")
+      }
     }
-  }
+
+    if (details) {
+      cat("\n")
+      m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+      print(m)
+      cat("\n\n")
+    }
   }
 
   # fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
@@ -166,15 +176,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
   # sbic   <- ols_sbic(fr$model, model)
   # rmse   <- fr$rmse
 
-  if (details) {
-    cat("\n")
-    m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-    print(m)
-    cat("\n\n")
-  }
-
   preds <- npreds
-  step  <- step + lpreds
 
   while (step < mlen_p) {
 
@@ -245,12 +247,19 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
   if (details) {
     cat("\n\n")
-    cat("Variables Entered:", "\n\n")
-    for (i in seq_len(length(preds))) {
-      if (details) {
-        cat("+", preds[i], "\n")
-      } else {
-        cat(paste("+", preds[i]), "\n")
+    len_pred <- length(preds)
+    if (len_pred < 1) {
+      cat("Variables Entered: None", "\n\n")  
+    } else if (len_pred == 1) {
+      cat(paste("Variables Entered:", preds[1]), "\n\n")
+    } else {
+      cat("Variables Entered:", "\n\n")
+      for (i in seq_len(length(preds))) {
+        if (details) {
+          cat("+", preds[i], "\n")
+        } else {
+          cat(paste("+", preds[i]), "\n")
+        }
       }
     }
   }
