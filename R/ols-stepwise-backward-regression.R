@@ -157,12 +157,19 @@ ols_step_backward_p.default <- function(model, prem = 0.3, progress = FALSE, det
 
   if (details) {
     cat("\n\n")
-    cat("Variables Removed:", "\n\n")
-    for (i in seq_len(length(rpred))) {
-      if (interactive()) {
-        cat("x", rpred[i], "\n")
-      } else {
-        cat(paste("-", rpred[i]), "\n")
+    len_pred <- length(rpred)
+    if (len_pred < 1) {
+      cat("Variables Removed: None", "\n\n")
+    } else if (len_pred == 1) {
+      cat(paste("Variables Removed:", rpred[1]), "\n\n")
+    } else {
+      cat("Variables Removed:", "\n\n")
+      for (i in seq_len(len_pred)) {
+        if (interactive()) {
+          cat("x", rpred[i], "\n")
+        } else {
+          cat(paste("-", rpred[i]), "\n")
+        }
       }
     }
   }

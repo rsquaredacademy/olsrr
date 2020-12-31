@@ -5,6 +5,7 @@
 #' fitted values of the model.
 #'
 #' @param model An object of class \code{lm}.
+#' @param type An integer between 1 and 5 selecting one of the 6 methods for computing the threshold.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
@@ -21,7 +22,25 @@
 #'   \item exmine how much all of the fitted values change when the ith observation is deleted.
 #' }
 #'
-#' A data point having a large cook's d indicates that the data point strongly influences the fitted values.
+#' A data point having a large cook's d indicates that the data point strongly
+#' influences the fitted values. There are several methods/formulas to compute
+#' the threshold used for detecting or classifying observations as outliers
+#' and we list them below.
+#'
+#' \itemize{
+#'   \item \strong{Type 1} : 4 / n
+#'   \item \strong{Type 2} : 4 / (n - k - 1)
+#'   \item \strong{Type 3} : ~1
+#'   \item \strong{Type 4} : 1 / (n - k - 1)
+#'   \item \strong{Type 5} : 3 * mean(Vector of cook's distance values)
+#' }
+#'
+#' where \strong{n} and \strong{k} stand for
+#'
+#' \itemize{
+#'   \item \strong{n}: Number of observations
+#'   \item \strong{k}: Number of predictors
+#' }
 #'
 #' @return \code{ols_plot_cooksd_chart} returns  a list containing the
 #' following components:
@@ -42,7 +61,7 @@
 #'
 #' @export
 #'
-ols_plot_cooksd_chart <- function(model, print_plot = TRUE) {
+ols_plot_cooksd_chart <- function(model, type = 1, print_plot = TRUE) {
 
   check_model(model)
 
@@ -51,7 +70,7 @@ ols_plot_cooksd_chart <- function(model, print_plot = TRUE) {
   txt <- NULL
   cd  <- NULL
 
-  k <- ols_prep_cdplot_data(model)
+  k <- ols_prep_cdplot_data(model, type)
   d <- ols_prep_outlier_obs(k)
   f <- ols_prep_cdplot_outliers(k)
 

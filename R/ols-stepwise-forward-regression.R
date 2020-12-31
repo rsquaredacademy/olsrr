@@ -87,16 +87,18 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
   cterms   <- all_pred
   mlen_p   <- length(all_pred)
 
-  step     <- 1
-  ppos     <- step
+  step     <- 0
+  ppos     <- step + 1
   preds    <- c()
   pvals    <- c()
   tvals    <- c()
   rsq      <- c()
   adjrsq   <- c()
   aic      <- c()
-  bic      <- c()
+  sbic     <- c()
   cp       <- c()
+  sbc      <- c()
+  rmse     <- c()
 
   if (progress) {
     cat(format("Forward Selection Method", justify = "left", width = 27), "\n")
@@ -119,47 +121,72 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
   for (i in seq_len(mlen_p)) {
     predictors <- all_pred[i]
-    m <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
-    m_sum <- Anova(m)
-    pvals[i] <- m_sum$`Pr(>F)`[ppos]
+    m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m_sum      <- Anova(m)
+    pvals[i]   <- m_sum$`Pr(>F)`[ppos]
   }
 
   minp   <- which(pvals == min(pvals, na.rm = TRUE))
   preds  <- all_pred[minp]
   lpreds <- length(preds)
-  fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-  rsq    <- fr$rsq
-  adjrsq <- fr$adjr
-  cp     <- ols_mallows_cp(fr$model, model)
-  aic    <- ols_aic(fr$model)
-  sbc    <- ols_sbc(fr$model)
-  sbic   <- ols_sbic(fr$model, model)
-  rmse   <- fr$rmse
 
-  if (details) {
-    cat("\n")
-    cat(paste("Forward Selection: Step", step), "\n\n")
-  }
+  aic_model <- ols_step_forward_aic(model)
 
-  if (progress) {
-    if (interactive()) {
-      cat("+", tail(preds, n = 1), "\n")
-    } else {
-      cat(paste("-", tail(preds, n = 1)), "\n")
+  for (i in seq_len(lpreds)) {
+
+    step <- step + 1
+
+    if (details) {
+      cat("\n")
+      cat(paste("Forward Selection: Step", step), "\n\n")
+    }
+
+    npreds <- aic_model$predictors[1:i]
+    fr     <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+    rsq    <- c(rsq, fr$rsq)
+    adjrsq <- c(adjrsq, fr$adjr)
+    aic    <- c(aic, ols_aic(fr$model))
+    sbc    <- c(sbc, ols_sbc(fr$model))
+    sbic   <- c(sbic, ols_sbic(fr$model, model))
+    cp     <- c(cp, ols_mallows_cp(fr$model, model))
+    rmse   <- c(rmse, fr$rmse)
+
+    if (progress) {
+      if (interactive()) {
+        cat("+", tail(npreds, n = 1), "\n")
+      } else {
+        cat(paste("-", tail(npreds, n = 1)), "\n")
+      }
+    }
+
+    if (details) {
+      cat("\n")
+      m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+      print(m)
+      cat("\n\n")
     }
   }
 
-  if (details) {
-    cat("\n")
-    m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-    print(m)
-    cat("\n\n")
-  }
+  # fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+  # rsq    <- fr$rsq
+  # adjrsq <- fr$adjr
+  # cp     <- ols_mallows_cp(fr$model, model)
+  # aic    <- ols_aic(fr$model)
+  # sbc    <- ols_sbc(fr$model)
+  # sbic   <- ols_sbic(fr$model, model)
+  # rmse   <- fr$rmse
+
+  preds <- npreds
 
   while (step < mlen_p) {
 
     all_pred <- all_pred[-minp]
     len_p    <- length(all_pred)
+
+    if (len_p == 0) {
+      break
+    }
+
     ppos     <- ppos + length(minp)
     pvals    <- c()
     tvals    <- c()
@@ -220,12 +247,19 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
 
   if (details) {
     cat("\n\n")
-    cat("Variables Entered:", "\n\n")
-    for (i in seq_len(length(preds))) {
-      if (details) {
-        cat("+", preds[i], "\n")
-      } else {
-        cat(paste("+", preds[i]), "\n")
+    len_pred <- length(preds)
+    if (len_pred < 1) {
+      cat("Variables Entered: None", "\n\n")  
+    } else if (len_pred == 1) {
+      cat(paste("Variables Entered:", preds[1]), "\n\n")
+    } else {
+      cat("Variables Entered:", "\n\n")
+      for (i in seq_len(length(preds))) {
+        if (details) {
+          cat("+", preds[i], "\n")
+        } else {
+          cat(paste("+", preds[i]), "\n")
+        }
       }
     }
   }
