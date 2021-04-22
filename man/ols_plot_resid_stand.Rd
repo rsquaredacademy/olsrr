@@ -5,10 +5,12 @@
 \alias{ols_srsd_chart}
 \title{Standardized residual chart}
 \usage{
-ols_plot_resid_stand(model, print_plot = TRUE)
+ols_plot_resid_stand(model, threshold = NULL, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{threshold}{Threshold for detecting outliers. Default is 2.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
@@ -35,6 +37,7 @@ estimated standard deviation.
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_stand(model)
+ols_plot_resid_stand(model, threshold = 3)
 
 }
 \seealso{

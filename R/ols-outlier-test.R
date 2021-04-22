@@ -28,7 +28,7 @@ ols_test_outlier <- function(model, cut_off = 0.05, n_max = 10, ...) {
   nf         <- nrow(data_co)
 
   if (nf == 0) {
-    out <- data_bon[data_bon$stud_resid == max(data_bon$stud_resid), ]
+    out <- data_bon[which.max(abs(data_bon$stud_resid)), ]
   } else {
     if (nf < n_max) {
       out <- data_co

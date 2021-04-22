@@ -4,10 +4,12 @@
 \alias{ols_prep_rstudlev_data}
 \title{Studentized residual vs leverage plot data}
 \usage{
-ols_prep_rstudlev_data(model)
+ols_prep_rstudlev_data(model, threshold = NULL)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{threshold}{Threshold for detecting outliers. Default is 2.}
 }
 \description{
 Generates data for studentized resiudual vs leverage plot.
@@ -15,6 +17,7 @@ Generates data for studentized resiudual vs leverage plot.
 \examples{
 model <- lm(read ~ write + math + science, data = hsb)
 ols_prep_rstudlev_data(model)
+ols_prep_rstudlev_data(model, threshold = 3)
 
 
 }

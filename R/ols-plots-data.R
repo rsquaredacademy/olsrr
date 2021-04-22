@@ -229,14 +229,16 @@ ols_prep_dfbeta_outliers <- function(d) {
 #' Generates data for deleted studentized residual vs fitted plot.
 #'
 #' @param model An object of class \code{lm}.
+#' @param threshold Threshold for detecting outliers. Default is 2.
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_prep_dsrvf_data(model)
+#' ols_prep_dsrvf_data(model, threshold = 3)
 #'
 #' @export
 #'
-ols_prep_dsrvf_data <- function(model) {
+ols_prep_dsrvf_data <- function(model, threshold = NULL) {
 
   dsr     <- NULL
   color   <- NULL
@@ -245,7 +247,11 @@ ols_prep_dsrvf_data <- function(model) {
   n       <- length(dsresid)
   ds      <- data.frame(obs = seq_len(n), dsr = dsresid)
 
-  ds$color     <- ifelse((abs(ds$dsr) >= 2), "outlier", "normal")
+  if (is.null(threshold)) {
+    threshold <- 2
+  }
+
+  ds$color     <- ifelse((abs(ds$dsr) >= threshold), "outlier", "normal")
   ds$fct_color <- ordered(factor(ds$color), levels = c("normal", "outlier"))
 
   ds2 <- data.frame(obs       = seq_len(n),
@@ -254,10 +260,10 @@ ols_prep_dsrvf_data <- function(model) {
                     color     = ds$color,
                     fct_color = ds$fct_color)
 
-  minx <- min(ds2$dsr) - 1
-  maxx <- max(ds2$dsr) + 1
-  cminx <- ifelse(minx < -2, minx, -2.5)
-  cmaxx <- ifelse(maxx > 2, maxx, 2.5)
+  minx  <- min(ds2$dsr) - 1
+  maxx  <- max(ds2$dsr) + 1
+  cminx <- ifelse(minx < -threshold, minx, (-threshold - 0.5))
+  cmaxx <- ifelse(maxx > threshold, maxx, (threshold + 0.5))
 
   list(ds = ds2, cminx = cminx, cmaxx = cmaxx)
 
@@ -329,47 +335,53 @@ ols_prep_rvsrplot_data <- function(model) {
 #' Generates data for studentized resiudual vs leverage plot.
 #'
 #' @param model An object of class \code{lm}.
+#' @param threshold Threshold for detecting outliers. Default is 2.
 #'
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
 #' ols_prep_rstudlev_data(model)
+#' ols_prep_rstudlev_data(model, threshold = 3)
 #'
 #'
 #' @export
 #'
-ols_prep_rstudlev_data <- function(model) {
+ols_prep_rstudlev_data <- function(model, threshold = NULL) {
 
-color     <- NULL
-leverage  <- unname(hatvalues(model))
-rstudent  <- unname(rstudent(model))
-k         <- length(coefficients(model))
-n         <- nrow(model.frame(model))
-lev_thrsh <- (2 * k) / n
-rst_thrsh <- 2
-miny      <- min(rstudent) - 3
-maxy      <- max(rstudent) + 3
-minx      <- min(leverage)
-maxx      <- ifelse((max(leverage) > lev_thrsh), max(leverage), (lev_thrsh + 0.05))
-levrstud  <- data.frame(obs = seq_len(n), leverage, rstudent)
+  if (is.null(threshold)) {
+    threshold <- 2
+  }
 
-levrstud$color1 <- ifelse((levrstud$leverage < lev_thrsh & abs(levrstud$rstudent) < 2), "normal", NA)
-levrstud$color2 <- ifelse((levrstud$leverage > lev_thrsh & abs(levrstud$rstudent) < 2), "leverage", NA)
-levrstud$color3 <- ifelse((levrstud$leverage < lev_thrsh & abs(levrstud$rstudent) > 2), "outlier", NA)
-levrstud$color4 <- ifelse((levrstud$leverage > lev_thrsh & abs(levrstud$rstudent) > 2), "outlier & leverage", NA)
+  color     <- NULL
+  leverage  <- unname(hatvalues(model))
+  rstudent  <- unname(rstudent(model))
+  k         <- length(coefficients(model))
+  n         <- nrow(model.frame(model))
+  lev_thrsh <- (2 * k) / n
+  rst_thrsh <- threshold
+  miny      <- min(rstudent) - 3
+  maxy      <- max(rstudent) + 3
+  minx      <- min(leverage)
+  maxx      <- ifelse((max(leverage) > lev_thrsh), max(leverage), (lev_thrsh + 0.05))
+  levrstud  <- data.frame(obs = seq_len(n), leverage, rstudent)
 
-d1 <- levrstud[!is.na(levrstud$color1), c("obs", "leverage", "rstudent", "color1")]
-d2 <- levrstud[!is.na(levrstud$color2), c("obs", "leverage", "rstudent", "color2")]
-d3 <- levrstud[!is.na(levrstud$color3), c("obs", "leverage", "rstudent", "color3")]
-d4 <- levrstud[!is.na(levrstud$color4), c("obs", "leverage", "rstudent", "color4")]
+  levrstud$color1 <- ifelse((levrstud$leverage < lev_thrsh & abs(levrstud$rstudent) < rst_thrsh), "normal", NA)
+  levrstud$color2 <- ifelse((levrstud$leverage > lev_thrsh & abs(levrstud$rstudent) < rst_thrsh), "leverage", NA)
+  levrstud$color3 <- ifelse((levrstud$leverage < lev_thrsh & abs(levrstud$rstudent) > rst_thrsh), "outlier", NA)
+  levrstud$color4 <- ifelse((levrstud$leverage > lev_thrsh & abs(levrstud$rstudent) > rst_thrsh), "outlier & leverage", NA)
 
-colnames(d1) <- c("obs", "leverage", "rstudent", "color")
-colnames(d2) <- c("obs", "leverage", "rstudent", "color")
-colnames(d3) <- c("obs", "leverage", "rstudent", "color")
-colnames(d4) <- c("obs", "leverage", "rstudent", "color")
+  d1 <- levrstud[!is.na(levrstud$color1), c("obs", "leverage", "rstudent", "color1")]
+  d2 <- levrstud[!is.na(levrstud$color2), c("obs", "leverage", "rstudent", "color2")]
+  d3 <- levrstud[!is.na(levrstud$color3), c("obs", "leverage", "rstudent", "color3")]
+  d4 <- levrstud[!is.na(levrstud$color4), c("obs", "leverage", "rstudent", "color4")]
 
-out <- rbind(d1, d2, d3, d4)
-out$fct_color <- ordered(factor(out$color), levels = c("normal", "leverage", "outlier", "outlier & leverage"))
-levdata <- out[order(out$obs), ]
+  colnames(d1) <- c("obs", "leverage", "rstudent", "color")
+  colnames(d2) <- c("obs", "leverage", "rstudent", "color")
+  colnames(d3) <- c("obs", "leverage", "rstudent", "color")
+  colnames(d4) <- c("obs", "leverage", "rstudent", "color")
+
+  out <- rbind(d1, d2, d3, d4)
+  out$fct_color <- ordered(factor(out$color), levels = c("normal", "leverage", "outlier", "outlier & leverage"))
+  levdata <- out[order(out$obs), ]
 
   list(levrstud  = levdata,
        lev_thrsh = lev_thrsh,
@@ -386,6 +398,7 @@ levdata <- out[order(out$obs), ]
 #' Generates data for studentized residual plot.
 #'
 #' @param model An object of class \code{lm}.
+#' @param threshold Threshold for detecting outliers. Default is 3.
 #'
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
@@ -393,19 +406,23 @@ levdata <- out[order(out$obs), ]
 #'
 #' @export
 #'
-ols_prep_srplot_data<- function(model) {
+ols_prep_srplot_data<- function(model, threshold = NULL) {
+
+  if (is.null(threshold)) {
+    threshold <- 3
+  }
 
   color <- NULL
   dstud <- unname(rstudent(model))
   obs   <- seq_len(length(dstud))
   dsr   <- data.frame(obs = obs, dsr = dstud)
-  dsr$color     <- ifelse((abs(dsr$dsr) >= 3), "outlier", "normal")
+  dsr$color     <- ifelse((abs(dsr$dsr) >= threshold), "outlier", "normal")
   dsr$fct_color <- ordered(factor(dsr$color), levels = c("normal", "outlier"))
 
   cminxx <- floor(min(dsr$dsr) - 1)
   cmaxxx <- ceiling(max(dsr$dsr) + 1)
-  cminx  <- ifelse(cminxx > -3, -3, cminxx)
-  cmaxx  <- ifelse(cmaxxx < 3, 3, cmaxxx)
+  cminx  <- ifelse(cminxx > -threshold, -threshold, cminxx)
+  cmaxx  <- ifelse(cmaxxx < threshold, threshold, cmaxxx)
   nseq   <- seq_len(abs(cminx + 1)) * -1
   pseq   <- seq_len(cmaxx - 1)
 
@@ -422,23 +439,29 @@ ols_prep_srplot_data<- function(model) {
 #' Generates data for standardized residual chart.
 #'
 #' @param model An object of class \code{lm}.
+#' @param threshold Threshold for detecting outliers. Default is 2.
 #'
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
 #' ols_prep_srchart_data(model)
+#' ols_prep_srchart_data(model, threshold = 3)
 #'
 #' @export
 #'
-ols_prep_srchart_data <- function(model) {
+ols_prep_srchart_data <- function(model, threshold = NULL) {
 
-  color     <- NULL
-  sdres     <- rstandard(model)
-  sdres_out <- abs(sdres) > 2
-  outlier   <- sdres[sdres_out]
-  obs       <- seq_len(length(sdres))
+  if (is.null(threshold)) {
+    threshold <- 2
+  }
+
+  color         <- NULL
+  sdres         <- rstandard(model)
+  sdres_out     <- abs(sdres) > threshold
+  outlier       <- sdres[sdres_out]
+  obs           <- seq_len(length(sdres))
 
   out           <- data.frame(obs = obs, sdres = sdres)
-  out$color     <- ifelse(((out$sdres >= 2) | (out$sdres <= -2)), c("outlier"), c("normal"))
+  out$color     <- ifelse(((out$sdres >= threshold) | (out$sdres <= -threshold)), c("outlier"), c("normal"))
   out$fct_color <- ordered( factor(out$color), levels = c("normal", "outlier"))
   out$txt       <- ifelse(out$color == "outlier", out$obs, NA)
 

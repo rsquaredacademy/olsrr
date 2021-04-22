@@ -4,10 +4,12 @@
 \alias{ols_prep_srchart_data}
 \title{Standardized residual chart data}
 \usage{
-ols_prep_srchart_data(model)
+ols_prep_srchart_data(model, threshold = NULL)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{threshold}{Threshold for detecting outliers. Default is 2.}
 }
 \description{
 Generates data for standardized residual chart.
@@ -15,5 +17,6 @@ Generates data for standardized residual chart.
 \examples{
 model <- lm(read ~ write + math + science, data = hsb)
 ols_prep_srchart_data(model)
+ols_prep_srchart_data(model, threshold = 3)
 
 }

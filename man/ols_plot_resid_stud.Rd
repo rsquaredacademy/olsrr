@@ -5,10 +5,12 @@
 \alias{ols_srsd_plot}
 \title{Studentized residual plot}
 \usage{
-ols_plot_resid_stud(model, print_plot = TRUE)
+ols_plot_resid_stud(model, threshold = NULL, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{threshold}{Threshold for detecting outliers. Default is 3.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
@@ -39,6 +41,7 @@ it an outlier.
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_stud(model)
+ols_plot_resid_stud(model, threshold = 2)
 
 }
 \seealso{
