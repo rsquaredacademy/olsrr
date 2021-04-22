@@ -6,6 +6,7 @@
 #' examine model fit.
 #'
 #' @param model An object of class \code{lm}.
+#' @param threshold Threshold for detecting outliers. Default is 2.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
@@ -30,6 +31,7 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_plot_resid_stud_fit(model)
+#' ols_plot_resid_stud_fit(model, threshold = 3)
 #'
 #' @seealso [ols_plot_resid_lev()], [ols_plot_resid_stand()],
 #'   [ols_plot_resid_stud()]
@@ -38,9 +40,13 @@
 #'
 #' @export
 #'
-ols_plot_resid_stud_fit <- function(model, print_plot = TRUE) {
+ols_plot_resid_stud_fit <- function(model, threshold = NULL, print_plot = TRUE) {
 
   check_model(model)
+
+  if (is.null(threshold)) {
+    threshold <- 2
+  }
 
   fct_color   <- NULL
   color       <- NULL
@@ -49,7 +55,7 @@ ols_plot_resid_stud_fit <- function(model, print_plot = TRUE) {
   txt         <- NULL
   obs         <- NULL
   ds          <- NULL
-  k           <- ols_prep_dsrvf_data(model)
+  k           <- ols_prep_dsrvf_data(model, threshold)
   d           <- k$ds
   d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
   f           <- d[color == "outlier", c("obs", "pred", "dsr")]
@@ -61,19 +67,19 @@ ols_plot_resid_stud_fit <- function(model, print_plot = TRUE) {
     ylim(k$cminx, k$cmaxx) + xlab("Predicted Value") +
     ylab("Deleted Studentized Residual") + labs(color = "Observation") +
     ggtitle("Deleted Studentized Residual vs Predicted Values") +
-    geom_hline(yintercept = c(-2, 2), colour = "red") +
+    geom_hline(yintercept = c(-threshold, threshold), colour = "red") +
     geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif",
               fontface = "italic", colour = "darkred", na.rm = TRUE) +
     annotate(
       "text", x = Inf, y = Inf, hjust = 1.5, vjust = 2,
       family = "serif", fontface = "italic", colour = "darkred",
-      label = paste0("Threshold: abs(", 2, ")")
+      label = paste0("Threshold: abs(", threshold, ")")
     )
 
   if (print_plot) {
     suppressWarnings(print(p))
   } else {
-    return(list(plot = p, outliers = f, threshold = 2))
+    return(list(plot = p, outliers = f, threshold = threshold))
   }
 
 }

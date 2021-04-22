@@ -3,6 +3,7 @@
 #' Graph for identifying outliers.
 #'
 #' @param model An object of class \code{lm}.
+#' @param threshold Threshold for detecting outliers. Default is 3.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
@@ -26,6 +27,7 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_stud(model)
+#' ols_plot_resid_stud(model, threshold = 2)
 #'
 #' @importFrom ggplot2 scale_fill_manual annotate
 #'
@@ -33,7 +35,7 @@
 #'
 #' @export
 #'
-ols_plot_resid_stud <- function(model, print_plot = TRUE) {
+ols_plot_resid_stud <- function(model, threshold = NULL, print_plot = TRUE) {
 
   check_model(model)
 
@@ -43,7 +45,11 @@ ols_plot_resid_stud <- function(model, print_plot = TRUE) {
   dsr       <- NULL
   txt       <- NULL
 
-  g           <- ols_prep_srplot_data(model)
+  if (is.null(threshold)) {
+    threshold <- 3
+  }
+
+  g           <- ols_prep_srplot_data(model, threshold)
   d           <- g$dsr
   d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
   f           <- d[color == "outlier", c("obs", "dsr")] 
@@ -56,12 +62,12 @@ ols_plot_resid_stud <- function(model, print_plot = TRUE) {
     ylab("Deleted Studentized Residuals") + labs(fill = "Observation") +
     ggtitle("Studentized Residuals Plot") + ylim(g$cminx, g$cmaxx) +
     geom_hline(yintercept = c(0, g$nseq, g$pseq)) +
-    geom_hline(yintercept = c(-3, 3), color = "red") +
+    geom_hline(yintercept = c(-threshold, threshold), color = "red") +
     geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +
     annotate(
       "text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
       family = "serif", fontface = "italic", colour = "darkred",
-      label = paste0("Threshold: abs(", 3, ")")
+      label = paste0("Threshold: abs(", threshold, ")")
     )
 
   if (print_plot) {
@@ -70,7 +76,7 @@ ols_plot_resid_stud <- function(model, print_plot = TRUE) {
     return(
       list(plot = p,
            outliers = f,
-           threshold = 3)
+           threshold = threshold)
       )
   }
 

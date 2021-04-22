@@ -4,10 +4,12 @@
 \alias{ols_prep_srplot_data}
 \title{Studentized residual plot data}
 \usage{
-ols_prep_srplot_data(model)
+ols_prep_srplot_data(model, threshold = NULL)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{threshold}{Threshold for detecting outliers. Default is 3.}
 }
 \description{
 Generates data for studentized residual plot.

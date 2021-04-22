@@ -4,10 +4,12 @@
 \alias{ols_prep_dsrvf_data}
 \title{Deleted studentized residual plot data}
 \usage{
-ols_prep_dsrvf_data(model)
+ols_prep_dsrvf_data(model, threshold = NULL)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{threshold}{Threshold for detecting outliers. Default is 2.}
 }
 \description{
 Generates data for deleted studentized residual vs fitted plot.
@@ -15,5 +17,6 @@ Generates data for deleted studentized residual vs fitted plot.
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_prep_dsrvf_data(model)
+ols_prep_dsrvf_data(model, threshold = 3)
 
 }
