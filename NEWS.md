@@ -2,7 +2,15 @@
 
 ## Bug Fixes
 
+- Allow users to specify threshold for detecting outliers ([#178](https://github.com/rsquaredacademy/olsrr/issues/178))
+- If `ols_test_outlier()` does not find any outliers, it returns largest positive residual instead of largest absolute residual ([#177](https://github.com/rsquaredacademy/olsrr/issues/177))
+- using `ols_step_all_possible()` with Model created from dynamic function leads to `"Error in eval(model$call$data) . . . not found"` ([#176](https://github.com/rsquaredacademy/olsrr/issues/176))
+- `ols_step_both_p(): Error in if (pvals[minp] <= pent) {: argument is of length zero` ([#175](https://github.com/rsquaredacademy/olsrr/issues/175))
+- Handle extremely significant variables ([#173](https://github.com/rsquaredacademy/olsrr/issues/173))
+- `ols_correlations()` returns error for models with 2 predictors ([#168](https://github.com/rsquaredacademy/olsrr/issues/168))
+- `ols_step_both_aic()` doesn't return model ([#167](https://github.com/rsquaredacademy/olsrr/issues/167))
 - `ols_regress()` returned residual standard error instead of RMSE (@jens-daniel-mueller, [#165](https://github.com/rsquaredacademy/olsrr/issues/165))
+- Extracting model data ([#159](https://github.com/rsquaredacademy/olsrr/issues/159))
 - ols_plot_resid_stud() fails to plot outliers due to y-axis range ([#155](https://github.com/rsquaredacademy/olsrr/issues/155))
 
 # olsrr 0.5.3
