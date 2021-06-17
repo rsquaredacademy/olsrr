@@ -15,7 +15,7 @@
 #' following components:
 #'
 #' \item{mindex}{model index}
-#' \item{n}{model number}
+#' \item{n}{number of predictors}
 #' \item{predictors}{predictors in the model}
 #' \item{rsquare}{rsquare of the model}
 #' \item{adjr}{adjusted rsquare of the model}
