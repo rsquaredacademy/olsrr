@@ -934,6 +934,11 @@ print_stepaic_both <- function(data) {
 
 
 
+print_steparsq_forward  <- print_stepaic_forward
+print_steparsq_backward <- print_stepaic_backward
+print_steparsq_both     <- print_stepaic_both
+
+
 print_norm_test <- function(data) {
 
   # width
