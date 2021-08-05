@@ -88,7 +88,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     }
     cat("\n")
 
-    if (details == TRUE) {
+    if (details) {
       cat(" Step 0: AIC =", aic1, "\n", paste(response, "~", 1, "\n\n"))
     }
   }
@@ -290,14 +290,14 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  out <- list(predictors = preds,
-              steps      = step,
+  out <- list(aics       = laic,
               arsq       = larsq,
-              aics       = laic,
               ess        = less,
-              rss        = lrss,
+              model      = final_model,
+              predictors = preds,
               rsq        = lrsq,
-              model      = final_model)
+              rss        = lrss,
+              steps      = step)
 
 
   class(out) <- "ols_step_forward_aic"
@@ -332,7 +332,7 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
   xmax <- max(y) + 1
   ymin <- min(x$aic) - 1
   ymax <- max(x$aic) + 1
-  
+
   predictors <- x$predictors
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)

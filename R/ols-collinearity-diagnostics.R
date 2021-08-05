@@ -89,7 +89,7 @@ ols_coll_diag.default <- function(model) {
 
   vift    <- ols_vif_tol(model)
   eig_ind <- ols_eigen_cindex(model)
-  result  <- list(vif_t = vift, eig_cindex = eig_ind)
+  result  <- list(eig_cindex = eig_ind, vif_t = vift)
 
   class(result) <- "ols_coll_diag"
   return(result)

@@ -86,12 +86,11 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
   pval  <- pchisq(fstat, df, lower.tail = FALSE)
 
   out <- list(
-    fstat = fstat,
-    pval  = pval,
     df    = df,
-    var_c = var_c,
-    g_var = g_var
-  )
+    fstat = fstat,
+    g_var = g_var,
+    pval  = pval,
+    var_c = var_c)
 
   class(out) <- "ols_test_bartlett"
 
