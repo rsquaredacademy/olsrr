@@ -316,7 +316,16 @@ ols_step_all_possible_betas <- function(object, ...) {
   metrics    <- allpos_helper(object)
   beta_names <- names(metrics$betas)
   mindex     <- seq_len(length(metrics$rsq))
-  reps       <- metrics$lpreds + 1
+  
+  # detect index of intercepts
+  intercepts <- grep("(Intercept)", beta_names)
+
+  # increment length of betas  
+  lbeta_nam  <- length(beta_names) + 1
+
+  # detect length of betas in each model plus the last model with all variables
+  reps       <- c(diff(intercepts), (lbeta_nam - rev(intercepts)[1]))
+
   m_index    <- rep(mindex, reps)
   beta       <- metrics$betas
 
@@ -389,9 +398,7 @@ allpos_helper <- function(model) {
       predictors <- nam[combs[[i]][, j]]
       lp         <- length(predictors)
 
-      out <- ols_regress(paste(response, "~",
-                               paste(predictors, collapse = " + ")),
-                         data = pos_data)
+      out <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = pos_data)
 
       mcount            <- mcount + 1
       lpreds[mcount]    <- lp

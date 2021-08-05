@@ -80,14 +80,13 @@ ols_test_score.default <- function(model, fitted_values = TRUE, rhs = FALSE,
     }
   }
 
-  out <- list(score = d$score,
-              p     = d$p,
-              df    = d$np,
+  out <- list(df    = d$np,
               fv    = fitted_values,
-              rhs   = rhs,
+              p     = d$p,
               preds = d$preds,
-              resp  = resp
-  )
+              resp  = resp,
+              rhs   = rhs,
+              score = d$score)
 
   class(out) <- "ols_test_score"
   return(out)

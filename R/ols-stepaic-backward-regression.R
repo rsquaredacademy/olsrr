@@ -278,14 +278,14 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  out <- list(predictors = rpred,
-              steps      = step,
+  out <- list(aics       = laic,
               arsq       = larsq,
-              aics       = laic,
               ess        = less,
-              rss        = lrss,
+              model      = final_model,
+              predictors = rpred,
               rsq        = lrsq,
-              model      = final_model)
+              rss        = lrss,
+              steps      = step)
 
   class(out) <- "ols_step_backward_aic"
 
@@ -320,7 +320,7 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
   xmax <- max(y) + 1
   ymin <- min(x$aics) - 1
   ymax <- max(x$aics) + 1
-  
+
   predictors <- c("Full Model", x$predictors)
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)

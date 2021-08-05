@@ -43,9 +43,9 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
 
   if (print_plot) {
     print(p)
-  } else {
-    return(p)
   }
+
+  return(p)
 
 }
 
