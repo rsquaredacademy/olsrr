@@ -167,15 +167,6 @@ ols_step_forward_p.default <- function(model, penter = 0.3, progress = FALSE, de
     }
   }
 
-  # fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-  # rsq    <- fr$rsq
-  # adjrsq <- fr$adjr
-  # cp     <- ols_mallows_cp(fr$model, model)
-  # aic    <- ols_aic(fr$model)
-  # sbc    <- ols_sbc(fr$model)
-  # sbic   <- ols_sbic(fr$model, model)
-  # rmse   <- fr$rmse
-
   preds <- npreds
 
   while (step < mlen_p) {
