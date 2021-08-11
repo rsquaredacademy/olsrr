@@ -1,7 +1,29 @@
-# model    <- lm(y ~ ., data = surgical)
-# model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + alc_mod + age + alc_mod, data = surgical)
-
-ols_stepwise_hierarchical <- function(model, pval = 0.1, forward = TRUE, progress = FALSE, details = FALSE) {
+#' Stepwise hierarchical selection
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering predictors based on p values, in a stepwise hierarchical manner
+#' until there is no variable left to enter any more.
+#'
+#' @param model An object of class \code{lm}; the model should include all
+#'   candidate predictor variables.
+#' @param pval p value; variables with p value less/higher than \code{pval} will
+#'   enter/exit the model.
+#' @param forward Logical; if \code{TRUE}, performs forward selection else backward.
+#' @param progress Logical; if \code{TRUE}, will display variable selection progress.
+#' @param details Logical; if \code{TRUE}, will print the regression result at
+#'   each step.
+#'
+#' @examples
+#' model <- lm(y ~ ., data = surgical)
+#' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + alc_mod + age + gender, data = surgical)
+#' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+#'
+#' @keywords internal
+#'
+#' @noRd
+#'
+ols_step_hierarchical <- function(model, pval = 0.1, forward = TRUE, progress = FALSE, details = FALSE) {
 
   if (forward) {
     ols_stepwise_hierarchical_forward(model, pval, progress, details)
@@ -11,7 +33,11 @@ ols_stepwise_hierarchical <- function(model, pval = 0.1, forward = TRUE, progres
 
 }
 
-ols_stepwise_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, details = FALSE) {
+ols_step_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, details = FALSE) {
+
+  if (details) {
+    progress <- TRUE
+  }
 
   l        <- model$model
   nam      <- colnames(attr(model$terms, "factors"))
@@ -30,6 +56,24 @@ ols_stepwise_hierarchical_forward <- function(model, pval = 0.1, progress = FALS
   sbc      <- c()
   rmse     <- c()
 
+  if (progress) {
+    cat(format("Forward Hierarchical Selection Method", justify = "left", width = 27), "\n")
+    cat(rep("-", 27), sep = "", "\n\n")
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste0(i, ". ", nam[i]), "\n")
+    }
+    cat("\n")
+
+    cat("We are selecting variables based on p value...")
+    cat("\n")
+
+    cat("\n")
+    if (!details) {
+      cat("Variables Entered:", "\n\n")
+    }
+  }
+
   for (i in seq_len(mlen_p)) {
     predictors <- all_pred[i]
     m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
@@ -47,34 +91,89 @@ ols_stepwise_hierarchical_forward <- function(model, pval = 0.1, progress = FALS
       cp     <- c(cp, ols_mallows_cp(fr$model, model))
       rmse   <- c(rmse, fr$rmse)
       step   <- step + 1
+
+      if (details) {
+        cat("\n")
+        cat(paste("Forward Selection: Step", step), "\n\n")
+      }
+
+      if (progress) {
+        if (interactive()) {
+          cat("+", tail(preds, n = 1), "\n")
+        } else {
+          cat(paste("-", tail(preds, n = 1)), "\n")
+        }
+      }
+
+      if (details) {
+        cat("\n")
+        m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+        print(m)
+        cat("\n\n")
+      }
+
     } else {
+
+      if (progress) {
+        cat("\n")
+        cat("No more variables to be added.")
+      }
+
       break
     }
 
   }
 
+  if (details) {
+    cat("\n\n")
+    len_pred <- length(preds)
+    if (len_pred < 1) {
+      cat("Variables Entered: None", "\n\n")
+    } else if (len_pred == 1) {
+      cat(paste("Variables Entered:", preds[1]), "\n\n")
+    } else {
+      cat("Variables Entered:", "\n\n")
+      for (i in seq_len(length(preds))) {
+        if (details) {
+          cat("+", preds[i], "\n")
+        } else {
+          cat(paste("+", preds[i]), "\n")
+        }
+      }
+    }
+  }
+
+  if (progress) {
+    cat("\n\n")
+    cat("Final Model Output", "\n")
+    cat(rep("-", 18), sep = "", "\n\n")
+
+    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+    print(fi)
+  }
+
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  metrics <- data.frame(step = seq_len(step),
-                        variable = preds,
-                        r2 = rsq,
-                        adj_r2 = adjrsq,
-                        aic = aic,
-                        sbic = sbic,
-                        sbc = sbc,
+  metrics <- data.frame(step       = seq_len(step),
+                        variable   = preds,
+                        r2         = rsq,
+                        adj_r2     = adjrsq,
+                        aic        = aic,
+                        sbic       = sbic,
+                        sbc        = sbc,
                         mallows_cp = cp,
-                        rmse = rmse)
+                        rmse       = rmse)
 
   result <- list(metrics = metrics,
                  model   = final_model)
+
+  class(result) <- "ols_step_forward_p"
 
   return(result)
 
 }
 
-# model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
-
-ols_stepwise_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, details = FALSE) {
+ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, details = FALSE) {
 
   l        <- model$model
   nam      <- colnames(attr(model$terms, "factors"))
@@ -92,6 +191,24 @@ ols_stepwise_hierarchical_backward <- function(model, pval = 0.1, progress = FAL
   cp       <- c()
   sbc      <- c()
   rmse     <- c()
+
+  if (progress) {
+    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
+    cat(rep("-", 27), sep = "", "\n\n")
+    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+    for (i in seq_len(length(nam))) {
+      cat(paste(i, ".", nam[i]), "\n")
+    }
+    cat("\n")
+
+    cat("We are eliminating variables based on p value...")
+    cat("\n")
+
+    cat("\n")
+    if (!details) {
+      cat("Variables Removed:", "\n\n")
+    }
+  }
 
   for (i in seq_len(mlen_p)) {
     predictors <- all_pred[i]
@@ -111,27 +228,82 @@ ols_stepwise_hierarchical_backward <- function(model, pval = 0.1, progress = FAL
       cp     <- c(cp, ols_mallows_cp(fr$model, model))
       rmse   <- c(rmse, fr$rmse)
       step   <- step + 1
+
+      if (progress) {
+        if (interactive()) {
+          cat("x", tail(preds, n = 1), "\n")
+        } else {
+          cat(paste("-", tail(preds, n = 1)), "\n")
+        }
+      }
+
+      if (details) {
+        cat("\n")
+        cat(paste("Backward Elimination: Step", step, "\n\n"), paste("Variable", tail(preds, n = 1), "Removed"), "\n\n")
+        m <- ols_regress(paste(response, "~", paste(rpred, collapse = " + ")), l)
+        print(m)
+        cat("\n\n")
+      }
+
     } else {
+
+      if (progress) {
+        cat("\n")
+        cat(paste0("No more variables satisfy the condition of p value = ", pval))
+        cat("\n")
+      }
+
       break
     }
 
   }
 
   pterms      <- setdiff(nam, preds)
+
+  if (details) {
+    cat("\n\n")
+    len_pred <- length(preds)
+    if (len_pred < 1) {
+      cat("Variables Removed: None", "\n\n")
+    } else if (len_pred == 1) {
+      cat(paste("Variables Removed:", preds[1]), "\n\n")
+    } else {
+      cat("Variables Removed:", "\n\n")
+      for (i in seq_len(len_pred)) {
+        if (interactive()) {
+          cat("x", preds[i], "\n")
+        } else {
+          cat(paste("-", preds[i]), "\n")
+        }
+      }
+    }
+  }
+
+  if (progress) {
+    cat("\n\n")
+    cat("Final Model Output", "\n")
+    cat(rep("-", 18), sep = "", "\n\n")
+
+    fi <- ols_regress(paste(response, "~", paste(pterms, collapse = " + ")),data = l)
+    print(fi)
+  }
+
   final_model <- lm(paste(response, "~", paste(pterms, collapse = " + ")), data = l)
 
-  metrics <- data.frame(step = seq_len(step),
-                        variable = preds,
-                        r2 = rsq,
-                        adj_r2 = adjrsq,
-                        aic = aic,
-                        sbic = sbic,
-                        sbc = sbc,
+  metrics <- data.frame(step       = seq_len(step),
+                        variable   = preds,
+                        r2         = rsq,
+                        adj_r2     = adjrsq,
+                        aic        = aic,
+                        sbic       = sbic,
+                        sbc        = sbc,
                         mallows_cp = cp,
-                        rmse = rmse)
+                        rmse       = rmse)
 
   result <- list(metrics = metrics,
                  model   = final_model)
+
+  class(result) <- "ols_step_backward_p"
 
   return(result)
 
