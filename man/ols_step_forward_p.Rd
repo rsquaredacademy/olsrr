@@ -9,7 +9,14 @@
 \usage{
 ols_step_forward_p(model, ...)
 
-\method{ols_step_forward_p}{default}(model, penter = 0.3, progress = FALSE, details = FALSE, ...)
+\method{ols_step_forward_p}{default}(
+  model,
+  penter = 0.3,
+  hierarchical = FALSE,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
 
 \method{plot}{ols_step_forward_p}(x, model = NA, print_plot = TRUE, ...)
 }
@@ -21,6 +28,8 @@ candidate predictor variables.}
 
 \item{penter}{p value; variables with p value less than \code{penter} will
 enter into the model}
+
+\item{hierarchical}{Logical; if \code{TRUE}, performs hierarchical selection.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -37,16 +46,7 @@ An object of class \code{"ols_step_forward_p"} is a list containing the
 following components:
 
 \item{model}{final model; an object of class \code{lm}}
-\item{steps}{number of steps}
-\item{predictors}{variables added to the model}
-\item{rsquare}{coefficient of determination}
-\item{aic}{akaike information criteria}
-\item{sbc}{bayesian information criteria}
-\item{sbic}{sawa's bayesian information criteria}
-\item{adjr}{adjusted r-square}
-\item{rmse}{root mean square error}
-\item{mallows_cp}{mallow's Cp}
-\item{indvar}{predictors}
+\item{metrics}{selection metrics}
 }
 \description{
 Build regression model from a set of candidate predictor variables by

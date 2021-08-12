@@ -37,16 +37,7 @@ An object of class \code{"ols_step_backward_p"} is a list containing the
 following components:
 
 \item{model}{final model; an object of class \code{lm}}
-\item{steps}{total number of steps}
-\item{removed}{variables removed from the model}
-\item{rsquare}{coefficient of determination}
-\item{aic}{akaike information criteria}
-\item{sbc}{bayesian information criteria}
-\item{sbic}{sawa's bayesian information criteria}
-\item{adjr}{adjusted r-square}
-\item{rmse}{root mean square error}
-\item{mallows_cp}{mallow's Cp}
-\item{indvar}{predictors}
+\item{metrics}{selection metrics}
 }
 \description{
 Build regression model from a set of candidate predictor variables by

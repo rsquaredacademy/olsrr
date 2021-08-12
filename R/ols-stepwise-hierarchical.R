@@ -26,9 +26,9 @@
 ols_step_hierarchical <- function(model, pval = 0.1, forward = TRUE, progress = FALSE, details = FALSE) {
 
   if (forward) {
-    ols_stepwise_hierarchical_forward(model, pval, progress, details)
+    ols_step_hierarchical_forward(model, pval, progress, details)
   } else {
-    ols_stepwise_hierarchical_backward(model, pval, progress, details)
+    ols_step_hierarchical_backward(model, pval, progress, details)
   }
 
 }
