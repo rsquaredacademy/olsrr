@@ -160,13 +160,20 @@ entering predictors based on p values, in a stepwise manner until there is
 no variable left to enter any more.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ols_step_forward_p</span>(<span class='no'>model</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ols_step_forward_p</span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>ols_step_forward_p</span>(<span class='no'>model</span>, <span class='kw'>penter</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>ols_step_forward_p</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  penter <span class='op'>=</span> <span class='fl'>0.3</span>,
+  hierarchical <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  details <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for ols_step_forward_p</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>print_plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span>, model <span class='op'>=</span> <span class='cn'>NA</span>, print_plot <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,6 +191,10 @@ candidate predictor variables.</p></td>
       <th>penter</th>
       <td><p>p value; variables with p value less than <code>penter</code> will
 enter into the model</p></td>
+    </tr>
+    <tr>
+      <th>hierarchical</th>
+      <td><p>Logical; if <code>TRUE</code>, performs hierarchical selection.</p></td>
     </tr>
     <tr>
       <th>progress</th>
@@ -210,16 +221,7 @@ each step.</p></td>
 An object of class <code>"ols_step_forward_p"</code> is a list containing the
 following components:</p>
 <dt>model</dt><dd><p>final model; an object of class <code>lm</code></p></dd>
-<dt>steps</dt><dd><p>number of steps</p></dd>
-<dt>predictors</dt><dd><p>variables added to the model</p></dd>
-<dt>rsquare</dt><dd><p>coefficient of determination</p></dd>
-<dt>aic</dt><dd><p>akaike information criteria</p></dd>
-<dt>sbc</dt><dd><p>bayesian information criteria</p></dd>
-<dt>sbic</dt><dd><p>sawa's bayesian information criteria</p></dd>
-<dt>adjr</dt><dd><p>adjusted r-square</p></dd>
-<dt>rmse</dt><dd><p>root mean square error</p></dd>
-<dt>mallows_cp</dt><dd><p>mallow's Cp</p></dd>
-<dt>indvar</dt><dd><p>predictors</p></dd>
+<dt>metrics</dt><dd><p>selection metrics</p></dd>
 
     <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
 
@@ -242,35 +244,103 @@ Chicago, IL., McGraw Hill/Irwin.</p>
 <code><a href='ols_step_forward_aic.html'>ols_step_forward_aic</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># stepwise forward regression</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>surgical</span>)
-<span class='fu'>ols_step_forward_p</span>(<span class='no'>model</span>)</div><div class='output co'>#&gt; 
-#&gt;                               Selection Summary                                
-#&gt; ------------------------------------------------------------------------------
-#&gt;         Variable                     Adj.                                         
-#&gt; Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE      
-#&gt; ------------------------------------------------------------------------------
-#&gt;    1    liver_test       0.4545      0.4440    62.5119    771.8753    296.2992    
-#&gt;    2    alc_heavy        0.5667      0.5498    41.3681    761.4394    266.6484    
-#&gt;    3    enzyme_test      0.6590      0.6385    24.3379    750.5089    238.9145    
-#&gt;    4    pindex           0.7501      0.7297     7.5373    735.7146    206.5835    
-#&gt;    5    bcs              0.7809      0.7581     3.1925    730.6204    195.4544    
-#&gt; ------------------------------------------------------------------------------</div><div class='input'>
-<span class='co'># stepwise forward regression plot</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>surgical</span>)
-<span class='no'>k</span> <span class='kw'>&lt;-</span> <span class='fu'>ols_step_forward_p</span>(<span class='no'>model</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>k</span>)</div><div class='input'>
-<span class='co'># final model</span>
-<span class='no'>k</span>$<span class='no'>model</span></div><div class='img'><img src='ols_step_forward_p-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; Call:
-#&gt; lm(formula = paste(response, "~", paste(preds, collapse = " + ")), 
-#&gt;     data = l)
-#&gt; 
-#&gt; Coefficients:
-#&gt; (Intercept)   liver_test    alc_heavy  enzyme_test       pindex          bcs  
-#&gt;   -1178.330       58.064      317.848        9.748        8.924       59.864  
-#&gt; </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># stepwise forward regression</span></span>
+<span class='r-in'><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>surgical</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>ols_step_forward_p</span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               Selection Summary                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Variable                     Adj.                                         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Step      Entered      R-Square    R-Square     C(p)        AIC         RMSE      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1    liver_test       0.4545      0.4440    62.5119    771.8753    290.7604    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2    alc_heavy        0.5667      0.5498    41.3681    761.4394    259.1357    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    3    enzyme_test      0.6590      0.6385    24.3379    750.5089    229.8956    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    4    pindex           0.7501      0.7297     7.5373    735.7146    196.7872    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    5    bcs              0.7809      0.7581     3.1925    730.6204    184.2762    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># stepwise forward regression plot</span></span>
+<span class='r-in'><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>surgical</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fu'>ols_step_forward_p</span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>k</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='ols_step_forward_p-1.png' alt='' width='700' height='433' /></span>
+<span class='r-plt'><img src='ols_step_forward_p-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># selection metrics</span></span>
+<span class='r-in'><span class='va'>k</span><span class='op'>$</span><span class='va'>metrics</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   step    variable        r2    adj_r2      aic     sbic      sbc mallows_cp</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    1  liver_test 0.4545389 0.4440492 771.8753 616.0089 777.8423  62.511923</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    2   alc_heavy 0.5667409 0.5497504 761.4394 605.5062 769.3953  41.368078</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    3 enzyme_test 0.6590000 0.6385400 750.5089 595.2974 760.4538  24.337853</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    4      pindex 0.7501457 0.7297495 735.7146 582.9426 747.6485   7.537284</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    5         bcs 0.7809054 0.7580831 730.6204 579.6377 744.5433   3.192498</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       rmse</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 290.7604</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 259.1357</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 229.8956</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 196.7872</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 184.2762</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># final model</span></span>
+<span class='r-in'><span class='va'>k</span><span class='op'>$</span><span class='va'>model</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> lm(formula = paste(response, "~", paste(preds, collapse = " + ")), </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     data = l)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Coefficients:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (Intercept)   liver_test    alc_heavy  enzyme_test       pindex          bcs  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -1178.330       58.064      317.848        9.748        8.924       59.864  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># hierarchical selection</span></span>
+<span class='r-in'><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>bcs</span> <span class='op'>+</span> <span class='va'>alc_heavy</span> <span class='op'>+</span> <span class='va'>pindex</span> <span class='op'>+</span> <span class='va'>enzyme_test</span> <span class='op'>+</span> <span class='va'>liver_test</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>gender</span> <span class='op'>+</span> <span class='va'>alc_mod</span>, data <span class='op'>=</span> <span class='va'>surgical</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>ols_step_forward_p</span><span class='op'>(</span><span class='va'>model</span>, <span class='fl'>0.1</span>, <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                Selection Summary                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Variable                     Adj.                                          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Step      Entered      R-Square    R-Square      C(p)        AIC         RMSE      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1    bcs              0.1201      0.1032    131.4971    797.6971    369.2928    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2    alc_heavy        0.2412      0.2114    108.5184    791.7015    342.9404    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    3    pindex           0.4266      0.3922     72.2771    778.5738    298.1168    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    4    enzyme_test      0.7714      0.7527      3.1621    730.9241    188.2491    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># plot</span></span>
+<span class='r-in'><span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fu'>ols_step_forward_p</span><span class='op'>(</span><span class='va'>model</span>, <span class='fl'>0.1</span>, <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>k</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='ols_step_forward_p-3.png' alt='' width='700' height='433' /></span>
+<span class='r-plt'><img src='ols_step_forward_p-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># selection metrics</span></span>
+<span class='r-in'><span class='va'>k</span><span class='op'>$</span><span class='va'>metrics</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   step    variable        r2    adj_r2      aic     sbic      sbc mallows_cp</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    1         bcs 0.1200967 0.1031755 797.6971 640.6549 803.6640 131.497104</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    2   alc_heavy 0.2411944 0.2114373 791.7015 633.6681 799.6574 108.518364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    3      pindex 0.4265890 0.3921843 778.5738 620.3902 788.5187  72.277129</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    4 enzyme_test 0.7713565 0.7526917 730.9241 579.0865 742.8580   3.162146</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       rmse</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 369.2928</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 342.9404</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 298.1168</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 188.2491</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># final model</span></span>
+<span class='r-in'><span class='va'>k</span><span class='op'>$</span><span class='va'>model</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> lm(formula = paste(response, "~", paste(preds, collapse = " + ")), </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     data = l)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Coefficients:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (Intercept)          bcs    alc_heavy       pindex  enzyme_test  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    -1334.42        81.44       312.78        10.13        11.24  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -286,7 +356,7 @@ Chicago, IL., McGraw Hill/Irwin.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -48,10 +48,10 @@
 #'
 #' # hierarchical selection
 #' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
-#' ols_step_backward_p(model, 0.3, TRUE)
+#' ols_step_backward_p(model, 0.1, TRUE)
 #'
 #' # plot
-#' k <- ols_step_backward_p(model, 0.3, TRUE)
+#' k <- ols_step_backward_p(model, 0.1, TRUE)
 #' plot(k)
 #'
 #' # selection metrics
