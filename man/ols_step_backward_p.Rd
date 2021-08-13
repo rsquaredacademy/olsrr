@@ -9,7 +9,14 @@
 \usage{
 ols_step_backward_p(model, ...)
 
-\method{ols_step_backward_p}{default}(model, prem = 0.3, progress = FALSE, details = FALSE, ...)
+\method{ols_step_backward_p}{default}(
+  model,
+  prem = 0.3,
+  hierarchical = FALSE,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
 
 \method{plot}{ols_step_backward_p}(x, model = NA, print_plot = TRUE, ...)
 }
@@ -21,6 +28,8 @@ candidate predictor variables.}
 
 \item{prem}{p value; variables with p more than \code{prem} will be removed
 from the model.}
+
+\item{hierarchical}{Logical; if \code{TRUE}, performs hierarchical selection.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -58,6 +67,23 @@ ols_step_backward_p(model)
 model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward_p(model)
 plot(k)
+
+# selection metrics
+k$metrics
+
+# final model
+k$model
+
+# hierarchical selection
+model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+ols_step_backward_p(model, 0.3, TRUE)
+
+# plot
+k <- ols_step_backward_p(model, 0.3, TRUE)
+plot(k)
+
+# selection metrics
+k$metrics
 
 # final model
 k$model

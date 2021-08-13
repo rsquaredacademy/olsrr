@@ -45,6 +45,8 @@ ols_step_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, d
   response <- names(model$model)[1]
   mlen_p   <- length(nam)
   preds    <- c()
+  pvals    <- c()
+  p_val    <- c()
   all_pred <- nam
   cterms   <- all_pred
   step     <- 0
@@ -75,13 +77,15 @@ ols_step_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, d
   }
 
   for (i in seq_len(mlen_p)) {
-    predictors <- all_pred[i]
+    predictors <- c(preds, all_pred[i])
     m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
     m_sum      <- Anova(m)
-    pvals      <- m_sum$`Pr(>F)`[1]
+    pvals      <- c(pvals, m_sum$`Pr(>F)`[i])
 
-    if (pvals <= pval) {
-      preds <- c(preds, cterms[i])
+    if (pvals[i] <= pval) {
+      preds  <- c(preds, cterms[i])
+      p_val  <- c(p_val, pvals[i])
+      step   <- step + 1
       fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
@@ -90,7 +94,6 @@ ols_step_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, d
       sbic   <- c(sbic, ols_sbic(fr$model, model))
       cp     <- c(cp, ols_mallows_cp(fr$model, model))
       rmse   <- c(rmse, fr$rmse)
-      step   <- step + 1
 
       if (details) {
         cat("\n")
@@ -181,8 +184,7 @@ ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, 
   response <- names(model$model)[1]
   mlen_p   <- length(nam)
   preds    <- c()
-  all_pred <- rev(nam)
-  cterms   <- all_pred
+  cterms   <- nam
   step     <- 0
   rsq      <- c()
   adjrsq   <- c()
@@ -210,15 +212,16 @@ ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, 
     }
   }
 
-  for (i in seq_len(mlen_p)) {
-    predictors <- all_pred[i]
+  for (i in rev(seq_len(mlen_p))) {
+    predictors <- cterms[1:i]
     m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
     m_sum      <- Anova(m)
-    pvals      <- m_sum$`Pr(>F)`[1]
+    pvals      <- m_sum$`Pr(>F)`[i]
 
     if (pvals >= pval) {
       preds  <- c(preds, cterms[i])
-      rpred  <- setdiff(nam, preds)
+      step   <- step + 1
+      rpred  <- setdiff(cterms, preds)      
       fr     <- ols_regress(paste(response, "~", paste(rpred, collapse = " + ")), l)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
@@ -227,7 +230,6 @@ ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, 
       sbic   <- c(sbic, ols_sbic(fr$model, model))
       cp     <- c(cp, ols_mallows_cp(fr$model, model))
       rmse   <- c(rmse, fr$rmse)
-      step   <- step + 1
 
       if (progress) {
         if (interactive()) {

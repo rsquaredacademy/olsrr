@@ -40,6 +40,23 @@
 #' k <- ols_step_backward_p(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
+#' # final model
+#' k$model
+#'
+#' # hierarchical selection
+#' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+#' ols_step_backward_p(model, 0.3, TRUE)
+#'
+#' # plot
+#' k <- ols_step_backward_p(model, 0.3, TRUE)
+#' plot(k)
+#'
+#' # selection metrics
+#' k$metrics
+#'
 #' # final model
 #' k$model
 #'
@@ -182,15 +199,15 @@ ols_step_backward_p.default <- function(model, prem = 0.3, hierarchical = FALSE,
     }
 
     final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-    
+
     metrics     <- data.frame(step       = seq_len(step),
                               variable   = rpred,
-                              r2         = rsq, 
-                              adj_r2     = adjrsq, 
-                              aic        = aic, 
-                              sbic       = sbic, 
-                              sbc        = sbc, 
-                              mallows_cp = cp, 
+                              r2         = rsq,
+                              adj_r2     = adjrsq,
+                              aic        = aic,
+                              sbic       = sbic,
+                              sbc        = sbc,
+                              mallows_cp = cp,
                               rmse       = rmse)
 
     out <- list(model      = final_model,

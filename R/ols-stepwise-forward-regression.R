@@ -43,6 +43,23 @@
 #' k <- ols_step_forward_p(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
+#' # final model
+#' k$model
+#'
+#' # hierarchical selection
+#' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+#' ols_step_forward_p(model, 0.1, TRUE)
+#'
+#' # plot
+#' k <- ols_step_forward_p(model, 0.1, TRUE)
+#' plot(k)
+#'
+#' # selection metrics
+#' k$metrics
+#'
 #' # final model
 #' k$model
 #'
