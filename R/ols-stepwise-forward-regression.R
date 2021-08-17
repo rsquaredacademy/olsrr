@@ -82,7 +82,9 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
   }
 
   if (hierarchical) {
+
     ols_step_hierarchical(model, penter, TRUE, progress, details)
+
   } else {
     check_model(model)
     check_logic(details)
@@ -92,7 +94,6 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
     l        <- model$model
     nam      <- colnames(attr(model$terms, "factors"))
     df       <- nrow(l) - 2
-    tenter   <- qt(1 - (penter) / 2, df)
     n        <- ncol(l)
     response <- names(model$model)[1]
     all_pred <- nam
@@ -103,6 +104,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
     ppos     <- step + 1
     preds    <- c()
     pvals    <- c()
+    fvals    <- c()
     tvals    <- c()
     rsq      <- c()
     adjrsq   <- c()
@@ -130,21 +132,67 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
       }
     }
 
-
     for (i in seq_len(mlen_p)) {
       predictors <- all_pred[i]
       m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
       m_sum      <- Anova(m)
+      fvals[i]   <- m_sum$`F value`[ppos]
       pvals[i]   <- m_sum$`Pr(>F)`[ppos]
     }
 
-    minp   <- which(pvals == min(pvals, na.rm = TRUE))
-    preds  <- all_pred[minp]
+    maxf     <- which(fvals == max(fvals, na.rm = TRUE))
+    minp     <- which(pvals == min(pvals, na.rm = TRUE))
+    len_minp <- length(minp)
+
+    if (len_minp > 1) {
+      minp <- minp[1]
+    }
+
+    if (pvals[minp] > penter) {
+      stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
+    }
+
+    preds  <- all_pred[maxf]
     lpreds <- length(preds)
 
-    aic_model <- ols_step_forward_aic(model)
+    if (lpreds > 1) {
 
-    for (i in seq_len(lpreds)) {
+      for (i in seq_len(lpreds)) {
+
+        step <- step + 1
+
+        if (details) {
+          cat("\n")
+          cat(paste("Forward Selection: Step", step), "\n\n")
+        }
+
+        npreds <- preds[1:i]
+        fr     <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+        rsq    <- c(rsq, fr$rsq)
+        adjrsq <- c(adjrsq, fr$adjr)
+        aic    <- c(aic, ols_aic(fr$model))
+        sbc    <- c(sbc, ols_sbc(fr$model))
+        sbic   <- c(sbic, ols_sbic(fr$model, model))
+        cp     <- c(cp, ols_mallows_cp(fr$model, model))
+        rmse   <- c(rmse, fr$rmse)
+
+        if (progress) {
+          if (interactive()) {
+            cat("+", tail(npreds, n = 1), "\n")
+          } else {
+            cat("-", tail(npreds, n = 1), "\n")
+          }
+        }
+
+        if (details) {
+          cat("\n")
+          m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+          print(m)
+          cat("\n\n")
+        }
+      }
+
+    } else {
 
       step <- step + 1
 
@@ -153,8 +201,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
         cat(paste("Forward Selection: Step", step), "\n\n")
       }
 
-      npreds <- aic_model$predictors[1:i]
-      fr     <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+      fr     <- ols_regress(paste(response, "~", preds), l)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))
@@ -165,49 +212,50 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
 
       if (progress) {
         if (interactive()) {
-          cat("+", tail(npreds, n = 1), "\n")
+          cat("+", tail(preds, n = 1), "\n")
         } else {
-          cat(paste("-", tail(npreds, n = 1)), "\n")
+          cat(paste("-", tail(preds, n = 1)), "\n")
         }
       }
 
       if (details) {
         cat("\n")
-        m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+        m <- ols_regress(paste(response, "~", preds), l)
         print(m)
         cat("\n\n")
       }
-    }
 
-    preds <- npreds
+    }
 
     while (step < mlen_p) {
 
-      all_pred <- all_pred[-minp]
+      all_pred <- all_pred[-maxf]
       len_p    <- length(all_pred)
 
       if (len_p == 0) {
         break
       }
 
-      ppos     <- ppos + length(minp)
+      ppos     <- ppos + length(maxf)
       pvals    <- c()
-      tvals    <- c()
+      fvals    <- c()
 
       for (i in seq_len(len_p)) {
 
         predictors <- c(preds, all_pred[i])
         m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
         m_sum      <- Anova(m)
+        fvals[i]   <- m_sum$`F value`[ppos]
         pvals[i]   <- m_sum$`Pr(>F)`[ppos]
       }
 
-      minp  <- which(pvals == min(pvals, na.rm = TRUE))
+      maxf  <- which(fvals == max(fvals, na.rm = TRUE))
+      minp  <- pvals[maxf]
 
-      if (pvals[minp] <= penter) {
+      if (minp <= penter) {
 
         step   <- step + 1
-        preds  <- c(preds, all_pred[minp])
+        preds  <- c(preds, all_pred[maxf])
         lpreds <- length(preds)
         fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
         rsq    <- c(rsq, fr$rsq)
@@ -224,10 +272,19 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
         }
 
         if (progress) {
-          if (interactive()) {
-            cat("+", tail(preds, n = 1), "\n")
+          len_maxf <- length(maxf)
+          if (len_maxf > 1) {
+            if (interactive()) {
+              cat("+", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
+            } else {
+              cat("-", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
+            }
           } else {
-            cat(paste("-", tail(preds, n = 1)), "\n")
+            if (interactive()) {
+              cat("+", tail(preds, n = 1), "\n")
+            } else {
+              cat("-", tail(preds, n = 1), "\n")
+            }
           }
         }
 
