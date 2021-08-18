@@ -105,7 +105,6 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
     preds    <- c()
     pvals    <- c()
     fvals    <- c()
-    tvals    <- c()
     rsq      <- c()
     adjrsq   <- c()
     aic      <- c()
