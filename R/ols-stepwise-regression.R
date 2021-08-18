@@ -13,7 +13,7 @@
 #'   from the model.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
-  #' each step.
+#' each step.
 #' @param x An object of class \code{ols_step_both_p}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
@@ -79,8 +79,6 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
   l        <- model$model
   nam      <- colnames(attr(model$terms, "factors"))
   df       <- nrow(l) - 2
-  tenter   <- qt(1 - (pent) / 2, df)
-  trem     <- qt(1 - (prem) / 2, df)
   n        <- ncol(l)
   all_pred <- nam
   cterms   <- all_pred
@@ -92,7 +90,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
   betas   <- c()
   preds   <- c()
   pvals   <- c()
-  tvals   <- c()
+  fvals   <- c()
   step    <- 0
   ppos    <- step + 1
   rsq     <- c()
@@ -128,74 +126,107 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     predictors <- all_pred[i]
     m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
     m_sum      <- Anova(m)
+    fvals[i]   <- m_sum$`F value`[ppos]
     pvals[i]   <- m_sum$`Pr(>F)`[ppos]
   }
 
-  minp    <- which(pvals == min(pvals, na.rm = TRUE))
-  preds   <- all_pred[minp]
+  maxf     <- which(fvals == max(fvals, na.rm = TRUE))
+  minp     <- which(pvals == min(pvals, na.rm = TRUE))
+  len_minp <- length(minp)
+
+  if (len_minp > 1) {
+    minp <- minp[1]
+  }
+
+  if (pvals[minp] > pent) {
+    stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
+  }
+
+  preds   <- all_pred[maxf]
   lpreds  <- length(preds)
   tech    <- c("addition", "removal")
 
-  aic_model <- ols_step_forward_aic(model)
+  if (lpreds > 1) {
 
-  for (i in seq_len(lpreds)) {
+      for (i in seq_len(lpreds)) {
 
-    step <- step + 1
+      step <- step + 1
 
-    if (details) {
-      cat("\n")
-      cat(paste("Stepwise Selection: Step", step), "\n\n")
-    }
+      if (details) {
+        cat("\n")
+        cat(paste("Stepwise Selection: Step", step), "\n\n")
+      }
 
-    npreds  <- aic_model$predictors[1:i]
-    fr      <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
-    rsq     <- c(rsq, fr$rsq)
-    adjrsq  <- c(adjrsq, fr$adjr)
-    cp      <- c(cp, ols_mallows_cp(fr$model, model))
-    aic     <- c(aic, ols_aic(fr$model))
-    sbc     <- c(sbc, ols_sbc(fr$model))
-    sbic    <- c(sbic, ols_sbic(fr$model, model))
-    rmse    <- c(rmse, fr$rmse)
-    betas   <- append(betas, fr$betas)
-    lbetas  <- append(lbetas, length(fr$betas))
-    pvalues <- append(pvalues, fr$pvalues)
+      npreds  <- preds[1:i]
+      fr      <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+      rsq     <- c(rsq, fr$rsq)
+      adjrsq  <- c(adjrsq, fr$adjr)
+      cp      <- c(cp, ols_mallows_cp(fr$model, model))
+      aic     <- c(aic, ols_aic(fr$model))
+      sbc     <- c(sbc, ols_sbc(fr$model))
+      sbic    <- c(sbic, ols_sbic(fr$model, model))
+      rmse    <- c(rmse, fr$rmse)
+      betas   <- append(betas, fr$betas)
+      lbetas  <- append(lbetas, length(fr$betas))
+      pvalues <- append(pvalues, fr$pvalues)
 
-    method  <- c(method, tech[1])
+      method  <- c(method, tech[1])
 
-    if (progress) {
-      if (interactive()) {
-        cat("+", tail(npreds, n = 1), "\n")
-      } else {
-        cat(paste("-", tail(npreds, n = 1), "added"), "\n")
+      if (progress) {
+        if (interactive()) {
+          cat("+", tail(npreds, n = 1), "\n")
+        } else {
+          cat(paste("-", tail(npreds, n = 1), "added"), "\n")
+        }
+      }
+
+      if (details) {
+        cat("\n")
+        m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+        print(m)
+        cat("\n\n")
       }
     }
 
-    if (details) {
-      cat("\n")
-      m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
-      print(m)
-      cat("\n\n")
-    }
+  } else {
+
+    step <- step + 1
+
+      if (details) {
+        cat("\n")
+        cat(paste("Stepwise Selection: Step", step), "\n\n")
+      }
+
+      npreds  <- preds
+      fr      <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+      rsq     <- c(rsq, fr$rsq)
+      adjrsq  <- c(adjrsq, fr$adjr)
+      cp      <- c(cp, ols_mallows_cp(fr$model, model))
+      aic     <- c(aic, ols_aic(fr$model))
+      sbc     <- c(sbc, ols_sbc(fr$model))
+      sbic    <- c(sbic, ols_sbic(fr$model, model))
+      rmse    <- c(rmse, fr$rmse)
+      betas   <- append(betas, fr$betas)
+      lbetas  <- append(lbetas, length(fr$betas))
+      pvalues <- append(pvalues, fr$pvalues)
+
+      method  <- c(method, tech[1])
+
+      if (progress) {
+        if (interactive()) {
+          cat("+", tail(npreds, n = 1), "\n")
+        } else {
+          cat(paste("-", tail(npreds, n = 1), "added"), "\n")
+        }
+      }
+
+      if (details) {
+        cat("\n")
+        m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+        print(m)
+        cat("\n\n")
+      }
   }
-
-  # fr      <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-  # rsq     <- fr$rsq
-  # adjrsq  <- fr$adjr
-  # cp      <- ols_mallows_cp(fr$model, model)
-  # aic     <- ols_aic(fr$model)
-  # sbc     <- ols_sbc(fr$model)
-  # sbic    <- ols_sbic(fr$model, model)
-  # rmse    <- fr$rmse
-  # betas   <- append(betas, fr$betas)
-  # lbetas  <- append(lbetas, length(fr$betas))
-  # pvalues <- append(pvalues, fr$pvalues)
-
-  # if (details) {
-  #   cat("\n")
-  #   m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-  #   print(m)
-  #   cat("\n\n")
-  # }
 
   all_step  <- lpreds
   preds     <- npreds
@@ -203,7 +234,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   while (step < mlen_p) {
 
-    all_pred <- all_pred[-minp]
+    all_pred <- all_pred[-maxf]
     len_p    <- length(all_pred)
 
     if (len_p == 0) {
@@ -211,24 +242,27 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     }
 
     step     <- step + lpreds
-    ppos     <- ppos + length(minp)
+    ppos     <- ppos + length(maxf)
     pvals    <- c()
-    tvals    <- c()
+    fvals    <- c()
 
     for (i in seq_len(len_p)) {
 
       predictors <- c(preds, all_pred[i])
       m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
       m_sum      <- Anova(m)
+      fvals[i]   <- m_sum$`F value`[ppos]
       pvals[i]   <- m_sum$`Pr(>F)`[ppos]
     }
 
-    minp  <- which(pvals == min(pvals, na.rm = TRUE))
+    maxf  <- which(fvals == max(fvals, na.rm = TRUE))
+    minp  <- pvals[maxf]
+    # minp  <- which(pvals == min(pvals, na.rm = TRUE))
 
-    if (pvals[minp] <= pent) {
+    if (minp <= pent) {
 
-      preds     <- c(preds, all_pred[minp])
-      var_index <- c(var_index, all_pred[minp])
+      preds     <- c(preds, all_pred[maxf])
+      var_index <- c(var_index, all_pred[maxf])
       method    <- c(method, tech[1])
       lpreds    <- length(preds)
       all_step  <- all_step + 1
@@ -274,17 +308,20 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
       m2      <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
       m2_sum  <- Anova(m2)
-      pvals_r <- m2_sum$`Pr(>F)`
-      maxp    <- which(pvals_r == max(pvals_r, na.rm = TRUE))
+      fvals_r <- m2_sum$`F value`[1:length(preds)]
+      pvals_r <- m2_sum$`Pr(>F)`[1:length(preds)]
       
-      if (pvals_r[maxp] > prem) {
+      minf    <- which(fvals_r == min(fvals_r, na.rm = TRUE))
+      maxp    <- pvals_r[minf]
+      
+      if (maxp > prem) {
 
-        var_index <- c(var_index, preds[maxp])
+        var_index <- c(var_index, preds[minf])
         lvar      <- length(var_index)
         method    <- c(method, tech[2])
-        preds     <- preds[-maxp]
+        preds     <- preds[-minf]
         all_step  <- all_step + 1
-        ppos      <- ppos - length(maxp)
+        ppos      <- ppos - length(minf)
         fr        <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
         rsq       <- c(rsq, fr$rsq)
         adjrsq    <- c(adjrsq, fr$adjr)
