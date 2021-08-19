@@ -3,7 +3,6 @@
 \name{ols_step_both_aic}
 \alias{ols_step_both_aic}
 \alias{plot.ols_step_both_aic}
-\alias{ols_stepaic_both}
 \title{Stepwise AIC regression}
 \usage{
 ols_step_both_aic(model, progress = FALSE, details = FALSE)
@@ -37,11 +36,6 @@ Build regression model from a set of candidate predictor variables by
 entering and removing predictors based on akaike information criteria, in a
 stepwise manner until there is no variable left to enter or remove any more.
 }
-\section{Deprecated Function}{
-
-\code{ols_stepaic_both()} has been deprecated. Instead use \code{ols_step_both_aic()}.
-}
-
 \examples{
 \dontrun{
 # stepwise regression

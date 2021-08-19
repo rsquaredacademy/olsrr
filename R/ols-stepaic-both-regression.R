@@ -23,9 +23,6 @@
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #'
-#' @section Deprecated Function:
-#' \code{ols_stepaic_both()} has been deprecated. Instead use \code{ols_step_both_aic()}.
-#'
 #' @examples
 #' \dontrun{
 #' # stepwise regression
@@ -374,13 +371,4 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, ...) {
     return(p)
   }
 
-}
-
-
-#' @export
-#' @rdname ols_step_both_aic
-#' @usage NULL
-#'
-ols_stepaic_both <- function(model, details = FALSE) {
-  .Deprecated("ols_step_both_aic()")
 }

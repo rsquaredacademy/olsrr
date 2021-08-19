@@ -4,7 +4,6 @@
 \alias{ols_step_forward_p}
 \alias{ols_step_forward_p.default}
 \alias{plot.ols_step_forward_p}
-\alias{ols_step_forward}
 \title{Stepwise forward regression}
 \usage{
 ols_step_forward_p(model, ...)
@@ -53,11 +52,6 @@ Build regression model from a set of candidate predictor variables by
 entering predictors based on p values, in a stepwise manner until there is
 no variable left to enter any more.
 }
-\section{Deprecated Function}{
-
-\code{ols_step_forward()} has been deprecated. Instead use \code{ols_step_forward_p()}.
-}
-
 \examples{
 # stepwise forward regression
 model <- lm(y ~ ., data = surgical)

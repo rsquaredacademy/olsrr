@@ -22,9 +22,6 @@
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #'
-#' @section Deprecated Function:
-#' \code{ols_stepaic_forward()} has been deprecated. Instead use \code{ols_step_forward_aic()}.
-#'
 #' @examples
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
@@ -346,13 +343,4 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
     return(p)
   }
 
-}
-
-
-#' @export
-#' @rdname ols_step_forward_aic
-#' @usage NULL
-#'
-ols_stepaic_forward <- function(model, ...) {
-  .Deprecated("ols_step_forward_aic()")
 }

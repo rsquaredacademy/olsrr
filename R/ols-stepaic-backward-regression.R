@@ -25,9 +25,6 @@
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #'
-#' @section Deprecated Function:
-#' \code{ols_stepaic_backward()} has been deprecated. Instead use \code{ols_step_backward_aic()}.
-#'
 #' @examples
 #' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
@@ -319,9 +316,7 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
   xmin <- min(y) - 0.4
   xmax <- max(y) + 1
   ymin <- min(aic) - 1
-  ymax <- max(aic) + 1
-
-  
+  ymax <- max(aic) + 1 
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
   d  <- data.frame(a = y, b = aic)
@@ -339,12 +334,4 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
     return(p)
   }
 
-}
-
-#' @export
-#' @rdname ols_step_backward_aic
-#' @usage NULL
-#'
-ols_stepaic_backward <- function(model, details = FALSE, ...) {
-  .Deprecated("ols_step_backward_aic()")
 }

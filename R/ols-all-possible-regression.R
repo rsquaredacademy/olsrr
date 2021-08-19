@@ -34,9 +34,6 @@
 #' Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 #' Prentice Hall
 #'
-#' @section Deprecated Function:
-#' \code{ols_all_subset()} has been deprecated. Instead use \code{ols_step_all_possible()}.
-#'
 #' @family variable selection procedures
 #'
 #' @examples
@@ -332,15 +329,6 @@ ols_step_all_possible_betas <- function(object, ...) {
   data.frame(model = m_index, predictor = beta_names, beta = beta)
 
 }
-
-#' @export
-#' @rdname ols_step_all_possible_betas
-#' @usage NULL
-#'
-ols_all_subset_betas <- function(model, ...) {
-  .Deprecated("ols_step_all_possible_betas()")
-}
-
 
 #' All possible regression internal
 #'

@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-best-subsets-regression.R
 \name{ols_step_best_subset}
 \alias{ols_step_best_subset}
-\alias{ols_best_subset}
 \alias{plot.ols_step_best_subset}
 \title{Best subsets regression}
 \usage{
@@ -51,11 +50,6 @@ well-defined objective criterion, such as having the largest R2 value or the
 smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
 model is R2 but the user can choose any of the other available metrics.
 }
-\section{Deprecated Function}{
-
-\code{ols_best_subset()} has been deprecated. Instead use \code{ols_step_best_subset()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_step_best_subset(model)

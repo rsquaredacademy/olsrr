@@ -4,7 +4,6 @@
 \alias{ols_step_backward_p}
 \alias{ols_step_backward_p.default}
 \alias{plot.ols_step_backward_p}
-\alias{ols_step_backward}
 \title{Stepwise backward regression}
 \usage{
 ols_step_backward_p(model, ...)
@@ -53,11 +52,6 @@ Build regression model from a set of candidate predictor variables by
 removing predictors based on p values, in a stepwise manner until there is
 no variable left to remove any more.
 }
-\section{Deprecated Function}{
-
-\code{ols_step_backward()} has been deprecated. Instead use \code{ols_step_backward_p()}.
-}
-
 \examples{
 # stepwise backward regression
 model <- lm(y ~ ., data = surgical)

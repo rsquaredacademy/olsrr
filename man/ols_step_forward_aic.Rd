@@ -4,7 +4,6 @@
 \alias{ols_step_forward_aic}
 \alias{ols_step_forward_aic.default}
 \alias{plot.ols_step_forward_aic}
-\alias{ols_stepaic_forward}
 \title{Stepwise AIC forward regression}
 \usage{
 ols_step_forward_aic(model, ...)
@@ -40,11 +39,6 @@ Build regression model from a set of candidate predictor variables by
 entering predictors based on akaike information criterion, in a stepwise
 manner until there is no variable left to enter any more.
 }
-\section{Deprecated Function}{
-
-\code{ols_stepaic_forward()} has been deprecated. Instead use \code{ols_step_forward_aic()}.
-}
-
 \examples{
 # stepwise forward regression
 model <- lm(y ~ ., data = surgical)

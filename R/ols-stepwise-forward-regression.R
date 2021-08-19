@@ -30,9 +30,6 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
 #'
-#' @section Deprecated Function:
-#' \code{ols_step_forward()} has been deprecated. Instead use \code{ols_step_forward_p()}.
-#'
 #' @examples
 #' # stepwise forward regression
 #' model <- lm(y ~ ., data = surgical)
@@ -400,13 +397,4 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, ...) {
     return(myplots)
   }
 
-}
-
-
-#' @export
-#' @rdname ols_step_forward_p
-#' @usage NULL
-#'
-ols_step_forward <- function(model, penter = 0.3, details = FALSE, ...) {
-  .Deprecated("ols_step_forward_p()")
 }

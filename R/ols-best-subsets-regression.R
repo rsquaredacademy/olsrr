@@ -33,9 +33,6 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
 #'
-#' @section Deprecated Function:
-#' \code{ols_best_subset()} has been deprecated. Instead use \code{ols_step_best_subset()}.
-#'
 #' @family variable selection procedures
 #'
 #' @examples
@@ -168,15 +165,6 @@ ols_step_best_subset.default <- function(model,
   return(sorted)
 
 }
-
-#' @export
-#' @rdname ols_step_best_subset
-#' @usage NULL
-#'
-ols_best_subset <- function(model, ...) {
-  .Deprecated("ols_step_best_subset()")
-}
-
 
 #' @export
 #'
