@@ -7,7 +7,7 @@ test_that("output from stepAIC backward regression is as expected", {
 
                        Backward Elimination Summary
 -------------------------------------------------------------------------
-Variable        AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq
+Variable        AIC          ESS          Sum Sq       R-Sq     Adj. R-Sq
 -------------------------------------------------------------------------
 Full Model    736.390    1825905.713    6543614.824    0.782        0.743
 alc_mod       734.407    1826477.828    6543042.709    0.782        0.749
@@ -25,7 +25,7 @@ test_that("output from stepAIC backward regression is as expected when details =
  y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy
 
 --------------------------------------------------------------------------------
-Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq
+Variable       DF      AIC        Sum Sq           ESS        R-Sq     Adj. R-Sq
 --------------------------------------------------------------------------------
 alc_mod        1     734.407        572.115    1826477.828    0.782        0.749
 gender         1     734.478       2990.338    1828896.051    0.781        0.748
@@ -41,7 +41,7 @@ enzyme_test    1     763.557    1307756.930    3133662.644    0.626        0.569
  y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy
 
 --------------------------------------------------------------------------------
-Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq
+Variable       DF      AIC        Sum Sq           ESS        R-Sq     Adj. R-Sq
 --------------------------------------------------------------------------------
 gender         1     732.494       2957.789    1829435.617    0.781        0.754
 age            1     732.551       4878.331    1831356.159    0.781        0.753
@@ -56,7 +56,7 @@ enzyme_test    1     761.595    1309433.007    3135910.834    0.625        0.577
  y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy
 
 --------------------------------------------------------------------------------
-Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq
+Variable       DF      AIC        Sum Sq           ESS        R-Sq     Adj. R-Sq
 --------------------------------------------------------------------------------
 age            1     730.620       4280.830    1833716.447    0.781        0.758
 liver_test     1     732.339      63596.190    1893031.807    0.774        0.750
@@ -70,7 +70,7 @@ enzyme_test    1     759.596    1306482.666    3135918.283    0.625        0.586
  y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy
 
 --------------------------------------------------------------------------------
-Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq
+Variable       DF      AIC        Sum Sq           ESS        R-Sq     Adj. R-Sq
 --------------------------------------------------------------------------------
 liver_test     1     730.924      79919.825    1913636.272    0.771        0.753
 bcs            1     735.715     257444.030    2091160.477    0.750        0.730
@@ -84,7 +84,7 @@ No more variables to be removed.
 
                        Backward Elimination Summary
 -------------------------------------------------------------------------
-Variable        AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq
+Variable        AIC          ESS          Sum Sq       R-Sq     Adj. R-Sq
 -------------------------------------------------------------------------
 Full Model    736.390    1825905.713    6543614.824    0.782        0.743
 alc_mod       734.407    1826477.828    6543042.709    0.782        0.749

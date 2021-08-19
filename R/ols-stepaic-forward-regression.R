@@ -113,7 +113,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     w2 <- 2
     w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
     w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-    w5 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+    w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
     w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
     w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
     w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
@@ -205,7 +205,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
       w2  <- 2
       w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
       w4  <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-      w5  <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+      w5  <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
       w6  <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
       w7  <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
       w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)

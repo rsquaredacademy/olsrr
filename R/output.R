@@ -850,7 +850,7 @@ print_stepaic_forward <- function(data) {
   w1 <- max(nchar("Predictor"), nchar(data$metrics$variable))
   w2 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 3), nsmall = 3)))
   w3 <- max(nchar("Sum Sq"), nchar(format(round(data$metrics$rss, 3), nsmall = 3)))
-  w4 <- max(nchar("RSS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
+  w4 <- max(nchar("ESS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
   w5 <- max(nchar("R-Sq"), nchar(format(round(data$metrics$r2, 5), nsmall = 5)))
   w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$metrics$adj_r2, 5), nsmall = 5)))
   w <- sum(w1, w2, w3, w4, w5, w6, 20)
@@ -862,7 +862,7 @@ print_stepaic_forward <- function(data) {
   cat(rep("-", w), sep = "", "\n")
   cat(
     fl("Variable", w1), fs(), fc("AIC", w2), fs(),
-    fc("Sum Sq", w3), fs(), fc("RSS", w4), fs(), fc("R-Sq", w5), fs(),
+    fc("Sum Sq", w3), fs(), fc("ESS", w4), fs(), fc("R-Sq", w5), fs(),
     fc("Adj. R-Sq", w6), "\n"
   )
   cat(rep("-", w), sep = "", "\n")
@@ -899,7 +899,7 @@ print_stepaic_backward <- function(data) {
   # width
   w1 <- max(nchar("Full Model"), nchar(data$metrics$variable))
   w2 <- max(nchar("AIC"), nchar(format(round(aic, 3), nsmall = 3)))
-  w3 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+  w3 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
   w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
   w5 <- max(nchar("R-Sq"), nchar(format(round(r2, 5), nsmall = 5)))
   w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(adjr, 5), nsmall = 5)))
@@ -911,7 +911,7 @@ print_stepaic_backward <- function(data) {
   cat(rep("-", w), sep = "", "\n")
   cat(
     fl("Variable", w1), fs(), fc("AIC", w2), fs(),
-    fc("RSS", w3), fs(), fc("Sum Sq", w4), fs(), fc("R-Sq", w5), fs(),
+    fc("ESS", w3), fs(), fc("Sum Sq", w4), fs(), fc("R-Sq", w5), fs(),
     fc("Adj. R-Sq", w6), "\n"
   )
   cat(rep("-", w), sep = "", "\n")
@@ -937,7 +937,7 @@ print_stepaic_both <- function(data) {
   # width
   w1 <- max(nchar("Variable"), nchar(data$metrics$variable))
   w2 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 3), nsmall = 3)))
-  w3 <- max(nchar("RSS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
+  w3 <- max(nchar("ESS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
   w4 <- max(nchar("Sum Sq"), nchar(format(round(data$metrics$rss, 3), nsmall = 3)))
   w5 <- max(nchar("R-Sq"), nchar(format(round(data$metrics$r2, 5), nsmall = 5)))
   w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$metrics$adj_r2, 5), nsmall = 5)))
@@ -950,7 +950,7 @@ print_stepaic_both <- function(data) {
   cat(rep("-", w), sep = "", "\n")
   cat(
     fl("Variable", w1), fs(), fc("Method", w7), fs(), fc("AIC", w2), fs(),
-    fc("RSS", w3), fs(), fc("Sum Sq", w4), fs(), fc("R-Sq", w5), fs(),
+    fc("ESS", w3), fs(), fc("Sum Sq", w4), fs(), fc("R-Sq", w5), fs(),
     fc("Adj. R-Sq", w6), "\n"
   )
   cat(rep("-", w), sep = "", "\n")

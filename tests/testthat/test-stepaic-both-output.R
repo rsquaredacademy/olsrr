@@ -7,7 +7,7 @@ test_that("output from stepAIC both direction regression is as expected", {
 
                                     Stepwise Summary
 --------------------------------------------------------------------------------------
-Variable        Method       AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq
+Variable        Method       AIC          ESS          Sum Sq       R-Sq     Adj. R-Sq
 --------------------------------------------------------------------------------------
 liver_test     addition    771.875    4565248.060    3804272.477    0.455        0.444
 alc_heavy      addition    761.439    3626170.761    4743349.776    0.567        0.550
@@ -44,7 +44,7 @@ No more variables to be added or removed.
 
                                     Stepwise Summary
 --------------------------------------------------------------------------------------
-Variable        Method       AIC          RSS          Sum Sq       R-Sq     Adj. R-Sq
+Variable        Method       AIC          ESS          Sum Sq       R-Sq     Adj. R-Sq
 --------------------------------------------------------------------------------------
 liver_test     addition    771.875    4565248.060    3804272.477    0.455        0.444
 alc_heavy      addition    761.439    3626170.761    4743349.776    0.567        0.550
