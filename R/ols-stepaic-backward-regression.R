@@ -278,14 +278,17 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  out <- list(aics       = laic,
-              arsq       = larsq,
-              ess        = less,
-              model      = final_model,
-              predictors = rpred,
-              rsq        = lrsq,
-              rss        = lrss,
-              steps      = step)
+  metrics     <- data.frame(step     = seq_len(step),
+                            variable = rpred,
+                            r2       = tail(lrsq,  n = step),
+                            adj_r2   = tail(larsq, n = step),
+                            aic      = tail(laic,  n = step),
+                            rss      = tail(lrss,  n = step),
+                            ess      = tail(less,  n = step))
+
+  out <- list(metrics = metrics,
+              model   = final_model,
+              others  = list(model = model))
 
   class(out) <- "ols_step_backward_aic"
 
@@ -295,7 +298,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 #' @export
 #'
 print.ols_step_backward_aic <- function(x, ...) {
-  if (x$steps > 0) {
+  if (length(x$metrics$step) > 0) {
     print_stepaic_backward(x)
   } else {
     print("No variables have been removed from the model.")
@@ -307,24 +310,28 @@ print.ols_step_backward_aic <- function(x, ...) {
 #'
 plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
 
-  steps <- NULL
-  aics  <- NULL
+  step <- NULL
+  aic  <- NULL
   tx    <- NULL
   a     <- NULL
   b     <- NULL
 
-     y <- c(0, seq_len(x$steps))
+  mi <- ols_regress(x$others$model)
+  predictors <- c("Full Model", x$metrics$variable)
+  aic  <- c(mi$aic, x$metrics$aic)
+
+     y <- c(0, seq_len(length(x$metrics$step)))
   xloc <- y - 0.1
-  yloc <- x$aics - 0.2
+  yloc <- aic - 0.2
   xmin <- min(y) - 0.4
   xmax <- max(y) + 1
-  ymin <- min(x$aics) - 1
-  ymax <- max(x$aics) + 1
+  ymin <- min(aic) - 1
+  ymax <- max(aic) + 1
 
-  predictors <- c("Full Model", x$predictors)
+  
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
-  d  <- data.frame(a = y, b = x$aics)
+  d  <- data.frame(a = y, b = aic)
 
   p <-
     ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +

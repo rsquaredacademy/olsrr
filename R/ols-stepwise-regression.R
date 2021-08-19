@@ -381,9 +381,16 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
   
-  metrics     <- data.frame(r2 = rsq[all_step], adj_r2 = adjrsq[all_step], aic = aic[all_step], 
-                            sbic = sbic[all_step], sbc = sbc[all_step], 
-                            mallows_cp = cp[all_step], rmse = rmse[all_step])
+  metrics     <- data.frame(step       = seq_len(all_step),
+                            variable   = var_index,
+                            method     = method,
+                            r2         = rsq, 
+                            adj_r2     = adjrsq, 
+                            aic        = aic, 
+                            sbic       = sbic, 
+                            sbc        = sbc, 
+                            mallows_cp = cp, 
+                            rmse       = rmse)
 
   beta_pval <- data.frame(
     model     = rep(seq_len(all_step), lbetas),
@@ -392,25 +399,9 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     pval      = pvalues
   )
 
-  out <- list(
-    adjr       = adjrsq,
-    aic        = aic,
-    beta_pval  = beta_pval,
-    betas      = betas,
-    indvar     = cterms,
-    lbetas     = lbetas,
-    mallows_cp = cp,
-    method     = method,
-    metrics    = metrics,
-    model      = final_model,
-    orders     = var_index,
-    predictors = preds,
-    pvalues    = pvalues,
-    rmse       = rmse,
-    rsquare    = rsq,
-    sbc        = sbc,
-    sbic       = sbic,
-    steps      = all_step)
+  out <- list(beta_pval  = beta_pval,
+              metrics    = metrics,
+              model      = final_model)
 
   class(out) <- "ols_step_both_p"
 
@@ -420,7 +411,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 #' @export
 #'
 print.ols_step_both_p <- function(x, ...) {
-  if (x$steps > 0) {
+  if (length(x$metrics$step) > 0) {
     print_stepwise(x)
   } else {
     print("No variables have been added to or removed from the model.")
@@ -435,14 +426,14 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, ...) {
   a <- NULL
   b <- NULL
 
-  y <- seq_len(x$steps)
+  y <- seq_len(length(x$metrics$step))
 
-  d1 <- data.frame(a = y, b = x$rsquare)
-  d2 <- data.frame(a = y, b = x$adjr)
-  d3 <- data.frame(a = y, b = x$mallows_cp)
-  d4 <- data.frame(a = y, b = x$aic)
-  d5 <- data.frame(a = y, b = x$sbic)
-  d6 <- data.frame(a = y, b = x$sbc)
+  d1 <- data.frame(a = y, b = x$metrics$r2)
+  d2 <- data.frame(a = y, b = x$metrics$adj_r2)
+  d3 <- data.frame(a = y, b = x$metrics$mallows_cp)
+  d4 <- data.frame(a = y, b = x$metrics$aic)
+  d5 <- data.frame(a = y, b = x$metrics$sbic)
+  d6 <- data.frame(a = y, b = x$metrics$sbc)
 
   p1 <- plot_stepwise(d1, "R-Square")
   p2 <- plot_stepwise(d2, "Adj. R-Square")

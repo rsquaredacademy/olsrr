@@ -290,14 +290,16 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  out <- list(aics       = laic,
-              arsq       = larsq,
-              ess        = less,
-              model      = final_model,
-              predictors = preds,
-              rsq        = lrsq,
-              rss        = lrss,
-              steps      = step)
+  metrics     <- data.frame(step     = seq_len(step),
+                            variable = preds,
+                            r2       = lrsq,
+                            adj_r2   = larsq,
+                            aic      = laic, 
+                            rss      = lrss, 
+                            ess      = less)
+
+  out <- list(metrics = metrics,
+              model   = final_model)
 
 
   class(out) <- "ols_step_forward_aic"
@@ -308,7 +310,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 #' @export
 #'
 print.ols_step_forward_aic <- function(x, ...) {
-  if (x$steps > 0) {
+  if (length(x$metrics$step) > 0) {
     print_stepaic_forward(x)
   } else {
     print("No variables have been added to the model.")
@@ -325,18 +327,18 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
   a   <- NULL
   b   <- NULL
 
-  y    <- seq_len(x$steps)
+  y    <- x$metrics$step
   xloc <- y - 0.1
-  yloc <- x$aics - 0.2
+  yloc <- x$metrics$aic - 0.2
   xmin <- min(y) - 1
   xmax <- max(y) + 1
-  ymin <- min(x$aic) - 1
-  ymax <- max(x$aic) + 1
+  ymin <- min(x$metrics$aic) - 1
+  ymax <- max(x$metrics$aic) + 1
 
-  predictors <- x$predictors
+  predictors <- x$metrics$variable
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
-  d  <- data.frame(a = y, b = x$aics)
+  d  <- data.frame(a = y, b = x$metrics$aic)
 
   p <-
     ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +

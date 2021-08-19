@@ -782,7 +782,7 @@ print_step_forward <- function(data) {
 
 
 print_stepwise <- function(data) {
-  n <- data$steps
+  n <- length(data$metrics$step)
 
   if (n < 1) {
     stop("No variables have been added to or removed from the model based on p-values.")
@@ -790,40 +790,50 @@ print_stepwise <- function(data) {
 
   # width
   w1 <- nchar("Step")
-  w2 <- max(nchar("Variable"), nchar(data$orders))
-  w8 <- max(nchar("Removed"), nchar(data$method))
-  w3 <- max(nchar("R-Square"), nchar(format(round(data$rsquare, 3), nsmall = 3)))
-  w4 <- max(nchar("R-Square"), nchar(format(round(data$adjr, 3), nsmall = 3)))
-  w5 <- max(nchar("C(p)"), nchar(format(round(data$mallows_cp, 4), nsmall = 4)))
-  w6 <- max(nchar("AIC"), nchar(format(round(data$aic, 4), nsmall = 4)))
-  w7 <- max(nchar("RMSE"), nchar(format(round(data$rmse, 4), nsmall = 4)))
+  w2 <- max(nchar("Variable"), nchar(data$metrics$variable))
+  w8 <- max(nchar("Removed"), nchar(data$metrics$method))
+  w3 <- max(nchar("R-Square"), nchar(format(round(data$metrics$r2, 3), nsmall = 3)))
+  w4 <- max(nchar("R-Square"), nchar(format(round(data$metrics$adj_r2, 3), nsmall = 3)))
+  w5 <- max(nchar("C(p)"), nchar(format(round(data$metrics$mallows_cp, 4), nsmall = 4)))
+  w6 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 4), nsmall = 4)))
+  w7 <- max(nchar("RMSE"), nchar(format(round(data$metrics$rmse, 4), nsmall = 4)))
   w <- sum(w1, w2, w3, w4, w5, w6, w7, w8, 28)
 
   cat("\n")
   cat(format("Stepwise Selection Summary", justify = "centre", width = w), "\n")
   cat(rep("-", w), sep = "", "\n")
   cat(
-    format("", width = w1), fs(), format("", width = w2), fs(), format("Added/", width = w8, justify = "centre"), fs(),
-    format("", width = w3), fs(), format("Adj.", width = w4, justify = "centre"), fs(),
-    format("", width = w5), fs(), format("", width = w6), fs(),
+    format("", width = w1), fs(), 
+    format("", width = w2), fs(), 
+    format("Added/", width = w8, justify = "centre"), fs(),
+    format("", width = w3), fs(), 
+    format("Adj.", width = w4, justify = "centre"), fs(),
+    format("", width = w5), fs(), 
+    format("", width = w6), fs(),
     format("", width = w7), fs(), "\n"
   )
   cat(
-    format("Step", width = w1, justify = "centre"), fs(), format("Variable", width = w2, justify = "centre"), fs(),
+    format("Step", width = w1, justify = "centre"), fs(), 
+    format("Variable", width = w2, justify = "centre"), fs(),
     format("Removed", width = w8, justify = "centre"), fs(),
-    format("R-Square", width = w3, justify = "centre"), fs(), format("R-Square", width = w4, justify = "centre"), fs(),
-    format("C(p)", width = w5, justify = "centre"), fs(), format("AIC", width = w6, justify = "centre"), fs(),
+    format("R-Square", width = w3, justify = "centre"), fs(), 
+    format("R-Square", width = w4, justify = "centre"), fs(),
+    format("C(p)", width = w5, justify = "centre"), fs(), 
+    format("AIC", width = w6, justify = "centre"), fs(),
     format("RMSE", width = w7, justify = "centre"), fs(), "\n"
   )
   cat(rep("-", w), sep = "", "\n")
 
   for (i in seq_len(n)) {
     cat(
-      format(i, width = w1, justify = "centre"), fs(), format(data$orders[i], width = w2, justify = "centre"), fs(),
-      format(data$method[i], width = w8), fs(), format(round(data$rsquare[i], 3), width = w3, nsmall = 3), fs(),
-      format(round(data$adjr[i], 3), width = w4, nsmall = 3), fs(),
-      format(round(data$mallows_cp[i], 3), width = w5, justify = "centre", nsmall = 4), fs(),
-      format(round(data$aic[i], 4), width = w6, nsmall = 4), fs(), format(round(data$rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
+      format(i, width = w1, justify = "centre"), fs(), 
+      format(data$metrics$variable[i], width = w2, justify = "centre"), fs(),
+      format(data$metrics$method[i], width = w8), fs(), 
+      format(round(data$metrics$r2[i], 3), width = w3, nsmall = 3), fs(),
+      format(round(data$metrics$adj_r2[i], 3), width = w4, nsmall = 3), fs(),
+      format(round(data$metrics$mallows_cp[i], 3), width = w5, justify = "centre", nsmall = 4), fs(),
+      format(round(data$metrics$aic[i], 4), width = w6, nsmall = 4), fs(), 
+      format(round(data$metrics$rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
     )
   }
   cat(rep("-", w), sep = "", "\n")
@@ -832,20 +842,20 @@ print_stepwise <- function(data) {
 
 
 print_stepaic_forward <- function(data) {
-  if (data$steps < 1) {
+  if (length(data$metrics$step) < 1) {
     stop("No variables have been added to the model.")
   }
 
   # width
-  w1 <- max(nchar("Predictor"), nchar(data$predictors))
-  w2 <- max(nchar("AIC"), nchar(format(round(data$aics, 3), nsmall = 3)))
-  w3 <- max(nchar("Sum Sq"), nchar(format(round(data$rss, 3), nsmall = 3)))
-  w4 <- max(nchar("RSS"), nchar(format(round(data$ess, 3), nsmall = 3)))
-  w5 <- max(nchar("R-Sq"), nchar(format(round(data$rsq, 5), nsmall = 5)))
-  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$arsq, 5), nsmall = 5)))
+  w1 <- max(nchar("Predictor"), nchar(data$metrics$variable))
+  w2 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 3), nsmall = 3)))
+  w3 <- max(nchar("Sum Sq"), nchar(format(round(data$metrics$rss, 3), nsmall = 3)))
+  w4 <- max(nchar("RSS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
+  w5 <- max(nchar("R-Sq"), nchar(format(round(data$metrics$r2, 5), nsmall = 5)))
+  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$metrics$adj_r2, 5), nsmall = 5)))
   w <- sum(w1, w2, w3, w4, w5, w6, 20)
 
-  ln <- length(data$aics)
+  ln <- length(data$metrics$aic)
 
   cat("\n")
   cat(format("Selection Summary", justify = "centre", width = w), "\n")
@@ -858,9 +868,12 @@ print_stepaic_forward <- function(data) {
   cat(rep("-", w), sep = "", "\n")
   for (i in seq_len(ln)) {
     cat(
-      fl(data$predictors[i], w1), fs(), fg(format(round(data$aics[i], 3), nsmall = 3), w2), fs(),
-      fg(format(round(data$rss[i], 3), nsmall = 3), w3), fs(), fg(format(round(data$ess[i], 3), nsmall = 3), w4), fs(),
-      fg(format(round(data$rsq[i], 5), nsmall = 5), w5), fs(), fg(format(round(data$arsq[i], 5), nsmall = 5), w6), "\n"
+      fl(data$metrics$variable[i], w1), fs(), 
+      fg(format(round(data$metrics$aic[i], 3), nsmall = 3), w2), fs(),
+      fg(format(round(data$metrics$rss[i], 3), nsmall = 3), w3), fs(), 
+      fg(format(round(data$metrics$ess[i], 3), nsmall = 3), w4), fs(),
+      fg(format(round(data$metrics$r2[i], 5), nsmall = 5), w5), fs(), 
+      fg(format(round(data$metrics$adj_r2[i], 5), nsmall = 5), w6), "\n"
     )
   }
   cat(rep("-", w), sep = "", "\n")
@@ -869,22 +882,30 @@ print_stepaic_forward <- function(data) {
 
 
 print_stepaic_backward <- function(data) {
-  if (data$steps < 1) {
+
+  if (length(data$metrics$step) < 1) {
     stop("No variables have been removed from the model.")
   }
 
+  mi <- ols_regress(data$others$model)
+  predictors <- c("Full Model", data$metrics$variable)
+  
+  aic  <- c(mi$aic, data$metrics$aic)
+  ess  <- c(mi$ess, data$metrics$ess)
+  rss  <- c(mi$rss, data$metrics$rss)
+  r2   <- c(mi$rsq, data$metrics$r2)
+  adjr <- c(mi$adjr, data$metrics$adj_r2)
+
   # width
-  w1 <- max(nchar("Full Model"), nchar(data$predictors))
-  w2 <- max(nchar("AIC"), nchar(format(round(data$aics, 3), nsmall = 3)))
-  w3 <- max(nchar("RSS"), nchar(format(round(data$ess, 3), nsmall = 3)))
-  w4 <- max(nchar("Sum Sq"), nchar(format(round(data$rss, 3), nsmall = 3)))
-  w5 <- max(nchar("R-Sq"), nchar(format(round(data$rsq, 5), nsmall = 5)))
-  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$arsq, 5), nsmall = 5)))
-  w <- sum(w1, w2, w3, w4, w5, w6, 20)
+  w1 <- max(nchar("Full Model"), nchar(data$metrics$variable))
+  w2 <- max(nchar("AIC"), nchar(format(round(aic, 3), nsmall = 3)))
+  w3 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+  w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
+  w5 <- max(nchar("R-Sq"), nchar(format(round(r2, 5), nsmall = 5)))
+  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(adjr, 5), nsmall = 5)))
+  w  <- sum(w1, w2, w3, w4, w5, w6, 20)
 
-  predictors <- c("Full Model", data$predictors)
-
-  ln <- length(data$aics)
+  ln <- length(aic)
 
   cat("\n\n", format("Backward Elimination Summary", width = w, justify = "centre"), "\n")
   cat(rep("-", w), sep = "", "\n")
@@ -896,11 +917,11 @@ print_stepaic_backward <- function(data) {
   cat(rep("-", w), sep = "", "\n")
   for (i in seq_len(ln)) {
     cat(
-      fl(predictors[i], w1), fs(), fg(format(round(data$aics[i], 3), nsmall = 3), w2), fs(),
-      fg(format(round(data$ess[i], 3), nsmall = 3), w3), fs(),
-      fg(format(round(data$rss[i], 3), nsmall = 3), w4), fs(),
-      fg(format(round(data$rsq[i], 5), nsmall = 5), w5), fs(),
-      fg(format(round(data$arsq[i], 5), nsmall = 5), w6), "\n"
+      fl(predictors[i], w1), fs(), fg(format(round(aic[i], 3), nsmall = 3), w2), fs(),
+      fg(format(round(ess[i], 3), nsmall = 3), w3), fs(),
+      fg(format(round(rss[i], 3), nsmall = 3), w4), fs(),
+      fg(format(round(r2[i], 5), nsmall = 5), w5), fs(),
+      fg(format(round(adjr[i], 5), nsmall = 5), w6), "\n"
     )
   }
   cat(rep("-", w), sep = "", "\n\n")
@@ -909,21 +930,21 @@ print_stepaic_backward <- function(data) {
 
 
 print_stepaic_both <- function(data) {
-  if (data$steps < 1) {
+  if (length(data$metrics$step) < 1) {
     stop("No variables have been added to or removed from the model.")
   }
 
   # width
-  w1 <- max(nchar("Variable"), nchar(data$predictors))
-  w2 <- max(nchar("AIC"), nchar(format(round(data$aic, 3), nsmall = 3)))
-  w3 <- max(nchar("RSS"), nchar(format(round(data$ess, 3), nsmall = 3)))
-  w4 <- max(nchar("Sum Sq"), nchar(format(round(data$rss, 3), nsmall = 3)))
-  w5 <- max(nchar("R-Sq"), nchar(format(round(data$rsq, 5), nsmall = 5)))
-  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$arsq, 5), nsmall = 5)))
+  w1 <- max(nchar("Variable"), nchar(data$metrics$variable))
+  w2 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 3), nsmall = 3)))
+  w3 <- max(nchar("RSS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
+  w4 <- max(nchar("Sum Sq"), nchar(format(round(data$metrics$rss, 3), nsmall = 3)))
+  w5 <- max(nchar("R-Sq"), nchar(format(round(data$metrics$r2, 5), nsmall = 5)))
+  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$metrics$adj_r2, 5), nsmall = 5)))
   w7 <- nchar("Addition")
-  w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
+  w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
 
-  ln <- length(data$aic)
+  ln <- length(data$metrics$aic)
 
   cat("\n\n", format("Stepwise Summary", width = w, justify = "centre"), "\n")
   cat(rep("-", w), sep = "", "\n")
@@ -935,12 +956,13 @@ print_stepaic_both <- function(data) {
   cat(rep("-", w), sep = "", "\n")
   for (i in seq_len(ln)) {
     cat(
-      fl(data$predictors[i], w1), fs(), fl(data$method[i], w7), fs(),
-      fg(format(round(data$aic[i], 3), nsmall = 3), w2), fs(),
-      fg(format(round(data$ess[i], 3), nsmall = 3), w3), fs(),
-      fg(format(round(data$rss[i], 3), nsmall = 3), w4), fs(),
-      fg(format(round(data$rsq[i], 5), nsmall = 5), w5), fs(),
-      fg(format(round(data$arsq[i], 5), nsmall = 5), w6), "\n"
+      fl(data$metrics$variable[i], w1), fs(), 
+      fl(data$metrics$method[i], w7), fs(),
+      fg(format(round(data$metrics$aic[i], 3), nsmall = 3), w2), fs(),
+      fg(format(round(data$metrics$ess[i], 3), nsmall = 3), w3), fs(),
+      fg(format(round(data$metrics$rss[i], 3), nsmall = 3), w4), fs(),
+      fg(format(round(data$metrics$r2[i], 5), nsmall = 5), w5), fs(),
+      fg(format(round(data$metrics$adj_r2[i], 5), nsmall = 5), w6), "\n"
     )
   }
   cat(rep("-", w), sep = "", "\n\n")

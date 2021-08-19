@@ -210,8 +210,8 @@ ols_step_backward_p.default <- function(model, prem = 0.3, hierarchical = FALSE,
                               mallows_cp = cp,
                               rmse       = rmse)
 
-    out <- list(model      = final_model,
-                metrics    = metrics)
+    out <- list(metrics    = metrics,
+                model      = final_model)
 
     class(out) <- "ols_step_backward_p"
 

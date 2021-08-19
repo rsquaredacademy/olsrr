@@ -318,15 +318,17 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  out <- list(aic        = laic,
-              arsq       = larsq,
-              ess        = less,
-              method     = method,
-              model      = final_model,
-              predictors = var_index,
-              rsq        = lrsq,
-              rss        = lrss,
-              steps      = all_step)
+  metrics     <- data.frame(step     = seq_len(all_step),
+                            variable = var_index,
+                            method   = method,
+                            r2       = lrsq,
+                            adj_r2   = larsq,
+                            aic      = laic, 
+                            rss      = lrss, 
+                            ess      = less)
+
+  out <- list(metrics = metrics,
+              model   = final_model)
 
   class(out) <- "ols_step_both_aic"
 
@@ -336,7 +338,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 #' @export
 #'
 print.ols_step_both_aic <- function(x, ...) {
-  if (x$steps > 0) {
+  if (length(x$metrics$step) > 0) {
     print_stepaic_both(x)
   } else {
     print("No variables have been added to or removed from the model.")
@@ -353,18 +355,18 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, ...) {
   a   <- NULL
   b   <- NULL
 
-  predictors <- x$predictors
+  predictors <- x$metrics$variable
 
-  y     <- seq_len(length(x$aic))
+  y     <- seq_len(length(x$metrics$aic))
   xloc  <- y - 0.1
-  yloc  <- x$aic - 0.2
+  yloc  <- x$metrics$aic - 0.2
   xmin  <- min(y) - 0.4
   xmax  <- max(y) + 1
-  ymin  <- min(x$aic) - 1
-  ymax  <- max(x$aic) + 1
+  ymin  <- min(x$metrics$aic) - 1
+  ymax  <- max(x$metrics$aic) + 1
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
-  d  <- data.frame(a = y, b = x$aic)
+  d  <- data.frame(a = y, b = x$metrics$aic)
 
   p <-
     ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
