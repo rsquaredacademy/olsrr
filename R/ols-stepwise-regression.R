@@ -22,18 +22,8 @@
 #' following components:
 #'
 #' \item{model}{final model; an object of class \code{lm}}
-#' \item{orders}{candidate predictor variables according to the order by which they were added or removed from the model}
-#' \item{method}{addition/deletion}
-#' \item{steps}{total number of steps}
-#' \item{predictors}{variables retained in the model (after addition)}
-#' \item{rsquare}{coefficient of determination}
-#' \item{aic}{akaike information criteria}
-#' \item{sbc}{bayesian information criteria}
-#' \item{sbic}{sawa's bayesian information criteria}
-#' \item{adjr}{adjusted r-square}
-#' \item{rmse}{root mean square error}
-#' \item{mallows_cp}{mallow's Cp}
-#' \item{indvar}{predictors}
+#' \item{metrics}{selection metrics}
+#' \item{beta_pval}{beta and p values of models in each selection step}
 #'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.

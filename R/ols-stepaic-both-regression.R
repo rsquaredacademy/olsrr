@@ -17,15 +17,8 @@
 #' An object of class \code{"ols_step_both_aic"} is a list containing the
 #' following components:
 #'
-#' \item{model}{model with the least AIC; an object of class \code{lm}}
-#' \item{predictors}{variables added/removed from the model}
-#' \item{method}{addition/deletion}
-#' \item{aics}{akaike information criteria}
-#' \item{ess}{error sum of squares}
-#' \item{rss}{regression sum of squares}
-#' \item{rsq}{rsquare}
-#' \item{arsq}{adjusted rsquare}
-#' \item{steps}{total number of steps}
+#' \item{model}{final model; an object of class \code{lm}}
+#' \item{metrics}{selection metrics}
 #'
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.

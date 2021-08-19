@@ -32,14 +32,8 @@ each step.}
 An object of class \code{"ols_step_forward_aic"} is a list containing the
 following components:
 
-\item{model}{model with the least AIC; an object of class \code{lm}}
-\item{steps}{total number of steps}
-\item{predictors}{variables added to the model}
-\item{aics}{akaike information criteria}
-\item{ess}{error sum of squares}
-\item{rss}{regression sum of squares}
-\item{rsq}{rsquare}
-\item{arsq}{adjusted rsquare}
+\item{model}{final model; an object of class \code{lm}}
+\item{metrics}{selection metrics}
 }
 \description{
 Build regression model from a set of candidate predictor variables by

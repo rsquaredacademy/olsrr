@@ -18,14 +18,9 @@
 #' An object of class \code{"ols_step_backward_aic"} is a list containing the
 #' following components:
 #'
-#' \item{model}{model with the least AIC; an object of class \code{lm}}
-#' \item{steps}{total number of steps}
-#' \item{predictors}{variables removed from the model}
-#' \item{aics}{akaike information criteria}
-#' \item{ess}{error sum of squares}
-#' \item{rss}{regression sum of squares}
-#' \item{rsq}{rsquare}
-#' \item{arsq}{adjusted rsquare}
+#' \item{model}{final model; an object of class \code{lm}}
+#' \item{metrics}{selection metrics}
+#' \item{others}{list; info used for plotting and printing}
 #'
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
@@ -121,7 +116,6 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
   da <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
   da2 <- da[order(da$rss), ]
-  # da2 <- arrange(da, rss)
 
   if (details) {
     w1 <- max(nchar("Predictor"), nchar(predictors))
@@ -213,7 +207,6 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
         da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
         da2 <- da[order(da$rss), ]
-        # da2 <- arrange(da, rss)
         w1  <- max(nchar("Predictor"), nchar(predictors))
         w2  <- 2
         w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))

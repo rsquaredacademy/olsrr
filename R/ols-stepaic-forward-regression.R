@@ -16,14 +16,8 @@
 #' An object of class \code{"ols_step_forward_aic"} is a list containing the
 #' following components:
 #'
-#' \item{model}{model with the least AIC; an object of class \code{lm}}
-#' \item{steps}{total number of steps}
-#' \item{predictors}{variables added to the model}
-#' \item{aics}{akaike information criteria}
-#' \item{ess}{error sum of squares}
-#' \item{rss}{regression sum of squares}
-#' \item{rsq}{rsquare}
-#' \item{arsq}{adjusted rsquare}
+#' \item{model}{final model; an object of class \code{lm}}
+#' \item{metrics}{selection metrics}
 #'
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
@@ -199,7 +193,6 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     if (details) {
 
       da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-      # da2 <- arrange(da, desc(rss))
       da2 <- da[order(-da$rss), ]
       w1  <- max(nchar("Predictor"), nchar(as.character(da2$predictors)))
       w2  <- 2
