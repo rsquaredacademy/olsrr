@@ -45,7 +45,7 @@ ols_step_forward_aic <- function(model, ...) UseMethod("ols_step_forward_aic")
 #' @export
 #' @rdname ols_step_forward_aic
 #'
-ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALSE, ...) {
+ols_step_forward_aic.default <- function(model, include = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- TRUE
@@ -57,18 +57,24 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
   response <- names(model$model)[1]
   l        <- model$model
-  nam      <- coeff_names(model)
+  nam      <- setdiff(olsrr:::coeff_names(model), include)
   all_pred <- nam
   mlen_p   <- length(all_pred)
-  preds    <- c()
+  preds    <- include
   step     <- 1
   aics     <- c()
   ess      <- c()
   rss      <- c()
   rsq      <- c()
   arsq     <- c()
-  mo       <- lm(paste(response, "~", 1), data = l)
-  aic1     <- ols_aic(mo)
+
+  if (is.null(include)) {
+    b_model <- lm(paste(response, "~", 1), data = l)
+  } else {
+    b_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)  
+  }
+
+  aic1     <- ols_aic(b_model)
 
   if (progress) {
     cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
@@ -80,13 +86,17 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     cat("\n")
 
     if (details) {
-      cat(" Step 0: AIC =", aic1, "\n", paste(response, "~", 1, "\n\n"))
+      if (is.null(include)) {
+        cat(" Step 0: AIC =", aic1, "\n", paste(response, "~", 1, "\n\n"))  
+      } else {
+        cat(" Step 0: AIC =", aic1, "\n", paste(response, "~", paste(include, collapse = " + "), "\n\n"))
+      }
     }
   }
 
   for (i in seq_len(mlen_p)) {
 
-    predictors <- all_pred[i]
+    predictors <- c(include, all_pred[i])
     k <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
 
     aics[i] <- ols_aic(k$model)
@@ -136,8 +146,8 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
   lrss     <- rss[minc]
   lrsq     <- rsq[minc]
   larsq    <- arsq[minc]
-  preds    <- all_pred[minc]
-  lpreds   <- length(preds)
+  preds    <- c(preds, all_pred[minc])
+  lpreds   <- length(preds) - length(include)
   all_pred <- all_pred[-minc]
   len_p    <- length(all_pred)
   step     <- 1
@@ -165,8 +175,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     rsst <- c()
     rsq  <- c()
     arsq <- c()
-    mo   <- ols_regress(paste(response, "~",
-                            paste(preds, collapse = " + ")), data = l)
+    mo   <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
     aic1 <- ols_aic(mo$model)
 
     if (details) {
@@ -176,15 +185,13 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     for (i in seq_len(len_p)) {
 
       predictors <- c(preds, all_pred[i])
-      k <- ols_regress(paste(response, "~",
-                             paste(predictors, collapse = " + ")), data = l)
-
-      aics[i] <- ols_aic(k$model)
-      ess[i]  <- k$ess
-      rsst[i] <- k$rss
-      rss[i]  <- round(k$rss - mo$rss, 3)
-      rsq[i]  <- k$rsq
-      arsq[i] <- k$adjr
+      k          <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+      aics[i]    <- ols_aic(k$model)
+      ess[i]     <- k$ess
+      rsst[i]    <- k$rss
+      rss[i]     <- round(k$rss - mo$rss, 3)
+      rsq[i]     <- k$rsq
+      arsq[i]    <- k$adjr
     }
 
     if (details) {
@@ -236,7 +243,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
       lrss     <- c(lrss, mrss)
       lrsq     <- c(lrsq, mrsq)
       larsq    <- c(larsq, marsq)
-      lpreds   <- length(preds)
+      lpreds   <- length(preds) - length(include)
       all_pred <- all_pred[-minaic]
       len_p    <- length(all_pred)
       step     <- step + 1
@@ -280,16 +287,23 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
+  if (is.null(include)) {
+    var_selected <- preds
+  } else {
+    var_selected <- preds[-seq_len(length(include))]
+  }
+
   metrics     <- data.frame(step     = seq_len(step),
-                            variable = preds,
+                            variable = var_selected,
                             r2       = lrsq,
                             adj_r2   = larsq,
                             aic      = laic, 
                             rss      = lrss, 
                             ess      = less)
 
-  out <- list(metrics = metrics,
-              model   = final_model)
+  out <- list(base_model  = b_model,
+              final_model = final_model,
+              metrics     = metrics)
 
 
   class(out) <- "ols_step_forward_aic"
