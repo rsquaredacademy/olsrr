@@ -6,7 +6,8 @@
 #' manner until there is no variable left to enter any more.
 #'
 #' @param model An object of class \code{lm}.
-#' @param include Character vector; force variables to be included in final model.
+#' @param include Character vector; force variables to be included in selection process.
+#' @param exclude Character vector; force variables to be excluded from selection process.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
@@ -46,7 +47,7 @@ ols_step_forward_aic <- function(model, ...) UseMethod("ols_step_forward_aic")
 #' @export
 #' @rdname ols_step_forward_aic
 #'
-ols_step_forward_aic.default <- function(model, include = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- TRUE
@@ -58,7 +59,8 @@ ols_step_forward_aic.default <- function(model, include = NULL, progress = FALSE
 
   response <- names(model$model)[1]
   l        <- model$model
-  nam      <- setdiff(olsrr:::coeff_names(model), include)
+  lockterm <- c(include, exclude)
+  nam      <- setdiff(olsrr:::coeff_names(model), lockterm)
   all_pred <- nam
   mlen_p   <- length(all_pred)
   preds    <- include
