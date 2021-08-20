@@ -8,7 +8,13 @@
 \usage{
 ols_step_forward_aic(model, ...)
 
-\method{ols_step_forward_aic}{default}(model, progress = FALSE, details = FALSE, ...)
+\method{ols_step_forward_aic}{default}(
+  model,
+  include = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
 
 \method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, ...)
 }
@@ -16,6 +22,8 @@ ols_step_forward_aic(model, ...)
 \item{model}{An object of class \code{lm}.}
 
 \item{...}{Other arguments.}
+
+\item{include}{Character vector; force variables to be included in final model.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 

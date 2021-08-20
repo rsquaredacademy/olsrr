@@ -6,6 +6,7 @@
 #' manner until there is no variable left to enter any more.
 #'
 #' @param model An object of class \code{lm}.
+#' @param include Character vector; force variables to be included in final model.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
