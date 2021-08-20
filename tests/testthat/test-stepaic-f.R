@@ -12,4 +12,11 @@ test_that("output from stepaic_forward matches the expected outptu", {
   expect_equivalent(round(k$metrics$adj_r2, 3), c(0.745, 0.815))
 })
 
+test_that("output from stepaic_forward matches the expected output when variables are locked in", {
+  model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+  k <- ols_step_forward_aic(model, include = c("disp"))
+  expect_equal(k$metrics$step, 1:3)
+  expect_equivalent(k$metrics$variable, c("wt", "hp", "drat"))
+})
+
 
