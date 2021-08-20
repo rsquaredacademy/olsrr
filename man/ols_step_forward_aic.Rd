@@ -11,6 +11,7 @@ ols_step_forward_aic(model, ...)
 \method{ols_step_forward_aic}{default}(
   model,
   include = NULL,
+  exclude = NULL,
   progress = FALSE,
   details = FALSE,
   ...
@@ -23,7 +24,9 @@ ols_step_forward_aic(model, ...)
 
 \item{...}{Other arguments.}
 
-\item{include}{Character vector; force variables to be included in final model.}
+\item{include}{Character vector; force variables to be included in selection process.}
+
+\item{exclude}{Character vector; force variables to be excluded from selection process.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
