@@ -19,4 +19,18 @@ test_that("output from stepaic_forward matches the expected output when variable
   expect_equivalent(k$metrics$variable, c("wt", "hp", "drat"))
 })
 
+test_that("output from stepaic_forward matches the expected output when variables are locked out", {
+  model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+  k <- ols_step_forward_aic(model, exclude = c("hp"))
+  expect_equal(k$metrics$step, 1:2)
+  expect_equivalent(k$metrics$variable, c("wt", "disp"))
+})
+
+test_that("output from stepaic_forward matches the expected output when variables are locked in and out", {
+  model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
+  k <- ols_step_forward_aic(model, include = c("disp"), exclude = c("hp"))
+  expect_equal(k$metrics$step, 1)
+  expect_equivalent(k$metrics$variable, c("wt"))
+})
+
 
