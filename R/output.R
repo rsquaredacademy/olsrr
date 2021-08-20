@@ -847,7 +847,7 @@ print_stepaic_forward <- function(data) {
   }
 
   # width
-  w1 <- max(nchar("Predictor"), nchar(data$metrics$variable))
+  w1 <- max(nchar("Variable"), nchar("Base Model"), nchar(data$metrics$variable))
   w2 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 3), nsmall = 3)))
   w3 <- max(nchar("Sum Sq"), nchar(format(round(data$metrics$rss, 3), nsmall = 3)))
   w4 <- max(nchar("ESS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
@@ -856,6 +856,16 @@ print_stepaic_forward <- function(data) {
   w <- sum(w1, w2, w3, w4, w5, w6, 20)
 
   ln <- length(data$metrics$aic)
+
+  output <- summary(data$base_model)
+  anovam <- anova(data$base_model)
+  aic    <- ols_aic(data$base_model)
+  n      <- length(anovam$Df)
+  ess    <- anovam$`Sum Sq`[n]
+  tss    <- sum(anovam$`Sum Sq`)
+  rss    <- tss - ess
+  rsq    <- output$r.squared
+  adjr   <- output$adj.r.squared
 
   cat("\n")
   cat(format("Selection Summary", justify = "centre", width = w), "\n")
@@ -866,6 +876,14 @@ print_stepaic_forward <- function(data) {
     fc("Adj. R-Sq", w6), "\n"
   )
   cat(rep("-", w), sep = "", "\n")
+  cat(
+    fl("Base Model", w1), fs(), 
+    fg(format(round(aic, 3), nsmall = 3), w2), fs(),
+    fg(format(round(rss, 3), nsmall = 3), w3), fs(), 
+    fg(format(round(ess, 3), nsmall = 3), w4), fs(),
+    fg(format(round(rsq, 5), nsmall = 5), w5), fs(), 
+    fg(format(round(adjr, 5), nsmall = 5), w6), "\n"
+  )
   for (i in seq_len(ln)) {
     cat(
       fl(data$metrics$variable[i], w1), fs(), 

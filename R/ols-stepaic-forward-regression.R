@@ -334,18 +334,20 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
   a   <- NULL
   b   <- NULL
 
-  y    <- x$metrics$step
-  xloc <- y - 0.1
-  yloc <- x$metrics$aic - 0.2
+  step <- c(0, x$metrics$step)
+  aic  <- c(ols_aic(x$base_model), x$metrics$aic)
+  pred <- c("Base Model", x$metrics$variable)
+
+  y    <- step
+  xloc <- y 
+  yloc <- aic 
   xmin <- min(y) - 1
   xmax <- max(y) + 1
-  ymin <- min(x$metrics$aic) - 1
-  ymax <- max(x$metrics$aic) + 1
+  ymin <- min(aic) - 1
+  ymax <- max(aic) + 1
 
-  predictors <- x$metrics$variable
-
-  d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
-  d  <- data.frame(a = y, b = x$metrics$aic)
+  d2 <- data.frame(x = xloc, y = yloc, tx = pred)
+  d  <- data.frame(a = y, b = aic)
 
   p <-
     ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
