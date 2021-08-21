@@ -24,9 +24,9 @@ ols_step_forward_aic(model, ...)
 
 \item{...}{Other arguments.}
 
-\item{include}{Character vector; force variables to be included in selection process.}
+\item{include}{Character or numeric vector; variables to be included in selection process.}
 
-\item{exclude}{Character vector; force variables to be excluded from selection process.}
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -67,11 +67,20 @@ k$model
 # force variable to be included in selection process
 ols_step_forward_aic(model, include = c("age"))
 
+# use index of variable instead of name
+ols_step_forward_aic(model, include = c(5))
+
 # force variable to be excluded from selection process
 ols_step_forward_aic(model, exclude = c("liver_test"))
 
+# use index of variable instead of name
+ols_step_forward_aic(model, exclude = c(4))
+
 # include & exclude variables in the selection process
 ols_step_forward_aic(model, include = c("age"), exclude = c("liver_test"))
+
+# use index of variable instead of name
+ols_step_forward_aic(model, include = c(5), exclude = c(4))
 
 }
 \references{

@@ -6,8 +6,8 @@
 #' manner until there is no variable left to enter any more.
 #'
 #' @param model An object of class \code{lm}.
-#' @param include Character vector; force variables to be included in selection process.
-#' @param exclude Character vector; force variables to be excluded from selection process.
+#' @param include Character or numeric vector; variables to be included in selection process.
+#' @param exclude Character or numeric vector; variables to be excluded from selection process.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
@@ -41,11 +41,20 @@
 #' # force variable to be included in selection process
 #' ols_step_forward_aic(model, include = c("age"))
 #'
+#' # use index of variable instead of name
+#' ols_step_forward_aic(model, include = c(5))
+#'
 #' # force variable to be excluded from selection process
 #' ols_step_forward_aic(model, exclude = c("liver_test"))
 #'
+#' # use index of variable instead of name
+#' ols_step_forward_aic(model, exclude = c(4))
+#'
 #' # include & exclude variables in the selection process
 #' ols_step_forward_aic(model, include = c("age"), exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_aic(model, include = c(5), exclude = c(4))
 #'
 #' @family variable selection procedures
 #'
@@ -68,8 +77,18 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
 
   response <- names(model$model)[1]
   l        <- model$model
+  indterms <- coeff_names(model)
+  
+  if (is.numeric(include)) {
+    include <- indterms[include]
+  }
+
+  if (is.numeric(exclude)) {
+    exclude <- indterms[exclude]
+  }
+
   lockterm <- c(include, exclude)
-  nam      <- setdiff(olsrr:::coeff_names(model), lockterm)
+  nam      <- setdiff(indterms, lockterm)
   all_pred <- nam
   mlen_p   <- length(all_pred)
   preds    <- include
