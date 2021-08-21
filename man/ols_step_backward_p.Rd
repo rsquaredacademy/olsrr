@@ -69,7 +69,7 @@ k$metrics
 k$model
 
 # hierarchical selection
-model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test, data = surgical)
 ols_step_backward_p(model, 0.1, TRUE)
 
 # plot
