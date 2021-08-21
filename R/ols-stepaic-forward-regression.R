@@ -50,7 +50,7 @@ ols_step_forward_aic <- function(model, ...) UseMethod("ols_step_forward_aic")
 ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
-    progress <- TRUE
+    progress <- FALSE
   }
 
   check_model(model)
@@ -77,9 +77,9 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     b_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)  
   }
 
-  aic1     <- ols_aic(b_model)
+  aic1 <- ols_aic(b_model)
 
-  if (progress) {
+  if (progress || details) {
     cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
     cat(rep("-", 24), sep = "", "\n\n")
     cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
@@ -87,14 +87,20 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       cat(paste(i, ".", nam[i]), "\n")
     }
     cat("\n")
+  }
 
-    if (details) {
+  if (details) {
+    cat("\n")
       if (is.null(include)) {
-        cat(" Step 0: AIC =", aic1, "\n", paste(response, "~", 1, "\n\n"))  
+        cat("Step  => 0", "\n")
+        cat("Model =>", paste(response, "~", 1, "\n"))
+        cat("AIC   =>", aic1, "\n\n")
       } else {
-        cat(" Step 0: AIC =", aic1, "\n", paste(response, "~", paste(include, collapse = " + "), "\n\n"))
+        cat("Step  => 0", "\n")
+        cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+        cat("AIC   =>", aic1, "\n\n")
       }
-    }
+      cat("Initiating stepwise selection...", "\n\n")
   }
 
   for (i in seq_len(mlen_p)) {
@@ -123,6 +129,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
     ln <- length(aics)
 
+    cat(format("Information Criteria Table", justify = "centre", width = w), "\n")
     cat(rep("-", w), sep = "", "\n")
     cat(
       fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
@@ -133,8 +140,10 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
 
     for (i in seq_len(ln)) {
       cat(
-        fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
+        fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), 
+        fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), 
+        fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
         fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
         fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
       )
@@ -182,7 +191,10 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     aic1 <- ols_aic(mo$model)
 
     if (details) {
-      cat("\n\n", "Step", step, ": AIC =", aic1, "\n", paste(response, "~", paste(preds, collapse = " + "), "\n\n"))
+      cat("Step     =>", step, "\n")
+      cat("Selected =>", tail(preds, n = 1), "\n")
+      cat("Model    =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+      cat("AIC      =>", aic1, "\n\n")
     }
 
     for (i in seq_len(len_p)) {
@@ -211,6 +223,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
       ln  <- length(aics)
 
+      cat(format("Information Criteria Table", justify = "centre", width = w), "\n")
       cat(rep("-", w), sep = "", "\n")
       cat(
         fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
@@ -221,8 +234,10 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
 
       for (i in seq_len(ln)) {
         cat(
-          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
+          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), 
+          fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), 
+          fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
           fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
           fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
         )
@@ -259,17 +274,17 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
         }
       }
     } else {
-      if (progress) {
+      if (progress || details) {
         cat("\n")
-        cat("No more variables to be added.")
+        cat("No more variables to be added.", "\n")
       }
       break
     }
   }
 
   if (details) {
-    cat("\n\n")
-    cat("Variables Entered:", "\n\n")
+    cat("\n")
+    cat("Variables Selected:", "\n\n")
     for (i in seq_len(length(preds))) {
       if (interactive()) {
         cat("+", preds[i], "\n")
@@ -279,7 +294,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     }
   }
 
-  if (progress) {
+  if (progress || details) {
     cat("\n\n")
     cat("Final Model Output", "\n")
     cat(rep("-", 18), sep = "", "\n\n")
