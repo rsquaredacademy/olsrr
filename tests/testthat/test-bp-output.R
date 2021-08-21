@@ -1,5 +1,3 @@
-context("breusch pagan test output")
-
 model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 
 test_that("when fitted.values == TRUE, fitted values from the regression\n\tare used for the test", {

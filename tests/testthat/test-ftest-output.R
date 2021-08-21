@@ -1,5 +1,3 @@
-context("ftest output")
-
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 
 test_that("output from ftest is as expected", {

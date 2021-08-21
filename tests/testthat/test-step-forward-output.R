@@ -1,5 +1,3 @@
-context("step forward regression output")
-
 model <- lm(y ~ ., data = surgical)
 
 test_that("output from stepwise forward regression is as expected", {

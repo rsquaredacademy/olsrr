@@ -1,5 +1,3 @@
-context("normality test output")
-
 test_that("output from normality test is as expected", {
   x <- cat("-----------------------------------------------
        Test             Statistic       pvalue

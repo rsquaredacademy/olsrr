@@ -1,5 +1,3 @@
-context("pure error anova output")
-
 test_that("output from pure error anova is as expected", {
   x <- cat("Lack of Fit F Test
 -----------------

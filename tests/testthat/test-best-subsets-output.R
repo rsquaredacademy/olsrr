@@ -1,5 +1,3 @@
-context("best subsets regression output")
-
 test_that("output from best subsets regression is as expected", {
   x <- cat("   Best Subsets Regression
 ------------------------------

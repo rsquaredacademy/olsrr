@@ -1,16 +1,14 @@
-context("utility")
-
 test_that("output from text formatting matches the expected result", {
-  expect_equivalent(fg(3, 10), "         3")
-  expect_equivalent(fw(3, 10), "         3")
-  expect_equivalent(fs(), "  ")
-  expect_equivalent(fl(3, 10), "3         ")
-  expect_equivalent(fc(3, 10), "    3     ")
-  expect_equivalent(formatter_t(3, 10), "         3")
-  expect_equivalent(formatter_n(3.7589, 10), "  3.7589  ")
-  expect_equivalent(format_cil(3, 10), "  3.000   ")
-  expect_equivalent(format_ciu(3, 10), "  3.000   ")
-  expect_equivalent(formats_t(), "  ")
+  expect_equal(fg(3, 10), "         3", ignore_attr = TRUE)
+  expect_equal(fw(3, 10), "         3", ignore_attr = TRUE)
+  expect_equal(fs(), "  ", ignore_attr = TRUE)
+  expect_equal(fl(3, 10), "3         ", ignore_attr = TRUE)
+  expect_equal(fc(3, 10), "    3     ", ignore_attr = TRUE)
+  expect_equal(formatter_t(3, 10), "         3", ignore_attr = TRUE)
+  expect_equal(formatter_n(3.7589, 10), "  3.7589  ", ignore_attr = TRUE)
+  expect_equal(format_cil(3, 10), "  3.000   ", ignore_attr = TRUE)
+  expect_equal(format_ciu(3, 10), "  3.000   ", ignore_attr = TRUE)
+  expect_equal(formats_t(), "  ", ignore_attr = TRUE)
 })
 
 test_that("output from l matches the expected result", {
@@ -22,26 +20,26 @@ test_that("output from l matches the expected result", {
 test_that("output from cpout matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- cpout(model)
-  expect_equivalent(k$e, residuals(model))
-  expect_equivalent(k$mc, model$coefficients[-1])
-  expect_equivalent(as.data.frame(k$data), model.frame(model)[-1])
-  expect_equal(k$lmc, length(model$coefficients[-1]))
-  expect_equivalent(k$nam, names(model.frame(model)[-1]))
-  expect_equivalent(k$indvar, names(model.frame(model)[1]))
+  expect_equal(k$e, residuals(model), ignore_attr = TRUE)
+  expect_equal(k$mc, model$coefficients[-1], ignore_attr = TRUE)
+  expect_equal(as.data.frame(k$data), model.frame(model)[-1], ignore_attr = TRUE)
+  expect_equal(k$lmc, length(model$coefficients[-1]), ignore_attr = TRUE)
+  expect_equal(k$nam, names(model.frame(model)[-1]), ignore_attr = TRUE)
+  expect_equal(k$indvar, names(model.frame(model)[1]), ignore_attr = TRUE)
 })
 
 test_that("output from cpdata matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- cpout(model)
   actual <- cpdata(mtcars, k$mc, k$e, 2)
-  expect_equivalent(
+  expect_equal(
     actual[[1]],
     c(
       6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8,
       8, 8, 4, 4, 4, 8, 6, 8, 4
-    )
+    ), ignore_attr = TRUE
   )
-  expect_equivalent(actual[[2]], c(
+  expect_equal(actual[[2]], c(
     -2.9203498, -2.0330346, -2.3992081,
     0.6259587, 0.3873286, -1.3037619,
     -1.2315502, 1.2850510, 0.3095797, -1.4791933, -2.8791933, 0.9161240,
@@ -49,7 +47,7 @@ test_that("output from cpdata matches the expected result", {
     -0.4647590, 5.5258185, -2.8364793, -2.5541073, -3.7860046, -2.1732729,
     2.2677477, -0.4740448, -0.9675111, 3.2790314, -2.2139222, -0.8851877,
     2.2406110, -2.1513153
-  ))
+  ), ignore_attr = TRUE)
 })
 
 test_that("output from cdplot matches the expected output", {
@@ -117,7 +115,7 @@ test_that("output from rvsrdata matches the expected output", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   k <- ols_prep_rvsrplot_data(model)
   expect_equal(k$np, 4)
-  expect_equivalent(k$pnames, c("disp", "hp", "wt", "drat"))
+  expect_equal(k$pnames, c("disp", "hp", "wt", "drat"), ignore_attr = TRUE)
   expect_equal(round(mean(k$dat[[1]]), 3), 230.722)
 })
 
@@ -126,8 +124,8 @@ test_that("output from srdata matches the expected result", {
   k <- ols_prep_srplot_data(model)
   expect_equal(k$cmaxx, 4)
   expect_equal(k$cminx, -3)
-  expect_equivalent(k$nseq, c(-1, -2))
-  expect_equivalent(k$pseq, c(1, 2, 3))
+  expect_equal(k$nseq, c(-1, -2), ignore_attr = TRUE)
+  expect_equal(k$pseq, c(1, 2, 3), ignore_attr = TRUE)
 })
 
 test_that("output from histdata matches the expected result", {
@@ -158,5 +156,5 @@ test_that("output from advarx matches the expected output", {
   actual   <- ols_prep_regress_x(mtcars, 1)
   expected <- unname(residuals(lm(mpg ~., data = mtcars)))
   
-  expect_equivalent(actual, expected)
+  expect_equal(actual, expected, ignore_attr = TRUE)
 })

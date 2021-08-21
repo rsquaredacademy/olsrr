@@ -1,5 +1,3 @@
-context("bartlett test output")
-
 test_that("output from bartlett test is as expected when using variables", {
   x <- cat("
     Bartlett's Test of Homogenity of Variances

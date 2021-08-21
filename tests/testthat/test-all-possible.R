@@ -1,5 +1,3 @@
-context("all_subsets")
-
 test_that("all subsets selection output matches the expected result", {
   model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
   k <- ols_step_all_possible(model)
@@ -10,7 +8,7 @@ test_that("all subsets selection output matches the expected result", {
     "x1 x2 x3 x4"
   )
   expect_equal(k$result$mindex, c(1:15))
-  expect_equivalent(k$result$predictors, pred_exp)
+  expect_equal(k$result$predictors, pred_exp, ignore_attr = TRUE)
 })
 
 
@@ -45,6 +43,6 @@ test_that("all possible regression betas are as expected", {
   beta <- c(33.85901073, -0.02255579, -0.03899945, -4.09350456)
 
   expected <- data.frame(predictor, beta)
-  expect_equivalent(actual$predictor, expected$predictor)
-  expect_equivalent(actual$beta, expected$beta)
+  expect_equal(actual$predictor, expected$predictor, ignore_attr = TRUE)
+  expect_equal(actual$beta, expected$beta, ignore_attr = TRUE)
 })

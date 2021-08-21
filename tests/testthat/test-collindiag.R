@@ -1,5 +1,3 @@
-context("coll_diag")
-
 hsb$race_1 <- ifelse(hsb$race == 1, 1, 0)
 hsb$race_2 <- ifelse(hsb$race == 2, 1, 0)
 hsb$race_3 <- ifelse(hsb$race == 3, 1, 0)
@@ -17,8 +15,8 @@ test_that("output from vif_tol matches expected result", {
   Tolerance <- c(0.482, 0.469, 0.475, 0.692, 0.602, 0.467)
   VIF <- c(2.074, 2.132, 2.104, 1.446, 1.662, 2.141)
   exp <- data.frame(Variables, Tolerance, VIF)
-  expect_equivalent(round(act$Tolerance, 3), exp$Tolerance)
-  expect_equivalent(round(act$VIF, 3), exp$VIF)
+  expect_equal(round(act$Tolerance, 3), exp$Tolerance, ignore_attr = TRUE)
+  expect_equal(round(act$VIF, 3), exp$VIF, ignore_attr = TRUE)
 })
 
 
@@ -35,7 +33,7 @@ test_that("output from eigen_cindex matches expected result", {
   col9 <- c(0.004, 0.014, 0.006, 0.962, 0.002, 0.011, 0.001)
   exp <- data.frame(col1, col2, col3, col4, col5, col6, col7, col8, col9)
   names(exp) <- c("Eigenvalue", "Condition Index", "intercept", "read", "math", "science", "race_2", "race_3", "race_4")
-  expect_equivalent(round(act, 3), exp)
+  expect_equal(round(act, 3), exp, ignore_attr = TRUE)
 })
 
 

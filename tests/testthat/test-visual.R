@@ -1,5 +1,3 @@
-context("Visual Test")
-
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 
 test_that("residual histogram plot is as expected", {

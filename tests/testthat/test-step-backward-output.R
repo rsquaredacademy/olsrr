@@ -1,5 +1,3 @@
-context("stepwise backward regression output")
-
 model <- lm(y ~ ., data = surgical)
 
 test_that("output from stepwise backward regression is as expected", {

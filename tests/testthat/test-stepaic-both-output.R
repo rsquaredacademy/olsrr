@@ -1,5 +1,3 @@
-context("stepAIC both direction regression output")
-
 model <- lm(y ~ ., data = surgical)
 
 test_that("output from stepAIC both direction regression is as expected", {

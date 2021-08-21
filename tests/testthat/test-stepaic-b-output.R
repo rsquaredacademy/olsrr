@@ -1,5 +1,3 @@
-context("stepAIC backward regression output")
-
 model <- lm(y ~ ., data = surgical)
 
 test_that("output from stepAIC backward regression is as expected", {

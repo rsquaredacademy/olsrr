@@ -1,5 +1,3 @@
-context("score test output")
-
 model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 
 test_that("when fitted.values == TRUE, fitted values from the regression\n\tare used for the test", {
@@ -17,7 +15,7 @@ test_that("when fitted.values == TRUE, fitted values from the regression\n\tare 
  Chi2          =    1.268973
  Prob > Chi2   =    0.2599594")
 
-  expect_equivalent(print(ols_test_score(model)), x)
+  expect_equal(print(ols_test_score(model)), x, ignore_attr = TRUE)
 })
 
 test_that("when fitted.values == TRUE and rhs == TRUE, predictors from the\n\tmodel are used for the test", {

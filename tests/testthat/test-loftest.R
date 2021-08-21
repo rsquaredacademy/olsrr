@@ -1,5 +1,3 @@
-context("pure_error_anova")
-
 test_that("output from pure_error_anova matches expected result", {
   model <- lm(mpg ~ hp, data = mtcars)
   k <- ols_pure_error_anova(model)
