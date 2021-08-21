@@ -1,8 +1,7 @@
-context("stepaic_forward")
-
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 
 test_that("output from stepaic_forward matches the expected outptu", {  
+  local_edition(2)
   k <- ols_step_forward_aic(model)
   expect_equal(k$metrics$step, 1:2)
   expect_equivalent(k$metrics$variable, c("wt", "hp"))
@@ -14,6 +13,9 @@ test_that("output from stepaic_forward matches the expected outptu", {
 })
 
 test_that("output from stepaic_forward matches the expected output when variables are locked in", {
+
+  local_edition(2)
+
   k <- ols_step_forward_aic(model, include = c("disp"))
   expect_equal(k$metrics$step, 1:3)
   expect_equivalent(k$metrics$variable, c("wt", "hp", "drat"))
@@ -24,6 +26,9 @@ test_that("output from stepaic_forward matches the expected output when variable
 })
 
 test_that("output from stepaic_forward matches the expected output when variables are locked out", {
+
+  local_edition(2)
+
   k <- ols_step_forward_aic(model, exclude = c("hp"))
   expect_equal(k$metrics$step, 1:2)
   expect_equivalent(k$metrics$variable, c("wt", "disp"))
@@ -34,6 +39,9 @@ test_that("output from stepaic_forward matches the expected output when variable
 })
 
 test_that("output from stepaic_forward matches the expected output when variables are locked in and out", {
+  
+  local_edition(2)
+
   k <- ols_step_forward_aic(model, include = c("disp"), exclude = c("hp"))
   expect_equal(k$metrics$step, 1)
   expect_equivalent(k$metrics$variable, c("wt"))
@@ -45,6 +53,7 @@ test_that("output from stepaic_forward matches the expected output when variable
 
 
 test_that("stepaic_forward returns the appropriate error", {
+  local_edition(2)
   expect_error(ols_step_forward_aic(model, include = c("dis")), "dis not part of the model and hence cannot be forcibly included. Please verify the variable names.")
   expect_error(ols_step_forward_aic(model, exclude = c("hps")), "hps not part of the model and hence cannot be forcibly excluded. Please verify the variable names.")
   expect_error(ols_step_forward_aic(model, include = c(5)), "Index of variable to be included should be between 1 and 4.")
