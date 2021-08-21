@@ -20,6 +20,7 @@
 #'
 #' \item{model}{final model; an object of class \code{lm}}
 #' \item{metrics}{selection metrics}
+#' \item{others}{list; info used for plotting and printing}
 #'
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
@@ -30,13 +31,21 @@
 #' ols_step_forward_aic(model)
 #'
 #' # stepwise forward regression plot
-#' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_forward_aic(model)
 #' plot(k)
 #'
-#' # final model
+#' # extract final model
 #' k$model
 #'
+#' # include or exclude variables
+#' # force variable to be included in selection process
+#' ols_step_forward_aic(model, include = c("age"))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_forward_aic(model, exclude = c("liver_test"))
+#'
+#' # include & exclude variables in the selection process
+#' ols_step_forward_aic(model, include = c("age"), exclude = c("liver_test"))
 #'
 #' @family variable selection procedures
 #'
@@ -74,7 +83,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   if (is.null(include)) {
     b_model <- lm(paste(response, "~", 1), data = l)
   } else {
-    b_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)  
+    b_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
   }
 
   aic1 <- ols_aic(b_model)
@@ -140,9 +149,9 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
 
     for (i in seq_len(ln)) {
       cat(
-        fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), 
+        fl(da2[i, 1], w1), fs(), fg(1, w2), fs(),
         fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), 
+        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(),
         fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
         fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
         fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
@@ -234,9 +243,9 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
 
       for (i in seq_len(ln)) {
         cat(
-          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), 
+          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(),
           fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), 
+          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(),
           fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
           fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
           fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
@@ -315,13 +324,13 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
                             variable = var_selected,
                             r2       = lrsq,
                             adj_r2   = larsq,
-                            aic      = laic, 
-                            rss      = lrss, 
+                            aic      = laic,
+                            rss      = lrss,
                             ess      = less)
 
-  out <- list(base_model  = b_model,
-              final_model = final_model,
-              metrics     = metrics)
+  out <- list(metrics = metrics,
+              model   = final_model,
+              others  = list(base_model = b_model))
 
 
   class(out) <- "ols_step_forward_aic"
@@ -350,12 +359,12 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
   b   <- NULL
 
   step <- c(0, x$metrics$step)
-  aic  <- c(ols_aic(x$base_model), x$metrics$aic)
+  aic  <- c(ols_aic(x$others$base_model), x$metrics$aic)
   pred <- c("Base Model", x$metrics$variable)
 
   y    <- step
-  xloc <- y 
-  yloc <- aic 
+  xloc <- y
+  yloc <- aic
   xmin <- min(y) - 1
   xmax <- max(y) + 1
   ymin <- min(aic) - 1

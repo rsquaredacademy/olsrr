@@ -857,9 +857,9 @@ print_stepaic_forward <- function(data) {
 
   ln <- length(data$metrics$aic)
 
-  output <- summary(data$base_model)
-  anovam <- anova(data$base_model)
-  aic    <- ols_aic(data$base_model)
+  output <- summary(data$others$base_model)
+  anovam <- anova(data$others$base_model)
+  aic    <- ols_aic(data$others$base_model)
   n      <- length(anovam$Df)
   ess    <- anovam$`Sum Sq`[n]
   tss    <- sum(anovam$`Sum Sq`)
