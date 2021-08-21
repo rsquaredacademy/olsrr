@@ -44,3 +44,9 @@ test_that("output from stepaic_forward matches the expected output when variable
 })
 
 
+test_that("stepaic_forward returns the appropriate error", {
+  expect_error(ols_step_forward_aic(model, include = c("dis")), "dis not part of the model and hence cannot be forcibly included. Please verify the variable names.")
+  expect_error(ols_step_forward_aic(model, exclude = c("hps")), "hps not part of the model and hence cannot be forcibly excluded. Please verify the variable names.")
+  expect_error(ols_step_forward_aic(model, include = c(5)), "Index of variable to be included should be between 1 and 4.")
+  expect_error(ols_step_forward_aic(model, exclude = c(5)), "Index of variable to be excluded should be between 1 and 4.")
+})
