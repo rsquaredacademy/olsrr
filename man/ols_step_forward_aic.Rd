@@ -44,6 +44,7 @@ following components:
 
 \item{model}{final model; an object of class \code{lm}}
 \item{metrics}{selection metrics}
+\item{others}{list; info used for plotting and printing}
 }
 \description{
 Build regression model from a set of candidate predictor variables by
@@ -56,13 +57,21 @@ model <- lm(y ~ ., data = surgical)
 ols_step_forward_aic(model)
 
 # stepwise forward regression plot
-model <- lm(y ~ ., data = surgical)
 k <- ols_step_forward_aic(model)
 plot(k)
 
-# final model
+# extract final model
 k$model
 
+# include or exclude variables
+# force variable to be included in selection process
+ols_step_forward_aic(model, include = c("age"))
+
+# force variable to be excluded from selection process
+ols_step_forward_aic(model, exclude = c("liver_test"))
+
+# include & exclude variables in the selection process
+ols_step_forward_aic(model, include = c("age"), exclude = c("liver_test"))
 
 }
 \references{
