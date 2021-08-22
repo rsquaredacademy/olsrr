@@ -38,32 +38,6 @@ test_that("output from eigen_cindex matches expected result", {
 
 
 test_that("output from ols_coll_diag is as expected", {
-  x <- cat("Tolerance and Variance Inflation Factor
----------------------------------------
-# A tibble: 4 x 3
-  Variables Tolerance      VIF
-      <chr>     <dbl>    <dbl>
-1      disp 0.1218116 8.209402
-2        hp 0.3454979 2.894373
-3        wt 0.1962092 5.096601
-4      drat 0.4386836 2.279547
-
-
-Eigenvalue and Condition Index
-------------------------------
-   Eigenvalue Condition Index    intercept        disp          hp
-1 4.692806914        1.000000 0.0002323252 0.001106455 0.002566185
-2 0.240308641        4.419078 0.0036813894 0.034132904 0.031334562
-3 0.052153430        9.485821 0.0009192095 0.058394262 0.735003722
-4 0.011406889       20.283026 0.0014476535 0.885725642 0.207337511
-5 0.003324127       37.573144 0.9937194224 0.020640737 0.023758021
-            wt         drat
-1 0.0007172086 0.0003775503
-2 0.0009394254 0.0148250672
-3 0.0700789813 0.0026259361
-4 0.7179834661 0.0568226912
-5 0.2102809185 0.9253487552")
-
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
-  expect_output(print(ols_coll_diag(model)), x)
+  expect_snapshot(ols_coll_diag(model))
 })
