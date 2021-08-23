@@ -2,6 +2,7 @@ model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 
 test_that("residual histogram plot is as expected", {
   skip_on_cran()
+  skip_on_ci()
   p <- ols_plot_resid_hist(model)
   vdiffr::expect_doppelganger("ggplot2 histogram", p)
 })
