@@ -176,11 +176,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
       arsq  <- c()
 
       if (progress) {
-        if (interactive()) {
-          cat("x", tail(rpred, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(rpred, n = 1)), "\n")
-        }
+        cat(paste("-", tail(rpred, n = 1)), "\n")
       }
 
       for (i in seq_len(ilp)) {
@@ -246,11 +242,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
     cat("\n\n")
     cat("Variables Removed:", "\n\n")
     for (i in seq_len(length(rpred))) {
-      if (interactive()) {
-        cat("x", rpred[i], "\n")
-      } else {
-        cat(paste("-", rpred[i]), "\n")
-      }
+      cat(paste("-", rpred[i]), "\n")
     }
   }
 

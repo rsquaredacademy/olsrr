@@ -101,11 +101,7 @@ ols_step_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, d
       }
 
       if (progress) {
-        if (interactive()) {
-          cat("+", tail(preds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(preds, n = 1)), "\n")
-        }
+        cat(paste("-", tail(preds, n = 1)), "\n")
       }
 
       if (details) {
@@ -232,11 +228,7 @@ ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, 
       rmse   <- c(rmse, fr$rmse)
 
       if (progress) {
-        if (interactive()) {
-          cat("x", tail(preds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(preds, n = 1)), "\n")
-        }
+        cat(paste("-", tail(preds, n = 1)), "\n")
       }
 
       if (details) {
@@ -272,11 +264,7 @@ ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, 
     } else {
       cat("Variables Removed:", "\n\n")
       for (i in seq_len(len_pred)) {
-        if (interactive()) {
-          cat("x", preds[i], "\n")
-        } else {
-          cat(paste("-", preds[i]), "\n")
-        }
+        cat(paste("-", preds[i]), "\n")
       }
     }
   }

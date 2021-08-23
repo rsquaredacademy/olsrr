@@ -40,7 +40,7 @@
       
       Forward Selection: Step 1 
       
-      + liver_test 
+      - liver_test 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -75,7 +75,7 @@
       
       Forward Selection: Step 2 
       
-      + alc_heavy 
+      - alc_heavy 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -111,7 +111,7 @@
       
       Forward Selection: Step 3 
       
-      + enzyme_test 
+      - enzyme_test 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -148,7 +148,7 @@
       
       Forward Selection: Step 4 
       
-      + pindex 
+      - pindex 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -186,7 +186,7 @@
       
       Forward Selection: Step 5 
       
-      + bcs 
+      - bcs 
       
                                 Model Summary                           
       -----------------------------------------------------------------

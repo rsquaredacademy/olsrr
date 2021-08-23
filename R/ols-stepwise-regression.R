@@ -160,11 +160,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       method  <- c(method, tech[1])
 
       if (progress) {
-        if (interactive()) {
-          cat("+", tail(npreds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(npreds, n = 1), "added"), "\n")
-        }
+        cat(paste("-", tail(npreds, n = 1), "added"), "\n")        
       }
 
       if (details) {
@@ -200,11 +196,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       method  <- c(method, tech[1])
 
       if (progress) {
-        if (interactive()) {
-          cat("+", tail(npreds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(npreds, n = 1), "added"), "\n")
-        }
+        cat(paste("-", tail(npreds, n = 1), "added"), "\n")
       }
 
       if (details) {
@@ -271,11 +263,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       }
 
       if (progress) {
-        if (interactive()) {
-          cat("+", tail(preds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(preds, n = 1), "added"), "\n")
-        }
+        cat(paste("-", tail(preds, n = 1), "added"), "\n")
       }
 
       if (details) {
@@ -327,11 +315,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
         }
 
         if (progress) {
-          if (interactive()) {
-            cat("x", tail(var_index, n = 1), "\n")
-          } else {
-            cat(paste("-", tail(var_index, n = 1), "added"), "\n")
-          }
+          cat(paste("-", tail(var_index, n = 1), "added"), "\n")
         }
 
         if (details) {

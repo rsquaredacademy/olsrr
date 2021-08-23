@@ -36,7 +36,7 @@
       
       We are eliminating variables based on p value...
       
-      x alc_mod 
+      - alc_mod 
       
       Backward Elimination: Step 1 
       
@@ -78,7 +78,7 @@
       ------------------------------------------------------------------------------------------------
       
       
-      x gender 
+      - gender 
       
       Backward Elimination: Step 2 
       
@@ -119,7 +119,7 @@
       ------------------------------------------------------------------------------------------------
       
       
-      x age 
+      - age 
       
       Backward Elimination: Step 3 
       
@@ -165,9 +165,9 @@
       
       Variables Removed: 
       
-      x alc_mod 
-      x gender 
-      x age 
+      - alc_mod 
+      - gender 
+      - age 
       
       
       Final Model Output 

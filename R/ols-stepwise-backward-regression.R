@@ -139,11 +139,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, hierarchical = FALSE,
           rmse   <- c(rmse, fr$rmse)
 
           if (progress) {
-            if (interactive()) {
-              cat("x", tail(rpred, n = 1), "\n")
-            } else {
-              cat(paste("-", tail(rpred, n = 1)), "\n")
-            }
+            cat(paste("-", tail(rpred, n = 1)), "\n")
           }
 
           if (details) {
@@ -174,11 +170,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, hierarchical = FALSE,
       } else {
         cat("Variables Removed:", "\n\n")
         for (i in seq_len(len_pred)) {
-          if (interactive()) {
-            cat("x", rpred[i], "\n")
-          } else {
-            cat(paste("-", rpred[i]), "\n")
-          }
+          cat(paste("-", rpred[i]), "\n")
         }
       }
     }

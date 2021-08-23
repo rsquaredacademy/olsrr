@@ -224,11 +224,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   }
 
   if (progress) {
-    if (interactive()) {
-      cat("+", tail(preds, n = 1), "\n")
-    } else {
-      cat(paste("-", tail(preds, n = 1)), "\n")
-    }
+    cat(paste("-", tail(preds, n = 1)), "\n")
   }
 
   while (step < mlen_p) {
@@ -319,11 +315,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       step     <- step + 1
 
       if (progress) {
-        if (interactive()) {
-          cat("+", tail(preds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(preds, n = 1)), "\n")
-        }
+        cat(paste("-", tail(preds, n = 1)), "\n")
       }
     } else {
       if (progress || details) {
@@ -338,11 +330,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     cat("\n")
     cat("Variables Selected:", "\n\n")
     for (i in seq_len(length(preds))) {
-      if (interactive()) {
-        cat("+", preds[i], "\n")
-      } else {
-        cat(paste("-", preds[i]), "\n")
-      }
+      cat(paste("-", preds[i]), "\n")
     }
   }
 

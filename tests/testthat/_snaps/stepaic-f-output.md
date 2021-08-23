@@ -38,11 +38,11 @@
       
       Variables Entered: 
       
-      + liver_test 
-      + alc_heavy 
-      + enzyme_test 
-      + pindex 
-      + bcs 
+      - liver_test 
+      - alc_heavy 
+      - enzyme_test 
+      - pindex 
+      - bcs 
       
       No more variables to be added. 
       
@@ -220,11 +220,11 @@
       
       Variables Selected: 
       
-      + liver_test 
-      + alc_heavy 
-      + enzyme_test 
-      + pindex 
-      + bcs 
+      - liver_test 
+      - alc_heavy 
+      - enzyme_test 
+      - pindex 
+      - bcs 
       
       
       Final Model Output 

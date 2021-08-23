@@ -40,7 +40,7 @@
       
       Stepwise Selection: Step 1 
       
-      + liver_test 
+      - liver_test added 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -75,7 +75,7 @@
       
       Stepwise Selection: Step 2 
       
-      + alc_heavy 
+      - alc_heavy added 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -143,7 +143,7 @@
       
       Stepwise Selection: Step 4 
       
-      + enzyme_test 
+      - enzyme_test added 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -213,7 +213,7 @@
       
       Stepwise Selection: Step 7 
       
-      + pindex 
+      - pindex added 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -285,7 +285,7 @@
       
       Stepwise Selection: Step 11 
       
-      + bcs 
+      - bcs added 
       
                                 Model Summary                           
       -----------------------------------------------------------------

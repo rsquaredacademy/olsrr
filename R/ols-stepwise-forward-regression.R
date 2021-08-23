@@ -173,11 +173,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
         rmse   <- c(rmse, fr$rmse)
 
         if (progress) {
-          if (interactive()) {
-            cat("+", tail(npreds, n = 1), "\n")
-          } else {
-            cat("-", tail(npreds, n = 1), "\n")
-          }
+          cat("-", tail(npreds, n = 1), "\n")
         }
 
         if (details) {
@@ -207,11 +203,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
       rmse   <- c(rmse, fr$rmse)
 
       if (progress) {
-        if (interactive()) {
-          cat("+", tail(preds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(preds, n = 1)), "\n")
-        }
+        cat(paste("-", tail(preds, n = 1)), "\n")
       }
 
       if (details) {
@@ -270,17 +262,9 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
         if (progress) {
           len_maxf <- length(maxf)
           if (len_maxf > 1) {
-            if (interactive()) {
-              cat("+", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
-            } else {
-              cat("-", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
-            }
+            cat("-", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
           } else {
-            if (interactive()) {
-              cat("+", tail(preds, n = 1), "\n")
-            } else {
-              cat("-", tail(preds, n = 1), "\n")
-            }
+            cat("-", tail(preds, n = 1), "\n")
           }
         }
 

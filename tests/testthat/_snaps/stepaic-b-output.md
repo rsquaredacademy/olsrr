@@ -54,7 +54,7 @@
       
       Variables Removed: 
       
-      x alc_mod 
+      - alc_mod 
       
       
         Step 1 : AIC = 734.4068 
@@ -72,7 +72,7 @@
       enzyme_test    1     761.595    1309433.007    3135910.834    0.625        0.577 
       --------------------------------------------------------------------------------
       
-      x gender 
+      - gender 
       
       
         Step 2 : AIC = 732.4942 
@@ -89,7 +89,7 @@
       enzyme_test    1     759.596    1306482.666    3135918.283    0.625        0.586 
       --------------------------------------------------------------------------------
       
-      x age 
+      - age 
       
       
         Step 3 : AIC = 730.6204 
@@ -110,9 +110,9 @@
       
       Variables Removed: 
       
-      x alc_mod 
-      x gender 
-      x age 
+      - alc_mod 
+      - gender 
+      - age 
       
       
       Final Model Output 

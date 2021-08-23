@@ -178,11 +178,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
       larsq      <- c(larsq, marsq)
 
       if (progress) {
-        if (interactive()) {
-          cat("+", tail(preds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(preds, n = 1), "added"), "\n")
-        }
+        cat(paste("-", tail(preds, n = 1), "added"), "\n")
       }
 
       if (details) {
@@ -267,11 +263,7 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
           all_step  <- all_step + 1
 
           if (progress) {
-            if (interactive()) {
-              cat("x", preds[minc2], "\n")
-            } else {
-              cat(paste("-", preds[minc2], "removed"), "\n")
-            }
+            cat(paste("-", preds[minc2], "removed"), "\n")
           }
 
           preds <- preds[-minc2]
