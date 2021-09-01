@@ -2,10 +2,20 @@
 % Please edit documentation in R/ols-best-subsets-regression.R
 \name{ols_step_best_subset}
 \alias{ols_step_best_subset}
+\alias{ols_step_best_subset.default}
 \alias{plot.ols_step_best_subset}
 \title{Best subsets regression}
 \usage{
 ols_step_best_subset(model, ...)
+
+\method{ols_step_best_subset}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  metric = c("rsquare", "adjr", "predrsq", "cp", "aic", "sbic", "sbc", "msep", "fpe",
+    "apc", "hsp"),
+  ...
+)
 
 \method{plot}{ols_step_best_subset}(x, model = NA, print_plot = TRUE, ...)
 }
@@ -14,15 +24,15 @@ ols_step_best_subset(model, ...)
 
 \item{...}{Other inputs.}
 
-\item{x}{An object of class \code{ols_step_best_subset}.}
-
-\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
-
 \item{include}{Character or numeric vector; variables to be included in selection process.}
 
 \item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{metric}{Metric to select model.}
+
+\item{x}{An object of class \code{ols_step_best_subset}.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
 \code{ols_step_best_subset} returns an object of class \code{"ols_step_best_subset"}.

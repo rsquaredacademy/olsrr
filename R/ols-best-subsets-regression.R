@@ -46,7 +46,8 @@
 ols_step_best_subset <- function(model, ...) UseMethod("ols_step_best_subset")
 
 #' @export
-#'
+#' @rdname ols_step_best_subset
+#' 
 ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
                                          metric = c("rsquare", "adjr", "predrsq",
                                                     "cp", "aic", "sbic", "sbc",
