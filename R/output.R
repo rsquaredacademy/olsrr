@@ -653,20 +653,20 @@ print_step_backward <- function(data) {
 
 print_best_subset <- function(data) {
   w1 <- 11
-  w2 <- max(nchar(data$predictors))
+  w2 <- max(nchar(data$metrics$predictors))
   w <- sum(w1, w2, 4)
 
   w3 <- nchar("Model")
   w4 <- nchar("R-Square")
-  w5 <- max(nchar("Pred"), nchar(format(round(data$predrsq, 4), nsmall = 4)))
-  w6 <- max(nchar("C(p)"), nchar(format(round(data$cp, 4), nsmall = 4)))
-  w7 <- max(nchar("AIC"), nchar(format(round(data$aic, 4), nsmall = 4)))
-  w8 <- max(nchar("SBIC"), nchar(format(round(data$sbic, 4), nsmall = 4)))
-  w9 <- max(nchar("SBC"), nchar(format(round(data$sbc, 4), nsmall = 4)))
-  w10 <- max(nchar("MSEP"), nchar(format(round(data$msep, 4), nsmall = 4)))
-  w11 <- max(nchar("FPE"), nchar(format(round(data$fpe, 4), nsmall = 4)))
-  w12 <- max(nchar("HSP"), nchar(format(round(data$hsp, 4), nsmall = 4)))
-  w13 <- max(nchar("APC"), nchar(format(round(data$apc, 4), nsmall = 4)))
+  w5 <- max(nchar("Pred"), nchar(format(round(data$metrics$predrsq, 4), nsmall = 4)))
+  w6 <- max(nchar("C(p)"), nchar(format(round(data$metrics$cp, 4), nsmall = 4)))
+  w7 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 4), nsmall = 4)))
+  w8 <- max(nchar("SBIC"), nchar(format(round(data$metrics$sbic, 4), nsmall = 4)))
+  w9 <- max(nchar("SBC"), nchar(format(round(data$metrics$sbc, 4), nsmall = 4)))
+  w10 <- max(nchar("MSEP"), nchar(format(round(data$metrics$msep, 4), nsmall = 4)))
+  w11 <- max(nchar("FPE"), nchar(format(round(data$metrics$fpe, 4), nsmall = 4)))
+  w12 <- max(nchar("HSP"), nchar(format(round(data$metrics$hsp, 4), nsmall = 4)))
+  w13 <- max(nchar("APC"), nchar(format(round(data$metrics$apc, 4), nsmall = 4)))
 
   v <- sum(w3, w4, w4, w4, w6, w7, w8, w9, w10, w11, w12, w13, 44)
 
@@ -674,10 +674,10 @@ print_best_subset <- function(data) {
   cat("\n", rep("-", w), sep = "", "\n")
   cat("Model Index    Predictors")
   cat("\n", rep("-", w), sep = "", "\n")
-  for (i in data$mindex) {
+  for (i in data$metrics$mindex) {
     cat(
-      format(as.character(data$mindex[i]), width = w1, justify = "centre"), fs(),
-      format(data$predictors[i], width = w2), "\n"
+      format(as.character(data$metrics$mindex[i]), width = w1, justify = "centre"), fs(),
+      format(data$metrics$predictors[i], width = w2), "\n"
     )
   }
   cat(rep("-", w), sep = "", "\n\n")
@@ -685,36 +685,48 @@ print_best_subset <- function(data) {
   cat(format("Subsets Regression Summary", width = v, justify = "centre"))
   cat("\n", rep("-", v), sep = "", "\n")
   cat(
-    format("", width = w3, justify = "centre"), fs(), format("", width = w4, justify = "centre"), fs(),
-    format("Adj.", width = w4, justify = "centre"), fs(), format("Pred", width = w4, justify = "centre"), fs(),
-    format("", width = w6, justify = "centre"), fs(), format("", width = w7, justify = "centre"), fs(),
-    format("", width = w8, justify = "centre"), fs(), format("", width = w9, justify = "centre"), fs(),
-    format("", width = w10, justify = "centre"), fs(), format("", width = w11, justify = "centre"), fs(),
-    format("", width = w12, justify = "centre"), fs(), format("", width = w13, justify = "centre"), "\n"
+    format("", width = w3, justify = "centre"), fs(), 
+    format("", width = w4, justify = "centre"), fs(),
+    format("Adj.", width = w4, justify = "centre"), fs(), 
+    format("Pred", width = w4, justify = "centre"), fs(),
+    format("", width = w6, justify = "centre"), fs(), 
+    format("", width = w7, justify = "centre"), fs(),
+    format("", width = w8, justify = "centre"), fs(), 
+    format("", width = w9, justify = "centre"), fs(),
+    format("", width = w10, justify = "centre"), fs(), 
+    format("", width = w11, justify = "centre"), fs(),
+    format("", width = w12, justify = "centre"), fs(), 
+    format("", width = w13, justify = "centre"), "\n"
   )
   cat(
-    format("Model", width = w3, justify = "centre"), fs(), format("R-Square", width = w4, justify = "centre"), fs(),
-    format("R-Square", width = w4, justify = "centre"), fs(), format("R-Square", width = w4, justify = "centre"), fs(),
-    format("C(p)", width = w6, justify = "centre"), fs(), format("AIC", width = w7, justify = "centre"), fs(),
-    format("SBIC", width = w8, justify = "centre"), fs(), format("SBC", width = w9, justify = "centre"), fs(),
-    format("MSEP", width = w10, justify = "centre"), fs(), format("FPE", width = w11, justify = "centre"), fs(),
-    format("HSP", width = w12, justify = "centre"), fs(), format("APC", width = w13, justify = "centre")
+    format("Model", width = w3, justify = "centre"), fs(), 
+    format("R-Square", width = w4, justify = "centre"), fs(),
+    format("R-Square", width = w4, justify = "centre"), fs(), 
+    format("R-Square", width = w4, justify = "centre"), fs(),
+    format("C(p)", width = w6, justify = "centre"), fs(), 
+    format("AIC", width = w7, justify = "centre"), fs(),
+    format("SBIC", width = w8, justify = "centre"), fs(), 
+    format("SBC", width = w9, justify = "centre"), fs(),
+    format("MSEP", width = w10, justify = "centre"), fs(), 
+    format("FPE", width = w11, justify = "centre"), fs(),
+    format("HSP", width = w12, justify = "centre"), fs(), 
+    format("APC", width = w13, justify = "centre")
   )
   cat("\n", rep("-", v), sep = "", "\n")
-  for (i in data$mindex) {
+  for (i in data$metrics$mindex) {
     cat(
-      format(as.character(data$mindex[i]), width = w3, justify = "centre"), fs(),
-      format(round(data$rsquare[i], 4), nsmall = 4, width = w4, justify = "centre"), fs(),
-      format(round(data$adjr[i], 4), nsmall = 4, width = w4, justify = "centre"), fs(),
-      format(round(data$predrsq[i], 4), width = w4, justify = "centre"), fs(),
-      format(round(data$cp[i], 4), nsmall = 4, width = w6, justify = "centre"), fs(),
-      format(round(data$aic[i], 4), nsmall = 4, width = w7, justify = "centre"), fs(),
-      format(round(data$sbic[i], 4), nsmall = 4, width = w8, justify = "centre"), fs(),
-      format(round(data$sbc[i], 4), nsmall = 4, width = w9, justify = "centre"), fs(),
-      format(round(data$msep[i], 4), nsmall = 4, width = w10, justify = "centre"), fs(),
-      format(round(data$fpe[i], 4), nsmall = 4, width = w11, justify = "centre"), fs(),
-      format(round(data$hsp[i], 4), nsmall = 4, width = w12, justify = "centre"), fs(),
-      format(round(data$apc[i], 4), nsmall = 4, width = w13, justify = "centre"), "\n"
+      format(as.character(data$metrics$mindex[i]), width = w3, justify = "centre"), fs(),
+      format(round(data$metrics$rsquare[i], 4), nsmall = 4, width = w4, justify = "centre"), fs(),
+      format(round(data$metrics$adjr[i], 4), nsmall = 4, width = w4, justify = "centre"), fs(),
+      format(round(data$metrics$predrsq[i], 4), width = w4, justify = "centre"), fs(),
+      format(round(data$metrics$cp[i], 4), nsmall = 4, width = w6, justify = "centre"), fs(),
+      format(round(data$metrics$aic[i], 4), nsmall = 4, width = w7, justify = "centre"), fs(),
+      format(round(data$metrics$sbic[i], 4), nsmall = 4, width = w8, justify = "centre"), fs(),
+      format(round(data$metrics$sbc[i], 4), nsmall = 4, width = w9, justify = "centre"), fs(),
+      format(round(data$metrics$msep[i], 4), nsmall = 4, width = w10, justify = "centre"), fs(),
+      format(round(data$metrics$fpe[i], 4), nsmall = 4, width = w11, justify = "centre"), fs(),
+      format(round(data$metrics$hsp[i], 4), nsmall = 4, width = w12, justify = "centre"), fs(),
+      format(round(data$metrics$apc[i], 4), nsmall = 4, width = w13, justify = "centre"), "\n"
     )
   }
   cat(rep("-", v), sep = "", "\n")
