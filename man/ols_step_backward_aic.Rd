@@ -8,7 +8,14 @@
 \usage{
 ols_step_backward_aic(model, ...)
 
-\method{ols_step_backward_aic}{default}(model, progress = FALSE, details = FALSE, ...)
+\method{ols_step_backward_aic}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
 
 \method{plot}{ols_step_backward_aic}(x, print_plot = TRUE, ...)
 }
@@ -17,6 +24,10 @@ ols_step_backward_aic(model, ...)
 candidate predictor variables.}
 
 \item{...}{Other arguments.}
+
+\item{include}{Character or numeric vector; variables to be included in selection process.}
+
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -53,6 +64,19 @@ plot(k)
 
 # final model
 k$model
+
+# include or exclude variable
+# force variables to be included in the selection process
+ols_step_backward_aic(model, include = c("alc_mod", "gender"))
+
+# use index of variable instead of name
+ols_step_backward_aic(model, include = c(7, 6))
+
+# force variable to be excluded from selection process
+ols_step_backward_aic(model, exclude = c("alc_heavy", "bcs"))
+
+# use index of variable instead of name
+ols_step_backward_aic(model, exclude = c(8, 1))
 
 }
 \references{
