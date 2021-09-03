@@ -37,11 +37,9 @@
       
       We are selecting variables based on p value...
       
-      
       Forward Selection: Step 1 
       
-      - liver_test 
-      
+      Variable entered => liver_test
                                 Model Summary                           
       -----------------------------------------------------------------
       R                       0.674       RMSE                 290.760 
@@ -75,7 +73,7 @@
       
       Forward Selection: Step 2 
       
-      - alc_heavy 
+      Variable entered => alc_heavy 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -111,7 +109,7 @@
       
       Forward Selection: Step 3 
       
-      - enzyme_test 
+      Variable entered => enzyme_test 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -148,7 +146,7 @@
       
       Forward Selection: Step 4 
       
-      - pindex 
+      Variable entered => pindex 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -186,7 +184,7 @@
       
       Forward Selection: Step 5 
       
-      - bcs 
+      Variable entered => bcs 
       
                                 Model Summary                           
       -----------------------------------------------------------------
@@ -227,11 +225,11 @@
       
       Variables Entered: 
       
-      + liver_test 
-      + alc_heavy 
-      + enzyme_test 
-      + pindex 
-      + bcs 
+      => liver_test 
+      => alc_heavy 
+      => enzyme_test 
+      => pindex 
+      => bcs 
       
       
       Final Model Output 
