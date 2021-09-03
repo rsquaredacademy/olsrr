@@ -53,7 +53,7 @@ ols_step_backward_aic <- function(model, ...) UseMethod("ols_step_backward_aic")
 ols_step_backward_aic.default <- function(model, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
-    progress <- TRUE
+    progress <- FALSE
   }
 
   check_model(model)
@@ -160,8 +160,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
       step  <- step + 1
       aic_f <- aics[minc]
 
-      mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")),
-                        data = l)
+      mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
       rss_f <- mi$rss
       laic  <- c(laic, aic_f)
@@ -183,8 +182,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
 
         predictors <- preds[-i]
 
-        m <- ols_regress(paste(response, "~",
-                               paste(predictors, collapse = " + ")), data = l)
+        m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
 
         aics[i] <- ols_aic(m$model)
         ess[i]  <- m$ess
@@ -251,10 +249,7 @@ ols_step_backward_aic.default <- function(model, progress = FALSE, details = FAL
     cat("Final Model Output", "\n")
     cat(rep("-", 18), sep = "", "\n\n")
 
-    fi <- ols_regress(
-      paste(response, "~", paste(preds, collapse = " + ")),
-      data = l
-    )
+    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
     print(fi)
   }
 
@@ -308,7 +303,7 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
   xmin <- min(y) - 0.4
   xmax <- max(y) + 1
   ymin <- min(aic) - 1
-  ymax <- max(aic) + 1 
+  ymax <- max(aic) + 1
 
   d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
   d  <- data.frame(a = y, b = aic)
