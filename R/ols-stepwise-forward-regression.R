@@ -9,6 +9,8 @@
 #'   candidate predictor variables.
 #' @param penter p value; variables with p value less than \code{penter} will
 #'   enter into the model
+#' @param include Character or numeric vector; variables to be included in selection process.
+#' @param exclude Character or numeric vector; variables to be excluded from selection process.
 #' @param hierarchical Logical; if \code{TRUE}, performs hierarchical selection.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
@@ -48,10 +50,10 @@
 #'
 #' # hierarchical selection
 #' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test, data = surgical)
-#' ols_step_forward_p(model, 0.1, TRUE)
+#' ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 #'
 #' # plot
-#' k <- ols_step_forward_p(model, 0.1, TRUE)
+#' k <- ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 #' plot(k)
 #'
 #' # selection metrics
@@ -72,34 +74,67 @@ ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 #' @export
 #' @rdname ols_step_forward_p
 #'
-ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
+ols_step_forward_p.default <- function(model, penter = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
-    progress <- TRUE
+    progress <- FALSE
+  }
+
+  check_model(model)
+  check_logic(details)
+  check_values(penter, 0, 1)
+  check_npredictors(model, 3)
+
+  indterms <- coeff_names(model)
+  lenterms <- length(indterms)
+
+  if (is.character(include)) {
+    npm <- include %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(include[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly included. Please verify the variable names."), call. = FALSE)
+    }
+  }
+
+  if (is.character(exclude)) {
+    npm <- exclude %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
+    }
+  }
+
+  if (is.numeric(include)) {
+    if (any(include > lenterms)) {
+      stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
+    } else {
+      include <- indterms[include]
+    }
+  }
+
+  if (is.numeric(exclude)) {
+    if (any(exclude > lenterms)) {
+      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)
+    } else {
+      exclude <- indterms[exclude]
+    }
   }
 
   if (hierarchical) {
-
     ols_step_hierarchical(model, penter, TRUE, progress, details)
-
   } else {
-    check_model(model)
-    check_logic(details)
-    check_values(penter, 0, 1)
-    check_npredictors(model, 3)
-
     l        <- model$model
     nam      <- colnames(attr(model$terms, "factors"))
+    lockterm <- c(include, exclude)
+    cterms   <- setdiff(nam, exclude)
+    nam      <- setdiff(nam, lockterm)
     df       <- nrow(l) - 2
     n        <- ncol(l)
     response <- names(model$model)[1]
     all_pred <- nam
-    cterms   <- all_pred
     mlen_p   <- length(all_pred)
 
     step     <- 0
-    ppos     <- step + 1
-    preds    <- c()
+    ppos     <- step + 1 + length(include)
+    preds    <- include
     pvals    <- c()
     fvals    <- c()
     rsq      <- c()
@@ -110,26 +145,22 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
     sbc      <- c()
     rmse     <- c()
 
-    if (progress) {
+    if (progress || details) {
       cat(format("Forward Selection Method", justify = "left", width = 27), "\n")
       cat(rep("-", 27), sep = "", "\n\n")
       cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-      for (i in seq_len(length(nam))) {
-        cat(paste0(i, ". ", nam[i]), "\n")
+      for (i in seq_len(length(cterms))) {
+        cat(paste0(i, ". ", cterms[i]), "\n")
       }
       cat("\n")
 
       cat("We are selecting variables based on p value...")
       cat("\n")
 
-      cat("\n")
-      if (!details) {
-        cat("Variables Entered:", "\n\n")
-      }
     }
 
     for (i in seq_len(mlen_p)) {
-      predictors <- all_pred[i]
+      predictors <- c(include, all_pred[i])
       m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
       m_sum      <- Anova(m)
       fvals[i]   <- m_sum$`F value`[ppos]
@@ -146,9 +177,14 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
 
     if (pvals[minp] > penter) {
       stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
+    } else {
+      if (progress) {
+        cat("\n")
+        cat("Variables Entered:", "\n\n")
+      }
     }
 
-    preds  <- all_pred[maxf]
+    preds  <- c(preds, all_pred[maxf])
     lpreds <- length(preds)
 
     if (lpreds > 1) {
@@ -177,6 +213,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
         }
 
         if (details) {
+          cat("Variable entered =>", tail(npreds, n = 1))
           cat("\n")
           m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
           print(m)
@@ -207,6 +244,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
       }
 
       if (details) {
+        cat("Variable entered =>", tail(preds, n = 1))
         cat("\n")
         m <- ols_regress(paste(response, "~", preds), l)
         print(m)
@@ -262,20 +300,26 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
         if (progress) {
           len_maxf <- length(maxf)
           if (len_maxf > 1) {
-            cat("-", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
+            cat("=>", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
           } else {
-            cat("-", tail(preds, n = 1), "\n")
+            cat("=>", tail(preds, n = 1), "\n")
           }
         }
 
         if (details) {
+          len_maxf <- length(maxf)
+          if (len_maxf > 1) {
+            cat("Variable entered =>", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
+          } else {
+            cat("Variable entered =>", tail(preds, n = 1), "\n")
+          }
           cat("\n")
           m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
           print(m)
           cat("\n\n")
         }
       } else {
-        if (progress) {
+        if (progress || details) {
           cat("\n")
           cat("No more variables to be added.")
         }
@@ -289,30 +333,27 @@ ols_step_forward_p.default <- function(model, penter = 0.3, hierarchical = FALSE
       cat("\n\n")
       len_pred <- length(preds)
       if (len_pred < 1) {
-        cat("Variables Entered: None", "\n\n")
+        cat("Variables Entered => None", "\n\n")
       } else if (len_pred == 1) {
-        cat(paste("Variables Entered:", preds[1]), "\n\n")
+        cat(paste("Variables Entered =>", preds[1]), "\n\n")
       } else {
         cat("Variables Entered:", "\n\n")
         for (i in seq_len(length(preds))) {
           if (details) {
-            cat("+", preds[i], "\n")
+            cat("=>", preds[i], "\n")
           } else {
-            cat(paste("+", preds[i]), "\n")
+            cat(paste("=>", preds[i]), "\n")
           }
         }
       }
     }
 
-    if (progress) {
+    if (progress || details) {
       cat("\n\n")
       cat("Final Model Output", "\n")
       cat(rep("-", 18), sep = "", "\n\n")
 
-      fi <- ols_regress(
-        paste(response, "~", paste(preds, collapse = " + ")),
-        data = l
-      )
+      fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
       print(fi)
     }
 
