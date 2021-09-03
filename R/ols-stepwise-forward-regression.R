@@ -48,6 +48,19 @@
 #' # final model
 #' k$model
 #'
+#' # include or exclude variables
+#' # force variable to be included in selection process
+#' ols_step_forward_p(model, include = c("age", "alc_mod"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_p(model, include = c(5, 7))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_forward_p(model, exclude = c("pindex"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_p(model, exclude = c(2))
+#'
 #' # hierarchical selection
 #' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test, data = surgical)
 #' ols_step_forward_p(model, 0.1, hierarchical = TRUE)

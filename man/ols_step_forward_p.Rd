@@ -11,6 +11,8 @@ ols_step_forward_p(model, ...)
 \method{ols_step_forward_p}{default}(
   model,
   penter = 0.3,
+  include = NULL,
+  exclude = NULL,
   hierarchical = FALSE,
   progress = FALSE,
   details = FALSE,
@@ -27,6 +29,10 @@ candidate predictor variables.}
 
 \item{penter}{p value; variables with p value less than \code{penter} will
 enter into the model}
+
+\item{include}{Character or numeric vector; variables to be included in selection process.}
+
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{hierarchical}{Logical; if \code{TRUE}, performs hierarchical selection.}
 
@@ -68,12 +74,25 @@ k$metrics
 # final model
 k$model
 
+# include or exclude variables
+# force variable to be included in selection process
+ols_step_forward_p(model, include = c("age", "alc_mod"))
+
+# use index of variable instead of name
+ols_step_forward_p(model, include = c(5, 7))
+
+# force variable to be excluded from selection process
+ols_step_forward_p(model, exclude = c("pindex"))
+
+# use index of variable instead of name
+ols_step_forward_p(model, exclude = c(2))
+
 # hierarchical selection
 model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test, data = surgical)
-ols_step_forward_p(model, 0.1, TRUE)
+ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 
 # plot
-k <- ols_step_forward_p(model, 0.1, TRUE)
+k <- ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 plot(k)
 
 # selection metrics
