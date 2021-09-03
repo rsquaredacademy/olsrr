@@ -35,11 +35,14 @@
       7 . alc_mod 
       8 . alc_heavy 
       
-       Step 0: AIC = 736.3899 
-       y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy 
+      Step  => 0 
+      Model => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy 
+      AIC   => 736.3899 
+      
+      Initiating stepwise selection... 
       
       --------------------------------------------------------------------------------
-      Variable       DF      AIC        Sum Sq           ESS        R-Sq     Adj. R-Sq 
+      Removed        DF      AIC        Sum Sq           ESS        R-Sq     Adj. R-Sq 
       --------------------------------------------------------------------------------
       alc_mod        1     734.407        572.115    1826477.828    0.782        0.749 
       gender         1     734.478       2990.338    1828896.051    0.781        0.748 
@@ -51,17 +54,13 @@
       enzyme_test    1     763.557    1307756.930    3133662.644    0.626        0.569 
       --------------------------------------------------------------------------------
       
-      
-      Variables Removed: 
-      
-      - alc_mod 
-      
-      
-        Step 1 : AIC = 734.4068 
-       y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
+      Step    => 1 
+      Removed => alc_mod 
+      Model   => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
+      AIC     => 734.4068 
       
       --------------------------------------------------------------------------------
-      Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+      Removed        DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
       --------------------------------------------------------------------------------
       gender         1     732.494       2957.789    1829435.617    0.781        0.754 
       age            1     732.551       4878.331    1831356.159    0.781        0.753 
@@ -72,14 +71,13 @@
       enzyme_test    1     761.595    1309433.007    3135910.834    0.625        0.577 
       --------------------------------------------------------------------------------
       
-      - gender 
-      
-      
-        Step 2 : AIC = 732.4942 
-       y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
+      Step    => 2 
+      Removed => gender 
+      Model   => y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
+      AIC     => 732.4942 
       
       --------------------------------------------------------------------------------
-      Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+      Removed        DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
       --------------------------------------------------------------------------------
       age            1     730.620       4280.830    1833716.447    0.781        0.758 
       liver_test     1     732.339      63596.190    1893031.807    0.774        0.750 
@@ -89,14 +87,13 @@
       enzyme_test    1     759.596    1306482.666    3135918.283    0.625        0.586 
       --------------------------------------------------------------------------------
       
-      - age 
-      
-      
-        Step 3 : AIC = 730.6204 
-       y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
+      Step    => 3 
+      Removed => age 
+      Model   => y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
+      AIC     => 730.6204 
       
       --------------------------------------------------------------------------------
-      Variable       DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
+      Removed        DF      AIC        Sum Sq           RSS        R-Sq     Adj. R-Sq 
       --------------------------------------------------------------------------------
       liver_test     1     730.924      79919.825    1913636.272    0.771        0.753 
       bcs            1     735.715     257444.030    2091160.477    0.750        0.730 
