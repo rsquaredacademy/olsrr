@@ -602,17 +602,25 @@ print_step_backward <- function(data) {
     stop("No variables have been removed from the model based on p-values.")
   }
 
+  mi <- ols_regress(data$others$model)
+  predictors <- c("Full Model", data$metrics$variable)
+  
+  np   <- length(predictors)
+  r2   <- c(mi$rsq, data$metrics$r2)
+  adjr <- c(mi$adjr, data$metrics$adj_r2)
+  aic  <- c(mi$aic, data$metrics$aic)
+  rmse <- c(mi$rmse, data$metrics$rmse)
+
   # width
   w1 <- nchar("Step")
-  w2 <- max(nchar("Variable"), nchar(data$metrics$variable))
-  w3 <- max(nchar("R-Square"), nchar(format(round(data$metrics$r2, 4), nsmall = 4)))
-  w4 <- max(nchar("R-Square"), nchar(format(round(data$metrics$adj_r2, 3), nsmall = 4)))
-  w5 <- max(nchar("C(p)"), nchar(format(round(data$metrics$mallows_cp, 4), nsmall = 4)))
-  w6 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 4), nsmall = 4)))
-  w7 <- max(nchar("RMSE"), nchar(format(round(data$metrics$rmse, 4), nsmall = 4)))
-  w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
+  w2 <- max(nchar("Full Model"), nchar(data$metrics$variable))
+  w3 <- max(nchar("R-Square"), nchar(format(round(r2, 4), nsmall = 4)))
+  w4 <- max(nchar("R-Square"), nchar(format(round(adjr, 3), nsmall = 4)))
+  w6 <- max(nchar("AIC"), nchar(format(round(aic, 4), nsmall = 4)))
+  w7 <- max(nchar("RMSE"), nchar(format(round(rmse, 4), nsmall = 4)))
+  w <- sum(w1, w2, w3, w4, w6, w7, 24)
 
-  cat("\n\n")
+  cat("\n")
   cat(format("Elimination Summary", justify = "centre", width = w), "\n")
   cat(rep("-", w), sep = "", "\n")
   cat(
@@ -620,7 +628,6 @@ print_step_backward <- function(data) {
     format("Variable", width = w2), fs(),
     format("", width = w3), fs(), 
     format("Adj.", width = w4, justify = "centre"), fs(),
-    format("", width = w5), fs(), 
     format("", width = w6), fs(),
     format("", width = w7), fs(), "\n"
   )
@@ -629,21 +636,19 @@ print_step_backward <- function(data) {
     format("Removed", width = w2, justify = "centre"), fs(),
     format("R-Square", width = w3, justify = "centre"), fs(), 
     format("R-Square", width = w4, justify = "centre"), fs(),
-    format("C(p)", width = w5, justify = "centre"), fs(), 
     format("AIC", width = w6, justify = "centre"), fs(),
     format("RMSE", width = w7, justify = "centre"), fs(), "\n"
   )
   cat(rep("-", w), sep = "", "\n")
 
-  for (i in seq_len(n)) {
+  for (i in seq_len(np)) {
     cat(
       format(i, width = w1), fs(), 
-      format(data$metrics$variable[i], width = w2), fs(),
-      format(round(data$metrics$r2[i], 4), width = w3, nsmall = 3), fs(), 
-      format(round(data$metrics$adj_r2[i], 4), width = w4, nsmall = 3), fs(),
-      format(round(data$metrics$mallows_cp[i], 4), width = w5, justify = "centre", nsmall = 4), fs(),
-      format(round(data$metrics$aic[i], 4), width = w6, nsmall = 4), fs(), 
-      format(round(data$metrics$rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
+      format(predictors[i], width = w2), fs(),
+      format(round(r2[i], 4), width = w3, nsmall = 3), fs(), 
+      format(round(adjr[i], 4), width = w4, nsmall = 3), fs(),
+      format(round(aic[i], 4), width = w6, nsmall = 4), fs(), 
+      format(round(rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
     )
   }
   cat(rep("-", w), sep = "", "\n")
