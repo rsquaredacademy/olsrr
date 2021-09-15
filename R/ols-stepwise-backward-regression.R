@@ -60,10 +60,10 @@
 #'
 #' # hierarchical selection
 #' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test, data = surgical)
-#' ols_step_backward_p(model, 0.1, TRUE)
+#' ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 #'
 #' # plot
-#' k <- ols_step_backward_p(model, 0.1, TRUE)
+#' k <- ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 #' plot(k)
 #'
 #' # selection metrics
@@ -133,7 +133,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclu
     lockterm <- c(include, exclude)
     response <- names(model$model)[1]
     preds    <- setdiff(nam, lockterm)
-    cterms   <- setdiff(nam, exclude)
+    cterms   <- c(include, preds)
     ilp      <- length(preds)
     end      <- FALSE
     step     <- 0
