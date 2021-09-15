@@ -241,8 +241,6 @@ test_that("stepwise backward regression plots are as expected", {
   vdiffr::expect_doppelganger("step_back_2", p$plot_2)
   vdiffr::expect_doppelganger("step_back_3", p$plot_3)
   vdiffr::expect_doppelganger("step_back_4", p$plot_4)
-  vdiffr::expect_doppelganger("step_back_5", p$plot_5)
-  vdiffr::expect_doppelganger("step_back_6", p$plot_6)
 })
 
 test_that("stepwise forward regression plots are as expected", {
