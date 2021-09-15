@@ -291,7 +291,8 @@ ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, 
                         rmse       = rmse)
 
   result <- list(metrics = metrics,
-                 model   = final_model)
+                 model   = final_model,
+                 others  = list(model = model))
 
   class(result) <- "ols_step_backward_p"
 
