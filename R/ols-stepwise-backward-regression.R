@@ -59,7 +59,7 @@
 #' ols_step_backward_p(model, exclude = c(2))
 #'
 #' # hierarchical selection
-#' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test, data = surgical)
+#' model <- lm(y ~ bcs + alc_heavy + pindex + age + alc_mod, data = surgical)
 #' ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 #'
 #' # plot
@@ -168,7 +168,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclu
       pvals <- m_sum$`Pr(>F)`
       minf  <- which(fvals == min(fvals, na.rm = TRUE)) + ppos - 1
 
-      
+
         if (pvals[minf] > prem) {
 
           step   <- step + 1
@@ -205,7 +205,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclu
             cat("\n")
           }
         }
-      
+
     }
 
     if (details) {

@@ -88,7 +88,7 @@ ols_step_backward_p(model, exclude = c("pindex"))
 ols_step_backward_p(model, exclude = c(2))
 
 # hierarchical selection
-model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test, data = surgical)
+model <- lm(y ~ bcs + alc_heavy + pindex + age + alc_mod, data = surgical)
 ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 
 # plot
