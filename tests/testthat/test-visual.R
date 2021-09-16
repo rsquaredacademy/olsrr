@@ -252,8 +252,6 @@ test_that("stepwise forward regression plots are as expected", {
   vdiffr::expect_doppelganger("step_forward_2", p$plot_2)
   vdiffr::expect_doppelganger("step_forward_3", p$plot_3)
   vdiffr::expect_doppelganger("step_forward_4", p$plot_4)
-  vdiffr::expect_doppelganger("step_forward_5", p$plot_5)
-  vdiffr::expect_doppelganger("step_forward_6", p$plot_6)
 })
 
 test_that("stepwise both regression plots are as expected", {

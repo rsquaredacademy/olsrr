@@ -139,7 +139,6 @@ ols_step_forward_p.default <- function(model, penter = 0.3, include = NULL, excl
     lockterm <- c(include, exclude)
     cterms   <- setdiff(nam, exclude)
     nam      <- setdiff(nam, lockterm)
-    df       <- nrow(l) - 2
     n        <- ncol(l)
     response <- names(model$model)[1]
     all_pred <- nam
@@ -383,7 +382,8 @@ ols_step_forward_p.default <- function(model, penter = 0.3, include = NULL, excl
                               rmse       = rmse)
 
     out <- list(metrics = metrics,
-                model   = final_model)
+                model   = final_model,
+                others  = list(model = model))
 
     class(out) <- "ols_step_forward_p"
 
@@ -410,24 +410,25 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, ...) {
   a <- NULL
   b <- NULL
 
-  y <- seq_len(length(x$metrics$r2))
+  y <- c(0, seq_len(length(x$metrics$r2)))
+  
+  mi   <- ols_regress(x$others$model)
+  r2   <- c(mi$rsq, x$metrics$r2)
+  adjr <- c(mi$adjr, x$metrics$adj_r2)
+  aic  <- c(mi$aic, x$metrics$aic)
+  rmse <- c(mi$rmse, x$metrics$rmse)
 
-  d1 <- data.frame(a = y, b = x$metrics$r2)
-  d2 <- data.frame(a = y, b = x$metrics$adj_r2)
-  d3 <- data.frame(a = y, b = x$metrics$mallows_cp)
-  d4 <- data.frame(a = y, b = x$metrics$aic)
-  d5 <- data.frame(a = y, b = x$metrics$sbic)
-  d6 <- data.frame(a = y, b = x$metrics$sbc)
+  d1 <- data.frame(a = y, b = r2)
+  d2 <- data.frame(a = y, b = adjr)
+  d4 <- data.frame(a = y, b = aic)
+  d5 <- data.frame(a = y, b = rmse)
 
   p1 <- plot_stepwise(d1, "R-Square")
   p2 <- plot_stepwise(d2, "Adj. R-Square")
-  p3 <- plot_stepwise(d3, "C(p)")
-  p4 <- plot_stepwise(d4, "AIC")
-  p5 <- plot_stepwise(d5, "SBIC")
-  p6 <- plot_stepwise(d6, "SBC")
+  p3 <- plot_stepwise(d4, "AIC")
+  p4 <- plot_stepwise(d5, "RMSE")
 
-  myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
-                  plot_4 = p4, plot_5 = p5, plot_6 = p6)
+  myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
   if (print_plot) {
     marrangeGrob(myplots, nrow = 2, ncol = 2)
