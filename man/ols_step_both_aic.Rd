@@ -2,15 +2,30 @@
 % Please edit documentation in R/ols-stepaic-both-regression.R
 \name{ols_step_both_aic}
 \alias{ols_step_both_aic}
+\alias{ols_step_both_aic.default}
 \alias{plot.ols_step_both_aic}
 \title{Stepwise AIC regression}
 \usage{
-ols_step_both_aic(model, progress = FALSE, details = FALSE)
+ols_step_both_aic(model, ...)
 
-\method{plot}{ols_step_both_aic}(x, print_plot = TRUE, ...)
+\method{ols_step_both_aic}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE
+)
+
+\method{plot}{ols_step_both_aic}(x, print_plot = TRUE, details = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
+
+\item{...}{Other arguments.}
+
+\item{include}{Character or numeric vector; variables to be included in selection process.}
+
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -20,8 +35,6 @@ be printed on screen.}
 \item{x}{An object of class \code{ols_step_both_aic}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
-
-\item{...}{Other arguments.}
 }
 \value{
 \code{ols_step_both_aic} returns an object of class \code{"ols_step_both_aic"}.
