@@ -896,8 +896,11 @@ print_stepaic_forward <- function(data) {
   cat(format("Selection Summary", justify = "centre", width = w), "\n")
   cat(rep("-", w), sep = "", "\n")
   cat(
-    fl("Variable", w1), fs(), fc("AIC", w2), fs(),
-    fc("Sum Sq", w3), fs(), fc("ESS", w4), fs(), fc("R-Sq", w5), fs(),
+    fl("Variable", w1), fs(), 
+    fc("AIC", w2), fs(),
+    fc("Sum Sq", w3), fs(), 
+    fc("ESS", w4), fs(), 
+    fc("R-Sq", w5), fs(),
     fc("Adj. R-Sq", w6), "\n"
   )
   cat(rep("-", w), sep = "", "\n")
@@ -942,8 +945,8 @@ print_stepaic_backward <- function(data) {
   # width
   w1 <- max(nchar("Full Model"), nchar(data$metrics$variable))
   w2 <- max(nchar("AIC"), nchar(format(round(aic, 3), nsmall = 3)))
-  w3 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-  w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
+  w3 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
+  w4 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
   w5 <- max(nchar("R-Sq"), nchar(format(round(r2, 5), nsmall = 5)))
   w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(adjr, 5), nsmall = 5)))
   w  <- sum(w1, w2, w3, w4, w5, w6, 20)
@@ -953,16 +956,20 @@ print_stepaic_backward <- function(data) {
   cat("\n\n", format("Backward Elimination Summary", width = w, justify = "centre"), "\n")
   cat(rep("-", w), sep = "", "\n")
   cat(
-    fl("Variable", w1), fs(), fc("AIC", w2), fs(),
-    fc("ESS", w3), fs(), fc("Sum Sq", w4), fs(), fc("R-Sq", w5), fs(),
+    fl("Variable", w1), fs(), 
+    fc("AIC", w2), fs(),
+    fc("Sum Sq", w3), fs(), 
+    fc("ESS", w4), fs(), 
+    fc("R-Sq", w5), fs(),
     fc("Adj. R-Sq", w6), "\n"
   )
   cat(rep("-", w), sep = "", "\n")
   for (i in seq_len(ln)) {
     cat(
-      fl(predictors[i], w1), fs(), fg(format(round(aic[i], 3), nsmall = 3), w2), fs(),
-      fg(format(round(ess[i], 3), nsmall = 3), w3), fs(),
-      fg(format(round(rss[i], 3), nsmall = 3), w4), fs(),
+      fl(predictors[i], w1), fs(), 
+      fg(format(round(aic[i], 3), nsmall = 3), w2), fs(),
+      fg(format(round(rss[i], 3), nsmall = 3), w3), fs(),
+      fg(format(round(ess[i], 3), nsmall = 3), w4), fs(),
       fg(format(round(r2[i], 5), nsmall = 5), w5), fs(),
       fg(format(round(adjr[i], 5), nsmall = 5), w6), "\n"
     )
@@ -977,35 +984,54 @@ print_stepaic_both <- function(data) {
     stop("No variables have been added to or removed from the model.")
   }
 
+  output <- summary(data$others$base_model)
+  anovam <- anova(data$others$base_model)
+  n      <- length(anovam$Df)
+  aic    <- c(ols_aic(data$others$base_model), data$metrics$aic)
+  ess    <- c(anovam$`Sum Sq`[n], data$metrics$ess)
+  tss    <- sum(anovam$`Sum Sq`)
+  rss    <- c((tss - ess),  data$metrics$rss)
+  r2     <- c(output$r.squared, data$metrics$r2)
+  adj_r2 <- c(output$adj.r.squared, data$metrics$adj_r2) 
+
   # width
-  w1 <- max(nchar("Variable"), nchar(data$metrics$variable))
-  w2 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 3), nsmall = 3)))
-  w3 <- max(nchar("ESS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
-  w4 <- max(nchar("Sum Sq"), nchar(format(round(data$metrics$rss, 3), nsmall = 3)))
-  w5 <- max(nchar("R-Sq"), nchar(format(round(data$metrics$r2, 5), nsmall = 5)))
-  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$metrics$adj_r2, 5), nsmall = 5)))
+  w1 <- max(nchar("Base Model"), nchar(data$metrics$variable))
+  w2 <- max(nchar("AIC"), nchar(format(round(aic, 3), nsmall = 3)))
+  w3 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
+  w4 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
+  w5 <- max(nchar("R-Sq"), nchar(format(round(r2, 5), nsmall = 5)))
+  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(adj_r2, 5), nsmall = 5)))
   w7 <- nchar("Addition")
   w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
 
-  ln <- length(data$metrics$aic)
-
   cat("\n\n", format("Stepwise Summary", width = w, justify = "centre"), "\n")
+  
   cat(rep("-", w), sep = "", "\n")
+  
   cat(
-    fl("Variable", w1), fs(), fc("Method", w7), fs(), fc("AIC", w2), fs(),
-    fc("ESS", w3), fs(), fc("Sum Sq", w4), fs(), fc("R-Sq", w5), fs(),
+    fl("Variable", w1), fs(), 
+    fc("Method", w7), fs(), 
+    fc("AIC", w2), fs(),
+    fc("Sum Sq", w3), fs(), 
+    fc("ESS", w4), fs(), 
+    fc("R-Sq", w5), fs(),
     fc("Adj. R-Sq", w6), "\n"
   )
+
+  ln <- length(aic)
+  predictors <- c("Base Model", data$metrics$variable)
+  methods    <- c("", data$metrics$method)
+
   cat(rep("-", w), sep = "", "\n")
   for (i in seq_len(ln)) {
     cat(
-      fl(data$metrics$variable[i], w1), fs(), 
-      fl(data$metrics$method[i], w7), fs(),
-      fg(format(round(data$metrics$aic[i], 3), nsmall = 3), w2), fs(),
-      fg(format(round(data$metrics$ess[i], 3), nsmall = 3), w3), fs(),
-      fg(format(round(data$metrics$rss[i], 3), nsmall = 3), w4), fs(),
-      fg(format(round(data$metrics$r2[i], 5), nsmall = 5), w5), fs(),
-      fg(format(round(data$metrics$adj_r2[i], 5), nsmall = 5), w6), "\n"
+      fl(predictors[i], w1), fs(), 
+      fl(methods[i], w7), fs(),
+      fg(format(round(aic[i], 3), nsmall = 3), w2), fs(),
+      fg(format(round(rss[i], 3), nsmall = 3), w3), fs(),
+      fg(format(round(ess[i], 3), nsmall = 3), w4), fs(),
+      fg(format(round(r2[i], 5), nsmall = 5), w5), fs(),
+      fg(format(round(adj_r2[i], 5), nsmall = 5), w6), "\n"
     )
   }
   cat(rep("-", w), sep = "", "\n\n")

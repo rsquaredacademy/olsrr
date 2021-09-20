@@ -6,10 +6,12 @@
 #' stepwise manner until there is no variable left to enter or remove any more.
 #'
 #' @param model An object of class \code{lm}.
-#' @param x An object of class \code{ols_step_both_aic}.
+#' @param include Character or numeric vector; variables to be included in selection process.
+#' @param exclude Character or numeric vector; variables to be excluded from selection process.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, details of variable selection will
 #'   be printed on screen.
+#' @param x An object of class \code{ols_step_both_aic}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #'
@@ -37,35 +39,91 @@
 #' # final model
 #' k$model
 #'
+#' # include or exclude variables
+#' # force variable to be included in selection process
+#' model <- lm(y ~ ., data = stepdata)
+#'
+#' ols_step_both_aic(model, include = c("x6"))
+#'
+#' # use index of variable instead of name
+#' ols_step_both_aic(model, include = c(6))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_both_aic(model, exclude = c("x2"))
+#'
+#' # use index of variable instead of name
+#' ols_step_both_aic(model, exclude = c(2))
+#'
+#' # include & exclude variables in the selection process
+#' ols_step_both_aic(model, include = c("x6"), exclude = c("x2"))
+#'
+#' # use index of variable instead of name
+#' ols_step_both_aic(model, include = c(6), exclude = c(2))
 #' }
+#'
 #' @family variable selection procedures
 #'
 #' @export
 #'
-ols_step_both_aic <- function(model, progress  = FALSE, details = FALSE) UseMethod("ols_step_both_aic")
+ols_step_both_aic <- function(model, ...) UseMethod("ols_step_both_aic")
 
 #' @export
+#' @rdname ols_step_both_aic
 #'
-ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) {
+ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE) {
 
   if (details) {
-    progress <- TRUE
+    progress <- FALSE
   }
 
   check_model(model)
+  check_logic(progress)
   check_logic(details)
   check_npredictors(model, 3)
 
-  response   <- names(model$model)[1]
-  l          <- model$model
-  nam        <- coeff_names(model)
-  predictors <- nam
+  response <- names(model$model)[1]
+  l        <- model$model
+  nam      <- coeff_names(model)
+  indterms <- nam
+  lenterms <- length(indterms)
+  len_inc  <- length(include) + 1
+
+  if (is.character(include)) {
+    npm <- include %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(include[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly included. Please verify the variable names."), call. = FALSE)
+    }
+  }
+
+  if (is.character(exclude)) {
+    npm <- exclude %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
+    }
+  }
+  
+  if (is.numeric(include)) {
+    if (any(include > lenterms)) {
+      stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
+    } else {
+      include <- indterms[include]
+    }
+  }
+
+  if (is.numeric(exclude)) {
+    if (any(exclude > lenterms)) {
+      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)  
+    } else {
+      exclude <- indterms[exclude]
+    }
+  }
+
+  lockterm   <- c(include, exclude)
+  predictors <- setdiff(nam, lockterm)
   mlen_p     <- length(predictors)
   tech       <- c("addition", "removal")
-  mo         <- lm(paste(response, "~", 1), data = l)
-  aic_c      <- ols_aic(mo)
 
-  if (progress) {
+  if (progress || details) {
     cat(format("Stepwise Selection Method", justify = "left", width = 25), "\n")
     cat(rep("-", 25), sep = "", "\n\n")
     cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
@@ -75,13 +133,31 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
     cat("\n")
   }
 
+  if (is.null(include)) {
+    b_model <- lm(paste(response, "~", 1), data = l)
+  } else {
+    b_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
+  }
+
+  aic_c <- ols_aic(b_model)
+
   if (details) {
-    cat(" Step 0: AIC =", aic_c, "\n", paste(response, "~", 1, "\n\n"))
+    cat("\n")
+      if (is.null(include)) {
+        cat("Step  => 0", "\n")
+        cat("Model =>", paste(response, "~", 1, "\n"))
+        cat("AIC   =>", aic_c, "\n\n")
+      } else {
+        cat("Step  => 0", "\n")
+        cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+        cat("AIC   =>", aic_c, "\n\n")
+      }
+      cat("Initiating stepwise selection...", "\n\n")
   }
 
   step      <- 0
   all_step  <- 0
-  preds     <- c()
+  preds     <- include
   var_index <- c()
   method    <- c()
   laic      <- c()
@@ -118,8 +194,6 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
     }
 
     da <- data.frame(predictors = predictors, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-    # da2 <- arrange(da, desc(rss))
-    da2 <- da[order(-da$rss), ]
 
     if (details) {
       w1 <- max(nchar("Predictor"), nchar(predictors))
@@ -143,10 +217,13 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
       for (i in seq_len(ln)) {
         cat(
-          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-          fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
-          fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
+          fl(da[i, 1], w1), fs(), 
+          fg(1, w2), fs(), 
+          fg(format(round(da[i, 2], 3), nsmall = 3), w3), fs(),
+          fg(format(round(da[i, 4], 3), nsmall = 3), w4), fs(), 
+          fg(format(round(da[i, 3], 3), nsmall = 3), w5), fs(),
+          fg(format(round(da[i, 5], 3), nsmall = 3), w6), fs(),
+          fg(format(round(da[i, 6], 3), nsmall = 3), w7), "\n"
         )
       }
 
@@ -182,7 +259,10 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
       }
 
       if (details) {
-        cat("\n\n", "Step", all_step, ": AIC =", maic, "\n", paste(response, "~", paste(preds, collapse = " + ")), "\n\n")
+        cat("Step  =>", all_step, "\n")
+        cat("Added =>", tail(preds, n = 1), "\n")
+        cat("Model =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+        cat("AIC   =>", maic, "\n\n")
       }
 
       if (lpreds > 1) {
@@ -192,23 +272,24 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
         rss  <- c()
         rsq  <- c()
         arsq <- c()
+        j    <- 1
 
-        for (i in seq_len(lpreds)) {
+        for (i in len_inc:lpreds) {
 
           preda <- preds[-i]
 
           m <- ols_regress(paste(response, "~", paste(preda, collapse = " + ")), data = l)
 
-          aics[i] <- ols_aic(m$model)
-          ess[i]  <- m$ess
-          rss[i]  <- m$rss
-          rsq[i]  <- m$rsq
-          arsq[i] <- m$adjr
+          aics[j] <- ols_aic(m$model)
+          ess[j]  <- m$ess
+          rss[j]  <- m$rss
+          rsq[j]  <- m$rsq
+          arsq[j] <- m$adjr
+
+          j <- j + 1
         }
 
-        da <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-        # da2 <- arrange(da, desc(rss))
-        da2 <- da[order(-da$rss), ]
+        da <- data.frame(predictors = preds[len_inc: lpreds], aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
 
         if (details) {
           w1 <- max(nchar("Predictor"), nchar(preds))
@@ -232,10 +313,13 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
 
           for (i in seq_len(ln)) {
             cat(
-              fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-              fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-              fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
-              fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
+              fl(da[i, 1], w1), fs(), 
+              fg(1, w2), fs(), 
+              fg(format(round(da[i, 2], 3), nsmall = 3), w3), fs(),
+              fg(format(round(da[i, 4], 3), nsmall = 3), w4), fs(), 
+              fg(format(round(da[i, 3], 3), nsmall = 3), w5), fs(),
+              fg(format(round(da[i, 5], 3), nsmall = 3), w6), fs(),
+              fg(format(round(da[i, 6], 3), nsmall = 3), w7), "\n"
             )
           }
 
@@ -258,19 +342,22 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
           lrss      <- c(lrss, mrss)
           lrsq      <- c(lrsq, mrsq)
           larsq     <- c(larsq, marsq)
-          var_index <- c(var_index, preds[minc2])
+          var_index <- c(var_index, preds[minc2 + length(include)])
           method    <- c(method, tech[2])
           all_step  <- all_step + 1
 
           if (progress) {
-            cat(paste("-", preds[minc2], "removed"), "\n")
+            cat(paste("-", preds[minc2 + length(include)], "removed"), "\n")
           }
 
-          preds <- preds[-minc2]
+          preds <- preds[-(minc2 + length(include))]
           lpreds <- length(preds)
 
           if (details) {
-            cat("\n\n", "Step", all_step, ": AIC =", maic, "\n", paste(response, "~", paste(preds, collapse = " + ")), "\n\n")
+            cat("Step    =>", all_step, "\n")
+            cat("Removed =>", preds[minc2 + length(include)], "\n")
+            cat("Model   =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+            cat("AIC     =>", maic, "\n\n")
           }
         }
       } else {
@@ -278,23 +365,29 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
         all_step <- all_step
       }
     } else {
-      if (progress) {
+      if (progress || details) {
         cat("\n")
         cat("No more variables to be added or removed.")
+        cat("\n")
       }
       break
     }
   }
 
-  if (progress) {
+  if (details) {
+    cat("\n")
+    cat("Variables Selected:", "\n\n")
+    for (i in seq_len(length(preds))) {
+      cat(paste("-", preds[i]), "\n")
+    }
+  }
+
+  if (progress || details) {
     cat("\n\n")
     cat("Final Model Output", "\n")
     cat(rep("-", 18), sep = "", "\n\n")
 
-    fi <- ols_regress(
-      paste(response, "~", paste(preds, collapse = " + ")),
-      data = l
-    )
+    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
     print(fi)
   }
 
@@ -310,7 +403,8 @@ ols_step_both_aic.default <- function(model, progress = FALSE, details = FALSE) 
                             ess      = less)
 
   out <- list(metrics = metrics,
-              model   = final_model)
+              model   = final_model,
+              others   = list(base_model = b_model))
 
   class(out) <- "ols_step_both_aic"
 
@@ -330,32 +424,45 @@ print.ols_step_both_aic <- function(x, ...) {
 #' @rdname ols_step_both_aic
 #' @export
 #'
-plot.ols_step_both_aic <- function(x, print_plot = TRUE, ...) {
+plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
   aic <- NULL
   tx  <- NULL
   a   <- NULL
   b   <- NULL
 
-  predictors <- x$metrics$variable
+  step <- c(0, x$metrics$step)
+  aic  <- c(ols_aic(x$others$base_model), x$metrics$aic)
 
-  y     <- seq_len(length(x$metrics$aic))
-  xloc  <- y - 0.1
-  yloc  <- x$metrics$aic - 0.2
+  # text annotation
+  if (details) {
+    x$metrics$text <- ifelse(x$metrics$method == "addition", 
+                           paste0("[+", x$metrics$variable, ", ", "\n", round(x$metrics$aic, 2), "]"), 
+                           paste0("[-", x$metrics$variable, ", ", "\n", round(x$metrics$aic, 2), "]"))
+
+    base_text <- c(paste0("[Base Model, ", "\n", round(aic[1], 2), "]"))
+    pred <- c(base_text, x$metrics$text)
+  } else {
+    pred <- c("Base Model", x$metrics$variable)
+  }
+  
+  y     <- step
+  xloc  <- y 
+  yloc  <- aic 
   xmin  <- min(y) - 0.4
   xmax  <- max(y) + 1
-  ymin  <- min(x$metrics$aic) - 1
-  ymax  <- max(x$metrics$aic) + 1
+  ymin  <- min(aic) - (min(aic) * 0.05)
+  ymax  <- max(aic) + (max(aic) * 0.05)
 
-  d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
-  d  <- data.frame(a = y, b = x$metrics$aic)
+  d2 <- data.frame(x = xloc, y = yloc, tx = pred)
+  d  <- data.frame(a = y, b = aic)
 
   p <-
     ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
     ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
     ggtitle("Stepwise AIC Both Direction Selection") +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
+    geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.05)
 
   if (print_plot) {
     print(p)
