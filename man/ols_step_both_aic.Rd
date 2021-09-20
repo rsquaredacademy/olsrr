@@ -13,7 +13,8 @@ ols_step_both_aic(model, ...)
   include = NULL,
   exclude = NULL,
   progress = FALSE,
-  details = FALSE
+  details = FALSE,
+  ...
 )
 
 \method{plot}{ols_step_both_aic}(x, print_plot = TRUE, details = TRUE, ...)
@@ -63,7 +64,28 @@ plot(k)
 # final model
 k$model
 
+# include or exclude variables
+# force variable to be included in selection process
+model <- lm(y ~ ., data = stepdata)
+
+ols_step_both_aic(model, include = c("x6"))
+
+# use index of variable instead of name
+ols_step_both_aic(model, include = c(6))
+
+# force variable to be excluded from selection process
+ols_step_both_aic(model, exclude = c("x2"))
+
+# use index of variable instead of name
+ols_step_both_aic(model, exclude = c(2))
+
+# include & exclude variables in the selection process
+ols_step_both_aic(model, include = c("x6"), exclude = c("x2"))
+
+# use index of variable instead of name
+ols_step_both_aic(model, include = c(6), exclude = c(2))
 }
+
 }
 \references{
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
