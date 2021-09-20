@@ -126,8 +126,12 @@ test_that("stepAIC forward regression plot is as expected", {
 test_that("stepAIC both direction regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
-  p <- plot(ols_step_both_aic(model))
-  vdiffr::expect_doppelganger("stepaic both regression plot", p)
+  
+  p1 <- plot(ols_step_both_aic(model))
+  vdiffr::expect_doppelganger("stepaic both regression plot details", p1)
+
+  p2 <- plot(ols_step_both_aic(model), details = FALSE)
+  vdiffr::expect_doppelganger("stepaic both regression plot", p2)
 })
 
 test_that("added variable plot is as expected", {

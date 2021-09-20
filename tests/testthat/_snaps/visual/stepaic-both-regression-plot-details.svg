@@ -34,12 +34,18 @@
 <circle cx='395.33' cy='341.14' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='491.47' cy='388.40' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='587.61' cy='404.67' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
-<text x='111.72' y='178.52' style='font-size: 11.04px; font-family: sans;' textLength='58.31px' lengthAdjust='spacingAndGlyphs'>Base Model</text>
-<text x='207.86' y='276.69' style='font-size: 11.04px; font-family: sans;' textLength='44.18px' lengthAdjust='spacingAndGlyphs'>liver_test</text>
-<text x='304.00' y='310.02' style='font-size: 11.04px; font-family: sans;' textLength='49.72px' lengthAdjust='spacingAndGlyphs'>alc_heavy</text>
-<text x='400.14' y='344.94' style='font-size: 11.04px; font-family: sans;' textLength='62.61px' lengthAdjust='spacingAndGlyphs'>enzyme_test</text>
-<text x='496.28' y='392.20' style='font-size: 11.04px; font-family: sans;' textLength='32.54px' lengthAdjust='spacingAndGlyphs'>pindex</text>
-<text x='592.42' y='408.47' style='font-size: 11.04px; font-family: sans;' textLength='17.19px' lengthAdjust='spacingAndGlyphs'>bcs</text>
+<text x='111.72' y='170.57' style='font-size: 11.04px; font-family: sans;' textLength='67.51px' lengthAdjust='spacingAndGlyphs'>[Base Model, </text>
+<text x='111.72' y='186.47' style='font-size: 11.04px; font-family: sans;' textLength='36.83px' lengthAdjust='spacingAndGlyphs'>802.61]</text>
+<text x='207.86' y='268.74' style='font-size: 11.04px; font-family: sans;' textLength='59.83px' lengthAdjust='spacingAndGlyphs'>[+liver_test, </text>
+<text x='207.86' y='284.63' style='font-size: 11.04px; font-family: sans;' textLength='36.83px' lengthAdjust='spacingAndGlyphs'>771.88]</text>
+<text x='304.00' y='302.07' style='font-size: 11.04px; font-family: sans;' textLength='65.38px' lengthAdjust='spacingAndGlyphs'>[+alc_heavy, </text>
+<text x='304.00' y='317.97' style='font-size: 11.04px; font-family: sans;' textLength='36.83px' lengthAdjust='spacingAndGlyphs'>761.44]</text>
+<text x='400.14' y='336.99' style='font-size: 11.04px; font-family: sans;' textLength='78.26px' lengthAdjust='spacingAndGlyphs'>[+enzyme_test, </text>
+<text x='400.14' y='352.89' style='font-size: 11.04px; font-family: sans;' textLength='36.83px' lengthAdjust='spacingAndGlyphs'>750.51]</text>
+<text x='496.28' y='384.25' style='font-size: 11.04px; font-family: sans;' textLength='48.19px' lengthAdjust='spacingAndGlyphs'>[+pindex, </text>
+<text x='496.28' y='400.15' style='font-size: 11.04px; font-family: sans;' textLength='36.83px' lengthAdjust='spacingAndGlyphs'>735.71]</text>
+<text x='592.42' y='400.52' style='font-size: 11.04px; font-family: sans;' textLength='32.84px' lengthAdjust='spacingAndGlyphs'>[+bcs, </text>
+<text x='592.42' y='416.42' style='font-size: 11.04px; font-family: sans;' textLength='36.83px' lengthAdjust='spacingAndGlyphs'>730.62]</text>
 <rect x='37.69' y='22.78' width='676.83' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
