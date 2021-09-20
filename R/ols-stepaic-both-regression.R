@@ -70,7 +70,7 @@ ols_step_both_aic <- function(model, ...) UseMethod("ols_step_both_aic")
 #' @export
 #' @rdname ols_step_both_aic
 #'
-ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE) {
+ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
