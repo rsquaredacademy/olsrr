@@ -37,7 +37,6 @@
       
       We are selecting variables based on p value...
       
-      
       Stepwise Selection: Step 1 
       
       Variable entered => liver_test
