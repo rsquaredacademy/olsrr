@@ -11,6 +11,8 @@
 #'   into the model.
 #' @param prem p value; variables with p more than \code{prem} will be removed
 #'   from the model.
+#' @param include Character or numeric vector; variables to be included in selection process.
+#' @param exclude Character or numeric vector; variables to be excluded from selection process.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #' each step.
@@ -41,6 +43,21 @@
 #' # final model
 #' k$model
 #'
+#' # include or exclude variables
+#' model <- lm(y ~ ., data = stepdata)
+#'
+#' # force variable to be included in selection process
+#' ols_step_both_p(model, include = c("x6"))
+#'
+#' # use index of variable instead of name
+#' ols_step_both_p(model, include = c(6))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_both_p(model, exclude = c("x1"))
+#'
+#' # use index of variable instead of name
+#' ols_step_both_p(model, exclude = c(1))
+#'
 #' @family variable selection_procedures
 #'
 #' @export
@@ -50,7 +67,7 @@ ols_step_both_p <- function(model, ...) UseMethod("ols_step_both_p")
 #' @export
 #' @rdname ols_step_both_p
 #'
-ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FALSE, details = FALSE, ...) {
+ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
@@ -58,28 +75,62 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   check_model(model)
   check_logic(details)
+  check_logic(progress)
   check_values(pent, 0, 1)
   check_values(prem, 0, 1)
   check_npredictors(model, 3)
 
+  indterms <- coeff_names(model)
+  lenterms <- length(indterms)
+
+  if (is.character(include)) {
+    npm <- include %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(include[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly included. Please verify the variable names."), call. = FALSE)
+    }
+  }
+
+  if (is.character(exclude)) {
+    npm <- exclude %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
+    }
+  }
+
+  if (is.numeric(include)) {
+    if (any(include > lenterms)) {
+      stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
+    } else {
+      include <- indterms[include]
+    }
+  }
+
+  if (is.numeric(exclude)) {
+    if (any(exclude > lenterms)) {
+      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)
+    } else {
+      exclude <- indterms[exclude]
+    }
+  }
+
   response <- names(model$model)[1]
   l        <- model$model
+  lockterm <- c(include, exclude)
   nam      <- colnames(attr(model$terms, "factors"))
-  df       <- nrow(l) - 2
-  n        <- ncol(l)
+  cterms   <- setdiff(nam, exclude)
+  nam      <- setdiff(nam, lockterm)
   all_pred <- nam
-  cterms   <- all_pred
   mlen_p   <- length(all_pred)
-
+  tech     <- c("addition", "removal")
 
   pvalues <- c()
   lbetas  <- c()
   betas   <- c()
-  preds   <- c()
+  preds   <- include
   pvals   <- c()
   fvals   <- c()
   step    <- 0
-  ppos    <- step + 1
+  ppos    <- length(include) + 1
   rsq     <- c()
   adjrsq  <- c()
   aic     <- c()
@@ -95,22 +146,17 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")
     cat(rep("-", 27), sep = "", "\n\n")
     cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(nam))) {
-      cat(paste0(i, ". ", nam[i]), "\n")
+    for (i in seq_len(length(cterms))) {
+      cat(paste0(i, ". ", cterms[i]), "\n")
     }
     cat("\n")
 
     cat("We are selecting variables based on p value...")
     cat("\n")
-
-    cat("\n")
-    if (!details) {
-      cat("Variables Entered/Removed:", "\n\n")
-    }
   }
 
   for (i in seq_len(mlen_p)) {
-    predictors <- all_pred[i]
+    predictors <- c(include, all_pred[i])
     m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
     m_sum      <- Anova(m)
     fvals[i]   <- m_sum$`F value`[ppos]
@@ -127,83 +173,45 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
   if (pvals[minp] > pent) {
     stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
-  }
-
-  preds   <- all_pred[maxf]
-  lpreds  <- length(preds)
-  tech    <- c("addition", "removal")
-
-  if (lpreds > 1) {
-
-      for (i in seq_len(lpreds)) {
-
-      step    <- step + 1
-      npreds  <- preds[1:i]
-      fr      <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
-      rsq     <- c(rsq, fr$rsq)
-      adjrsq  <- c(adjrsq, fr$adjr)
-      cp      <- c(cp, ols_mallows_cp(fr$model, model))
-      aic     <- c(aic, ols_aic(fr$model))
-      sbc     <- c(sbc, ols_sbc(fr$model))
-      sbic    <- c(sbic, ols_sbic(fr$model, model))
-      rmse    <- c(rmse, fr$rmse)
-      betas   <- append(betas, fr$betas)
-      lbetas  <- append(lbetas, length(fr$betas))
-      pvalues <- append(pvalues, fr$pvalues)
-      method  <- c(method, tech[1])
-
-      if (progress) {
-        cat(paste("+", tail(npreds, n = 1), "added"), "\n")        
-      }
-
-      if (details) {
-        cat("\n")
-        cat(paste("Stepwise Selection: Step", step), "\n\n")
-        cat("Variable entered =>", tail(npreds, n = 1))
-        cat("\n")
-        m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
-        print(m)
-        cat("\n\n")
-      }
-    }
-
   } else {
-
-    step <- step + 1
-
-      npreds  <- preds
-      fr      <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
-      rsq     <- c(rsq, fr$rsq)
-      adjrsq  <- c(adjrsq, fr$adjr)
-      cp      <- c(cp, ols_mallows_cp(fr$model, model))
-      aic     <- c(aic, ols_aic(fr$model))
-      sbc     <- c(sbc, ols_sbc(fr$model))
-      sbic    <- c(sbic, ols_sbic(fr$model, model))
-      rmse    <- c(rmse, fr$rmse)
-      betas   <- append(betas, fr$betas)
-      lbetas  <- append(lbetas, length(fr$betas))
-      pvalues <- append(pvalues, fr$pvalues)
-
-      method  <- c(method, tech[1])
-
-      if (progress) {
-        cat(paste("+", tail(npreds, n = 1), "added"), "\n")
-      }
-
-      if (details) {
-        cat("\n")
-        cat(paste("Stepwise Selection: Step", step), "\n\n")
-        cat("Variable entered =>", tail(npreds, n = 1))
-        cat("\n")
-        m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
-        print(m)
-        cat("\n\n")
-      }
+    if (progress) {
+      cat("\n")
+      cat("Variables Entered:", "\n\n")
+    }
   }
 
-  all_step  <- lpreds
-  preds     <- npreds
-  var_index <- preds
+  preds   <- c(preds, all_pred[maxf])
+  lpreds  <- length(preds)
+  step    <- step + 1
+  fr      <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+  rsq     <- c(rsq, fr$rsq)
+  adjrsq  <- c(adjrsq, fr$adjr)
+  cp      <- c(cp, ols_mallows_cp(fr$model, model))
+  aic     <- c(aic, ols_aic(fr$model))
+  sbc     <- c(sbc, ols_sbc(fr$model))
+  sbic    <- c(sbic, ols_sbic(fr$model, model))
+  rmse    <- c(rmse, fr$rmse)
+  betas   <- append(betas, fr$betas)
+  lbetas  <- append(lbetas, length(fr$betas))
+  pvalues <- append(pvalues, fr$pvalues)
+  method  <- c(method, tech[1])
+
+  if (progress) {
+    cat(paste("+", tail(preds, n = 1), "added"), "\n")
+  }
+
+  if (details) {
+    cat("\n")
+    cat(paste("Stepwise Selection: Step", step), "\n\n")
+    cat("Variable entered =>", tail(preds, n = 1))
+    cat("\n")
+    m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+    print(m)
+    cat("\n\n")
+  }
+
+  all_step  <- step
+  var_index <- tail(preds, n = 1)
 
   while (step < mlen_p) {
 
@@ -267,8 +275,9 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       # check p value of predictors previously added in above step
       m2      <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
       m2_sum  <- Anova(m2)
-      fvals_r <- m2_sum$`F value`[1:length(preds)]
-      pvals_r <- m2_sum$`Pr(>F)`[1:length(preds)]
+      len_inc <- length(include) + 1
+      fvals_r <- m2_sum$`F value`[len_inc:lpreds]
+      pvals_r <- m2_sum$`Pr(>F)`[len_inc:lpreds]
       
       minf    <- which(fvals_r == min(fvals_r, na.rm = TRUE))
       maxp    <- pvals_r[minf]
@@ -278,7 +287,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
         var_index <- c(var_index, preds[minf])
         lvar      <- length(var_index)
         method    <- c(method, tech[2])
-        preds     <- preds[-minf]
+        preds     <- preds[-(minf + length(include))]
         all_step  <- all_step + 1
         ppos      <- ppos - length(minf)
         fr        <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
