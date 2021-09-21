@@ -12,6 +12,8 @@ ols_step_both_p(model, ...)
   model,
   pent = 0.1,
   prem = 0.3,
+  include = NULL,
+  exclude = NULL,
   progress = FALSE,
   details = FALSE,
   ...
@@ -30,6 +32,10 @@ into the model.}
 
 \item{prem}{p value; variables with p more than \code{prem} will be removed
 from the model.}
+
+\item{include}{Character or numeric vector; variables to be included in selection process.}
+
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -66,6 +72,21 @@ plot(k)
 
 # final model
 k$model
+
+# include or exclude variables
+model <- lm(y ~ ., data = stepdata)
+
+# force variable to be included in selection process
+ols_step_both_p(model, include = c("x6"))
+
+# use index of variable instead of name
+ols_step_both_p(model, include = c(6))
+
+# force variable to be excluded from selection process
+ols_step_both_p(model, exclude = c("x1"))
+
+# use index of variable instead of name
+ols_step_both_p(model, exclude = c(1))
 
 }
 \references{
