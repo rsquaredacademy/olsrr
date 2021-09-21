@@ -53,7 +53,7 @@ ols_step_both_p <- function(model, ...) UseMethod("ols_step_both_p")
 ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
-    progress <- TRUE
+    progress <- FALSE
   }
 
   check_model(model)
@@ -91,7 +91,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
   fp      <- c()
   method  <- c()
 
-  if (progress) {
+  if (progress || details) {
     cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")
     cat(rep("-", 27), sep = "", "\n\n")
     cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
@@ -137,13 +137,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
       for (i in seq_len(lpreds)) {
 
-      step <- step + 1
-
-      if (details) {
-        cat("\n")
-        cat(paste("Stepwise Selection: Step", step), "\n\n")
-      }
-
+      step    <- step + 1
       npreds  <- preds[1:i]
       fr      <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
       rsq     <- c(rsq, fr$rsq)
@@ -156,14 +150,16 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       betas   <- append(betas, fr$betas)
       lbetas  <- append(lbetas, length(fr$betas))
       pvalues <- append(pvalues, fr$pvalues)
-
       method  <- c(method, tech[1])
 
       if (progress) {
-        cat(paste("-", tail(npreds, n = 1), "added"), "\n")        
+        cat(paste("+", tail(npreds, n = 1), "added"), "\n")        
       }
 
       if (details) {
+        cat("\n")
+        cat(paste("Stepwise Selection: Step", step), "\n\n")
+        cat("Variable entered =>", tail(npreds, n = 1))
         cat("\n")
         m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
         print(m)
@@ -174,11 +170,6 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
   } else {
 
     step <- step + 1
-
-      if (details) {
-        cat("\n")
-        cat(paste("Stepwise Selection: Step", step), "\n\n")
-      }
 
       npreds  <- preds
       fr      <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
@@ -196,10 +187,13 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       method  <- c(method, tech[1])
 
       if (progress) {
-        cat(paste("-", tail(npreds, n = 1), "added"), "\n")
+        cat(paste("+", tail(npreds, n = 1), "added"), "\n")
       }
 
       if (details) {
+        cat("\n")
+        cat(paste("Stepwise Selection: Step", step), "\n\n")
+        cat("Variable entered =>", tail(npreds, n = 1))
         cat("\n")
         m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
         print(m)
@@ -220,7 +214,6 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       break
     }
 
-    step     <- step + lpreds
     ppos     <- ppos + length(maxf)
     pvals    <- c()
     fvals    <- c()
@@ -236,7 +229,6 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
 
     maxf  <- which(fvals == max(fvals, na.rm = TRUE))
     minp  <- pvals[maxf]
-    # minp  <- which(pvals == min(pvals, na.rm = TRUE))
 
     if (minp <= pent) {
 
@@ -245,6 +237,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       method    <- c(method, tech[1])
       lpreds    <- length(preds)
       all_step  <- all_step + 1
+      step      <- step + 1
       fr        <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
       rsq       <- c(rsq, fr$rsq)
       adjrsq    <- c(adjrsq, fr$adjr)
@@ -257,30 +250,21 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
       lbetas    <- append(lbetas, length(fr$betas))
       pvalues   <- append(pvalues, fr$pvalues)
 
-      if (details) {
-        cat("\n")
-        cat(paste("Stepwise Selection: Step", step), "\n\n")
-      }
-
       if (progress) {
-        cat(paste("-", tail(preds, n = 1), "added"), "\n")
+        cat(paste("+", tail(preds, n = 1), "added"), "\n")
       }
 
       if (details) {
+        cat("\n")
+        cat(paste("Stepwise Selection: Step", all_step), "\n\n")
+        cat("Variable entered =>", tail(preds, n = 1))
         cat("\n")
         m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
         print(m)
         cat("\n\n")
       }
 
-
-      if (details) {
-        cat("\n")
-        m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-        print(m)
-        cat("\n\n")
-      }
-
+      # check p value of predictors previously added in above step
       m2      <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
       m2_sum  <- Anova(m2)
       fvals_r <- m2_sum$`F value`[1:length(preds)]
@@ -309,16 +293,14 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
         lbetas    <- append(lbetas, length(fr$betas))
         pvalues   <- append(pvalues, fr$pvalues)
 
+        if (progress) {
+          cat(paste("-", tail(var_index, n = 1), "removed"), "\n")
+        }
+
         if (details) {
           cat("\n")
           cat(paste("Stepwise Selection: Step", all_step), "\n\n")
-        }
-
-        if (progress) {
-          cat(paste("-", tail(var_index, n = 1), "added"), "\n")
-        }
-
-        if (details) {
+          cat("Variable removed =>", tail(var_index, n = 1))
           cat("\n")
           m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
           print(m)
@@ -329,7 +311,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
         all_step <- all_step
       }
     } else {
-      if (progress) {
+      if (progress || details) {
         cat("\n")
         cat("No more variables to be added/removed.")
         cat("\n")
@@ -338,15 +320,12 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, progress = FA
     }
   }
 
-  if (progress) {
+  if (progress || details) {
     cat("\n\n")
     cat("Final Model Output", "\n")
     cat(rep("-", 18), sep = "", "\n\n")
 
-    fi <- ols_regress(
-      paste(response, "~", paste(preds, collapse = " + ")),
-      data = l
-    )
+    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
     print(fi)
   }
 
