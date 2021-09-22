@@ -245,7 +245,7 @@ ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, e
 
     out <- list(metrics    = metrics,
                 model      = final_model,
-                others     = list(model = model))
+                others     = list(full_model = model))
 
     class(out) <- "ols_step_backward_p"
 
@@ -276,7 +276,7 @@ plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
   y <- c(0, seq_len(length(x$metrics$step)))
 
-  mi   <- ols_regress(x$others$model)
+  mi   <- ols_regress(x$others$full_model)
   r2   <- c(mi$rsq, x$metrics$r2)
   adjr <- c(mi$adjr, x$metrics$adj_r2)
   aic  <- c(mi$aic, x$metrics$aic)

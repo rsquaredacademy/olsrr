@@ -332,7 +332,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
   out <- list(metrics = metrics,
               model   = final_model,
-              others  = list(model = model))
+              others  = list(full_model = model))
 
   class(out) <- "ols_step_backward_aic"
 
@@ -360,7 +360,7 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
   a     <- NULL
   b     <- NULL
 
-  mi    <- ols_regress(x$others$model)
+  mi    <- ols_regress(x$others$full_model)
   preds <- c("Full Model", x$metrics$variable)
   aic   <- c(mi$aic, x$metrics$aic)
 

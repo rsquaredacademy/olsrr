@@ -116,7 +116,6 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   all_pred <- nam
   mlen_p   <- length(all_pred)
   preds    <- include
-  step     <- 1
   aics     <- c()
   ess      <- c()
   rss      <- c()
@@ -124,12 +123,12 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   arsq     <- c()
 
   if (is.null(include)) {
-    b_model <- lm(paste(response, "~", 1), data = l)
+    base_model <- lm(paste(response, "~", 1), data = l)
   } else {
-    b_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
+    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
   }
 
-  aic1 <- ols_aic(b_model)
+  aic1 <- ols_aic(base_model)
 
   if (progress || details) {
     cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
@@ -361,7 +360,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
 
   out <- list(metrics = metrics,
               model   = final_model,
-              others  = list(base_model = b_model))
+              others  = list(base_model = base_model))
 
 
   class(out) <- "ols_step_forward_aic"

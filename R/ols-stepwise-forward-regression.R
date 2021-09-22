@@ -171,6 +171,12 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
 
     }
 
+    if (is.null(include)) {
+      base_model <- lm(paste(response, "~", 1), data = l)
+    } else {
+      base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
+    }
+
     for (i in seq_len(mlen_p)) {
       predictors <- c(include, all_pred[i])
       m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
@@ -383,7 +389,7 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
 
     out <- list(metrics = metrics,
                 model   = final_model,
-                others  = list(model = model))
+                others  = list(base_model = base_model))
 
     class(out) <- "ols_step_forward_p"
 
@@ -412,7 +418,7 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
   y <- c(0, seq_len(length(x$metrics$r2)))
   
-  mi   <- ols_regress(x$others$model)
+  mi   <- ols_regress(x$others$base_model)
   r2   <- c(mi$rsq, x$metrics$r2)
   adjr <- c(mi$adjr, x$metrics$adj_r2)
   aic  <- c(mi$aic, x$metrics$aic)

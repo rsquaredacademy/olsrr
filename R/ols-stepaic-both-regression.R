@@ -134,12 +134,12 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
   }
 
   if (is.null(include)) {
-    b_model <- lm(paste(response, "~", 1), data = l)
+    base_model <- lm(paste(response, "~", 1), data = l)
   } else {
-    b_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
+    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
   }
 
-  aic_c <- ols_aic(b_model)
+  aic_c <- ols_aic(base_model)
 
   if (details) {
     cat("\n")
@@ -404,7 +404,7 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
 
   out <- list(metrics = metrics,
               model   = final_model,
-              others   = list(base_model = b_model))
+              others   = list(base_model = base_model))
 
   class(out) <- "ols_step_both_aic"
 

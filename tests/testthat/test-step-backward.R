@@ -8,7 +8,7 @@ test_that("backward elimination output matches the expected result", {
   expect_equal(k1$metrics$step, 1)
   expect_equal(k1$metrics$variable, c("x4"))
 
-  k2 <- ols_step_backward_p(model, prem = 0.1, exclude = "x4")
+  k2 <- ols_step_backward_p(model, p_remove = 0.1, exclude = "x4")
   expect_equal(k2$metrics$step, 1)
   expect_equal(k2$metrics$variable, c("x3"))
 

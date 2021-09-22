@@ -142,6 +142,12 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   fp      <- c()
   method  <- c()
 
+  if (is.null(include)) {
+    base_model <- lm(paste(response, "~", 1), data = l)
+  } else {
+    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
+  }
+
   if (progress || details) {
     cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")
     cat(rep("-", 27), sep = "", "\n\n")
@@ -358,9 +364,10 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
     pval      = pvalues
   )
 
-  out <- list(beta_pval  = beta_pval,
-              metrics    = metrics,
-              model      = final_model)
+  out <- list(metrics = metrics,
+              model   = final_model,
+              others  = list(base_model = base_model,
+                             beta_pval = beta_pval))
 
   class(out) <- "ols_step_both_p"
 
@@ -389,20 +396,15 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
   d1 <- data.frame(a = y, b = x$metrics$r2)
   d2 <- data.frame(a = y, b = x$metrics$adj_r2)
-  d3 <- data.frame(a = y, b = x$metrics$mallows_cp)
-  d4 <- data.frame(a = y, b = x$metrics$aic)
-  d5 <- data.frame(a = y, b = x$metrics$sbic)
-  d6 <- data.frame(a = y, b = x$metrics$sbc)
+  d3 <- data.frame(a = y, b = x$metrics$aic)
+  d4 <- data.frame(a = y, b = x$metrics$rmse)
 
   p1 <- plot_stepwise(d1, "R-Square")
   p2 <- plot_stepwise(d2, "Adj. R-Square")
-  p3 <- plot_stepwise(d3, "C(p)")
-  p4 <- plot_stepwise(d4, "AIC")
-  p5 <- plot_stepwise(d5, "SBIC")
-  p6 <- plot_stepwise(d6, "SBC")
+  p3 <- plot_stepwise(d3, "AIC")
+  p4 <- plot_stepwise(d4, "RMSE")
 
-  myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3,
-                  plot_4 = p4, plot_5 = p5, plot_6 = p6)
+  myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
   if (print_plot) {
     marrangeGrob(myplots, nrow = 2, ncol = 2)
