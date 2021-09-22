@@ -7,7 +7,7 @@
 #'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
-#' @param pval p value; variables with p value less/higher than \code{pval} will
+#' @param p_val p value; variables with p value less/higher than \code{p_val} will
 #'   enter/exit the model.
 #' @param forward Logical; if \code{TRUE}, performs forward selection else backward.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
@@ -23,17 +23,17 @@
 #'
 #' @noRd
 #'
-ols_step_hierarchical <- function(model, pval = 0.1, forward = TRUE, progress = FALSE, details = FALSE) {
+ols_step_hierarchical <- function(model, p_val = 0.1, forward = TRUE, progress = FALSE, details = FALSE) {
 
   if (forward) {
-    ols_step_hierarchical_forward(model, pval, progress, details)
+    ols_step_hierarchical_forward(model, p_val, progress, details)
   } else {
-    ols_step_hierarchical_backward(model, pval, progress, details)
+    ols_step_hierarchical_backward(model, p_val, progress, details)
   }
 
 }
 
-ols_step_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, details = FALSE) {
+ols_step_hierarchical_forward <- function(model, p_val = 0.1, progress = FALSE, details = FALSE) {
 
   if (details) {
     progress <- TRUE
@@ -82,7 +82,7 @@ ols_step_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, d
     m_sum      <- Anova(m)
     pvals      <- c(pvals, m_sum$`Pr(>F)`[i])
 
-    if (pvals[i] <= pval) {
+    if (pvals[i] <= p_val) {
       preds  <- c(preds, cterms[i])
       p_val  <- c(p_val, pvals[i])
       step   <- step + 1
@@ -173,7 +173,7 @@ ols_step_hierarchical_forward <- function(model, pval = 0.1, progress = FALSE, d
 
 }
 
-ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, details = FALSE) {
+ols_step_hierarchical_backward <- function(model, p_val = 0.1, progress = FALSE, details = FALSE) {
 
   l        <- model$model
   nam      <- colnames(attr(model$terms, "factors"))
@@ -215,7 +215,7 @@ ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, 
     m_sum      <- Anova(m)
     pvals      <- m_sum$`Pr(>F)`[i]
 
-    if (pvals >= pval) {
+    if (pvals >= p_val) {
       preds  <- c(preds, cterms[i])
       step   <- step + 1
       rpred  <- setdiff(cterms, preds)      
@@ -244,7 +244,7 @@ ols_step_hierarchical_backward <- function(model, pval = 0.1, progress = FALSE, 
 
       if (progress) {
         cat("\n")
-        cat(paste0("No more variables satisfy the condition of p value = ", pval))
+        cat(paste0("No more variables satisfy the condition of p value = ", p_val))
         cat("\n")
       }
 

@@ -7,7 +7,7 @@
 #'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
-#' @param penter p value; variables with p value less than \code{penter} will
+#' @param p_enter p value; variables with p value less than \code{p_enter} will
 #'   enter into the model
 #' @param include Character or numeric vector; variables to be included in selection process.
 #' @param exclude Character or numeric vector; variables to be excluded from selection process.
@@ -87,7 +87,7 @@ ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 #' @export
 #' @rdname ols_step_forward_p
 #'
-ols_step_forward_p.default <- function(model, penter = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
+ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
@@ -95,7 +95,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, include = NULL, excl
 
   check_model(model)
   check_logic(details)
-  check_values(penter, 0, 1)
+  check_values(p_enter, 0, 1)
   check_npredictors(model, 3)
 
   indterms <- coeff_names(model)
@@ -132,7 +132,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, include = NULL, excl
   }
 
   if (hierarchical) {
-    ols_step_hierarchical(model, penter, TRUE, progress, details)
+    ols_step_hierarchical(model, p_enter, TRUE, progress, details)
   } else {
     l        <- model$model
     nam      <- colnames(attr(model$terms, "factors"))
@@ -187,7 +187,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, include = NULL, excl
       minp <- minp[1]
     }
 
-    if (pvals[minp] > penter) {
+    if (pvals[minp] > p_enter) {
       stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
     } else {
       if (progress) {
@@ -290,7 +290,7 @@ ols_step_forward_p.default <- function(model, penter = 0.3, include = NULL, excl
       maxf  <- which(fvals == max(fvals, na.rm = TRUE))
       minp  <- pvals[maxf]
 
-      if (minp <= penter) {
+      if (minp <= p_enter) {
 
         step   <- step + 1
         preds  <- c(preds, all_pred[maxf])

@@ -10,7 +10,7 @@ ols_step_forward_p(model, ...)
 
 \method{ols_step_forward_p}{default}(
   model,
-  penter = 0.3,
+  p_enter = 0.3,
   include = NULL,
   exclude = NULL,
   hierarchical = FALSE,
@@ -27,7 +27,7 @@ candidate predictor variables.}
 
 \item{...}{Other arguments.}
 
-\item{penter}{p value; variables with p value less than \code{penter} will
+\item{p_enter}{p value; variables with p value less than \code{p_enter} will
 enter into the model}
 
 \item{include}{Character or numeric vector; variables to be included in selection process.}

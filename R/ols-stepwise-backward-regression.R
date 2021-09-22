@@ -7,7 +7,7 @@
 #'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
-#' @param prem p value; variables with p more than \code{prem} will be removed
+#' @param p_remove p value; variables with p more than \code{p_remove} will be removed
 #'   from the model.
 #' @param include Character or numeric vector; variables to be included in selection process.
 #' @param exclude Character or numeric vector; variables to be excluded from selection process.
@@ -81,7 +81,7 @@ ols_step_backward_p <- function(model, ...) UseMethod("ols_step_backward_p")
 #' @export
 #' @rdname ols_step_backward_p
 #'
-ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
+ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
@@ -89,7 +89,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclu
 
   check_model(model)
   check_logic(details)
-  check_values(prem, 0, 1)
+  check_values(p_remove, 0, 1)
   check_npredictors(model, 3)
 
   indterms <- coeff_names(model)
@@ -126,7 +126,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclu
   }
 
   if (hierarchical) {
-    ols_step_hierarchical(model, prem, FALSE, progress, details)
+    ols_step_hierarchical(model, p_remove, FALSE, progress, details)
   } else {
     l        <- model$model
     nam      <- colnames(attr(model$terms, "factors"))
@@ -134,7 +134,6 @@ ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclu
     response <- names(model$model)[1]
     preds    <- setdiff(nam, lockterm)
     cterms   <- c(include, preds)
-    ilp      <- length(preds)
     end      <- FALSE
     step     <- 0
     rpred    <- c()
@@ -169,7 +168,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclu
       minf  <- which(fvals == min(fvals, na.rm = TRUE)) + ppos - 1
 
 
-        if (pvals[minf] > prem) {
+        if (pvals[minf] > p_remove) {
 
           step   <- step + 1
           rpred  <- c(rpred, cterms[minf])
@@ -201,7 +200,7 @@ ols_step_backward_p.default <- function(model, prem = 0.3, include = NULL, exclu
           end <- TRUE
           if (progress || details) {
             cat("\n")
-            cat(paste0("No more variables satisfy the condition of p value = ", prem))
+            cat(paste0("No more variables satisfy the condition of p value = ", p_remove))
             cat("\n")
           }
         }

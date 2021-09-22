@@ -10,8 +10,8 @@ ols_step_both_p(model, ...)
 
 \method{ols_step_both_p}{default}(
   model,
-  pent = 0.1,
-  prem = 0.3,
+  p_enter = 0.1,
+  p_remove = 0.3,
   include = NULL,
   exclude = NULL,
   progress = FALSE,
@@ -27,10 +27,10 @@ candidate predictor variables.}
 
 \item{...}{Other arguments.}
 
-\item{pent}{p value; variables with p value less than \code{pent} will enter
+\item{p_enter}{p value; variables with p value less than \code{p_enter} will enter
 into the model.}
 
-\item{prem}{p value; variables with p more than \code{prem} will be removed
+\item{p_remove}{p value; variables with p more than \code{p_remove} will be removed
 from the model.}
 
 \item{include}{Character or numeric vector; variables to be included in selection process.}

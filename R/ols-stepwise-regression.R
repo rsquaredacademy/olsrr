@@ -7,9 +7,9 @@
 #'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
-#' @param pent p value; variables with p value less than \code{pent} will enter
+#' @param p_enter p value; variables with p value less than \code{p_enter} will enter
 #'   into the model.
-#' @param prem p value; variables with p more than \code{prem} will be removed
+#' @param p_remove p value; variables with p more than \code{p_remove} will be removed
 #'   from the model.
 #' @param include Character or numeric vector; variables to be included in selection process.
 #' @param exclude Character or numeric vector; variables to be excluded from selection process.
@@ -67,7 +67,7 @@ ols_step_both_p <- function(model, ...) UseMethod("ols_step_both_p")
 #' @export
 #' @rdname ols_step_both_p
 #'
-ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
@@ -76,8 +76,8 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, include = NUL
   check_model(model)
   check_logic(details)
   check_logic(progress)
-  check_values(pent, 0, 1)
-  check_values(prem, 0, 1)
+  check_values(p_enter, 0, 1)
+  check_values(p_remove, 0, 1)
   check_npredictors(model, 3)
 
   indterms <- coeff_names(model)
@@ -171,7 +171,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, include = NUL
     minp <- minp[1]
   }
 
-  if (pvals[minp] > pent) {
+  if (pvals[minp] > p_enter) {
     stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
   } else {
     if (progress) {
@@ -238,7 +238,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, include = NUL
     maxf  <- which(fvals == max(fvals, na.rm = TRUE))
     minp  <- pvals[maxf]
 
-    if (minp <= pent) {
+    if (minp <= p_enter) {
 
       preds     <- c(preds, all_pred[maxf])
       var_index <- c(var_index, all_pred[maxf])
@@ -282,7 +282,7 @@ ols_step_both_p.default <- function(model, pent = 0.1, prem = 0.3, include = NUL
       minf    <- which(fvals_r == min(fvals_r, na.rm = TRUE))
       maxp    <- pvals_r[minf]
       
-      if (maxp > prem) {
+      if (maxp > p_remove) {
 
         var_index <- c(var_index, preds[minf])
         lvar      <- length(var_index)
