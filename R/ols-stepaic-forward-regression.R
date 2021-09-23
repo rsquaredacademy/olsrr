@@ -375,7 +375,6 @@ print.ols_step_forward_aic <- function(x, ...) {
 #'
 plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
-  aic <- NULL
   tx  <- NULL
   a   <- NULL
   b   <- NULL

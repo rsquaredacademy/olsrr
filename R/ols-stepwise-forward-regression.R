@@ -439,8 +439,12 @@ plot_stepwise <- function(x, metric = "r2", title = "R-Square", details = TRUE) 
   yloc <- r2
   xmin <- min(y) - 1
   xmax <- max(y) + 1
-  ymin  <- min(r2) - (min(r2) * 0.03)
-  ymax  <- max(r2) + (max(r2) * 0.03)
+  ymin <- min(r2) - (min(r2) * 0.03)
+  ymax <- max(r2) + (max(r2) * 0.03)
+
+  a <- NULL
+  b <- NULL
+  tx <- NULL
   
   d  <- data.frame(a = y, b = r2)
   d2 <- data.frame(x = xloc, y = yloc, tx = pred)

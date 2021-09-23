@@ -17,7 +17,7 @@ ols_step_forward_aic(model, ...)
   ...
 )
 
-\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, ...)
+\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, details = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}

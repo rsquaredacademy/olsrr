@@ -346,8 +346,6 @@ print.ols_step_backward_aic <- function(x, ...) {
 #'
 plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
-  step  <- NULL
-  aic   <- NULL
   tx    <- NULL
   a     <- NULL
   b     <- NULL

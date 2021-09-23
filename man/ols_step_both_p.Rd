@@ -19,7 +19,7 @@ ols_step_both_p(model, ...)
   ...
 )
 
-\method{plot}{ols_step_both_p}(x, model = NA, print_plot = TRUE, ...)
+\method{plot}{ols_step_both_p}(x, model = NA, print_plot = TRUE, details = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}; the model should include all

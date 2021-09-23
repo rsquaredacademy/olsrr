@@ -271,8 +271,6 @@ print.ols_step_backward_p <- function(x, ...) {
 #' @rdname ols_step_backward_p
 #'
 plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
-
-  a <- NULL
   
   p1 <- plot_stepwise(x, metric = "r2", title = "R-Square", details =  details)
   p2 <- plot_stepwise(x, metric = "adj_r2", title = "Adjusted R-Square", details = details)

@@ -430,6 +430,7 @@ plot_stepwise_both <- function(x, metric = "r2", title = "R-Square", details = T
   
   a <- NULL
   b <- NULL
+  tx <- NULL 
   d <- data.frame(a = y, b = r2)
   d2 <- data.frame(x = xloc, y = yloc, tx = pred)
   
