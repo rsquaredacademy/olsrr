@@ -373,34 +373,49 @@ print.ols_step_forward_aic <- function(x, ...) {
 #' @rdname ols_step_forward_aic
 #' @export
 #'
-plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
+plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
   aic <- NULL
   tx  <- NULL
   a   <- NULL
   b   <- NULL
 
-  step <- c(0, x$metrics$step)
-  aic  <- c(ols_aic(x$others$base_model), x$metrics$aic)
-  pred <- c("Base Model", x$metrics$variable)
+  step <- x$metrics$step
+  aic  <- x$metrics$aic
 
+  if (details) {
+    x$metrics$text <- paste0("[", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]")
+    pred <- x$metrics$text
+  } else {
+    pred <- x$metrics$variable
+  }
+  
   y    <- step
   xloc <- y
   yloc <- aic
-  xmin <- min(y) - 1
+  xmin <- min(y) - 0.4
   xmax <- max(y) + 1
-  ymin <- min(aic) - 1
-  ymax <- max(aic) + 1
+  ymin <- min(aic) - (min(aic) * 0.05)
+  ymax <- max(aic) + (max(aic) * 0.05)
 
   d2 <- data.frame(x = xloc, y = yloc, tx = pred)
   d  <- data.frame(a = y, b = aic)
 
   p <-
-    ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
+    ggplot(d, aes(x = a, y = b)) + 
+    geom_line(color = "blue") +
+    geom_point(color = "blue", shape = 1, size = 2) + 
+    xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax)) + 
+    xlab("Step") + 
+    ylab("AIC") +
     ggtitle("Stepwise AIC Forward Selection") +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
+    geom_text(data = d2, 
+      aes(x = x, y = y, label = tx), 
+      size = 3,
+      hjust = "left",
+      vjust = "bottom", 
+      nudge_x = 0.1)
 
   if (print_plot) {
     print(p)

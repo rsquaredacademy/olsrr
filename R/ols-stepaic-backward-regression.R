@@ -344,7 +344,7 @@ print.ols_step_backward_aic <- function(x, ...) {
 #' @rdname ols_step_backward_aic
 #' @export
 #'
-plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
+plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
   step  <- NULL
   aic   <- NULL
@@ -352,27 +352,43 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, ...) {
   a     <- NULL
   b     <- NULL
 
-  mi    <- ols_regress(x$others$full_model)
-  preds <- c("Full Model", x$metrics$variable)
-  aic   <- c(mi$aic, x$metrics$aic)
+  preds <- x$metrics$variable
+  aic   <- x$metrics$aic
+  step  <- x$metrics$step
 
-  y     <- c(0, seq_len(length(x$metrics$step)))
-  xloc  <- y - 0.1
-  yloc  <- aic - 0.2
+  if (details) {
+    x$metrics$text <- paste0("[", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]")
+    pred <- x$metrics$text
+  } else {
+    pred <- x$metrics$variable
+  }
+
+  y     <- step
+  xloc  <- y 
+  yloc  <- aic 
   xmin  <- min(y) - 0.4
   xmax  <- max(y) + 1
-  ymin  <- min(aic) - 1
-  ymax  <- max(aic) + 1
+  ymin  <- min(aic) - (min(aic) * 0.05)
+  ymax  <- max(aic) + (max(aic) * 0.05)
 
-  d2    <- data.frame(x = xloc, y = yloc, tx = preds)
+  d2    <- data.frame(x = xloc, y = yloc, tx = pred)
   d     <- data.frame(a = y, b = aic)
 
   p <-
-    ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
+    ggplot(d, aes(x = a, y = b)) + 
+    geom_line(color = "blue") +
+    geom_point(color = "blue", shape = 1, size = 2) + 
+    xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax)) + 
+    xlab("Step") + 
+    ylab("AIC") +
     ggtitle("Stepwise AIC Backward Elimination") +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
+    geom_text(data = d2, 
+              aes(x = x, y = y, label = tx), 
+              size = 3,
+              vjust = "bottom",
+              hjust = "left", 
+              nudge_x = 0.1)
 
   if (print_plot) {
     print(p)

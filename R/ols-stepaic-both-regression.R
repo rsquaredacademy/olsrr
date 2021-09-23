@@ -422,19 +422,20 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
   a   <- NULL
   b   <- NULL
 
-  step <- c(0, x$metrics$step)
-  aic  <- c(ols_aic(x$others$base_model), x$metrics$aic)
+  step <- x$metrics$step
+  aic  <- x$metrics$aic
 
   # text annotation
   if (details) {
     x$metrics$text <- ifelse(x$metrics$method == "addition", 
-                           paste0("[+", x$metrics$variable, ", ", "\n", round(x$metrics$aic, 2), "]"), 
-                           paste0("[-", x$metrics$variable, ", ", "\n", round(x$metrics$aic, 2), "]"))
-
-    base_text <- c(paste0("[Base Model, ", "\n", round(aic[1], 2), "]"))
-    pred <- c(base_text, x$metrics$text)
+                           paste0("[+", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]"), 
+                           paste0("[-", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]"))
+    pred <- x$metrics$text
   } else {
-    pred <- c("Base Model", x$metrics$variable)
+    x$metrics$text <- ifelse(x$metrics$method == "addition", 
+                             paste0("+", x$metrics$variable),
+                             paste0("-", x$metrics$variable))
+    pred <- x$metrics$text
   }
   
   y     <- step
@@ -449,11 +450,24 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
   d  <- data.frame(a = y, b = aic)
 
   p <-
-    ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
+    ggplot(d, aes(x = a, y = b)) + 
+    geom_line(color = "blue") +
+    geom_point(color = "blue", 
+               shape = 1, 
+               size = 2) + 
+    xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax)) + 
+    xlab("Step") + 
+    ylab("AIC") +
     ggtitle("Stepwise AIC Both Direction Selection") +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.05)
+    geom_text(data = d2, 
+              aes(x = x, 
+                  y = y, 
+                  label = tx), 
+              size = 3,
+              hjust = "left", 
+              vjust = "bottom",
+              nudge_x = 0.05)
 
   if (print_plot) {
     print(p)

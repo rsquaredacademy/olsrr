@@ -270,28 +270,14 @@ print.ols_step_backward_p <- function(x, ...) {
 #' @export
 #' @rdname ols_step_backward_p
 #'
-plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, ...) {
+plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
 
   a <- NULL
-  b <- NULL
-
-  y <- c(0, seq_len(length(x$metrics$step)))
-
-  mi   <- ols_regress(x$others$full_model)
-  r2   <- c(mi$rsq, x$metrics$r2)
-  adjr <- c(mi$adjr, x$metrics$adj_r2)
-  aic  <- c(mi$aic, x$metrics$aic)
-  rmse <- c(mi$rmse, x$metrics$rmse)
-
-  d1 <- data.frame(a = y, b = r2)
-  d2 <- data.frame(a = y, b = adjr)
-  d3 <- data.frame(a = y, b = aic)
-  d4 <- data.frame(a = y, b = rmse)
-
-  p1 <- plot_stepwise(d1, "R-Square")
-  p2 <- plot_stepwise(d2, "Adj. R-Square")
-  p3 <- plot_stepwise(d3, "AIC")
-  p4 <- plot_stepwise(d4, "RMSE")
+  
+  p1 <- plot_stepwise(x, metric = "r2", title = "R-Square", details =  details)
+  p2 <- plot_stepwise(x, metric = "adj_r2", title = "Adjusted R-Square", details = details)
+  p3 <- plot_stepwise(x, metric = "aic", title = "Adjusted R-Square", details = details)
+  p4 <- plot_stepwise(x, metric = "rmse", title = "RMSE", details = details)
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 

@@ -378,36 +378,12 @@ print.ols_step_both_p <- function(x, ...) {
 #' @export
 #' @rdname ols_step_both_p
 #'
-plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, ...) {
+plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
 
-  a <- NULL
-  b <- NULL
-
-  y  <- c(0, x$metrics$step)
-  np <- coeff_names(x$others$base_model)
-
-  if (is.null(np)) {
-    mi <- null_model_metrics(x$others$base_model)
-  } else {
-    mi <- ols_regress(x$others$base_model)
-  }
-  
-  r2   <- c(mi$rsq, x$metrics$r2)
-  adjr <- c(mi$adjr, x$metrics$adj_r2)
-  aic  <- c(mi$aic, x$metrics$aic)
-  rmse <- c(mi$rmse, x$metrics$rmse)
-  
-  predictors <- c("Base Model", x$metrics$variable)
-
-  d1 <- data.frame(a = y, b = r2)
-  d2 <- data.frame(a = y, b = adjr)
-  d3 <- data.frame(a = y, b = aic)
-  d4 <- data.frame(a = y, b = rmse)
-
-  p1 <- plot_stepwise(d1, "R-Square")
-  p2 <- plot_stepwise(d2, "Adj. R-Square")
-  p3 <- plot_stepwise(d3, "AIC")
-  p4 <- plot_stepwise(d4, "RMSE")
+  p1 <- plot_stepwise_both(x, metric = "r2", title = "R-Square", details = details)
+  p2 <- plot_stepwise_both(x, metric = "adj_r2", title = "Adj. R-Square", details = details)
+  p3 <- plot_stepwise_both(x, metric = "aic", title = "AIC", details = details)
+  p4 <- plot_stepwise_both(x, metric = "rmse", title = "RMSE", details = details)
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
@@ -419,17 +395,59 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, ...) {
 
 }
 
-plot_stepwise <- function(d, title) {
-
+plot_stepwise_both <- function(x, metric = "r2", title = "R-Square", details = TRUE) {
+  
+  if (metric == "r2") {
+    met <- "rsq"
+  } else if (metric == "adj_r2") {
+    met <- "adjr"
+  } else {
+    met <- metric
+  }
+  
+  step <- x$metrics$step
+  r2   <- x$metrics[[metric]]
+  
+  if (details) {
+    x$metrics$text <- ifelse(x$metrics$method == "addition", 
+                             paste0("[+", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"), 
+                             paste0("[-", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"))
+    pred <- x$metrics$text
+  } else {
+    x$metrics$text <- ifelse(x$metrics$method == "addition", 
+                             paste0("+", x$metrics$variable),
+                             paste0("-", x$metrics$variable))
+    pred <- x$metrics$text
+  }
+  
+  y    <- step
+  xloc <- y
+  yloc <- r2
+  xmin <- min(y) - 1
+  xmax <- max(y) + 1
+  ymin  <- min(r2) - (min(r2) * 0.03)
+  ymax  <- max(r2) + (max(r2) * 0.03)
+  
   a <- NULL
   b <- NULL
-
+  d <- data.frame(a = y, b = r2)
+  d2 <- data.frame(x = xloc, y = yloc, tx = pred)
+  
+  v_just <- ifelse(metric %in% c("aic", "rmse"), "bottom", "top")
+  
   ggplot(d, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle(title) +
-    theme(
-      axis.ticks = element_blank()
-    )
+    xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax)) + 
+    xlab("Step") + 
+    ylab(title) + 
+    ggtitle(title) +
+    geom_text(data = d2, 
+              aes(x = x, y = y, label = tx), 
+              size = 3,
+              hjust = "left",
+              vjust = v_just,
+              nudge_x = 0.05)
 
 }
