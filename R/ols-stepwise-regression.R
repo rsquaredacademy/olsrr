@@ -392,12 +392,26 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, ...) {
   a <- NULL
   b <- NULL
 
-  y <- seq_len(length(x$metrics$step))
+  y  <- c(0, x$metrics$step)
+  np <- coeff_names(x$others$base_model)
 
-  d1 <- data.frame(a = y, b = x$metrics$r2)
-  d2 <- data.frame(a = y, b = x$metrics$adj_r2)
-  d3 <- data.frame(a = y, b = x$metrics$aic)
-  d4 <- data.frame(a = y, b = x$metrics$rmse)
+  if (is.null(np)) {
+    mi <- null_model_metrics(x$others$base_model)
+  } else {
+    mi <- ols_regress(x$others$base_model)
+  }
+  
+  r2   <- c(mi$rsq, x$metrics$r2)
+  adjr <- c(mi$adjr, x$metrics$adj_r2)
+  aic  <- c(mi$aic, x$metrics$aic)
+  rmse <- c(mi$rmse, x$metrics$rmse)
+  
+  predictors <- c("Base Model", x$metrics$variable)
+
+  d1 <- data.frame(a = y, b = r2)
+  d2 <- data.frame(a = y, b = adjr)
+  d3 <- data.frame(a = y, b = aic)
+  d4 <- data.frame(a = y, b = rmse)
 
   p1 <- plot_stepwise(d1, "R-Square")
   p2 <- plot_stepwise(d2, "Adj. R-Square")

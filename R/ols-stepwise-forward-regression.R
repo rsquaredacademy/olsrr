@@ -416,13 +416,21 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, ...) {
   a <- NULL
   b <- NULL
 
-  y <- c(0, seq_len(length(x$metrics$r2)))
+  y  <- c(0, x$metrics$step)
+  np <- coeff_names(x$others$base_model)
+
+  if (is.null(np)) {
+    mi <- null_model_metrics(x$others$base_model)
+  } else {
+    mi <- ols_regress(x$others$base_model)
+  }
   
-  mi   <- ols_regress(x$others$base_model)
   r2   <- c(mi$rsq, x$metrics$r2)
   adjr <- c(mi$adjr, x$metrics$adj_r2)
   aic  <- c(mi$aic, x$metrics$aic)
   rmse <- c(mi$rmse, x$metrics$rmse)
+  
+  predictors <- c("Base Model", x$metrics$variable)
 
   d1 <- data.frame(a = y, b = r2)
   d2 <- data.frame(a = y, b = adjr)
