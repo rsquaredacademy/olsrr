@@ -653,6 +653,11 @@ print_step_backward <- function(data) {
     )
   }
   cat(rep("-", w), sep = "", "\n")
+  cat("\n\n")
+  cat("Final Model Output", "\n")
+  cat(rep("-", 18), sep = "", "\n\n") 
+  print(ols_regress(data$model))
+  cat("\n")
 }
 
 
@@ -811,7 +816,12 @@ print_step_forward <- function(data) {
       format(round(rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
     )
   }
-  cat(rep("-", w), sep = "", "\n")
+  cat(rep("-", w), sep = "", "\n\n")
+
+  cat("Final Model Output", "\n")
+  cat(rep("-", 18), sep = "", "\n\n")
+  print(ols_regress(data$model))
+  cat("\n")
 }
 
 
@@ -849,7 +859,7 @@ print_stepwise <- function(data) {
   w4 <- max(nchar("R-Square"), nchar(format(round(adjr, 3), nsmall = 3)))
   w6 <- max(nchar("AIC"), nchar(format(round(aic, 4), nsmall = 4)))
   w7 <- max(nchar("RMSE"), nchar(format(round(rmse, 4), nsmall = 4)))
-  w <- sum(w1, w2, w3, w4, w6, w7, w8, 28)
+  w <- sum(w1, w2, w3, w4, w6, w7, w8, 24)
 
   cat("\n")
   cat(format("Stepwise Selection Summary", justify = "centre", width = w), "\n")
@@ -885,7 +895,12 @@ print_stepwise <- function(data) {
       format(round(rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
     )
   }
-  cat(rep("-", w), sep = "", "\n")
+  cat(rep("-", w), sep = "", "\n\n\n")
+  
+  cat("Final Model Output", "\n")
+  cat(rep("-", 18), sep = "", "\n\n")
+  print(ols_regress(data$model))
+  cat("\n")
 }
 
 
@@ -949,6 +964,12 @@ print_stepaic_forward <- function(data) {
     )
   }
   cat(rep("-", w), sep = "", "\n")
+
+  cat("\n\n")
+  cat("Final Model Output", "\n")
+  cat(rep("-", 18), sep = "", "\n\n")
+  print(ols_regress(data$model))
+  cat("\n")
 }
 
 
@@ -1005,6 +1026,12 @@ print_stepaic_backward <- function(data) {
     )
   }
   cat(rep("-", w), sep = "", "\n\n")
+
+  cat("\n\n")
+  cat("Final Model Output", "\n")
+  cat(rep("-", 18), sep = "", "\n\n")
+  print(ols_regress(data$model))
+  cat("\n")
 }
 
 
@@ -1073,6 +1100,11 @@ print_stepaic_both <- function(data) {
     )
   }
   cat(rep("-", w), sep = "", "\n\n")
+  cat("\n\n")
+  cat("Final Model Output", "\n")
+  cat(rep("-", 18), sep = "", "\n\n")
+  print(ols_regress(data$model))
+  cat("\n")
 }
 
 

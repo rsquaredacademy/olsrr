@@ -157,6 +157,9 @@ ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, e
 
       cat("We are eliminating variables based on p value...")
       cat("\n")
+
+      cat("\n")
+      cat("Variables Removed:", "\n\n")
     }
 
     while (!end) {
@@ -184,9 +187,7 @@ ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, e
           rmse   <- c(rmse, fr$rmse)
 
           if (progress) {
-            cat("\n")
-            cat("Variables Removed:", "\n\n")
-            cat(paste("-", tail(rpred, n = 1)), "\n")
+            cat(paste("=>", tail(rpred, n = 1)), "\n")
           }
 
           if (details) {
@@ -217,7 +218,7 @@ ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, e
       } else {
         cat("Variables Removed:", "\n\n")
         for (i in seq_len(len_pred)) {
-          cat(paste("-", rpred[i]), "\n")
+          cat(paste("=>", rpred[i]), "\n")
         }
       }
     }

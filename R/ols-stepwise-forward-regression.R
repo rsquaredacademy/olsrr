@@ -227,12 +227,12 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
         rmse   <- c(rmse, fr$rmse)
 
         if (progress) {
-          cat("-", tail(npreds, n = 1), "\n")
+          cat("=>", tail(npreds, n = 1), "\n")
         }
 
         if (details) {
           cat("Variable entered =>", tail(npreds, n = 1))
-          cat("\n")
+          cat("\n\n")
           m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
           print(m)
           cat("\n\n")
@@ -258,12 +258,12 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
       rmse   <- c(rmse, fr$rmse)
 
       if (progress) {
-        cat(paste("-", tail(preds, n = 1)), "\n")
+        cat(paste("=>", tail(preds, n = 1)), "\n")
       }
 
       if (details) {
         cat("Variable entered =>", tail(preds, n = 1))
-        cat("\n")
+        cat("\n\n")
         m <- ols_regress(paste(response, "~", preds), l)
         print(m)
         cat("\n\n")
@@ -331,7 +331,7 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
           } else {
             cat("Variable entered =>", tail(preds, n = 1), "\n")
           }
-          cat("\n")
+          cat("\n\n")
           m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
           print(m)
           cat("\n\n")
@@ -340,6 +340,7 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
         if (progress || details) {
           cat("\n")
           cat("No more variables to be added.")
+          cat("\n")
         }
         break
       }
@@ -364,15 +365,6 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
           }
         }
       }
-    }
-
-    if (progress || details) {
-      cat("\n\n")
-      cat("Final Model Output", "\n")
-      cat(rep("-", 18), sep = "", "\n\n")
-
-      fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-      print(fi)
     }
 
     final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)

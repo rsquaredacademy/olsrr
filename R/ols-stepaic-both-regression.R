@@ -255,7 +255,7 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
       larsq      <- c(larsq, marsq)
 
       if (progress) {
-        cat(paste("-", tail(preds, n = 1), "added"), "\n")
+        cat(paste("=>", tail(preds, n = 1), "added"), "\n")
       }
 
       if (details) {
@@ -347,7 +347,7 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
           all_step  <- all_step + 1
 
           if (progress) {
-            cat(paste("-", preds[minc2 + length(include)], "removed"), "\n")
+            cat(paste("=>", preds[minc2 + length(include)], "removed"), "\n")
           }
 
           preds <- preds[-(minc2 + length(include))]
@@ -378,17 +378,8 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
     cat("\n")
     cat("Variables Selected:", "\n\n")
     for (i in seq_len(length(preds))) {
-      cat(paste("-", preds[i]), "\n")
+      cat(paste("=>", preds[i]), "\n")
     }
-  }
-
-  if (progress || details) {
-    cat("\n\n")
-    cat("Final Model Output", "\n")
-    cat(rep("-", 18), sep = "", "\n\n")
-
-    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-    print(fi)
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)

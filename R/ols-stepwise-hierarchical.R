@@ -36,7 +36,7 @@ ols_step_hierarchical <- function(model, p_value = 0.1, forward = TRUE, progress
 ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE) {
 
   if (details) {
-    progress <- TRUE
+    progress <- FALSE
   }
 
   l        <- model$model
@@ -58,7 +58,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   sbc      <- c()
   rmse     <- c()
 
-  if (progress) {
+  if (progress || details) {
     cat(format("Forward Hierarchical Selection Method", justify = "left", width = 27), "\n")
     cat(rep("-", 27), sep = "", "\n\n")
     cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
@@ -76,12 +76,8 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
     }
   }
 
-  if (is.null(include)) {
-    base_model <- lm(paste(response, "~", 1), data = l)
-  } else {
-    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
-  }
-
+  base_model <- lm(paste(response, "~", 1), data = l)
+  
   for (i in seq_len(mlen_p)) {
     predictors <- c(preds, all_pred[i])
     m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
@@ -107,11 +103,12 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
       }
 
       if (progress) {
-        cat(paste("-", tail(preds, n = 1)), "\n")
+        cat(paste("=>", tail(preds, n = 1)), "\n")
       }
 
       if (details) {
-        cat("\n")
+        cat("Variable entered =>", tail(preds, n = 1))
+        cat("\n\n")
         m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
         print(m)
         cat("\n\n")
@@ -122,6 +119,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
       if (progress) {
         cat("\n")
         cat("No more variables to be added.")
+        cat("\n")
       }
 
       break
@@ -148,15 +146,6 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
     }
   }
 
-  if (progress) {
-    cat("\n\n")
-    cat("Final Model Output", "\n")
-    cat(rep("-", 18), sep = "", "\n\n")
-
-    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-    print(fi)
-  }
-
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
   metrics <- data.frame(step       = seq_len(step),
@@ -181,6 +170,10 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 
 ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE) {
 
+  if (details) {
+    progress <- FALSE
+  }
+
   l        <- model$model
   nam      <- colnames(attr(model$terms, "factors"))
   n        <- ncol(l)
@@ -197,7 +190,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
   sbc      <- c()
   rmse     <- c()
 
-  if (progress) {
+  if (progress || details) {
     cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
     cat(rep("-", 27), sep = "", "\n\n")
     cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
@@ -235,7 +228,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
       rmse   <- c(rmse, fr$rmse)
 
       if (progress) {
-        cat(paste("-", tail(preds, n = 1)), "\n")
+        cat(paste("=>", tail(preds, n = 1)), "\n")
       }
 
       if (details) {
@@ -248,7 +241,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
 
     } else {
 
-      if (progress) {
+      if (progress || details) {
         cat("\n")
         cat(paste0("No more variables satisfy the condition of p value = ", p_value))
         cat("\n")
@@ -274,15 +267,6 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
         cat(paste("-", preds[i]), "\n")
       }
     }
-  }
-
-  if (progress) {
-    cat("\n\n")
-    cat("Final Model Output", "\n")
-    cat(rep("-", 18), sep = "", "\n\n")
-
-    fi <- ols_regress(paste(response, "~", paste(pterms, collapse = " + ")),data = l)
-    print(fi)
   }
 
   final_model <- lm(paste(response, "~", paste(pterms, collapse = " + ")), data = l)

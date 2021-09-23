@@ -223,7 +223,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   }
 
   if (progress) {
-    cat(paste("-", tail(preds, n = 1)), "\n")
+    cat(paste("=>", tail(preds, n = 1)), "\n")
   }
 
   while (step < mlen_p) {
@@ -314,12 +314,13 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       step     <- step + 1
 
       if (progress) {
-        cat(paste("-", tail(preds, n = 1)), "\n")
+        cat(paste("=>", tail(preds, n = 1)), "\n")
       }
     } else {
       if (progress || details) {
         cat("\n")
         cat("No more variables to be added.", "\n")
+        cat("\n")
       }
       break
     }
@@ -329,17 +330,8 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     cat("\n")
     cat("Variables Selected:", "\n\n")
     for (i in seq_len(length(preds))) {
-      cat(paste("-", preds[i]), "\n")
+      cat(paste("=>", preds[i]), "\n")
     }
-  }
-
-  if (progress || details) {
-    cat("\n\n")
-    cat("Final Model Output", "\n")
-    cat(rep("-", 18), sep = "", "\n\n")
-
-    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-    print(fi)
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)

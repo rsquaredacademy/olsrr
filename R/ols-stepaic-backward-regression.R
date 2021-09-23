@@ -233,7 +233,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
       if (progress) {
         cat("\n")
         cat("Variables Removed:", "\n\n")
-        cat(paste("-", tail(rpred, n = 1)), "\n")
+        cat(paste("=>", tail(rpred, n = 1)), "\n")
       }
 
       for (i in seq_len(ilp)) {
@@ -295,6 +295,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
       if (progress || details) {
         cat("\n")
         cat("No more variables to be removed.")
+        cat("\n")
       }
     }
 
@@ -306,18 +307,9 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
       cat("\n\n")
       cat("Variables Removed:", "\n\n")
       for (i in seq_len(length(rpred))) {
-        cat(paste("-", rpred[i]), "\n")
+        cat(paste("=>", rpred[i]), "\n")
       }
     }
-  }
-
-  if (progress || details) {
-    cat("\n\n")
-    cat("Final Model Output", "\n")
-    cat(rep("-", 18), sep = "", "\n\n")
-
-    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-    print(fi)
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)

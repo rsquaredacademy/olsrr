@@ -329,19 +329,10 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       if (progress || details) {
         cat("\n")
         cat("No more variables to be added/removed.")
-        cat("\n")
+        cat("\n\n")
       }
       break
     }
-  }
-
-  if (progress || details) {
-    cat("\n\n")
-    cat("Final Model Output", "\n")
-    cat(rep("-", 18), sep = "", "\n\n")
-
-    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-    print(fi)
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
