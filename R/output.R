@@ -619,7 +619,7 @@ print_step_backward <- function(data) {
   w4 <- max(nchar("R-Square"), nchar(format(round(adjr, 3), nsmall = 4)))
   w6 <- max(nchar("AIC"), nchar(format(round(aic, 4), nsmall = 4)))
   w7 <- max(nchar("RMSE"), nchar(format(round(rmse, 4), nsmall = 4)))
-  w <- sum(w1, w2, w3, w4, w6, w7, 24)
+  w <- sum(w1, w2, w3, w4, w6, w7, 20)
 
   cat("\n")
   cat(format("Elimination Summary", justify = "centre", width = w), "\n")
