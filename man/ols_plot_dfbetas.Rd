@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-dfbetas-panel.R
 \name{ols_plot_dfbetas}
 \alias{ols_plot_dfbetas}
-\alias{ols_dfbetas_panel}
 \title{DFBETAs panel}
 \usage{
 ols_plot_dfbetas(model, print_plot = TRUE)
@@ -29,11 +28,6 @@ in estimating a given parameter. Belsley, Kuh, and Welsch recommend 2 as a
 general cutoff value to indicate influential observations and
 \eqn{2/\sqrt(n)} as a size-adjusted cutoff.
 }
-\section{Deprecated Function}{
-
-\code{ols_dfbetas_panel()} has been deprecated. Instead use \code{ols_plot_dfbetas()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_dfbetas(model)

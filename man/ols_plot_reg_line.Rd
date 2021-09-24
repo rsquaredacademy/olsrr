@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-fitted-line-properties.R
 \name{ols_plot_reg_line}
 \alias{ols_plot_reg_line}
-\alias{ols_reg_line}
 \title{Simple linear regression line}
 \usage{
 ols_plot_reg_line(response, predictor, print_plot = TRUE)
@@ -18,11 +17,6 @@ ols_plot_reg_line(response, predictor, print_plot = TRUE)
 Plot to demonstrate that the regression line always passes  through mean of
 the response and predictor variables.
 }
-\section{Deprecated Function}{
-
-\code{ols_reg_line()} has been deprecated. Instead use \code{ols_plot_reg_line()}.
-}
-
 \examples{
 ols_plot_reg_line(mtcars$mpg, mtcars$disp)
 

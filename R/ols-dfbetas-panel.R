@@ -25,9 +25,6 @@
 #' Wiley Series in Probability and Mathematical Statistics.
 #' New York: John Wiley & Sons. pp. ISBN 0-471-05856-4.
 #'
-#' @section Deprecated Function:
-#' \code{ols_dfbetas_panel()} has been deprecated. Instead use \code{ols_plot_dfbetas()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_plot_dfbetas(model)
@@ -89,12 +86,3 @@ ols_plot_dfbetas <- function(model, print_plot = TRUE) {
   }
 
 }
-
-#' @export
-#' @rdname ols_plot_dfbetas
-#' @usage NULL
-#'
-ols_dfbetas_panel <- function(model) {
-  .Deprecated("ols_plot_dfbetas()")
-}
-

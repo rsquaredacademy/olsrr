@@ -8,9 +8,6 @@
 #' @return Correlation between fitted regression model residuals and expected
 #' values of residuals.
 #'
-#' @section Deprecated Function:
-#' \code{ols_corr_test()} has been deprecated. Instead use \code{ols_test_correlation()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_test_correlation(model)
@@ -27,15 +24,6 @@ ols_test_correlation <- function(model) {
   corrout(model)
 
 }
-
-#' @export
-#' @rdname ols_test_correlation
-#' @usage NULL
-#'
-ols_corr_test <- function(model) {
-  .Deprecated("ols_test_correlation()")
-}
-
 
 corrout <- function(model) {
 
@@ -68,9 +56,6 @@ ka <- function(k, stderr, n) {
 #' \item{shapiro}{shapiro wilk statistic}
 #' \item{cramer}{cramer von mises statistic}
 #' \item{anderson}{anderson darling statistic}
-#'
-#' @section Deprecated Function:
-#' \code{ols_norm_test()} has been deprecated. Instead use \code{ols_test_normality()}.
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -125,12 +110,4 @@ ols_test_normality.lm <- function(y, ...) {
 #'
 print.ols_test_normality <- function(x, ...) {
   print_norm_test(x)
-}
-
-#' @export
-#' @rdname ols_test_normality
-#' @usage NULL
-#'
-ols_norm_test <- function(y, ...) {
-  .Deprecated("ols_test_normality()")
 }

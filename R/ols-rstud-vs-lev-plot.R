@@ -6,9 +6,6 @@
 #' @param threshold Threshold for detecting outliers. Default is 2.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
-#' @section Deprecated Function:
-#' \code{ols_rsdlev_plot()} has been deprecated. Instead use \code{ols_plot_resid_lev()}.
-#'
 #' @examples
 #' model <- lm(read ~ write + math + science, data = hsb)
 #' ols_plot_resid_lev(model)
@@ -74,12 +71,4 @@ ols_plot_resid_lev <- function(model, threshold = NULL, print_plot = TRUE) {
       )
   }
 
-}
-
-#' @export
-#' @rdname ols_plot_resid_lev
-#' @usage NULL
-#'
-ols_rsdlev_plot <- function(model) {
-  .Deprecated("ols_plot_resid_lev()")
 }

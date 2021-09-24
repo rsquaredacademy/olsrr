@@ -41,9 +41,6 @@
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
 #'
-#' @section Deprecated Function:
-#' \code{ols_avplots()} has been deprecated. Instead use \code{ols_plot_added_variable()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_added_variable(model)
@@ -90,15 +87,6 @@ ols_plot_added_variable <- function(model, print_plot = TRUE) {
   }
 
 }
-
-#' @export
-#' @rdname ols_plot_added_variable
-#' @usage NULL
-#'
-ols_avplots <- function(model) {
-  .Deprecated("ols_plot_added_variable()")
-}
-
 
 #' Remove columns
 #'

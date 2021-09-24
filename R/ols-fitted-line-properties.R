@@ -8,9 +8,6 @@
 #' @param predictor Predictor variable.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
-#' @section Deprecated Function:
-#' \code{ols_reg_line()} has been deprecated. Instead use \code{ols_plot_reg_line()}.
-#'
 #' @examples
 #' ols_plot_reg_line(mtcars$mpg, mtcars$disp)
 #'
@@ -41,13 +38,4 @@ ols_plot_reg_line <- function(response, predictor, print_plot = TRUE) {
     return(p)
   }
 
-}
-
-
-#' @export
-#' @rdname ols_plot_reg_line
-#' @usage NULL
-#'
-ols_reg_line <- function(response, predictor) {
-  .Deprecated("ols_plot_reg_line()")
 }

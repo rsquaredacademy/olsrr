@@ -55,9 +55,6 @@
 #'
 #' Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 #'
-#' @section Deprecated Function:
-#' \code{ols_bp_test()} has been deprecated. Instead use \code{ols_test_breusch_pagan()}.
-#'
 #' @family heteroskedasticity tests
 #'
 #' @examples
@@ -190,16 +187,6 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
 
   return(out)
 }
-
-#' @export
-#' @rdname ols_test_breusch_pagan
-#' @usage NULL
-#'
-ols_bp_test <- function(model, fitted.values = TRUE, rhs = FALSE, multiple = FALSE,
-                        p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) {
-  .Deprecated("ols_test_breusch_pagan()")
-}
-
 
 #' @export
 #'

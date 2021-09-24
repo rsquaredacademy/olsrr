@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-added-variable-plot.R
 \name{ols_plot_added_variable}
 \alias{ols_plot_added_variable}
-\alias{ols_avplots}
 \title{Added variable plots}
 \usage{
 ols_plot_added_variable(model, print_plot = TRUE)
@@ -45,11 +44,6 @@ A strong linear relationship in the added variable plot indicates the increased
 importance of the contribution of \strong{X} to the model already containing the
 other predictors.
 }
-\section{Deprecated Function}{
-
-\code{ols_avplots()} has been deprecated. Instead use \code{ols_plot_added_variable()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_added_variable(model)

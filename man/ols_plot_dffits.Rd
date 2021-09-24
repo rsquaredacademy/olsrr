@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-dffits-plot.R
 \name{ols_plot_dffits}
 \alias{ols_plot_dffits}
-\alias{ols_dffits_plot}
 \title{DFFITS plot}
 \usage{
 ols_plot_dffits(model, print_plot = TRUE)
@@ -40,11 +39,6 @@ An observation is deemed influential if the absolute value of its DFFITS value i
 
 where n is the number of observations and p is the number of predictors including intercept.
 }
-\section{Deprecated Function}{
-
-\code{ols_dffits_plot()} has been deprecated. Instead use \code{ols_plot_dffits()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_dffits(model)

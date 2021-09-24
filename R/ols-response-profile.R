@@ -5,9 +5,6 @@
 #' @param model An object of class \code{lm}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
-#' @section Deprecated Function:
-#' \code{ols_resp_viz()} has been deprecated. Instead use \code{ols_plot_response()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_response(model)
@@ -65,13 +62,4 @@ ols_plot_response <- function(model, print_plot = TRUE) {
       )
   }
 
-}
-
-
-#' @export
-#' @rdname ols_plot_response
-#' @usage NULL
-#'
-ols_resp_viz <- function(model) {
-  .Deprecated("ols_plot_response()")
 }

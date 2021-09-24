@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-studentized-residual-plot.R
 \name{ols_plot_resid_stud}
 \alias{ols_plot_resid_stud}
-\alias{ols_srsd_plot}
 \title{Studentized residual plot}
 \usage{
 ols_plot_resid_stud(model, threshold = NULL, print_plot = TRUE)
@@ -33,11 +32,6 @@ observations than standardized residuals. If an observation has an externally
 studentized residual that is larger than 3 (in absolute value) we can call
 it an outlier.
 }
-\section{Deprecated Function}{
-
-\code{ols_srsd_plot()} has been deprecated. Instead use \code{ols_plot_resid_stud()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_stud(model)

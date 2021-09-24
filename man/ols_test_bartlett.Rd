@@ -3,7 +3,6 @@
 \name{ols_test_bartlett}
 \alias{ols_test_bartlett}
 \alias{ols_test_bartlett.default}
-\alias{ols_bartlett_test}
 \title{Bartlett test}
 \usage{
 ols_test_bartlett(data, ...)
@@ -34,11 +33,6 @@ Bartlett's test is used to test if variances across samples is equal.
 It is sensitive to departures from normality. The Levene test
 is an alternative test that is less sensitive to departures from normality.
 }
-\section{Deprecated Function}{
-
-\code{ols_bartlett_test()} has been deprecated. Instead use \code{ols_test_bartlett()}.
-}
-
 \examples{
 # using grouping variable
 library(descriptr)

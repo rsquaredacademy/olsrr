@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-residual-qqplot.R
 \name{ols_plot_resid_qq}
 \alias{ols_plot_resid_qq}
-\alias{ols_rsd_qqplot}
 \title{Residual QQ plot}
 \usage{
 ols_plot_resid_qq(model, print_plot = TRUE)
@@ -15,11 +14,6 @@ ols_plot_resid_qq(model, print_plot = TRUE)
 \description{
 Graph for detecting violation of normality assumption.
 }
-\section{Deprecated Function}{
-
-\code{ols_rsd_qqplot()} has been deprecated. Instead use \code{ols_plot_resid_qq()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_qq(model)

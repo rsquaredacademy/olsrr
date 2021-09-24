@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-f-test.R
 \name{ols_test_f}
 \alias{ols_test_f}
-\alias{ols_f_test}
 \title{F test}
 \usage{
 ols_test_f(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...)
@@ -39,11 +38,6 @@ following components:
 Test for heteroskedasticity under the assumption that the errors are
 independent and identically distributed (i.i.d.).
 }
-\section{Deprecated Function}{
-
-\code{ols_f_test()} has been deprecated. Instead use \code{ols_test_f()}.
-}
-
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

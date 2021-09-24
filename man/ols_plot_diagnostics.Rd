@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-diagnostics-panel.R
 \name{ols_plot_diagnostics}
 \alias{ols_plot_diagnostics}
-\alias{ols_diagnostic_panel}
 \title{Diagnostics panel}
 \usage{
 ols_plot_diagnostics(model, print_plot = TRUE)
@@ -10,10 +9,7 @@ ols_plot_diagnostics(model, print_plot = TRUE)
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
-\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.
-
-#' @section Deprecated Function:
-\code{ols_diagnostic_panel()} has been deprecated. Instead use \code{ols_plot_diagnostics()}.}
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \description{
 Panel of plots for regression diagnostics.

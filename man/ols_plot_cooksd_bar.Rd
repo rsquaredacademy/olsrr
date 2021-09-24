@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-cooks-d-barplot.R
 \name{ols_plot_cooksd_bar}
 \alias{ols_plot_cooksd_bar}
-\alias{ols_cooksd_barplot}
 \title{Cooks' D bar plot}
 \usage{
 ols_plot_cooksd_bar(model, type = 1, print_plot = TRUE)
@@ -59,11 +58,6 @@ where \strong{n} and \strong{k} stand for
   \item \strong{k}: Number of predictors
 }
 }
-\section{Deprecated Function}{
-
-\code{ols_cooksd_barplot()} has been deprecated. Instead use \code{ols_plot_cooksd_bar()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_cooksd_bar(model)

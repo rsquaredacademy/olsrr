@@ -17,9 +17,6 @@
 #' exceed \code{threshold}} for classifying an observation as an outlier
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
-#' @section Deprecated Function:
-#' \code{ols_srsd_chart()} has been deprecated. Instead use \code{ols_plot_resid_stand()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_stand(model)
@@ -71,12 +68,4 @@ ols_plot_resid_stand <- function(model, threshold = NULL, print_plot = TRUE) {
       )
   }
 
-}
-
-#' @export
-#' @rdname ols_plot_resid_stand
-#' @usage NULL
-#'
-ols_srsd_chart <- function(model) {
-  .Deprecated("ols_plot_resid_stand()")
 }

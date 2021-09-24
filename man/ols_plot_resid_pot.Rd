@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-potential-residual-plot.R
 \name{ols_plot_resid_pot}
 \alias{ols_plot_resid_pot}
-\alias{ols_potrsd_plot}
 \title{Potential residual plot}
 \usage{
 ols_plot_resid_pot(model, print_plot = TRUE)
@@ -16,11 +15,6 @@ ols_plot_resid_pot(model, print_plot = TRUE)
 Plot to aid in classifying unusual observations as high-leverage points,
 outliers, or a combination of both.
 }
-\section{Deprecated Function}{
-
-\code{ols_potrsd_plot()} has been deprecated. Instead use \code{ols_plot_resid_pot()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_pot(model)

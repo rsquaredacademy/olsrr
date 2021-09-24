@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-rstud-vs-lev-plot.R
 \name{ols_plot_resid_lev}
 \alias{ols_plot_resid_lev}
-\alias{ols_rsdlev_plot}
 \title{Studentized residuals vs leverage plot}
 \usage{
 ols_plot_resid_lev(model, threshold = NULL, print_plot = TRUE)
@@ -17,11 +16,6 @@ ols_plot_resid_lev(model, threshold = NULL, print_plot = TRUE)
 \description{
 Graph for detecting outliers and/or observations with high leverage.
 }
-\section{Deprecated Function}{
-
-\code{ols_rsdlev_plot()} has been deprecated. Instead use \code{ols_plot_resid_lev()}.
-}
-
 \examples{
 model <- lm(read ~ write + math + science, data = hsb)
 ols_plot_resid_lev(model)

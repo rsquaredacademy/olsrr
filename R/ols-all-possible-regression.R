@@ -95,16 +95,6 @@ ols_step_all_possible.default <- function(model, ...) {
   return(out)
 }
 
-
-#' @export
-#' @rdname ols_step_all_possible
-#' @usage NULL
-#'
-ols_all_subset <- function(model, ...) {
-  .Deprecated("ols_step_all_possible()")
-}
-
-
 #' @export
 #'
 print.ols_step_all_possible <- function(x, ...) {
