@@ -34,6 +34,8 @@
 <text x='231.72' y='285.65' style='font-size: 8.54px; font-family: sans;' textLength='58.37px' lengthAdjust='spacingAndGlyphs'>[alc_mod, 0.78]</text>
 <text x='384.99' y='289.17' style='font-size: 8.54px; font-family: sans;' textLength='52.68px' lengthAdjust='spacingAndGlyphs'>[gender, 0.78]</text>
 <text x='538.26' y='294.25' style='font-size: 8.54px; font-family: sans;' textLength='40.34px' lengthAdjust='spacingAndGlyphs'>[age, 0.78]</text>
+<text x='70.79' y='46.82' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='72.59px' lengthAdjust='spacingAndGlyphs'> Full Model  : 0.782</text>
+<text x='70.79' y='59.12' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='72.60px' lengthAdjust='spacingAndGlyphs'>Final Model : 0.781</text>
 <rect x='40.13' y='22.78' width='674.39' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>

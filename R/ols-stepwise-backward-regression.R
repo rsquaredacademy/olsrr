@@ -272,10 +272,10 @@ print.ols_step_backward_p <- function(x, ...) {
 #'
 plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
   
-  p1 <- plot_stepwise(x, metric = "r2", title = "R-Square", details =  details)
-  p2 <- plot_stepwise(x, metric = "adj_r2", title = "Adjusted R-Square", details = details)
-  p3 <- plot_stepwise(x, metric = "aic", title = "Adjusted R-Square", details = details)
-  p4 <- plot_stepwise(x, metric = "rmse", title = "RMSE", details = details)
+  p1 <- plot_stepwise(x, metric = "r2", y_lab = "R-Square", details =  details, direction = "backward")
+  p2 <- plot_stepwise(x, metric = "adj_r2", y_lab = "Adjusted R-Square", details = details, direction = "backward")
+  p3 <- plot_stepwise(x, metric = "aic", y_lab = "Adjusted R-Square", details = details, direction = "backward")
+  p4 <- plot_stepwise(x, metric = "rmse", y_lab = "RMSE", details = details, direction = "backward")
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 

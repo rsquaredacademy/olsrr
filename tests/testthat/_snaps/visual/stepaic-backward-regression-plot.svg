@@ -34,6 +34,8 @@
 <text x='158.94' y='272.86' style='font-size: 8.54px; font-family: sans;' textLength='67.86px' lengthAdjust='spacingAndGlyphs'>[alc_mod, 734.41]</text>
 <text x='339.91' y='284.65' style='font-size: 8.54px; font-family: sans;' textLength='62.17px' lengthAdjust='spacingAndGlyphs'>[gender, 732.49]</text>
 <text x='520.88' y='296.20' style='font-size: 8.54px; font-family: sans;' textLength='49.84px' lengthAdjust='spacingAndGlyphs'>[age, 730.62]</text>
+<text x='695.26' y='46.82' text-anchor='end' style='font-size: 8.54px; font-style: italic; font-family: sans;' textLength='96.32px' lengthAdjust='spacingAndGlyphs'>Full Model AIC  : 736.390</text>
+<text x='694.78' y='59.12' text-anchor='end' style='font-size: 8.54px; font-style: italic; font-family: sans;' textLength='98.70px' lengthAdjust='spacingAndGlyphs'>Final Model AIC : 730.620</text>
 <rect x='37.69' y='22.78' width='676.83' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
