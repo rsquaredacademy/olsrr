@@ -21,18 +21,8 @@ test_that("all possible regression betas are as expected", {
   
   model   <- lm(mpg ~ disp + hp + wt, data = mtcars)
   k       <- ols_step_all_possible_betas(model)
-  is_dt   <- is.data.table(k)
-  k_class <- class(k)
-
-  if(!is_dt) {
-    k <- data.table(k)
-  }
-
-  actual <- k[, list(beta = mean(beta)), by = predictor]
-  
-  if(!is_dt) {
-    class(actual) <- k_class
-  }
+  out     <- lapply(split(k$beta, k$predictor), mean)
+  actual  <- data.frame(predictor = names(out), beta = as.numeric(out))
 
   predictor <- c("(Intercept)", "disp", "hp", "wt")
   beta <- c(33.85901073, -0.02255579, -0.03899945, -4.09350456)

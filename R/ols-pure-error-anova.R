@@ -163,19 +163,9 @@ pred_table_length <- function(model) {
 
 predictor_mean <- function(data, pred_name, resp) {
 
-  is_dt   <- is.data.table(data)
-  d_class <- class(data)
-
-  if(!is_dt) {
-    data <- data.table(data)
-  }
-
-  out <- data[, list(mean = mean(get(resp))), by = pred_name]
-  if(!is_dt) {
-    class(out) <- d_class
-  }
-  
-  out[order(out[[1]]), ]
+  d   <- split(data[[resp]], data[[pred_name]])
+  out <- lapply(d, mean)
+  data.frame(n = names(out), mean = as.numeric(out))
 
 }
 

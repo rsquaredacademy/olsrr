@@ -202,27 +202,16 @@ all_possible_plot <- function(d, var, title = "R-Square") {
 
 }
 
-#' @import data.table
 all_pos_maxs <- function(d, var, title = "R-Square") {
 
-  n       <- NULL
-  is_dt   <- is.data.table(d)
-  d_class <- class(d)
-
-  if(!is_dt) {
-    d <- data.table(d)
-  }
+  n <- NULL
 
   if (title == "R-Square" | title == "Adj. R-Square") {
-    out <- d[, list(maximum = max(get(var))), by = n]
+    as.numeric(lapply(split(d[[var]], d$n), max))
   } else {
-    out <- d[, list(minimum = min(get(var))), by = n]
+    as.numeric(lapply(split(d[[var]], d$n), min))
   }
 
-  if(!is_dt) {
-    class(out) <- d_class
-  }
-  out[[2]]
 }
 
 all_pos_lmaxs <- function(maxs) {
@@ -235,17 +224,11 @@ all_pos_index <- function(d, var, title = "R-Square") {
 
   n       <- NULL
   index   <- c()
-  is_dt   <- is.data.table(d)
-  d_class <- class(d)
-
-  if(!is_dt) {
-    d <- data.table(d)
-  }
 
   if (title == "R-Square" | title == "Adj. R-Square") {
-    m <- d[, list(maximum = max(get(var))), by = n]
+    m <- as.numeric(lapply(split(d[[var]], d$n), max))
   } else {
-    m <- d[, list(minimum = min(get(var))), by = n]
+    m <- as.numeric(lapply(split(d[[var]], d$n), min))
   }
 
   colnames(m) <- c("n", var)
