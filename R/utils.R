@@ -66,6 +66,28 @@ l <- function(x) {
   return(out)
 }
 
+null_model_metrics <- function(model) {
+  
+  output <- summary(model)
+  anovam <- anova(model)
+  aic    <- ols_aic(model)
+  n      <- length(anovam$Df)
+  ess    <- anovam$`Sum Sq`[n]
+  tss    <- sum(anovam$`Sum Sq`)
+  rss    <- tss - ess
+  rsq    <- output$r.squared
+  adjr   <- output$adj.r.squared
+  rmse   <- sqrt(mean(model$residuals ^ 2))
+  
+  list(adjr = adjr,
+       aic  = aic,
+       ess  = ess,
+       rsq  = rsq,
+       rss  = rss,
+       rmse = rmse)
+  
+}
+
 #' @importFrom utils packageVersion menu install.packages
 check_suggests <- function(pkg) {
   

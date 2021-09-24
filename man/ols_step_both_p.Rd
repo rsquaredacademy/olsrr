@@ -4,21 +4,22 @@
 \alias{ols_step_both_p}
 \alias{ols_step_both_p.default}
 \alias{plot.ols_step_both_p}
-\alias{ols_stepwise}
 \title{Stepwise regression}
 \usage{
 ols_step_both_p(model, ...)
 
 \method{ols_step_both_p}{default}(
   model,
-  pent = 0.1,
-  prem = 0.3,
+  p_enter = 0.1,
+  p_remove = 0.3,
+  include = NULL,
+  exclude = NULL,
   progress = FALSE,
   details = FALSE,
   ...
 )
 
-\method{plot}{ols_step_both_p}(x, model = NA, print_plot = TRUE, ...)
+\method{plot}{ols_step_both_p}(x, model = NA, print_plot = TRUE, details = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}; the model should include all
@@ -26,11 +27,15 @@ candidate predictor variables.}
 
 \item{...}{Other arguments.}
 
-\item{pent}{p value; variables with p value less than \code{pent} will enter
+\item{p_enter}{p value; variables with p value less than \code{p_enter} will enter
 into the model.}
 
-\item{prem}{p value; variables with p more than \code{prem} will be removed
+\item{p_remove}{p value; variables with p more than \code{p_remove} will be removed
 from the model.}
+
+\item{include}{Character or numeric vector; variables to be included in selection process.}
+
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -47,29 +52,14 @@ An object of class \code{"ols_step_both_p"} is a list containing the
 following components:
 
 \item{model}{final model; an object of class \code{lm}}
-\item{orders}{candidate predictor variables according to the order by which they were added or removed from the model}
-\item{method}{addition/deletion}
-\item{steps}{total number of steps}
-\item{predictors}{variables retained in the model (after addition)}
-\item{rsquare}{coefficient of determination}
-\item{aic}{akaike information criteria}
-\item{sbc}{bayesian information criteria}
-\item{sbic}{sawa's bayesian information criteria}
-\item{adjr}{adjusted r-square}
-\item{rmse}{root mean square error}
-\item{mallows_cp}{mallow's Cp}
-\item{indvar}{predictors}
+\item{metrics}{selection metrics}
+\item{beta_pval}{beta and p values of models in each selection step}
 }
 \description{
 Build regression model from a set of candidate predictor variables by
 entering and removing predictors based on p values, in a stepwise manner
 until there is no variable left to enter or remove any more.
 }
-\section{Deprecated Function}{
-
-\code{ols_stepwise()} has been deprecated. Instead use \code{ols_step_both_p()}.
-}
-
 \examples{
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
@@ -82,6 +72,21 @@ plot(k)
 
 # final model
 k$model
+
+# include or exclude variables
+model <- lm(y ~ ., data = stepdata)
+
+# force variable to be included in selection process
+ols_step_both_p(model, include = c("x6"))
+
+# use index of variable instead of name
+ols_step_both_p(model, include = c(6))
+
+# force variable to be excluded from selection process
+ols_step_both_p(model, exclude = c("x1"))
+
+# use index of variable instead of name
+ols_step_both_p(model, exclude = c(1))
 
 }
 \references{

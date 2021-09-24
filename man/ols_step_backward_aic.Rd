@@ -4,20 +4,30 @@
 \alias{ols_step_backward_aic}
 \alias{ols_step_backward_aic.default}
 \alias{plot.ols_step_backward_aic}
-\alias{ols_stepaic_backward}
 \title{Stepwise AIC backward regression}
 \usage{
 ols_step_backward_aic(model, ...)
 
-\method{ols_step_backward_aic}{default}(model, progress = FALSE, details = FALSE, ...)
+\method{ols_step_backward_aic}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
 
-\method{plot}{ols_step_backward_aic}(x, print_plot = TRUE, ...)
+\method{plot}{ols_step_backward_aic}(x, print_plot = TRUE, details = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}; the model should include all
 candidate predictor variables.}
 
 \item{...}{Other arguments.}
+
+\item{include}{Character or numeric vector; variables to be included in selection process.}
+
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -33,25 +43,15 @@ each step.}
 An object of class \code{"ols_step_backward_aic"} is a list containing the
 following components:
 
-\item{model}{model with the least AIC; an object of class \code{lm}}
-\item{steps}{total number of steps}
-\item{predictors}{variables removed from the model}
-\item{aics}{akaike information criteria}
-\item{ess}{error sum of squares}
-\item{rss}{regression sum of squares}
-\item{rsq}{rsquare}
-\item{arsq}{adjusted rsquare}
+\item{model}{final model; an object of class \code{lm}}
+\item{metrics}{selection metrics}
+\item{others}{list; info used for plotting and printing}
 }
 \description{
 Build regression model from a set of candidate predictor variables by
 removing predictors based on akaike information criterion, in a stepwise
 manner until there is no variable left to remove any more.
 }
-\section{Deprecated Function}{
-
-\code{ols_stepaic_backward()} has been deprecated. Instead use \code{ols_step_backward_aic()}.
-}
-
 \examples{
 # stepwise backward regression
 model <- lm(y ~ ., data = surgical)
@@ -64,6 +64,19 @@ plot(k)
 
 # final model
 k$model
+
+# include or exclude variable
+# force variables to be included in the selection process
+ols_step_backward_aic(model, include = c("alc_mod", "gender"))
+
+# use index of variable instead of name
+ols_step_backward_aic(model, include = c(7, 6))
+
+# force variable to be excluded from selection process
+ols_step_backward_aic(model, exclude = c("alc_heavy", "bcs"))
+
+# use index of variable instead of name
+ols_step_backward_aic(model, exclude = c(8, 1))
 
 }
 \references{

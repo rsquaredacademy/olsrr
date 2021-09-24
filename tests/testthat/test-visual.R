@@ -1,9 +1,8 @@
-context("Visual Test")
-
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 
 test_that("residual histogram plot is as expected", {
   skip_on_cran()
+  skip_on_ci()
   p <- ols_plot_resid_hist(model)
   vdiffr::expect_doppelganger("ggplot2 histogram", p)
 })
@@ -127,8 +126,12 @@ test_that("stepAIC forward regression plot is as expected", {
 test_that("stepAIC both direction regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = surgical)
-  p <- plot(ols_step_both_aic(model))
-  vdiffr::expect_doppelganger("stepaic both regression plot", p)
+  
+  p1 <- plot(ols_step_both_aic(model))
+  vdiffr::expect_doppelganger("stepaic both regression plot details", p1)
+
+  p2 <- plot(ols_step_both_aic(model), details = FALSE)
+  vdiffr::expect_doppelganger("stepaic both regression plot", p2)
 })
 
 test_that("added variable plot is as expected", {
@@ -242,8 +245,6 @@ test_that("stepwise backward regression plots are as expected", {
   vdiffr::expect_doppelganger("step_back_2", p$plot_2)
   vdiffr::expect_doppelganger("step_back_3", p$plot_3)
   vdiffr::expect_doppelganger("step_back_4", p$plot_4)
-  vdiffr::expect_doppelganger("step_back_5", p$plot_5)
-  vdiffr::expect_doppelganger("step_back_6", p$plot_6)
 })
 
 test_that("stepwise forward regression plots are as expected", {
@@ -255,8 +256,6 @@ test_that("stepwise forward regression plots are as expected", {
   vdiffr::expect_doppelganger("step_forward_2", p$plot_2)
   vdiffr::expect_doppelganger("step_forward_3", p$plot_3)
   vdiffr::expect_doppelganger("step_forward_4", p$plot_4)
-  vdiffr::expect_doppelganger("step_forward_5", p$plot_5)
-  vdiffr::expect_doppelganger("step_forward_6", p$plot_6)
 })
 
 test_that("stepwise both regression plots are as expected", {
@@ -268,7 +267,5 @@ test_that("stepwise both regression plots are as expected", {
   vdiffr::expect_doppelganger("step_both_2", p$plot_2)
   vdiffr::expect_doppelganger("step_both_3", p$plot_3)
   vdiffr::expect_doppelganger("step_both_4", p$plot_4)
-  vdiffr::expect_doppelganger("step_both_5", p$plot_5)
-  vdiffr::expect_doppelganger("step_both_6", p$plot_6)
 })
 

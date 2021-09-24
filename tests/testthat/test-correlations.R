@@ -1,5 +1,3 @@
-context("correlations")
-
 model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 
 test_that("correlations output match", {

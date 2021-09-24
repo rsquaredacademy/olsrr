@@ -1,5 +1,3 @@
-context("info-criteria")
-
 fullmodel <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
 
 test_that("aic output matches expected result", {

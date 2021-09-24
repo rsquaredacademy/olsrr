@@ -4,19 +4,29 @@
 \alias{ols_step_forward_aic}
 \alias{ols_step_forward_aic.default}
 \alias{plot.ols_step_forward_aic}
-\alias{ols_stepaic_forward}
 \title{Stepwise AIC forward regression}
 \usage{
 ols_step_forward_aic(model, ...)
 
-\method{ols_step_forward_aic}{default}(model, progress = FALSE, details = FALSE, ...)
+\method{ols_step_forward_aic}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
 
-\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, ...)
+\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, details = TRUE, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
 \item{...}{Other arguments.}
+
+\item{include}{Character or numeric vector; variables to be included in selection process.}
+
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
 
 \item{progress}{Logical; if \code{TRUE}, will display variable selection progress.}
 
@@ -32,38 +42,45 @@ each step.}
 An object of class \code{"ols_step_forward_aic"} is a list containing the
 following components:
 
-\item{model}{model with the least AIC; an object of class \code{lm}}
-\item{steps}{total number of steps}
-\item{predictors}{variables added to the model}
-\item{aics}{akaike information criteria}
-\item{ess}{error sum of squares}
-\item{rss}{regression sum of squares}
-\item{rsq}{rsquare}
-\item{arsq}{adjusted rsquare}
+\item{model}{final model; an object of class \code{lm}}
+\item{metrics}{selection metrics}
+\item{others}{list; info used for plotting and printing}
 }
 \description{
 Build regression model from a set of candidate predictor variables by
 entering predictors based on akaike information criterion, in a stepwise
 manner until there is no variable left to enter any more.
 }
-\section{Deprecated Function}{
-
-\code{ols_stepaic_forward()} has been deprecated. Instead use \code{ols_step_forward_aic()}.
-}
-
 \examples{
 # stepwise forward regression
 model <- lm(y ~ ., data = surgical)
 ols_step_forward_aic(model)
 
 # stepwise forward regression plot
-model <- lm(y ~ ., data = surgical)
 k <- ols_step_forward_aic(model)
 plot(k)
 
-# final model
+# extract final model
 k$model
 
+# include or exclude variables
+# force variable to be included in selection process
+ols_step_forward_aic(model, include = c("age"))
+
+# use index of variable instead of name
+ols_step_forward_aic(model, include = c(5))
+
+# force variable to be excluded from selection process
+ols_step_forward_aic(model, exclude = c("liver_test"))
+
+# use index of variable instead of name
+ols_step_forward_aic(model, exclude = c(4))
+
+# include & exclude variables in the selection process
+ols_step_forward_aic(model, include = c("age"), exclude = c("liver_test"))
+
+# use index of variable instead of name
+ols_step_forward_aic(model, include = c(5), exclude = c(4))
 
 }
 \references{

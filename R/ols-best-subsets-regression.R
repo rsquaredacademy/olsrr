@@ -6,35 +6,21 @@
 #' model is R2 but the user can choose any of the other available metrics.
 #'
 #' @param model An object of class \code{lm}.
+#' @param include Character or numeric vector; variables to be included in selection process.
+#' @param exclude Character or numeric vector; variables to be excluded from selection process.
 #' @param metric Metric to select model.
 #' @param x An object of class \code{ols_step_best_subset}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other inputs.
 #'
 #' @return \code{ols_step_best_subset} returns an object of class \code{"ols_step_best_subset"}.
-#' An object of class \code{"ols_step_best_subset"} is a data frame containing the
-#' following components:
+#' An object of class \code{"ols_step_best_subset"} is a list containing the following:
 #'
-#' \item{n}{model number}
-#' \item{predictors}{predictors in the model}
-#' \item{rsquare}{rsquare of the model}
-#' \item{adjr}{adjusted rsquare of the model}
-#' \item{predrsq}{predicted rsquare of the model}
-#' \item{cp}{mallow's Cp}
-#' \item{aic}{akaike information criteria}
-#' \item{sbic}{sawa bayesian information criteria}
-#' \item{sbc}{schwarz bayes information criteria}
-#' \item{gmsep}{estimated MSE of prediction, assuming multivariate normality}
-#' \item{jp}{final prediction error}
-#' \item{pc}{amemiya prediction criteria}
-#' \item{sp}{hocking's Sp}
+#' \item{metrics}{selection metrics}
 #'
 #' @references
 #' Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical Models (5th edition).
 #' Chicago, IL., McGraw Hill/Irwin.
-#'
-#' @section Deprecated Function:
-#' \code{ols_best_subset()} has been deprecated. Instead use \code{ols_step_best_subset()}.
 #'
 #' @family variable selection procedures
 #'
@@ -49,16 +35,20 @@
 #' k <- ols_step_best_subset(model)
 #' plot(k)
 #'
+#' # return only models including `qsec`
+#' ols_step_best_subset(model, include = c("qsec"))
+#'
+#' # exclude `hp` from selection process
+#' ols_step_best_subset(model, exclude = c("hp"))
+#'
 #' @export
 #'
-ols_step_best_subset <- function(model, metric = c("rsquare", "adjr", "predrsq",
-                                                   "cp", "aic", "sbic", "sbc",
-                                                   "msep", "fpe", "apc", "hsp"),
-                                 ...) UseMethod("ols_step_best_subset")
+ols_step_best_subset <- function(model, ...) UseMethod("ols_step_best_subset")
 
 #' @export
-#'
-ols_step_best_subset.default <- function(model,
+#' @rdname ols_step_best_subset
+#' 
+ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
                                          metric = c("rsquare", "adjr", "predrsq",
                                                     "cp", "aic", "sbic", "sbc",
                                                     "msep", "fpe", "apc", "hsp"),
@@ -67,7 +57,40 @@ ols_step_best_subset.default <- function(model,
   check_model(model)
   check_npredictors(model, 3)
 
-  nam   <- coeff_names(model)
+  indterms <- coeff_names(model)
+  lenterms <- length(indterms)
+
+  if (is.character(include)) {
+    npm <- include %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(include[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly included. Please verify the variable names."), call. = FALSE)
+    }
+  }
+
+  if (is.character(exclude)) {
+    npm <- exclude %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
+    }
+  }
+  
+  if (is.numeric(include)) {
+    if (any(include > lenterms)) {
+      stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
+    } else {
+      include <- indterms[include]
+    }
+  }
+
+  if (is.numeric(exclude)) {
+    if (any(exclude > lenterms)) {
+      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)  
+    } else {
+      exclude <- indterms[exclude]
+    }
+  }
+
+  nam   <- setdiff(coeff_names(model), exclude)
   n     <- length(nam)
   r     <- seq_len(n)
   combs <- list()
@@ -78,16 +101,25 @@ ols_step_best_subset.default <- function(model,
 
   lc        <- length(combs)
   varnames  <- model_colnames(model)
-  predicts  <- nam
-  len_preds <- length(predicts)
-  gap       <- len_preds - 1
-  space     <- coeff_length(predicts, gap)
   data      <- model$model
   colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
-  p         <- colas
-  t         <- cumsum(colas)
-  q         <- c(1, t[-lc] + 1)
+  predicts  <- list()
+  k         <- 1
+
+  for (i in seq_len(lc)) {
+    for (j in seq_len(colas[i])) {
+      predicts[[k]] <- nam[combs[[i]][, j]]
+      k <- k + 1
+    }
+  }
+
+  if(!is.null(include)) {
+    y <- grep(include, predicts)
+    predicts <- predicts[y]
+  }
+
+  len_elig <- length(predicts)
 
   mcount    <- 0
   rsq       <- list()
@@ -106,13 +138,10 @@ ols_step_best_subset.default <- function(model,
   preds     <- list()
   lpreds    <- c()
 
-  for (i in seq_len(lc)) {
-    for (j in seq_len(colas[i])) {
-      predictors        <- nam[combs[[i]][, j]]
+  for (i in seq_len(len_elig)) {
+      predictors        <- predicts[[i]]
       lp                <- length(predictors)
-      out               <- ols_regress(paste(response, "~",
-                                       paste(predictors, collapse = " + ")),
-                                       data = data)
+      out               <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = data)
       mcount            <- mcount + 1
       lpreds[mcount]    <- lp
       rsq[[mcount]]     <- out$rsq
@@ -127,7 +156,6 @@ ols_step_best_subset.default <- function(model,
       sp[[mcount]]      <- ols_hsp(out$model)
       predrsq[[mcount]] <- ols_pred_rsq(out$model)
       preds[[mcount]]   <- paste(predictors, collapse = " ")
-    }
   }
 
   ui <- data.frame(
@@ -151,32 +179,24 @@ ols_step_best_subset.default <- function(model,
 
   sorted <- c()
 
-  for (i in seq_len(lc)) {
-    temp   <- ui[q[i]:t[i], ]
-    if (metrics == "rsquare" || metrics == "adjr" || metrics == "predrsq") {
-      temp   <- temp[order(temp[[metrics]], decreasing = TRUE), ]
-    } else {
-      temp   <- temp[order(temp[[metrics]]), ]
-    }
-    sorted <- rbind(sorted, temp[1, ])
-  }
+  l <- split(ui, ui$n)
 
+  if (metrics == "rsquare" || metrics == "adjr" || metrics == "predrsq") {
+    temp <- lapply(l, function(x) x[order(x[[metrics]], decreasing = TRUE), ][1, ])
+  } else {
+    temp <- lapply(l, function(x) x[order(x[[metrics]]), ][1, ])
+  }
+  
+  sorted <- do.call(rbind, temp)
   mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
 
-  class(sorted) <- c("ols_step_best_subset", "data.frame")
-  return(sorted)
+  result <- list(metrics = sorted)
+
+  class(result) <- c("ols_step_best_subset")
+  return(result)
 
 }
-
-#' @export
-#' @rdname ols_step_best_subset
-#' @usage NULL
-#'
-ols_best_subset <- function(model, ...) {
-  .Deprecated("ols_step_best_subset()")
-}
-
 
 #' @export
 #'
@@ -199,8 +219,8 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
   b       <- NULL
 
 
-  d <- data.frame(mindex = x$mindex, rsquare = x$rsquare, adjr = x$adjr,
-               cp = x$cp, aic = x$aic, sbic = x$sbic, sbc = x$sbc)
+  d <- data.frame(mindex = x$metrics$mindex, rsquare = x$metrics$rsquare, adjr = x$metrics$adjr,
+               cp = x$metrics$cp, aic = x$metrics$aic, sbic = x$metrics$sbic, sbc = x$metrics$sbc)
 
   p1 <- best_subset_plot(d, "rsquare")
   p2 <- best_subset_plot(d, "adjr", title = "Adj. R-Square")

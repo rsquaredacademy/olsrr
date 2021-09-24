@@ -6,6 +6,8 @@
 #' manner until there is no variable left to enter any more.
 #'
 #' @param model An object of class \code{lm}.
+#' @param include Character or numeric vector; variables to be included in selection process.
+#' @param exclude Character or numeric vector; variables to be excluded from selection process.
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
@@ -16,20 +18,12 @@
 #' An object of class \code{"ols_step_forward_aic"} is a list containing the
 #' following components:
 #'
-#' \item{model}{model with the least AIC; an object of class \code{lm}}
-#' \item{steps}{total number of steps}
-#' \item{predictors}{variables added to the model}
-#' \item{aics}{akaike information criteria}
-#' \item{ess}{error sum of squares}
-#' \item{rss}{regression sum of squares}
-#' \item{rsq}{rsquare}
-#' \item{arsq}{adjusted rsquare}
+#' \item{model}{final model; an object of class \code{lm}}
+#' \item{metrics}{selection metrics}
+#' \item{others}{list; info used for plotting and printing}
 #'
 #' @references
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
-#'
-#' @section Deprecated Function:
-#' \code{ols_stepaic_forward()} has been deprecated. Instead use \code{ols_step_forward_aic()}.
 #'
 #' @examples
 #' # stepwise forward regression
@@ -37,13 +31,30 @@
 #' ols_step_forward_aic(model)
 #'
 #' # stepwise forward regression plot
-#' model <- lm(y ~ ., data = surgical)
 #' k <- ols_step_forward_aic(model)
 #' plot(k)
 #'
-#' # final model
+#' # extract final model
 #' k$model
 #'
+#' # include or exclude variables
+#' # force variable to be included in selection process
+#' ols_step_forward_aic(model, include = c("age"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_aic(model, include = c(5))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_forward_aic(model, exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_aic(model, exclude = c(4))
+#'
+#' # include & exclude variables in the selection process
+#' ols_step_forward_aic(model, include = c("age"), exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_aic(model, include = c(5), exclude = c(4))
 #'
 #' @family variable selection procedures
 #'
@@ -54,32 +65,72 @@ ols_step_forward_aic <- function(model, ...) UseMethod("ols_step_forward_aic")
 #' @export
 #' @rdname ols_step_forward_aic
 #'
-ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALSE, ...) {
+ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
-    progress <- TRUE
+    progress <- FALSE
   }
 
   check_model(model)
   check_logic(details)
+  check_logic(progress)
   check_npredictors(model, 3)
 
   response <- names(model$model)[1]
   l        <- model$model
-  nam      <- coeff_names(model)
+  indterms <- coeff_names(model)
+  lenterms <- length(indterms)
+
+  if (is.character(include)) {
+    npm <- include %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(include[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly included. Please verify the variable names."), call. = FALSE)
+    }
+  }
+
+  if (is.character(exclude)) {
+    npm <- exclude %in% indterms
+    if (!all(npm)) {
+      stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
+    }
+  }
+  
+  if (is.numeric(include)) {
+    if (any(include > lenterms)) {
+      stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
+    } else {
+      include <- indterms[include]
+    }
+  }
+
+  if (is.numeric(exclude)) {
+    if (any(exclude > lenterms)) {
+      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)  
+    } else {
+      exclude <- indterms[exclude]
+    }
+  }
+
+  lockterm <- c(include, exclude)
+  nam      <- setdiff(indterms, lockterm)
   all_pred <- nam
   mlen_p   <- length(all_pred)
-  preds    <- c()
-  step     <- 1
+  preds    <- include
   aics     <- c()
   ess      <- c()
   rss      <- c()
   rsq      <- c()
   arsq     <- c()
-  mo       <- lm(paste(response, "~", 1), data = l)
-  aic1     <- ols_aic(mo)
 
-  if (progress) {
+  if (is.null(include)) {
+    base_model <- lm(paste(response, "~", 1), data = l)
+  } else {
+    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
+  }
+
+  aic1 <- ols_aic(base_model)
+
+  if (progress || details) {
     cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
     cat(rep("-", 24), sep = "", "\n\n")
     cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
@@ -87,15 +138,25 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
       cat(paste(i, ".", nam[i]), "\n")
     }
     cat("\n")
+  }
 
-    if (details) {
-      cat(" Step 0: AIC =", aic1, "\n", paste(response, "~", 1, "\n\n"))
-    }
+  if (details) {
+    cat("\n")
+      if (is.null(include)) {
+        cat("Step  => 0", "\n")
+        cat("Model =>", paste(response, "~", 1, "\n"))
+        cat("AIC   =>", aic1, "\n\n")
+      } else {
+        cat("Step  => 0", "\n")
+        cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+        cat("AIC   =>", aic1, "\n\n")
+      }
+      cat("Initiating stepwise selection...", "\n\n")
   }
 
   for (i in seq_len(mlen_p)) {
 
-    predictors <- all_pred[i]
+    predictors <- c(include, all_pred[i])
     k <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
 
     aics[i] <- ols_aic(k$model)
@@ -113,12 +174,13 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     w2 <- 2
     w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
     w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-    w5 <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+    w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
     w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
     w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
     w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
     ln <- length(aics)
 
+    cat(format("Information Criteria Table", justify = "centre", width = w), "\n")
     cat(rep("-", w), sep = "", "\n")
     cat(
       fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
@@ -129,8 +191,10 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
     for (i in seq_len(ln)) {
       cat(
-        fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
+        fl(da2[i, 1], w1), fs(), fg(1, w2), fs(),
+        fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(),
+        fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
         fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
         fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
       )
@@ -145,8 +209,8 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
   lrss     <- rss[minc]
   lrsq     <- rsq[minc]
   larsq    <- arsq[minc]
-  preds    <- all_pred[minc]
-  lpreds   <- length(preds)
+  preds    <- c(preds, all_pred[minc])
+  lpreds   <- length(preds) - length(include)
   all_pred <- all_pred[-minc]
   len_p    <- length(all_pred)
   step     <- 1
@@ -159,11 +223,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
   }
 
   if (progress) {
-    if (interactive()) {
-      cat("+", tail(preds, n = 1), "\n")
-    } else {
-      cat(paste("-", tail(preds, n = 1)), "\n")
-    }
+    cat(paste("=>", tail(preds, n = 1)), "\n")
   }
 
   while (step < mlen_p) {
@@ -174,43 +234,43 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
     rsst <- c()
     rsq  <- c()
     arsq <- c()
-    mo   <- ols_regress(paste(response, "~",
-                            paste(preds, collapse = " + ")), data = l)
+    mo   <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
     aic1 <- ols_aic(mo$model)
 
     if (details) {
-      cat("\n\n", "Step", step, ": AIC =", aic1, "\n", paste(response, "~", paste(preds, collapse = " + "), "\n\n"))
+      cat("Step     =>", step, "\n")
+      cat("Selected =>", tail(preds, n = 1), "\n")
+      cat("Model    =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+      cat("AIC      =>", aic1, "\n\n")
     }
 
     for (i in seq_len(len_p)) {
 
       predictors <- c(preds, all_pred[i])
-      k <- ols_regress(paste(response, "~",
-                             paste(predictors, collapse = " + ")), data = l)
-
-      aics[i] <- ols_aic(k$model)
-      ess[i]  <- k$ess
-      rsst[i] <- k$rss
-      rss[i]  <- round(k$rss - mo$rss, 3)
-      rsq[i]  <- k$rsq
-      arsq[i] <- k$adjr
+      k          <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+      aics[i]    <- ols_aic(k$model)
+      ess[i]     <- k$ess
+      rsst[i]    <- k$rss
+      rss[i]     <- round(k$rss - mo$rss, 3)
+      rsq[i]     <- k$rsq
+      arsq[i]    <- k$adjr
     }
 
     if (details) {
 
       da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-      # da2 <- arrange(da, desc(rss))
       da2 <- da[order(-da$rss), ]
       w1  <- max(nchar("Predictor"), nchar(as.character(da2$predictors)))
       w2  <- 2
       w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
       w4  <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-      w5  <- max(nchar("RSS"), nchar(format(round(ess, 3), nsmall = 3)))
+      w5  <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
       w6  <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
       w7  <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
       w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
       ln  <- length(aics)
 
+      cat(format("Information Criteria Table", justify = "centre", width = w), "\n")
       cat(rep("-", w), sep = "", "\n")
       cat(
         fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
@@ -221,8 +281,10 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 
       for (i in seq_len(ln)) {
         cat(
-          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
+          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(),
+          fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
+          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(),
+          fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
           fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
           fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
         )
@@ -246,58 +308,51 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
       lrss     <- c(lrss, mrss)
       lrsq     <- c(lrsq, mrsq)
       larsq    <- c(larsq, marsq)
-      lpreds   <- length(preds)
+      lpreds   <- length(preds) - length(include)
       all_pred <- all_pred[-minaic]
       len_p    <- length(all_pred)
       step     <- step + 1
 
       if (progress) {
-        if (interactive()) {
-          cat("+", tail(preds, n = 1), "\n")
-        } else {
-          cat(paste("-", tail(preds, n = 1)), "\n")
-        }
+        cat(paste("=>", tail(preds, n = 1)), "\n")
       }
     } else {
-      if (progress) {
+      if (progress || details) {
         cat("\n")
-        cat("No more variables to be added.")
+        cat("No more variables to be added.", "\n")
+        cat("\n")
       }
       break
     }
   }
 
   if (details) {
-    cat("\n\n")
-    cat("Variables Entered:", "\n\n")
+    cat("\n")
+    cat("Variables Selected:", "\n\n")
     for (i in seq_len(length(preds))) {
-      if (interactive()) {
-        cat("+", preds[i], "\n")
-      } else {
-        cat(paste("-", preds[i]), "\n")
-      }
+      cat(paste("=>", preds[i]), "\n")
     }
-  }
-
-  if (progress) {
-    cat("\n\n")
-    cat("Final Model Output", "\n")
-    cat(rep("-", 18), sep = "", "\n\n")
-
-    fi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-    print(fi)
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-  out <- list(aics       = laic,
-              arsq       = larsq,
-              ess        = less,
-              model      = final_model,
-              predictors = preds,
-              rsq        = lrsq,
-              rss        = lrss,
-              steps      = step)
+  if (is.null(include)) {
+    var_selected <- preds
+  } else {
+    var_selected <- preds[-seq_len(length(include))]
+  }
+
+  metrics     <- data.frame(step     = seq_len(step),
+                            variable = var_selected,
+                            r2       = lrsq,
+                            adj_r2   = larsq,
+                            aic      = laic,
+                            rss      = lrss,
+                            ess      = less)
+
+  out <- list(metrics = metrics,
+              model   = final_model,
+              others  = list(base_model = base_model))
 
 
   class(out) <- "ols_step_forward_aic"
@@ -308,7 +363,7 @@ ols_step_forward_aic.default <- function(model, progress = FALSE, details = FALS
 #' @export
 #'
 print.ols_step_forward_aic <- function(x, ...) {
-  if (x$steps > 0) {
+  if (length(x$metrics$step) > 0) {
     print_stepaic_forward(x)
   } else {
     print("No variables have been added to the model.")
@@ -318,32 +373,53 @@ print.ols_step_forward_aic <- function(x, ...) {
 #' @rdname ols_step_forward_aic
 #' @export
 #'
-plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
+plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
-  aic <- NULL
   tx  <- NULL
   a   <- NULL
   b   <- NULL
 
-  y    <- seq_len(x$steps)
-  xloc <- y - 0.1
-  yloc <- x$aics - 0.2
-  xmin <- min(y) - 1
+  step <- x$metrics$step
+  aic  <- x$metrics$aic
+
+  if (details) {
+    x$metrics$text <- paste0("[", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]")
+    pred <- x$metrics$text
+  } else {
+    pred <- x$metrics$variable
+  }
+  
+  y    <- step
+  xloc <- y
+  yloc <- aic
+  xmin <- min(y) - 0.4
   xmax <- max(y) + 1
-  ymin <- min(x$aic) - 1
-  ymax <- max(x$aic) + 1
+  ymin <- min(aic) - (min(aic) * 0.05)
+  ymax <- max(aic) + (max(aic) * 0.05)
 
-  predictors <- x$predictors
+  d2 <- data.frame(x = xloc, y = yloc, tx = pred)
+  d  <- data.frame(a = y, b = aic)
 
-  d2 <- data.frame(x = xloc, y = yloc, tx = predictors)
-  d  <- data.frame(a = y, b = x$aics)
+  # metric info
+  base_model_aic  <- round(ols_aic(x$others$base_model), 3)
+  final_model_aic <- round(ols_aic(x$model), 3)
+  metric_info <- paste0("Base Model AIC  : ", format(base_model_aic, nsmall = 3), "\n",
+                        "Final Model AIC : ", format(final_model_aic, nsmall = 3))
 
   p <-
-    ggplot(d, aes(x = a, y = b)) + geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) + xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + xlab("Step") + ylab("AIC") +
+    ggplot(d, aes(x = a, y = b)) + 
+    geom_line(color = "blue") +
+    geom_point(color = "blue", shape = 1, size = 2) + 
+    xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax)) + 
+    xlab("Step") + 
+    ylab("AIC") +
     ggtitle("Stepwise AIC Forward Selection") +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), hjust = 0, nudge_x = 0.1)
+    geom_text(data = d2, aes(x = x, y = y, label = tx), size = 3,
+              hjust = "left", vjust = "bottom", nudge_x = 0.1) +
+    annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
+             family = "serif", fontface = "italic", size = 3,
+             label = metric_info)
 
   if (print_plot) {
     print(p)
@@ -351,13 +427,4 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, ...) {
     return(p)
   }
 
-}
-
-
-#' @export
-#' @rdname ols_step_forward_aic
-#' @usage NULL
-#'
-ols_stepaic_forward <- function(model, ...) {
-  .Deprecated("ols_step_forward_aic()")
 }

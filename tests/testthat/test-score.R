@@ -1,5 +1,3 @@
-context("score_test")
-
 model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 
 test_that("when fitted.values == TRUE, fitted values from the regression\n\tare used for the test", {
@@ -22,7 +20,7 @@ test_that("when fitted.values == TRUE and rhs == TRUE, predictors from the\n\tmo
   expect_equal(b$df, 5)
   expect_false(b$fv)
   expect_true(b$rhs)
-  expect_equivalent(b$preds, c("disp", "hp", "wt", "drat", "qsec"))
+  expect_equal(b$preds, c("disp", "hp", "wt", "drat", "qsec"), ignore_attr = TRUE)
   expect_match(b$resp, "mpg")
 })
 
@@ -35,7 +33,7 @@ test_that("when vars != NULL, variables specified from the are\n\tused for the t
   expect_equal(b$df, 2)
   expect_false(b$fv)
   expect_false(b$rhs)
-  expect_equivalent(b$preds, c("disp", "hp"))
+  expect_equal(b$preds, c("disp", "hp"), ignore_attr = TRUE)
   expect_match(b$resp, "mpg")
 })
 
@@ -48,7 +46,7 @@ test_that("when vars != NULL and rhs == TRUE, predictors in the model are\n\tuse
   expect_equal(b$df, 5)
   expect_false(b$fv)
   expect_true(b$rhs)
-  expect_equivalent(b$preds, c("disp", "hp", "wt", "drat", "qsec"))
+  expect_equal(b$preds, c("disp", "hp", "wt", "drat", "qsec"), ignore_attr = TRUE)
   expect_match(b$resp, "mpg")
 })
 

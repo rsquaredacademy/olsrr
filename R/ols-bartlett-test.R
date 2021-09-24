@@ -37,8 +37,6 @@
 #' ols_test_bartlett(hsb, 'read', 'write')
 #'
 #' @importFrom stats pchisq formula
-#' @useDynLib olsrr, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
 #'
 #' @export
 #'
@@ -64,7 +62,8 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
       stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    out       <- gvar(ln, ly)
+    out       <- rep(ly, times = ln)
+    # out       <- gvar(ln, ly)
     fdata     <- unlist(z)
     groupvars <- as.factor(unlist(out))
   

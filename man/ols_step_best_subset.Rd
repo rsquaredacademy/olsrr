@@ -2,12 +2,16 @@
 % Please edit documentation in R/ols-best-subsets-regression.R
 \name{ols_step_best_subset}
 \alias{ols_step_best_subset}
-\alias{ols_best_subset}
+\alias{ols_step_best_subset.default}
 \alias{plot.ols_step_best_subset}
 \title{Best subsets regression}
 \usage{
-ols_step_best_subset(
+ols_step_best_subset(model, ...)
+
+\method{ols_step_best_subset}{default}(
   model,
+  include = NULL,
+  exclude = NULL,
   metric = c("rsquare", "adjr", "predrsq", "cp", "aic", "sbic", "sbc", "msep", "fpe",
     "apc", "hsp"),
   ...
@@ -18,9 +22,13 @@ ols_step_best_subset(
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
-\item{metric}{Metric to select model.}
-
 \item{...}{Other inputs.}
+
+\item{include}{Character or numeric vector; variables to be included in selection process.}
+
+\item{exclude}{Character or numeric vector; variables to be excluded from selection process.}
+
+\item{metric}{Metric to select model.}
 
 \item{x}{An object of class \code{ols_step_best_subset}.}
 
@@ -28,22 +36,9 @@ ols_step_best_subset(
 }
 \value{
 \code{ols_step_best_subset} returns an object of class \code{"ols_step_best_subset"}.
-An object of class \code{"ols_step_best_subset"} is a data frame containing the
-following components:
+An object of class \code{"ols_step_best_subset"} is a list containing the following:
 
-\item{n}{model number}
-\item{predictors}{predictors in the model}
-\item{rsquare}{rsquare of the model}
-\item{adjr}{adjusted rsquare of the model}
-\item{predrsq}{predicted rsquare of the model}
-\item{cp}{mallow's Cp}
-\item{aic}{akaike information criteria}
-\item{sbic}{sawa bayesian information criteria}
-\item{sbc}{schwarz bayes information criteria}
-\item{gmsep}{estimated MSE of prediction, assuming multivariate normality}
-\item{jp}{final prediction error}
-\item{pc}{amemiya prediction criteria}
-\item{sp}{hocking's Sp}
+\item{metrics}{selection metrics}
 }
 \description{
 Select the subset of predictors that do the best at meeting some
@@ -51,11 +46,6 @@ well-defined objective criterion, such as having the largest R2 value or the
 smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
 model is R2 but the user can choose any of the other available metrics.
 }
-\section{Deprecated Function}{
-
-\code{ols_best_subset()} has been deprecated. Instead use \code{ols_step_best_subset()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_step_best_subset(model)
@@ -66,6 +56,12 @@ ols_step_best_subset(model, metric = "cp")
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 k <- ols_step_best_subset(model)
 plot(k)
+
+# return only models including `qsec`
+ols_step_best_subset(model, include = c("qsec"))
+
+# exclude `hp` from selection process
+ols_step_best_subset(model, exclude = c("hp"))
 
 }
 \references{

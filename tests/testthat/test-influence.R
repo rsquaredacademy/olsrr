@@ -1,5 +1,3 @@
-context("influence")
-
 model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
 
 test_that("leverage matches hat from influence.measures", {
