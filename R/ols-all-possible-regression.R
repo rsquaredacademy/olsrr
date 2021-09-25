@@ -146,9 +146,9 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 
   if (print_plot) {
     marrangeGrob(myplots, nrow = 2, ncol = 2)
+  } else {
+    return(myplots)
   }
-
-  return(myplots)
 
 }
 
@@ -185,9 +185,9 @@ all_possible_plot <- function(d, var, title = "R-Square") {
     xlab("") + ylab("") + ggtitle(title) +
     geom_point(data = d2, aes(x = x, y = y, shape = factor(shape),
       color = factor(shape), size = factor(size))) +
-    scale_shape_manual(values = c(2), guide = FALSE) +
-    scale_size_manual(values = c(4), guide = FALSE) +
-    scale_color_manual(values = c("red"), guide = FALSE) +
+    scale_shape_manual(values = c(2), guide = "none") +
+    scale_size_manual(values = c(4), guide = "none") +
+    scale_color_manual(values = c("red"), guide = "none") +
     geom_text(data = d2, aes(label = tx), hjust = 0, nudge_x = 0.1)
 
 }
@@ -216,13 +216,15 @@ all_pos_index <- function(d, var, title = "R-Square") {
   index   <- c()
 
   if (title == "R-Square" | title == "Adj. R-Square") {
-    m <- as.numeric(lapply(split(d[[var]], d$n), max))
+    n <- as.numeric(lapply(split(d[[var]], d$n), max))
+    m <- data.frame(n = seq_len(length(n)), maximum = n)
   } else {
-    m <- as.numeric(lapply(split(d[[var]], d$n), min))
+    n <- as.numeric(lapply(split(d[[var]], d$n), min))
+    m <- data.frame(n = seq_len(length(n)), minimum = n)
   }
 
   colnames(m) <- c("n", var)
-  k  <- split(d, by = "n")
+  k  <- split(d[c("index", var)], d$n)
 
   for (i in m$n) {
     j <- which(part_2(m, var, i) == part_3(k, var, i))
