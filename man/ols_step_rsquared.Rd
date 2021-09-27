@@ -10,6 +10,7 @@ ols_step_rsquared(model, ...)
 
 \method{ols_step_rsquared}{default}(
   model,
+  metric = c("r2", "adj_r2"),
   direction = c("forward", "backward", "both"),
   include = NULL,
   exclude = NULL,
@@ -24,6 +25,8 @@ ols_step_rsquared(model, ...)
 \item{model}{An object of class \code{lm}.}
 
 \item{...}{Other arguments.}
+
+\item{metric}{R-Squared or adjusted R-squared.}
 
 \item{direction}{Stepwise direction; one among \code{forward}, \code{backward} or \code{both}.}
 
