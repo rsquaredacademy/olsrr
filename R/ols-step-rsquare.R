@@ -26,7 +26,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' # stepwise regression
+#' # stepwise forward r-squared regression
 #' model <- lm(y ~ ., data = stepdata)
 #' ols_step_rsquared(model)
 #'
@@ -38,26 +38,15 @@
 #' # final model
 #' k$model
 #'
-#' # include or exclude variables
+#' # use adjusted r-squared
 #' # force variable to be included in selection process
-#' model <- lm(y ~ ., data = stepdata)
+#' ols_step_rsquared(model, metric = "adj_r2")
 #'
-#' ols_step_rsquared(model, include = c("x6"))
+#' # stepwise backward regression
+#' ols_step_rsquared(model, metric = "adj_r2", direction = "backward")
 #'
-#' # use index of variable instead of name
-#' ols_step_rsquared(model, include = c(6))
-#'
-#' # force variable to be excluded from selection process
-#' ols_step_rsquared(model, exclude = c("x2"))
-#'
-#' # use index of variable instead of name
-#' ols_step_rsquared(model, exclude = c(2))
-#'
-#' # include & exclude variables in the selection process
-#' ols_step_rsquared(model, include = c("x6"), exclude = c("x2"))
-#'
-#' # use index of variable instead of name
-#' ols_step_rsquared(model, include = c(6), exclude = c(2))
+#' # stepwise both direction regression
+#' ols_step_rsquared(model, metric = "adj_r2", direction = "both")
 #' }
 #'
 #' @family variable selection procedures
@@ -66,8 +55,9 @@
 #'
 ols_step_rsquared <- function(model, ...) UseMethod("ols_step_rsquared")
 
-#' @export
 #' @rdname ols_step_rsquared
+#' @export
+#'
 ols_step_rsquared.default <- function(model, metric = c("r2", "adj_r2"), direction = c("forward", "backward", "both"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   method <- match.arg(direction)
@@ -82,6 +72,7 @@ ols_step_rsquared.default <- function(model, metric = c("r2", "adj_r2"), directi
   }
 }
 
+#' @rdname ols_step_rsquared
 #' @export
 #'
 print.ols_step_rsquared <- function(x, ...) {
@@ -100,7 +91,16 @@ print.ols_step_rsquared <- function(x, ...) {
 }
 
 #' @rdname ols_step_rsquared
+#' @export
 #'
 plot.ols_step_rsquared <- function(x, print_plot = TRUE, details = TRUE, ...) {
-  NULL
+
+  if (x$others$direction == "forward") {
+    plot_rsquared_forward(x, print_plot, details)
+  } else if (x$others$direction == "backward") {
+    plot_rsquared_backward(x, print_plot, details)
+  } else {
+    plot_rsquared_both(x, print_plot, details)
+  }
+
 }

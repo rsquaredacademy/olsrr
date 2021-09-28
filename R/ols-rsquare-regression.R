@@ -332,7 +332,8 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
   out <- list(metrics = metrics,
               model   = final_model,
               others  = list(base_model = base_model,
-                             direction  = "forward"))
+                             direction  = "forward",
+                             metric     = metric))
 
 
   class(out) <- "ols_step_rsquared"
@@ -655,7 +656,8 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
   out <- list(metrics = metrics,
               model   = final_model,
               others  = list(full_model = model,
-                             direction  = "backward"))
+                             direction  = "backward",
+                             metric     = metric))
 
   class(out) <- "ols_step_rsquared"
 
@@ -1041,7 +1043,8 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
   out <- list(metrics = metrics,
               model   = final_model,
               others   = list(base_model = base_model,
-                              direction  = "both"))
+                              direction  = "both",
+                              metric     = metric))
 
   class(out) <- "ols_step_rsquared"
 
