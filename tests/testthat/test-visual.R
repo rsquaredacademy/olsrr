@@ -14,7 +14,7 @@ test_that("hadi plot is as expected", {
 })
 
 test_that("observed vs predicted plot is as expected", {
-  skip_if(getRversion() > '4.0.3')
+  # skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   p <- ols_plot_obs_fit(model)
   vdiffr::expect_doppelganger("ovsp plot", p)
@@ -45,7 +45,7 @@ test_that("residual fit spread plot 2 is as expected", {
 })
 
 test_that("residual qq plot is as expected", {
-  skip_if(getRversion() > '4.0.3')
+  # skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   p <- ols_plot_resid_qq(model)
   vdiffr::expect_doppelganger("residual qq plot", p)
@@ -143,7 +143,7 @@ test_that("added variable plot is as expected", {
 })
 
 test_that("all possible regression plots are as expected", {
-  skip_if(getRversion() > '4.0.3')
+  # skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   model <- lm(mpg ~ disp + hp, data = mtcars)
   k     <- ols_step_all_possible(model)
@@ -181,7 +181,7 @@ test_that("dfbetas plot is as expected", {
 })
 
 test_that("diagnostics panel is as expected", {
-  skip_if(getRversion() > '4.0.3')
+  # skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
   p <- ols_plot_diagnostics(model, print_plot = FALSE)
@@ -199,7 +199,7 @@ test_that("diagnostics panel is as expected", {
 
 
 test_that("fitted line plot is as expected", {
-  skip_if(getRversion() > '4.0.3')
+  # skip_if(getRversion() > '4.0.3')
   skip_on_cran()
   p <- ols_plot_reg_line(mtcars$mpg, mtcars$disp, print_plot = FALSE)
   vdiffr::expect_doppelganger("reg_line_plot", p)
@@ -269,3 +269,58 @@ test_that("stepwise both regression plots are as expected", {
   vdiffr::expect_doppelganger("step_both_4", p$plot_4)
 })
 
+
+test_that("rsquared forward regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_rsquared(model))
+  vdiffr::expect_doppelganger("rsquared forward regression plot details", p1)
+
+  p2 <- plot(ols_step_rsquared(model), details = FALSE)
+  vdiffr::expect_doppelganger("rsquared forward regression plot", p2)
+})
+
+test_that("adjusted rsquared forward regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_rsquared(model, "adj_r2"))
+  vdiffr::expect_doppelganger("adjusted rsquared forward regression plot details", p1)
+
+  p2 <- plot(ols_step_rsquared(model, "adj_r2"), details = FALSE)
+  vdiffr::expect_doppelganger("adjusted rsquared forward regression plot", p2)
+})
+
+test_that("adjusted rsquared backward regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_rsquared(model, "adj_r2", "backward"))
+  vdiffr::expect_doppelganger("adjusted rsquared backward regression plot details", p1)
+
+  p2 <- plot(ols_step_rsquared(model, "adj_r2", "backward"), details = FALSE)
+  vdiffr::expect_doppelganger("adjusted rsquared backward regression plot", p2)
+})
+
+test_that("rsquared both direction regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_rsquared(model, direction = "both"))
+  vdiffr::expect_doppelganger("rsquared both direction regression plot details", p1)
+
+  p2 <- plot(ols_step_rsquared(model, direction = "both"), details = FALSE)
+  vdiffr::expect_doppelganger("rsquared both direction regression plot", p2)
+})
+
+test_that("adjusted rsquared both direction regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_rsquared(model, "adj_r2", direction = "both"))
+  vdiffr::expect_doppelganger("adjusted rsquared both direction regression plot details", p1)
+
+  p2 <- plot(ols_step_rsquared(model, "adj_r2", direction = "both"), details = FALSE)
+  vdiffr::expect_doppelganger("adjusted rsquared both direction regression plot", p2)
+})
