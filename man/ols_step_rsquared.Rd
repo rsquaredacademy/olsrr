@@ -3,6 +3,7 @@
 \name{ols_step_rsquared}
 \alias{ols_step_rsquared}
 \alias{ols_step_rsquared.default}
+\alias{print.ols_step_rsquared}
 \alias{plot.ols_step_rsquared}
 \title{Stepwise R-Square regression}
 \usage{
@@ -18,6 +19,8 @@ ols_step_rsquared(model, ...)
   details = FALSE,
   ...
 )
+
+\method{print}{ols_step_rsquared}(x, ...)
 
 \method{plot}{ols_step_rsquared}(x, print_plot = TRUE, details = TRUE, ...)
 }
@@ -59,7 +62,7 @@ manner until there is no variable left to enter any more.
 }
 \examples{
 \dontrun{
-# stepwise regression
+# stepwise forward r-squared regression
 model <- lm(y ~ ., data = stepdata)
 ols_step_rsquared(model)
 
@@ -71,26 +74,15 @@ plot(k)
 # final model
 k$model
 
-# include or exclude variables
+# use adjusted r-squared
 # force variable to be included in selection process
-model <- lm(y ~ ., data = stepdata)
+ols_step_rsquared(model, metric = "adj_r2")
 
-ols_step_rsquared(model, include = c("x6"))
+# stepwise backward regression
+ols_step_rsquared(model, metric = "adj_r2", direction = "backward")
 
-# use index of variable instead of name
-ols_step_rsquared(model, include = c(6))
-
-# force variable to be excluded from selection process
-ols_step_rsquared(model, exclude = c("x2"))
-
-# use index of variable instead of name
-ols_step_rsquared(model, exclude = c(2))
-
-# include & exclude variables in the selection process
-ols_step_rsquared(model, include = c("x6"), exclude = c("x2"))
-
-# use index of variable instead of name
-ols_step_rsquared(model, include = c(6), exclude = c(2))
+# stepwise both direction regression
+ols_step_rsquared(model, metric = "adj_r2", direction = "both")
 }
 
 }
