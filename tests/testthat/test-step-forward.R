@@ -11,6 +11,14 @@ test_that("forward selection output matches the expected result", {
   k2 <- ols_step_forward_p(model, exclude = c("x4"))
   expect_equal(k2$metrics$step, 1:3)
   expect_equal(k2$metrics$variable, c("x2", "x1", "x3"), ignore_attr = TRUE)
+
+  k3 <- ols_step_forward_p(model, include = c(3))
+  expect_equal(k3$metrics$step, 1:3)
+  expect_equal(k3$metrics$variable, c("x3", "x4", "x1"), ignore_attr = TRUE)
+
+  k4 <- ols_step_forward_p(model, exclude = c(4))
+  expect_equal(k4$metrics$step, 1:3)
+  expect_equal(k4$metrics$variable, c("x2", "x1", "x3"), ignore_attr = TRUE)
 })
 
 test_that("forward hierarchical selection output matches the expected result", {

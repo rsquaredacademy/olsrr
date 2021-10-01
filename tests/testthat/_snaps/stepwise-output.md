@@ -58,6 +58,89 @@
 ---
 
     Code
+      ols_step_both_p(model, progress = TRUE)
+    Output
+      Stepwise Selection Method   
+      ---------------------------
+      
+      Candidate Terms: 
+      
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
+      
+      We are selecting variables based on p value...
+      
+      Variables Entered: 
+      
+      + liver_test added 
+      + alc_heavy added 
+      + enzyme_test added 
+      + pindex added 
+      + bcs added 
+      
+      No more variables to be added/removed.
+      
+      
+                                Stepwise Selection Summary                            
+      -------------------------------------------------------------------------------
+                              Added/                   Adj.                              
+      Step     Variable      Removed     R-Square    R-Square      AIC         RMSE      
+      -------------------------------------------------------------------------------
+       0      Base Model                    0.000       0.000    802.6060    393.6891    
+       1      liver_test     addition       0.455       0.444    771.8753    290.7604    
+       2      alc_heavy      addition       0.567       0.550    761.4394    259.1357    
+       3      enzyme_test    addition       0.659       0.639    750.5089    229.8956    
+       4      pindex         addition       0.750       0.730    735.7146    196.7872    
+       5      bcs            addition       0.781       0.758    730.6204    184.2762    
+      -------------------------------------------------------------------------------
+      
+      
+      Final Model Output 
+      ------------------
+      
+                                Model Summary                           
+      -----------------------------------------------------------------
+      R                       0.884       RMSE                 184.276 
+      R-Squared               0.781       Coef. Var             27.839 
+      Adj. R-Squared          0.758       MSE                38202.426 
+      Pred R-Squared          0.700       MAE                  137.656 
+      -----------------------------------------------------------------
+       RMSE: Root Mean Square Error 
+       MSE: Mean Square Error 
+       MAE: Mean Absolute Error 
+      
+                                       ANOVA                                  
+      -----------------------------------------------------------------------
+                         Sum of                                              
+                        Squares        DF    Mean Square      F         Sig. 
+      -----------------------------------------------------------------------
+      Regression    6535804.090         5    1307160.818    34.217    0.0000 
+      Residual      1833716.447        48      38202.426                     
+      Total         8369520.537        53                                    
+      -----------------------------------------------------------------------
+      
+                                            Parameter Estimates                                        
+      ------------------------------------------------------------------------------------------------
+            model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+      ------------------------------------------------------------------------------------------------
+      (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
+       liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
+        alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
+      enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
+           pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
+              bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
+      ------------------------------------------------------------------------------------------------
+      
+
+---
+
+    Code
       ols_step_both_p(model, details = TRUE)
     Output
       Stepwise Selection Method   

@@ -21,3 +21,10 @@ test_that("If model includes interaction terms, ols_regress scales and centers\n
   expect_equal(actual, expected, ignore_attr = TRUE)
 })
 
+test_that("ols_regress returns error messages", {
+  expect_error(ols_regress(mpg ~ disp + hp + wt), "data missing")
+  expect_error(ols_regress(mpg ~ disp + hp + wt, data = mtcars, conf.level = "0.95"), "conf.level must be numeric")
+  expect_error(ols_regress(mpg ~ disp + hp + wt, data = mtcars, conf.level = 1.95), "conf.level must be between 0 and 1")
+  expect_error(ols_regress(mpg ~ disp + hp + wt, data = mtcars, title = 1), "1 is not a string, Please specify a string as title.")
+})
+

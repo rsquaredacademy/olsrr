@@ -31,3 +31,4 @@ test_that("all possible regression betas are as expected", {
   expect_equal(actual$predictor, expected$predictor, ignore_attr = TRUE)
   expect_equal(actual$beta, expected$beta, ignore_attr = TRUE)
 })
+

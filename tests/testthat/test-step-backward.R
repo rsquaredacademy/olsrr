@@ -12,6 +12,14 @@ test_that("backward elimination output matches the expected result", {
   expect_equal(k2$metrics$step, 1)
   expect_equal(k2$metrics$variable, c("x3"))
 
+  k3 <- ols_step_backward_p(model, include = c(3))
+  expect_equal(k3$metrics$step, 1)
+  expect_equal(k3$metrics$variable, c("x4"))
+
+  k4 <- ols_step_backward_p(model, p_remove = 0.1, exclude = c(4))
+  expect_equal(k4$metrics$step, 1)
+  expect_equal(k4$metrics$variable, c("x3"))
+
 })
 
 test_that("backward hierarchical selection output matches the expected result", {
