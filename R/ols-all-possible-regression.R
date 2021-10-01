@@ -55,7 +55,7 @@ ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
 ols_step_all_possible.default <- function(model, ...) {
 
   check_model(model)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   metrics <- allpos_helper(model)
 

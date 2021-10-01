@@ -73,7 +73,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
   check_model(model)
   check_logic(details)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   response <- names(model$model)[1]
   l        <- model$model

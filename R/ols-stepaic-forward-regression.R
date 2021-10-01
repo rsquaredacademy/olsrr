@@ -74,7 +74,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   check_model(model)
   check_logic(details)
   check_logic(progress)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   response <- names(model$model)[1]
   l        <- model$model
