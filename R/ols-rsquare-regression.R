@@ -7,7 +7,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
   check_model(model)
   check_logic(details)
   check_logic(progress)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   response <- names(model$model)[1]
   l        <- model$model
@@ -351,7 +351,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
 
   check_model(model)
   check_logic(details)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   response <- names(model$model)[1]
   l        <- model$model
@@ -674,7 +674,7 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
   check_model(model)
   check_logic(progress)
   check_logic(details)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   response <- names(model$model)[1]
   l        <- model$model
