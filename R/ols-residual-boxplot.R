@@ -5,9 +5,6 @@
 #' @param model An object of class \code{lm}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
-#' @section Deprecated Function:
-#' \code{ols_rsd_boxplot()} has been deprecated. Instead use \code{ols_plot_resid_box()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_box(model)
@@ -39,13 +36,4 @@ ols_plot_resid_box <- function(model, print_plot = TRUE) {
     return(p)
   }
 
-}
-
-
-#' @export
-#' @rdname ols_plot_resid_box
-#' @usage NULL
-#'
-ols_rsd_boxplot <- function(model) {
-  .Deprecated("ols_plot_resid_box()")
 }

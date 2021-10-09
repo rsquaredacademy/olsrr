@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-standardized-residual-chart.R
 \name{ols_plot_resid_stand}
 \alias{ols_plot_resid_stand}
-\alias{ols_srsd_chart}
 \title{Standardized residual chart}
 \usage{
 ols_plot_resid_stand(model, threshold = NULL, print_plot = TRUE)
@@ -29,11 +28,6 @@ Chart for identifying outliers.
 Standardized residual (internally studentized) is the residual divided by
 estimated standard deviation.
 }
-\section{Deprecated Function}{
-
-\code{ols_srsd_chart()} has been deprecated. Instead use \code{ols_plot_resid_stand()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_stand(model)

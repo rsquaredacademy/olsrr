@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-hadi-plot.R
 \name{ols_plot_hadi}
 \alias{ols_plot_hadi}
-\alias{ols_hadi_plot}
 \title{Hadi plot}
 \usage{
 ols_plot_hadi(model, print_plot = TRUE)
@@ -17,11 +16,6 @@ Hadi's measure of influence based on the fact that influential observations
 can be present in either the response variable or in the predictors or both.
 The plot is used to detect influential observations based on Hadi's measure.
 }
-\section{Deprecated Function}{
-
-\code{ols_hadi_plot()} has been deprecated. Instead use \code{ols_plot_hadi()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_hadi(model)

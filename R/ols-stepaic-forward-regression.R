@@ -74,7 +74,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   check_model(model)
   check_logic(details)
   check_logic(progress)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   response <- names(model$model)[1]
   l        <- model$model
@@ -167,7 +167,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   }
 
   da <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-  da2 <- da[order(-da$rss), ]
+  da2 <- da[order(da$aics), ]
 
   if (details) {
     w1 <- max(nchar("Predictor"), nchar(all_pred))
@@ -259,7 +259,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     if (details) {
 
       da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-      da2 <- da[order(-da$rss), ]
+      da2 <- da[order(da$aics), ]
       w1  <- max(nchar("Predictor"), nchar(as.character(da2$predictors)))
       w2  <- 2
       w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))

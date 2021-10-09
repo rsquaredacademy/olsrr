@@ -55,7 +55,7 @@ ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
                                          ...) {
 
   check_model(model)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   indterms <- coeff_names(model)
   lenterms <- length(indterms)

@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-breusch-pagan-test.R
 \name{ols_test_breusch_pagan}
 \alias{ols_test_breusch_pagan}
-\alias{ols_bp_test}
 \title{Breusch pagan test}
 \usage{
 ols_test_breusch_pagan(
@@ -70,11 +69,6 @@ Computation
 				 \eqn{R^2} is the coefficient of determination from the regression in step 2.
 }
 }
-\section{Deprecated Function}{
-
-\code{ols_bp_test()} has been deprecated. Instead use \code{ols_test_breusch_pagan()}.
-}
-
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)

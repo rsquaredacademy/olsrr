@@ -910,16 +910,6 @@ print_stepaic_forward <- function(data) {
     stop("No variables have been added to the model.")
   }
 
-  # width
-  w1 <- max(nchar("Variable"), nchar("Base Model"), nchar(data$metrics$variable))
-  w2 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 3), nsmall = 3)))
-  w3 <- max(nchar("Sum Sq"), nchar(format(round(data$metrics$rss, 3), nsmall = 3)))
-  w4 <- max(nchar("ESS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)))
-  w5 <- max(nchar("R-Sq"), nchar(format(round(data$metrics$r2, 5), nsmall = 5)))
-  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$metrics$adj_r2, 5), nsmall = 5)))
-  w7 <- nchar("Step")
-  w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-
   np <- coeff_names(data$others$base_model)
 
   if (is.null(np)) {
@@ -927,6 +917,16 @@ print_stepaic_forward <- function(data) {
   } else {
     mi <- ols_regress(data$others$base_model)
   }
+
+  # width
+  w1 <- max(nchar("Variable"), nchar("Base Model"), nchar(data$metrics$variable))
+  w2 <- max(nchar("AIC"), nchar(format(round(data$metrics$aic, 3), nsmall = 3)), nchar(format(round(mi$aic, 3), nsmall = 3)))
+  w3 <- max(nchar("Sum Sq"), nchar(format(round(data$metrics$rss, 3), nsmall = 3)), nchar(format(round(mi$rss, 3), nsmall = 3)))
+  w4 <- max(nchar("ESS"), nchar(format(round(data$metrics$ess, 3), nsmall = 3)), nchar(format(round(mi$ess, 3), nsmall = 3)))
+  w5 <- max(nchar("R-Sq"), nchar(format(round(data$metrics$r2, 5), nsmall = 5)), nchar(format(round(mi$rsq, 5), nsmall = 5)))
+  w6 <- max(nchar("Adj. R-Sq"), nchar(format(round(data$metrics$adj_r2, 5), nsmall = 5)), nchar(format(round(mi$adjr, 5), nsmall = 5)))
+  w7 <- nchar("Step")
+  w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
 
   ln <- length(data$metrics$aic)
 
@@ -1201,4 +1201,16 @@ print_pure_error_anova <- function(data) {
     format("", nsmall = 2, width = w6), "\n"
   )
   cat(rep("-", w), sep = "", "\n")
+}
+
+print_step_rsquared <- function(data) {
+
+  if (data$others$direction == "forward") {
+    print_stepaic_forward(data)
+  } else if (data$others$direction == "backward") {
+    print_stepaic_backward(data)
+  } else {
+    print_stepaic_both(data)
+  }
+
 }

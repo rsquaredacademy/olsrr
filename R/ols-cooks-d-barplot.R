@@ -48,9 +48,6 @@
 #' \item{outliers}{a \code{data.frame} with observation number and \code{cooks distance} that exceed \code{threshold}}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
-#' @section Deprecated Function:
-#' \code{ols_cooksd_barplot()} has been deprecated. Instead use \code{ols_plot_cooksd_bar()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_cooksd_bar(model)
@@ -75,11 +72,14 @@ ols_plot_cooksd_bar <- function(model, type = 1, print_plot = TRUE) {
   d <- ols_prep_outlier_obs(k)
   f <- ols_prep_cdplot_outliers(k)
 
+  y_max <- max(k$maxx, k$ts)
+  y_lim <- y_max + (y_max * 0.1)
+
   p <-
     ggplot(d, aes(x = obs, y = cd, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
     scale_fill_manual(values = c("blue", "red")) + labs(fill = "Observation") +
-    ylim(0, k$maxx) + ylab("Cook's D") + xlab("Observation") +
+    ylim(0, y_lim) + ylab("Cook's D") + xlab("Observation") +
     ggtitle("Cook's D Bar Plot") + geom_hline(yintercept = 0) +
     geom_hline(yintercept = k$ts, colour = "red") +
     geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +
@@ -96,12 +96,3 @@ ols_plot_cooksd_bar <- function(model, type = 1, print_plot = TRUE) {
   }
 
 }
-
-#' @export
-#' @rdname ols_plot_cooksd_bar
-#' @usage NULL
-#'
-ols_cooksd_barplot <- function(model) {
-  .Deprecated("ols_plot_cooksd_bar()")
-}
-

@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-observed-vs-predicted-plot.R
 \name{ols_plot_obs_fit}
 \alias{ols_plot_obs_fit}
-\alias{ols_ovsp_plot}
 \title{Observed vs fitted values plot}
 \usage{
 ols_plot_obs_fit(model, print_plot = TRUE)
@@ -22,11 +21,6 @@ your model had a high R Square, all the points would be close to this
 diagonal line. The lower the R Square, the weaker the Goodness of fit of your
 model, the more foggy or dispersed your points are from this diagonal line.
 }
-\section{Deprecated Function}{
-
-\code{ols_ovsp_plot()} has been deprecated. Instead use \code{ols_plot_obs_fit()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_obs_fit(model)

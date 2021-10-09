@@ -4,9 +4,6 @@
 \alias{ols_plot_resid_fit_spread}
 \alias{ols_plot_fm}
 \alias{ols_plot_resid_spread}
-\alias{ols_rfs_plot}
-\alias{ols_rsd_plot}
-\alias{ols_fm_plot}
 \title{Residual fit spread plot}
 \usage{
 ols_plot_resid_fit_spread(model, print_plot = TRUE)
@@ -30,13 +27,6 @@ and how much remains in the residuals. For inappropriate models, the spread
 of the residuals in such a plot is often greater than the spread of the
 centered fit.
 }
-\section{Deprecated Function}{
-
-\code{ols_rfs_plot()}, \code{ols_fm_plot()} and \code{ols_rsd_plot()}
-  has been deprecated. Instead use \code{ols_plot_resid_fit_spread()},
-  \code{ols_plot_fm()} and \code{ols_plot_resid_spread()}.
-}
-
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)

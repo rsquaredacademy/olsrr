@@ -3,6 +3,7 @@ test_that("when fitted.values == TRUE, fitted values from the regression\n\tare 
   expect_snapshot(ols_test_breusch_pagan(model))
   expect_snapshot(ols_test_breusch_pagan(model, rhs = TRUE))
   expect_snapshot(ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE))
+  expect_snapshot(ols_test_breusch_pagan(model, fitted.values = FALSE, rhs = TRUE, multiple = TRUE))
   expect_snapshot(ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = "bonferroni"))
   expect_snapshot(ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = "holm"))
   expect_snapshot(ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = "sidak"))

@@ -67,16 +67,12 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
     lk <- logLik(model)
     -2 * lk[1] + 2 * p
 
-  } else if (method == "SAS") {
+  } else {
 
     sse <- model_rss(model)
     n * log(sse / n) + 2 * p
 
-  } else {
-
-    message("Please specify a valid method.")
-
-  }
+  } 
 
 }
 
@@ -146,16 +142,12 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
     lk <- logLik(model)
     -2 * lk[1] + log(n) * p
 
-  } else if (method == "SAS") {
+  } else {
 
     sse <- model_rss(model)
     n * log(sse / n) + p * log(n)
 
-  } else {
-
-    message("Please specify a valid method.")
-
-  }
+  } 
 }
 
 

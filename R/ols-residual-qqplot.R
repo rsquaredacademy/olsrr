@@ -5,9 +5,6 @@
 #' @param model An object of class \code{lm}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
-#' @section Deprecated Function:
-#' \code{ols_rsd_qqplot()} has been deprecated. Instead use \code{ols_plot_resid_qq()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_qq(model)
@@ -41,13 +38,4 @@ ols_plot_resid_qq <- function(model, print_plot = TRUE) {
     return(p)
   }
 
-}
-
-
-#' @export
-#' @rdname ols_plot_resid_qq
-#' @usage NULL
-#'
-ols_rsd_qqplot <- function(model) {
-  .Deprecated("ols_plot_resid_qq()")
 }

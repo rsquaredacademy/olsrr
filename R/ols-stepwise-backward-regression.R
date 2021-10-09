@@ -90,7 +90,7 @@ ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, e
   check_model(model)
   check_logic(details)
   check_values(p_remove, 0, 1)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   indterms <- coeff_names(model)
   lenterms <- length(indterms)

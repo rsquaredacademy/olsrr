@@ -5,9 +5,6 @@
 #' @param model An object of class \code{lm}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
-#' #' @section Deprecated Function:
-#' \code{ols_diagnostic_panel()} has been deprecated. Instead use \code{ols_plot_diagnostics()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_plot_diagnostics(model)
@@ -164,13 +161,4 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
     return(result)
   }
 
-}
-
-
-#' @export
-#' @rdname ols_plot_diagnostics
-#' @usage NULL
-#'
-ols_diagnostic_panel <- function(model) {
-  .Deprecated("ols_plot_diagnostics()")
 }

@@ -5,9 +5,6 @@
 #' @param model An object of class \code{lm}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
-#' @section Deprecated Function:
-#' \code{ols_rsd_hist()} has been deprecated. Instead use \code{ols_plot_resid_hist()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_hist(model)
@@ -61,13 +58,4 @@ histn <- function(resid, h) {
   yfit1 <- yfit * diff(h$mids[1:2]) * length(resid)
   list(xfit = xfit, yfit = yfit1)
 
-}
-
-
-#' @export
-#' @rdname ols_plot_resid_hist
-#' @usage NULL
-#'
-ols_rsd_hist <- function(model) {
-  .Deprecated("ols_plot_resid_hist()")
 }

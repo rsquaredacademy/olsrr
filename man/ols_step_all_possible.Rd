@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-all-possible-regression.R
 \name{ols_step_all_possible}
 \alias{ols_step_all_possible}
-\alias{ols_all_subset}
 \alias{plot.ols_step_all_possible}
 \title{All possible regression}
 \usage{
@@ -65,6 +64,7 @@ Other variable selection procedures:
 \code{\link{ols_step_best_subset}()},
 \code{\link{ols_step_both_aic}()},
 \code{\link{ols_step_forward_aic}()},
-\code{\link{ols_step_forward_p}()}
+\code{\link{ols_step_forward_p}()},
+\code{\link{ols_step_rsquared}()}
 }
 \concept{variable selection procedures}

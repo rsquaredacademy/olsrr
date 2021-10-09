@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-residual-histogram.R
 \name{ols_plot_resid_hist}
 \alias{ols_plot_resid_hist}
-\alias{ols_rsd_hist}
 \title{Residual histogram}
 \usage{
 ols_plot_resid_hist(model, print_plot = TRUE)
@@ -15,11 +14,6 @@ ols_plot_resid_hist(model, print_plot = TRUE)
 \description{
 Histogram of residuals for detecting violation of normality assumption.
 }
-\section{Deprecated Function}{
-
-\code{ols_rsd_hist()} has been deprecated. Instead use \code{ols_plot_resid_hist()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_hist(model)

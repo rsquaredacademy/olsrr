@@ -34,13 +34,30 @@ test_that("when rhs == TRUE, predictors from the regression\n\tare used for the 
   expect_equal(k$preds, c("disp", "hp", "wt", "drat", "qsec"), ignore_attr = TRUE)
 })
 
-test_that("when rhs == TRUE and multiple == TRUE, multiple p values are\n\treturned", {
+test_that("when rhs == TRUE and multiple == TRUE, multiple p values are returned", {
   k <- ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE)
 
   expect_equal(round(k$bp, 4), c(0.9237, 0.7652, 0.7749, 0.7751, 1.2903, 2.4890), ignore_attr = TRUE)
   expect_equal(round(k$p, 4), c(0.3365, 0.3817, 0.3787, 0.3786, 0.2560, 0.7781), ignore_attr = TRUE)
 
   expect_true(k$fv)
+  expect_true(k$rhs)
+  expect_true(k$multiple)
+
+  expect_output(k$vars, NA)
+
+  expect_match(k$padj, "none")
+  expect_match(k$resp, "mpg")
+  expect_equal(k$preds, c("disp", "hp", "wt", "drat", "qsec"), ignore_attr = TRUE)
+})
+
+test_that("when fitted.value == FALSE and rhs == TRUE and multiple == TRUE, multiple p values are returned", {
+  k <- ols_test_breusch_pagan(model, fitted.values = FALSE, rhs = TRUE, multiple = TRUE)
+
+  expect_equal(round(k$bp, 4), c(0.9237, 0.7652, 0.7749, 0.7751, 1.2903, 2.4890), ignore_attr = TRUE)
+  expect_equal(round(k$p, 4), c(0.3365, 0.3817, 0.3787, 0.3786, 0.2560, 0.7781), ignore_attr = TRUE)
+
+  expect_false(k$fv)
   expect_true(k$rhs)
   expect_true(k$multiple)
 

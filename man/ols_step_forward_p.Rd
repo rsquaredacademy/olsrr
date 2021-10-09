@@ -115,6 +115,7 @@ Other variable selection procedures:
 \code{\link{ols_step_backward_p}()},
 \code{\link{ols_step_best_subset}()},
 \code{\link{ols_step_both_aic}()},
-\code{\link{ols_step_forward_aic}()}
+\code{\link{ols_step_forward_aic}()},
+\code{\link{ols_step_rsquared}()}
 }
 \concept{variable selection procedures}

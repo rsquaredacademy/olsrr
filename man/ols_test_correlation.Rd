@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-normality-tests.R
 \name{ols_test_correlation}
 \alias{ols_test_correlation}
-\alias{ols_corr_test}
 \title{Correlation test for normality}
 \usage{
 ols_test_correlation(model)
@@ -17,11 +16,6 @@ values of residuals.
 \description{
 Correlation between observed residuals and expected residuals under normality.
 }
-\section{Deprecated Function}{
-
-\code{ols_corr_test()} has been deprecated. Instead use \code{ols_test_correlation()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_test_correlation(model)

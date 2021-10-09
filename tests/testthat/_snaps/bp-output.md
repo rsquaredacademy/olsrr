@@ -75,6 +75,35 @@
 ---
 
     Code
+      ols_test_breusch_pagan(model, fitted.values = FALSE, rhs = TRUE, multiple = TRUE)
+    Output
+      
+       Breusch Pagan Test for Heteroskedasticity
+       -----------------------------------------
+       Ho: the variance is constant            
+       Ha: the variance is not constant        
+      
+                   Data               
+       -------------------------------
+       Response : mpg 
+       Variables: disp hp wt drat qsec 
+      
+              Test Summary (Unadjusted p values)       
+       ----------------------------------------------
+        Variable           chi2       df        p     
+       ----------------------------------------------
+        disp             0.9237291     1    0.3364977 
+        hp               0.7652006     1    0.3817059 
+        wt               0.7748714     1    0.3787143 
+        drat             0.7751270     1    0.3786356 
+        qsec             1.2902861     1    0.2559952 
+       ----------------------------------------------
+        simultaneous     2.4890277     5    0.7781466 
+       ----------------------------------------------
+
+---
+
+    Code
       ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = "bonferroni")
     Output
       

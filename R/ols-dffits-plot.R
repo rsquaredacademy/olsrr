@@ -36,9 +36,6 @@
 #' Wiley Series in Probability and Mathematical Statistics.
 #' New York: John Wiley & Sons. ISBN 0-471-05856-4.
 #'
-#' @section Deprecated Function:
-#' \code{ols_dffits_plot()} has been deprecated. Instead use \code{ols_plot_dffits()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_plot_dffits(model)
@@ -86,13 +83,4 @@ ols_plot_dffits <- function(model, print_plot = TRUE) {
     return(list(plot = p, outliers = f, threshold = round(dffits_t, 2)))
   }
 
-}
-
-
-#' @export
-#' @rdname ols_plot_dffits
-#' @usage NULL
-#'
-ols_dffits_plot <- function(model) {
-  .Deprecated("ols_plot_dffits()")
 }

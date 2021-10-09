@@ -10,9 +10,6 @@
 #' @param variable New predictor to be added to the \code{model}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
-#' @section Deprecated Function:
-#' \code{ols_rvsr_plot()} has been deprecated. Instead use \code{ols_plot_resid_regressor()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_regressor(model, 'drat')
@@ -47,13 +44,4 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
 
   return(p)
 
-}
-
-
-#' @export
-#' @rdname ols_plot_resid_regressor
-#' @usage NULL
-#'
-ols_rvsr_plot <- function(model, variable) {
-  .Deprecated("ols_plot_resid_regressor()")
 }

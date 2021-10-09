@@ -48,9 +48,6 @@
 #' \item{outliers}{a \code{data.frame} with observation number and \code{cooks distance} that exceed \code{threshold}}
 #' \item{threshold}{\code{threshold} for classifying an observation as an outlier}
 #'
-#' @section Deprecated Function:
-#' \code{ols_cooksd_chart()} has been deprecated. Instead use \code{ols_plot_cooksd_chart()}.
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_cooksd_chart(model)
@@ -92,13 +89,4 @@ ols_plot_cooksd_chart <- function(model, type = 1, print_plot = TRUE) {
     return(list(plot = p, outliers = f, threshold = k$ts))
   }
 
-}
-
-
-#' @export
-#' @rdname ols_plot_cooksd_chart
-#' @usage NULL
-#'
-ols_cooksd_chart <- function(model) {
-  .Deprecated("ols_plot_cooksd_chart()")
 }

@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-residual-vs-regressor-plot.R
 \name{ols_plot_resid_regressor}
 \alias{ols_plot_resid_regressor}
-\alias{ols_rvsr_plot}
 \title{Residual vs regressor plot}
 \usage{
 ols_plot_resid_regressor(model, variable, print_plot = TRUE)
@@ -20,11 +19,6 @@ containing other predictors. The residuals from the model is regressed on the
 new predictor and if the plot shows non random pattern, you should consider
 adding the new predictor to the model.
 }
-\section{Deprecated Function}{
-
-\code{ols_rvsr_plot()} has been deprecated. Instead use \code{ols_plot_resid_regressor()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_regressor(model, 'drat')

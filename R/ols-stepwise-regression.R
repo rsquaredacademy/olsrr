@@ -78,7 +78,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   check_logic(progress)
   check_values(p_enter, 0, 1)
   check_values(p_remove, 0, 1)
-  check_npredictors(model, 3)
+  check_npredictors(model, 2)
 
   indterms <- coeff_names(model)
   lenterms <- length(indterms)

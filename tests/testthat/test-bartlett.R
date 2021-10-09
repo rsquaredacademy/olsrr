@@ -18,5 +18,9 @@ test_that("all output from the test match the result", {
 
 })
 
+test_that("bartlett test throws error messages", {
+  expect_error(ols_test_bartlett(mtcars, 'mpg'), "Please specify at least two variables.")
+})
+
 
 

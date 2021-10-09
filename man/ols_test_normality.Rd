@@ -3,7 +3,6 @@
 \name{ols_test_normality}
 \alias{ols_test_normality}
 \alias{ols_test_normality.lm}
-\alias{ols_norm_test}
 \title{Test for normality}
 \usage{
 ols_test_normality(y, ...)
@@ -28,11 +27,6 @@ following components:
 \description{
 Test for detecting violation of normality assumption.
 }
-\section{Deprecated Function}{
-
-\code{ols_norm_test()} has been deprecated. Instead use \code{ols_test_normality()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_test_normality(model)

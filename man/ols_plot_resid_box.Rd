@@ -2,7 +2,6 @@
 % Please edit documentation in R/ols-residual-boxplot.R
 \name{ols_plot_resid_box}
 \alias{ols_plot_resid_box}
-\alias{ols_rsd_boxplot}
 \title{Residual box plot}
 \usage{
 ols_plot_resid_box(model, print_plot = TRUE)
@@ -15,11 +14,6 @@ ols_plot_resid_box(model, print_plot = TRUE)
 \description{
 Box plot of residuals to examine if residuals are normally distributed.
 }
-\section{Deprecated Function}{
-
-\code{ols_rsd_boxplot()} has been deprecated. Instead use \code{ols_plot_resid_box()}.
-}
-
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_box(model)
