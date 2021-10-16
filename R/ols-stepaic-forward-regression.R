@@ -71,44 +71,19 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     progress <- FALSE
   }
 
-  check_model(model)
-  check_logic(details)
-  check_logic(progress)
-  check_npredictors(model, 2)
+  check_inputs(model, include, exclude, progress, details)
 
   response <- names(model$model)[1]
   l        <- model$model
   indterms <- coeff_names(model)
   lenterms <- length(indterms)
-
-  if (is.character(include)) {
-    npm <- include %in% indterms
-    if (!all(npm)) {
-      stop(paste(paste(include[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly included. Please verify the variable names."), call. = FALSE)
-    }
-  }
-
-  if (is.character(exclude)) {
-    npm <- exclude %in% indterms
-    if (!all(npm)) {
-      stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
-    }
-  }
   
   if (is.numeric(include)) {
-    if (any(include > lenterms)) {
-      stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
-    } else {
-      include <- indterms[include]
-    }
+    include <- indterms[include]
   }
 
   if (is.numeric(exclude)) {
-    if (any(exclude > lenterms)) {
-      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)  
-    } else {
-      exclude <- indterms[exclude]
-    }
+    exclude <- indterms[exclude]
   }
 
   lockterm <- c(include, exclude)
