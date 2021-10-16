@@ -7,7 +7,7 @@
 #'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
-#' @param p_enter p value; variables with p value less than \code{p_enter} will
+#' @param p_val p value; variables with p value less than \code{p_val} will
 #'   enter into the model
 #' @param include Character or numeric vector; variables to be included in selection process.
 #' @param exclude Character or numeric vector; variables to be excluded from selection process.
@@ -87,14 +87,14 @@ ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 #' @export
 #' @rdname ols_step_forward_p
 #'
-ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
+ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
   }
 
   check_inputs(model, include, exclude, progress, details)
-  check_values(p_enter, 0, 1)
+  check_values(p_val, 0, 1)
 
   indterms <- coeff_names(model)
   lenterms <- length(indterms)
@@ -108,7 +108,7 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
   }
 
   if (hierarchical) {
-    ols_step_hierarchical(model, p_enter, TRUE, progress, details)
+    ols_step_hierarchical(model, p_val, TRUE, progress, details)
   } else {
     l        <- model$model
     nam      <- colnames(attr(model$terms, "factors"))
@@ -169,7 +169,7 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
       minp <- minp[1]
     }
 
-    if (pvals[minp] > p_enter) {
+    if (pvals[minp] > p_val) {
       stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
     } else {
       if (progress) {
@@ -272,7 +272,7 @@ ols_step_forward_p.default <- function(model, p_enter = 0.3, include = NULL, exc
       maxf  <- which(fvals == max(fvals, na.rm = TRUE))
       minp  <- pvals[maxf]
 
-      if (minp <= p_enter) {
+      if (minp <= p_val) {
 
         step   <- step + 1
         preds  <- c(preds, all_pred[maxf])

@@ -7,7 +7,7 @@
 #'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
-#' @param p_remove p value; variables with p more than \code{p_remove} will be removed
+#' @param p_val p value; variables with p more than \code{p_val} will be removed
 #'   from the model.
 #' @param include Character or numeric vector; variables to be included in selection process.
 #' @param exclude Character or numeric vector; variables to be excluded from selection process.
@@ -81,14 +81,14 @@ ols_step_backward_p <- function(model, ...) UseMethod("ols_step_backward_p")
 #' @export
 #' @rdname ols_step_backward_p
 #'
-ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
+ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
   }
 
   check_inputs(model, include, exclude, progress, details)
-  check_values(p_remove, 0, 1)
+  check_values(p_val, 0, 1)
 
   indterms <- coeff_names(model)
   lenterms <- length(indterms)
@@ -102,7 +102,7 @@ ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, e
   }
 
   if (hierarchical) {
-    ols_step_hierarchical(model, p_remove, FALSE, progress, details)
+    ols_step_hierarchical(model, p_val, FALSE, progress, details)
   } else {
     l        <- model$model
     nam      <- colnames(attr(model$terms, "factors"))
@@ -147,7 +147,7 @@ ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, e
       minf  <- which(fvals == min(fvals, na.rm = TRUE)) + ppos - 1
 
 
-        if (pvals[minf] > p_remove) {
+        if (pvals[minf] > p_val) {
 
           step   <- step + 1
           rpred  <- c(rpred, cterms[minf])
@@ -177,7 +177,7 @@ ols_step_backward_p.default <- function(model, p_remove = 0.3, include = NULL, e
           end <- TRUE
           if (progress || details) {
             cat("\n")
-            cat(paste0("No more variables satisfy the condition of p value = ", p_remove))
+            cat(paste0("No more variables satisfy the condition of p value = ", p_val))
             cat("\n")
           }
         }
