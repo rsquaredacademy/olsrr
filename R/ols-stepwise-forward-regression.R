@@ -383,10 +383,10 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, details = 
 
   a <- NULL
 
-  p1 <- plot_stepwise(x, metric = "r2", y_lab = "R-Square", details =  details)
-  p2 <- plot_stepwise(x, metric = "adj_r2", y_lab = "Adjusted R-Square", details = details)
-  p3 <- plot_stepwise(x, metric = "aic", y_lab = "AIC", details = details)
-  p4 <- plot_stepwise(x, metric = "rmse", y_lab = "RMSE", details = details)
+  p1 <- plot_stepwise(x, "r2", "R-Square", details)
+  p2 <- plot_stepwise(x, "adj_r2", "Adjusted R-Square", details)
+  p3 <- plot_stepwise(x, "aic", "AIC", details)
+  p4 <- plot_stepwise(x, "rmse", "RMSE", details)
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
