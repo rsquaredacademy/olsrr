@@ -199,15 +199,6 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
       }
     }
 
-    if (progress || details) {
-      cat("\n\n")
-      cat("Final Model Output", "\n")
-      cat(rep("-", 18), sep = "", "\n\n")
-
-      fi <- ols_regress(paste(response, "~", paste(c(include, cterms), collapse = " + ")), data = l)
-      print(fi)
-    }
-
     final_model <- lm(paste(response, "~", paste(c(include, cterms), collapse = " + ")), data = l)
 
     metrics     <- data.frame(step       = seq_len(step),
