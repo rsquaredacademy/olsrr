@@ -121,8 +121,7 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
   larsq     <- c()
 
   if (progress) {
-    cat("\n")
-    cat("Variables Entered/Removed:", "\n\n")
+    ols_progress_init("both")
   }
 
   while (step < mlen_p) {
@@ -209,14 +208,11 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
       larsq      <- c(larsq, marsq)
 
       if (progress) {
-        cat(paste("=>", tail(preds, n = 1), "added"), "\n")
+        ols_progress_display(preds, "both", "added")
       }
 
       if (details) {
-        cat("Step  =>", all_step, "\n")
-        cat("Added =>", tail(preds, n = 1), "\n")
-        cat("Model =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("AIC   =>", maic, "\n\n")
+        ols_stepwise_details(all_step, preds, preds, response, maic, "added")
       }
 
       if (lpreds > 1) {
@@ -300,18 +296,17 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
           method    <- c(method, tech[2])
           all_step  <- all_step + 1
 
+          temp <- preds[minc2 + length(include)]
+
           if (progress) {
-            cat(paste("=>", preds[minc2 + length(include)], "removed"), "\n")
+            ols_progress_display(temp, "both", "removed")
           }
 
           preds <- preds[-(minc2 + length(include))]
           lpreds <- length(preds)
 
           if (details) {
-            cat("Step    =>", all_step, "\n")
-            cat("Removed =>", preds[minc2 + length(include)], "\n")
-            cat("Model   =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-            cat("AIC     =>", maic, "\n\n")
+            ols_stepwise_details(all_step, temp, preds, response, maic, "removed")
           }
         }
       } else {

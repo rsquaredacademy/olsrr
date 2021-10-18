@@ -170,9 +170,11 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   step     <- 1
 
   if (progress) {
-    cat("\n")
-    cat("Variables Entered:", "\n\n")
-    cat(paste("=>", tail(preds, n = 1)), "\n")
+    ols_progress_init("forward")
+  }
+
+  if (progress) {
+    ols_progress_display(preds, "others")
   }
 
   while (step < mlen_p) {
@@ -187,10 +189,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     aic1 <- ols_aic(mo$model)
 
     if (details) {
-      cat("Step     =>", step, "\n")
-      cat("Selected =>", tail(preds, n = 1), "\n")
-      cat("Model    =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-      cat("AIC      =>", aic1, "\n\n")
+      ols_stepwise_details(step, preds, preds, response, aic1, "added")
     }
 
     for (i in seq_len(len_p)) {
@@ -263,7 +262,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       step     <- step + 1
 
       if (progress) {
-        cat(paste("=>", tail(preds, n = 1)), "\n")
+        ols_progress_display(preds, "others")
       }
     } else {
       if (progress || details) {

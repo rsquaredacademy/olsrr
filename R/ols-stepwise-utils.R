@@ -91,5 +91,50 @@ ols_base_model_stats <- function(response, include, direction = c("forward", "ba
   
   cat("AIC   =>", aic, "\n\n")
   cat("Initiating stepwise selection...", "\n\n")
+
+}
+
+ols_progress_init <- function(direction = c("forward", "backward", "both")) {
+
+  method <- match.arg(direction)
+
+  if (method == "forward") {
+    display <- "Entered:"
+  } else if (method == "backward") {
+    display <- "Removed:"
+  } else {
+    display <- "Entered/Removed:"
+  }
+
+  cat("\n")
+  cat(paste0("Variables ", display), "\n\n")
+
+}
+
+ols_progress_display <- function(preds, direction = c("others", "both"), type = c("added", "removed")) {
+
+  method <- match.arg(direction)
+  base   <- paste("=>", tail(preds, n = 1))
+
+  if (method == "others") {
+    cat(base, "\n")
+  } else {
+    cat(paste(base, type), "\n")
+  }
+
+}
+
+ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("added", "removed")) {
+
+  cat("Step    =>", step, "\n")
+
+  if (type == "added") {
+    cat("Added   =>", tail(rpred, n = 1), "\n")
+  } else {
+    cat("Removed =>", tail(rpred, n = 1), "\n")
+  }
   
+  cat("Model   =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+  cat("AIC     =>", aic, "\n\n")
+
 }

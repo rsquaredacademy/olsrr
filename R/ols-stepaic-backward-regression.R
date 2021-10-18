@@ -198,9 +198,11 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
       arsq  <- c()
 
       if (progress) {
-        cat("\n")
-        cat("Variables Removed:", "\n\n")
-        cat(paste("=>", tail(rpred, n = 1)), "\n")
+        ols_progress_init("backward")
+      }
+
+      if (progress) {
+        ols_progress_display(rpred, "others")
       }
 
       for (i in seq_len(ilp)) {
@@ -221,10 +223,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
       da3 <- cbind(loc = order(aics), da2)
 
       if (details) {
-        cat("Step    =>", step, "\n")
-        cat("Removed =>", tail(rpred, n = 1), "\n")
-        cat("Model   =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("AIC     =>", aic_f, "\n\n")
+        ols_stepwise_details(step, rpred, preds, response, aic_f, "removed")
 
         da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
         da2 <- da[order(da$aics), ]
