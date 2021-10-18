@@ -134,17 +134,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     rmse     <- c()
 
     if (progress || details) {
-      cat(format("Forward Selection Method", justify = "left", width = 27), "\n")
-      cat(rep("-", 27), sep = "", "\n\n")
-      cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-      for (i in seq_len(length(cterms))) {
-        cat(paste0(i, ". ", cterms[i]), "\n")
-      }
-      cat("\n")
-
-      cat("We are selecting variables based on p value...")
-      cat("\n")
-
+      ols_candidate_terms(cterms, "forward")
     }
 
     base_model <- ols_base_model(include, response, l)

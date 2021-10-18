@@ -120,16 +120,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   base_model <- ols_base_model(include, response, l)
 
   if (progress || details) {
-    cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")
-    cat(rep("-", 27), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(cterms))) {
-      cat(paste0(i, ". ", cterms[i]), "\n")
-    }
-    cat("\n")
-
-    cat("We are selecting variables based on p value...")
-    cat("\n")
+    ols_candidate_terms(cterms, "both")
   }
 
   for (i in seq_len(mlen_p)) {

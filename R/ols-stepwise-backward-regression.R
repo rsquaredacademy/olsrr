@@ -123,19 +123,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
     ppos     <- step + 1 + length(include)
 
     if (progress || details) {
-      cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
-      cat(rep("-", 27), sep = "", "\n\n")
-      cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-      for (i in seq_len(length(cterms))) {
-        cat(paste(i, ".", cterms[i]), "\n")
-      }
-      cat("\n")
-
-      cat("We are eliminating variables based on p value...")
-      cat("\n")
-
-      cat("\n")
-      cat("Variables Removed:", "\n\n")
+      ols_candidate_terms(cterms, "backward")
     }
 
     while (!end) {
@@ -163,6 +151,8 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
           rmse   <- c(rmse, fr$rmse)
 
           if (progress) {
+            cat("\n")
+            cat("Variables Removed:", "\n\n")
             cat(paste("=>", tail(rpred, n = 1)), "\n")
           }
 

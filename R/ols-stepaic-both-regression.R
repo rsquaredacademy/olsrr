@@ -99,30 +99,14 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
   tech       <- c("addition", "removal")
 
   if (progress || details) {
-    cat(format("Stepwise Selection Method", justify = "left", width = 25), "\n")
-    cat(rep("-", 25), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(nam))) {
-      cat(paste(i, ".", nam[i]), "\n")
-    }
-    cat("\n")
+    ols_candidate_terms(nam, "both")
   }
 
   base_model <- ols_base_model(include, response, l)
   aic_c <- ols_aic(base_model)
 
   if (details) {
-    cat("\n")
-      if (is.null(include)) {
-        cat("Step  => 0", "\n")
-        cat("Model =>", paste(response, "~", 1, "\n"))
-        cat("AIC   =>", aic_c, "\n\n")
-      } else {
-        cat("Step  => 0", "\n")
-        cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-        cat("AIC   =>", aic_c, "\n\n")
-      }
-      cat("Initiating stepwise selection...", "\n\n")
+    ols_base_model_stats(response, include, "both", aic_c)
   }
 
   step      <- 0

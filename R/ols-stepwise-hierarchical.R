@@ -59,21 +59,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   rmse     <- c()
 
   if (progress || details) {
-    cat(format("Forward Hierarchical Selection Method", justify = "left", width = 27), "\n")
-    cat(rep("-", 27), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(nam))) {
-      cat(paste0(i, ". ", nam[i]), "\n")
-    }
-    cat("\n")
-
-    cat("We are selecting variables based on p value...")
-    cat("\n")
-
-    cat("\n")
-    if (!details) {
-      cat("Variables Entered:", "\n\n")
-    }
+    ols_candidate_terms(nam, "forward")
   }
 
   base_model <- lm(paste(response, "~", 1), data = l)
@@ -103,6 +89,8 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
       }
 
       if (progress) {
+        cat("\n")
+        cat("Variables Entered:", "\n\n")
         cat(paste("=>", tail(preds, n = 1)), "\n")
       }
 
@@ -191,21 +179,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
   rmse     <- c()
 
   if (progress || details) {
-    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
-    cat(rep("-", 27), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(nam))) {
-      cat(paste(i, ".", nam[i]), "\n")
-    }
-    cat("\n")
-
-    cat("We are eliminating variables based on p value...")
-    cat("\n")
-
-    cat("\n")
-    if (!details) {
-      cat("Variables Removed:", "\n\n")
-    }
+    ols_candidate_terms(nam, "backward")
   }
 
   for (i in rev(seq_len(mlen_p))) {
@@ -228,6 +202,8 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
       rmse   <- c(rmse, fr$rmse)
 
       if (progress) {
+        cat("\n")
+        cat("Variables Removed:", "\n\n")
         cat(paste("=>", tail(preds, n = 1)), "\n")
       }
 

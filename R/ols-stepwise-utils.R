@@ -49,3 +49,47 @@ ols_base_model <- function(include, response, data) {
   }
 }
 
+ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backward", "both")) {
+  method <- match.arg(direction)
+
+  if (method == "forward") {
+    title <- "Forward Selection Method"
+    width <- 24
+  } else if (method == "backward") {
+    title <- "Backward Elimination Method"
+    width <- 27
+  } else {
+    title <- "Stepwise Selection Method"
+    width <- 25
+  }
+
+  cat(format(title, justify = "left", width = width), "\n")
+  cat(rep("-", width), sep = "", "\n\n")
+  cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
+  for (i in seq_len(length(cterms))) {
+    cat(paste(i, ".", cterms[i]), "\n")
+  }
+  cat("\n")
+
+}
+
+ols_base_model_stats <- function(response, include, direction = c("forward", "backward", "both"), aic) {
+  
+  method <- match.arg(direction)
+  cat("\n")
+  cat("Step  => 0", "\n")
+
+  if (method == "backward") {
+    cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+  } else {
+    if (is.null(include)) {
+      cat("Model =>", paste(response, "~", 1, "\n"))
+    } else {
+      cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))  
+    }
+  }
+  
+  cat("AIC   =>", aic, "\n\n")
+  cat("Initiating stepwise selection...", "\n\n")
+  
+}

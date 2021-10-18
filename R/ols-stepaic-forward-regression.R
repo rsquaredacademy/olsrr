@@ -101,27 +101,11 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   aic1 <- ols_aic(base_model)
 
   if (progress || details) {
-    cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
-    cat(rep("-", 24), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(nam))) {
-      cat(paste(i, ".", nam[i]), "\n")
-    }
-    cat("\n")
+    ols_candidate_terms(nam, "forward")
   }
 
   if (details) {
-    cat("\n")
-      if (is.null(include)) {
-        cat("Step  => 0", "\n")
-        cat("Model =>", paste(response, "~", 1, "\n"))
-        cat("AIC   =>", aic1, "\n\n")
-      } else {
-        cat("Step  => 0", "\n")
-        cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-        cat("AIC   =>", aic1, "\n\n")
-      }
-      cat("Initiating stepwise selection...", "\n\n")
+    ols_base_model_stats(response, include, "forward", aic1)
   }
 
   for (i in seq_len(mlen_p)) {
@@ -187,12 +171,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
 
   if (progress) {
     cat("\n")
-    if (!details) {
-      cat("Variables Entered:", "\n\n")
-    }
-  }
-
-  if (progress) {
+    cat("Variables Entered:", "\n\n")
     cat(paste("=>", tail(preds, n = 1)), "\n")
   }
 

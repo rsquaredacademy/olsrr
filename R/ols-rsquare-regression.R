@@ -40,13 +40,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
   
 
   if (progress || details) {
-    cat(format("Forward Selection Method", justify = "left", width = 24), "\n")
-    cat(rep("-", 24), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(nam))) {
-      cat(paste(i, ".", nam[i]), "\n")
-    }
-    cat("\n")
+    ols_candidate_terms(nam, "forward")
   }
 
   if (details) {
@@ -354,13 +348,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
   larsq <- mi$adjr
 
   if (progress || details) {
-    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
-    cat(rep("-", 27), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(cterm))) {
-      cat(paste(i, ".", cterm[i]), "\n")
-    }
-    cat("\n")
+    ols_candidate_terms(cterm, "backward")
   }
 
   if (details) { 
@@ -641,13 +629,7 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
   tech       <- c("addition", "removal")
 
   if (progress || details) {
-    cat(format("Stepwise Selection Method", justify = "left", width = 25), "\n")
-    cat(rep("-", 25), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(nam))) {
-      cat(paste(i, ".", nam[i]), "\n")
-    }
-    cat("\n")
+    ols_candidate_terms(nam, "both")
   }
 
   base_model <- ols_base_model(include, response, l)

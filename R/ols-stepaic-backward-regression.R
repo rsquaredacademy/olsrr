@@ -100,20 +100,11 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
   larsq <- mi$adjr
 
   if (progress || details) {
-    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
-    cat(rep("-", 27), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(cterm))) {
-      cat(paste(i, ".", cterm[i]), "\n")
-    }
-    cat("\n")
+    ols_candidate_terms(nam, "backward")
   }
 
   if (details) {
-    cat("Step  => 0", "\n")
-    cat("Model =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-    cat("AIC   =>", aic_f, "\n\n")
-    cat("Initiating stepwise selection...", "\n\n")
+    ols_base_model_stats(response, preds, "backward", aic_f)
   }
 
   ilp   <- length(preds)
