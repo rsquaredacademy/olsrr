@@ -151,7 +151,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
 
           step   <- step + 1
           rpred  <- c(rpred, cterms[minf])
-          cterms  <- cterms[-minf]
+          cterms <- cterms[-minf]
           lp     <- length(rpred)
           fr     <- ols_regress(paste(response, "~", paste(c(include, cterms), collapse = " + ")), l)
           rsq    <- c(rsq, fr$rsq)

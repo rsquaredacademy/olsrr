@@ -117,11 +117,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   fp      <- c()
   method  <- c()
 
-  if (is.null(include)) {
-    base_model <- lm(paste(response, "~", 1), data = l)
-  } else {
-    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
-  }
+  base_model <- ols_base_model(include, response, l)
 
   if (progress || details) {
     cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")

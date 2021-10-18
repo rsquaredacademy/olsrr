@@ -97,12 +97,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   rsq      <- c()
   arsq     <- c()
 
-  if (is.null(include)) {
-    base_model <- lm(paste(response, "~", 1), data = l)
-  } else {
-    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
-  }
-
+  base_model <- ols_base_model(include, response, l)
   aic1 <- ols_aic(base_model)
 
   if (progress || details) {

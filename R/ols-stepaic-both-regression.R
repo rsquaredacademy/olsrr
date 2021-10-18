@@ -108,12 +108,7 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
     cat("\n")
   }
 
-  if (is.null(include)) {
-    base_model <- lm(paste(response, "~", 1), data = l)
-  } else {
-    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
-  }
-
+  base_model <- ols_base_model(include, response, l)
   aic_c <- ols_aic(base_model)
 
   if (details) {

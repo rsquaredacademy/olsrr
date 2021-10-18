@@ -147,11 +147,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
     }
 
-    if (is.null(include)) {
-      base_model <- lm(paste(response, "~", 1), data = l)
-    } else {
-      base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
-    }
+    base_model <- ols_base_model(include, response, l)
 
     for (i in seq_len(mlen_p)) {
       predictors <- c(include, all_pred[i])

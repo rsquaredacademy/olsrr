@@ -40,3 +40,12 @@ check_terms <- function(clude, indterms, include = TRUE) {
   }
   
 }
+
+ols_base_model <- function(include, response, data) {
+  if (is.null(include)) {
+    lm(paste(response, "~", 1), data = data)
+  } else {
+    lm(paste(response, "~", paste(include, collapse = " + ")), data = data)
+  }
+}
+

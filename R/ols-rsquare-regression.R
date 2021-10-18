@@ -30,11 +30,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
   rsq      <- c()
   arsq     <- c()
 
-  if (is.null(include)) {
-    base_model <- lm(paste(response, "~", 1), data = l)
-  } else {
-    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
-  }
+  base_model <- ols_base_model(include, response, l)
 
   if (metric == "r2") {
     rsq_base <- summary(base_model)$r.squared  
@@ -654,11 +650,7 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
     cat("\n")
   }
 
-  if (is.null(include)) {
-    base_model <- lm(paste(response, "~", 1), data = l)
-  } else {
-    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
-  }
+  base_model <- ols_base_model(include, response, l)
 
   if (metric == "r2") {
     aic_c <- summary(base_model)$r.squared  
