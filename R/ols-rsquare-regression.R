@@ -85,41 +85,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
   da2 <- da[order(-da$rsq), ]
 
   if (details) {
-    w1 <- max(nchar("Predictor"), nchar(all_pred))
-    w2 <- 2
-    w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-    w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-    w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-    w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-    w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-    w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-    ln <- length(aics)
-
-    if (metric == 'r2') {
-      cat(format("R-Squared Table", justify = "centre", width = w), "\n")
-    } else {
-      cat(format("Adjusted R-Squared Table", justify = "centre", width = w), "\n")
-    }
-    cat(rep("-", w), sep = "", "\n")
-    cat(
-      fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-      fc("Sum Sq", w4), fs(), fc("RSS", w5), fs(), fc("R-Sq", w6), fs(),
-      fc("Adj. R-Sq", w7), "\n"
-    )
-    cat(rep("-", w), sep = "", "\n")
-
-    for (i in seq_len(ln)) {
-      cat(
-        fl(da2[i, 1], w1), fs(), fg(1, w2), fs(),
-        fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(),
-        fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-        fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
-        fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
-      )
-    }
-
-    cat(rep("-", w), sep = "", "\n\n")
+    ols_stepwise_metrics(da2, metric, predictors, aics, rss, ess, rsq, arsq)
   }
 
   if (metric == "r2") {
@@ -188,45 +154,9 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
     }
 
     if (details) {
-
       da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
       da2 <- da[order(-da$rsq), ]
-      w1  <- max(nchar("Predictor"), nchar(as.character(da2$predictors)))
-      w2  <- 2
-      w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-      w4  <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-      w5  <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-      w6  <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-      w7  <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-      w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-      ln  <- length(aics)
-
-      if (metric == "r2") {
-        cat(format("R-Squared Table", justify = "centre", width = w), "\n")  
-      } else {
-        cat(format("Adj. R-Squared Table", justify = "centre", width = w), "\n")  
-      }
-      
-      cat(rep("-", w), sep = "", "\n")
-      cat(
-        fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-        fc("Sum Sq", w4), fs(), fc("RSS", w5), fs(), fc("R-Sq", w6), fs(),
-        fc("Adj. R-Sq", w7), "\n"
-      )
-      cat(rep("-", w), sep = "", "\n")
-
-      for (i in seq_len(ln)) {
-        cat(
-          fl(da2[i, 1], w1), fs(), fg(1, w2), fs(),
-          fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-          fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(),
-          fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-          fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(),
-          fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
-        )
-      }
-
-      cat(rep("-", w), sep = "", "\n\n")
+      ols_stepwise_metrics(da2, metric, predictors, aics, rss, ess, rsq, arsq)
     }
 
     if (metric == "r2") {
@@ -237,8 +167,6 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
       add_crit <- arsq[minaic] > larsq[lpreds]
     }
     
-
-
     if (add_crit) {
 
       preds    <- c(preds, all_pred[minaic])
@@ -392,39 +320,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
   da3 <- cbind(loc = order(-arsq), da2)
 
   if (details) {
-    w1 <- max(nchar("Predictor"), nchar(predictors))
-    w2 <- 2
-    w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-    w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-    w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-    w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-    w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-    w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-    ln <- length(aics)
-
-    if (metric == "r2") {
-      cat(format("R-Squared Table", justify = "centre", width = w), "\n")  
-    } else {
-      cat(format("Adj. R-Squared Table", justify = "centre", width = w), "\n")
-    }
-    
-    cat(rep("-", w), sep = "", "\n")
-    cat(
-      fl("Removed", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-      fc("Sum Sq", w4), fs(), fc("ESS", w5), fs(), fc("R-Sq", w6), fs(),
-      fc("Adj. R-Sq", w7), "\n"
-    )
-    cat(rep("-", w), sep = "", "\n")
-
-    for (i in seq_len(ln)) {
-      cat(
-        fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-        fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(), fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
-      )
-    }
-
-    cat(rep("-", w), sep = "", "\n\n")
+    ols_stepwise_metrics(da2, metric, predictors, aics, rss, ess, rsq, arsq)
   }
 
   linc <- length(include)
@@ -522,39 +418,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
           da2 <- da[order(-da$arsq), ]
         }
 
-        w1  <- max(nchar("Predictor"), nchar(predictors))
-        w2  <- 2
-        w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-        w4  <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-        w5  <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-        w6  <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-        w7  <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-        w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-        ln  <- length(aics)
-
-        if (metric == "r2") {
-          cat(format("R-Squared Table", justify = "centre", width = w), "\n")  
-        } else {
-          cat(format("Adj. R-Squared Table", justify = "centre", width = w), "\n")
-        }
-        
-        cat(rep("-", w), sep = "", "\n")
-        cat(
-          fl("Removed", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-          fc("Sum Sq", w4), fs(), fc("RSS", w5), fs(), fc("R-Sq", w6), fs(),
-          fc("Adj. R-Sq", w7), "\n"
-        )
-        cat(rep("-", w), sep = "", "\n")
-
-        for (i in seq_len(ln)) {
-          cat(
-            fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-            fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-            fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(), fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
-          )
-        }
-
-        cat(rep("-", w), sep = "", "\n\n")
+        ols_stepwise_metrics(da2, metric, predictors, aics, rss, ess, rsq, arsq)
       }
     } else {
       end <- TRUE
@@ -708,38 +572,7 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
     da <- data.frame(predictors = predictors, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
 
     if (details) {
-      w1 <- max(nchar("Predictor"), nchar(predictors))
-      w2 <- 2
-      w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-      w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-      w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-      w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-      w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-      w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-      ln <- length(aics)
-
-      cat(fc("  Enter New Variables", w), sep = "", "\n")
-      cat(rep("-", w), sep = "", "\n")
-      cat(
-        fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-        fc("Sum Sq", w4), fs(), fc("ESS", w5), fs(), fc("R-Sq", w6), fs(),
-        fc("Adj. R-Sq", w7), "\n"
-      )
-      cat(rep("-", w), sep = "", "\n")
-
-      for (i in seq_len(ln)) {
-        cat(
-          fl(da[i, 1], w1), fs(), 
-          fg(1, w2), fs(), 
-          fg(format(round(da[i, 2], 3), nsmall = 3), w3), fs(),
-          fg(format(round(da[i, 4], 3), nsmall = 3), w4), fs(), 
-          fg(format(round(da[i, 3], 3), nsmall = 3), w5), fs(),
-          fg(format(round(da[i, 5], 3), nsmall = 3), w6), fs(),
-          fg(format(round(da[i, 6], 3), nsmall = 3), w7), "\n"
-        )
-      }
-
-      cat(rep("-", w), sep = "", "\n\n")
+      ols_stepwise_metrics(da, metric, predictors, aics, rss, ess, rsq, arsq)
     }
 
     if (metric == "r2") {
@@ -750,7 +583,6 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
       add_crit <- arsq[minc] > aic_c  
     }
     
-
     if (add_crit) {
       if (metric == "r2") {
         aic_c <- rsq[minc]  
@@ -821,40 +653,8 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
         da <- data.frame(predictors = preds[len_inc: lpreds], aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
 
         if (details) {
-          w1 <- max(nchar("Predictor"), nchar(preds))
-          w2 <- 2
-          w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-          w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-          w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-          w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-          w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-          w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-          ln <- length(aics)
-
-          cat(fc("Remove Existing Variables", w), sep = "", "\n")
-          cat(rep("-", w), sep = "", "\n")
-          cat(
-            fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-            fc("Sum Sq", w4), fs(), fc("RSS", w5), fs(), fc("R-Sq", w6), fs(),
-            fc("Adj. R-Sq", w7), "\n"
-          )
-          cat(rep("-", w), sep = "", "\n")
-
-          for (i in seq_len(ln)) {
-            cat(
-              fl(da[i, 1], w1), fs(), 
-              fg(1, w2), fs(), 
-              fg(format(round(da[i, 2], 3), nsmall = 3), w3), fs(),
-              fg(format(round(da[i, 4], 3), nsmall = 3), w4), fs(), 
-              fg(format(round(da[i, 3], 3), nsmall = 3), w5), fs(),
-              fg(format(round(da[i, 5], 3), nsmall = 3), w6), fs(),
-              fg(format(round(da[i, 6], 3), nsmall = 3), w7), "\n"
-            )
-          }
-
-          cat(rep("-", w), sep = "", "\n\n")
+          ols_stepwise_metrics(da, metric, predictors, aics, rss, ess, rsq, arsq)
         }
-
 
         if (metric == "r2") {
           minc2 <- which(rsq == max(rsq))  

@@ -149,40 +149,8 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
     da <- data.frame(predictors = predictors, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
 
     if (details) {
-      w1 <- max(nchar("Predictor"), nchar(predictors))
-      w2 <- 2
-      w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-      w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-      w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-      w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-      w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-      w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-      ln <- length(aics)
-
-      cat(fc("  Enter New Variables", w), sep = "", "\n")
-      cat(rep("-", w), sep = "", "\n")
-      cat(
-        fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-        fc("Sum Sq", w4), fs(), fc("ESS", w5), fs(), fc("R-Sq", w6), fs(),
-        fc("Adj. R-Sq", w7), "\n"
-      )
-      cat(rep("-", w), sep = "", "\n")
-
-      for (i in seq_len(ln)) {
-        cat(
-          fl(da[i, 1], w1), fs(), 
-          fg(1, w2), fs(), 
-          fg(format(round(da[i, 2], 3), nsmall = 3), w3), fs(),
-          fg(format(round(da[i, 4], 3), nsmall = 3), w4), fs(), 
-          fg(format(round(da[i, 3], 3), nsmall = 3), w5), fs(),
-          fg(format(round(da[i, 5], 3), nsmall = 3), w6), fs(),
-          fg(format(round(da[i, 6], 3), nsmall = 3), w7), "\n"
-        )
-      }
-
-      cat(rep("-", w), sep = "", "\n\n")
+      ols_stepwise_metrics(da, "aic", predictors, aics, rss, ess, rsq, arsq)
     }
-
 
     minc <- which(aics == min(aics))
 
@@ -242,43 +210,10 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
         da <- data.frame(predictors = preds[len_inc: lpreds], aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
 
         if (details) {
-          w1 <- max(nchar("Predictor"), nchar(preds))
-          w2 <- 2
-          w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-          w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-          w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-          w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-          w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-          w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-          ln <- length(aics)
-
-          cat(fc("Remove Existing Variables", w), sep = "", "\n")
-          cat(rep("-", w), sep = "", "\n")
-          cat(
-            fl("Variable", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-            fc("Sum Sq", w4), fs(), fc("RSS", w5), fs(), fc("R-Sq", w6), fs(),
-            fc("Adj. R-Sq", w7), "\n"
-          )
-          cat(rep("-", w), sep = "", "\n")
-
-          for (i in seq_len(ln)) {
-            cat(
-              fl(da[i, 1], w1), fs(), 
-              fg(1, w2), fs(), 
-              fg(format(round(da[i, 2], 3), nsmall = 3), w3), fs(),
-              fg(format(round(da[i, 4], 3), nsmall = 3), w4), fs(), 
-              fg(format(round(da[i, 3], 3), nsmall = 3), w5), fs(),
-              fg(format(round(da[i, 5], 3), nsmall = 3), w6), fs(),
-              fg(format(round(da[i, 6], 3), nsmall = 3), w7), "\n"
-            )
-          }
-
-          cat(rep("-", w), sep = "", "\n\n")
+          ols_stepwise_metrics(da, "aic", predictors, aics, rss, ess, rsq, arsq)
         }
 
-
         minc2 <- which(aics == min(aics))
-
 
         if (aics[minc2] < laic[all_step]) {
           aic_c     <- aics[minc2]
