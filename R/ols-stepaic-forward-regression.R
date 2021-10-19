@@ -202,20 +202,14 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       }
     } else {
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be added.", "\n")
-        cat("\n")
+        ols_stepwise_break("forward")
       }
       break
     }
   }
 
   if (details) {
-    cat("\n")
-    cat("Variables Selected:", "\n\n")
-    for (i in seq_len(length(preds))) {
-      cat(paste("=>", preds[i]), "\n")
-    }
+    ols_stepwise_vars(preds, "forward")
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)

@@ -200,9 +200,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
     } else {
       end <- TRUE
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be removed.")
-        cat("\n")
+        ols_stepwise_break("backward")
       }
     }
 
@@ -210,13 +208,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
 
   if (details) {
-    if (length(rpred) > 0) {
-      cat("\n\n")
-      cat("Variables Removed:", "\n\n")
-      for (i in seq_len(length(rpred))) {
-        cat(paste("=>", rpred[i]), "\n")
-      }
-    }
+    ols_stepwise_vars(rpred, "backward")
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)

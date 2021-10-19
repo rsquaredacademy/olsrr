@@ -250,20 +250,14 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
       }
     } else {
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be added or removed.")
-        cat("\n")
+        ols_stepwise_break("both")
       }
       break
     }
   }
 
   if (details) {
-    cat("\n")
-    cat("Variables Selected:", "\n\n")
-    for (i in seq_len(length(preds))) {
-      cat(paste("=>", preds[i]), "\n")
-    }
+    ols_stepwise_vars(preds, "both")
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)

@@ -188,3 +188,41 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predicto
   cat(rep("-", w), sep = "", "\n\n")
 
 }
+
+ols_stepwise_break <- function(direction = c("forward", "backward", "both")) {
+
+  method <- match.arg(direction)
+
+  if (method == "forward") {
+    op <- "added."
+  } else if (method == "backward") {
+    op <- "removed."
+  } else {
+    op <- "added or removed."
+  }
+
+  cat("\n")
+  cat(paste("No more variables to be", op))
+  cat("\n")
+
+}
+
+ols_stepwise_vars <- function(preds, direction = c("forward", "backward", "both")) {
+
+  method <- match.arg(direction)
+
+  if (method == "forward" || method == "both") {
+    op <- "Selected:"
+  } else {
+    op <- "Removed:"
+  } 
+
+  cat("\n")
+  if (length(preds) > 0) {
+    cat(paste("Variables", op), "\n\n")
+    for (i in seq_len(length(preds))) {
+      cat(paste("=>", preds[i]), "\n")
+    }
+  }
+
+}
