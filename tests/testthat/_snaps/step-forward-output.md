@@ -59,21 +59,20 @@
     Code
       ols_step_forward_p(model, progress = TRUE)
     Output
-      Forward Selection Method    
-      ---------------------------
+      Forward Selection Method 
+      ------------------------
       
       Candidate Terms: 
       
-      1. bcs 
-      2. pindex 
-      3. enzyme_test 
-      4. liver_test 
-      5. age 
-      6. gender 
-      7. alc_mod 
-      8. alc_heavy 
+      1 . bcs 
+      2 . pindex 
+      3 . enzyme_test 
+      4 . liver_test 
+      5 . age 
+      6 . gender 
+      7 . alc_mod 
+      8 . alc_heavy 
       
-      We are selecting variables based on p value...
       
       Variables Entered: 
       
@@ -140,21 +139,20 @@
     Code
       ols_step_forward_p(model, details = TRUE)
     Output
-      Forward Selection Method    
-      ---------------------------
+      Forward Selection Method 
+      ------------------------
       
       Candidate Terms: 
       
-      1. bcs 
-      2. pindex 
-      3. enzyme_test 
-      4. liver_test 
-      5. age 
-      6. gender 
-      7. alc_mod 
-      8. alc_heavy 
+      1 . bcs 
+      2 . pindex 
+      3 . enzyme_test 
+      4 . liver_test 
+      5 . age 
+      6 . gender 
+      7 . alc_mod 
+      8 . alc_heavy 
       
-      We are selecting variables based on p value...
       
       Forward Selection: Step 1 
       
@@ -465,27 +463,35 @@
     Code
       ols_step_forward_p(model, 0.1, hierarchical = TRUE, progress = TRUE)
     Output
-      Forward Hierarchical Selection Method 
-      ---------------------------
+      Forward Selection Method 
+      ------------------------
       
       Candidate Terms: 
       
-      1. bcs 
-      2. alc_heavy 
-      3. pindex 
-      4. enzyme_test 
-      5. liver_test 
-      6. age 
-      7. gender 
-      8. alc_mod 
+      1 . bcs 
+      2 . alc_heavy 
+      3 . pindex 
+      4 . enzyme_test 
+      5 . liver_test 
+      6 . age 
+      7 . gender 
+      8 . alc_mod 
       
-      We are selecting variables based on p value...
       
       Variables Entered: 
       
       => bcs 
+      
+      Variables Entered: 
+      
       => alc_heavy 
+      
+      Variables Entered: 
+      
       => pindex 
+      
+      Variables Entered: 
+      
       => enzyme_test 
       
       No more variables to be added.
@@ -543,21 +549,19 @@
     Code
       ols_step_forward_p(model, 0.1, hierarchical = TRUE, details = TRUE)
     Output
-      Forward Hierarchical Selection Method 
-      ---------------------------
+      Forward Selection Method 
+      ------------------------
       
       Candidate Terms: 
       
-      1. bcs 
-      2. alc_heavy 
-      3. pindex 
-      4. enzyme_test 
-      5. liver_test 
-      6. age 
-      7. gender 
-      8. alc_mod 
-      
-      We are selecting variables based on p value...
+      1 . bcs 
+      2 . alc_heavy 
+      3 . pindex 
+      4 . enzyme_test 
+      5 . liver_test 
+      6 . age 
+      7 . gender 
+      8 . alc_mod 
       
       
       Forward Selection: Step 1 

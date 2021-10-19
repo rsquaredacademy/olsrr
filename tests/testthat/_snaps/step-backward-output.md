@@ -72,12 +72,17 @@
       7 . alc_mod 
       8 . alc_heavy 
       
-      We are eliminating variables based on p value...
       
       Variables Removed: 
       
       => alc_mod 
+      
+      Variables Removed: 
+      
       => gender 
+      
+      Variables Removed: 
+      
       => age 
       
       No more variables satisfy the condition of p value = 0.3
@@ -149,10 +154,6 @@
       6 . gender 
       7 . alc_mod 
       8 . alc_heavy 
-      
-      We are eliminating variables based on p value...
-      
-      Variables Removed: 
       
       
       Backward Elimination: Step 1 
@@ -407,12 +408,17 @@
       7 . gender 
       8 . alc_mod 
       
-      We are eliminating variables based on p value...
       
       Variables Removed: 
       
       => alc_mod 
+      
+      Variables Removed: 
+      
       => gender 
+      
+      Variables Removed: 
+      
       => age 
       
       No more variables satisfy the condition of p value = 0.3
@@ -484,8 +490,6 @@
       6 . age 
       7 . gender 
       8 . alc_mod 
-      
-      We are eliminating variables based on p value...
       
       
       Backward Elimination: Step 1 

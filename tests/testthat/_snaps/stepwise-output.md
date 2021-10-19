@@ -60,21 +60,20 @@
     Code
       ols_step_both_p(model, progress = TRUE)
     Output
-      Stepwise Selection Method   
-      ---------------------------
+      Stepwise Selection Method 
+      -------------------------
       
       Candidate Terms: 
       
-      1. bcs 
-      2. pindex 
-      3. enzyme_test 
-      4. liver_test 
-      5. age 
-      6. gender 
-      7. alc_mod 
-      8. alc_heavy 
+      1 . bcs 
+      2 . pindex 
+      3 . enzyme_test 
+      4 . liver_test 
+      5 . age 
+      6 . gender 
+      7 . alc_mod 
+      8 . alc_heavy 
       
-      We are selecting variables based on p value...
       
       Variables Entered: 
       
@@ -143,21 +142,20 @@
     Code
       ols_step_both_p(model, details = TRUE)
     Output
-      Stepwise Selection Method   
-      ---------------------------
+      Stepwise Selection Method 
+      -------------------------
       
       Candidate Terms: 
       
-      1. bcs 
-      2. pindex 
-      3. enzyme_test 
-      4. liver_test 
-      5. age 
-      6. gender 
-      7. alc_mod 
-      8. alc_heavy 
+      1 . bcs 
+      2 . pindex 
+      3 . enzyme_test 
+      4 . liver_test 
+      5 . age 
+      6 . gender 
+      7 . alc_mod 
+      8 . alc_heavy 
       
-      We are selecting variables based on p value...
       
       Stepwise Selection: Step 1 
       
