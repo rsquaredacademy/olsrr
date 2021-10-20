@@ -369,10 +369,10 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, details = 
 
   a <- NULL
 
-  p1 <- plot_stepwise(x, "r2", "R-Square", details)
-  p2 <- plot_stepwise(x, "adj_r2", "Adjusted R-Square", details)
-  p3 <- plot_stepwise(x, "aic", "AIC", details)
-  p4 <- plot_stepwise(x, "rmse", "RMSE", details)
+  p1 <- plot_stepwise(x, "r2", "R-Square", details, "forward")
+  p2 <- plot_stepwise(x, "adj_r2", "Adjusted R-Square", details, "forward")
+  p3 <- plot_stepwise(x, "aic", "AIC", details, "forward")
+  p4 <- plot_stepwise(x, "rmse", "RMSE", details, "forward")
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
@@ -384,87 +384,3 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, details = 
 
 }
 
-plot_stepwise <- function(x, metric = "r2", y_lab = "R-Square", details = TRUE, direction = "forward") {
-  
-  step <- x$metrics$step
-  r2   <- x$metrics[[metric]]
-  
-  if (details) {
-    x$metrics$text <- paste0("[", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]")
-    pred <- x$metrics$text
-  } else {
-    pred <- x$metrics$variable
-  }
-
-  if (metric == "r2") {
-    met <- "rsq"
-  } else if (metric == "adj_r2") {
-    met <- "adjr"
-  } else {
-    met <- metric
-  }
-
-  if (direction == "forward") {
-    the_model <- x$others$base_model
-    the_info  <- " Base Model  : "
-  } else {
-    the_model <- x$others$full_model
-    the_info  <- " Full Model  : "
-  }
-
-  np <- coeff_names(the_model)
-  if (is.null(np)) {
-    mi <- null_model_metrics(the_model)
-  } else {
-    mi <- ols_regress(the_model)
-  }
-
-  base_model_met  <- round(mi[[met]], 3)
-  final_model_met <- round(ols_regress(x$model)[[met]], 3)
-  metric_info <- paste0(the_info, format(base_model_met, nsmall = 3), "\n",
-                        "Final Model : ", format(final_model_met, nsmall = 3))
-  
-  y    <- step
-  xloc <- y
-  yloc <- r2
-  xmin <- min(y) - 1
-  xmax <- max(y) + 1
-  ymin <- min(r2) - (min(r2) * 0.03)
-  ymax <- max(r2) + (max(r2) * 0.03)
-
-  a <- NULL
-  b <- NULL
-  tx <- NULL
-  
-  d  <- data.frame(a = y, b = r2)
-  d2 <- data.frame(x = xloc, y = yloc, tx = pred)
-  
-  v_just <- ifelse(metric %in% c("aic", "rmse"), "bottom", "top")
-  h_just <- ifelse(metric %in% c("aic", "rmse"), 1.2, 0)
-  ann_x  <- ifelse(metric %in% c("aic", "rmse"), Inf, 0)
-
-  if (metric == "r2") {
-    title <- "R-Square"
-  } else if (metric == "adj_r2") {
-    title <- "Adjusted R-Square"
-  } else if (metric == "aic") {
-    title <- "Akaike Information Criteria"
-  } else {
-    title <- "Root Mean Squared Error"
-  }
-  
-  ggplot(d, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + 
-    xlab("Step") + 
-    ylab(y_lab) + 
-    ggtitle(title) +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), size = 3,
-              hjust = "left", vjust = v_just, nudge_x = 0.05) +
-    annotate("text", x = ann_x, y = Inf, hjust = h_just, vjust = 2,
-             family = "serif", fontface = "bold", size = 3,
-             label = metric_info)
-
-}

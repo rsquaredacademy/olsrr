@@ -38,7 +38,7 @@
 <text x='381.23' y='291.42' style='font-size: 8.54px; font-family: sans;' textLength='84.00px' lengthAdjust='spacingAndGlyphs'>[enzyme_test, 750.51]</text>
 <text x='483.78' y='372.79' style='font-size: 8.54px; font-family: sans;' textLength='60.75px' lengthAdjust='spacingAndGlyphs'>[pindex, 735.71]</text>
 <text x='586.33' y='400.81' style='font-size: 8.54px; font-family: sans;' textLength='48.88px' lengthAdjust='spacingAndGlyphs'>[bcs, 730.62]</text>
-<text x='696.96' y='46.82' text-anchor='end' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='87.80px' lengthAdjust='spacingAndGlyphs'> Base Model  : 802.606</text>
+<text x='697.44' y='46.82' text-anchor='end' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='85.43px' lengthAdjust='spacingAndGlyphs'>Base Model  : 802.606</text>
 <text x='698.10' y='59.12' text-anchor='end' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='82.09px' lengthAdjust='spacingAndGlyphs'>Final Model : 730.620</text>
 <rect x='37.69' y='22.78' width='676.83' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>

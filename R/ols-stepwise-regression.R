@@ -342,10 +342,10 @@ print.ols_step_both_p <- function(x, ...) {
 #'
 plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
 
-  p1 <- plot_stepwise_both(x, "r2", "R-Square", details)
-  p2 <- plot_stepwise_both(x, "adj_r2", "Adj. R-Square", details)
-  p3 <- plot_stepwise_both(x, "aic", "AIC", details)
-  p4 <- plot_stepwise_both(x, "rmse", "RMSE", details)
+  p1 <- plot_stepwise(x, "r2", "R-Square", details, "both")
+  p2 <- plot_stepwise(x, "adj_r2", "Adj. R-Square", details, "both")
+  p3 <- plot_stepwise(x, "aic", "AIC", details, "both")
+  p4 <- plot_stepwise(x, "rmse", "RMSE", details, "both")
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
@@ -357,83 +357,3 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRU
 
 }
 
-plot_stepwise_both <- function(x, metric = "r2", y_lab = "R-Square", details = TRUE) {
-  
-  step <- x$metrics$step
-  r2   <- x$metrics[[metric]]
-  
-  if (details) {
-    x$metrics$text <- ifelse(x$metrics$method == "addition", 
-                             paste0("[+", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"), 
-                             paste0("[-", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"))
-    pred <- x$metrics$text
-  } else {
-    x$metrics$text <- ifelse(x$metrics$method == "addition", 
-                             paste0("+", x$metrics$variable),
-                             paste0("-", x$metrics$variable))
-    pred <- x$metrics$text
-  }
-
-  if (metric == "r2") {
-    met <- "rsq"
-  } else if (metric == "adj_r2") {
-    met <- "adjr"
-  } else {
-    met <- metric
-  }
-
-  np <- coeff_names(x$others$base_model)
-  if (is.null(np)) {
-    mi <- null_model_metrics(x$others$base_model)
-  } else {
-    mi <- ols_regress(x$others$base_model)
-  }
-
-  base_model_met  <- round(mi[[met]], 3)
-  final_model_met <- round(ols_regress(x$model)[[met]], 3)
-  metric_info <- paste0("Base Model  : ", format(base_model_met, nsmall = 3), "\n",
-                        "Final Model : ", format(final_model_met, nsmall = 3))
-  
-  y    <- step
-  xloc <- y
-  yloc <- r2
-  xmin <- min(y) - 1
-  xmax <- max(y) + 1
-  ymin  <- min(r2) - (min(r2) * 0.03)
-  ymax  <- max(r2) + (max(r2) * 0.03)
-  
-  a <- NULL
-  b <- NULL
-  tx <- NULL 
-  d <- data.frame(a = y, b = r2)
-  d2 <- data.frame(x = xloc, y = yloc, tx = pred)
-  
-  v_just <- ifelse(metric %in% c("aic", "rmse"), "bottom", "top")
-  h_just <- ifelse(metric %in% c("aic", "rmse"), 1.2, 0)
-  ann_x  <- ifelse(metric %in% c("aic", "rmse"), Inf, 0)
-
-  if (metric == "r2") {
-    title <- "R-Square"
-  } else if (metric == "adj_r2") {
-    title <- "Adjusted R-Square"
-  } else if (metric == "aic") {
-    title <- "Akaike Information Criteria"
-  } else {
-    title <- "Root Mean Squared Error"
-  }
-  
-  ggplot(d, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + 
-    xlab("Step") + 
-    ylab(y_lab) + 
-    ggtitle(title) +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), size = 3,
-              hjust = "left", vjust = v_just, nudge_x = 0.05) +
-    annotate("text", x = ann_x, y = Inf, hjust = h_just, vjust = 2,
-             family = "serif", fontface = "bold", size = 3,
-             label = metric_info)
-
-}
