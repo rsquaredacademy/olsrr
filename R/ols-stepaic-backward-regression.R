@@ -245,52 +245,7 @@ print.ols_step_backward_aic <- function(x, ...) {
 #'
 plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
-  tx    <- NULL
-  a     <- NULL
-  b     <- NULL
-
-  preds <- x$metrics$variable
-  aic   <- x$metrics$aic
-  step  <- x$metrics$step
-
-  if (details) {
-    x$metrics$text <- paste0("[", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]")
-    pred <- x$metrics$text
-  } else {
-    pred <- x$metrics$variable
-  }
-
-  y     <- step
-  xloc  <- y 
-  yloc  <- aic 
-  xmin  <- min(y) - 0.4
-  xmax  <- max(y) + 1
-  ymin  <- min(aic) - (min(aic) * 0.05)
-  ymax  <- max(aic) + (max(aic) * 0.05)
-
-  d2    <- data.frame(x = xloc, y = yloc, tx = pred)
-  d     <- data.frame(a = y, b = aic)
-
-  # metric info
-  full_model_aic  <- round(ols_aic(x$others$full_model), 3)
-  final_model_aic <- round(ols_aic(x$model), 3)
-  metric_info <- paste0("Full Model AIC  : ", format(full_model_aic, nsmall = 3), "\n",
-                        "Final Model AIC : ", format(final_model_aic, nsmall = 3))
-
-  p <-
-    ggplot(d, aes(x = a, y = b)) + 
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) + 
-    xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + 
-    xlab("Step") + 
-    ylab("AIC") +
-    ggtitle("Stepwise AIC Backward Elimination") +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), size = 3,
-              vjust = "bottom", hjust = "left", nudge_x = 0.1) +
-    annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
-             family = "serif", fontface = "italic", size = 3,
-             label = metric_info)
+  p <- ols_stepaic_plot(x, "backward", details)
 
   if (print_plot) {
     print(p)

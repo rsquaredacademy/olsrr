@@ -226,3 +226,159 @@ ols_stepwise_vars <- function(preds, direction = c("forward", "backward", "both"
   }
 
 }
+
+ols_stepaic_plot <- function(x, direction = c("forward", "backward", "both"), details = TRUE) {
+
+  type <- match.arg(direction)
+  pred <- ols_step_plot_text(x, type, details)
+  data <- ols_stepwise_plot_data(x, pred)
+  info <- ols_metric_info(x, type)
+  ols_stepaic_plot_build(data$d, data$d2, data$xmin, data$xmax, data$ymin, data$ymax, info, type)
+
+}
+
+ols_stepwise_plot_data <- function(x, pred) {
+
+  tx    <- NULL
+  a     <- NULL
+  b     <- NULL
+
+  step <- x$metrics$step
+  aic  <- x$metrics$aic
+  xmin <- min(step) - 0.4
+  xmax <- max(step) + 1
+  ymin <- min(aic) - (min(aic) * 0.05)
+  ymax <- max(aic) + (max(aic) * 0.05)
+  d2   <- data.frame(x = step, y = aic, tx = pred)
+  d    <- data.frame(a = step, b = aic)
+
+  return(list(d = d, d2 = d2, xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax))
+}
+
+
+ols_step_plot_text <- function(x, direction = c("forward", "backward", "both"), details = TRUE) {
+
+  method <- match.arg(direction)
+
+  if (method == "forward" || method == "backward") {
+    if (details) {
+      pred <- paste0("[", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]")
+    } else {
+      pred <- x$metrics$variable
+    }
+  } else {
+    if (details) {
+      pred <- ifelse(x$metrics$method == "addition", 
+                             paste0("[+", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]"), 
+                             paste0("[-", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]"))
+    } else {
+      pred <- ifelse(x$metrics$method == "addition", 
+                               paste0("+", x$metrics$variable),
+                               paste0("-", x$metrics$variable))
+    }
+  }
+
+  return(pred)
+}
+
+
+ols_metric_info <- function(x, direction = c("forward", "backward", "both")) {
+
+  method <- match.arg(direction)
+
+  final_model_aic <- round(ols_aic(x$model), 3)
+  final_aic <- paste0("Final Model AIC : ", format(final_model_aic, nsmall = 3))
+
+  if (method == "forward" || method == "both") {
+    base_model_aic  <- round(ols_aic(x$others$base_model), 3)
+    metric_info <- paste0("Base Model AIC  : ", format(base_model_aic, nsmall = 3), "\n", final_aic)
+  } else {
+    full_model_aic  <- round(ols_aic(x$others$full_model), 3)
+    metric_info <- paste0("Full Model AIC  : ", format(full_model_aic, nsmall = 3), "\n", final_aic)
+  }
+
+  return(metric_info)
+
+}
+
+#' @importFrom ggplot2 aes_string
+ols_stepaic_plot_build <- function(d, d2, xmin, xmax, ymin, ymax, metric_info, direction = c("forward", "backward", "both")) {
+
+  method <- match.arg(direction)
+
+  if (method == "forward") {
+    title <- "Stepwise AIC Forward Selection"
+    nudge <- 0.1
+  } else if (method == "backward") {
+    title <- "Stepwise AIC Backward Elimination"
+    nudge <- 0.1
+  } else {
+    title <- "Stepwise AIC Both Direction Selection"
+    nudge <- 0.5
+  }
+
+  ggplot(d, aes_string(x = "a", y = "b")) + 
+    geom_line(color = "blue") +
+    geom_point(color = "blue", 
+               shape = 1, 
+               size = 2) + 
+    xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax)) + 
+    xlab("Step") + 
+    ylab("AIC") +
+    ggtitle(title) +
+    geom_text(data = d2, aes_string(x = "x", y = "y", label = "tx"), size = 3, 
+              hjust = "left", vjust = "bottom", nudge_x = nudge) +
+    annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
+             family = "serif", fontface = "italic", size = 3,
+             label = metric_info)
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
