@@ -653,11 +653,8 @@ print_step_backward <- function(data) {
     )
   }
   cat(rep("-", w), sep = "", "\n")
-  cat("\n\n")
-  cat("Final Model Output", "\n")
-  cat(rep("-", 18), sep = "", "\n\n") 
-  print(ols_regress(data$model))
-  cat("\n")
+  
+  ols_print_final_model(data)
 }
 
 
@@ -816,12 +813,9 @@ print_step_forward <- function(data) {
       format(round(rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
     )
   }
-  cat(rep("-", w), sep = "", "\n\n")
+  cat(rep("-", w), sep = "")
 
-  cat("Final Model Output", "\n")
-  cat(rep("-", 18), sep = "", "\n\n")
-  print(ols_regress(data$model))
-  cat("\n")
+  ols_print_final_model(data)
 }
 
 
@@ -895,12 +889,9 @@ print_stepwise <- function(data) {
       format(round(rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
     )
   }
-  cat(rep("-", w), sep = "", "\n\n\n")
+  cat(rep("-", w), sep = "")
   
-  cat("Final Model Output", "\n")
-  cat(rep("-", 18), sep = "", "\n\n")
-  print(ols_regress(data$model))
-  cat("\n")
+  ols_print_final_model(data)
 }
 
 
@@ -965,11 +956,7 @@ print_stepaic_forward <- function(data) {
   }
   cat(rep("-", w), sep = "", "\n")
 
-  cat("\n\n")
-  cat("Final Model Output", "\n")
-  cat(rep("-", 18), sep = "", "\n\n")
-  print(ols_regress(data$model))
-  cat("\n")
+  ols_print_final_model(data)
 }
 
 
@@ -1027,11 +1014,7 @@ print_stepaic_backward <- function(data) {
   }
   cat(rep("-", w), sep = "", "\n\n")
 
-  cat("\n\n")
-  cat("Final Model Output", "\n")
-  cat(rep("-", 18), sep = "", "\n\n")
-  print(ols_regress(data$model))
-  cat("\n")
+  ols_print_final_model(data)
 }
 
 
@@ -1099,12 +1082,9 @@ print_stepaic_both <- function(data) {
       fg(format(round(adj_r2[i], 5), nsmall = 5), w6), "\n"
     )
   }
-  cat(rep("-", w), sep = "", "\n\n")
-  cat("\n\n")
-  cat("Final Model Output", "\n")
-  cat(rep("-", 18), sep = "", "\n\n")
-  print(ols_regress(data$model))
-  cat("\n")
+  cat(rep("-", w), sep = "")
+  
+  ols_print_final_model(data)
 }
 
 

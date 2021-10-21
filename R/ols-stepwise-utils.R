@@ -434,7 +434,13 @@ plot_stepwise <- function(x, metric = "r2", y_lab = "R-Square", details = TRUE,
 
 }
 
-
+ols_print_final_model <- function(data) {
+  cat("\n\n")
+  cat("Final Model Output", "\n")
+  cat(rep("-", 18), sep = "", "\n\n") 
+  print(ols_regress(data$model))
+  cat("\n")
+}
 
 
 
