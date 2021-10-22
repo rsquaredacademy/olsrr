@@ -447,6 +447,19 @@ print_step_output <- function(data, direction = c("forward", "backward", "both")
 
   method <- match.arg(direction)
 
+  print_step_zero(data, method)
+  
+  mi         <- print_step_mi(data, method)
+  metrics    <- print_step_metrics(data, mi)
+  predictors <- print_step_predictors(data, method)
+  
+  ols_print_output(metrics, predictors)
+  ols_print_final_model(data)
+
+}
+
+print_step_zero <- function(data, method) {
+
   if (length(data$metrics$step) < 1) {
     if (method == "forward") {
       stop("No variables have been added to the model.")  
@@ -456,6 +469,10 @@ print_step_output <- function(data, direction = c("forward", "backward", "both")
       stop("No variables have been added to or removed from the model.")
     }
   }
+
+}
+
+print_step_mi <- function(data, method) {
 
   if (method == "forward" || method == "both") {
     np <- coeff_names(data$others$base_model)
@@ -469,11 +486,22 @@ print_step_output <- function(data, direction = c("forward", "backward", "both")
     mi <- ols_regress(data$others$full_model)
   }
 
+  return(mi)
+}
+
+print_step_metrics <- function(data, mi) {
+
   aic  <- c(mi$aic, data$metrics$aic)
   r2   <- c(mi$rsq, data$metrics$r2)
   adjr <- c(mi$adjr, data$metrics$adj_r2) 
   step <- c(0, data$metrics$step)
   ln   <- length(aic)
+
+  return(list(aic = aic, r2 = r2, adjr = adjr, step = step, ln = ln))
+
+}
+
+print_step_predictors <- function(data, method) {
 
   if (method == "both") {
     data$metrics$sign <- ifelse(data$metrics$method == "addition", "+", "-")
@@ -488,52 +516,36 @@ print_step_output <- function(data, direction = c("forward", "backward", "both")
     predictors <- c("Base Model", variable)
   }
 
-  if (method == "both") {
-    methods <- c("", data$metrics$method)
-  }
-  
+  return(predictors)
+}
+
+ols_print_output <- function(metrics, predictors) {
+
   w1 <- nchar("Step")
   w2 <- max(nchar(predictors))
-  w3 <- max_nchar("AIC", aic)
-  w4 <- max_nchar("R-Squared", r2, 5, 5)
-  w5 <- max_nchar("Adj. R-Squared", adjr, 5, 5)
-  
-  w <- sum(w1, w2, w3, w4, w5, 16)  
+  w3 <- max_nchar("AIC", metrics$aic)
+  w4 <- max_nchar("R-Squared", metrics$r2, 5, 5)
+  w5 <- max_nchar("Adj. R-Squared", metrics$adjr, 5, 5)
+  w  <- sum(w1, w2, w3, w4, w5, 16)  
   
   cat("\n\n", format("Stepwise Summary", width = w, justify = "centre"), "\n")
   cat(rep("-", w), sep = "", "\n")
 
-  cat(
-    format("Step", width = w1, justify = "centre"), fs(),
+  cat(format("Step", width = w1, justify = "centre"), fs(),
     fl("Variable", w2), fs(), 
     fc("AIC", w3), fs(),
     fc("R-Squared", w4), fs(),
-    fc("Adj. R-Squared", w5), "\n"
-  )
+    fc("Adj. R-Squared", w5), "\n")
 
   cat(rep("-", w), sep = "", "\n")
   
-  for (i in seq_len(ln)) {
-    cat(
-      format(as.character(step[i]), width = w1, justify = "centre"), fs(),
+  for (i in seq_len(metrics$ln)) {
+    cat(format(as.character(metrics$step[i]), width = w1, justify = "centre"), fs(),
       fl(predictors[i], w2), fs(), 
-      fg(format(round(aic[i], 3), nsmall = 3), w3), fs(),
-      fg(format(round(r2[i], 5), nsmall = 5), w4), fs(),
-      fg(format(round(adjr[i], 5), nsmall = 5), w5), "\n"
-    )  
+      fg(format(round(metrics$aic[i], 3), nsmall = 3), w3), fs(),
+      fg(format(round(metrics$r2[i], 5), nsmall = 5), w4), fs(),
+      fg(format(round(metrics$adjr[i], 5), nsmall = 5), w5), "\n")  
   }
   
   cat(rep("-", w), sep = "")
-  
-  ols_print_final_model(data)
-
 }
-
-
-
-
-
-
-
-
-
