@@ -477,10 +477,17 @@ print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
   step <- c(0, data$metrics$step)
   ln   <- length(aic)
 
-  if (method == "forward" || method == "both") {
+  if (method == "both") {
+    data$metrics$sign <- ifelse(data$metrics$method == "addition", "+", "-")
+    variable <- paste0(data$metrics$variable, " (", data$metrics$sign, ")")
+  }
+
+  if (method == "forward") {
     predictors <- c("Base Model", data$metrics$variable)  
-  } else {
+  } else if (method == "backward") {
     predictors <- c("Full Model", data$metrics$variable)  
+  } else {
+    predictors <- c("Base Model", variable)
   }
 
   if (method == "both") {
@@ -494,67 +501,34 @@ print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
   w5 <- max_nchar("ESS", ess)
   w6 <- max_nchar("R-Sq", r2, 5, 5)
   w7 <- max_nchar("Adj. R-Sq", adjr, 5, 5)
-  w8 <- nchar("Addition")
   
-  if (method == "forward" || method == "backward") {
-    w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)  
-  } else {
-    w <- sum(w1, w2, w3, w4, w5, w6, w7, w8, 28)
-  }
+  w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)  
   
   cat("\n\n", format("Stepwise Summary", width = w, justify = "centre"), "\n")
-  
   cat(rep("-", w), sep = "", "\n")
 
-  if (method == "forward" || method == "backward") {
-    cat(
-      format("Step", width = w1, justify = "centre"), fs(),
-      fl("Variable", w2), fs(), 
-      fc("AIC", w3), fs(),
-      fc("Sum Sq", w4), fs(), 
-      fc("ESS", w5), fs(), 
-      fc("R-Sq", w6), fs(),
-      fc("Adj. R-Sq", w7), "\n"
-    )
-  } else {
-    cat(
-      format("Step", width = w1, justify = "centre"), fs(),
-      fl("Variable", w2), fs(), 
-      fc("Method", w8), fs(), 
-      fc("AIC", w3), fs(),
-      fc("Sum Sq", w4), fs(), 
-      fc("ESS", w5), fs(), 
-      fc("R-Sq", w6), fs(),
-      fc("Adj. R-Sq", w7), "\n"
-    )
-  }
+  cat(
+    format("Step", width = w1, justify = "centre"), fs(),
+    fl("Variable", w2), fs(), 
+    fc("AIC", w3), fs(),
+    fc("Sum Sq", w4), fs(), 
+    fc("ESS", w5), fs(), 
+    fc("R-Sq", w6), fs(),
+    fc("Adj. R-Sq", w7), "\n"
+  )
 
   cat(rep("-", w), sep = "", "\n")
   
   for (i in seq_len(ln)) {
-    if (method == "forward" || method == "backward") {
-      cat(
-        format(as.character(step[i]), width = w1, justify = "centre"), fs(),
-        fl(predictors[i], w2), fs(), 
-        fg(format(round(aic[i], 3), nsmall = 3), w3), fs(),
-        fg(format(round(rss[i], 3), nsmall = 3), w4), fs(),
-        fg(format(round(ess[i], 3), nsmall = 3), w5), fs(),
-        fg(format(round(r2[i], 5), nsmall = 5), w6), fs(),
-        fg(format(round(adjr[i], 5), nsmall = 5), w7), "\n"
-      )  
-    } else {
-      cat(
-        format(as.character(step[i]), width = w1, justify = "centre"), fs(),
-        fl(predictors[i], w2), fs(), 
-        fl(methods[i], w8), fs(),
-        fg(format(round(aic[i], 3), nsmall = 3), w3), fs(),
-        fg(format(round(rss[i], 3), nsmall = 3), w4), fs(),
-        fg(format(round(ess[i], 3), nsmall = 3), w5), fs(),
-        fg(format(round(r2[i], 5), nsmall = 5), w6), fs(),
-        fg(format(round(adjr[i], 5), nsmall = 5), w7), "\n"
-      )
-    }
-    
+    cat(
+      format(as.character(step[i]), width = w1, justify = "centre"), fs(),
+      fl(predictors[i], w2), fs(), 
+      fg(format(round(aic[i], 3), nsmall = 3), w3), fs(),
+      fg(format(round(rss[i], 3), nsmall = 3), w4), fs(),
+      fg(format(round(ess[i], 3), nsmall = 3), w5), fs(),
+      fg(format(round(r2[i], 5), nsmall = 5), w6), fs(),
+      fg(format(round(adjr[i], 5), nsmall = 5), w7), "\n"
+    )  
   }
   
   cat(rep("-", w), sep = "")

@@ -284,7 +284,7 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
 #'
 print.ols_step_both_aic <- function(x, ...) {
   if (length(x$metrics$step) > 0) {
-    print_stepaic_both(x)
+    print_step_aic(x, "both")
   } else {
     print("No variables have been added to or removed from the model.")
   }

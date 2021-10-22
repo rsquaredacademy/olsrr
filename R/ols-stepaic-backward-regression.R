@@ -234,7 +234,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 #'
 print.ols_step_backward_aic <- function(x, ...) {
   if (length(x$metrics$step) > 0) {
-    print_stepaic_backward(x)
+    print_step_aic(x, "backward")
   } else {
     print("No variables have been removed from the model.")
   }

@@ -894,19 +894,6 @@ print_stepwise <- function(data) {
   ols_print_final_model(data)
 }
 
-
-print_stepaic_forward <- function(data) {
-  print_step_aic(data, "forward")
-}
-
-print_stepaic_backward <- function(data) {
-  print_step_aic(data, "backward")
-}
-
-print_stepaic_both <- function(data) {
-  print_step_aic(data, "both")
-}
-
 print_norm_test <- function(data) {
 
   # width
