@@ -593,72 +593,6 @@ print_score_test <- function(data) {
   )
 }
 
-
-
-print_step_backward <- function(data) {
-  n <- length(data$metrics$step )
-
-  if (n < 1) {
-    stop("No variables have been removed from the model based on p-values.")
-  }
-
-  mi   <- ols_regress(data$others$full_model)
-  r2   <- c(mi$rsq, data$metrics$r2)
-  adjr <- c(mi$adjr, data$metrics$adj_r2)
-  aic  <- c(mi$aic, data$metrics$aic)
-  rmse <- c(mi$rmse, data$metrics$rmse)
-  step <- c(0, data$metrics$step)
-
-  predictors <- c("Full Model", data$metrics$variable)
-  np <- length(predictors)
-
-  # width
-  w1 <- nchar("Step")
-  w2 <- max(nchar("Full Model"), nchar(data$metrics$variable))
-  w3 <- max(nchar("R-Square"), nchar(format(round(r2, 4), nsmall = 4)))
-  w4 <- max(nchar("R-Square"), nchar(format(round(adjr, 3), nsmall = 4)))
-  w6 <- max(nchar("AIC"), nchar(format(round(aic, 4), nsmall = 4)))
-  w7 <- max(nchar("RMSE"), nchar(format(round(rmse, 4), nsmall = 4)))
-  w <- sum(w1, w2, w3, w4, w6, w7, 20)
-
-  cat("\n")
-  cat(format("Elimination Summary", justify = "centre", width = w), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(
-    format("", width = w1), fs(), 
-    format("Variable", width = w2), fs(),
-    format("", width = w3), fs(), 
-    format("Adj.", width = w4, justify = "centre"), fs(),
-    format("", width = w6), fs(),
-    format("", width = w7), fs(), "\n"
-  )
-  cat(
-    format("Step", width = w1, justify = "centre"), fs(), 
-    format("Removed", width = w2, justify = "centre"), fs(),
-    format("R-Square", width = w3, justify = "centre"), fs(), 
-    format("R-Square", width = w4, justify = "centre"), fs(),
-    format("AIC", width = w6, justify = "centre"), fs(),
-    format("RMSE", width = w7, justify = "centre"), fs(), "\n"
-  )
-  cat(rep("-", w), sep = "", "\n")
-
-  for (i in seq_len(np)) {
-    cat(
-      format(as.character(step[i]), width = w1, justify = "centre"), fs(), 
-      format(predictors[i], width = w2), fs(),
-      format(round(r2[i], 4), width = w3, nsmall = 3), fs(), 
-      format(round(adjr[i], 4), width = w4, nsmall = 3), fs(),
-      format(round(aic[i], 4), width = w6, nsmall = 4), fs(), 
-      format(round(rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
-    )
-  }
-  cat(rep("-", w), sep = "", "\n")
-  
-  ols_print_final_model(data)
-}
-
-
-
 print_best_subset <- function(data) {
   w1 <- 11
   w2 <- max(nchar(data$metrics$predictors))
@@ -744,154 +678,6 @@ print_best_subset <- function(data) {
     "\n", "FPE: Final Prediction Error", "\n", "HSP: Hocking's Sp", "\n", "APC: Amemiya Prediction Criteria",
     "\n\n"
   )
-}
-
-
-
-print_step_forward <- function(data) {
-  
-  n <- length(data$metrics$variable)
-
-  if (n < 1) {
-    stop("No variables have been added to the model based on p-values.")
-  }
-
-  np <- coeff_names(data$others$base_model)
-
-  if (is.null(np)) {
-    mi <- null_model_metrics(data$others$base_model)
-  } else {
-    mi <- ols_regress(data$others$base_model)
-  }
-  
-  r2   <- c(mi$rsq, data$metrics$r2)
-  adjr <- c(mi$adjr, data$metrics$adj_r2)
-  aic  <- c(mi$aic, data$metrics$aic)
-  rmse <- c(mi$rmse, data$metrics$rmse)
-  step <- c(0, data$metrics$step)
-
-  predictors <- c("Base Model", data$metrics$variable)
-  n_pred     <- length(predictors)
-
-  # width
-  w1 <- nchar("Step")
-  w2 <- max(nchar("Base Model"), nchar(data$metrics$variable))
-  w3 <- max(nchar("R-Square"), nchar(format(round(r2, 4), nsmall = 4)))
-  w4 <- max(nchar("R-Square"), nchar(format(round(adjr, 4), nsmall = 4)))
-  w6 <- max(nchar("AIC"), nchar(format(round(aic, 4), nsmall = 4)))
-  w7 <- max(nchar("RMSE"), nchar(format(round(rmse, 4), nsmall = 4)))
-  w <- sum(w1, w2, w3, w4, w6, w7, 20)
-
-  cat("\n")
-  cat(format("Selection Summary", justify = "centre", width = w), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(
-    format("", width = w1), fs(), 
-    format("Variable", width = w2), fs(),
-    format("", width = w3), fs(), 
-    format("Adj.", width = w4, justify = "centre"), fs(),
-    format("", width = w6), fs(),
-    format("", width = w7), fs(), "\n"
-  )
-  cat(
-    format("Step", width = w1, justify = "centre"), fs(), 
-    format("Entered", width = w2, justify = "centre"), fs(),
-    format("R-Square", width = w3, justify = "centre"), fs(), 
-    format("R-Square", width = w4, justify = "centre"), fs(), 
-    format("AIC", width = w6, justify = "centre"), fs(),
-    format("RMSE", width = w7, justify = "centre"), fs(), "\n"
-  )
-  cat(rep("-", w), sep = "", "\n")
-
-  for (i in seq_len(n_pred)) {
-    cat(
-      format(as.character(step[i]), width = w1, justify = "centre"), fs(), 
-      format(predictors[i], width = w2), fs(),
-      format(round(r2[i], 4), width = w3, nsmall = 4), fs(),
-      format(round(adjr[i], 4), width = w4, nsmall = 4), fs(),
-      format(round(aic[i], 4), width = w6, nsmall = 4), fs(), 
-      format(round(rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
-    )
-  }
-  cat(rep("-", w), sep = "")
-
-  ols_print_final_model(data)
-}
-
-
-
-print_stepwise <- function(data) {
-  n <- length(data$metrics$step)
-
-  if (n < 1) {
-    stop("No variables have been added to or removed from the model based on p-values.")
-  }
-
-  np <- coeff_names(data$others$base_model)
-
-  if (is.null(np)) {
-    mi <- null_model_metrics(data$others$base_model)
-  } else{
-    mi <- ols_regress(data$others$base_model)
-  }
-
-  r2   <- c(mi$rsq, data$metrics$r2)
-  adjr <- c(mi$adjr, data$metrics$adj_r2)
-  aic  <- c(mi$aic, data$metrics$aic)
-  rmse <- c(mi$rmse, data$metrics$rmse)
-  step <- c(0, data$metrics$step)
-
-  predictors <- c("Base Model", data$metrics$variable)
-  methods    <- c("", data$metrics$method)
-  n_pred     <- length(predictors)
-
-  # width
-  w1 <- nchar("Step")
-  w2 <- max(nchar("Variable"), nchar(data$metrics$variable))
-  w8 <- max(nchar("Removed"), nchar(data$metrics$method))
-  w3 <- max(nchar("R-Square"), nchar(format(round(r2, 3), nsmall = 3)))
-  w4 <- max(nchar("R-Square"), nchar(format(round(adjr, 3), nsmall = 3)))
-  w6 <- max(nchar("AIC"), nchar(format(round(aic, 4), nsmall = 4)))
-  w7 <- max(nchar("RMSE"), nchar(format(round(rmse, 4), nsmall = 4)))
-  w <- sum(w1, w2, w3, w4, w6, w7, w8, 24)
-
-  cat("\n")
-  cat(format("Stepwise Selection Summary", justify = "centre", width = w), "\n")
-  cat(rep("-", w), sep = "", "\n")
-  cat(
-    format("", width = w1), fs(), 
-    format("", width = w2), fs(), 
-    format("Added/", width = w8, justify = "centre"), fs(),
-    format("", width = w3), fs(), 
-    format("Adj.", width = w4, justify = "centre"), fs(),
-    format("", width = w6), fs(),
-    format("", width = w7), fs(), "\n"
-  )
-  cat(
-    format("Step", width = w1, justify = "centre"), fs(), 
-    format("Variable", width = w2, justify = "centre"), fs(),
-    format("Removed", width = w8, justify = "centre"), fs(),
-    format("R-Square", width = w3, justify = "centre"), fs(), 
-    format("R-Square", width = w4, justify = "centre"), fs(),
-    format("AIC", width = w6, justify = "centre"), fs(),
-    format("RMSE", width = w7, justify = "centre"), fs(), "\n"
-  )
-  cat(rep("-", w), sep = "", "\n")
-
-  for (i in seq_len(n_pred)) {
-    cat(
-      format(as.character(step[i]), width = w1, justify = "centre"), fs(), 
-      format(predictors[i], width = w2,), fs(),
-      format(methods[i], width = w8), fs(), 
-      format(round(r2[i], 3), width = w3, nsmall = 3), fs(),
-      format(round(adjr[i], 3), width = w4, nsmall = 3), fs(),
-      format(round(aic[i], 4), width = w6, nsmall = 4), fs(), 
-      format(round(rmse[i], 4), width = w7, nsmall = 4), fs(), "\n"
-    )
-  }
-  cat(rep("-", w), sep = "")
-  
-  ols_print_final_model(data)
 }
 
 print_norm_test <- function(data) {
@@ -991,11 +777,11 @@ print_pure_error_anova <- function(data) {
 print_step_rsquared <- function(data) {
 
   if (data$others$direction == "forward") {
-    print_stepaic_forward(data)
+    print_step_output(data, "forward")
   } else if (data$others$direction == "backward") {
-    print_stepaic_backward(data)
+    print_step_output(data, "backward")
   } else {
-    print_stepaic_both(data)
+    print_step_output(data, "both")
   }
 
 }

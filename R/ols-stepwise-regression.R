@@ -331,7 +331,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 #'
 print.ols_step_both_p <- function(x, ...) {
   if (length(x$metrics$step) > 0) {
-    print_stepwise(x)
+    print_step_output(x, "both")
   } else {
     print("No variables have been added to or removed from the model.")
   }

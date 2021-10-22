@@ -356,7 +356,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 #'
 print.ols_step_forward_p <- function(x, ...) {
   if (length(x$metrics$step) > 0) {
-    print_step_forward(x)
+    print_step_output(x, "forward")
   } else {
     print("No variables have been added to the model.")
   }

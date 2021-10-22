@@ -216,7 +216,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
 #'
 print.ols_step_backward_p <- function(x, ...) {
   if (length(x$metrics$step) > 0) {
-    print_step_backward(x)
+    print_step_output(x, "backward")
   } else {
     print("No variables have been removed from the model.")
   }

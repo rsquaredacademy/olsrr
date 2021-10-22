@@ -443,7 +443,7 @@ ols_print_final_model <- function(data) {
 }
 
 
-print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
+print_step_output <- function(data, direction = c("forward", "backward", "both")) {
 
   method <- match.arg(direction)
 
@@ -495,8 +495,8 @@ print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
   w1 <- nchar("Step")
   w2 <- max(nchar(predictors))
   w3 <- max_nchar("AIC", aic)
-  w4 <- max_nchar("R-Sq", r2, 5, 5)
-  w5 <- max_nchar("Adj. R-Sq", adjr, 5, 5)
+  w4 <- max_nchar("R-Squared", r2, 5, 5)
+  w5 <- max_nchar("Adj. R-Squared", adjr, 5, 5)
   
   w <- sum(w1, w2, w3, w4, w5, 16)  
   
@@ -507,8 +507,8 @@ print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
     format("Step", width = w1, justify = "centre"), fs(),
     fl("Variable", w2), fs(), 
     fc("AIC", w3), fs(),
-    fc("R-Sq", w4), fs(),
-    fc("Adj. R-Sq", w5), "\n"
+    fc("R-Squared", w4), fs(),
+    fc("Adj. R-Squared", w5), "\n"
   )
 
   cat(rep("-", w), sep = "", "\n")
