@@ -470,8 +470,6 @@ print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
   }
 
   aic  <- c(mi$aic, data$metrics$aic)
-  ess  <- c(mi$ess, data$metrics$ess)
-  rss  <- c(mi$rss,  data$metrics$rss)
   r2   <- c(mi$rsq, data$metrics$r2)
   adjr <- c(mi$adjr, data$metrics$adj_r2) 
   step <- c(0, data$metrics$step)
@@ -497,12 +495,10 @@ print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
   w1 <- nchar("Step")
   w2 <- max(nchar(predictors))
   w3 <- max_nchar("AIC", aic)
-  w4 <- max_nchar("Sum Sq", rss)
-  w5 <- max_nchar("ESS", ess)
-  w6 <- max_nchar("R-Sq", r2, 5, 5)
-  w7 <- max_nchar("Adj. R-Sq", adjr, 5, 5)
+  w4 <- max_nchar("R-Sq", r2, 5, 5)
+  w5 <- max_nchar("Adj. R-Sq", adjr, 5, 5)
   
-  w <- sum(w1, w2, w3, w4, w5, w6, w7, 24)  
+  w <- sum(w1, w2, w3, w4, w5, 16)  
   
   cat("\n\n", format("Stepwise Summary", width = w, justify = "centre"), "\n")
   cat(rep("-", w), sep = "", "\n")
@@ -511,10 +507,8 @@ print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
     format("Step", width = w1, justify = "centre"), fs(),
     fl("Variable", w2), fs(), 
     fc("AIC", w3), fs(),
-    fc("Sum Sq", w4), fs(), 
-    fc("ESS", w5), fs(), 
-    fc("R-Sq", w6), fs(),
-    fc("Adj. R-Sq", w7), "\n"
+    fc("R-Sq", w4), fs(),
+    fc("Adj. R-Sq", w5), "\n"
   )
 
   cat(rep("-", w), sep = "", "\n")
@@ -524,10 +518,8 @@ print_step_aic <- function(data, direction = c("forward", "backward", "both")) {
       format(as.character(step[i]), width = w1, justify = "centre"), fs(),
       fl(predictors[i], w2), fs(), 
       fg(format(round(aic[i], 3), nsmall = 3), w3), fs(),
-      fg(format(round(rss[i], 3), nsmall = 3), w4), fs(),
-      fg(format(round(ess[i], 3), nsmall = 3), w5), fs(),
-      fg(format(round(r2[i], 5), nsmall = 5), w6), fs(),
-      fg(format(round(adjr[i], 5), nsmall = 5), w7), "\n"
+      fg(format(round(r2[i], 5), nsmall = 5), w4), fs(),
+      fg(format(round(adjr[i], 5), nsmall = 5), w5), "\n"
     )  
   }
   
