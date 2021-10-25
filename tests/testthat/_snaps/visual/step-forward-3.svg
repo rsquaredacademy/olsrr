@@ -27,28 +27,32 @@
 </defs>
 <g clip-path='url(#cpMzcuNjl8NzE0LjUyfDIyLjc4fDU0NS4xMQ==)'>
 <rect x='37.69' y='22.78' width='676.83' height='522.33' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
-<polyline points='171.00,173.89 273.55,231.29 376.10,291.42 478.65,372.79 581.21,400.81 ' style='stroke-width: 1.07; stroke: #0000FF; stroke-linecap: butt;' />
-<circle cx='171.00' cy='173.89' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
-<circle cx='273.55' cy='231.29' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
-<circle cx='376.10' cy='291.42' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
-<circle cx='478.65' cy='372.79' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
-<circle cx='581.21' cy='400.81' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
-<text x='176.13' y='173.89' style='font-size: 8.54px; font-family: sans;' textLength='69.75px' lengthAdjust='spacingAndGlyphs'>[liver_test, 771.88]</text>
-<text x='278.68' y='231.29' style='font-size: 8.54px; font-family: sans;' textLength='74.04px' lengthAdjust='spacingAndGlyphs'>[alc_heavy, 761.44]</text>
-<text x='381.23' y='291.42' style='font-size: 8.54px; font-family: sans;' textLength='84.00px' lengthAdjust='spacingAndGlyphs'>[enzyme_test, 750.51]</text>
-<text x='483.78' y='372.79' style='font-size: 8.54px; font-family: sans;' textLength='60.75px' lengthAdjust='spacingAndGlyphs'>[pindex, 735.71]</text>
-<text x='586.33' y='400.81' style='font-size: 8.54px; font-family: sans;' textLength='48.88px' lengthAdjust='spacingAndGlyphs'>[bcs, 730.62]</text>
+<polyline points='171.00,203.99 273.55,246.57 376.10,291.17 478.65,351.53 581.21,372.32 ' style='stroke-width: 1.07; stroke: #0000FF; stroke-linecap: butt;' />
+<circle cx='171.00' cy='203.99' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
+<circle cx='273.55' cy='246.57' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
+<circle cx='376.10' cy='291.17' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
+<circle cx='478.65' cy='351.53' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
+<circle cx='581.21' cy='372.32' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
+<text x='176.13' y='203.99' style='font-size: 8.54px; font-family: sans;' textLength='69.75px' lengthAdjust='spacingAndGlyphs'>[liver_test, 771.88]</text>
+<text x='278.68' y='246.57' style='font-size: 8.54px; font-family: sans;' textLength='74.04px' lengthAdjust='spacingAndGlyphs'>[alc_heavy, 761.44]</text>
+<text x='381.23' y='291.17' style='font-size: 8.54px; font-family: sans;' textLength='84.00px' lengthAdjust='spacingAndGlyphs'>[enzyme_test, 750.51]</text>
+<text x='483.78' y='351.53' style='font-size: 8.54px; font-family: sans;' textLength='60.75px' lengthAdjust='spacingAndGlyphs'>[pindex, 735.71]</text>
+<text x='586.33' y='372.32' style='font-size: 8.54px; font-family: sans;' textLength='48.88px' lengthAdjust='spacingAndGlyphs'>[bcs, 730.62]</text>
 <text x='697.44' y='46.82' text-anchor='end' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='85.43px' lengthAdjust='spacingAndGlyphs'>Base Model  : 802.606</text>
 <text x='698.10' y='59.12' text-anchor='end' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='82.09px' lengthAdjust='spacingAndGlyphs'>Final Model : 730.620</text>
 <rect x='37.69' y='22.78' width='676.83' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<text x='32.76' y='434.75' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>725</text>
-<text x='32.76' y='297.24' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>750</text>
-<text x='32.76' y='159.73' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>775</text>
-<polyline points='34.95,431.72 37.69,431.72 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<polyline points='34.95,294.22 37.69,294.22 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<polyline points='34.95,156.71 37.69,156.71 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<text x='32.76' y='541.08' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>690</text>
+<text x='32.76' y='418.68' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>720</text>
+<text x='32.76' y='296.28' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>750</text>
+<text x='32.76' y='173.87' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>780</text>
+<text x='32.76' y='51.47' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='14.68px' lengthAdjust='spacingAndGlyphs'>810</text>
+<polyline points='34.95,538.06 37.69,538.06 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='34.95,415.65 37.69,415.65 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='34.95,293.25 37.69,293.25 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='34.95,170.84 37.69,170.84 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='34.95,48.44 37.69,48.44 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='68.45,547.85 68.45,545.11 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='273.55,547.85 273.55,545.11 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='478.65,547.85 478.65,545.11 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />

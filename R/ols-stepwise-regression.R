@@ -342,10 +342,10 @@ print.ols_step_both_p <- function(x, ...) {
 #'
 plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
 
-  p1 <- plot_stepwise(x, "r2", "R-Square", details, "both")
-  p2 <- plot_stepwise(x, "adj_r2", "Adj. R-Square", details, "both")
-  p3 <- plot_stepwise(x, "aic", "AIC", details, "both")
-  p4 <- plot_stepwise(x, "rmse", "RMSE", details, "both")
+  p1 <- ols_plot_stepwise(x, "r2", "R-Square", details, "both")
+  p2 <- ols_plot_stepwise(x, "adj_r2", "Adj. R-Square", details, "both")
+  p3 <- ols_plot_stepwise(x, "aic", "AIC", details, "both")
+  p4 <- ols_plot_stepwise(x, "rmse", "RMSE", details, "both")
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
