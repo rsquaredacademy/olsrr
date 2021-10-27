@@ -1890,9 +1890,9 @@
       6 . x6 
       
       
-      Step           => 0 
-      Model          => y ~ 1 
-      Adj. R-Squared => 0 
+      Step      => 0 
+      Model     => y ~ 1 
+      R-Squared => 0 
       
       Initiating stepwise selection... 
       

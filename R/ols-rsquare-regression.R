@@ -44,29 +44,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
   }
 
   if (details) {
-    cat("\n")
-    if (is.null(include)) {
-      if (metric == "r2") {
-        cat("Step      => 0", "\n")
-        cat("Model     =>", paste(response, "~", 1, "\n"))
-        cat("R-Squared =>", rsq_base, "\n\n")
-      } else {
-        cat("Step           => 0", "\n")
-        cat("Model          =>", paste(response, "~", 1, "\n"))
-        cat("Adj. R-Squared =>", rsq_base, "\n\n")
-      }
-    } else { 
-      if (metric == "r2") {
-        cat("Step      => 0", "\n")
-        cat("Model     =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-        cat("R-Squared =>", rsq_base, "\n\n")
-      } else {
-        cat("Step           => 0", "\n")
-        cat("Model          =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-        cat("Adj. R-Squared =>", rsq_base, "\n\n")
-      }
-    }
-    cat("Initiating stepwise selection...", "\n\n")
+    ols_rsquared_init(include, metric, response, rsq_base)
   }
 
   for (i in seq_len(mlen_p)) {
@@ -128,17 +106,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
     rsq1 <- mo$rsq
 
     if (details) {
-      if (metric == "r2") {
-        cat("Step      =>", step, "\n")
-        cat("Selected  =>", tail(preds, n = 1), "\n")
-        cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("R-Squared =>", rsq1, "\n\n")
-      } else {
-        cat("Step           =>", step, "\n")
-        cat("Selected       =>", tail(preds, n = 1), "\n")
-        cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("Adj. R-Squared =>", rsq1, "\n\n")
-      }
+      ols_rsquared_selected(metric, step, preds, response, rsq1)
     }
 
     for (i in seq_len(len_p)) {
@@ -506,29 +474,7 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
   
 
   if (details) {
-    cat("\n")
-      if (is.null(include)) {
-        if (metric == "r2") {
-          cat("Step           => 0", "\n")
-          cat("Model          =>", paste(response, "~", 1, "\n"))
-          cat("Adj. R-Squared =>", aic_c, "\n\n")
-        } else {
-          cat("Step           => 0", "\n")
-          cat("Model          =>", paste(response, "~", 1, "\n"))
-          cat("Adj. R-Squared =>", aic_c, "\n\n")
-        }
-      } else {
-        if (metric == "r2") {
-          cat("Step      => 0", "\n")
-          cat("Model     =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-          cat("R-Squared =>", aic_c, "\n\n")
-        } else {
-          cat("Step           => 0", "\n")
-          cat("Model          =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-          cat("Adj. R-Squared =>", aic_c, "\n\n")
-        }
-      }
-      cat("Initiating stepwise selection...", "\n\n")
+    ols_rsquared_init(include, metric, response, aic_c)
   }
 
   step      <- 0

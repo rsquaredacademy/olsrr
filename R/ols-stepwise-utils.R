@@ -506,3 +506,46 @@ ols_print_output <- function(metrics, predictors) {
   
   cat(rep("-", w), sep = "")
 }
+
+
+ols_rsquared_init <- function(include, metric, response, rsq_base) {
+
+  cat("\n")
+    if (is.null(include)) {
+      if (metric == "r2") {
+        cat("Step      => 0", "\n")
+        cat("Model     =>", paste(response, "~", 1, "\n"))
+        cat("R-Squared =>", rsq_base, "\n\n")
+      } else {
+        cat("Step           => 0", "\n")
+        cat("Model          =>", paste(response, "~", 1, "\n"))
+        cat("Adj. R-Squared =>", rsq_base, "\n\n")
+      }
+    } else { 
+      if (metric == "r2") {
+        cat("Step      => 0", "\n")
+        cat("Model     =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+        cat("R-Squared =>", rsq_base, "\n\n")
+      } else {
+        cat("Step           => 0", "\n")
+        cat("Model          =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+        cat("Adj. R-Squared =>", rsq_base, "\n\n")
+      }
+    }
+    cat("Initiating stepwise selection...", "\n\n")
+}
+
+ols_rsquared_selected <- function(metric, step, preds, response, rsq1) {
+
+  if (metric == "r2") {
+        cat("Step      =>", step, "\n")
+        cat("Selected  =>", tail(preds, n = 1), "\n")
+        cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+        cat("R-Squared =>", rsq1, "\n\n")
+      } else {
+        cat("Step           =>", step, "\n")
+        cat("Selected       =>", tail(preds, n = 1), "\n")
+        cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+        cat("Adj. R-Squared =>", rsq1, "\n\n")
+      }
+}
