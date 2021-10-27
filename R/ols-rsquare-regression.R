@@ -72,16 +72,20 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
     minc <- which(arsq == max(arsq))
   }
 
-  laic     <- aics[minc]
-  less     <- ess[minc]
-  lrss     <- rss[minc]
-  lrsq     <- rsq[minc]
-  larsq    <- arsq[minc]
-  preds    <- c(preds, all_pred[minc])
-  lpreds   <- length(preds) - length(include)
-  all_pred <- all_pred[-minc]
-  len_p    <- length(all_pred)
-  step     <- 1
+  if (aics[minc] > rsq_base) {
+    laic     <- aics[minc]
+    less     <- ess[minc]
+    lrss     <- rss[minc]
+    lrsq     <- rsq[minc]
+    larsq    <- arsq[minc]
+    preds    <- c(preds, all_pred[minc])
+    lpreds   <- length(preds) - length(include)
+    all_pred <- all_pred[-minc]
+    len_p    <- length(all_pred)
+    step     <- 1
+  } else {
+    stop("No more variables to be added.", call. = FALSE)
+  }
 
   if (progress) {
     cat("\n")

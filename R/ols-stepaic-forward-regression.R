@@ -127,21 +127,26 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     ols_stepwise_metrics(da2, "aic", predictors, aics, rss, ess, rsq, arsq)
   }
 
-  minc     <- which(aics == min(aics))
-  laic     <- aics[minc]
-  less     <- ess[minc]
-  lrss     <- rss[minc]
-  lrsq     <- rsq[minc]
-  larsq    <- arsq[minc]
-  preds    <- c(preds, all_pred[minc])
-  lpreds   <- length(preds) - length(include)
-  all_pred <- all_pred[-minc]
-  len_p    <- length(all_pred)
-  step     <- 1
+  minc <- which(aics == min(aics)) 
 
-  if (progress) {
-    ols_progress_init("forward")
-    ols_progress_display(preds, "others")
+  if (aics[minc] < aic1) {
+    laic     <- aics[minc]
+    less     <- ess[minc]
+    lrss     <- rss[minc]
+    lrsq     <- rsq[minc]
+    larsq    <- arsq[minc]
+    preds    <- c(preds, all_pred[minc])
+    lpreds   <- length(preds) - length(include)
+    all_pred <- all_pred[-minc]
+    len_p    <- length(all_pred)
+    step     <- 1
+
+    if (progress) {
+      ols_progress_init("forward")
+      ols_progress_display(preds, "others")
+    }
+  } else {
+    stop("No variables have been added to the model.", call. = FALSE)
   }
 
   while (step < mlen_p) {
@@ -169,7 +174,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       rss[i]     <- round(k$rss - mo$rss, 3)
       rsq[i]     <- k$rsq
       arsq[i]    <- k$adjr
-    }
+    l}
 
     if (details) {
       da  <- data.frame(predictors = all_pred, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
