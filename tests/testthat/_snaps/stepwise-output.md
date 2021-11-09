@@ -82,8 +82,7 @@
       + pindex added 
       + bcs added 
       
-      No more variables to be added/removed.
-      
+      No more variables to be added or removed.
       
       
                                Stepwise Summary                          
@@ -335,8 +334,7 @@
       
       
       
-      No more variables to be added/removed.
-      
+      No more variables to be added or removed.
       
       
                                Stepwise Summary                          

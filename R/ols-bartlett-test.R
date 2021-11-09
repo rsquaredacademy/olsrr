@@ -60,11 +60,9 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
     }
 
     out       <- rep(ly, times = ln)
-    # out       <- gvar(ln, ly)
     fdata     <- unlist(z)
     groupvars <- as.factor(unlist(out))
-  
-    g_var <- NULL
+    g_var     <- NULL
 
   } else {
 
@@ -81,12 +79,11 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
   fstat <- bartlett_fstat(fdata, groupvars)
   pval  <- pchisq(fstat, df, lower.tail = FALSE)
 
-  out <- list(
-    df    = df,
-    fstat = fstat,
-    g_var = g_var,
-    pval  = pval,
-    var_c = var_c)
+  out <- list(df    = df,
+              fstat = fstat,
+              g_var = g_var,
+              pval  = pval,
+              var_c = var_c)
 
   class(out) <- "ols_test_bartlett"
 

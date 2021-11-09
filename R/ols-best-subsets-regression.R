@@ -218,9 +218,15 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
   a       <- NULL
   b       <- NULL
 
+  z <- x$metrics
 
-  d <- data.frame(mindex = x$metrics$mindex, rsquare = x$metrics$rsquare, adjr = x$metrics$adjr,
-               cp = x$metrics$cp, aic = x$metrics$aic, sbic = x$metrics$sbic, sbc = x$metrics$sbc)
+  d <- data.frame(mindex  = z$mindex, 
+                  rsquare = z$rsquare, 
+                  adjr    = z$adjr,
+                  cp      = z$cp, 
+                  aic     = z$aic, 
+                  sbic    = z$sbic, 
+                  sbc     = z$sbc)
 
   p1 <- best_subset_plot(d, "rsquare")
   p2 <- best_subset_plot(d, "adjr", title = "Adj. R-Square")

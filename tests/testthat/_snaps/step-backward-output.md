@@ -84,7 +84,7 @@
       
       => age 
       
-      No more variables satisfy the condition of p value = 0.3
+      No more variables to be removed.
       
       
                              Stepwise Summary                       
@@ -274,7 +274,7 @@
       
       
       
-      No more variables satisfy the condition of p value = 0.3
+      No more variables to be removed.
       
       
       Variables Removed: 

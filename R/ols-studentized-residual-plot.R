@@ -55,9 +55,12 @@ ols_plot_resid_stud <- function(model, threshold = NULL, print_plot = TRUE) {
   p <-
     ggplot(d, aes(x = obs, y = dsr, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
-    scale_fill_manual(values = c("blue", "red")) + xlab("Observation") +
-    ylab("Deleted Studentized Residuals") + labs(fill = "Observation") +
-    ggtitle("Studentized Residuals Plot") + ylim(g$cminx, g$cmaxx) +
+    scale_fill_manual(values = c("blue", "red")) + 
+    xlab("Observation") +
+    ylab("Deleted Studentized Residuals") + 
+    labs(fill = "Observation") +
+    ggtitle("Studentized Residuals Plot") + 
+    ylim(g$cminx, g$cmaxx) +
     geom_hline(yintercept = c(0, g$nseq, g$pseq)) +
     geom_hline(yintercept = c(-threshold, threshold), color = "red") +
     geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +

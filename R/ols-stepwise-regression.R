@@ -289,9 +289,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       }
     } else {
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be added/removed.")
-        cat("\n\n")
+        ols_stepwise_break(direction = "both")
       }
       break
     }

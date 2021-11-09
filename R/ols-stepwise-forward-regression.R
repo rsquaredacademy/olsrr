@@ -272,11 +272,6 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         cp     <- c(cp, ols_mallows_cp(fr$model, model))
         rmse   <- c(rmse, fr$rmse)
 
-        if (details) {
-          cat("\n")
-          cat(paste("Forward Selection: Step", step), "\n\n")
-        }
-
         if (progress) {
           len_maxf <- length(maxf)
           if (len_maxf > 1) {
@@ -287,6 +282,8 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         }
 
         if (details) {
+          cat("\n")
+          cat(paste("Forward Selection: Step", step), "\n\n")
           len_maxf <- length(maxf)
           if (len_maxf > 1) {
             cat("Variable entered =>", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
@@ -300,9 +297,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         }
       } else {
         if (progress || details) {
-          cat("\n")
-          cat("No more variables to be added.")
-          cat("\n")
+          ols_stepwise_break(direction = "forward")
         }
         break
       }

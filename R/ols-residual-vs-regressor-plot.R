@@ -34,7 +34,8 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
   p <-
     ggplot(k, aes(x = x, y = y)) +
     geom_point(shape = 1, colour = "blue") +
-    xlab(paste(v)) + ylab("Residual") +
+    xlab(paste(v)) + 
+    ylab("Residual") +
     ggtitle(paste("Residual vs", v)) +
     geom_hline(yintercept = 0, colour = "red")
 

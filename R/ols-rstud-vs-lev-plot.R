@@ -48,8 +48,12 @@ ols_plot_resid_lev <- function(model, threshold = NULL, print_plot = TRUE) {
     ggplot(d, aes(leverage, rstudent, label = txt)) +
     geom_point(shape = 1, aes(colour = fct_color)) +
     scale_color_manual(values = c("blue", "red", "green", "violet")) +
-    xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) + labs(colour = "Observation") +
-    xlab("Leverage") + ylab("RStudent") + ggtitle(title) +
+    xlim(g$minx, g$maxx) + 
+    ylim(g$miny, g$maxy) + 
+    labs(colour = "Observation") +
+    xlab("Leverage") + 
+    ylab("RStudent") + 
+    ggtitle(title) +
     geom_hline(yintercept = c(threshold, -threshold), colour = "maroon") +
     geom_vline(xintercept = g$lev_thrsh, colour = "maroon") +
     geom_text(data = d2, vjust = -1, size = 3, family = "serif", fontface = "italic",

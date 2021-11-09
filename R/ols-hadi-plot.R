@@ -32,7 +32,8 @@ ols_plot_hadi <- function(model, print_plot = TRUE) {
     ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
     geom_linerange(colour = "blue") +
     geom_point(shape = 1, colour = "blue") +
-    xlab("Observation") + ylab("Hadi's Measure") +
+    xlab("Observation") + 
+    ylab("Hadi's Measure") +
     ggtitle("Hadi's Influence Measure")
 
   if (print_plot) {

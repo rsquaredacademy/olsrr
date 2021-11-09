@@ -43,17 +43,27 @@ ols_plot_resid_fit_spread <- function(model, print_plot = TRUE) {
   ymin1 <- min(d1$y) + (0.25 * min(d1$y))
   ymax1 <- max(d1$y) + (0.25 * max(d1$y))
 
-  p1 <- ggplot(d1, aes(x = x, y = y)) + geom_point(shape = 1, color = "blue") +
-    xlim(c(-0.2, 1.2)) + ylim(c(ymin1, ymax1)) + xlab("Proportion Less") +
-    ylab("") + ggtitle("Fit - Mean")
+  p1 <- 
+    ggplot(d1, aes(x = x, y = y)) + 
+    geom_point(shape = 1, color = "blue") +
+    xlim(c(-0.2, 1.2)) + 
+    ylim(c(ymin1, ymax1)) + 
+    xlab("Proportion Less") +
+    ylab("") + 
+    ggtitle("Fit - Mean")
 
   d2    <- ols_prep_rfsplot_rsdata(model)
   ymin2 <- min(d2$y) + (0.25 * min(d2$y))
   ymax2 <- max(d2$y) + (0.25 * max(d2$y))
 
-  p2 <- ggplot(d2, aes(x = x, y = y)) + geom_point(color = "blue", shape = 1) +
-    ylim(c(ymin2, ymax2)) + xlim(c(-0.2, 1.2)) + xlab("Proportion Less") +
-    ylab("") + ggtitle("Residual")
+  p2 <- 
+    ggplot(d2, aes(x = x, y = y)) + 
+    geom_point(color = "blue", shape = 1) +
+    ylim(c(ymin2, ymax2)) + 
+    xlim(c(-0.2, 1.2)) + 
+    xlab("Proportion Less") +
+    ylab("") + 
+    ggtitle("Residual")
 
   if (print_plot) {
     grid.arrange(p1, p2, ncol = 2)
@@ -77,9 +87,13 @@ ols_plot_fm <- function(model, print_plot = TRUE) {
   ymax <- max(d$y) + (0.25 * max(d$y))
 
   p <-
-    ggplot(d, aes(x = x, y = y)) + geom_point(shape = 1, color = "blue") +
-    xlim(c(-0.2, 1.2)) + ylim(c(ymin, ymax)) + xlab("Proportion Less") +
-    ylab("Fit - Mean") + ggtitle("Residual Fit Spread Plot")
+    ggplot(d, aes(x = x, y = y)) + 
+    geom_point(shape = 1, color = "blue") +
+    xlim(c(-0.2, 1.2)) + 
+    ylim(c(ymin, ymax)) + 
+    xlab("Proportion Less") +
+    ylab("Fit - Mean") + 
+    ggtitle("Residual Fit Spread Plot")
 
   if (print_plot) {
     print(p)
@@ -104,9 +118,13 @@ ols_plot_resid_spread <- function(model, print_plot = TRUE) {
   ymax <- max(d$y) + (0.25 * max(d$y))
 
   p <-
-    ggplot(d, aes(x = x, y = y)) + geom_point(color = "blue", shape = 1) +
-    ylim(c(ymin, ymax)) + xlim(c(-0.2, 1.2)) + ylab("Residual") +
-    xlab("Proportion Less") + ggtitle("Residual Fit Spread Plot")
+    ggplot(d, aes(x = x, y = y)) + 
+    geom_point(color = "blue", shape = 1) +
+    ylim(c(ymin, ymax)) + 
+    xlim(c(-0.2, 1.2)) + 
+    ylab("Residual") +
+    xlab("Proportion Less") + 
+    ggtitle("Residual Fit Spread Plot")
 
   if (print_plot) {
     print(p)

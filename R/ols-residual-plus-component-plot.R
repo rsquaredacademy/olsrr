@@ -34,10 +34,16 @@ ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
 
   for (i in seq_len(pl$lmc)) {
     k <- cpdata(pl$data, pl$mc, pl$e, i)
-    p <- eval(substitute(ggplot(k, aes(x = x, y = y)) +
-      geom_point(colour = "blue", size = 2) + xlab(pl$nam[i]) +
-      ylab(paste0("Residual + Component (", pl$indvar, ")")) +
-      stat_smooth(method = "lm", se = FALSE), list(i = i)))
+    p <- 
+      eval(
+        substitute(
+          ggplot(k, aes(x = x, y = y)) +
+          geom_point(colour = "blue", size = 2) + 
+          xlab(pl$nam[i]) +
+          ylab(paste0("Residual + Component (", pl$indvar, ")")) +
+          stat_smooth(method = "lm", se = FALSE), list(i = i)
+        )
+      )
 
     myplots[[i]] <- p
   }

@@ -26,28 +26,36 @@ ols_plot_response <- function(model, print_plot = TRUE) {
   xval      <- seq_len(length(predictor))
   d1        <- data.frame(x = predictor)
 
-  p1 <- ggplot(d1, aes(x = x)) +
+  p1 <- 
+    ggplot(d1, aes(x = x)) +
     geom_dotplot(binwidth = 1, fill = "blue") +
-    xlab(nam[1]) + ggtitle(paste("Dot Plot of", nam[1]))
+    xlab(nam[1]) + 
+    ggtitle(paste("Dot Plot of", nam[1]))
 
   d2 <- data.frame(x = xval, y = predictor)
-  p2 <- ggplot(d2, aes(x = x, y = y)) +
+  p2 <- 
+    ggplot(d2, aes(x = x, y = y)) +
     geom_point(color = "blue") +
     geom_line(color = "blue") +
-    xlab("Observation") + ylab(nam[1]) +
+    xlab("Observation") + 
+    ylab(nam[1]) +
     ggtitle(paste("Trend Plot of", nam[1]))
 
 
   d3 <- data.frame(x = predictor)
-  p3 <- ggplot(d3, aes(x = x)) +
+  p3 <- 
+    ggplot(d3, aes(x = x)) +
     geom_histogram(bins = 5, color = "black", fill = "blue") +
-    xlab(nam[1]) + ggtitle(paste("Histogram of", nam[1]))
+    xlab(nam[1]) + 
+    ggtitle(paste("Histogram of", nam[1]))
 
 
   d4 <- data.frame(x = predictor)
-  p4 <- ggplot(d4, aes(x = factor(0), y = x)) +
+  p4 <- 
+    ggplot(d4, aes(x = factor(0), y = x)) +
     geom_boxplot(fill = "blue") +
-    xlab("") + ylab(nam[1]) +
+    xlab("") + 
+    ylab(nam[1]) +
     ggtitle(paste("Boxplot of", nam[1])) +
     theme(axis.text.x = element_blank())
 

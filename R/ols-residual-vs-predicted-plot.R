@@ -35,7 +35,8 @@ ols_plot_resid_fit <- function(model, print_plot = TRUE) {
   p <-
     ggplot(d, aes(x = predicted, y = resid)) +
     geom_point(shape = 1, colour = "blue") +
-    xlab("Fitted Value") + ylab("Residual") +
+    xlab("Fitted Value") + 
+    ylab("Residual") +
     ggtitle("Residual vs Fitted Values") +
     geom_hline(yintercept = 0, colour = "red")
 

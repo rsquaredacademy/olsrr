@@ -29,7 +29,8 @@ ols_plot_resid_pot <- function(model, print_plot = TRUE) {
   p <-
     ggplot(d, aes(x = res, y = pot)) +
     geom_point(colour = "blue", shape = 1) +
-    xlab("Residual") + ylab("Potential") +
+    xlab("Residual") + 
+    ylab("Potential") +
     ggtitle("Potential-Residual Plot")
 
   if (print_plot) {

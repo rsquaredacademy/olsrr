@@ -158,7 +158,8 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
 
           if (details) {
             cat("\n")
-            cat(paste("Backward Elimination: Step", step), "\n\n", paste("Variable", rpred[lp], "Removed"), "\n\n")
+            cat(paste("Backward Elimination: Step", step), "\n\n", 
+              paste("Variable", rpred[lp], "Removed"), "\n\n")
             m <- ols_regress(paste(response, "~", paste(c(include, cterms), collapse = " + ")), l)
             print(m)
             cat("\n\n")
@@ -166,9 +167,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
         } else {
           end <- TRUE
           if (progress || details) {
-            cat("\n")
-            cat(paste0("No more variables satisfy the condition of p value = ", p_val))
-            cat("\n")
+            ols_stepwise_break(direction = "backward")
           }
         }
 
