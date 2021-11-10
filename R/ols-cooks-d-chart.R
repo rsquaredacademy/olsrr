@@ -62,19 +62,17 @@ ols_plot_cooksd_chart <- function(model, type = 1, print_plot = TRUE) {
 
   check_model(model)
 
-  obs <- NULL
-  ckd <- NULL
-  txt <- NULL
-  cd  <- NULL
-
   k <- ols_prep_cdplot_data(model, type)
   d <- ols_prep_outlier_obs(k)
   f <- ols_prep_cdplot_outliers(k)
 
   p <- ggplot(d, aes(x = obs, y = cd, label = txt, ymin = min(cd), ymax = cd)) +
-    geom_linerange(colour = "blue") + geom_point(shape = 1, colour = "blue") +
-    geom_hline(yintercept = k$ts, colour = "red") + xlab("Observation") +
-    ylab("Cook's D") + ggtitle("Cook's D Chart") +
+    geom_linerange(colour = "blue") + 
+    geom_point(shape = 1, colour = "blue") +
+    geom_hline(yintercept = k$ts, colour = "red") + 
+    xlab("Observation") +
+    ylab("Cook's D") + 
+    ggtitle("Cook's D Chart") +
     geom_text(vjust = -1, size = 3, family = "serif", fontface = "italic",
               colour = "darkred", na.rm = TRUE) +
     annotate(

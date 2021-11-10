@@ -75,7 +75,6 @@ corsign <- function(model) {
 
 corout <- function(model, r2) {
 
-  r.squared        <- NULL
   r1               <- summary(model)$r.squared
   mdata            <- cordata(model)
   cor_mdata        <- cmdata(mdata)

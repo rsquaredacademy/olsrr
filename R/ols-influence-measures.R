@@ -75,7 +75,6 @@ hadipot <- function(model) {
 
 hadires <- function(model) {
 
-  Df     <- NULL
   pii    <- 1 - ols_leverage(model)
   q      <- model$rank
   p      <- q - 1

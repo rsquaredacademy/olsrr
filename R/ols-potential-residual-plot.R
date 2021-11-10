@@ -21,11 +21,7 @@
 ols_plot_resid_pot <- function(model, print_plot = TRUE) {
 
   check_model(model)
-
-  res <- NULL
-  pot <- NULL
   d   <- data.frame(res = hadio(model, 3), pot = hadio(model, 2))
-
   p <-
     ggplot(d, aes(x = res, y = pot)) +
     geom_point(colour = "blue", shape = 1) +

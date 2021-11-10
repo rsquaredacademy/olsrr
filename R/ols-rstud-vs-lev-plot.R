@@ -25,13 +25,6 @@ ols_plot_resid_lev <- function(model, threshold = NULL, print_plot = TRUE) {
     threshold <- 2
   }
 
-  lev_thrsh   <- NULL
-  fct_color   <- NULL
-  leverage    <- NULL
-  levrstud    <- NULL
-  txt         <- NULL
-  obs         <- NULL
-  color       <- NULL
   resp        <- names(model.frame(model))[1]
   title       <- paste("Outlier and Leverage Diagnostics for", resp)
   g           <- ols_prep_rstudlev_data(model, threshold)

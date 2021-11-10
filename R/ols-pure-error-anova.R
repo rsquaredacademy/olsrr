@@ -96,9 +96,6 @@ print.ols_pure_error_anova <- function(x, ...) {
 
 peanova <- function(model) {
 
-  lfit   <- NULL
-  rerror <- NULL
-
   n         <- model_rows(model)
   nd        <- pred_table_length(model)
   comp      <- pea_data(model)
@@ -184,11 +181,6 @@ replicate_mean <- function(mean_pred, pred_u) {
 
 
 pea_data_comp <- function(data, model, mean_rep) {
-
-  pred <- NULL
-  ybar <- NULL
-  yhat <- NULL
-  y    <- NULL
 
   data$yhat      <- fitted(model)
   colnames(data) <- c("y", "pred", "yhat")

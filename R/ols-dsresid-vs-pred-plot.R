@@ -45,13 +45,6 @@ ols_plot_resid_stud_fit <- function(model, threshold = NULL, print_plot = TRUE) 
     threshold <- 2
   }
 
-  fct_color   <- NULL
-  color       <- NULL
-  pred        <- NULL
-  dsr         <- NULL
-  txt         <- NULL
-  obs         <- NULL
-  ds          <- NULL
   k           <- ols_prep_dsrvf_data(model, threshold)
   d           <- k$ds
   d$txt       <- ifelse(d$color == "outlier", d$obs, NA)

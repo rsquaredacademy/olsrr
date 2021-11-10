@@ -25,8 +25,6 @@ ols_plot_obs_fit <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x     <- NULL
-  y     <- NULL
   oname <- names(model.frame(model))[1]
   d     <- obspred(model)
 

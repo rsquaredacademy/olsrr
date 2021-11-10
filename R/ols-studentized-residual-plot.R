@@ -36,12 +36,6 @@ ols_plot_resid_stud <- function(model, threshold = NULL, print_plot = TRUE) {
 
   check_model(model)
 
-  fct_color <- NULL
-  color     <- NULL
-  obs       <- NULL
-  dsr       <- NULL
-  txt       <- NULL
-
   if (is.null(threshold)) {
     threshold <- 3
   }

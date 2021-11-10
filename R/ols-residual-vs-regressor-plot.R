@@ -22,8 +22,6 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
 
   check_model(model)
 
-  x     <- NULL
-  y     <- NULL
   d     <- ols_prep_rvsrplot_data(model)
   inter <- eval(model$call$data)[variable]
   x     <- inter[[1]]

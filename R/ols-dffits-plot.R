@@ -50,9 +50,6 @@ ols_plot_dffits <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  dbetas     <- NULL
-  obs        <- NULL
-  txt        <- NULL
   dffitsm    <- unlist(dffits(model))
   k          <- model_n_coeffs(model)
   n          <- model_rows(model)

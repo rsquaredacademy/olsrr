@@ -209,15 +209,6 @@ print.ols_step_best_subset <- function(x, ...) {
 #'
 plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
 
-  rsquare <- NULL
-  adjr    <- NULL
-  sbic    <- NULL
-  aic     <- NULL
-  sbc     <- NULL
-  cp      <- NULL
-  a       <- NULL
-  b       <- NULL
-
   z <- x$metrics
 
   d <- data.frame(mindex  = z$mindex, 
@@ -259,17 +250,15 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
 #'
 best_subset_plot <- function(d, var, title = "R-Square") {
 
-  mindex <- NULL
-  a      <- NULL
-  b      <- NULL
-
   d1 <- d[, c("mindex", var)]
   colnames(d1) <- c("a", "b")
 
   ggplot(d1, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle(title) +
+    xlab("") + 
+    ylab("") + 
+    ggtitle(title) +
     theme(axis.ticks = element_blank())
 
 }

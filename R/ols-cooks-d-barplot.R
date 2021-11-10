@@ -63,11 +63,6 @@ ols_plot_cooksd_bar <- function(model, type = 1, print_plot = TRUE) {
 
   check_model(model)
 
-  fct_color <- NULL
-  obs       <- NULL
-  txt       <- NULL
-  cd        <- NULL
-
   k <- ols_prep_cdplot_data(model, type)
   d <- ols_prep_outlier_obs(k)
   f <- ols_prep_cdplot_outliers(k)
@@ -78,9 +73,13 @@ ols_plot_cooksd_bar <- function(model, type = 1, print_plot = TRUE) {
   p <-
     ggplot(d, aes(x = obs, y = cd, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
-    scale_fill_manual(values = c("blue", "red")) + labs(fill = "Observation") +
-    ylim(0, y_lim) + ylab("Cook's D") + xlab("Observation") +
-    ggtitle("Cook's D Bar Plot") + geom_hline(yintercept = 0) +
+    scale_fill_manual(values = c("blue", "red")) + 
+    labs(fill = "Observation") +
+    ylim(0, y_lim) + 
+    ylab("Cook's D") + 
+    xlab("Observation") +
+    ggtitle("Cook's D Bar Plot") + 
+    geom_hline(yintercept = 0) +
     geom_hline(yintercept = k$ts, colour = "red") +
     geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +
     annotate(

@@ -82,8 +82,6 @@ ols_prep_regress_y <- function(data, i) {
 #'
 ols_prep_cdplot_data <- function(model, type = 1) {
 
-  cd        <- NULL
-  color     <- NULL
   cooksd    <- cooks.distance(model)
   n         <- length(cooksd)
   obs       <- seq_len(n)
@@ -93,17 +91,17 @@ ols_prep_cdplot_data <- function(model, type = 1) {
 
   ckd$color     <- ifelse(ckd$cd >= ts, "outlier", "normal")
   ckd$fct_color <- ordered(factor(ckd$color), levels = c("normal", "outlier"))
-
-  maxx <- cooks_max * 0.01 + cooks_max
+  maxx          <- cooks_max * 0.01 + cooks_max
+  
   list(ckd = ckd, maxx = maxx, ts = ts)
 
 }
 
 ols_cooks_ts <- function(model, type = 1) {
 
-  cooksd    <- cooks.distance(model)
-  n         <- length(cooksd)
-  k         <- length(model$coefficients) - 1
+  cooksd <- cooks.distance(model)
+  n      <- length(cooksd)
+  k      <- length(model$coefficients) - 1
 
   switch(type,
          `1` = (4 / n),
@@ -129,10 +127,6 @@ ols_cooks_ts <- function(model, type = 1) {
 #'
 ols_prep_outlier_obs <- function(k) {
 
-  ckd   <- NULL
-  color <- NULL
-  obs   <- NULL
-
   data <- k$ckd
   data$txt <- ifelse(data$color == "outlier", data$obs, NA)
   return(data)
@@ -153,11 +147,6 @@ ols_prep_outlier_obs <- function(k) {
 #' @export
 #'
 ols_prep_cdplot_outliers <- function(k) {
-
-  color <- NULL
-  ckd   <- NULL
-  obs   <- NULL
-  cd    <- NULL
 
   result <- k$ckd[k$ckd$color == "outlier", c("obs", "cd")]
   names(result) <- c("observation", "cooks_distance")
@@ -185,8 +174,6 @@ ols_prep_cdplot_outliers <- function(k) {
 #'
 ols_prep_dfbeta_data <- function(d, threshold) {
 
-  color       <- NULL
-  obs         <- NULL
   d$color     <- ifelse(((d$dbetas >= threshold) | (d$dbetas <= -threshold)), c("outlier"), c("normal"))
   d$fct_color <- ordered(factor(d$color), levels = c("normal", "outlier"))
   d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
@@ -215,10 +202,6 @@ ols_prep_dfbeta_data <- function(d, threshold) {
 #'
 ols_prep_dfbeta_outliers <- function(d) {
 
-  color  <- NULL
-  obs    <- NULL
-  dbetas <- NULL
-
   d[d$color == "outlier", c("obs", "dbetas")]
 
 }
@@ -240,8 +223,6 @@ ols_prep_dfbeta_outliers <- function(d) {
 #'
 ols_prep_dsrvf_data <- function(model, threshold = NULL) {
 
-  dsr     <- NULL
-  color   <- NULL
   pred    <- fitted(model)
   dsresid <- unname(rstudent(model))
   n       <- length(dsresid)
@@ -351,7 +332,6 @@ ols_prep_rstudlev_data <- function(model, threshold = NULL) {
     threshold <- 2
   }
 
-  color     <- NULL
   leverage  <- unname(hatvalues(model))
   rstudent  <- unname(rstudent(model))
   k         <- length(coefficients(model))
@@ -412,7 +392,6 @@ ols_prep_srplot_data<- function(model, threshold = NULL) {
     threshold <- 3
   }
 
-  color <- NULL
   dstud <- unname(rstudent(model))
   obs   <- seq_len(length(dstud))
   dsr   <- data.frame(obs = obs, dsr = dstud)
@@ -454,7 +433,6 @@ ols_prep_srchart_data <- function(model, threshold = NULL) {
     threshold <- 2
   }
 
-  color         <- NULL
   sdres         <- rstandard(model)
   sdres_out     <- abs(sdres) > threshold
   outlier       <- sdres[sdres_out]

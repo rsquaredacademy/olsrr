@@ -150,7 +150,6 @@ ind_score <- function(model, var_resid) {
 
 rhs_score <- function(l, ind, n) {
 
-  r.squared <- NULL
   ind <- data.frame(ind = ind)
   (summary(lm(ind ~ ., data = cbind(l, ind)[, -1]))$r.squared) * n
 
@@ -158,7 +157,6 @@ rhs_score <- function(l, ind, n) {
 
 fit_score <- function(model) {
 
-  r.squared    <- NULL
   pred         <- fitted(model)
   scaled_resid <- resid_scaled(model, pred)
   l            <- ols_prep_avplot_data(model)
@@ -178,7 +176,6 @@ resid_scaled <- function(model, pred) {
 
 var_score <- function(model, vars) {
 
-  r.squared <- NULL
   n <- nrow(ols_prep_avplot_data(model)) 
   (summary(lm(ind ~ ., data = score_data(model, vars)))$r.squared) * n
     

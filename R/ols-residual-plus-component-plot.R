@@ -26,9 +26,6 @@ ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x <- NULL
-  y <- NULL
-
   pl      <- cpout(model)
   myplots <- list()
 

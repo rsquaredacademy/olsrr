@@ -32,11 +32,6 @@ ols_plot_resid_stand <- function(model, threshold = NULL, print_plot = TRUE) {
 
   check_model(model)
 
-  color <- NULL
-  obs   <- NULL
-  sdres <- NULL
-  txt   <- NULL
-
   if (is.null(threshold)) {
     threshold <- 2
   }

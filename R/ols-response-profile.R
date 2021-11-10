@@ -18,9 +18,6 @@ ols_plot_response <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x <- NULL
-  y <- NULL
-
   nam       <- names(model.frame(model))
   predictor <- model.response(model.frame(model))
   xval      <- seq_len(length(predictor))

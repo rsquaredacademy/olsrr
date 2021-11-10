@@ -23,7 +23,6 @@ ols_plot_hadi <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  hadi <- NULL
   hdi  <- unname(ols_hadi(model)$hadi)
   obs  <- seq_len(length(hdi))
   d    <- data.frame(obs = obs, hdi = hdi)
