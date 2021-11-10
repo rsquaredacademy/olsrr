@@ -48,7 +48,7 @@ ols_plot_resid_stud_fit <- function(model, threshold = NULL, print_plot = TRUE) 
   k           <- ols_prep_dsrvf_data(model, threshold)
   d           <- k$ds
   d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
-  f           <- d[color == "outlier", c("obs", "pred", "dsr")]
+  f           <- d[d$color == "outlier", c("obs", "pred", "dsr")]
   colnames(f) <- c("observation", "fitted_values", "del_stud_resid")
     
   p <- ggplot(d, aes(x = pred, y = dsr, label = txt)) +

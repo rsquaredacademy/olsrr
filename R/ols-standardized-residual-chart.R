@@ -37,7 +37,7 @@ ols_plot_resid_stand <- function(model, threshold = NULL, print_plot = TRUE) {
   }
 
   d <- ols_prep_srchart_data(model, threshold)
-  f <- d[color == "outlier", c("obs", "sdres")]
+  f <- d[d$color == "outlier", c("obs", "sdres")]
   colnames(f) <- c("observation", "stand_resid")
 
   p <-

@@ -17,6 +17,6 @@ if (getRversion() >= "2.15.1") {
     "lpreds", "terms", "pvdata", "values", "d", "v", "r.squared", "obs", 
     "txt", "cd", "fct_color", "ckd", "dbetas", "color", "pred", "ds", "dsr",
     "fstatistic", "hadi", "Df", "res", "pot", "lfit", "rerror", "ybar", 
-    "yhat", "predicted", "resid", "lev_thrsh", "leveragre", "levrstud",
+    "yhat", "predicted", "resid", "lev_thrsh", "leverage", "levrstud",
     "sdres"))
 }
