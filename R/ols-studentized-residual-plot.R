@@ -43,7 +43,7 @@ ols_plot_resid_stud <- function(model, threshold = NULL, print_plot = TRUE) {
   g           <- ols_prep_srplot_data(model, threshold)
   d           <- g$dsr
   d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
-  f           <- d[color == "outlier", c("obs", "dsr")] 
+  f           <- d[d$color == "outlier", c("obs", "dsr")] 
   colnames(f) <- c("observation", "stud_resid")
 
   p <-
