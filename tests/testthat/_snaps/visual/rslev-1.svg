@@ -227,9 +227,6 @@
 <circle cx='212.60' cy='245.31' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='90.48' cy='296.36' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='178.28' cy='258.63' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
-<line x1='30.83' y1='190.46' x2='612.32' y2='190.46' style='stroke-width: 1.07; stroke: #B03060; stroke-linecap: butt;' />
-<line x1='30.83' y1='362.01' x2='612.32' y2='362.01' style='stroke-width: 1.07; stroke: #B03060; stroke-linecap: butt;' />
-<line x1='303.54' y1='545.11' x2='303.54' y2='22.78' style='stroke-width: 1.07; stroke: #B03060; stroke-linecap: butt;' />
 <text x='416.45' y='307.34' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='4.75px' lengthAdjust='spacingAndGlyphs'>3</text>
 <text x='114.86' y='179.20' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='4.75px' lengthAdjust='spacingAndGlyphs'>4</text>
 <text x='368.68' y='276.89' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='9.50px' lengthAdjust='spacingAndGlyphs'>15</text>
@@ -252,6 +249,9 @@
 <text x='57.26' y='359.39' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='14.24px' lengthAdjust='spacingAndGlyphs'>178</text>
 <text x='158.45' y='363.19' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='14.24px' lengthAdjust='spacingAndGlyphs'>185</text>
 <text x='350.20' y='291.53' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='14.24px' lengthAdjust='spacingAndGlyphs'>194</text>
+<line x1='30.83' y1='190.46' x2='612.32' y2='190.46' style='stroke-width: 1.07; stroke: #B03060; stroke-linecap: butt;' />
+<line x1='30.83' y1='362.01' x2='612.32' y2='362.01' style='stroke-width: 1.07; stroke: #B03060; stroke-linecap: butt;' />
+<line x1='303.54' y1='545.11' x2='303.54' y2='22.78' style='stroke-width: 1.07; stroke: #B03060; stroke-linecap: butt;' />
 <text x='587.15' y='37.98' text-anchor='end' style='font-size: 11.04px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='125.83px' lengthAdjust='spacingAndGlyphs'>Leverage Threshold: 0.04</text>
 <text x='563.84' y='56.97' text-anchor='end' style='font-size: 11.04px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='96.95px' lengthAdjust='spacingAndGlyphs'>Outlier Threshold: 2</text>
 <rect x='30.83' y='22.78' width='581.49' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />

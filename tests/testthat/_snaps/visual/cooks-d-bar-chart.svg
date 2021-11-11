@@ -91,10 +91,10 @@
 <circle cx='643.80' cy='506.01' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='663.72' cy='46.53' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='683.64' cy='509.10' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
-<line x1='35.24' y1='346.95' x2='714.52' y2='346.95' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
 <text x='384.84' y='69.01' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='9.50px' lengthAdjust='spacingAndGlyphs'>17</text>
 <text x='444.60' y='302.03' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='9.50px' lengthAdjust='spacingAndGlyphs'>20</text>
 <text x='663.72' y='40.65' text-anchor='middle' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='9.50px' lengthAdjust='spacingAndGlyphs'>31</text>
+<line x1='35.24' y1='346.95' x2='714.52' y2='346.95' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
 <text x='697.95' y='37.98' text-anchor='end' style='font-size: 11.04px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='82.86px' lengthAdjust='spacingAndGlyphs'>Threshold: 0.125</text>
 <rect x='35.24' y='22.78' width='679.28' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>
