@@ -25,13 +25,17 @@ ols_plot_resid_box <- function(model, print_plot = TRUE) {
 
   p <-
     ggplot(d, aes(x = factor(0), y = resid)) +
-    geom_boxplot(outlier.color = "green", 
-                 outlier.size = 3, 
-                 fill = "grey80", 
-                 colour = "#3366FF") +
-    xlab(" ") + 
-    ylab("Residuals") + 
-    ggtitle("Residual Box Plot") +
+    geom_boxplot(outlier.color = "green", outlier.size = 3, fill = "grey80",
+                 colour = "#3366FF")
+
+  p <-
+    p +
+    xlab(" ") +
+    ylab("Residuals") +
+    ggtitle("Residual Box Plot")
+
+  p <-
+    p +
     theme(axis.text.x = element_blank())
 
   if (print_plot) {

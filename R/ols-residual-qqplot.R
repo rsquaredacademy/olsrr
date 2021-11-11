@@ -27,10 +27,10 @@ ols_plot_resid_qq <- function(model, print_plot = TRUE) {
   d     <- data.frame(x = resid)
 
   p <-
-    ggplot(d, aes(sample = x)) + 
-    stat_qq(color = "blue") +
+    ggplot(d, aes(sample = x)) +
     geom_abline(slope = slope, intercept = int, color = "red") +
-    xlab("Theoretical Quantiles") + 
+    stat_qq(color = "blue") +
+    xlab("Theoretical Quantiles") +
     ylab("Sample Quantiles") +
     ggtitle("Normal Q-Q Plot")
 

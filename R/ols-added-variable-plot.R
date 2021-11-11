@@ -68,11 +68,17 @@ ols_plot_added_variable <- function(model, print_plot = TRUE) {
     y <- ols_prep_regress_y(data, i)
     d <- data.frame(x, y)
 
-    p <- eval(substitute(ggplot(d, aes(x = x, y = y)) +
-      geom_point(colour = "blue", size = 2) +
-      xlab(paste(xnames[i], " | Others")) +
-      ylab(paste(xnames[1], " | Others")) +
-      stat_smooth(method = "lm", se = FALSE), list(i = i)))
+    p <-
+      eval(
+        substitute(
+          ggplot(d, aes(x = x, y = y)) +
+            geom_point(colour = "blue", size = 2) +
+            stat_smooth(method = "lm", se = FALSE) +
+            xlab(paste(xnames[i], " | Others")) +
+            ylab(paste(xnames[1], " | Others")),
+          list(i = i)
+        )
+      )
 
     j <- i - 1
     myplots[[j]] <- p

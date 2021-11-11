@@ -25,12 +25,16 @@ ols_plot_reg_line <- function(response, predictor, print_plot = TRUE) {
   d           <- data.frame(x = predictor, y = response)
 
   p <-
-    ggplot(d, aes(x = x, y = y)) + 
+    ggplot(d, aes(x = x, y = y)) +
     geom_point(fill = "blue") +
-    xlab(paste0(preds)) + ylab(paste0(resp)) + 
-    labs(title = "Regression Line") +
     geom_point(data = d2, aes(x = x, y = y), color = "red", shape = 2, size = 3) +
     geom_smooth(method = "lm", se = FALSE)
+
+  p <-
+    p +
+    labs(title = "Regression Line") +
+    xlab(paste0(preds)) +
+    ylab(paste0(resp))
 
   if (print_plot) {
     print(p)

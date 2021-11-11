@@ -59,19 +59,27 @@ ols_plot_dffits <- function(model, print_plot = TRUE) {
   d          <- ols_prep_dfbeta_data(dfits_data, dffits_t)
   f          <- ols_prep_dfbeta_outliers(d)
 
-  p <- ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dffitsm)) +
+  p <-
+    ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dffitsm)) +
     geom_linerange(colour = "blue") +
     geom_hline(yintercept = c(0, dffits_t, -dffits_t), colour = "red") +
     geom_point(colour = "blue", shape = 1) +
-    xlab("Observation") + ylab("DFFITS") +
-    ggtitle(paste("Influence Diagnostics for", title)) +
     geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif",
-              fontface = "italic", colour = "darkred", na.rm = TRUE) +
-    annotate(
-      "text", x = Inf, y = Inf, hjust = 1.5, vjust = 2,
-      family = "serif", fontface = "italic", colour = "darkred",
-      label = paste("Threshold:", round(dffits_t, 2))
-    )
+              fontface = "italic", colour = "darkred", na.rm = TRUE)
+
+  # annotations
+  p <-
+    p +
+    annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = 2,
+             family = "serif", fontface = "italic", colour = "darkred",
+             label = paste("Threshold:", round(dffits_t, 2)))
+
+  # guides
+  p <-
+    p +
+    xlab("Observation") +
+    ylab("DFFITS") +
+    ggtitle(paste("Influence Diagnostics for", title))
 
   if (print_plot) {
     suppressWarnings(print(p))

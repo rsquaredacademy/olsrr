@@ -26,7 +26,7 @@ ols_plot_rsquared <- function(x, print_plot = TRUE, details = TRUE) {
       title  <- "Stepwise R-Squared Backward Selection"
     } else {
       title  <- "Stepwise Adjusted R-Squared Backward Selection"
-    }  
+    }
   } else {
     nudge <- 0.05
     if (type == "r2") {
@@ -39,9 +39,9 @@ ols_plot_rsquared <- function(x, print_plot = TRUE, details = TRUE) {
   pred <- ols_step_plot_text(x, direction, details, metric)
   data <- ols_stepwise_plot_data(x, pred, metric)
   info <- ols_metric_info(x, direction, metric)
- 
-  p <- ols_step_ggplot(data$d, data$d2, data$xmin, data$xmax, data$ymin, data$ymax,
-    y_lab, title, "bottom", 1.2, nudge, Inf, info)
+
+  p <- ols_step_ggplot(data$d, data$d2, data$xmin, data$xmax, data$ymin,
+                       data$ymax, y_lab, title, "bottom", 1.2, nudge, Inf, info)
 
   if (print_plot) {
     print(p)

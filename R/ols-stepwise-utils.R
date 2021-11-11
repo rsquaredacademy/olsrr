@@ -2,14 +2,14 @@ check_inputs <- function(model, include, exclude, progress, details) {
 
   check_model(model)
   check_npredictors(model, 2)
-  
+
   indterms <- coeff_names(model)
   check_terms(include, indterms)
   check_terms(exclude, indterms, include = FALSE)
 
   check_logic(progress)
   check_logic(details)
-  
+
 }
 
 check_terms <- function(clude, indterms, include = TRUE) {
@@ -36,9 +36,9 @@ check_terms <- function(clude, indterms, include = TRUE) {
   if (is.numeric(clude)) {
     if (any(clude > lenterms)) {
       stop(paste0("Index of variable to be ", process, " should be between 1 and ", lenterms, "."), call. = FALSE)
-    } 
+    }
   }
-  
+
 }
 
 ols_base_model <- function(include, response, data) {
@@ -74,7 +74,7 @@ ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backwar
 }
 
 ols_base_model_stats <- function(response, include, direction = c("forward", "backward", "both"), aic) {
-  
+
   method <- match.arg(direction)
   cat("\n")
   cat("Step  => 0", "\n")
@@ -85,10 +85,10 @@ ols_base_model_stats <- function(response, include, direction = c("forward", "ba
     if (is.null(include)) {
       cat("Model =>", paste(response, "~", 1, "\n"))
     } else {
-      cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))  
+      cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
     }
   }
-  
+
   cat("AIC   =>", aic, "\n\n")
   cat("Initiating stepwise selection...", "\n\n")
 
@@ -133,7 +133,7 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
   } else {
     cat("Removed =>", tail(rpred, n = 1), "\n")
   }
-  
+
   cat("Model   =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
   cat("AIC     =>", aic, "\n\n")
 
@@ -162,13 +162,13 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predicto
   }
 
   cat(rep("-", w), sep = "", "\n")
-  
+
   cat(
-    fl("Predictor", w1), fs(), 
-    fc("DF", w2), fs(), 
+    fl("Predictor", w1), fs(),
+    fc("DF", w2), fs(),
     fc("AIC", w3), fs(),
-    fc("Sum Sq", w4), fs(), 
-    fc("ESS", w5), fs(), 
+    fc("Sum Sq", w4), fs(),
+    fc("ESS", w5), fs(),
     fc("R-Sq", w6), fs(),
     fc("Adj. R-Sq", w7), "\n")
 
@@ -176,12 +176,12 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predicto
 
   for (i in seq_len(ln)) {
     cat(
-      fl(df[i, 1], w1), fs(), 
-      fg(1, w2), fs(), 
+      fl(df[i, 1], w1), fs(),
+      fg(1, w2), fs(),
       fg(format(round(df[i, 2], 3), nsmall = 3), w3), fs(),
-      fg(format(round(df[i, 4], 3), nsmall = 3), w4), fs(), 
+      fg(format(round(df[i, 4], 3), nsmall = 3), w4), fs(),
       fg(format(round(df[i, 3], 3), nsmall = 3), w5), fs(),
-      fg(format(round(df[i, 5], 3), nsmall = 3), w6), fs(), 
+      fg(format(round(df[i, 5], 3), nsmall = 3), w6), fs(),
       fg(format(round(df[i, 6], 3), nsmall = 3), w7), "\n")
   }
 
@@ -215,7 +215,7 @@ ols_stepwise_vars <- function(preds, direction = c("forward", "backward", "both"
     op <- "Selected:"
   } else {
     op <- "Removed:"
-  } 
+  }
 
   cat("\n")
   if (length(preds) > 0) {
@@ -238,10 +238,6 @@ ols_stepaic_plot <- function(x, direction = c("forward", "backward", "both"), de
 }
 
 ols_stepwise_plot_data <- function(x, pred, metric = "r2") {
-
-  tx    <- NULL
-  a     <- NULL
-  b     <- NULL
 
   step <- x$metrics$step
   aic  <- x$metrics[[metric]]
@@ -268,11 +264,11 @@ ols_step_plot_text <- function(x, direction = c("forward", "backward", "both"), 
     }
   } else {
     if (details) {
-      pred <- ifelse(x$metrics$method == "addition", 
-                             paste0("[+", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"), 
+      pred <- ifelse(x$metrics$method == "addition",
+                             paste0("[+", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"),
                              paste0("[-", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"))
     } else {
-      pred <- ifelse(x$metrics$method == "addition", 
+      pred <- ifelse(x$metrics$method == "addition",
                                paste0("+", x$metrics$variable),
                                paste0("-", x$metrics$variable))
     }
@@ -335,15 +331,15 @@ ols_stepaic_plot_build <- function(d, d2, xmin, xmax, ymin, ymax, metric_info, d
 
   y_lab  <- "AIC"
   v_just <- "bottom"
-  h_just <- 1.2 
+  h_just <- 1.2
   ann_x  <- Inf
 
-  ols_step_ggplot(d, d2, xmin, xmax, ymin, ymax, y_lab, title, v_just, h_just, nudge, ann_x, metric_info) 
+  ols_step_ggplot(d, d2, xmin, xmax, ymin, ymax, y_lab, title, v_just, h_just, nudge, ann_x, metric_info)
 
 }
 
 
-ols_plot_stepwise <- function(x, metric = "r2", y_lab = "R-Square", details = TRUE, 
+ols_plot_stepwise <- function(x, metric = "r2", y_lab = "R-Square", details = TRUE,
   direction = c("forward", "backward", "both")) {
 
   type <- match.arg(direction)
@@ -365,7 +361,7 @@ ols_plot_stepwise <- function(x, metric = "r2", y_lab = "R-Square", details = TR
     title <- "Root Mean Squared Error"
   }
 
-  ols_step_ggplot(data$d, data$d2, data$xmin, data$xmax, data$ymin, data$ymax, 
+  ols_step_ggplot(data$d, data$d2, data$xmin, data$xmax, data$ymin, data$ymax,
     y_lab, title, v_just, h_just, nudge = 0.05, ann_x, info)
 
 }
@@ -373,28 +369,25 @@ ols_plot_stepwise <- function(x, metric = "r2", y_lab = "R-Square", details = TR
 #' @importFrom ggplot2 aes_string
 ols_step_ggplot <- function(d, d2, xmin, xmax, ymin, ymax, y_lab, title, v_just, h_just, nudge = 0.05, ann_x, metric_info) {
 
-  ggplot(d, aes_string(x = "a", y = "b")) + 
+  ggplot(d, aes_string(x = "a", y = "b")) +
     geom_line(color = "blue") +
-    geom_point(color = "blue", 
-               shape = 1, 
-               size = 2) + 
-    xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + 
-    xlab("Step") + 
-    ylab(y_lab) +
-    ggtitle(title) +
-    geom_text(data = d2, aes_string(x = "x", y = "y", label = "tx"), size = 3, 
+    geom_point(color = "blue", shape = 1, size = 2) +
+    geom_text(data = d2, aes_string(x = "x", y = "y", label = "tx"), size = 3,
               hjust = "left", vjust = v_just, nudge_x = nudge) +
     annotate("text", x = ann_x, y = Inf, hjust = h_just, vjust = 2,
              family = "serif", fontface = "bold", size = 3,
-             label = metric_info)
-
+             label = metric_info) +
+    xlab("Step") +
+    ylab(y_lab) +
+    ggtitle(title) +
+    xlim(c(xmin, xmax)) +
+    ylim(c(ymin, ymax))
 }
 
 ols_print_final_model <- function(data) {
   cat("\n\n")
   cat("Final Model Output", "\n")
-  cat(rep("-", 18), sep = "", "\n\n") 
+  cat(rep("-", 18), sep = "", "\n\n")
   print(ols_regress(data$model))
   cat("\n")
 }
@@ -405,11 +398,11 @@ print_step_output <- function(data, direction = c("forward", "backward", "both")
   method <- match.arg(direction)
 
   print_step_zero(data, method)
-  
+
   mi         <- print_step_mi(data, method)
   metrics    <- print_step_metrics(data, mi)
   predictors <- print_step_predictors(data, method)
-  
+
   ols_print_output(metrics, predictors)
   ols_print_final_model(data)
 
@@ -419,7 +412,7 @@ print_step_zero <- function(data, method) {
 
   if (length(data$metrics$step) < 1) {
     if (method == "forward") {
-      stop("No variables have been added to the model.")  
+      stop("No variables have been added to the model.")
     } else if (method == "backward") {
       stop("No variables have been removed from the model.")
     } else {
@@ -450,7 +443,7 @@ print_step_metrics <- function(data, mi) {
 
   aic  <- c(mi$aic, data$metrics$aic)
   r2   <- c(mi$rsq, data$metrics$r2)
-  adjr <- c(mi$adjr, data$metrics$adj_r2) 
+  adjr <- c(mi$adjr, data$metrics$adj_r2)
   step <- c(0, data$metrics$step)
   ln   <- length(aic)
 
@@ -466,9 +459,9 @@ print_step_predictors <- function(data, method) {
   }
 
   if (method == "forward") {
-    predictors <- c("Base Model", data$metrics$variable)  
+    predictors <- c("Base Model", data$metrics$variable)
   } else if (method == "backward") {
-    predictors <- c("Full Model", data$metrics$variable)  
+    predictors <- c("Full Model", data$metrics$variable)
   } else {
     predictors <- c("Base Model", variable)
   }
@@ -483,27 +476,27 @@ ols_print_output <- function(metrics, predictors) {
   w3 <- max_nchar("AIC", metrics$aic)
   w4 <- max_nchar("R-Squared", metrics$r2, 5, 5)
   w5 <- max_nchar("Adj. R-Squared", metrics$adjr, 5, 5)
-  w  <- sum(w1, w2, w3, w4, w5, 16)  
-  
+  w  <- sum(w1, w2, w3, w4, w5, 16)
+
   cat("\n\n", format("Stepwise Summary", width = w, justify = "centre"), "\n")
   cat(rep("-", w), sep = "", "\n")
 
   cat(format("Step", width = w1, justify = "centre"), fs(),
-    fl("Variable", w2), fs(), 
+    fl("Variable", w2), fs(),
     fc("AIC", w3), fs(),
     fc("R-Squared", w4), fs(),
     fc("Adj. R-Squared", w5), "\n")
 
   cat(rep("-", w), sep = "", "\n")
-  
+
   for (i in seq_len(metrics$ln)) {
     cat(format(as.character(metrics$step[i]), width = w1, justify = "centre"), fs(),
-      fl(predictors[i], w2), fs(), 
+      fl(predictors[i], w2), fs(),
       fg(format(round(metrics$aic[i], 3), nsmall = 3), w3), fs(),
       fg(format(round(metrics$r2[i], 5), nsmall = 5), w4), fs(),
-      fg(format(round(metrics$adjr[i], 5), nsmall = 5), w5), "\n")  
+      fg(format(round(metrics$adjr[i], 5), nsmall = 5), w5), "\n")
   }
-  
+
   cat(rep("-", w), sep = "")
 }
 
@@ -521,7 +514,7 @@ ols_rsquared_init <- function(include, metric, response, rsq_base) {
         cat("Model          =>", paste(response, "~", 1, "\n"))
         cat("Adj. R-Squared =>", rsq_base, "\n\n")
       }
-    } else { 
+    } else {
       if (metric == "r2") {
         cat("Step      => 0", "\n")
         cat("Model     =>", paste(response, "~", paste(include, collapse = " + "), "\n"))

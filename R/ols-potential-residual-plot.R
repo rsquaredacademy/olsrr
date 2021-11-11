@@ -21,11 +21,12 @@
 ols_plot_resid_pot <- function(model, print_plot = TRUE) {
 
   check_model(model)
-  d   <- data.frame(res = hadio(model, 3), pot = hadio(model, 2))
+  d <- data.frame(res = hadio(model, 3), pot = hadio(model, 2))
+
   p <-
     ggplot(d, aes(x = res, y = pot)) +
     geom_point(colour = "blue", shape = 1) +
-    xlab("Residual") + 
+    xlab("Residual") +
     ylab("Potential") +
     ggtitle("Potential-Residual Plot")
 

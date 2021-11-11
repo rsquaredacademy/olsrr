@@ -50,21 +50,31 @@ ols_plot_resid_stud_fit <- function(model, threshold = NULL, print_plot = TRUE) 
   d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
   f           <- d[d$color == "outlier", c("obs", "pred", "dsr")]
   colnames(f) <- c("observation", "fitted_values", "del_stud_resid")
-    
-  p <- ggplot(d, aes(x = pred, y = dsr, label = txt)) +
+
+  p <-
+    ggplot(d, aes(x = pred, y = dsr, label = txt)) +
     geom_point(aes(colour = fct_color)) +
-    scale_color_manual(values = c("blue", "red")) +
-    ylim(k$cminx, k$cmaxx) + xlab("Predicted Value") +
-    ylab("Deleted Studentized Residual") + labs(color = "Observation") +
-    ggtitle("Deleted Studentized Residual vs Predicted Values") +
     geom_hline(yintercept = c(-threshold, threshold), colour = "red") +
     geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif",
-              fontface = "italic", colour = "darkred", na.rm = TRUE) +
-    annotate(
-      "text", x = Inf, y = Inf, hjust = 1.5, vjust = 2,
-      family = "serif", fontface = "italic", colour = "darkred",
-      label = paste0("Threshold: abs(", threshold, ")")
-    )
+              fontface = "italic", colour = "darkred", na.rm = TRUE)
+
+  p <-
+    p +
+    annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = 2,
+             family = "serif", fontface = "italic", colour = "darkred",
+             label = paste0("Threshold: abs(", threshold, ")"))
+
+  p <-
+    p +
+    scale_color_manual(values = c("blue", "red"))
+
+  p <-
+    p +
+    labs(color = "Observation") +
+    xlab("Predicted Value") +
+    ylab("Deleted Studentized Residual") +
+    ggtitle("Deleted Studentized Residual vs Predicted Values") +
+    ylim(k$cminx, k$cmaxx)
 
   if (print_plot) {
     suppressWarnings(print(p))
