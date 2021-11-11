@@ -39,9 +39,7 @@ ols_plot_obs_fit <- function(model, print_plot = TRUE) {
     p +
     ylab("Fitted Value") +
     xlab(paste(oname)) +
-    ggtitle(paste("Actual vs Fitted for", oname)) +
-
-
+    ggtitle(paste("Actual vs Fitted for", oname)) 
 
   if (print_plot) {
     print(p)

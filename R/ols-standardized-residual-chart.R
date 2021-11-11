@@ -57,8 +57,7 @@ ols_plot_resid_stand <- function(model, threshold = NULL, print_plot = TRUE) {
     p +
     xlab("Observation") +
     ylab("Standardized Residuals") +
-    ggtitle("Standardized Residuals Chart") +
-
+    ggtitle("Standardized Residuals Chart")
 
   if (print_plot) {
     suppressWarnings(print(p))
