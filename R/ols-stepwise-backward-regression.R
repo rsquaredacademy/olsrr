@@ -126,6 +126,10 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
       ols_candidate_terms(cterms, "backward")
     }
 
+    if (progress) {
+      ols_progress_init("backward")
+    }
+
     while (!end) {
       m     <- lm(paste(response, "~", paste(c(include, cterms), collapse = " + ")), l)
       m_sum <- Anova(m)
@@ -151,18 +155,13 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
           rmse   <- c(rmse, fr$rmse)
 
           if (progress) {
-            cat("\n")
-            cat("Variables Removed:", "\n\n")
-            cat(paste("=>", tail(rpred, n = 1)), "\n")
+            ols_progress_display(rpred, "others")
           }
 
           if (details) {
-            cat("\n")
-            cat(paste("Backward Elimination: Step", step), "\n\n", 
-              paste("Variable", rpred[lp], "Removed"), "\n\n")
-            m <- ols_regress(paste(response, "~", paste(c(include, cterms), collapse = " + ")), l)
-            print(m)
-            cat("\n\n")
+            mypred <- c(include, cterms)
+            aic_f  <- tail(aic, n = 1)
+            ols_stepwise_details(step, rpred, mypred, response, aic_f, "removed")
           }
         } else {
           end <- TRUE
@@ -174,18 +173,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
     }
 
     if (details) {
-      cat("\n\n")
-      len_pred <- length(rpred)
-      if (len_pred < 1) {
-        cat("Variables Removed: None", "\n\n")
-      } else if (len_pred == 1) {
-        cat(paste("Variables Removed:", rpred[1]), "\n\n")
-      } else {
-        cat("Variables Removed:", "\n\n")
-        for (i in seq_len(len_pred)) {
-          cat(paste("=>", rpred[i]), "\n")
-        }
-      }
+      ols_stepwise_vars(rpred, "backward")
     }
 
     final_model <- lm(paste(response, "~", paste(c(include, cterms), collapse = " + ")), data = l)

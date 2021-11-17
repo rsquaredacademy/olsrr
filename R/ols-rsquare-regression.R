@@ -89,12 +89,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
 
   if (progress) {
     cat("\n")
-    if (!details) {
-      cat("Variables Entered:", "\n\n")
-    }
-  }
-
-  if (progress) {
+    cat("Variables Entered:", "\n\n")
     cat(paste("=>", tail(preds, n = 1)), "\n")
   }
 

@@ -141,12 +141,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   if (pvals[minp] > p_enter) {
     stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
-  } else {
-    if (progress) {
-      cat("\n")
-      cat("Variables Entered:", "\n\n")
-    }
-  }
+  } 
 
   preds   <- c(preds, all_pred[maxf])
   lpreds  <- length(preds)
@@ -165,6 +160,8 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   method  <- c(method, tech[1])
 
   if (progress) {
+    cat("\n")
+    cat("Variables Entered:", "\n\n")
     cat(paste("+", tail(preds, n = 1), "added"), "\n")
   }
 
