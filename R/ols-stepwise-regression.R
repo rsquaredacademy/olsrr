@@ -123,6 +123,11 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   method  <- c()
 
   base_model <- ols_base_model(include, response, l)
+  rsq_base   <- summary(base_model)$r.squared
+    
+  if (details) {
+    ols_rsquared_init(include, "r2", response, rsq_base)
+  }
 
   for (i in seq_len(mlen_p)) {
     predictors <- c(include, all_pred[i])

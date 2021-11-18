@@ -127,6 +127,11 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
     rmse     <- c()
     ppos     <- step + 1 + length(include)
 
+    rsq_base   <- summary(model)$r.squared
+    
+    if (details) {
+      ols_rsquared_init(include, "r2", response, rsq_base)
+    }
 
     if (progress) {
       ols_progress_init("backward")

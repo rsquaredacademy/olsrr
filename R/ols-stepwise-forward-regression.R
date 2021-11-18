@@ -139,6 +139,11 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     rmse     <- c()
 
     base_model <- ols_base_model(include, response, l)
+    rsq_base   <- summary(base_model)$r.squared
+    
+    if (details) {
+      ols_rsquared_init(include, "r2", response, rsq_base)
+    }
 
     for (i in seq_len(mlen_p)) {
       predictors <- c(include, all_pred[i])

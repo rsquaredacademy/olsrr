@@ -64,6 +64,11 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   rmse     <- c()
 
   base_model <- lm(paste(response, "~", 1), data = l)
+  rsq_base   <- summary(base_model)$r.squared
+    
+  if (details) {
+    ols_rsquared_init(NULL, "r2", response, rsq_base)
+  }
 
   for (i in seq_len(mlen_p)) {
     predictors <- c(preds, all_pred[i])
@@ -183,6 +188,12 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
   cp       <- c()
   sbc      <- c()
   rmse     <- c()
+
+  rsq_base   <- summary(model)$r.squared
+    
+  if (details) {
+    ols_rsquared_init(NULL, "r2", response, rsq_base)
+  }
 
   for (i in rev(seq_len(mlen_p))) {
     predictors <- cterms[1:i]
