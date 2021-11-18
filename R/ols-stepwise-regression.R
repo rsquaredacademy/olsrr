@@ -93,6 +93,11 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   lockterm <- c(include, exclude)
   nam      <- colnames(attr(model$terms, "factors"))
   cterms   <- setdiff(nam, exclude)
+
+  if (progress || details) {
+    ols_candidate_terms(cterms, "both")
+  }
+
   nam      <- setdiff(nam, lockterm)
   all_pred <- nam
   mlen_p   <- length(all_pred)
@@ -119,10 +124,6 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   base_model <- ols_base_model(include, response, l)
 
-  if (progress || details) {
-    ols_candidate_terms(cterms, "both")
-  }
-
   for (i in seq_len(mlen_p)) {
     predictors <- c(include, all_pred[i])
     m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
@@ -141,7 +142,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   if (pvals[minp] > p_enter) {
     stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
-  } 
+  }
 
   preds   <- c(preds, all_pred[maxf])
   lpreds  <- length(preds)
@@ -243,10 +244,10 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       len_inc <- length(include) + 1
       fvals_r <- m2_sum$`F value`[len_inc:lpreds]
       pvals_r <- m2_sum$`Pr(>F)`[len_inc:lpreds]
-      
+
       minf    <- which(fvals_r == min(fvals_r, na.rm = TRUE))
       maxp    <- pvals_r[minf]
-      
+
       if (maxp > p_remove) {
 
         var_index <- c(var_index, preds[minf])
@@ -293,16 +294,16 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-  
+
   metrics     <- data.frame(step       = seq_len(all_step),
                             variable   = var_index,
                             method     = method,
-                            r2         = rsq, 
-                            adj_r2     = adjrsq, 
-                            aic        = aic, 
-                            sbic       = sbic, 
-                            sbc        = sbc, 
-                            mallows_cp = cp, 
+                            r2         = rsq,
+                            adj_r2     = adjrsq,
+                            aic        = aic,
+                            sbic       = sbic,
+                            sbc        = sbc,
+                            mallows_cp = cp,
                             rmse       = rmse)
 
   beta_pval <- data.frame(

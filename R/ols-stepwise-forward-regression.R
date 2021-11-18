@@ -114,6 +114,11 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     nam      <- colnames(attr(model$terms, "factors"))
     lockterm <- c(include, exclude)
     cterms   <- setdiff(nam, exclude)
+
+    if (progress || details) {
+      ols_candidate_terms(cterms, "forward")
+    }
+
     nam      <- setdiff(nam, lockterm)
     n        <- ncol(l)
     response <- names(model$model)[1]
@@ -132,10 +137,6 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     cp       <- c()
     sbc      <- c()
     rmse     <- c()
-
-    if (progress || details) {
-      ols_candidate_terms(cterms, "forward")
-    }
 
     base_model <- ols_base_model(include, response, l)
 

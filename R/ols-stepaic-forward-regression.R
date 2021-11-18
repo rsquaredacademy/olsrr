@@ -77,7 +77,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   l        <- model$model
   indterms <- coeff_names(model)
   lenterms <- length(indterms)
-  
+
   if (is.numeric(include)) {
     include <- indterms[include]
   }
@@ -91,6 +91,11 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   all_pred <- nam
   mlen_p   <- length(all_pred)
   preds    <- include
+
+  if (progress || details) {
+    ols_candidate_terms(nam, "forward")
+  }
+    
   aics     <- c()
   ess      <- c()
   rss      <- c()
@@ -99,10 +104,6 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
 
   base_model <- ols_base_model(include, response, l)
   aic1 <- ols_aic(base_model)
-
-  if (progress || details) {
-    ols_candidate_terms(nam, "forward")
-  }
 
   if (details) {
     ols_base_model_stats(response, include, "forward", aic1)
@@ -127,7 +128,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     ols_stepwise_metrics(da2, "aic", predictors, aics, rss, ess, rsq, arsq)
   }
 
-  minc <- which(aics == min(aics)) 
+  minc <- which(aics == min(aics))
 
   if (aics[minc] < aic1) {
     laic     <- aics[minc]

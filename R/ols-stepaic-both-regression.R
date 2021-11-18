@@ -84,7 +84,7 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
   indterms <- nam
   lenterms <- length(indterms)
   len_inc  <- length(include) + 1
-  
+
   if (is.numeric(include)) {
     include <- indterms[include]
   }
@@ -93,14 +93,14 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
     exclude <- indterms[exclude]
   }
 
+  if (progress || details) {
+    ols_candidate_terms(nam, "both")
+  }
+
   lockterm   <- c(include, exclude)
   predictors <- setdiff(nam, lockterm)
   mlen_p     <- length(predictors)
   tech       <- c("addition", "removal")
-
-  if (progress || details) {
-    ols_candidate_terms(nam, "both")
-  }
 
   base_model <- ols_base_model(include, response, l)
   aic_c <- ols_aic(base_model)
@@ -267,8 +267,8 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
                             method   = method,
                             r2       = lrsq,
                             adj_r2   = larsq,
-                            aic      = laic, 
-                            rss      = lrss, 
+                            aic      = laic,
+                            rss      = lrss,
                             ess      = less)
 
   out <- list(metrics = metrics,
@@ -296,7 +296,7 @@ print.ols_step_both_aic <- function(x, ...) {
 plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
   p <- ols_stepaic_plot(x, "both", details)
-    
+
   if (print_plot) {
     print(p)
   } else {

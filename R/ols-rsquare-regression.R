@@ -24,6 +24,11 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
   all_pred <- nam
   mlen_p   <- length(all_pred)
   preds    <- include
+
+  if (progress || details) {
+    ols_candidate_terms(nam, "forward")
+  }
+
   aics     <- c()
   ess      <- c()
   rss      <- c()
@@ -33,15 +38,11 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
   base_model <- ols_base_model(include, response, l)
 
   if (metric == "r2") {
-    rsq_base <- summary(base_model)$r.squared  
+    rsq_base <- summary(base_model)$r.squared
   } else {
     rsq_base <- summary(base_model)$adj.r.squared
   }
-  
 
-  if (progress || details) {
-    ols_candidate_terms(nam, "forward")
-  }
 
   if (details) {
     ols_rsquared_init(include, metric, response, rsq_base)
@@ -127,13 +128,13 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
     }
 
     if (metric == "r2") {
-      minaic   <- which(rsq == max(rsq)) 
-      add_crit <- rsq[minaic] > lrsq[lpreds] 
+      minaic   <- which(rsq == max(rsq))
+      add_crit <- rsq[minaic] > lrsq[lpreds]
     } else {
       minaic   <- which(arsq == max(arsq))
       add_crit <- arsq[minaic] > larsq[lpreds]
     }
-    
+
     if (add_crit) {
 
       preds    <- c(preds, all_pred[minaic])
@@ -228,8 +229,12 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
   cterm <- setdiff(nam, include)
   preds <- nam
 
+  if (progress || details) {
+    ols_candidate_terms(cterm, "backward")
+  }
+
   if (metric == "r2") {
-    aic_f <- summary(model)$r.squared  
+    aic_f <- summary(model)$r.squared
   } else {
     aic_f <- summary(model)$adj.r.squared
   }
@@ -242,15 +247,11 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
   lrsq  <- mi$rsq
   larsq <- mi$adjr
 
-  if (progress || details) {
-    ols_candidate_terms(cterm, "backward")
-  }
-
-  if (details) { 
+  if (details) {
     if (metric == "r2") {
       cat("Step      => 0", "\n")
       cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-      cat("R-Squared =>", aic_f, "\n\n")  
+      cat("R-Squared =>", aic_f, "\n\n")
     } else {
       cat("Step           => 0", "\n")
       cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
@@ -315,11 +316,11 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
       step  <- step + 1
 
       if (metric == "r2") {
-        aic_f <- rsq[minc]  
+        aic_f <- rsq[minc]
       } else {
         aic_f <- arsq[minc]
       }
-      
+
       mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
       rss_f <- mi$rss
@@ -362,14 +363,14 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
         da2 <- da[order(-da$arsq), ]
         da3 <- cbind(loc = order(-arsq), da2)
       }
-      
 
-      if (details) { 
+
+      if (details) {
         if (metric == "r2") {
           cat("Step      =>", step, "\n")
           cat("Removed   =>", tail(rpred, n = 1), "\n")
           cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-          cat("R-Squared =>", aic_f, "\n\n")  
+          cat("R-Squared =>", aic_f, "\n\n")
         } else {
           cat("Step           =>", step, "\n")
           cat("Removed        =>", tail(rpred, n = 1), "\n")
@@ -445,7 +446,7 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
   indterms <- nam
   lenterms <- length(indterms)
   len_inc  <- length(include) + 1
-  
+
   if (is.numeric(include)) {
     include <- indterms[include]
   }
@@ -454,23 +455,23 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
     exclude <- indterms[exclude]
   }
 
+  if (progress || details) {
+    ols_candidate_terms(nam, "both")
+  }
+
   lockterm   <- c(include, exclude)
   predictors <- setdiff(nam, lockterm)
   mlen_p     <- length(predictors)
   tech       <- c("addition", "removal")
 
-  if (progress || details) {
-    ols_candidate_terms(nam, "both")
-  }
-
   base_model <- ols_base_model(include, response, l)
 
   if (metric == "r2") {
-    aic_c <- summary(base_model)$r.squared  
+    aic_c <- summary(base_model)$r.squared
   } else {
-    aic_c <- summary(base_model)$adj.r.squared  
+    aic_c <- summary(base_model)$adj.r.squared
   }
-  
+
 
   if (details) {
     ols_rsquared_init(include, metric, response, aic_c)
@@ -521,18 +522,18 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
     }
 
     if (metric == "r2") {
-      minc <- which(rsq == max(rsq))  
+      minc <- which(rsq == max(rsq))
       add_crit <- rsq[minc] > aic_c
     } else {
       minc <- which(arsq == max(arsq))
-      add_crit <- arsq[minc] > aic_c  
+      add_crit <- arsq[minc] > aic_c
     }
-    
+
     if (add_crit) {
       if (metric == "r2") {
-        aic_c <- rsq[minc]  
+        aic_c <- rsq[minc]
       } else {
-        aic_c <- arsq[minc]  
+        aic_c <- arsq[minc]
       }
       preds      <- c(preds, predictors[minc])
       predictors <- predictors[-minc]
@@ -602,13 +603,13 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
         }
 
         if (metric == "r2") {
-          minc2 <- which(rsq == max(rsq))  
+          minc2 <- which(rsq == max(rsq))
           rem_crit <- rsq[minc2] > lrsq[all_step]
         } else {
           minc2 <- which(arsq == max(arsq))
           rem_crit <- arsq[minc2] > larsq[all_step]
         }
-      
+
 
         if (rem_crit) {
           if(metric == "r2") {
@@ -616,7 +617,7 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
           } else {
             aic_c <- arsq[minc2]
           }
-          
+
           maic      <- aics[minc2]
           mess      <- ess[minc2]
           mrss      <- rss[minc2]
@@ -681,8 +682,8 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
                             method   = method,
                             r2       = lrsq,
                             adj_r2   = larsq,
-                            aic      = laic, 
-                            rss      = lrss, 
+                            aic      = laic,
+                            rss      = lrss,
                             ess      = less)
 
   out <- list(metrics = metrics,

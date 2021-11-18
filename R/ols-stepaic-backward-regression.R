@@ -89,8 +89,12 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
   nam   <- setdiff(indterms, exclude)
   cterm <- setdiff(nam, include)
   preds <- nam
-  aic_f <- ols_aic(model)
 
+  if (progress || details) {
+    ols_candidate_terms(nam, "backward")
+  }
+    
+  aic_f <- ols_aic(model)
   mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
   rss_f <- mi$rss
   laic  <- aic_f
@@ -98,10 +102,6 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
   less  <- mi$ess
   lrsq  <- mi$rsq
   larsq <- mi$adjr
-
-  if (progress || details) {
-    ols_candidate_terms(nam, "backward")
-  }
 
   if (details) {
     ols_base_model_stats(response, preds, "backward", aic_f)

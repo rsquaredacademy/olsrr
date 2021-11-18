@@ -49,6 +49,11 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   p_val    <- c()
   all_pred <- nam
   cterms   <- all_pred
+
+  if (progress || details) {
+    ols_candidate_terms(nam, "forward")
+  }
+    
   step     <- 0
   rsq      <- c()
   adjrsq   <- c()
@@ -58,12 +63,8 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   sbc      <- c()
   rmse     <- c()
 
-  if (progress || details) {
-    ols_candidate_terms(nam, "forward")
-  }
-
   base_model <- lm(paste(response, "~", 1), data = l)
-  
+
   for (i in seq_len(mlen_p)) {
     predictors <- c(preds, all_pred[i])
     m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
@@ -148,7 +149,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 
   result <- list(metrics = metrics,
                  model   = final_model,
-                 others  = list(base_model = base_model)) 
+                 others  = list(base_model = base_model))
 
   class(result) <- "ols_step_forward_p"
 
@@ -169,6 +170,11 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
   mlen_p   <- length(nam)
   preds    <- c()
   cterms   <- nam
+
+  if (progress || details) {
+    ols_candidate_terms(nam, "backward")  
+  }
+    
   step     <- 0
   rsq      <- c()
   adjrsq   <- c()
@@ -177,10 +183,6 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
   cp       <- c()
   sbc      <- c()
   rmse     <- c()
-
-  if (progress || details) {
-    ols_candidate_terms(nam, "backward")
-  }
 
   for (i in rev(seq_len(mlen_p))) {
     predictors <- cterms[1:i]
@@ -191,7 +193,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
     if (pvals >= p_value) {
       preds  <- c(preds, cterms[i])
       step   <- step + 1
-      rpred  <- setdiff(cterms, preds)      
+      rpred  <- setdiff(cterms, preds)
       fr     <- ols_regress(paste(response, "~", paste(rpred, collapse = " + ")), l)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)

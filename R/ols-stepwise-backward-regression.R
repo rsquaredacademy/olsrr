@@ -110,6 +110,11 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
     response <- names(model$model)[1]
     preds    <- setdiff(nam, lockterm)
     cterms   <- c(include, preds)
+
+    if (progress || details) {
+      ols_candidate_terms(cterms, "backward")
+    }
+
     end      <- FALSE
     step     <- 0
     rpred    <- c()
@@ -122,9 +127,6 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
     rmse     <- c()
     ppos     <- step + 1 + length(include)
 
-    if (progress || details) {
-      ols_candidate_terms(cterms, "backward")
-    }
 
     if (progress) {
       ols_progress_init("backward")
@@ -215,7 +217,7 @@ print.ols_step_backward_p <- function(x, ...) {
 #' @rdname ols_step_backward_p
 #'
 plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
-  
+
   p1 <- ols_plot_stepwise(x, "r2", "R-Square", details, "backward")
   p2 <- ols_plot_stepwise(x, "adj_r2", "Adjusted R-Square", details, "backward")
   p3 <- ols_plot_stepwise(x, "aic", "Adjusted R-Square", details, "backward")
