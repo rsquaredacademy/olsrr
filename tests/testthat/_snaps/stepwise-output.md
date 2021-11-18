@@ -154,6 +154,13 @@
       8 . alc_heavy 
       
       
+      Step      => 0 
+      Model     => y ~ 1 
+      R-Squared => 0 
+      
+      Initiating stepwise selection... 
+      
+      
       Stepwise Selection: Step 1 
       
       Variable entered => liver_test

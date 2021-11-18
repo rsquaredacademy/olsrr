@@ -115,22 +115,24 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
       ols_candidate_terms(cterms, "backward")
     }
 
-    end      <- FALSE
-    step     <- 0
-    rpred    <- c()
-    rsq      <- c()
-    adjrsq   <- c()
-    aic      <- c()
-    sbic     <- c()
-    sbc      <- c()
-    cp       <- c()
-    rmse     <- c()
-    ppos     <- step + 1 + length(include)
+    end   <- FALSE
+    step  <- 0
+    rpred <- c()
+    rsq   <- c()
+    arsq  <- c()
+    aic   <- c()
+    ess   <- c()
+    rss   <- c()
+    sbic  <- c()
+    sbc   <- c()
+    cp    <- c()
+    rmse  <- c()
+    ppos  <- step + 1 + length(include)
 
     rsq_base   <- summary(model)$r.squared
     
     if (details) {
-      ols_rsquared_init(include, "r2", response, rsq_base)
+      ols_rsquared_init(indterms, "r2", response, rsq_base)
     }
 
     if (progress) {
@@ -154,7 +156,9 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
           lp     <- length(rpred)
           fr     <- ols_regress(paste(response, "~", paste(c(include, cterms), collapse = " + ")), l)
           rsq    <- c(rsq, fr$rsq)
-          adjrsq <- c(adjrsq, fr$adjr)
+          arsq   <- c(arsq, fr$adjr)
+          rss    <- c(rss, fr$rss)
+          ess    <- c(ess, fr$ess)
           aic    <- c(aic, ols_aic(fr$model))
           sbc    <- c(sbc, ols_sbc(fr$model))
           sbic   <- c(sbic, ols_sbic(fr$model, model))
@@ -188,7 +192,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
     metrics     <- data.frame(step       = seq_len(step),
                               variable   = rpred,
                               r2         = rsq,
-                              adj_r2     = adjrsq,
+                              adj_r2     = arsq,
                               aic        = aic,
                               sbic       = sbic,
                               sbc        = sbc,
