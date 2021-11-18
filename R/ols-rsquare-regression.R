@@ -99,7 +99,6 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
     aics <- c()
     ess  <- c()
     rss  <- c()
-    rsst <- c()
     rsq  <- c()
     arsq <- c()
     mo   <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
@@ -115,8 +114,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
       k          <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
       aics[i]    <- ols_aic(k$model)
       ess[i]     <- k$ess
-      rsst[i]    <- k$rss
-      rss[i]     <- round(k$rss - mo$rss, 3)
+      rss[i]     <- k$rss
       rsq[i]     <- k$rsq
       arsq[i]    <- k$adjr
     }
@@ -140,7 +138,7 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
       preds    <- c(preds, all_pred[minaic])
       minc     <- aics[minaic]
       mess     <- ess[minaic]
-      mrss     <- round(rsst[minaic], 3)
+      mrss     <- round(rss[minaic], 3)
       mrsq     <- rsq[minaic]
       marsq    <- arsq[minaic]
       laic     <- c(laic, minc)
@@ -240,9 +238,8 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
   }
 
   mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-  rss_f <- mi$rss
   laic  <- aic_f
-  lrss  <- rss_f
+  lrss  <- mi$rss
   less  <- mi$ess
   lrsq  <- mi$rsq
   larsq <- mi$adjr
@@ -278,7 +275,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
 
     aics[i] <- m$aic
     ess[i]  <- m$ess
-    rss[i]  <- rss_f - m$rss
+    rss[i]  <- m$rss
     rsq[i]  <- m$rsq
     arsq[i] <- m$adjr
   }
@@ -325,7 +322,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
 
       rss_f <- mi$rss
       laic  <- c(laic, mi$aic)
-      lrss  <- c(lrss, rss_f)
+      lrss  <- c(lrss, mi$rss)
       less  <- c(less, mi$ess)
       lrsq  <- c(lrsq, mi$rsq)
       larsq <- c(larsq, mi$adjr)
@@ -349,7 +346,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
 
         aics[i] <- m$aic
         ess[i]  <- m$ess
-        rss[i]  <- rss_f - m$rss
+        rss[i]  <- m$rss
         rsq[i]  <- m$rsq
         arsq[i] <- m$adjr
       }

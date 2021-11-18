@@ -96,9 +96,8 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
     
   aic_f <- ols_aic(model)
   mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-  rss_f <- mi$rss
   laic  <- aic_f
-  lrss  <- rss_f
+  lrss  <- mi$rss
   less  <- mi$ess
   lrsq  <- mi$rsq
   larsq <- mi$adjr
@@ -125,7 +124,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
     aics[i] <- ols_aic(m$model)
     ess[i]  <- m$ess
-    rss[i]  <- rss_f - m$rss
+    rss[i]  <- m$rss
     rsq[i]  <- m$rsq
     arsq[i] <- m$adjr
   }
@@ -159,9 +158,8 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
       mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-      rss_f <- mi$rss
       laic  <- c(laic, aic_f)
-      lrss  <- c(lrss, rss_f)
+      lrss  <- c(lrss, mi$rss)
       less  <- c(less, mi$ess)
       lrsq  <- c(lrsq, mi$rsq)
       larsq <- c(larsq, mi$adjr)
@@ -184,7 +182,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
         aics[i] <- ols_aic(m$model)
         ess[i]  <- m$ess
-        rss[i]  <- rss_f - m$rss
+        rss[i]  <- m$rss
         rsq[i]  <- m$rsq
         arsq[i] <- m$adjr
       }

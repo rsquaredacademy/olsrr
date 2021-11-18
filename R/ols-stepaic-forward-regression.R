@@ -155,7 +155,6 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
     aics <- c()
     ess  <- c()
     rss  <- c()
-    rsst <- c()
     rsq  <- c()
     arsq <- c()
     mo   <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
@@ -171,8 +170,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       k          <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
       aics[i]    <- ols_aic(k$model)
       ess[i]     <- k$ess
-      rsst[i]    <- k$rss
-      rss[i]     <- round(k$rss - mo$rss, 3)
+      rss[i]     <- k$rss
       rsq[i]     <- k$rsq
       arsq[i]    <- k$adjr
     l}
@@ -190,7 +188,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
       preds    <- c(preds, all_pred[minaic])
       minc     <- aics[minaic]
       mess     <- ess[minaic]
-      mrss     <- round(rsst[minaic], 3)
+      mrss     <- round(rss[minaic], 3)
       mrsq     <- rsq[minaic]
       marsq    <- arsq[minaic]
       laic     <- c(laic, minc)
