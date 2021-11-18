@@ -73,20 +73,15 @@ ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backwar
 
 }
 
-ols_base_model_stats <- function(response, include, direction = c("forward", "backward", "both"), aic) {
+ols_base_model_stats <- function(response, include, aic) {
 
-  method <- match.arg(direction)
   cat("\n")
   cat("Step  => 0", "\n")
 
-  if (method == "backward") {
-    cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+  if (is.null(include)) {
+    cat("Model =>", paste(response, "~", 1, "\n"))
   } else {
-    if (is.null(include)) {
-      cat("Model =>", paste(response, "~", 1, "\n"))
-    } else {
-      cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-    }
+    cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
   }
 
   cat("AIC   =>", aic, "\n\n")

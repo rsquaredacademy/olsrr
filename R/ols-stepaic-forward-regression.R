@@ -106,7 +106,7 @@ ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, 
   aic1 <- ols_aic(base_model)
 
   if (details) {
-    ols_base_model_stats(response, include, "forward", aic1)
+    ols_base_model_stats(response, include, aic1)
   }
 
   for (i in seq_len(mlen_p)) {

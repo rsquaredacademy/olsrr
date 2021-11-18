@@ -106,7 +106,7 @@ ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, pro
   aic_c <- ols_aic(base_model)
 
   if (details) {
-    ols_base_model_stats(response, include, "both", aic_c)
+    ols_base_model_stats(response, include, aic_c)
   }
 
   step      <- 0

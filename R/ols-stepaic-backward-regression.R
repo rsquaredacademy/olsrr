@@ -104,7 +104,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
   larsq <- mi$adjr
 
   if (details) {
-    ols_base_model_stats(response, preds, "backward", aic_f)
+    ols_base_model_stats(response, preds, aic_f)
   }
 
   ilp   <- length(preds)
