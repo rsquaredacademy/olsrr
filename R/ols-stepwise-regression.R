@@ -166,19 +166,13 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   method  <- c(method, tech[1])
 
   if (progress) {
-    cat("\n")
-    cat("Variables Entered:", "\n\n")
-    cat(paste("+", tail(preds, n = 1), "added"), "\n")
+    ols_progress_init("both")
+    ols_progress_display(preds, "both", "added")
   }
 
   if (details) {
-    cat("\n")
-    cat(paste("Stepwise Selection: Step", step), "\n\n")
-    cat("Variable entered =>", tail(preds, n = 1))
-    cat("\n")
-    m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-    print(m)
-    cat("\n\n")
+    rsq1 <- tail(rsq, n = 1)
+    ols_rsquared_selected("r2", step, preds, response, rsq1)
   }
 
   all_step  <- step
@@ -230,17 +224,12 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       pvalues   <- append(pvalues, fr$pvalues)
 
       if (progress) {
-        cat(paste("+", tail(preds, n = 1), "added"), "\n")
+        ols_progress_display(preds, "both", "added")
       }
 
       if (details) {
-        cat("\n")
-        cat(paste("Stepwise Selection: Step", all_step), "\n\n")
-        cat("Variable entered =>", tail(preds, n = 1))
-        cat("\n")
-        m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-        print(m)
-        cat("\n\n")
+        rsq1 <- tail(rsq, n = 1)
+        ols_rsquared_selected("r2", all_step, preds, response, rsq1)
       }
 
       # check p value of predictors previously added in above step
@@ -274,17 +263,12 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
         pvalues   <- append(pvalues, fr$pvalues)
 
         if (progress) {
-          cat(paste("-", tail(var_index, n = 1), "removed"), "\n")
+          ols_progress_display(var_index, "both", "removed")
         }
 
         if (details) {
-          cat("\n")
-          cat(paste("Stepwise Selection: Step", all_step), "\n\n")
-          cat("Variable removed =>", tail(var_index, n = 1))
-          cat("\n")
-          m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-          print(m)
-          cat("\n\n")
+          rsq1 <- tail(rsq, n = 1)
+          ols_stepwise_details(all_step, var_index, preds, response, rsq1, "removed", "R-Squared")
         }
       } else {
         preds <- preds

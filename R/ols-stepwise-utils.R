@@ -67,7 +67,7 @@ ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backwar
   cat(rep("-", width), sep = "", "\n\n")
   cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
   for (i in seq_len(length(cterms))) {
-    cat(paste(i, ".", cterms[i]), "\n")
+    cat(paste0(i, ". ", cterms[i]), "\n")
   }
   cat("\n")
 
@@ -98,7 +98,7 @@ ols_progress_init <- function(direction = c("forward", "backward", "both")) {
   } else if (method == "backward") {
     display <- "Removed:"
   } else {
-    display <- "Entered/Removed:"
+    display <- "Added/Removed:"
   }
 
   cat("\n")
@@ -121,16 +121,21 @@ ols_progress_display <- function(preds, direction = c("others", "both"), type = 
 
 ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("added", "removed"), metric = "AIC") {
 
-  cat("Step    =>", step, "\n")
+  cat("Step      =>", step, "\n")
 
   if (type == "added") {
-    cat("Added   =>", tail(rpred, n = 1), "\n")
+    cat("Added     =>", tail(rpred, n = 1), "\n")
   } else {
-    cat("Removed =>", tail(rpred, n = 1), "\n")
+    cat("Removed   =>", tail(rpred, n = 1), "\n")
   }
 
-  cat("Model   =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-  cat(paste0(metric, "     =>"), aic, "\n\n")
+  cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+  if (metric == "AIC") {
+    cat(paste0(metric, "       =>"), round(aic, 3), "\n\n")
+  } else {
+    cat(paste0(metric, " =>"), round(aic, 3), "\n\n")
+  }
+  
 
 }
 
@@ -526,7 +531,7 @@ ols_print_output <- function(metrics, predictors) {
       fg(format(round(metrics$aic[i], 3), nsmall = 3), w3), fs(),
       fg(format(round(metrics$r2[i], 5), nsmall = 5), w4), fs(),
       fg(format(round(metrics$adjr[i], 5), nsmall = 5), w5), "\n")
-  }
+  } 
 
   cat(rep("-", w), sep = "")
 }
