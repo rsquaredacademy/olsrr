@@ -184,6 +184,42 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predicto
 
 }
 
+ols_stepwise_table <- function(df, predictors, p_val, rsq, arsq, aics) {
+
+  w1 <- max(nchar("Predictor"), nchar(predictors))
+  w2 <- max(nchar("Pr(>|t|)"), nchar(format(round(p_val, 5), nsmall = 5)))
+  w3 <- max(nchar("R-Squared"), nchar(format(round(rsq, 3), nsmall = 3)))
+  w4 <- max(nchar("Adj. R-Squared"), nchar(format(round(arsq, 3), nsmall = 3)))
+  w5 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
+  w  <- sum(w1, w2, w3, w4, w5, 16)
+  ln <- length(aics)
+
+  cat(format("Selection Metrics Table", justify = "centre", width = w), "\n")
+
+  cat(rep("-", w), sep = "", "\n")
+
+  cat(
+    fl("Predictor", w1), fs(),
+    fc("Pr(>|t|)", w2), fs(),
+    fc("R-Squared", w3), fs(),
+    fc("Adj. R-Squared", w4), fs(),
+    fc("AIC", w5), "\n")
+
+  cat(rep("-", w), sep = "", "\n")
+
+  for (i in seq_len(ln)) {
+    cat(
+      fl(df[i, 1], w1), fs(),
+      fg(format(round(df[i, 2], 5), nsmall = 5), w2), fs(),
+      fg(format(round(df[i, 3], 3), nsmall = 3), w3), fs(),
+      fg(format(round(df[i, 4], 3), nsmall = 3), w4), fs(),
+      fg(format(round(df[i, 5], 3), nsmall = 3), w5), "\n")
+  }
+
+  cat(rep("-", w), sep = "", "\n\n")
+
+}
+
 ols_stepwise_break <- function(direction = c("forward", "backward", "both")) {
 
   method <- match.arg(direction)
@@ -503,21 +539,21 @@ ols_rsquared_init <- function(include, metric, response, rsq_base) {
       if (metric == "r2") {
         cat("Step      => 0", "\n")
         cat("Model     =>", paste(response, "~", 1, "\n"))
-        cat("R-Squared =>", rsq_base, "\n\n")
+        cat("R-Squared =>", round(rsq_base, 3), "\n\n")
       } else {
         cat("Step           => 0", "\n")
         cat("Model          =>", paste(response, "~", 1, "\n"))
-        cat("Adj. R-Squared =>", rsq_base, "\n\n")
+        cat("Adj. R-Squared =>", round(rsq_base, 3), "\n\n")
       }
     } else {
       if (metric == "r2") {
         cat("Step      => 0", "\n")
         cat("Model     =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-        cat("R-Squared =>", rsq_base, "\n\n")
+        cat("R-Squared =>", round(rsq_base, 3), "\n\n")
       } else {
         cat("Step           => 0", "\n")
         cat("Model          =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-        cat("Adj. R-Squared =>", rsq_base, "\n\n")
+        cat("Adj. R-Squared =>", round(rsq_base, 3), "\n\n")
       }
     }
     cat("Initiating stepwise selection...", "\n\n")
@@ -529,11 +565,11 @@ ols_rsquared_selected <- function(metric, step, preds, response, rsq1) {
         cat("Step      =>", step, "\n")
         cat("Selected  =>", tail(preds, n = 1), "\n")
         cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("R-Squared =>", rsq1, "\n\n")
+        cat("R-Squared =>", round(rsq1, 3), "\n\n")
       } else {
         cat("Step           =>", step, "\n")
         cat("Selected       =>", tail(preds, n = 1), "\n")
         cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("Adj. R-Squared =>", rsq1, "\n\n")
+        cat("Adj. R-Squared =>", round(rsq1, 3), "\n\n")
       }
 }

@@ -130,6 +130,9 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     preds    <- include
     pvals    <- c()
     fvals    <- c()
+    aicvals  <- c()
+    rsqvals  <- c()
+    arsqvals <- c()
     rsq      <- c()
     adjrsq   <- c()
     aic      <- c()
@@ -146,11 +149,21 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     }
 
     for (i in seq_len(mlen_p)) {
-      predictors <- c(include, all_pred[i])
-      m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
-      m_sum      <- Anova(m)
-      fvals[i]   <- m_sum$`F value`[ppos]
-      pvals[i]   <- m_sum$`Pr(>F)`[ppos]
+      predictors  <- c(include, all_pred[i])
+      m           <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+      m_sum       <- Anova(m)
+      fvals[i]    <- m_sum$`F value`[ppos]
+      pvals[i]    <- m_sum$`Pr(>F)`[ppos]
+      aicvals[i]  <- ols_aic(m)
+      rsqvals[i]  <- summary(m)$r.squared
+      arsqvals[i] <- summary(m)$adj.r.squared
+    }
+
+    if (details) {
+      d <- data.frame(predictor = all_pred, p_val = pvals, rsq = rsqvals,
+                       arsq = arsqvals, aic = aicvals)
+      d <- d[order(d$p_val), ]
+      ols_stepwise_table(d, all_pred, pvals, rsqvals, arsqvals, aicvals)
     }
 
     maxf     <- which(fvals == max(fvals, na.rm = TRUE))
@@ -165,8 +178,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
     } else {
       if (progress) {
-        cat("\n")
-        cat("Variables Entered:", "\n\n")
+        ols_progress_init("backward")
       }
     }
 
@@ -177,13 +189,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
       for (i in seq_len(lpreds)) {
 
-        step <- step + 1
-
-        if (details) {
-          cat("\n")
-          cat(paste("Forward Selection: Step", step), "\n\n")
-        }
-
+        step   <- step + 1
         npreds <- preds[1:i]
         fr     <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
         rsq    <- c(rsq, fr$rsq)
@@ -193,29 +199,21 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         sbic   <- c(sbic, ols_sbic(fr$model, model))
         cp     <- c(cp, ols_mallows_cp(fr$model, model))
         rmse   <- c(rmse, fr$rmse)
+        rsq1   <- tail(rsq, n = 1)
 
         if (progress) {
-          cat("=>", tail(npreds, n = 1), "\n")
+          ols_progress_display(npreds, "others")
         }
 
         if (details) {
-          cat("Variable entered =>", tail(npreds, n = 1))
-          cat("\n\n")
-          m <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
-          print(m)
-          cat("\n\n")
+          ols_rsquared_selected("r2", step, npreds, response, rsq1)
         }
+
       }
 
     } else {
 
-      step <- step + 1
-
-      if (details) {
-        cat("\n")
-        cat(paste("Forward Selection: Step", step), "\n\n")
-      }
-
+      step   <- step + 1
       fr     <- ols_regress(paste(response, "~", preds), l)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
@@ -224,17 +222,14 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       sbic   <- c(sbic, ols_sbic(fr$model, model))
       cp     <- c(cp, ols_mallows_cp(fr$model, model))
       rmse   <- c(rmse, fr$rmse)
+      rsq1   <- tail(rsq, n = 1)
 
       if (progress) {
-        cat(paste("=>", tail(preds, n = 1)), "\n")
+        ols_progress_display(preds, "others")
       }
 
       if (details) {
-        cat("Variable entered =>", tail(preds, n = 1))
-        cat("\n\n")
-        m <- ols_regress(paste(response, "~", preds), l)
-        print(m)
-        cat("\n\n")
+        ols_rsquared_selected("r2", step, preds, response, rsq1)
       }
 
     }
@@ -251,14 +246,27 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       ppos     <- ppos + length(maxf)
       pvals    <- c()
       fvals    <- c()
+      aicvals  <- c()
+      rsqvals  <- c()
+      arsqvals <- c()
 
       for (i in seq_len(len_p)) {
 
-        predictors <- c(preds, all_pred[i])
-        m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
-        m_sum      <- Anova(m)
-        fvals[i]   <- m_sum$`F value`[ppos]
-        pvals[i]   <- m_sum$`Pr(>F)`[ppos]
+        predictors  <- c(preds, all_pred[i])
+        m           <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+        m_sum       <- Anova(m)
+        fvals[i]    <- m_sum$`F value`[ppos]
+        pvals[i]    <- m_sum$`Pr(>F)`[ppos]
+        aicvals[i]  <- ols_aic(m)
+        rsqvals[i]  <- summary(m)$r.squared
+        arsqvals[i] <- summary(m)$adj.r.squared
+      }
+
+      if (details) {
+        d <- data.frame(predictor = all_pred, p_val = pvals, rsq = rsqvals,
+                         arsq = arsqvals, aic = aicvals)
+        d <- d[order(d$p_val), ]
+        ols_stepwise_table(d, all_pred, pvals, rsqvals, arsqvals, aicvals)
       }
 
       maxf  <- which(fvals == max(fvals, na.rm = TRUE))
@@ -277,29 +285,14 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         sbic   <- c(sbic, ols_sbic(fr$model, model))
         cp     <- c(cp, ols_mallows_cp(fr$model, model))
         rmse   <- c(rmse, fr$rmse)
+        rsq1   <- tail(rsq, n = 1)
 
         if (progress) {
-          len_maxf <- length(maxf)
-          if (len_maxf > 1) {
-            cat("=>", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
-          } else {
-            cat("=>", tail(preds, n = 1), "\n")
-          }
+          ols_progress_display(preds, "others")
         }
 
         if (details) {
-          cat("\n")
-          cat(paste("Forward Selection: Step", step), "\n\n")
-          len_maxf <- length(maxf)
-          if (len_maxf > 1) {
-            cat("Variable entered =>", paste(tail(preds, n = len_maxf), collapse = " & "), "\n")
-          } else {
-            cat("Variable entered =>", tail(preds, n = 1), "\n")
-          }
-          cat("\n\n")
-          m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-          print(m)
-          cat("\n\n")
+          ols_rsquared_selected("r2", step, preds, response, rsq1)
         }
       } else {
         if (progress || details) {
