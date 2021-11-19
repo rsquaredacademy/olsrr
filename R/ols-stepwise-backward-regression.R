@@ -171,8 +171,8 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
 
           if (details) {
             mypred <- c(include, cterms)
-            aic_f  <- tail(aic, n = 1)
-            ols_stepwise_details(step, rpred, mypred, response, aic_f, "removed")
+            rsq1   <- tail(rsq, n = 1)
+            ols_stepwise_details(step, rpred, mypred, response, rsq1, "removed", "Rsq")
           }
         } else {
           end <- TRUE

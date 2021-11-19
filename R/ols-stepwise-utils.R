@@ -119,7 +119,7 @@ ols_progress_display <- function(preds, direction = c("others", "both"), type = 
 
 }
 
-ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("added", "removed")) {
+ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("added", "removed"), metric = "AIC") {
 
   cat("Step    =>", step, "\n")
 
@@ -130,7 +130,7 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
   }
 
   cat("Model   =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-  cat("AIC     =>", aic, "\n\n")
+  cat(paste0(metric, "     =>"), aic, "\n\n")
 
 }
 

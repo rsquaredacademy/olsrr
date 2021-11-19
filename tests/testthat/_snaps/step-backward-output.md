@@ -147,20 +147,27 @@
       7 . alc_mod 
       8 . alc_heavy 
       
+      
+      Step      => 0 
+      Model     => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy 
+      R-Squared => 0.782 
+      
+      Initiating stepwise selection... 
+      
       Step    => 1 
       Removed => alc_mod 
       Model   => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
-      AIC     => 734.4068 
+      Rsq     => 0.7817703 
       
       Step    => 2 
       Removed => gender 
       Model   => y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
-      AIC     => 732.4942 
+      Rsq     => 0.7814169 
       
       Step    => 3 
       Removed => age 
       Model   => y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
-      AIC     => 730.6204 
+      Rsq     => 0.7809054 
       
       
       No more variables to be removed.
@@ -373,6 +380,13 @@
       6 . age 
       7 . gender 
       8 . alc_mod 
+      
+      
+      Step      => 0 
+      Model     => y ~ 1 
+      R-Squared => 0.782 
+      
+      Initiating stepwise selection... 
       
       
       Backward Elimination: Step 1 
