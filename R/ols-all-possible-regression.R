@@ -87,9 +87,7 @@ ols_step_all_possible.default <- function(model, ...) {
 
   mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
-
-  out <- list(result = sorted)
-
+  out    <- list(result = sorted)
   class(out) <- c("ols_step_all_possible")
 
   return(out)
@@ -101,10 +99,7 @@ print.ols_step_all_possible <- function(x, ...) {
 
   n <- max(x$result$mindex)
   k <- data.frame(x$result)[, c(1:5, 7)]
-
-  names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square",
-                "Mallow's Cp")
-
+  names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square", "Mallow's Cp")
   print(k)
 
 }
@@ -115,8 +110,15 @@ print.ols_step_all_possible <- function(x, ...) {
 plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 
   k <- x$result
-  d <- data.frame(index = k$mindex, n = k$n, rsquare = k$rsquare, adjr = k$adjr,
-                  cp = k$cp, aic = k$aic, sbic = k$sbic, sbc = k$sbc)
+  d <- data.frame(index   = k$mindex, 
+                  n       = k$n, 
+                  rsquare = k$rsquare, 
+                  adjr    = k$adjr,
+                  cp      = k$cp, 
+                  aic     = k$aic, 
+                  sbic    = k$sbic, 
+                  sbc     = k$sbc)
+
   d$cps <- abs(d$n - d$cp)
 
   p1 <- all_possible_plot(d, "rsquare", title = "R-Square")
@@ -161,15 +163,15 @@ all_possible_plot <- function(d, var, title = "R-Square") {
 
   ggplot(d1, aes(x = x, y = y)) + 
     geom_point(color = "blue", size = 2) +
-    xlab("") + 
-    ylab("") + 
-    ggtitle(title) +
     geom_point(data = d2, aes(x = x, y = y, shape = factor(shape),
       color = factor(shape), size = factor(size))) +
+    geom_text(data = d2, aes(label = tx), hjust = 0, nudge_x = 0.1) +
     scale_shape_manual(values = c(2), guide = "none") +
     scale_size_manual(values = c(4), guide = "none") +
     scale_color_manual(values = c("red"), guide = "none") +
-    geom_text(data = d2, aes(label = tx), hjust = 0, nudge_x = 0.1)
+    xlab("") + 
+    ylab("") + 
+    ggtitle(title)
 
 }
 

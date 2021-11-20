@@ -176,9 +176,7 @@ ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
   )
 
   metrics <- match.arg(metric)
-
   sorted <- c()
-
   l <- split(ui, ui$n)
 
   if (metrics == "rsquare" || metrics == "adjr" || metrics == "predrsq") {
@@ -190,10 +188,9 @@ ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
   sorted <- do.call(rbind, temp)
   mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
-
   result <- list(metrics = sorted)
-
   class(result) <- c("ols_step_best_subset")
+  
   return(result)
 
 }

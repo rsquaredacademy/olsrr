@@ -172,8 +172,8 @@ pveindex <- function(z) {
 
 fmrsq <- function(nam, data, i) {
   
-  fm        <- as.formula(paste0("`", nam[i], "` ", "~ ."))
-  m1        <- summary(lm(fm, data = data))$r.squared
+  fm <- as.formula(paste0("`", nam[i], "` ", "~ ."))
+  m1 <- summary(lm(fm, data = data))$r.squared
 
   1 - m1
 
