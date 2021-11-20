@@ -178,7 +178,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
     } else {
       if (progress) {
-        ols_progress_init("backward")
+        ols_progress_init("forward")
       }
     }
 
