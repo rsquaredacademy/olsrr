@@ -605,3 +605,18 @@ ols_rsquared_selected <- function(metric, step, preds, response, rsq1) {
         cat("Adj. R-Squared =>", round(rsq1, 3), "\n\n")
       }
 }
+
+
+ols_rsquared_removed <- function(metric, step, rpred, preds, response, aic_f) {
+  if (metric == "r2") {
+          cat("Step      =>", step, "\n")
+          cat("Removed   =>", tail(rpred, n = 1), "\n")
+          cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+          cat("R-Squared =>", aic_f, "\n\n")
+        } else {
+          cat("Step           =>", step, "\n")
+          cat("Removed        =>", tail(rpred, n = 1), "\n")
+          cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+          cat("Adj. R-Squared =>", aic_f, "\n\n")
+        }
+}

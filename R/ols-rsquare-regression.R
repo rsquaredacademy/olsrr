@@ -43,9 +43,12 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
     rsq_base <- summary(base_model)$adj.r.squared
   }
 
-
   if (details) {
     ols_rsquared_init(include, metric, response, rsq_base)
+  }
+
+  if (progress) {
+    ols_progress_init("forward")
   }
 
   for (i in seq_len(mlen_p)) {
@@ -85,13 +88,11 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
     len_p    <- length(all_pred)
     step     <- 1
   } else {
-    stop("No more variables to be added.", call. = FALSE)
+    ols_stepwise_break(direction = "forward")
   }
 
   if (progress) {
-    cat("\n")
-    cat("Variables Entered:", "\n\n")
-    cat(paste("=>", tail(preds, n = 1)), "\n")
+    ols_progress_display(preds, "others")
   }
 
   while (step < mlen_p) {
@@ -152,24 +153,18 @@ ols_step_rsquared_forward <- function(model, metric, include = NULL, exclude = N
       step     <- step + 1
 
       if (progress) {
-        cat(paste("=>", tail(preds, n = 1)), "\n")
+        ols_progress_display(preds, "others")
       }
     } else {
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be added.", "\n")
-        cat("\n")
+        ols_stepwise_break(direction = "forward")
       }
       break
     }
   }
 
   if (details) {
-    cat("\n")
-    cat("Variables Selected:", "\n\n")
-    for (i in seq_len(length(preds))) {
-      cat(paste("=>", preds[i]), "\n")
-    }
+    ols_stepwise_vars(preds, "forward")
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
@@ -245,16 +240,17 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
   larsq <- mi$adjr
 
   if (details) {
-    if (metric == "r2") {
-      cat("Step      => 0", "\n")
-      cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-      cat("R-Squared =>", aic_f, "\n\n")
-    } else {
-      cat("Step           => 0", "\n")
-      cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-      cat("Adj. R-Squared =>", aic_f, "\n\n")
-    }
-    cat("Initiating stepwise selection...", "\n\n")
+    ols_rsquared_init(include, metric, response, aic_f)
+    # if (metric == "r2") {
+    #   cat("Step      => 0", "\n")
+    #   cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+    #   cat("R-Squared =>", aic_f, "\n\n")
+    # } else {
+    #   cat("Step           => 0", "\n")
+    #   cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+    #   cat("Adj. R-Squared =>", aic_f, "\n\n")
+    # }
+    # cat("Initiating stepwise selection...", "\n\n")
   }
 
   ilp   <- length(preds)
@@ -289,6 +285,10 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
   }
 
   linc <- length(include)
+
+  if (progress) {
+    ols_progress_init("backward")
+  }
 
   while (!end) {
 
@@ -333,9 +333,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
       arsq  <- c()
 
       if (progress) {
-        cat("\n")
-        cat("Variables Removed:", "\n\n")
-        cat(paste("=>", tail(rpred, n = 1)), "\n")
+        ols_progress_display(rpred, "others")
       }
 
       for (i in seq_len(ilp)) {
@@ -363,18 +361,8 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
 
 
       if (details) {
-        if (metric == "r2") {
-          cat("Step      =>", step, "\n")
-          cat("Removed   =>", tail(rpred, n = 1), "\n")
-          cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-          cat("R-Squared =>", aic_f, "\n\n")
-        } else {
-          cat("Step           =>", step, "\n")
-          cat("Removed        =>", tail(rpred, n = 1), "\n")
-          cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-          cat("Adj. R-Squared =>", aic_f, "\n\n")
-        }
-
+        ols_rsquared_removed(metric, step, rpred, preds, response, aic_f)
+        
         da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
 
         if (metric == "r2") {
@@ -388,9 +376,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
     } else {
       end <- TRUE
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be removed.")
-        cat("\n")
+        ols_stepwise_break(direction = "backward")
       }
     }
 
@@ -398,13 +384,7 @@ ols_step_rsquared_backward <- function(model, metric, include = NULL, exclude = 
 
 
   if (details) {
-    if (length(rpred) > 0) {
-      cat("\n\n")
-      cat("Variables Removed:", "\n\n")
-      for (i in seq_len(length(rpred))) {
-        cat(paste("=>", rpred[i]), "\n")
-      }
-    }
+    ols_stepwise_vars(rpred, "backward")
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
@@ -486,8 +466,7 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
   larsq     <- c()
 
   if (progress) {
-    cat("\n")
-    cat("Variables Entered/Removed:", "\n\n")
+    ols_progress_init("both")
   }
 
   while (step < mlen_p) {
@@ -552,21 +531,28 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
       larsq      <- c(larsq, marsq)
 
       if (progress) {
-        cat(paste("=>", tail(preds, n = 1), "added"), "\n")
+        ols_progress_display(preds, "both", "added")
+        # cat(paste("=>", tail(preds, n = 1), "added"), "\n")
       }
 
       if (details) {
         if (metric == "r2") {
-          cat("Step      =>", all_step, "\n")
-          cat("Added     =>", tail(preds, n = 1), "\n")
-          cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-          cat("R-Squared =>", mrsq, "\n\n")
+          rsq1 <- mrsq
         } else {
-          cat("Step      =>", all_step, "\n")
-          cat("Added     =>", tail(preds, n = 1), "\n")
-          cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-          cat("Adj. R-Squared =>", marsq, "\n\n")
+          rsq1 <- marsq
         }
+        ols_rsquared_selected("r2", all_step, preds, response, rsq1)
+        # if (metric == "r2") {
+        #   cat("Step      =>", all_step, "\n")
+        #   cat("Added     =>", tail(preds, n = 1), "\n")
+        #   cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+        #   cat("R-Squared =>", mrsq, "\n\n")
+        # } else {
+        #   cat("Step      =>", all_step, "\n")
+        #   cat("Added     =>", tail(preds, n = 1), "\n")
+        #   cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+        #   cat("Adj. R-Squared =>", marsq, "\n\n")
+        # }
       }
 
       if (lpreds > 1) {
@@ -629,8 +615,11 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
           method    <- c(method, tech[2])
           all_step  <- all_step + 1
 
+          preds_removed <- preds[minc2 + length(include)]
+
           if (progress) {
-            cat(paste("=>", preds[minc2 + length(include)], "removed"), "\n")
+            ols_progress_display(preds_removed, "both", "removed")
+            # cat(paste("=>", preds[minc2 + length(include)], "removed"), "\n")
           }
 
           preds <- preds[-(minc2 + length(include))]
@@ -638,16 +627,22 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
 
           if (details) {
             if (metric == "r2") {
-              cat("Step      =>", all_step, "\n")
-              cat("Removed   =>", preds[minc2 + length(include)], "\n")
-              cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-              cat("R-Squared =>", mrsq, "\n\n")
+              rsq1 <- mrsq
             } else {
-              cat("Step      =>", all_step, "\n")
-              cat("Removed   =>", preds[minc2 + length(include)], "\n")
-              cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-              cat("Adj. R-Squared =>", marsq, "\n\n")
+              rsq1 <- marsq
             }
+            ols_rsquared_selected("r2", all_step, preds_removed, response, rsq1)
+            # if (metric == "r2") {
+            #   cat("Step      =>", all_step, "\n")
+            #   cat("Removed   =>", preds[minc2 + length(include)], "\n")
+            #   cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+            #   cat("R-Squared =>", mrsq, "\n\n")
+            # } else {
+            #   cat("Step      =>", all_step, "\n")
+            #   cat("Removed   =>", preds[minc2 + length(include)], "\n")
+            #   cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+            #   cat("Adj. R-Squared =>", marsq, "\n\n")
+            # }
           }
         }
       } else {
@@ -656,20 +651,14 @@ ols_step_rsquared_both <- function(model, metric, include = NULL, exclude = NULL
       }
     } else {
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be added or removed.")
-        cat("\n")
+        ols_stepwise_break(direction = "both")
       }
       break
     }
   }
 
   if (details) {
-    cat("\n")
-    cat("Variables Selected:", "\n\n")
-    for (i in seq_len(length(preds))) {
-      cat(paste("=>", preds[i]), "\n")
-    }
+    ols_stepwise_vars(preds, "both")
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)

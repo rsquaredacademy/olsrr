@@ -257,8 +257,7 @@
       
       No more variables to be added.
       
-      
-      Variables Entered: 
+      Variables Selected: 
       
       => liver_test 
       => alc_heavy 

@@ -64,17 +64,17 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
-      Variables Entered/Removed: 
+      Variables Added/Removed: 
       
       => liver_test added 
       => alc_heavy added 
@@ -144,14 +144,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
       Step  => 0 
@@ -174,10 +174,10 @@
       alc_heavy       1    794.301    1454057.255    6915463.282    0.174        0.158 
       --------------------------------------------------------------------------------
       
-      Step    => 1 
-      Added   => liver_test 
-      Model   => y ~ liver_test 
-      AIC     => 771.8753 
+      Step      => 1 
+      Added     => liver_test 
+      Model     => y ~ liver_test 
+      AIC       => 771.875 
       
                                  Information Criteria Table                            
       --------------------------------------------------------------------------------
@@ -192,10 +192,10 @@
       alc_heavy       1    761.439    4743349.776    3626170.761    0.567        0.550 
       --------------------------------------------------------------------------------
       
-      Step    => 2 
-      Added   => alc_heavy 
-      Model   => y ~ liver_test + alc_heavy 
-      AIC     => 761.4394 
+      Step      => 2 
+      Added     => alc_heavy 
+      Model     => y ~ liver_test + alc_heavy 
+      AIC       => 761.439 
       
                                  Information Criteria Table                            
       --------------------------------------------------------------------------------
@@ -217,10 +217,10 @@
       alc_mod         1    763.428    4744134.327    3625386.210    0.567        0.541 
       --------------------------------------------------------------------------------
       
-      Step    => 3 
-      Added   => enzyme_test 
-      Model   => y ~ liver_test + alc_heavy + enzyme_test 
-      AIC     => 750.5089 
+      Step      => 3 
+      Added     => enzyme_test 
+      Model     => y ~ liver_test + alc_heavy + enzyme_test 
+      AIC       => 750.509 
       
                                 Information Criteria Table                           
       ------------------------------------------------------------------------------
@@ -242,10 +242,10 @@
       alc_mod       1    752.403    5521121.706    2848398.831    0.660        0.632 
       ------------------------------------------------------------------------------
       
-      Step    => 4 
-      Added   => pindex 
-      Model   => y ~ liver_test + alc_heavy + enzyme_test + pindex 
-      AIC     => 735.7146 
+      Step      => 4 
+      Added     => pindex 
+      Model     => y ~ liver_test + alc_heavy + enzyme_test + pindex 
+      AIC       => 735.715 
       
                                 Information Criteria Table                           
       ------------------------------------------------------------------------------
@@ -267,10 +267,10 @@
       alc_mod       1    737.713    6278420.680    2091099.857    0.750        0.724 
       ------------------------------------------------------------------------------
       
-      Step    => 5 
-      Added   => bcs 
-      Model   => y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs 
-      AIC     => 730.6204 
+      Step      => 5 
+      Added     => bcs 
+      Model     => y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs 
+      AIC       => 730.62 
       
                                 Information Criteria Table                           
       ------------------------------------------------------------------------------
@@ -363,14 +363,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
       Step  => 0 
@@ -392,10 +392,10 @@
       alc_heavy       1    780.568    3201881.988    5167638.549    0.383        0.358 
       --------------------------------------------------------------------------------
       
-      Step    => 1 
-      Added   => enzyme_test 
-      Model   => y ~ pindex + enzyme_test 
-      AIC     => 766.6422 
+      Step      => 1 
+      Added     => enzyme_test 
+      Model     => y ~ pindex + enzyme_test 
+      AIC       => 766.642 
       
                                 Information Criteria Table                            
       -------------------------------------------------------------------------------
@@ -416,10 +416,10 @@
       alc_heavy      1    748.167    5636649.760    2732870.777    0.673        0.654 
       -------------------------------------------------------------------------------
       
-      Step    => 2 
-      Added   => bcs 
-      Model   => y ~ pindex + enzyme_test + bcs 
-      AIC     => 746.3755 
+      Step      => 2 
+      Added     => bcs 
+      Model     => y ~ pindex + enzyme_test + bcs 
+      AIC       => 746.376 
       
                                 Information Criteria Table                            
       -------------------------------------------------------------------------------
@@ -440,10 +440,10 @@
       alc_heavy      1    730.924    6455884.265    1913636.272    0.771        0.753 
       -------------------------------------------------------------------------------
       
-      Step    => 3 
-      Added   => alc_heavy 
-      Model   => y ~ pindex + enzyme_test + bcs + alc_heavy 
-      AIC     => 730.9241 
+      Step      => 3 
+      Added     => alc_heavy 
+      Model     => y ~ pindex + enzyme_test + bcs + alc_heavy 
+      AIC       => 730.924 
       
                                 Information Criteria Table                            
       -------------------------------------------------------------------------------
@@ -464,10 +464,10 @@
       alc_mod        1    732.909    6456411.149    1913109.388    0.771        0.748 
       -------------------------------------------------------------------------------
       
-      Step    => 4 
-      Added   => liver_test 
-      Model   => y ~ pindex + enzyme_test + bcs + alc_heavy + liver_test 
-      AIC     => 730.6204 
+      Step      => 4 
+      Added     => liver_test 
+      Model     => y ~ pindex + enzyme_test + bcs + alc_heavy + liver_test 
+      AIC       => 730.62 
       
                                 Information Criteria Table                           
       ------------------------------------------------------------------------------
@@ -558,15 +558,15 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
-      Variables Entered/Removed: 
+      Variables Added/Removed: 
       
       => x6 added 
       => x1 added 
@@ -637,12 +637,12 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Step  => 0 
@@ -663,10 +663,10 @@
       x6            1    33473.297    13986.736     6241.497    0.691        0.691 
       ----------------------------------------------------------------------------
       
-      Step    => 1 
-      Added   => x6 
-      Model   => y ~ x6 
-      AIC     => 33473.3 
+      Step      => 1 
+      Added     => x6 
+      Model     => y ~ x6 
+      AIC       => 33473.3 
       
                               Information Criteria Table                          
       ---------------------------------------------------------------------------
@@ -679,10 +679,10 @@
       x5            1    33475.275    13986.743    6241.490    0.691        0.691 
       ---------------------------------------------------------------------------
       
-      Step    => 2 
-      Added   => x1 
-      Model   => y ~ x6 + x1 
-      AIC     => 32931.76 
+      Step      => 2 
+      Added     => x1 
+      Model     => y ~ x6 + x1 
+      AIC       => 32931.76 
       
                                Information Criteria Table                          
       ----------------------------------------------------------------------------
@@ -702,10 +702,10 @@
       x5            1    32933.735    14154.084    6074.149    0.700        0.700 
       ---------------------------------------------------------------------------
       
-      Step    => 3 
-      Added   => x3 
-      Model   => y ~ x6 + x1 + x3 
-      AIC     => 31912.72 
+      Step      => 3 
+      Added     => x3 
+      Model     => y ~ x6 + x1 + x3 
+      AIC       => 31912.72 
       
                               Information Criteria Table                          
       ---------------------------------------------------------------------------
@@ -725,10 +725,10 @@
       x5            1    31914.523    14456.448    5771.785    0.715        0.715 
       ---------------------------------------------------------------------------
       
-      Step    => 4 
-      Added   => x2 
-      Model   => y ~ x6 + x1 + x3 + x2 
-      AIC     => 29304.3 
+      Step      => 4 
+      Added     => x2 
+      Model     => y ~ x6 + x1 + x3 + x2 
+      AIC       => 29304.3 
       
                               Information Criteria Table                          
       ---------------------------------------------------------------------------
@@ -740,10 +740,10 @@
       x2            1    31912.722    14456.391    5771.842    0.715        0.715 
       ---------------------------------------------------------------------------
       
-      Step    => 5 
-      Removed => x6 
-      Model   => y ~ x1 + x3 + x2 
-      AIC     => 29302.32 
+      Step      => 5 
+      Removed   => x6 
+      Model     => y ~ x1 + x3 + x2 
+      AIC       => 29302.32 
       
                               Information Criteria Table                          
       ---------------------------------------------------------------------------
@@ -753,10 +753,10 @@
       x5            1    29304.253    15162.657    5065.576    0.750        0.750 
       ---------------------------------------------------------------------------
       
-      Step    => 6 
-      Added   => x4 
-      Model   => y ~ x1 + x3 + x2 + x4 
-      AIC     => 29300.81 
+      Step      => 6 
+      Added     => x4 
+      Model     => y ~ x1 + x3 + x2 + x4 
+      AIC       => 29300.81 
       
                               Information Criteria Table                          
       ---------------------------------------------------------------------------

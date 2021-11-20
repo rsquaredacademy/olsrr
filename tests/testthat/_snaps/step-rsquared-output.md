@@ -124,16 +124,16 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
       
       
       Step      => 0 
       Model     => y ~ x6 
-      R-Squared => 0.6914463 
+      R-Squared => 0.691 
       
       Initiating stepwise selection... 
       
@@ -151,7 +151,7 @@
       Step      => 1 
       Selected  => x1 
       Model     => y ~ x6 + x1 
-      R-Squared => 0.6997189 
+      R-Squared => 0.7 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -166,7 +166,7 @@
       Step      => 2 
       Selected  => x3 
       Model     => y ~ x6 + x1 + x3 
-      R-Squared => 0.714664 
+      R-Squared => 0.715 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -180,7 +180,7 @@
       Step      => 3 
       Selected  => x2 
       Model     => y ~ x6 + x1 + x3 + x2 
-      R-Squared => 0.7495784 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -193,7 +193,7 @@
       Step      => 4 
       Selected  => x4 
       Model     => y ~ x6 + x1 + x3 + x2 + x4 
-      R-Squared => 0.7496222 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -273,12 +273,12 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Variables Entered: 
@@ -352,12 +352,12 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Step      => 0 
@@ -381,7 +381,7 @@
       Step      => 1 
       Selected  => x6 
       Model     => y ~ x6 
-      R-Squared => 0.6914463 
+      R-Squared => 0.691 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -397,7 +397,7 @@
       Step      => 2 
       Selected  => x1 
       Model     => y ~ x6 + x1 
-      R-Squared => 0.6997189 
+      R-Squared => 0.7 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -412,7 +412,7 @@
       Step      => 3 
       Selected  => x3 
       Model     => y ~ x6 + x1 + x3 
-      R-Squared => 0.714664 
+      R-Squared => 0.715 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -426,7 +426,7 @@
       Step      => 4 
       Selected  => x2 
       Model     => y ~ x6 + x1 + x3 + x2 
-      R-Squared => 0.7495784 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -439,7 +439,7 @@
       Step      => 5 
       Selected  => x4 
       Model     => y ~ x6 + x1 + x3 + x2 + x4 
-      R-Squared => 0.7496222 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -576,16 +576,16 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
       
       
       Step           => 0 
       Model          => y ~ x6 
-      Adj. R-Squared => 0.6914308 
+      Adj. R-Squared => 0.691 
       
       Initiating stepwise selection... 
       
@@ -603,7 +603,7 @@
       Step           => 1 
       Selected       => x1 
       Model          => y ~ x6 + x1 
-      Adj. R-Squared => 0.6997189 
+      Adj. R-Squared => 0.7 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -618,7 +618,7 @@
       Step           => 2 
       Selected       => x3 
       Model          => y ~ x6 + x1 + x3 
-      Adj. R-Squared => 0.714664 
+      Adj. R-Squared => 0.715 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -632,7 +632,7 @@
       Step           => 3 
       Selected       => x2 
       Model          => y ~ x6 + x1 + x3 + x2 
-      Adj. R-Squared => 0.7495784 
+      Adj. R-Squared => 0.75 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -645,7 +645,7 @@
       Step           => 4 
       Selected       => x4 
       Model          => y ~ x6 + x1 + x3 + x2 + x4 
-      Adj. R-Squared => 0.7496222 
+      Adj. R-Squared => 0.75 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -655,8 +655,7 @@
       ---------------------------------------------------------------------------
       
       
-      No more variables to be added. 
-      
+      No more variables to be added.
       
       Variables Selected: 
       
@@ -725,12 +724,12 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Variables Entered: 
@@ -741,8 +740,7 @@
       => x2 
       => x4 
       
-      No more variables to be added. 
-      
+      No more variables to be added.
       
       
                               Stepwise Summary                        
@@ -804,12 +802,12 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Step           => 0 
@@ -833,7 +831,7 @@
       Step           => 1 
       Selected       => x6 
       Model          => y ~ x6 
-      Adj. R-Squared => 0.6914463 
+      Adj. R-Squared => 0.691 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -849,7 +847,7 @@
       Step           => 2 
       Selected       => x1 
       Model          => y ~ x6 + x1 
-      Adj. R-Squared => 0.6997189 
+      Adj. R-Squared => 0.7 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -864,7 +862,7 @@
       Step           => 3 
       Selected       => x3 
       Model          => y ~ x6 + x1 + x3 
-      Adj. R-Squared => 0.714664 
+      Adj. R-Squared => 0.715 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -878,7 +876,7 @@
       Step           => 4 
       Selected       => x2 
       Model          => y ~ x6 + x1 + x3 + x2 
-      Adj. R-Squared => 0.7495784 
+      Adj. R-Squared => 0.75 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -891,7 +889,7 @@
       Step           => 5 
       Selected       => x4 
       Model          => y ~ x6 + x1 + x3 + x2 + x4 
-      Adj. R-Squared => 0.7496222 
+      Adj. R-Squared => 0.75 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -901,8 +899,7 @@
       ---------------------------------------------------------------------------
       
       
-      No more variables to be added. 
-      
+      No more variables to be added.
       
       Variables Selected: 
       
@@ -986,15 +983,16 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      
       
       Step      => 0 
-      Model     => y ~ x1 + x2 + x3 + x4 + x5 + x6 
-      R-Squared => 0.749623 
+      Model     => y ~ x6 
+      R-Squared => 0.75 
       
       Initiating stepwise selection... 
       
@@ -1012,6 +1010,7 @@
       
       
       No more variables to be removed.
+      
       [1] "No variables have been removed from the model."
 
 ---
@@ -1024,12 +1023,15 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
+      
+      
+      Variables Removed: 
       
       
       No more variables to be removed.
@@ -1045,16 +1047,17 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
+      
       
       Step      => 0 
-      Model     => y ~ x1 + x2 + x3 + x4 + x5 + x6 
-      R-Squared => 0.749623 
+      Model     => y ~ 1 
+      R-Squared => 0.75 
       
       Initiating stepwise selection... 
       
@@ -1072,6 +1075,7 @@
       
       
       No more variables to be removed.
+      
       [1] "No variables have been removed from the model."
 
 # output from adjusted rsquared backward regression is as expected
@@ -1188,15 +1192,16 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      
       
       Step           => 0 
-      Model          => y ~ x1 + x2 + x3 + x4 + x5 + x6 
-      Adj. R-Squared => 0.7495478 
+      Model          => y ~ x6 
+      Adj. R-Squared => 0.75 
       
       Initiating stepwise selection... 
       
@@ -1230,7 +1235,6 @@
       
       
       No more variables to be removed.
-      
       
       Variables Removed: 
       
@@ -1292,20 +1296,17 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Variables Removed: 
       
       => x6 
-      
-      Variables Removed: 
-      
       => x5 
       
       No more variables to be removed.
@@ -1366,16 +1367,17 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
+      
       
       Step           => 0 
-      Model          => y ~ x1 + x2 + x3 + x4 + x5 + x6 
-      Adj. R-Squared => 0.7495478 
+      Model          => y ~ 1 
+      Adj. R-Squared => 0.75 
       
       Initiating stepwise selection... 
       
@@ -1424,7 +1426,6 @@
       
       
       No more variables to be removed.
-      
       
       Variables Removed: 
       
@@ -1603,17 +1604,17 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Step      => 0 
       Model     => y ~ x6 
-      R-Squared => 0.6914463 
+      R-Squared => 0.691 
       
       Initiating stepwise selection... 
       
@@ -1629,9 +1630,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 1 
-      Added     => x1 
+      Selected  => x1 
       Model     => y ~ x6 + x1 
-      R-Squared => 0.6997189 
+      R-Squared => 0.7 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -1651,9 +1652,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 2 
-      Added     => x3 
+      Selected  => x3 
       Model     => y ~ x6 + x1 + x3 
-      R-Squared => 0.714664 
+      R-Squared => 0.715 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -1673,9 +1674,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 3 
-      Added     => x2 
+      Selected  => x2 
       Model     => y ~ x6 + x1 + x3 + x2 
-      R-Squared => 0.7495784 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -1695,9 +1696,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 4 
-      Added     => x4 
+      Selected  => x4 
       Model     => y ~ x6 + x1 + x3 + x2 + x4 
-      R-Squared => 0.7496222 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -1717,9 +1718,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 5 
-      Added     => x5 
+      Selected  => x5 
       Model     => y ~ x6 + x1 + x3 + x2 + x4 + x5 
-      R-Squared => 0.749623 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -1803,15 +1804,15 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
-      Variables Entered/Removed: 
+      Variables Added/Removed: 
       
       => x6 added 
       => x1 added 
@@ -1882,12 +1883,12 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Step      => 0 
@@ -1909,9 +1910,9 @@
       ----------------------------------------------------------------------------
       
       Step      => 1 
-      Added     => x6 
+      Selected  => x6 
       Model     => y ~ x6 
-      R-Squared => 0.6914463 
+      R-Squared => 0.691 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -1925,9 +1926,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 2 
-      Added     => x1 
+      Selected  => x1 
       Model     => y ~ x6 + x1 
-      R-Squared => 0.6997189 
+      R-Squared => 0.7 
       
                                     R-Squared Table                                
       ----------------------------------------------------------------------------
@@ -1948,9 +1949,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 3 
-      Added     => x3 
+      Selected  => x3 
       Model     => y ~ x6 + x1 + x3 
-      R-Squared => 0.714664 
+      R-Squared => 0.715 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -1971,9 +1972,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 4 
-      Added     => x2 
+      Selected  => x2 
       Model     => y ~ x6 + x1 + x3 + x2 
-      R-Squared => 0.7495784 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -1994,9 +1995,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 5 
-      Added     => x4 
+      Selected  => x4 
       Model     => y ~ x6 + x1 + x3 + x2 + x4 
-      R-Squared => 0.7496222 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -2017,9 +2018,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 6 
-      Added     => x5 
+      Selected  => x5 
       Model     => y ~ x6 + x1 + x3 + x2 + x4 + x5 
-      R-Squared => 0.749623 
+      R-Squared => 0.75 
       
                                     R-Squared Table                               
       ---------------------------------------------------------------------------
@@ -2161,15 +2162,15 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
-      Variables Entered/Removed: 
+      Variables Added/Removed: 
       
       => x6 added 
       => x1 added 
@@ -2240,12 +2241,12 @@
       
       Candidate Terms: 
       
-      1 . x1 
-      2 . x2 
-      3 . x3 
-      4 . x4 
-      5 . x5 
-      6 . x6 
+      1. x1 
+      2. x2 
+      3. x3 
+      4. x4 
+      5. x5 
+      6. x6 
       
       
       Step           => 0 
@@ -2267,9 +2268,9 @@
       ----------------------------------------------------------------------------
       
       Step      => 1 
-      Added     => x6 
+      Selected  => x6 
       Model     => y ~ x6 
-      Adj. R-Squared => 0.6914308 
+      R-Squared => 0.691 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -2283,9 +2284,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 2 
-      Added     => x1 
+      Selected  => x1 
       Model     => y ~ x6 + x1 
-      Adj. R-Squared => 0.6996888 
+      R-Squared => 0.7 
       
                                 Adjusted R-Squared Table                           
       ----------------------------------------------------------------------------
@@ -2306,9 +2307,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 3 
-      Added     => x3 
+      Selected  => x3 
       Model     => y ~ x6 + x1 + x3 
-      Adj. R-Squared => 0.7146212 
+      R-Squared => 0.715 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -2329,9 +2330,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 4 
-      Added     => x2 
+      Selected  => x2 
       Model     => y ~ x6 + x1 + x3 + x2 
-      Adj. R-Squared => 0.7495283 
+      R-Squared => 0.75 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -2344,9 +2345,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 5 
-      Removed   => x1 
-      Model     => y ~ x1 + x3 + x2 
-      Adj. R-Squared => 0.7495405 
+      Selected  => x6 
+      Model     => y ~ x6 
+      R-Squared => 0.75 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------
@@ -2357,9 +2358,9 @@
       ---------------------------------------------------------------------------
       
       Step      => 6 
-      Added     => x4 
+      Selected  => x4 
       Model     => y ~ x1 + x3 + x2 + x4 
-      Adj. R-Squared => 0.7495719 
+      R-Squared => 0.75 
       
                                Adjusted R-Squared Table                           
       ---------------------------------------------------------------------------

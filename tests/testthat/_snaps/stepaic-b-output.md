@@ -62,14 +62,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
       Variables Removed: 
@@ -144,14 +144,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
       Step  => 0 
@@ -174,10 +174,10 @@
       enzyme_test     1    763.557    5235857.893    3133662.644    0.626        0.569 
       --------------------------------------------------------------------------------
       
-      Step    => 1 
-      Removed => alc_mod 
-      Model   => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
-      AIC     => 734.4068 
+      Step      => 1 
+      Removed   => alc_mod 
+      Model     => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
+      AIC       => 734.407 
       
                                  Information Criteria Table                            
       --------------------------------------------------------------------------------
@@ -192,10 +192,10 @@
       enzyme_test     1    761.595    5233609.703    3135910.834    0.625        0.577 
       --------------------------------------------------------------------------------
       
-      Step    => 2 
-      Removed => gender 
-      Model   => y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
-      AIC     => 732.4942 
+      Step      => 2 
+      Removed   => gender 
+      Model     => y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
+      AIC       => 732.494 
       
                                  Information Criteria Table                            
       --------------------------------------------------------------------------------
@@ -209,10 +209,10 @@
       enzyme_test     1    759.596    5233602.254    3135918.283    0.625        0.586 
       --------------------------------------------------------------------------------
       
-      Step    => 3 
-      Removed => age 
-      Model   => y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
-      AIC     => 730.6204 
+      Step      => 3 
+      Removed   => age 
+      Model     => y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
+      AIC       => 730.62 
       
                                  Information Criteria Table                            
       --------------------------------------------------------------------------------

@@ -305,22 +305,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     prsq <- c(rsq[1], diff(rsq))
 
     if (details) {
-      cat("\n\n")
-      len_pred <- length(preds)
-      if (len_pred < 1) {
-        cat("Variables Entered => None", "\n\n")
-      } else if (len_pred == 1) {
-        cat(paste("Variables Entered =>", preds[1]), "\n\n")
-      } else {
-        cat("Variables Entered:", "\n\n")
-        for (i in seq_len(length(preds))) {
-          if (details) {
-            cat("=>", preds[i], "\n")
-          } else {
-            cat(paste("=>", preds[i]), "\n")
-          }
-        }
-      }
+      ols_stepwise_vars(preds, "forward")
     }
 
     final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
