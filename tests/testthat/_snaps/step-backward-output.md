@@ -62,14 +62,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
       Variables Removed: 
@@ -138,14 +138,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
       Step      => 0 
@@ -154,20 +154,20 @@
       
       Initiating stepwise selection... 
       
-      Step    => 1 
-      Removed => alc_mod 
-      Model   => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
-      Rsq     => 0.7817703 
+      Step      => 1 
+      Removed   => alc_mod 
+      Model     => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
+      Rsq => 0.782 
       
-      Step    => 2 
-      Removed => gender 
-      Model   => y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
-      Rsq     => 0.7814169 
+      Step      => 2 
+      Removed   => gender 
+      Model     => y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
+      Rsq => 0.781 
       
-      Step    => 3 
-      Removed => age 
-      Model   => y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
-      Rsq     => 0.7809054 
+      Step      => 3 
+      Removed   => age 
+      Model     => y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
+      Rsq => 0.781 
       
       
       No more variables to be removed.
@@ -290,29 +290,23 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . alc_heavy 
-      3 . pindex 
-      4 . enzyme_test 
-      5 . liver_test 
-      6 . age 
-      7 . gender 
-      8 . alc_mod 
+      1. bcs 
+      2. alc_heavy 
+      3. pindex 
+      4. enzyme_test 
+      5. liver_test 
+      6. age 
+      7. gender 
+      8. alc_mod 
       
       
       Variables Removed: 
       
       => alc_mod 
-      
-      Variables Removed: 
-      
       => gender 
-      
-      Variables Removed: 
-      
       => age 
       
-      No more variables satisfy the condition of p value = 0.3
+      No more variables to be removed.
       
       
                              Stepwise Summary                       
@@ -372,14 +366,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . alc_heavy 
-      3 . pindex 
-      4 . enzyme_test 
-      5 . liver_test 
-      6 . age 
-      7 . gender 
-      8 . alc_mod 
+      1. bcs 
+      2. alc_heavy 
+      3. pindex 
+      4. enzyme_test 
+      5. liver_test 
+      6. age 
+      7. gender 
+      8. alc_mod 
       
       
       Step      => 0 
@@ -388,135 +382,79 @@
       
       Initiating stepwise selection... 
       
+        Significance Table    
+      -----------------------
+      Predictor      Pr(>|t|) 
+      -----------------------
+      bcs             0.01426 
+      alc_heavy       0.00047 
+      pindex            2e-05 
+      enzyme_test     0.00000 
+      liver_test      0.26811 
+      age             0.72123 
+      gender          0.78727 
+      alc_mod         0.90601 
+      -----------------------
       
-      Backward Elimination: Step 1 
+      Step      => 1 
+      Removed   => alc_mod 
+      Model     => y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender 
+      R-Squared => 0.782 
       
-       Variable alc_mod Removed 
+        Significance Table    
+      -----------------------
+      Predictor      Pr(>|t|) 
+      -----------------------
+      bcs             0.01331 
+      alc_heavy         9e-05 
+      pindex            1e-05 
+      enzyme_test     0.00000 
+      liver_test      0.25860 
+      age             0.72755 
+      gender          0.78613 
+      -----------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 183.912 
-      R-Squared               0.782       Coef. Var             28.381 
-      Adj. R-Squared          0.749       MSE                39706.040 
-      Pred R-Squared          0.678       MAE                  137.053 
-      -----------------------------------------------------------------
-       RMSE: Root Mean Square Error 
-       MSE: Mean Square Error 
-       MAE: Mean Absolute Error 
+      Step      => 2 
+      Removed   => gender 
+      Model     => y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age 
+      R-Squared => 0.781 
       
-                                       ANOVA                                  
-      -----------------------------------------------------------------------
-                         Sum of                                              
-                        Squares        DF    Mean Square      F         Sig. 
-      -----------------------------------------------------------------------
-      Regression    6543042.709         7     934720.387    23.541    0.0000 
-      Residual      1826477.828        46      39706.040                     
-      Total         8369520.537        53                                    
-      -----------------------------------------------------------------------
+        Significance Table    
+      -----------------------
+      Predictor      Pr(>|t|) 
+      -----------------------
+      bcs             0.01285 
+      alc_heavy         8e-05 
+      pindex            1e-05 
+      enzyme_test     0.00000 
+      liver_test      0.20745 
+      age             0.74164 
+      -----------------------
       
-                                            Parameter Estimates                                        
-      ------------------------------------------------------------------------------------------------
-            model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
-      ------------------------------------------------------------------------------------------------
-      (Intercept)    -1145.971       238.536                 -4.804    0.000    -1626.119    -665.822 
-              bcs       62.274        24.187        0.251     2.575    0.013       13.589     110.959 
-        alc_heavy      315.854        73.849        0.312     4.277    0.000      167.202     464.505 
-           pindex        8.987         1.850        0.382     4.857    0.000        5.262      12.711 
-      enzyme_test        9.875         1.720        0.528     5.743    0.000        6.414      13.337 
-       liver_test       50.763        44.379        0.137     1.144    0.259      -38.567     140.093 
-              age       -0.911         2.599       -0.025    -0.351    0.728       -6.142       4.320 
-           gender       15.786        57.840        0.020     0.273    0.786     -100.639     132.212 
-      ------------------------------------------------------------------------------------------------
+      Step      => 3 
+      Removed   => age 
+      Model     => y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test 
+      R-Squared => 0.781 
       
-      
-      
-      Backward Elimination: Step 2 
-      
-       Variable gender Removed 
-      
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.061 
-      R-Squared               0.781       Coef. Var             28.101 
-      Adj. R-Squared          0.754       MSE                38924.162 
-      Pred R-Squared          0.692       MAE                  138.160 
-      -----------------------------------------------------------------
-       RMSE: Root Mean Square Error 
-       MSE: Mean Square Error 
-       MAE: Mean Absolute Error 
-      
-                                       ANOVA                                  
-      -----------------------------------------------------------------------
-                         Sum of                                              
-                        Squares        DF    Mean Square      F         Sig. 
-      -----------------------------------------------------------------------
-      Regression    6540084.920         6    1090014.153    28.004    0.0000 
-      Residual      1829435.617        47      38924.162                     
-      Total         8369520.537        53                                    
-      -----------------------------------------------------------------------
-      
-                                            Parameter Estimates                                        
-      ------------------------------------------------------------------------------------------------
-            model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
-      ------------------------------------------------------------------------------------------------
-      (Intercept)    -1143.080       235.943                 -4.845    0.000    -1617.737    -668.424 
-              bcs       61.424        23.748        0.248     2.586    0.013       13.649     109.199 
-        alc_heavy      314.585        72.974        0.310     4.311    0.000      167.781     461.390 
-           pindex        8.974         1.832        0.382     4.900    0.000        5.290      12.659 
-      enzyme_test        9.852         1.700        0.527     5.794    0.000        6.431      13.273 
-       liver_test       54.053        42.288        0.146     1.278    0.207      -31.019     139.125 
-              age       -0.850         2.563       -0.024    -0.332    0.742       -6.007       4.307 
-      ------------------------------------------------------------------------------------------------
+        Significance Table    
+      -----------------------
+      Predictor      Pr(>|t|) 
+      -----------------------
+      bcs             0.01248 
+      alc_heavy         5e-05 
+      pindex            1e-05 
+      enzyme_test     0.00000 
+      liver_test      0.15457 
+      -----------------------
       
       
-      
-      Backward Elimination: Step 3 
-      
-       Variable age Removed 
-      
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
-       RMSE: Root Mean Square Error 
-       MSE: Mean Square Error 
-       MAE: Mean Absolute Error 
-      
-                                       ANOVA                                  
-      -----------------------------------------------------------------------
-                         Sum of                                              
-                        Squares        DF    Mean Square      F         Sig. 
-      -----------------------------------------------------------------------
-      Regression    6535804.090         5    1307160.818    34.217    0.0000 
-      Residual      1833716.447        48      38202.426                     
-      Total         8369520.537        53                                    
-      -----------------------------------------------------------------------
-      
-                                            Parameter Estimates                                        
-      ------------------------------------------------------------------------------------------------
-            model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
-      ------------------------------------------------------------------------------------------------
-      (Intercept)    -1178.330       208.682                 -5.647    0.000    -1597.914    -758.746 
-              bcs       59.864        23.060        0.241     2.596    0.012       13.498     106.230 
-        alc_heavy      317.848        71.634        0.314     4.437    0.000      173.818     461.878 
-           pindex        8.924         1.808        0.380     4.935    0.000        5.288      12.559 
-      enzyme_test        9.748         1.656        0.521     5.887    0.000        6.419      13.077 
-       liver_test       58.064        40.144        0.156     1.446    0.155      -22.652     138.779 
-      ------------------------------------------------------------------------------------------------
-      
-      
-      
-      No more variables satisfy the condition of p value = 0.3
-      
+      No more variables to be removed.
       
       Variables Removed: 
       
-      - alc_mod 
-      - gender 
-      - age 
+      => alc_mod 
+      => gender 
+      => age 
       
       
                              Stepwise Summary                       

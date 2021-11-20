@@ -225,6 +225,33 @@ ols_stepwise_table <- function(df, predictors, p_val, rsq, arsq, aics) {
 
 }
 
+ols_stepwise_table_p <- function(df, predictors, p_val) {
+
+  w1 <- max(nchar("Predictor"), nchar(predictors))
+  w2 <- max(nchar("Pr(>|t|)"), nchar(format(round(p_val, 5), nsmall = 5)))
+  w  <- sum(w1, w2, 4)
+  ln <- length(predictors)
+
+  cat(format("Significance Table", justify = "centre", width = w), "\n")
+
+  cat(rep("-", w), sep = "", "\n")
+
+  cat(
+    fl("Predictor", w1), fs(),
+    fc("Pr(>|t|)", w2), "\n")
+
+  cat(rep("-", w), sep = "", "\n")
+
+  for (i in seq_len(ln)) {
+    cat(
+      fl(df[i, 1], w1), fs(),
+      fg(format(round(df[i, 2], 5), nsmall = 5), w2), "\n")
+  }
+
+  cat(rep("-", w), sep = "", "\n\n")
+
+}
+
 ols_stepwise_break <- function(direction = c("forward", "backward", "both")) {
 
   method <- match.arg(direction)

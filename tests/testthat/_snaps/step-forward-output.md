@@ -64,17 +64,17 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
-      Variables Removed: 
+      Variables Entered: 
       
       => liver_test 
       => alc_heavy 
@@ -144,14 +144,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . pindex 
-      3 . enzyme_test 
-      4 . liver_test 
-      5 . age 
-      6 . gender 
-      7 . alc_mod 
-      8 . alc_heavy 
+      1. bcs 
+      2. pindex 
+      3. enzyme_test 
+      4. liver_test 
+      5. age 
+      6. gender 
+      7. alc_mod 
+      8. alc_heavy 
       
       
       Step      => 0 
@@ -380,30 +380,21 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . alc_heavy 
-      3 . pindex 
-      4 . enzyme_test 
-      5 . liver_test 
-      6 . age 
-      7 . gender 
-      8 . alc_mod 
+      1. bcs 
+      2. alc_heavy 
+      3. pindex 
+      4. enzyme_test 
+      5. liver_test 
+      6. age 
+      7. gender 
+      8. alc_mod 
       
       
       Variables Entered: 
       
       => bcs 
-      
-      Variables Entered: 
-      
       => alc_heavy 
-      
-      Variables Entered: 
-      
       => pindex 
-      
-      Variables Entered: 
-      
       => enzyme_test 
       
       No more variables to be added.
@@ -466,14 +457,14 @@
       
       Candidate Terms: 
       
-      1 . bcs 
-      2 . alc_heavy 
-      3 . pindex 
-      4 . enzyme_test 
-      5 . liver_test 
-      6 . age 
-      7 . gender 
-      8 . alc_mod 
+      1. bcs 
+      2. alc_heavy 
+      3. pindex 
+      4. enzyme_test 
+      5. liver_test 
+      6. age 
+      7. gender 
+      8. alc_mod 
       
       
       Step      => 0 
@@ -482,160 +473,78 @@
       
       Initiating stepwise selection... 
       
+                          Selection Metrics Table                     
+      ---------------------------------------------------------------
+      Predictor    Pr(>|t|)    R-Squared    Adj. R-Squared      AIC   
+      ---------------------------------------------------------------
+      bcs           0.01025        0.120             0.103    797.697 
+      ---------------------------------------------------------------
       
-      Forward Selection: Step 1 
+      Step      => 1 
+      Selected  => bcs 
+      Model     => y ~ bcs 
+      R-Squared => 0.12 
       
-      Variable entered => bcs
+                          Selection Metrics Table                     
+      ---------------------------------------------------------------
+      Predictor    Pr(>|t|)    R-Squared    Adj. R-Squared      AIC   
+      ---------------------------------------------------------------
+      alc_heavy     0.00624        0.241             0.211    791.701 
+      bcs           0.01025        0.120             0.103    797.697 
+      ---------------------------------------------------------------
       
-                                 Model Summary                            
-      -------------------------------------------------------------------
-      R                        0.347       RMSE                  369.293 
-      R-Squared                0.120       Coef. Var              53.601 
-      Adj. R-Squared           0.103       MSE                141622.478 
-      Pred R-Squared          -0.005       MAE                   262.849 
-      -------------------------------------------------------------------
-       RMSE: Root Mean Square Error 
-       MSE: Mean Square Error 
-       MAE: Mean Absolute Error 
+      Step      => 2 
+      Selected  => alc_heavy 
+      Model     => y ~ bcs + alc_heavy 
+      R-Squared => 0.241 
       
-                                      ANOVA                                  
-      ----------------------------------------------------------------------
-                         Sum of                                             
-                        Squares        DF    Mean Square      F        Sig. 
-      ----------------------------------------------------------------------
-      Regression    1005151.658         1    1005151.658    7.097    0.0103 
-      Residual      7364368.879        52     141622.478                    
-      Total         8369520.537        53                                   
-      ----------------------------------------------------------------------
+                          Selection Metrics Table                     
+      ---------------------------------------------------------------
+      Predictor    Pr(>|t|)    R-Squared    Adj. R-Squared      AIC   
+      ---------------------------------------------------------------
+      pindex          2e-04        0.427             0.392    778.574 
+      alc_heavy     0.00624        0.241             0.211    791.701 
+      bcs           0.01025        0.120             0.103    797.697 
+      ---------------------------------------------------------------
       
-                                          Parameter Estimates                                     
-      -------------------------------------------------------------------------------------------
-            model       Beta    Std. Error    Std. Beta      t       Sig        lower      upper 
-      -------------------------------------------------------------------------------------------
-      (Intercept)    205.256       193.397                 1.061    0.293    -182.824    593.336 
-              bcs     85.908        32.247        0.347    2.664    0.010      21.201    150.616 
-      -------------------------------------------------------------------------------------------
+      Step      => 3 
+      Selected  => pindex 
+      Model     => y ~ bcs + alc_heavy + pindex 
+      R-Squared => 0.427 
       
-      
-      
-      Forward Selection: Step 2 
-      
-      Variable entered => alc_heavy
-      
-                                Model Summary                            
-      ------------------------------------------------------------------
-      R                       0.491       RMSE                  342.940 
-      R-Squared               0.241       Coef. Var              50.262 
-      Adj. R-Squared          0.211       MSE                124526.263 
-      Pred R-Squared          0.080       MAE                   247.071 
-      ------------------------------------------------------------------
-       RMSE: Root Mean Square Error 
-       MSE: Mean Square Error 
-       MAE: Mean Absolute Error 
-      
-                                      ANOVA                                  
-      ----------------------------------------------------------------------
-                         Sum of                                             
-                        Squares        DF    Mean Square      F        Sig. 
-      ----------------------------------------------------------------------
-      Regression    2018681.099         2    1009340.549    8.105     9e-04 
-      Residual      6350839.438        51     124526.263                    
-      Total         8369520.537        53                                   
-      ----------------------------------------------------------------------
-      
-                                          Parameter Estimates                                     
-      -------------------------------------------------------------------------------------------
-            model       Beta    Std. Error    Std. Beta      t       Sig        lower      upper 
-      -------------------------------------------------------------------------------------------
-      (Intercept)    252.981       182.119                 1.389    0.171    -112.637    618.600 
-              bcs     66.068        31.027        0.267    2.129    0.038       3.778    128.358 
-        alc_heavy    361.894       126.851        0.357    2.853    0.006     107.230    616.558 
-      -------------------------------------------------------------------------------------------
-      
-      
-      
-      Forward Selection: Step 3 
-      
-      Variable entered => pindex
-      
-                                Model Summary                           
+                           Selection Metrics Table                      
       -----------------------------------------------------------------
-      R                       0.653       RMSE                 298.117 
-      R-Squared               0.427       Coef. Var             44.127 
-      Adj. R-Squared          0.392       MSE                95983.505 
-      Pred R-Squared          0.269       MAE                  215.068 
+      Predictor      Pr(>|t|)    R-Squared    Adj. R-Squared      AIC   
       -----------------------------------------------------------------
-       RMSE: Root Mean Square Error 
-       MSE: Mean Square Error 
-       MAE: Mean Absolute Error 
-      
-                                       ANOVA                                  
-      -----------------------------------------------------------------------
-                         Sum of                                              
-                        Squares        DF    Mean Square      F         Sig. 
-      -----------------------------------------------------------------------
-      Regression    3570345.284         3    1190115.095    12.399    0.0000 
-      Residual      4799175.253        50      95983.505                     
-      Total         8369520.537        53                                    
-      -----------------------------------------------------------------------
-      
-                                           Parameter Estimates                                      
-      ---------------------------------------------------------------------------------------------
-            model        Beta    Std. Error    Std. Beta      t        Sig        lower      upper 
-      ---------------------------------------------------------------------------------------------
-      (Intercept)    -330.996       216.010                 -1.532    0.132    -764.866    102.874 
-              bcs      53.710        27.413        0.217     1.959    0.056      -1.351    108.771 
-        alc_heavy     410.115       112.012        0.405     3.661    0.001     185.131    635.098 
-           pindex      10.223         2.543        0.435     4.021    0.000       5.116     15.330 
-      ---------------------------------------------------------------------------------------------
-      
-      
-      
-      Forward Selection: Step 4 
-      
-      Variable entered => enzyme_test
-      
-                                Model Summary                           
+      enzyme_test     0.00000        0.771             0.753    730.924 
+      pindex            2e-04        0.427             0.392    778.574 
+      alc_heavy       0.00624        0.241             0.211    791.701 
+      bcs             0.01025        0.120             0.103    797.697 
       -----------------------------------------------------------------
-      R                       0.878       RMSE                 188.249 
-      R-Squared               0.771       Coef. Var             28.147 
-      Adj. R-Squared          0.753       MSE                39053.801 
-      Pred R-Squared          0.695       MAE                  140.619 
+      
+      Step      => 4 
+      Selected  => enzyme_test 
+      Model     => y ~ bcs + alc_heavy + pindex + enzyme_test 
+      R-Squared => 0.771 
+      
+                           Selection Metrics Table                      
       -----------------------------------------------------------------
-       RMSE: Root Mean Square Error 
-       MSE: Mean Square Error 
-       MAE: Mean Absolute Error 
-      
-                                       ANOVA                                  
-      -----------------------------------------------------------------------
-                         Sum of                                              
-                        Squares        DF    Mean Square      F         Sig. 
-      -----------------------------------------------------------------------
-      Regression    6455884.265         4    1613971.066    41.327    0.0000 
-      Residual      1913636.272        49      39053.801                     
-      Total         8369520.537        53                                    
-      -----------------------------------------------------------------------
-      
-                                            Parameter Estimates                                        
-      ------------------------------------------------------------------------------------------------
-            model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
-      ------------------------------------------------------------------------------------------------
-      (Intercept)    -1334.424       180.589                 -7.389    0.000    -1697.332    -971.516 
-              bcs       81.439        17.781        0.329     4.580    0.000       45.706     117.171 
-        alc_heavy      312.777        72.341        0.309     4.324    0.000      167.402     458.152 
-           pindex       10.131         1.622        0.431     6.246    0.000        6.871      13.390 
-      enzyme_test       11.243         1.308        0.601     8.596    0.000        8.614      13.871 
-      ------------------------------------------------------------------------------------------------
+      Predictor      Pr(>|t|)    R-Squared    Adj. R-Squared      AIC   
+      -----------------------------------------------------------------
+      enzyme_test     0.00000        0.771             0.753    730.924 
+      pindex            2e-04        0.427             0.392    778.574 
+      alc_heavy       0.00624        0.241             0.211    791.701 
+      bcs             0.01025        0.120             0.103    797.697 
+      liver_test      0.15457        0.781             0.758    730.620 
+      -----------------------------------------------------------------
       
       
+      Variables Selected: 
       
-      
-      Variables Entered: 
-      
-      + bcs 
-      + alc_heavy 
-      + pindex 
-      + enzyme_test 
+      => bcs 
+      => alc_heavy 
+      => pindex 
+      => enzyme_test 
       
       
                              Stepwise Summary                        
