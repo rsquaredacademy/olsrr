@@ -19,9 +19,6 @@
 rvsr_plot_shiny <- function(model, data, variable, print_plot = TRUE) {
 
   check_model(model)
-
-  x    <- NULL
-  y    <- NULL
   d    <- ols_prep_rvsrplot_data(model)
   v    <- l(deparse(substitute(variable)))
   xvar <- data[variable]

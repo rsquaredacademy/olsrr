@@ -176,9 +176,7 @@ ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
   )
 
   metrics <- match.arg(metric)
-
   sorted <- c()
-
   l <- split(ui, ui$n)
 
   if (metrics == "rsquare" || metrics == "adjr" || metrics == "predrsq") {
@@ -190,10 +188,9 @@ ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
   sorted <- do.call(rbind, temp)
   mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
-
   result <- list(metrics = sorted)
-
   class(result) <- c("ols_step_best_subset")
+  
   return(result)
 
 }
@@ -209,18 +206,15 @@ print.ols_step_best_subset <- function(x, ...) {
 #'
 plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
 
-  rsquare <- NULL
-  adjr    <- NULL
-  sbic    <- NULL
-  aic     <- NULL
-  sbc     <- NULL
-  cp      <- NULL
-  a       <- NULL
-  b       <- NULL
+  z <- x$metrics
 
-
-  d <- data.frame(mindex = x$metrics$mindex, rsquare = x$metrics$rsquare, adjr = x$metrics$adjr,
-               cp = x$metrics$cp, aic = x$metrics$aic, sbic = x$metrics$sbic, sbc = x$metrics$sbc)
+  d <- data.frame(mindex  = z$mindex, 
+                  rsquare = z$rsquare, 
+                  adjr    = z$adjr,
+                  cp      = z$cp, 
+                  aic     = z$aic, 
+                  sbic    = z$sbic, 
+                  sbc     = z$sbc)
 
   p1 <- best_subset_plot(d, "rsquare")
   p2 <- best_subset_plot(d, "adjr", title = "Adj. R-Square")
@@ -253,17 +247,15 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
 #'
 best_subset_plot <- function(d, var, title = "R-Square") {
 
-  mindex <- NULL
-  a      <- NULL
-  b      <- NULL
-
   d1 <- d[, c("mindex", var)]
   colnames(d1) <- c("a", "b")
 
   ggplot(d1, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + ylab("") + ggtitle(title) +
+    xlab("") + 
+    ylab("") + 
+    ggtitle(title) +
     theme(axis.ticks = element_blank())
 
 }

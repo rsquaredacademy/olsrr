@@ -17,6 +17,24 @@
 #'
 ols_test_outlier <- function(model, cut_off = 0.05, n_max = 10, ...) {
 
+  d <- ols_outlier_data(model, cut_off)
+
+  if (d$nf == 0) {
+    out <- d$data_bon[which.max(abs(d$data_bon$stud_resid)), ]
+  } else {
+    if (d$nf < n_max) {
+      out <- d$data_co
+    } else {
+      out <- d$data_co[1:n_max, ]
+    }
+  }
+
+  colnames(out) <- d$out_names
+  return(out)
+
+}
+
+ols_outlier_data <- function(model, cut_off) {
   stud_resid <- rstudent(model)
   df_resid   <- df.residual(model) - 1
   n          <- length(stud_resid)
@@ -26,20 +44,7 @@ ols_test_outlier <- function(model, cut_off = 0.05, n_max = 10, ...) {
   data_bonf  <- data_bon[data_bon$p_bon <= cut_off, ]
   data_co    <- data_bonf[order(-data_bonf$p_bon), ]
   nf         <- nrow(data_co)
+  out_names  <- c("studentized_residual", "unadjusted_p_val", "bonferroni_p_val")
 
-  if (nf == 0) {
-    out <- data_bon[which.max(abs(data_bon$stud_resid)), ]
-  } else {
-    if (nf < n_max) {
-      out <- data_co
-    } else {
-      out <- data_co[1:n_max, ]
-    }
-  }
-
-  out_names <- c("studentized_residual", "unadjusted_p_val", "bonferroni_p_val")
-  colnames(out) <- out_names
-  return(out)
-
+  list(nf = nf, data_co = data_co, data_bon = data_bon, out_names = out_names)
 }
-

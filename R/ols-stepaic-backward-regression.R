@@ -71,73 +71,39 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
     progress <- FALSE
   }
 
-  check_model(model)
-  check_logic(details)
-  check_npredictors(model, 2)
+  check_inputs(model, include, exclude, progress, details)
 
   response <- names(model$model)[1]
   l        <- model$model
   indterms <- coeff_names(model)
   lenterms <- length(indterms)
 
-  if (is.character(include)) {
-    npm <- include %in% indterms
-    if (!all(npm)) {
-      stop(paste(paste(include[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly included. Please verify the variable names."), call. = FALSE)
-    }
-  }
-
-  if (is.character(exclude)) {
-    npm <- exclude %in% indterms
-    if (!all(npm)) {
-      stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
-    }
-  }
-
   if (is.numeric(include)) {
-    if (any(include > lenterms)) {
-      stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
-    } else {
-      include <- indterms[include]
-    }
+    include <- indterms[include]
   }
 
   if (is.numeric(exclude)) {
-    if (any(exclude > lenterms)) {
-      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)
-    } else {
-      exclude <- indterms[exclude]
-    }
+    exclude <- indterms[exclude]
   }
 
   nam   <- setdiff(indterms, exclude)
   cterm <- setdiff(nam, include)
   preds <- nam
-  aic_f <- ols_aic(model)
 
+  if (progress || details) {
+    ols_candidate_terms(nam, "backward")
+  }
+    
+  aic_f <- ols_aic(model)
   mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-  rss_f <- mi$rss
   laic  <- aic_f
-  lrss  <- rss_f
+  lrss  <- mi$rss
   less  <- mi$ess
   lrsq  <- mi$rsq
   larsq <- mi$adjr
 
-  if (progress || details) {
-    cat(format("Backward Elimination Method", justify = "left", width = 27), "\n")
-    cat(rep("-", 27), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(cterm))) {
-      cat(paste(i, ".", cterm[i]), "\n")
-    }
-    cat("\n")
-  }
-
   if (details) {
-    cat("Step  => 0", "\n")
-    cat("Model =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-    cat("AIC   =>", aic_f, "\n\n")
-    cat("Initiating stepwise selection...", "\n\n")
+    ols_base_model_stats(response, preds, aic_f)
   }
 
   ilp   <- length(preds)
@@ -158,7 +124,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
     aics[i] <- ols_aic(m$model)
     ess[i]  <- m$ess
-    rss[i]  <- rss_f - m$rss
+    rss[i]  <- m$rss
     rsq[i]  <- m$rsq
     arsq[i] <- m$adjr
   }
@@ -168,33 +134,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
   da3 <- cbind(loc = order(aics), da2)
 
   if (details) {
-    w1 <- max(nchar("Predictor"), nchar(predictors))
-    w2 <- 2
-    w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-    w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-    w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-    w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-    w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-    w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-    ln <- length(aics)
-
-    cat(rep("-", w), sep = "", "\n")
-    cat(
-      fl("Removed", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-      fc("Sum Sq", w4), fs(), fc("ESS", w5), fs(), fc("R-Sq", w6), fs(),
-      fc("Adj. R-Sq", w7), "\n"
-    )
-    cat(rep("-", w), sep = "", "\n")
-
-    for (i in seq_len(ln)) {
-      cat(
-        fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-        fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-        fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(), fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
-      )
-    }
-
-    cat(rep("-", w), sep = "", "\n\n")
+    ols_stepwise_metrics(da2, "aic", predictors, aics, rss, ess, rsq, arsq)
   }
 
   linc <- length(include)
@@ -218,9 +158,8 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
       mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
-      rss_f <- mi$rss
       laic  <- c(laic, aic_f)
-      lrss  <- c(lrss, rss_f)
+      lrss  <- c(lrss, mi$rss)
       less  <- c(less, mi$ess)
       lrsq  <- c(lrsq, mi$rsq)
       larsq <- c(larsq, mi$adjr)
@@ -231,9 +170,8 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
       arsq  <- c()
 
       if (progress) {
-        cat("\n")
-        cat("Variables Removed:", "\n\n")
-        cat(paste("=>", tail(rpred, n = 1)), "\n")
+        ols_progress_init("backward")
+        ols_progress_display(rpred, "others")
       }
 
       for (i in seq_len(ilp)) {
@@ -244,7 +182,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
         aics[i] <- ols_aic(m$model)
         ess[i]  <- m$ess
-        rss[i]  <- rss_f - m$rss
+        rss[i]  <- m$rss
         rsq[i]  <- m$rsq
         arsq[i] <- m$adjr
       }
@@ -254,48 +192,13 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
       da3 <- cbind(loc = order(aics), da2)
 
       if (details) {
-        cat("Step    =>", step, "\n")
-        cat("Removed =>", tail(rpred, n = 1), "\n")
-        cat("Model   =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("AIC     =>", aic_f, "\n\n")
-
-        da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-        da2 <- da[order(da$aics), ]
-
-        w1  <- max(nchar("Predictor"), nchar(predictors))
-        w2  <- 2
-        w3  <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-        w4  <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-        w5  <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
-        w6  <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-        w7  <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
-        w   <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
-        ln  <- length(aics)
-
-        cat(rep("-", w), sep = "", "\n")
-        cat(
-          fl("Removed", w1), fs(), fc("DF", w2), fs(), fc("AIC", w3), fs(),
-          fc("Sum Sq", w4), fs(), fc("RSS", w5), fs(), fc("R-Sq", w6), fs(),
-          fc("Adj. R-Sq", w7), "\n"
-        )
-        cat(rep("-", w), sep = "", "\n")
-
-        for (i in seq_len(ln)) {
-          cat(
-            fl(da2[i, 1], w1), fs(), fc(1, w2), fs(), fg(format(round(da2[i, 2], 3), nsmall = 3), w3), fs(),
-            fg(format(round(da2[i, 4], 3), nsmall = 3), w4), fs(), fg(format(round(da2[i, 3], 3), nsmall = 3), w5), fs(),
-            fg(format(round(da2[i, 5], 3), nsmall = 3), w6), fs(), fg(format(round(da2[i, 6], 3), nsmall = 3), w7), "\n"
-          )
-        }
-
-        cat(rep("-", w), sep = "", "\n\n")
+        ols_stepwise_details(step, rpred, preds, response, aic_f, "removed")
+        ols_stepwise_metrics(da2, "aic", predictors, aics, rss, ess, rsq, arsq)
       }
     } else {
       end <- TRUE
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be removed.")
-        cat("\n")
+        ols_stepwise_break("backward")
       }
     }
 
@@ -303,13 +206,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 
 
   if (details) {
-    if (length(rpred) > 0) {
-      cat("\n\n")
-      cat("Variables Removed:", "\n\n")
-      for (i in seq_len(length(rpred))) {
-        cat(paste("=>", rpred[i]), "\n")
-      }
-    }
+    ols_stepwise_vars(rpred, "backward")
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
@@ -335,7 +232,7 @@ ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL,
 #'
 print.ols_step_backward_aic <- function(x, ...) {
   if (length(x$metrics$step) > 0) {
-    print_stepaic_backward(x)
+    print_step_output(x, "backward")
   } else {
     print("No variables have been removed from the model.")
   }
@@ -346,52 +243,7 @@ print.ols_step_backward_aic <- function(x, ...) {
 #'
 plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
-  tx    <- NULL
-  a     <- NULL
-  b     <- NULL
-
-  preds <- x$metrics$variable
-  aic   <- x$metrics$aic
-  step  <- x$metrics$step
-
-  if (details) {
-    x$metrics$text <- paste0("[", x$metrics$variable, ", ", round(x$metrics$aic, 2), "]")
-    pred <- x$metrics$text
-  } else {
-    pred <- x$metrics$variable
-  }
-
-  y     <- step
-  xloc  <- y 
-  yloc  <- aic 
-  xmin  <- min(y) - 0.4
-  xmax  <- max(y) + 1
-  ymin  <- min(aic) - (min(aic) * 0.05)
-  ymax  <- max(aic) + (max(aic) * 0.05)
-
-  d2    <- data.frame(x = xloc, y = yloc, tx = pred)
-  d     <- data.frame(a = y, b = aic)
-
-  # metric info
-  full_model_aic  <- round(ols_aic(x$others$full_model), 3)
-  final_model_aic <- round(ols_aic(x$model), 3)
-  metric_info <- paste0("Full Model AIC  : ", format(full_model_aic, nsmall = 3), "\n",
-                        "Final Model AIC : ", format(final_model_aic, nsmall = 3))
-
-  p <-
-    ggplot(d, aes(x = a, y = b)) + 
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) + 
-    xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + 
-    xlab("Step") + 
-    ylab("AIC") +
-    ggtitle("Stepwise AIC Backward Elimination") +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), size = 3,
-              vjust = "bottom", hjust = "left", nudge_x = 0.1) +
-    annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
-             family = "serif", fontface = "italic", size = 3,
-             label = metric_info)
+  p <- ols_stepaic_plot(x, "backward", details)
 
   if (print_plot) {
     print(p)

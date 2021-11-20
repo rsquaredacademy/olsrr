@@ -99,18 +99,15 @@ print.ols_test_score <- function(x, ...) {
 rhsout <- function(model) {
 
   l         <- ols_prep_avplot_data(model)
-  n         <- nrow(l)
   nam       <- names(l)[-1]
-  np        <- length(nam)
-  var_resid <- residual_var(model, n)
+  var_resid <- residual_var(model, nrow(l))
   ind       <- ind_score(model, var_resid)
-  score     <- rhs_score(l, ind, n)
-  p         <- pchisq(score, np, lower.tail = F)
-  preds     <- nam
+  score     <- rhs_score(l, ind, nrow(l))
+  p         <- pchisq(score, length(nam), lower.tail = F)
 
   list(score = score,
-       preds = preds,
-       np    = np,
+       preds = nam,
+       np    = length(nam),
        p     = p)
 
 }
@@ -118,13 +115,11 @@ rhsout <- function(model) {
 fitout <- function(model, resp) {
 
   score <- fit_score(model)
-  np    <- 1
   p     <- pchisq(score, 1, lower.tail = F)
-  preds <- paste("fitted values of", resp)
 
   list(score = score,
-       preds = preds,
-       np    = np,
+       preds = paste("fitted values of", resp),
+       np    = 1,
        p     = p)
 
 }
@@ -134,12 +129,10 @@ varout <- function(model, vars) {
   score <- var_score(model, vars)
   nd    <- ncol(score_data(model, vars)) - 1
   p     <- pchisq(score, nd, lower.tail = F)
-  np    <- nd
-  preds <- vars
 
   list(score = score,
-       preds = preds,
-       np    = np,
+       preds = vars,
+       np    = nd,
        p     = p)
 
 }
@@ -157,7 +150,6 @@ ind_score <- function(model, var_resid) {
 
 rhs_score <- function(l, ind, n) {
 
-  r.squared <- NULL
   ind <- data.frame(ind = ind)
   (summary(lm(ind ~ ., data = cbind(l, ind)[, -1]))$r.squared) * n
 
@@ -165,7 +157,6 @@ rhs_score <- function(l, ind, n) {
 
 fit_score <- function(model) {
 
-  r.squared    <- NULL
   pred         <- fitted(model)
   scaled_resid <- resid_scaled(model, pred)
   l            <- ols_prep_avplot_data(model)
@@ -185,7 +176,6 @@ resid_scaled <- function(model, pred) {
 
 var_score <- function(model, vars) {
 
-  r.squared <- NULL
   n <- nrow(ols_prep_avplot_data(model)) 
   (summary(lm(ind ~ ., data = score_data(model, vars)))$r.squared) * n
     
@@ -194,8 +184,7 @@ var_score <- function(model, vars) {
 score_data <- function(model, vars) {
 
   l              <- ols_prep_avplot_data(model)
-  n              <- nrow(l)
-  var_resid      <- residual_var(model, n)
+  var_resid      <- residual_var(model, nrow(l))
   ind            <- as.data.frame(ind_score(model, var_resid)) 
   colnames(ind)  <- c("ind")
 

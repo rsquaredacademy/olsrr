@@ -1,7 +1,7 @@
 Package: olsrr
 Type: Package
 Title: Tools for Building OLS Regression Models 
-Version: 0.5.3.9000
+Version: 0.6.0
 Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
 Description: Tools designed to make it easier for users, particularly beginner/intermediate R users 
     to build ordinary least squares regression models. Includes comprehensive regression output, 

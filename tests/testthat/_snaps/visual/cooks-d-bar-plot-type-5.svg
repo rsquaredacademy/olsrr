@@ -59,11 +59,11 @@
 <rect x='572.62' y='507.54' width='8.79' height='13.83' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #0000FF;' />
 <rect x='590.20' y='93.97' width='8.79' height='427.40' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #FF0000;' />
 <rect x='607.77' y='510.32' width='8.79' height='11.05' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #0000FF;' />
-<line x1='35.24' y1='521.37' x2='644.24' y2='521.37' style='stroke-width: 1.07; stroke-linecap: butt;' />
-<line x1='35.24' y1='362.95' x2='644.24' y2='362.95' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
 <text x='350.67' y='121.45' style='font-size: 5.69px; font-family: sans;' textLength='6.33px' lengthAdjust='spacingAndGlyphs'>17</text>
 <text x='403.40' y='331.19' style='font-size: 5.69px; font-family: sans;' textLength='6.33px' lengthAdjust='spacingAndGlyphs'>20</text>
 <text x='596.73' y='95.93' style='font-size: 5.69px; font-family: sans;' textLength='6.33px' lengthAdjust='spacingAndGlyphs'>31</text>
+<line x1='35.24' y1='521.37' x2='644.24' y2='521.37' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<line x1='35.24' y1='362.95' x2='644.24' y2='362.95' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
 <text x='627.67' y='37.98' text-anchor='end' style='font-size: 11.04px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='82.86px' lengthAdjust='spacingAndGlyphs'>Threshold: 0.126</text>
 <rect x='35.24' y='22.78' width='609.00' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>

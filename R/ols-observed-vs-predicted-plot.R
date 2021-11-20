@@ -25,19 +25,21 @@ ols_plot_obs_fit <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  x     <- NULL
-  y     <- NULL
   oname <- names(model.frame(model))[1]
   d     <- obspred(model)
 
   p <-
     ggplot(d, aes(x = x, y = y)) +
     geom_point(color = "blue", shape = 1) +
-    ylab("Fitted Value") + xlab(paste(oname)) +
-    ggtitle(paste("Actual vs Fitted for", oname)) +
-    geom_abline(intercept = 0, slope = 1, color = "blue") +
     geom_segment(data = d, aes(x = min(x), y = min(y), xend = max(x),
-                               yend = max(y)), colour = "red")
+                               yend = max(y)), colour = "red") +
+    geom_abline(intercept = 0, slope = 1, color = "blue")
+
+  p <-
+    p +
+    ylab("Fitted Value") +
+    xlab(paste(oname)) +
+    ggtitle(paste("Actual vs Fitted for", oname)) 
 
   if (print_plot) {
     print(p)

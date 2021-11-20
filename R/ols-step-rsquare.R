@@ -94,13 +94,5 @@ print.ols_step_rsquared <- function(x, ...) {
 #' @export
 #'
 plot.ols_step_rsquared <- function(x, print_plot = TRUE, details = TRUE, ...) {
-
-  if (x$others$direction == "forward") {
-    plot_rsquared_forward(x, print_plot, details)
-  } else if (x$others$direction == "backward") {
-    plot_rsquared_backward(x, print_plot, details)
-  } else {
-    plot_rsquared_both(x, print_plot, details)
-  }
-
+  ols_plot_rsquared(x, print_plot, details)
 }

@@ -22,8 +22,6 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
 
   check_model(model)
 
-  x     <- NULL
-  y     <- NULL
   d     <- ols_prep_rvsrplot_data(model)
   inter <- eval(model$call$data)[variable]
   x     <- inter[[1]]
@@ -34,9 +32,10 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
   p <-
     ggplot(k, aes(x = x, y = y)) +
     geom_point(shape = 1, colour = "blue") +
-    xlab(paste(v)) + ylab("Residual") +
-    ggtitle(paste("Residual vs", v)) +
-    geom_hline(yintercept = 0, colour = "red")
+    geom_hline(yintercept = 0, colour = "red") +
+    xlab(paste(v)) +
+    ylab("Residual") +
+    ggtitle(paste("Residual vs", v))
 
   if (print_plot) {
     print(p)

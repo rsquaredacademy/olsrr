@@ -87,9 +87,7 @@ ols_step_all_possible.default <- function(model, ...) {
 
   mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
-
-  out <- list(result = sorted)
-
+  out    <- list(result = sorted)
   class(out) <- c("ols_step_all_possible")
 
   return(out)
@@ -99,13 +97,9 @@ ols_step_all_possible.default <- function(model, ...) {
 #'
 print.ols_step_all_possible <- function(x, ...) {
 
-  mindex <- NULL
   n <- max(x$result$mindex)
   k <- data.frame(x$result)[, c(1:5, 7)]
-
-  names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square",
-                "Mallow's Cp")
-
+  names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square", "Mallow's Cp")
   print(k)
 
 }
@@ -115,23 +109,16 @@ print.ols_step_all_possible <- function(x, ...) {
 #'
 plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 
-  n       <- NULL
-  y       <- NULL
-  k       <- NULL
-  tx      <- NULL
-  size    <- NULL
-  shape   <- NULL
-  rsquare <- NULL
-  cp      <- NULL
-  adjr    <- NULL
-  cps     <- NULL
-  aic     <- NULL
-  sbic    <- NULL
-  sbc     <- NULL
-
   k <- x$result
-  d <- data.frame(index = k$mindex, n = k$n, rsquare = k$rsquare, adjr = k$adjr,
-                  cp = k$cp, aic = k$aic, sbic = k$sbic, sbc = k$sbc)
+  d <- data.frame(index   = k$mindex, 
+                  n       = k$n, 
+                  rsquare = k$rsquare, 
+                  adjr    = k$adjr,
+                  cp      = k$cp, 
+                  aic     = k$aic, 
+                  sbic    = k$sbic, 
+                  sbc     = k$sbc)
+
   d$cps <- abs(d$n - d$cp)
 
   p1 <- all_possible_plot(d, "rsquare", title = "R-Square")
@@ -166,13 +153,6 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
 #'
 all_possible_plot <- function(d, var, title = "R-Square") {
 
-  n     <- NULL
-  x     <- NULL
-  y     <- NULL
-  shape <- NULL
-  size  <- NULL
-  tx    <- NULL
-
   d1    <- d[, c("n", var)]
   colnames(d1) <- c("x", "y")
   maxs  <- all_pos_maxs(d, var, title)
@@ -181,20 +161,21 @@ all_possible_plot <- function(d, var, title = "R-Square") {
 
   d2 <- data.frame(x = lmaxs, y = maxs, tx = index, shape = 6, size = 4)
 
-  ggplot(d1, aes(x = x, y = y)) + geom_point(color = "blue", size = 2) +
-    xlab("") + ylab("") + ggtitle(title) +
+  ggplot(d1, aes(x = x, y = y)) + 
+    geom_point(color = "blue", size = 2) +
     geom_point(data = d2, aes(x = x, y = y, shape = factor(shape),
       color = factor(shape), size = factor(size))) +
+    geom_text(data = d2, aes(label = tx), hjust = 0, nudge_x = 0.1) +
     scale_shape_manual(values = c(2), guide = "none") +
     scale_size_manual(values = c(4), guide = "none") +
     scale_color_manual(values = c("red"), guide = "none") +
-    geom_text(data = d2, aes(label = tx), hjust = 0, nudge_x = 0.1)
+    xlab("") + 
+    ylab("") + 
+    ggtitle(title)
 
 }
 
 all_pos_maxs <- function(d, var, title = "R-Square") {
-
-  n <- NULL
 
   if (title == "R-Square" | title == "Adj. R-Square") {
     as.numeric(lapply(split(d[[var]], d$n), max))
@@ -212,7 +193,6 @@ all_pos_lmaxs <- function(maxs) {
 
 all_pos_index <- function(d, var, title = "R-Square") {
 
-  n       <- NULL
   index   <- c()
 
   if (title == "R-Square" | title == "Adj. R-Square") {
@@ -237,7 +217,6 @@ all_pos_index <- function(d, var, title = "R-Square") {
 
 
 part_1 <- function(k, i) {
-  index <- NULL
   k[[i]]$index
 }
 
@@ -281,10 +260,6 @@ ols_step_all_possible_betas <- function(object, ...) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 
-  betas  <- NULL
-  rsq    <- NULL
-  lpreds <- NULL
-
   metrics    <- allpos_helper(object)
   beta_names <- names(metrics$betas)
   mindex     <- seq_len(length(metrics$rsq))
@@ -297,7 +272,6 @@ ols_step_all_possible_betas <- function(object, ...) {
 
   # detect length of betas in each model plus the last model with all variables
   reps       <- c(diff(intercepts), (lbeta_nam - rev(intercepts)[1]))
-
   m_index    <- rep(mindex, reps)
   beta       <- metrics$betas
 
@@ -323,7 +297,6 @@ allpos_helper <- function(model) {
   for (i in seq_len(n)) {
     combs[[i]] <- combn(n, r[i])
   }
-
 
   pos_data  <- model$model
   predicts  <- nam
@@ -401,7 +374,6 @@ allpos_helper <- function(model) {
 #' @noRd
 #'
 coeff_names <- function(model) {
-  terms <- NULL
   colnames(attr(model$terms, which = "factor"))
 }
 

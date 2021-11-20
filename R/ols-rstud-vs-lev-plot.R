@@ -25,13 +25,6 @@ ols_plot_resid_lev <- function(model, threshold = NULL, print_plot = TRUE) {
     threshold <- 2
   }
 
-  lev_thrsh   <- NULL
-  fct_color   <- NULL
-  leverage    <- NULL
-  levrstud    <- NULL
-  txt         <- NULL
-  obs         <- NULL
-  color       <- NULL
   resp        <- names(model.frame(model))[1]
   title       <- paste("Outlier and Leverage Diagnostics for", resp)
   g           <- ols_prep_rstudlev_data(model, threshold)
@@ -42,24 +35,37 @@ ols_plot_resid_lev <- function(model, threshold = NULL, print_plot = TRUE) {
   d$txt       <- ifelse(d$color == "normal", NA, d$obs)
   f           <- d[d$color == "outlier", c("obs", "leverage", "rstudent")]
   colnames(f) <- c("observation", "leverage", "stud_resid")
-  d2          <- d[!is.na(d$txt), ]  
+  d2          <- d[!is.na(d$txt), ]
 
   p <-
     ggplot(d, aes(leverage, rstudent, label = txt)) +
     geom_point(shape = 1, aes(colour = fct_color)) +
-    scale_color_manual(values = c("blue", "red", "green", "violet")) +
-    xlim(g$minx, g$maxx) + ylim(g$miny, g$maxy) + labs(colour = "Observation") +
-    xlab("Leverage") + ylab("RStudent") + ggtitle(title) +
+    geom_text(data = d2, vjust = -1, size = 3, family = "serif",
+              fontface = "italic", colour = "darkred") +
     geom_hline(yintercept = c(threshold, -threshold), colour = "maroon") +
-    geom_vline(xintercept = g$lev_thrsh, colour = "maroon") +
-    geom_text(data = d2, vjust = -1, size = 3, family = "serif", fontface = "italic",
-              colour = "darkred") +
+    geom_vline(xintercept = g$lev_thrsh, colour = "maroon")
+
+  p <-
+    p +
     annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
-      family = "serif", fontface = "italic", colour = "darkred",
-      label = ann_lev) +
+             family = "serif", fontface = "italic", colour = "darkred",
+             label = ann_lev) +
     annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = 4.5,
-      family = "serif", fontface = "italic", colour = "darkred",
-      label = ann_out)
+             family = "serif", fontface = "italic", colour = "darkred",
+             label = ann_out)
+
+  p <-
+    p +
+    scale_color_manual(values = c("blue", "red", "green", "violet"))
+
+  p <-
+    p +
+    labs(colour = "Observation") +
+    xlab("Leverage") +
+    ylab("RStudent") +
+    ggtitle(title) +
+    xlim(g$minx, g$maxx) +
+    ylim(g$miny, g$maxy)
 
   if (print_plot) {
     suppressWarnings(print(p))

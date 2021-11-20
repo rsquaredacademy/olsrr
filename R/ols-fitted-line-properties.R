@@ -21,16 +21,20 @@ ols_plot_reg_line <- function(response, predictor, print_plot = TRUE) {
   preds       <- l(deparse(substitute(predictor)))
   m_predictor <- round(mean(predictor), 2)
   m_response  <- round(mean(response), 2)
-  x           <- NULL
-  y           <- NULL
   d2          <- data.frame(x = m_predictor, y = m_response)
   d           <- data.frame(x = predictor, y = response)
 
   p <-
-    ggplot(d, aes(x = x, y = y)) + geom_point(fill = "blue") +
-    xlab(paste0(preds)) + ylab(paste0(resp)) + labs(title = "Regression Line") +
+    ggplot(d, aes(x = x, y = y)) +
+    geom_point(fill = "blue") +
     geom_point(data = d2, aes(x = x, y = y), color = "red", shape = 2, size = 3) +
     geom_smooth(method = "lm", se = FALSE)
+
+  p <-
+    p +
+    labs(title = "Regression Line") +
+    xlab(paste0(preds)) +
+    ylab(paste0(resp))
 
   if (print_plot) {
     print(p)

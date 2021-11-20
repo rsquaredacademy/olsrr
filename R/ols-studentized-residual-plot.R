@@ -36,12 +36,6 @@ ols_plot_resid_stud <- function(model, threshold = NULL, print_plot = TRUE) {
 
   check_model(model)
 
-  fct_color <- NULL
-  color     <- NULL
-  obs       <- NULL
-  dsr       <- NULL
-  txt       <- NULL
-
   if (is.null(threshold)) {
     threshold <- 3
   }
@@ -49,23 +43,34 @@ ols_plot_resid_stud <- function(model, threshold = NULL, print_plot = TRUE) {
   g           <- ols_prep_srplot_data(model, threshold)
   d           <- g$dsr
   d$txt       <- ifelse(d$color == "outlier", d$obs, NA)
-  f           <- d[color == "outlier", c("obs", "dsr")] 
+  f           <- d[d$color == "outlier", c("obs", "dsr")]
   colnames(f) <- c("observation", "stud_resid")
 
   p <-
     ggplot(d, aes(x = obs, y = dsr, label = txt)) +
     geom_bar(width = 0.5, stat = "identity", aes(fill = fct_color)) +
-    scale_fill_manual(values = c("blue", "red")) + xlab("Observation") +
-    ylab("Deleted Studentized Residuals") + labs(fill = "Observation") +
-    ggtitle("Studentized Residuals Plot") + ylim(g$cminx, g$cmaxx) +
-    geom_hline(yintercept = c(0, g$nseq, g$pseq)) +
-    geom_hline(yintercept = c(-threshold, threshold), color = "red") +
     geom_text(hjust = -0.2, nudge_x = 0.05, size = 2, na.rm = TRUE) +
-    annotate(
-      "text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
-      family = "serif", fontface = "italic", colour = "darkred",
-      label = paste0("Threshold: abs(", threshold, ")")
-    )
+    geom_hline(yintercept = c(0, g$nseq, g$pseq)) +
+    geom_hline(yintercept = c(-threshold, threshold), color = "red")
+
+  p <-
+    p +
+    annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
+             family = "serif", fontface = "italic", colour = "darkred",
+             label = paste0("Threshold: abs(", threshold, ")"))
+
+  p <-
+    p +
+    scale_fill_manual(values = c("blue", "red"))
+
+  p <-
+    p +
+    labs(fill = "Observation") +
+    xlab("Observation") +
+    ylab("Deleted Studentized Residuals") +
+    ggtitle("Studentized Residuals Plot") +
+    ylim(g$cminx, g$cmaxx)
+
 
   if (print_plot) {
     suppressWarnings(print(p))

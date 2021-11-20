@@ -23,7 +23,6 @@ ols_plot_hadi <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  hadi <- NULL
   hdi  <- unname(ols_hadi(model)$hadi)
   obs  <- seq_len(length(hdi))
   d    <- data.frame(obs = obs, hdi = hdi)
@@ -31,8 +30,12 @@ ols_plot_hadi <- function(model, print_plot = TRUE) {
   p <-
     ggplot(d, aes(obs, hdi, ymin = min(hdi), ymax = hdi)) +
     geom_linerange(colour = "blue") +
-    geom_point(shape = 1, colour = "blue") +
-    xlab("Observation") + ylab("Hadi's Measure") +
+    geom_point(shape = 1, colour = "blue")
+
+  p <-
+    p +
+    xlab("Observation") +
+    ylab("Hadi's Measure") +
     ggtitle("Hadi's Influence Measure")
 
   if (print_plot) {

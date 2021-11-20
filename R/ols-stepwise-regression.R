@@ -73,44 +73,19 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
     progress <- FALSE
   }
 
-  check_model(model)
-  check_logic(details)
-  check_logic(progress)
+  check_inputs(model, include, exclude, progress, details)
   check_values(p_enter, 0, 1)
   check_values(p_remove, 0, 1)
-  check_npredictors(model, 2)
 
   indterms <- coeff_names(model)
   lenterms <- length(indterms)
 
-  if (is.character(include)) {
-    npm <- include %in% indterms
-    if (!all(npm)) {
-      stop(paste(paste(include[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly included. Please verify the variable names."), call. = FALSE)
-    }
-  }
-
-  if (is.character(exclude)) {
-    npm <- exclude %in% indterms
-    if (!all(npm)) {
-      stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
-    }
-  }
-
   if (is.numeric(include)) {
-    if (any(include > lenterms)) {
-      stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
-    } else {
-      include <- indterms[include]
-    }
+    include <- indterms[include]
   }
 
   if (is.numeric(exclude)) {
-    if (any(exclude > lenterms)) {
-      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)
-    } else {
-      exclude <- indterms[exclude]
-    }
+    exclude <- indterms[exclude]
   }
 
   response <- names(model$model)[1]
@@ -118,6 +93,11 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   lockterm <- c(include, exclude)
   nam      <- colnames(attr(model$terms, "factors"))
   cterms   <- setdiff(nam, exclude)
+
+  if (progress || details) {
+    ols_candidate_terms(cterms, "both")
+  }
+
   nam      <- setdiff(nam, lockterm)
   all_pred <- nam
   mlen_p   <- length(all_pred)
@@ -142,23 +122,11 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   fp      <- c()
   method  <- c()
 
-  if (is.null(include)) {
-    base_model <- lm(paste(response, "~", 1), data = l)
-  } else {
-    base_model <- lm(paste(response, "~", paste(include, collapse = " + ")), data = l)
-  }
-
-  if (progress || details) {
-    cat(format("Stepwise Selection Method", justify = "left", width = 27), "\n")
-    cat(rep("-", 27), sep = "", "\n\n")
-    cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
-    for (i in seq_len(length(cterms))) {
-      cat(paste0(i, ". ", cterms[i]), "\n")
-    }
-    cat("\n")
-
-    cat("We are selecting variables based on p value...")
-    cat("\n")
+  base_model <- ols_base_model(include, response, l)
+  rsq_base   <- summary(base_model)$r.squared
+    
+  if (details) {
+    ols_rsquared_init(include, "r2", response, rsq_base)
   }
 
   for (i in seq_len(mlen_p)) {
@@ -179,11 +147,6 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   if (pvals[minp] > p_enter) {
     stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
-  } else {
-    if (progress) {
-      cat("\n")
-      cat("Variables Entered:", "\n\n")
-    }
   }
 
   preds   <- c(preds, all_pred[maxf])
@@ -203,17 +166,13 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   method  <- c(method, tech[1])
 
   if (progress) {
-    cat(paste("+", tail(preds, n = 1), "added"), "\n")
+    ols_progress_init("both")
+    ols_progress_display(preds, "both", "added")
   }
 
   if (details) {
-    cat("\n")
-    cat(paste("Stepwise Selection: Step", step), "\n\n")
-    cat("Variable entered =>", tail(preds, n = 1))
-    cat("\n")
-    m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-    print(m)
-    cat("\n\n")
+    rsq1 <- tail(rsq, n = 1)
+    ols_rsquared_selected("r2", step, preds, response, rsq1)
   }
 
   all_step  <- step
@@ -265,17 +224,12 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       pvalues   <- append(pvalues, fr$pvalues)
 
       if (progress) {
-        cat(paste("+", tail(preds, n = 1), "added"), "\n")
+        ols_progress_display(preds, "both", "added")
       }
 
       if (details) {
-        cat("\n")
-        cat(paste("Stepwise Selection: Step", all_step), "\n\n")
-        cat("Variable entered =>", tail(preds, n = 1))
-        cat("\n")
-        m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-        print(m)
-        cat("\n\n")
+        rsq1 <- tail(rsq, n = 1)
+        ols_rsquared_selected("r2", all_step, preds, response, rsq1)
       }
 
       # check p value of predictors previously added in above step
@@ -284,10 +238,10 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       len_inc <- length(include) + 1
       fvals_r <- m2_sum$`F value`[len_inc:lpreds]
       pvals_r <- m2_sum$`Pr(>F)`[len_inc:lpreds]
-      
+
       minf    <- which(fvals_r == min(fvals_r, na.rm = TRUE))
       maxp    <- pvals_r[minf]
-      
+
       if (maxp > p_remove) {
 
         var_index <- c(var_index, preds[minf])
@@ -309,17 +263,12 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
         pvalues   <- append(pvalues, fr$pvalues)
 
         if (progress) {
-          cat(paste("-", tail(var_index, n = 1), "removed"), "\n")
+          ols_progress_display(var_index, "both", "removed")
         }
 
         if (details) {
-          cat("\n")
-          cat(paste("Stepwise Selection: Step", all_step), "\n\n")
-          cat("Variable removed =>", tail(var_index, n = 1))
-          cat("\n")
-          m <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
-          print(m)
-          cat("\n\n")
+          rsq1 <- tail(rsq, n = 1)
+          ols_stepwise_details(all_step, var_index, preds, response, rsq1, "removed", "R-Squared")
         }
       } else {
         preds <- preds
@@ -327,25 +276,23 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       }
     } else {
       if (progress || details) {
-        cat("\n")
-        cat("No more variables to be added/removed.")
-        cat("\n\n")
+        ols_stepwise_break(direction = "both")
       }
       break
     }
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-  
+
   metrics     <- data.frame(step       = seq_len(all_step),
                             variable   = var_index,
                             method     = method,
-                            r2         = rsq, 
-                            adj_r2     = adjrsq, 
-                            aic        = aic, 
-                            sbic       = sbic, 
-                            sbc        = sbc, 
-                            mallows_cp = cp, 
+                            r2         = rsq,
+                            adj_r2     = adjrsq,
+                            aic        = aic,
+                            sbic       = sbic,
+                            sbc        = sbc,
+                            mallows_cp = cp,
                             rmse       = rmse)
 
   beta_pval <- data.frame(
@@ -369,7 +316,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 #'
 print.ols_step_both_p <- function(x, ...) {
   if (length(x$metrics$step) > 0) {
-    print_stepwise(x)
+    print_step_output(x, "both")
   } else {
     print("No variables have been added to or removed from the model.")
   }
@@ -380,10 +327,10 @@ print.ols_step_both_p <- function(x, ...) {
 #'
 plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
 
-  p1 <- plot_stepwise_both(x, metric = "r2", y_lab = "R-Square", details = details)
-  p2 <- plot_stepwise_both(x, metric = "adj_r2", y_lab = "Adj. R-Square", details = details)
-  p3 <- plot_stepwise_both(x, metric = "aic", y_lab = "AIC", details = details)
-  p4 <- plot_stepwise_both(x, metric = "rmse", y_lab = "RMSE", details = details)
+  p1 <- ols_plot_stepwise(x, "r2", "R-Square", details, "both")
+  p2 <- ols_plot_stepwise(x, "adj_r2", "Adj. R-Square", details, "both")
+  p3 <- ols_plot_stepwise(x, "aic", "AIC", details, "both")
+  p4 <- ols_plot_stepwise(x, "rmse", "RMSE", details, "both")
 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
@@ -395,83 +342,3 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRU
 
 }
 
-plot_stepwise_both <- function(x, metric = "r2", y_lab = "R-Square", details = TRUE) {
-  
-  step <- x$metrics$step
-  r2   <- x$metrics[[metric]]
-  
-  if (details) {
-    x$metrics$text <- ifelse(x$metrics$method == "addition", 
-                             paste0("[+", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"), 
-                             paste0("[-", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"))
-    pred <- x$metrics$text
-  } else {
-    x$metrics$text <- ifelse(x$metrics$method == "addition", 
-                             paste0("+", x$metrics$variable),
-                             paste0("-", x$metrics$variable))
-    pred <- x$metrics$text
-  }
-
-  if (metric == "r2") {
-    met <- "rsq"
-  } else if (metric == "adj_r2") {
-    met <- "adjr"
-  } else {
-    met <- metric
-  }
-
-  np <- coeff_names(x$others$base_model)
-  if (is.null(np)) {
-    mi <- null_model_metrics(x$others$base_model)
-  } else {
-    mi <- ols_regress(x$others$base_model)
-  }
-
-  base_model_met  <- round(mi[[met]], 3)
-  final_model_met <- round(ols_regress(x$model)[[met]], 3)
-  metric_info <- paste0("Base Model  : ", format(base_model_met, nsmall = 3), "\n",
-                        "Final Model : ", format(final_model_met, nsmall = 3))
-  
-  y    <- step
-  xloc <- y
-  yloc <- r2
-  xmin <- min(y) - 1
-  xmax <- max(y) + 1
-  ymin  <- min(r2) - (min(r2) * 0.03)
-  ymax  <- max(r2) + (max(r2) * 0.03)
-  
-  a <- NULL
-  b <- NULL
-  tx <- NULL 
-  d <- data.frame(a = y, b = r2)
-  d2 <- data.frame(x = xloc, y = yloc, tx = pred)
-  
-  v_just <- ifelse(metric %in% c("aic", "rmse"), "bottom", "top")
-  h_just <- ifelse(metric %in% c("aic", "rmse"), 1.2, 0)
-  ann_x  <- ifelse(metric %in% c("aic", "rmse"), Inf, 0)
-
-  if (metric == "r2") {
-    title <- "R-Square"
-  } else if (metric == "adj_r2") {
-    title <- "Adjusted R-Square"
-  } else if (metric == "aic") {
-    title <- "Akaike Information Criteria"
-  } else {
-    title <- "Root Mean Squared Error"
-  }
-  
-  ggplot(d, aes(x = a, y = b)) +
-    geom_line(color = "blue") +
-    geom_point(color = "blue", shape = 1, size = 2) +
-    xlim(c(xmin, xmax)) +
-    ylim(c(ymin, ymax)) + 
-    xlab("Step") + 
-    ylab(y_lab) + 
-    ggtitle(title) +
-    geom_text(data = d2, aes(x = x, y = y, label = tx), size = 3,
-              hjust = "left", vjust = v_just, nudge_x = 0.05) +
-    annotate("text", x = ann_x, y = Inf, hjust = h_just, vjust = 2,
-             family = "serif", fontface = "bold", size = 3,
-             label = metric_info)
-
-}

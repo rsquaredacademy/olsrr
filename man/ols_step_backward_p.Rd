@@ -10,7 +10,7 @@ ols_step_backward_p(model, ...)
 
 \method{ols_step_backward_p}{default}(
   model,
-  p_remove = 0.3,
+  p_val = 0.3,
   include = NULL,
   exclude = NULL,
   hierarchical = FALSE,
@@ -27,7 +27,7 @@ candidate predictor variables.}
 
 \item{...}{Other inputs.}
 
-\item{p_remove}{p value; variables with p more than \code{p_remove} will be removed
+\item{p_val}{p value; variables with p more than \code{p_val} will be removed
 from the model.}
 
 \item{include}{Character or numeric vector; variables to be included in selection process.}

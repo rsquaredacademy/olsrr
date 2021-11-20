@@ -88,6 +88,10 @@ null_model_metrics <- function(model) {
   
 }
 
+max_nchar <- function(char, val, rn = 3, ns = 3) {
+  max(nchar(char), nchar(format(round(val, rn), nsmall = ns)))
+}
+
 #' @importFrom utils packageVersion menu install.packages
 check_suggests <- function(pkg) {
   
@@ -110,3 +114,4 @@ check_suggests <- function(pkg) {
   }
 
 }
+

@@ -91,12 +91,12 @@
 <circle cx='640.54' cy='360.14' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='660.50' cy='174.79' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='680.45' cy='372.98' r='1.95' style='stroke-width: 0.71; stroke: #0000FF;' />
-<line x1='30.83' y1='302.63' x2='714.52' y2='302.63' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;' />
-<line x1='30.83' y1='83.89' x2='714.52' y2='83.89' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
-<line x1='30.83' y1='521.37' x2='714.52' y2='521.37' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
 <text x='386.05' y='52.38' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='9.50px' lengthAdjust='spacingAndGlyphs'>17</text>
 <text x='406.00' y='55.05' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='9.50px' lengthAdjust='spacingAndGlyphs'>18</text>
 <text x='445.91' y='49.46' style='font-size: 8.54px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='9.50px' lengthAdjust='spacingAndGlyphs'>20</text>
+<line x1='30.83' y1='302.63' x2='714.52' y2='302.63' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;' />
+<line x1='30.83' y1='83.89' x2='714.52' y2='83.89' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
+<line x1='30.83' y1='521.37' x2='714.52' y2='521.37' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
 <text x='671.26' y='37.98' text-anchor='end' style='font-size: 11.04px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='86.53px' lengthAdjust='spacingAndGlyphs'>Threshold: abs(2)</text>
 <rect x='30.83' y='22.78' width='683.69' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>

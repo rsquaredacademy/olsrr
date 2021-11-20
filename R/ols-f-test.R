@@ -106,7 +106,6 @@ print.ols_test_f <- function(x, ...) {
 
 frhs <- function(nam, model, n, l) {
 
-  fstatistic <- NULL
   np         <- length(nam)
   var_resid  <- (model_rss(model) / n) - 1
   ind        <- (residuals(model) ^ 2) / var_resid
@@ -119,7 +118,6 @@ frhs <- function(nam, model, n, l) {
 
 fvar <- function(n, l, model, vars) {
 
-  fstatistic <- NULL
   var_resid  <- (model_rss(model) / n) - 1
   ind        <- (residuals(model) ^ 2) / var_resid
   mdata      <- l[-1]
@@ -132,7 +130,6 @@ fvar <- function(n, l, model, vars) {
 
 ffit <- function(model) {
 
-  fstatistic   <- NULL
   pred         <- fitted(model)
   pred_len     <- length(pred)
   resid        <- model$residuals ^ 2
