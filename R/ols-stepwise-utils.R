@@ -139,15 +139,15 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
 
 }
 
-ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predictors, aics, rss, ess, rsq, arsq) {
+ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predictors, aics, bics, sbics, rsq, arsq) {
 
   type <- match.arg(metric)
 
   w1 <- max(nchar("Predictor"), nchar(predictors))
   w2 <- 2
   w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-  w4 <- max(nchar("Sum Sq"), nchar(format(round(rss, 3), nsmall = 3)))
-  w5 <- max(nchar("ESS"), nchar(format(round(ess, 3), nsmall = 3)))
+  w4 <- max(nchar("BIC"), nchar(format(round(bics, 3), nsmall = 3)))
+  w5 <- max(nchar("SBIC"), nchar(format(round(sbics, 3), nsmall = 3)))
   w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
   w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
   w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
@@ -167,8 +167,8 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predicto
     fl("Predictor", w1), fs(),
     fc("DF", w2), fs(),
     fc("AIC", w3), fs(),
-    fc("Sum Sq", w4), fs(),
-    fc("ESS", w5), fs(),
+    fc("BIC", w4), fs(),
+    fc("SBIC", w5), fs(),
     fc("R-Sq", w6), fs(),
     fc("Adj. R-Sq", w7), "\n")
 
@@ -179,8 +179,8 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predicto
       fl(df[i, 1], w1), fs(),
       fg(1, w2), fs(),
       fg(format(round(df[i, 2], 3), nsmall = 3), w3), fs(),
-      fg(format(round(df[i, 4], 3), nsmall = 3), w4), fs(),
-      fg(format(round(df[i, 3], 3), nsmall = 3), w5), fs(),
+      fg(format(round(df[i, 3], 3), nsmall = 3), w4), fs(),
+      fg(format(round(df[i, 4], 3), nsmall = 3), w5), fs(),
       fg(format(round(df[i, 5], 3), nsmall = 3), w6), fs(),
       fg(format(round(df[i, 6], 3), nsmall = 3), w7), "\n")
   }

@@ -60,12 +60,12 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
     arsq[i]  <- k$adjr
   }
 
-  da <- data.frame(predictors = all_pred, aics = aics, bics = bics, sbics = sbics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
+  da <- data.frame(predictors = all_pred, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
   # da2 <- da[order(da$aics), ]
   da2 <- ols_sort_metrics(da, criteria)
 
   if (details) {
-    ols_stepwise_metrics(da2, criteria, predictors, aics, rss, ess, rsq, arsq)
+    ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq)
   }
 
   mat  <- switch(criteria,
@@ -130,10 +130,10 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
     l}
 
     if (details) {
-      da  <- data.frame(predictors = all_pred, aics = aics, bics = bics, sbics = sbics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
+      da  <- data.frame(predictors = all_pred, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
       # da2 <- da[order(da$aics), ]
       da2 <- ols_sort_metrics(da, criteria)
-      ols_stepwise_metrics(da2, criteria, predictors, aics, rss, ess, rsq, arsq)
+      ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq)
     }
 
     # minaic <- which(aics == min(aics))
