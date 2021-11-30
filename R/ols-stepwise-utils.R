@@ -68,6 +68,9 @@ ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backwar
   cat(format("Candidate Terms:", justify = "left", width = 16), "\n\n")
   for (i in seq_len(length(cterms))) {
     cat(paste0(i, ". ", cterms[i]), "\n")
+    if (interactive()) {
+      Sys.sleep(0.3)
+    }
   }
   cat("\n")
 
@@ -77,6 +80,9 @@ ols_base_model_stats <- function(response, include, aic) {
 
   cat("\n")
   cat("Step  => 0", "\n")
+  if (interactive()) {
+    Sys.sleep(0.3)
+  }
 
   if (is.null(include)) {
     cat("Model =>", paste(response, "~", 1, "\n"))
@@ -84,7 +90,15 @@ ols_base_model_stats <- function(response, include, aic) {
     cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
   }
 
+  if (interactive()) {
+    Sys.sleep(0.3)
+  }
+
   cat("AIC   =>", aic, "\n\n")
+
+  if (interactive()) {
+    Sys.sleep(0.3)
+  }
   cat("Initiating stepwise selection...", "\n\n")
 
 }
@@ -117,11 +131,19 @@ ols_progress_display <- function(preds, direction = c("others", "both"), type = 
     cat(paste(base, type), "\n")
   }
 
+  if (interactive()) {
+    Sys.sleep(0.3)
+  }
+
 }
 
 ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("added", "removed"), metric = "AIC") {
 
   cat("Step      =>", step, "\n")
+  
+  if (interactive()) {
+    Sys.sleep(0.3)
+  }
 
   if (type == "added") {
     cat("Added     =>", tail(rpred, n = 1), "\n")
@@ -129,7 +151,16 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
     cat("Removed   =>", tail(rpred, n = 1), "\n")
   }
 
+  if (interactive()) {
+    Sys.sleep(0.3)
+  }
+
   cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+
+  if (interactive()) {
+    Sys.sleep(0.3)
+  }
+
   if (metric == "AIC") {
     cat(paste0(metric, "       =>"), round(aic, 3), "\n\n")
   } else {
@@ -285,6 +316,9 @@ ols_stepwise_vars <- function(preds, direction = c("forward", "backward", "both"
     cat(paste("Variables", op), "\n\n")
     for (i in seq_len(length(preds))) {
       cat(paste("=>", preds[i]), "\n")
+      if (interactive()) {
+        Sys.sleep(0.3)
+      }
     }
   }
 

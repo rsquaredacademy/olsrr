@@ -28,6 +28,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
   if (progress || details) {
     ols_candidate_terms(nam, "forward")
+    if (interactive()) {
+      Sys.sleep(2)  
+    }
   }
     
   aics  <- c()
@@ -44,6 +47,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
   if (details) {
     ols_base_model_stats(response, include, base_metric)
+    if (interactive()) {
+      Sys.sleep(2)  
+    }
   }
 
   for (i in seq_len(mlen_p)) {
@@ -66,6 +72,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
   if (details) {
     ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq)
+    if (interactive()) {
+      Sys.sleep(2)  
+    }
   }
 
   mat  <- switch(criteria,
@@ -93,10 +102,19 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
     if (progress) {
       ols_progress_init("forward")
+      if (interactive()) {
+        Sys.sleep(2)  
+      }
       ols_progress_display(preds, "others")
+      if (interactive()) {
+        Sys.sleep(2)  
+      }
     }
   } else {
     ols_stepwise_break("forward")
+    if (interactive()) {
+      Sys.sleep(2)  
+    }
   }
 
   while (step < mlen_p) {
@@ -114,6 +132,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
     if (details) {
       ols_stepwise_details(step, preds, preds, response, met, "added")
+      if (interactive()) {
+        Sys.sleep(2)  
+      }
     }
 
     for (i in seq_len(len_p)) {
@@ -134,6 +155,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
       # da2 <- da[order(da$aics), ]
       da2 <- ols_sort_metrics(da, criteria)
       ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq)
+      if (interactive()) {
+        Sys.sleep(2)  
+      }
     }
 
     # minaic <- which(aics == min(aics))
@@ -173,10 +197,16 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
       if (progress) {
         ols_progress_display(preds, "others")
+        if (interactive()) {
+          Sys.sleep(2)  
+        }
       }
     } else {
       if (progress || details) {
         ols_stepwise_break("forward")
+        if (interactive()) {
+          Sys.sleep(2)  
+        }
       }
       break
     }
@@ -184,6 +214,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
   if (details) {
     ols_stepwise_vars(preds, "forward")
+    if (interactive()) {
+      Sys.sleep(2)  
+    }
   }
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
