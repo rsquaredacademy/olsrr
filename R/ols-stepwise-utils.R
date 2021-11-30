@@ -135,7 +135,7 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
   } else {
     cat(paste0(metric, " =>"), round(aic, 3), "\n\n")
   }
-  
+
 
 }
 
@@ -558,7 +558,7 @@ ols_print_output <- function(metrics, predictors) {
       fg(format(round(metrics$aic[i], 3), nsmall = 3), w3), fs(),
       fg(format(round(metrics$r2[i], 5), nsmall = 5), w4), fs(),
       fg(format(round(metrics$adjr[i], 5), nsmall = 5), w5), "\n")
-  } 
+  }
 
   cat(rep("-", w), sep = "")
 }
@@ -620,3 +620,56 @@ ols_rsquared_removed <- function(metric, step, rpred, preds, response, aic_f) {
           cat("Adj. R-Squared =>", aic_f, "\n\n")
         }
 }
+
+ols_base_criteria <- function(model, criteria) {
+  switch (criteria,
+    aic = ols_aic(model),
+    bic = ols_sbc(model),
+    sbic = ols_sbic(model),
+    rsq  = summary(model)$r.squared,
+    adjrsq = summary(model)$adj.r.squared
+  )
+}
+
+ols_sort_metrics <- function(data, criteria) {
+  mat  <- switch(criteria,
+    aic = "aics",
+    bic = "bics",
+    sbic = "sbics",
+    rsq = "rsq",
+    arsq = "arsq")
+  if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
+    data[order(data[[mat]]), ]
+  } else {
+    data[order(-data[[mat]]), ]
+  }
+}
+
+ols_threshold <- function(data, criteria) {
+  if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
+    which(data == min(data))
+  } else {
+    which(data == max(data))
+  }
+}
+
+ols_f_criteria <- function(criteria, mat, minc, bmetric) {
+  if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
+    mat[minc] < bmetric
+  } else {
+    mat[minc] > bmetric
+  }
+}
+
+ols_next_criteria <- function(criteria, mat, minaic, laic, lpreds) {
+  if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
+    mat[minaic] < laic[lpreds]
+  } else {
+    mat[minaic] > laic[lpreds]
+  }
+}
+
+
+
+
+
