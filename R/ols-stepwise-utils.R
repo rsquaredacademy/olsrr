@@ -76,25 +76,32 @@ ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backwar
 
 }
 
-ols_base_model_stats <- function(response, include, aic) {
+ols_base_model_stats <- function(response, include, criteria, aic) {
+
+  mat  <- switch(criteria,
+    aic = "AIC ",
+    bic = "BIC ",
+    sbic = "SBIC",
+    rsq = "R-Squared",
+    adjrsq = "Adj. R-Squared")
 
   cat("\n")
-  cat("Step  => 0", "\n")
+  cat("Step   => 0", "\n")
   if (interactive()) {
     Sys.sleep(0.3)
   }
 
   if (is.null(include)) {
-    cat("Model =>", paste(response, "~", 1, "\n"))
+    cat("Model  =>", paste(response, "~", 1, "\n"))
   } else {
-    cat("Model =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+    cat("Model  =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
   }
 
   if (interactive()) {
     Sys.sleep(0.3)
   }
 
-  cat("AIC   =>", aic, "\n\n")
+  cat(paste0(mat, "   =>"), aic, "\n\n")
 
   if (interactive()) {
     Sys.sleep(0.3)
@@ -139,38 +146,47 @@ ols_progress_display <- function(preds, direction = c("others", "both"), type = 
 
 ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("added", "removed"), metric = "AIC") {
 
-  cat("Step      =>", step, "\n")
+  cat("Step     =>", step, "\n")
   
   if (interactive()) {
     Sys.sleep(0.3)
   }
 
   if (type == "added") {
-    cat("Added     =>", tail(rpred, n = 1), "\n")
+    cat("Added    =>", tail(rpred, n = 1), "\n")
   } else {
-    cat("Removed   =>", tail(rpred, n = 1), "\n")
+    cat("Removed  =>", tail(rpred, n = 1), "\n")
   }
 
   if (interactive()) {
     Sys.sleep(0.3)
   }
 
-  cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+  cat("Model    =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
 
   if (interactive()) {
     Sys.sleep(0.3)
   }
 
-  if (metric == "AIC") {
-    cat(paste0(metric, "       =>"), round(aic, 3), "\n\n")
-  } else {
-    cat(paste0(metric, " =>"), round(aic, 3), "\n\n")
-  }
+  mat  <- switch(metric,
+    aic = "AIC ",
+    bic = "BIC ",
+    sbic = "SBIC",
+    rsq = "R-Squared",
+    adjrsq = "Adj. R-Squared")
+
+  cat(paste0(mat, "     =>"), round(aic, 3), "\n\n")
+
+  # if (metric == "AIC") {
+  #   cat(paste0(metric, "       =>"), round(aic, 3), "\n\n")
+  # } else {
+  #   cat(paste0(metric, " =>"), round(aic, 3), "\n\n")
+  # }
 
 
 }
 
-ols_stepwise_metrics <- function(df, metric = c("aic", "r2", "adj_r2"), predictors, aics, bics, sbics, rsq, arsq) {
+ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "r2", "adj_r2"), predictors, aics, bics, sbics, rsq, arsq) {
 
   type <- match.arg(metric)
 
@@ -659,7 +675,7 @@ ols_base_criteria <- function(model, criteria) {
   switch (criteria,
     aic = ols_aic(model),
     bic = ols_sbc(model),
-    sbic = ols_sbic(model),
+    sbic = ols_sbic(model, model),
     rsq  = summary(model)$r.squared,
     adjrsq = summary(model)$adj.r.squared
   )
@@ -671,7 +687,7 @@ ols_sort_metrics <- function(data, criteria) {
     bic = "bics",
     sbic = "sbics",
     rsq = "rsq",
-    arsq = "arsq")
+    adjrsq = "arsq")
   if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
     data[order(data[[mat]]), ]
   } else {
