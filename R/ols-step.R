@@ -36,8 +36,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
   aics  <- c()
   bics  <- c()
   sbics <- c()
-  ess   <- c()
-  rss   <- c()
   rsq   <- c()
   arsq  <- c()
 
@@ -60,8 +58,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
     aics[i]  <- ols_aic(k$model)
     bics[i]  <- ols_sbc(k$model)
     sbics[i] <- ols_sbic(k$model, k$model)
-    ess[i]   <- k$ess
-    rss[i]   <- k$rss
     rsq[i]   <- k$rsq
     arsq[i]  <- k$adjr
   }
@@ -122,8 +118,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
     aics  <- c()
     bics  <- c()
     sbics <- c()
-    ess   <- c()
-    rss   <- c()
     rsq   <- c()
     arsq  <- c()
     mo    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
@@ -144,8 +138,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
       aics[i]    <- ols_aic(k$model)
       bics[i]    <- ols_sbc(k$model)
       sbics[i]   <- ols_sbic(k$model, k$model)
-      ess[i]     <- k$ess
-      rss[i]     <- k$rss
       rsq[i]     <- k$rsq
       arsq[i]    <- k$adjr
     l}
@@ -241,6 +233,203 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
 
   class(out) <- "ols_step_forward_aic"
+
+  return(out)
+}
+
+ols_step_backward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+
+  if (details) {
+    progress <- FALSE
+  }
+
+  check_inputs(model, include, exclude, progress, details)
+
+  criteria <- match.arg(metric)
+  response <- names(model$model)[1]
+  l        <- model$model
+  indterms <- coeff_names(model)
+  lenterms <- length(indterms)
+
+  if (is.numeric(include)) {
+    include <- indterms[include]
+  }
+
+  if (is.numeric(exclude)) {
+    exclude <- indterms[exclude]
+  }
+
+  nam   <- setdiff(indterms, exclude)
+  cterm <- setdiff(nam, include)
+  preds <- nam
+
+  if (progress || details) {
+    ols_candidate_terms(nam, "backward")
+  }
+    
+  # aic_f <- ols_aic(model)
+  mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+  laic  <- ols_aic(model)
+  lbic  <- ols_sbc(model)
+  lsbic <- ols_sbic(model, model)
+  lrsq  <- mi$rsq
+  larsq <- mi$adjr
+
+  base_metric <- ols_base_criteria(model, criteria)
+
+  if (details) {
+    ols_base_model_stats(response, preds, criteria, base_metric)
+  }
+
+  ilp   <- length(preds)
+  end   <- FALSE
+  step  <- 0
+  rpred <- c()
+  aics  <- c()
+  bics  <- c()
+  sbics <- c()
+  rsq   <- c()
+  arsq  <- c()
+
+  for (i in seq_len(ilp)) {
+
+    predictors <- preds[-i]
+
+    m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+
+    aics[i]  <- ols_aic(m$model)
+    bics[i]  <- ols_sbc(m$model)
+    sbics[i] <- ols_sbic(m$model, m$model)
+    rsq[i]   <- m$rsq
+    arsq[i]  <- m$adjr
+  }
+
+  da  <- data.frame(predictors = preds, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
+  # da2 <- da[order(da$aics), ]
+  da2 <- ols_sort_metrics(da, criteria)
+
+  mat  <- switch(criteria,
+               aic = aics,
+               bic = bics,
+               sbic = sbics,
+               rsq = rsq,
+               adjrsq = arsq)
+
+  if (grepl("rsq", criteria)) {
+    da3 <- cbind(loc = order(-mat), da2)  
+  } else {
+    da3 <- cbind(loc = order(mat), da2)
+  }
+ 
+
+  if (details) {
+    ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq)
+  }
+
+  linc <- length(include)
+
+  if (progress) {
+    ols_progress_init("backward")
+  }
+
+  while (!end) {
+
+    for (i in seq_len(linc)) {
+      lnam <- which(da3$predictors == include[i])
+      da3 <- da3[-lnam, ]
+    }
+
+    minc <- da3$loc[1]
+    crit <- ols_f_criteria(criteria, mat, minc, base_metric)
+
+    if (crit) {
+
+      rpred <- c(rpred, preds[minc])
+      preds <- preds[-minc]
+      ilp   <- length(preds)
+      step  <- step + 1
+      base_metric <- mat[minc]
+
+      mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+
+      laic   <- c(laic, mi$aic)
+      lbic   <- c(lbic, mi$sbc)
+      lsbic  <- c(lsbic, mi$sbic)
+      lrsq   <- c(lrsq, mi$rsq)
+      larsq  <- c(larsq, mi$adjr)
+      aics   <- c()
+      bics   <- c()
+      sbics  <- c()
+      rsq    <- c()
+      arsq   <- c()
+
+      if (progress) {
+        ols_progress_display(rpred, "others")
+      }
+
+      for (i in seq_len(ilp)) {
+
+        predictors <- preds[-i]
+
+        m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+
+        aics[i]  <- ols_aic(m$model)
+        bics[i]  <- ols_sbc(m$model)
+        sbics[i] <- ols_sbic(m$model, m$model)
+        rsq[i]   <- m$rsq
+        arsq[i]  <- m$adjr
+      }
+
+      da  <- data.frame(predictors = preds, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
+      # da2 <- da[order(da$aics), ]
+      da2 <- ols_sort_metrics(da, criteria)
+
+      mat  <- switch(criteria,
+               aic = aics,
+               bic = bics,
+               sbic = sbics,
+               rsq = rsq,
+               adjrsq = arsq)
+
+      if (grepl("rsq", criteria)) {
+        da3 <- cbind(loc = order(-mat), da2)  
+      } else {
+        da3 <- cbind(loc = order(mat), da2)
+      }
+
+      if (details) {
+        ols_stepwise_details(step, rpred, preds, response, base_metric, "removed", criteria)
+        ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq)
+      }
+    } else {
+      end <- TRUE
+      if (progress || details) {
+        ols_stepwise_break("backward")
+      }
+    }
+
+  }
+
+
+  if (details) {
+    ols_stepwise_vars(rpred, "backward")
+  }
+
+  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+
+  metrics     <- data.frame(step     = seq_len(step),
+                            variable = rpred,
+                            r2       = tail(lrsq,  n = step),
+                            adj_r2   = tail(larsq, n = step),
+                            aic      = tail(laic,  n = step),
+                            bic      = tail(lbic,  n = step),
+                            sbic     = tail(lsbic,  n = step))
+
+  out <- list(metrics = metrics,
+              model   = final_model,
+              others  = list(full_model = model))
+
+  class(out) <- "ols_step_backward_aic"
 
   return(out)
 }
