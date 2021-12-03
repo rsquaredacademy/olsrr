@@ -79,29 +79,29 @@ ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backwar
 ols_base_model_stats <- function(response, include, criteria, aic) {
 
   mat  <- switch(criteria,
-    aic = "AIC ",
-    bic = "BIC ",
-    sbic = "SBIC",
-    rsq = "R-Squared",
-    adjrsq = "Adj. R-Squared")
+    aic = "AIC    ",
+    bic = "BIC    ",
+    sbic = "SBIC   ",
+    rsq = "R2     ",
+    adjrsq = "Adj. R2")
 
   cat("\n")
-  cat("Step   => 0", "\n")
+  cat("Step     => 0", "\n")
   if (interactive()) {
     Sys.sleep(0.3)
   }
 
   if (is.null(include)) {
-    cat("Model  =>", paste(response, "~", 1, "\n"))
+    cat("Model    =>", paste(response, "~", 1, "\n"))
   } else {
-    cat("Model  =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+    cat("Model    =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
   }
 
   if (interactive()) {
     Sys.sleep(0.3)
   }
 
-  cat(paste0(mat, "   =>"), aic, "\n\n")
+  cat(paste0(mat, "  =>"), aic, "\n\n")
 
   if (interactive()) {
     Sys.sleep(0.3)
@@ -169,13 +169,13 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
   }
 
   mat  <- switch(metric,
-    aic = "AIC ",
-    bic = "BIC ",
-    sbic = "SBIC",
-    rsq = "R-Squared",
-    adjrsq = "Adj. R-Squared")
+    aic = "AIC    ",
+    bic = "BIC    ",
+    sbic = "SBIC   ",
+    rsq = "R2     ",
+    adjrsq = "Adj. R2")
 
-  cat(paste0(mat, "     =>"), round(aic, 3), "\n\n")
+  cat(paste0(mat, "  =>"), round(aic, 3), "\n\n")
 
   # if (metric == "AIC") {
   #   cat(paste0(metric, "       =>"), round(aic, 3), "\n\n")
@@ -186,7 +186,7 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
 
 }
 
-ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "r2", "adj_r2"), predictors, aics, bics, sbics, rsq, arsq) {
+ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "rsq", "adjrsq"), predictors, aics, bics, sbics, rsq, arsq) {
 
   type <- match.arg(metric)
 
@@ -195,14 +195,14 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "r2", "adj
   w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
   w4 <- max(nchar("BIC"), nchar(format(round(bics, 3), nsmall = 3)))
   w5 <- max(nchar("SBIC"), nchar(format(round(sbics, 3), nsmall = 3)))
-  w6 <- max(nchar("R-Sq"), nchar(format(round(rsq, 3), nsmall = 3)))
-  w7 <- max(nchar("Adj. R-Sq"), nchar(format(round(arsq, 3), nsmall = 3)))
+  w6 <- max(nchar("R2"), nchar(format(round(rsq, 3), nsmall = 3)))
+  w7 <- max(nchar("Adj. R2"), nchar(format(round(arsq, 3), nsmall = 3)))
   w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
   ln <- length(aics)
 
-  if (type == "aic") {
+  if (type == "aic" || type == "bic" || type == "sbic") {
     cat(format("Information Criteria Table", justify = "centre", width = w), "\n")
-  } else if (type == "r2") {
+  } else if (type == "rsq") {
     cat(format("R-Squared Table", justify = "centre", width = w), "\n")
   } else {
     cat(format("Adjusted R-Squared Table", justify = "centre", width = w), "\n")
@@ -216,8 +216,8 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "r2", "adj
     fc("AIC", w3), fs(),
     fc("BIC", w4), fs(),
     fc("SBIC", w5), fs(),
-    fc("R-Sq", w6), fs(),
-    fc("Adj. R-Sq", w7), "\n")
+    fc("R2", w6), fs(),
+    fc("Adj. R2", w7), "\n")
 
   cat(rep("-", w), sep = "", "\n")
 
@@ -554,13 +554,15 @@ print_step_mi <- function(data, method) {
 
 print_step_metrics <- function(data, mi) {
 
-  aic  <- c(mi$aic, data$metrics$aic)
-  r2   <- c(mi$rsq, data$metrics$r2)
-  adjr <- c(mi$adjr, data$metrics$adj_r2)
-  step <- c(0, data$metrics$step)
-  ln   <- length(aic)
+  aic   <- c(mi$aic, data$metrics$aic)
+  bic   <- c(mi$sbc, data$metrics$bic)
+  sbic  <- c(mi$sbic, data$metrics$sbic)
+  r2    <- c(mi$rsq, data$metrics$r2)
+  adjr  <- c(mi$adjr, data$metrics$adj_r2)
+  step  <- c(0, data$metrics$step)
+  ln    <- length(aic)
 
-  return(list(aic = aic, r2 = r2, adjr = adjr, step = step, ln = ln))
+  return(list(aic = aic, bic = bic, sbic = sbic, r2 = r2, adjr = adjr, step = step, ln = ln))
 
 }
 
@@ -587,9 +589,11 @@ ols_print_output <- function(metrics, predictors) {
   w1 <- nchar("Step")
   w2 <- max(nchar(predictors))
   w3 <- max_nchar("AIC", metrics$aic)
-  w4 <- max_nchar("R-Squared", metrics$r2, 5, 5)
-  w5 <- max_nchar("Adj. R-Squared", metrics$adjr, 5, 5)
-  w  <- sum(w1, w2, w3, w4, w5, 16)
+  w4 <- max_nchar("BIC", metrics$bic)
+  w5 <- max_nchar("SBIC", metrics$sbic)
+  w6 <- max_nchar("R2", metrics$r2, 5, 5)
+  w7 <- max_nchar("Adj. R2", metrics$adjr, 5, 5)
+  w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
 
   cat("\n\n", format("Stepwise Summary", width = w, justify = "centre"), "\n")
   cat(rep("-", w), sep = "", "\n")
@@ -597,8 +601,10 @@ ols_print_output <- function(metrics, predictors) {
   cat(format("Step", width = w1, justify = "centre"), fs(),
     fl("Variable", w2), fs(),
     fc("AIC", w3), fs(),
-    fc("R-Squared", w4), fs(),
-    fc("Adj. R-Squared", w5), "\n")
+    fc("BIC", w4), fs(),
+    fc("SBIC", w5), fs(),
+    fc("R2", w6), fs(),
+    fc("Adj. R2", w7), "\n")
 
   cat(rep("-", w), sep = "", "\n")
 
@@ -606,8 +612,10 @@ ols_print_output <- function(metrics, predictors) {
     cat(format(as.character(metrics$step[i]), width = w1, justify = "centre"), fs(),
       fl(predictors[i], w2), fs(),
       fg(format(round(metrics$aic[i], 3), nsmall = 3), w3), fs(),
-      fg(format(round(metrics$r2[i], 5), nsmall = 5), w4), fs(),
-      fg(format(round(metrics$adjr[i], 5), nsmall = 5), w5), "\n")
+      fg(format(round(metrics$bic[i], 3), nsmall = 3), w4), fs(),
+      fg(format(round(metrics$sbic[i], 3), nsmall = 3), w5), fs(),
+      fg(format(round(metrics$r2[i], 5), nsmall = 5), w6), fs(),
+      fg(format(round(metrics$adjr[i], 5), nsmall = 5), w7), "\n")
   }
 
   cat(rep("-", w), sep = "")
