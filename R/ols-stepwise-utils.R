@@ -80,7 +80,7 @@ ols_base_model_stats <- function(response, include, criteria, aic) {
 
   mat  <- switch(criteria,
     aic = "AIC    ",
-    bic = "BIC    ",
+    sbc = "SBC    ",
     sbic = "SBIC   ",
     rsq = "R2     ",
     adjrsq = "Adj. R2")
@@ -170,7 +170,7 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
 
   mat  <- switch(metric,
     aic = "AIC    ",
-    bic = "BIC    ",
+    sbc = "SBC    ",
     sbic = "SBIC   ",
     rsq = "R2     ",
     adjrsq = "Adj. R2")
@@ -186,14 +186,14 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
 
 }
 
-ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "rsq", "adjrsq"), predictors, aics, bics, sbics, rsq, arsq, method = c("add", "remove")) {
+ols_stepwise_metrics <- function(df, metric = c("aic", "sbc", "sbic", "rsq", "adjrsq"), predictors, aics, bics, sbics, rsq, arsq, method = c("add", "remove")) {
 
   type <- match.arg(metric)
 
   w1 <- max(nchar("Predictor"), nchar(predictors))
   w2 <- 2
   w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
-  w4 <- max(nchar("BIC"), nchar(format(round(bics, 3), nsmall = 3)))
+  w4 <- max(nchar("SBC"), nchar(format(round(bics, 3), nsmall = 3)))
   w5 <- max(nchar("SBIC"), nchar(format(round(sbics, 3), nsmall = 3)))
   w6 <- max(nchar("R2"), nchar(format(round(rsq, 5), nsmall = 5)))
   w7 <- max(nchar("Adj. R2"), nchar(format(round(arsq, 5), nsmall = 5)))
@@ -212,7 +212,7 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "rsq", "ad
     fl("Predictor", w1), fs(),
     fc("DF", w2), fs(),
     fc("AIC", w3), fs(),
-    fc("BIC", w4), fs(),
+    fc("SBC", w4), fs(),
     fc("SBIC", w5), fs(),
     fc("R2", w6), fs(),
     fc("Adj. R2", w7), "\n")
@@ -553,14 +553,14 @@ print_step_mi <- function(data, method) {
 print_step_metrics <- function(data, mi) {
 
   aic   <- c(mi$aic, data$metrics$aic)
-  bic   <- c(mi$sbc, data$metrics$bic)
+  sbc   <- c(mi$sbc, data$metrics$sbc)
   sbic  <- c(mi$sbic, data$metrics$sbic)
   r2    <- c(mi$rsq, data$metrics$r2)
   adjr  <- c(mi$adjr, data$metrics$adj_r2)
   step  <- c(0, data$metrics$step)
   ln    <- length(aic)
 
-  return(list(aic = aic, bic = bic, sbic = sbic, r2 = r2, adjr = adjr, step = step, ln = ln))
+  return(list(aic = aic, sbc = sbc, sbic = sbic, r2 = r2, adjr = adjr, step = step, ln = ln))
 
 }
 
@@ -587,7 +587,7 @@ ols_print_output <- function(metrics, predictors) {
   w1 <- nchar("Step")
   w2 <- max(nchar(predictors))
   w3 <- max_nchar("AIC", metrics$aic)
-  w4 <- max_nchar("BIC", metrics$bic)
+  w4 <- max_nchar("SBC", metrics$sbc)
   w5 <- max_nchar("SBIC", metrics$sbic)
   w6 <- max_nchar("R2", metrics$r2, 5, 5)
   w7 <- max_nchar("Adj. R2", metrics$adjr, 5, 5)
@@ -599,7 +599,7 @@ ols_print_output <- function(metrics, predictors) {
   cat(format("Step", width = w1, justify = "centre"), fs(),
     fl("Variable", w2), fs(),
     fc("AIC", w3), fs(),
-    fc("BIC", w4), fs(),
+    fc("SBC", w4), fs(),
     fc("SBIC", w5), fs(),
     fc("R2", w6), fs(),
     fc("Adj. R2", w7), "\n")
@@ -610,7 +610,7 @@ ols_print_output <- function(metrics, predictors) {
     cat(format(as.character(metrics$step[i]), width = w1, justify = "centre"), fs(),
       fl(predictors[i], w2), fs(),
       fg(format(round(metrics$aic[i], 3), nsmall = 3), w3), fs(),
-      fg(format(round(metrics$bic[i], 3), nsmall = 3), w4), fs(),
+      fg(format(round(metrics$sbc[i], 3), nsmall = 3), w4), fs(),
       fg(format(round(metrics$sbic[i], 3), nsmall = 3), w5), fs(),
       fg(format(round(metrics$r2[i], 5), nsmall = 5), w6), fs(),
       fg(format(round(metrics$adjr[i], 5), nsmall = 5), w7), "\n")
@@ -680,7 +680,7 @@ ols_rsquared_removed <- function(metric, step, rpred, preds, response, aic_f) {
 ols_base_criteria <- function(model, criteria) {
   switch (criteria,
     aic = ols_aic(model),
-    bic = ols_sbc(model),
+    sbc = ols_sbc(model),
     sbic = ols_sbic(model, model),
     rsq  = summary(model)$r.squared,
     adjrsq = summary(model)$adj.r.squared
@@ -690,11 +690,11 @@ ols_base_criteria <- function(model, criteria) {
 ols_sort_metrics <- function(data, criteria) {
   mat  <- switch(criteria,
     aic = "aics",
-    bic = "bics",
+    sbc = "bics",
     sbic = "sbics",
     rsq = "rsq",
     adjrsq = "arsq")
-  if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
+  if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
     data[order(data[[mat]]), ]
   } else {
     data[order(-data[[mat]]), ]
@@ -702,7 +702,7 @@ ols_sort_metrics <- function(data, criteria) {
 }
 
 ols_threshold <- function(data, criteria) {
-  if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
+  if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
     which(data == min(data))
   } else {
     which(data == max(data))
@@ -710,7 +710,7 @@ ols_threshold <- function(data, criteria) {
 }
 
 ols_f_criteria <- function(criteria, mat, minc, bmetric) {
-  if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
+  if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
     mat[minc] < bmetric
   } else {
     mat[minc] > bmetric
@@ -718,7 +718,7 @@ ols_f_criteria <- function(criteria, mat, minc, bmetric) {
 }
 
 ols_next_criteria <- function(criteria, mat, minaic, laic, lpreds) {
-  if (criteria == "aic" || criteria == "bic" || criteria == "sbic") {
+  if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
     mat[minaic] < laic[lpreds]
   } else {
     mat[minaic] > laic[lpreds]

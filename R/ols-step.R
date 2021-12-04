@@ -1,4 +1,4 @@
-ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
@@ -75,7 +75,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
 
   mat  <- switch(criteria,
     aic = aics,
-    bic = bics,
+    sbc = bics,
     sbic = sbics,
     rsq = rsq,
     adjrsq = arsq)
@@ -155,14 +155,14 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
     # minaic <- which(aics == min(aics))
     mat  <- switch(criteria,
       aic = aics,
-      bic = bics,
+      sbc = bics,
       sbic = sbics,
       rsq = rsq,
       adjrsq = arsq)
 
     faic  <- switch(criteria,
       aic = laic,
-      bic = lbic,
+      sbc = lbic,
       sbic = lsbic,
       rsq = lrsq,
       adjrsq = larsq)
@@ -224,7 +224,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
                             r2       = lrsq,
                             adj_r2   = larsq,
                             aic      = laic,
-                            bic      = lbic,
+                            sbc      = lbic,
                             sbic     = lsbic)
 
   out <- list(metrics = metrics,
@@ -237,7 +237,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adj
   return(out)
 }
 
-ols_step_backward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
@@ -310,7 +310,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "ad
 
   mat  <- switch(criteria,
                aic = aics,
-               bic = bics,
+               sbc = bics,
                sbic = sbics,
                rsq = rsq,
                adjrsq = arsq)
@@ -386,7 +386,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "ad
 
       mat  <- switch(criteria,
                aic = aics,
-               bic = bics,
+               sbc = bics,
                sbic = sbics,
                rsq = rsq,
                adjrsq = arsq)
@@ -422,7 +422,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "ad
                             r2       = tail(lrsq,  n = step),
                             adj_r2   = tail(larsq, n = step),
                             aic      = tail(laic,  n = step),
-                            bic      = tail(lbic,  n = step),
+                            sbc      = tail(lbic,  n = step),
                             sbic     = tail(lsbic,  n = step))
 
   out <- list(metrics = metrics,
@@ -434,7 +434,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "bic", "rsq", "ad
   return(out)
 }
 
-ols_step_both <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
 
   if (details) {
     progress <- FALSE
@@ -521,7 +521,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq
 
     mat  <- switch(criteria,
     aic = aics,
-    bic = bics,
+    sbc = bics,
     sbic = sbics,
     rsq = rsq,
     adjrsq = arsq)
@@ -557,7 +557,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq
 
       kaic  <- switch(criteria,
           aic = maic,
-          bic = mbic,
+          sbc = mbic,
           sbic = msbic,
           rsq = mrsq,
           adjrsq = marsq)
@@ -599,14 +599,14 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq
         # minc2 <- which(aics == min(aics))
         mat  <- switch(criteria,
           aic = aics,
-          bic = bics,
+          sbc = bics,
           sbic = sbics,
           rsq = rsq,
           adjrsq = arsq)
 
         faic  <- switch(criteria,
           aic = laic,
-          bic = lbic,
+          sbc = lbic,
           sbic = lsbic,
           rsq = lrsq,
           adjrsq = larsq)
@@ -641,7 +641,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq
 
           kaic  <- switch(criteria,
             aic = maic,
-            bic = mbic,
+            sbc = mbic,
             sbic = msbic,
             rsq = mrsq,
             adjrsq = marsq)
@@ -674,7 +674,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "bic", "rsq", "adjrsq
                             r2       = lrsq,
                             adj_r2   = larsq,
                             aic      = laic,
-                            bic      = lbic,
+                            sbc      = lbic,
                             sbic     = lsbic)
 
   out <- list(metrics = metrics,
