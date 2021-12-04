@@ -175,7 +175,7 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
     rsq = "R2     ",
     adjrsq = "Adj. R2")
 
-  cat(paste0(mat, "  =>"), round(aic, 3), "\n\n")
+  cat(paste0(mat, "  =>"), round(aic, 5), "\n\n")
 
   # if (metric == "AIC") {
   #   cat(paste0(metric, "       =>"), round(aic, 3), "\n\n")
@@ -186,7 +186,7 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
 
 }
 
-ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "rsq", "adjrsq"), predictors, aics, bics, sbics, rsq, arsq) {
+ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "rsq", "adjrsq"), predictors, aics, bics, sbics, rsq, arsq, method = c("add", "remove")) {
 
   type <- match.arg(metric)
 
@@ -195,17 +195,15 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "rsq", "ad
   w3 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
   w4 <- max(nchar("BIC"), nchar(format(round(bics, 3), nsmall = 3)))
   w5 <- max(nchar("SBIC"), nchar(format(round(sbics, 3), nsmall = 3)))
-  w6 <- max(nchar("R2"), nchar(format(round(rsq, 3), nsmall = 3)))
-  w7 <- max(nchar("Adj. R2"), nchar(format(round(arsq, 3), nsmall = 3)))
+  w6 <- max(nchar("R2"), nchar(format(round(rsq, 5), nsmall = 5)))
+  w7 <- max(nchar("Adj. R2"), nchar(format(round(arsq, 5), nsmall = 5)))
   w  <- sum(w1, w2, w3, w4, w5, w6, w7, 24)
   ln <- length(aics)
 
-  if (type == "aic" || type == "bic" || type == "sbic") {
-    cat(format("Information Criteria Table", justify = "centre", width = w), "\n")
-  } else if (type == "rsq") {
-    cat(format("R-Squared Table", justify = "centre", width = w), "\n")
+  if (method == "add") {
+    cat(format("Table: Adding New Variables", justify = "centre", width = w), "\n")
   } else {
-    cat(format("Adjusted R-Squared Table", justify = "centre", width = w), "\n")
+    cat(format("Table: Removing Existing Variables", justify = "centre", width = w), "\n")
   }
 
   cat(rep("-", w), sep = "", "\n")
@@ -228,8 +226,8 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "bic", "sbic", "rsq", "ad
       fg(format(round(df[i, 2], 3), nsmall = 3), w3), fs(),
       fg(format(round(df[i, 3], 3), nsmall = 3), w4), fs(),
       fg(format(round(df[i, 4], 3), nsmall = 3), w5), fs(),
-      fg(format(round(df[i, 5], 3), nsmall = 3), w6), fs(),
-      fg(format(round(df[i, 6], 3), nsmall = 3), w7), "\n")
+      fg(format(round(df[i, 5], 5), nsmall = 5), w6), fs(),
+      fg(format(round(df[i, 6], 5), nsmall = 5), w7), "\n")
   }
 
   cat(rep("-", w), sep = "", "\n\n")
@@ -726,7 +724,6 @@ ols_next_criteria <- function(criteria, mat, minaic, laic, lpreds) {
     mat[minaic] > laic[lpreds]
   }
 }
-
 
 
 

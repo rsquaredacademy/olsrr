@@ -1,5 +1,11 @@
 # olsrr 0.5.3.9000
 
+## New Features
+
+- Force variables in/out in variable selection procedures
+- Hierarchical selection
+- Variable selection using r-squared and adjusted r-squared
+
 ## Bug Fixes
 
 - Allow users to specify threshold for detecting outliers ([#178](https://github.com/rsquaredacademy/olsrr/issues/178))
@@ -31,17 +37,16 @@ The following functions will now require the variable names to be enclosed withi
 
 # olsrr 0.5.2
 
-This is a minor release to fix bugs from breaking changes in recipes package 
+This is a minor release to fix bugs from breaking changes in recipes package
 and other enhancements.
 
 ## Enhancements
 
-- variable selection procedures now return the final model as an object of 
-class `lm` ([#81](https://github.com/rsquaredacademy/olsrr/issues/81))
-- data preparation functions of selected plots are now exported to enable end 
-users to create customized plots and to use plotting library of their 
-choice ([#86](https://github.com/rsquaredacademy/olsrr/issues/81))
-
+- variable selection procedures now return the final model as an object of
+  class `lm` ([#81](https://github.com/rsquaredacademy/olsrr/issues/81))
+- data preparation functions of selected plots are now exported to enable end
+  users to create customized plots and to use plotting library of their
+  choice ([#86](https://github.com/rsquaredacademy/olsrr/issues/81))
 
 # olsrr 0.5.1
 
@@ -49,13 +54,13 @@ This is a patch release to fix minor bugs and improve error messages.
 
 ## Enhancements
 
-olsrr now throws better error messages keeping in mind beginner and intermediate R users. It is 
+olsrr now throws better error messages keeping in mind beginner and intermediate R users. It is
 a work in progress and should get better in future releases.
 
 ## Bug Fixes
 
-Variable selection procedures based on p values now handle categorical variables in the 
-same way as the procedures based on AIC values. 
+Variable selection procedures based on p values now handle categorical variables in the
+same way as the procedures based on AIC values.
 
 # olsrr 0.5.0
 
@@ -69,7 +74,7 @@ We have made some changes to the API to make it more user friendly:
 - all the test start with `ols_test_*`
 - all the plots start with `ols_plot_*`
 
-## Bug Fixes 
+## Bug Fixes
 
 - ols_regress returns error in the presence of interaction terms in the formula ([#49](https://github.com/rsquaredacademy/olsrr/issues/49))
 
@@ -86,16 +91,16 @@ We have made some changes to the API to make it more user friendly:
 
 ## Bug Fixes
 
-- mismatch in sign of partial and semi partial correlations  ([#44](https://github.com/rsquaredacademy/olsrr/issues/44))
+- mismatch in sign of partial and semi partial correlations ([#44](https://github.com/rsquaredacademy/olsrr/issues/44))
 - error in diagnostic panel ([#45](https://github.com/rsquaredacademy/olsrr/issues/45))
-- standardized betas in the presence of interaction terms  ([#46](https://github.com/rsquaredacademy/olsrr/issues/46))
+- standardized betas in the presence of interaction terms ([#46](https://github.com/rsquaredacademy/olsrr/issues/46))
 
 A big thanks goes to ([Dr. Kimberly Henry](http://psy.psych.colostate.edu/psylist/detail.asp?Num=163)) for
 identifying bugs and other valuable feedback that helped improve the package.
 
 # olsrr 0.3.0
 
-This is a minor release containing bug fixes. 
+This is a minor release containing bug fixes.
 
 ## Bug Fixes
 
@@ -117,10 +122,9 @@ This is a minor release containing bug fixes.
 - step AIC backward method AIC value rounded to 3 decimal points ([#39](https://github.com/rsquaredacademy/olsrr/issues/39))
 - step AIC both direction method AIC value rounded to 3 decimal points ([#40](https://github.com/rsquaredacademy/olsrr/issues/40))
 
-
 # olsrr 0.2.0
 
-This is a minor release containing bug fixes and minor improvements. 
+This is a minor release containing bug fixes and minor improvements.
 
 ## Bug Fixes
 
