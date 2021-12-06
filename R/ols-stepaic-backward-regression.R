@@ -86,7 +86,7 @@ print.ols_step_backward_aic <- function(x, ...) {
 #'
 plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
 
-  p <- ols_stepaic_plot(x, "backward", details)
+  p <- ols_stepaic_plot(x, details)
 
   if (print_plot) {
     print(p)

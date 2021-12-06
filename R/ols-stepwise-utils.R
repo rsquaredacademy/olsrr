@@ -338,13 +338,12 @@ ols_stepwise_vars <- function(preds, direction = c("forward", "backward", "both"
 
 }
 
-ols_stepaic_plot <- function(x, direction = c("forward", "backward", "both"), details = TRUE) {
+ols_stepaic_plot <- function(x, details = TRUE) {
 
-  type <- match.arg(direction)
-  pred <- ols_step_plot_text(x, type, details, metric = "aic")
-  data <- ols_stepwise_plot_data(x, pred, metric = "aic")
-  info <- ols_metric_info(x, type, metric = "aic")
-  ols_stepaic_plot_build(data$d, data$d2, data$xmin, data$xmax, data$ymin, data$ymax, info, type)
+  pred <- ols_step_plot_text(x, x$others$direction, details, x$others$criteria)
+  data <- ols_stepwise_plot_data(x, pred, x$others$criteria)
+  info <- ols_metric_info(x, x$others$direction, x$others$criteria)
+  ols_stepaic_plot_build(data$d, data$d2, data$xmin, data$xmax, data$ymin, data$ymax, info, x$others$direction, x$others$criteria)
 
 }
 
@@ -369,15 +368,15 @@ ols_step_plot_text <- function(x, direction = c("forward", "backward", "both"), 
 
   if (method == "forward" || method == "backward") {
     if (details) {
-      pred <- paste0("[", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]")
+      pred <- paste0("[", x$metrics$variable, ", ", format(round(x$metrics[[metric]], 3), nsmall = 3), "]")
     } else {
       pred <- x$metrics$variable
     }
   } else {
     if (details) {
       pred <- ifelse(x$metrics$method == "addition",
-                             paste0("[+", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"),
-                             paste0("[-", x$metrics$variable, ", ", round(x$metrics[[metric]], 2), "]"))
+                             paste0("[+", x$metrics$variable, ", ", format(round(x$metrics[[metric]], 3), nsmall = 3), "]"),
+                             paste0("[-", x$metrics$variable, ", ", format(round(x$metrics[[metric]], 3), nsmall = 3), "]"))
     } else {
       pred <- ifelse(x$metrics$method == "addition",
                                paste0("+", x$metrics$variable),
@@ -425,22 +424,29 @@ ols_metric_info <- function(x, direction = c("forward", "backward", "both"), met
 
 }
 
-ols_stepaic_plot_build <- function(d, d2, xmin, xmax, ymin, ymax, metric_info, direction = c("forward", "backward", "both")) {
+ols_stepaic_plot_build <- function(d, d2, xmin, xmax, ymin, ymax, metric_info, direction = c("forward", "backward", "both"), criteria = "aic") {
 
   method <- match.arg(direction)
 
+  mat  <- switch(criteria,
+    aic = "AIC",
+    sbc = "SBC",
+    sbic = "SBIC",
+    r2 = "R2",
+    adj_r2 = "Adj. R2")
+
   if (method == "forward") {
-    title <- "Stepwise AIC Forward Selection"
+    title <- paste0("Stepwise ", mat , " Forward Selection")
     nudge <- 0.1
   } else if (method == "backward") {
-    title <- "Stepwise AIC Backward Elimination"
+    title <- paste0("Stepwise ", mat , " Backward Elimination")
     nudge <- 0.1
   } else {
-    title <- "Stepwise AIC Both Direction Selection"
+    title <- paste0("Stepwise ", mat, " Both Direction Selection")
     nudge <- 0.5
   }
 
-  y_lab  <- "AIC"
+  y_lab  <- mat
   v_just <- "bottom"
   h_just <- 1.2
   ann_x  <- Inf

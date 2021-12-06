@@ -229,7 +229,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
 
   out <- list(metrics = metrics,
               model   = final_model,
-              others  = list(base_model = base_model))
+              others  = list(base_model = base_model,
+                             criteria = criteria,
+                             direction = "forward"))
 
 
   # class(out) <- "ols_step_forward_aic"
@@ -427,7 +429,9 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
 
   out <- list(metrics = metrics,
               model   = final_model,
-              others  = list(full_model = model))
+              others  = list(full_model = model,
+                             criteria = criteria,
+                             direction = "backward"))
 
   # class(out) <- "ols_step_backward_aic"
 
@@ -679,7 +683,9 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
 
   out <- list(metrics = metrics,
               model   = final_model,
-              others   = list(base_model = base_model))
+              others   = list(base_model = base_model,
+                              criteria = criteria,
+                              direction = "both"))
 
   # class(out) <- "ols_step_both_aic"
 
