@@ -1,12 +1,10 @@
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
 
-test_that("output from stepaic_forward matches the expected outptu", {  
+test_that("output from stepaic_forward matches the expected output", {  
   k <- ols_step_forward_aic(model)
   expect_equal(k$metrics$step, 1:2)
   expect_equal(k$metrics$variable, c("wt", "hp"), ignore_attr = TRUE)
   expect_equal(round(k$metrics$aic, 3), c(166.029, 156.652), ignore_attr = TRUE)
-  expect_equal(round(k$metrics$ess, 3), c(278.322, 195.048), ignore_attr = TRUE)
-  expect_equal(round(k$metrics$rss, 3), c(847.725, 930.999), ignore_attr = TRUE)
   expect_equal(round(k$metrics$r2, 3), c(0.753, 0.827), ignore_attr = TRUE)
   expect_equal(round(k$metrics$adj_r2, 3), c(0.745, 0.815), ignore_attr = TRUE)
 })
