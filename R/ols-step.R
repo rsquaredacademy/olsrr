@@ -41,7 +41,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
 
   base_model  <- ols_base_model(include, response, l)
   base_metric <- ols_base_criteria(base_model, criteria)
-  # aic1 <- ols_aic(base_model)
 
   if (details) {
     ols_base_model_stats(response, include, criteria, base_metric)
@@ -63,7 +62,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   }
 
   da <- data.frame(predictors = all_pred, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
-  # da2 <- da[order(da$aics), ]
   da2 <- ols_sort_metrics(da, criteria)
 
   if (details) {
@@ -80,7 +78,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     rsq = rsq,
     adjrsq = arsq)
 
-  # minc <- which(aics == min(aics))
   minc <- ols_threshold(mat, criteria)
   crit <- ols_f_criteria(criteria, mat, minc, base_metric)
 
@@ -122,7 +119,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     arsq  <- c()
     mo    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
     met   <- ols_base_criteria(mo$model, criteria)
-    # aic1 <- ols_aic(mo$model)
 
     if (details) {
       ols_stepwise_details(step, preds, preds, response, met, "added", criteria)
@@ -144,7 +140,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
 
     if (details) {
       da  <- data.frame(predictors = all_pred, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
-      # da2 <- da[order(da$aics), ]
       da2 <- ols_sort_metrics(da, criteria)
       ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq, "add")
       if (interactive()) {
@@ -152,7 +147,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
       }
     }
 
-    # minaic <- which(aics == min(aics))
     mat  <- switch(criteria,
       aic = aics,
       sbc = bics,
@@ -240,9 +234,6 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
                              criteria = indicator,
                              direction = "forward"))
 
-
-  # class(out) <- "ols_step_forward_aic"
-
   return(out)
 }
 
@@ -276,7 +267,6 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
     ols_candidate_terms(nam, "backward")
   }
     
-  # aic_f <- ols_aic(model)
   mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
   laic  <- ols_aic(model)
   lbic  <- ols_sbc(model)
@@ -314,7 +304,6 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
   }
 
   da  <- data.frame(predictors = preds, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
-  # da2 <- da[order(da$aics), ]
   da2 <- ols_sort_metrics(da, criteria)
 
   mat  <- switch(criteria,
@@ -390,7 +379,6 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
       }
 
       da  <- data.frame(predictors = preds, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
-      # da2 <- da[order(da$aics), ]
       da2 <- ols_sort_metrics(da, criteria)
 
       mat  <- switch(criteria,
@@ -447,8 +435,6 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
                              criteria = indicator,
                              direction = "backward"))
 
-  # class(out) <- "ols_step_backward_aic"
-
   return(out)
 }
 
@@ -487,11 +473,9 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
 
   base_model <- ols_base_model(include, response, l)
   bmetric <- ols_base_criteria(base_model, criteria)
-  # aic_c <- ols_aic(base_model)
 
   if (details) {
     ols_base_model_stats(response, include, criteria, bmetric)
-    # ols_base_model_stats(response, include, aic_c)
   }
 
   step      <- 0
@@ -544,7 +528,6 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
     rsq = rsq,
     adjrsq = arsq)
 
-    # minc <- which(aics == min(aics))
     minc <- ols_threshold(mat, criteria)
     crit <- ols_f_criteria(criteria, mat, minc, bmetric)
 
@@ -614,7 +597,6 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
           ols_stepwise_metrics(da, criteria, predictors, aics, bics, sbics, rsq, arsq, "remove")
         }
 
-        # minc2 <- which(aics == min(aics))
         mat  <- switch(criteria,
           aic = aics,
           sbc = bics,
@@ -707,8 +689,6 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
               others   = list(base_model = base_model,
                               criteria = indicator,
                               direction = "both"))
-
-  # class(out) <- "ols_step_both_aic"
 
   return(out)
 }

@@ -177,13 +177,6 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
 
   cat(paste0(mat, "  =>"), round(aic, 5), "\n\n")
 
-  # if (metric == "AIC") {
-  #   cat(paste0(metric, "       =>"), round(aic, 3), "\n\n")
-  # } else {
-  #   cat(paste0(metric, " =>"), round(aic, 3), "\n\n")
-  # }
-
-
 }
 
 ols_stepwise_metrics <- function(df, metric = c("aic", "sbc", "sbic", "rsq", "adjrsq"), predictors, aics, bics, sbics, rsq, arsq, method = c("add", "remove")) {
