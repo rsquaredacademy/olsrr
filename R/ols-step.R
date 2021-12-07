@@ -219,6 +219,13 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     var_selected <- preds[-seq_len(length(include))]
   }
 
+  indicator <- switch(criteria,
+    aic = "aic",
+    sbc = "sbc",
+    sbic = "sbic",
+    rsq = "r2",
+    adjrsq = "adj_r2")
+
   metrics     <- data.frame(step     = seq_len(step),
                             variable = var_selected,
                             r2       = lrsq,
@@ -230,7 +237,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   out <- list(metrics = metrics,
               model   = final_model,
               others  = list(base_model = base_model,
-                             criteria = criteria,
+                             criteria = indicator,
                              direction = "forward"))
 
 
@@ -417,6 +424,13 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
     ols_stepwise_vars(rpred, "backward")
   }
 
+  indicator <- switch(criteria,
+    aic = "aic",
+    sbc = "sbc",
+    sbic = "sbic",
+    rsq = "r2",
+    adjrsq = "adj_r2")
+
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
   metrics     <- data.frame(step     = seq_len(step),
@@ -430,7 +444,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
   out <- list(metrics = metrics,
               model   = final_model,
               others  = list(full_model = model,
-                             criteria = criteria,
+                             criteria = indicator,
                              direction = "backward"))
 
   # class(out) <- "ols_step_backward_aic"
@@ -670,6 +684,13 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
     ols_stepwise_vars(preds, "both")
   }
 
+  indicator <- switch(criteria,
+    aic = "aic",
+    sbc = "sbc",
+    sbic = "sbic",
+    rsq = "r2",
+    adjrsq = "adj_r2")
+
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
 
   metrics     <- data.frame(step     = seq_len(all_step),
@@ -684,7 +705,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
   out <- list(metrics = metrics,
               model   = final_model,
               others   = list(base_model = base_model,
-                              criteria = criteria,
+                              criteria = indicator,
                               direction = "both"))
 
   # class(out) <- "ols_step_both_aic"
