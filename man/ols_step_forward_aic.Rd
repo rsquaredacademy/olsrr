@@ -4,7 +4,19 @@
 \alias{ols_step_forward_aic}
 \alias{ols_step_forward_aic.default}
 \alias{plot.ols_step_forward_aic}
-\title{Stepwise AIC forward regression}
+\alias{ols_step_forward_sbc}
+\alias{ols_step_forward_sbc.default}
+\alias{plot.ols_step_forward_sbc}
+\alias{ols_step_forward_sbic}
+\alias{ols_step_forward_sbic.default}
+\alias{plot.ols_step_forward_sbic}
+\alias{ols_step_forward_r2}
+\alias{ols_step_forward_r2.default}
+\alias{plot.ols_step_forward_r2}
+\alias{ols_step_forward_adj_r2}
+\alias{ols_step_forward_adj_r2.default}
+\alias{plot.ols_step_forward_adj_r2}
+\title{Stepwise IC forward regression}
 \usage{
 ols_step_forward_aic(model, ...)
 
@@ -17,7 +29,59 @@ ols_step_forward_aic(model, ...)
   ...
 )
 
-\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, details = TRUE, ...)
+\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_forward_sbc(model, ...)
+
+\method{ols_step_forward_sbc}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_forward_sbc}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_forward_sbic(model, ...)
+
+\method{ols_step_forward_sbic}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_forward_sbic}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_forward_r2(model, ...)
+
+\method{ols_step_forward_r2}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_forward_r2}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_forward_adj_r2(model, ...)
+
+\method{ols_step_forward_adj_r2}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_forward_adj_r2}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -33,13 +97,15 @@ ols_step_forward_aic(model, ...)
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}
 
-\item{x}{An object of class \code{ols_step_forward_aic}.}
+\item{x}{An object of class \code{ols_step_forward_*}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
+
+\item{digits}{Number of decimal places to display.}
 }
 \value{
-\code{ols_step_forward_aic} returns an object of class \code{"ols_step_forward_aic"}.
-An object of class \code{"ols_step_forward_aic"} is a list containing the
+\code{ols_step_forward_*} returns an object of class \code{"ols_step_forward_*"}.
+An object of class \code{"ols_step_forward_*"} is a list containing the
 following components:
 
 \item{model}{final model; an object of class \code{lm}}
@@ -48,7 +114,8 @@ following components:
 }
 \description{
 Build regression model from a set of candidate predictor variables by
-entering predictors based on akaike information criterion, in a stepwise
+entering predictors based on akaike information criterion, schwarz bayesian criterion,
+sawa bayesian criterion, r-squared or adjusted r-squared, in a stepwise
 manner until there is no variable left to enter any more.
 }
 \examples{

@@ -1,9 +1,10 @@
-#' Stepwise AIC regression
+#' Stepwise IC regression
 #'
 #' @description
 #' Build regression model from a set of candidate predictor variables by
-#' entering and removing predictors based on akaike information criteria, in a
-#' stepwise manner until there is no variable left to enter or remove any more.
+#' entering and removing predictors based on akaike information criteria, 
+#' schwarz bayesian criterion, sawa bayesian criterion, r-squared or adjusted r-squared, 
+#' in a stepwise manner until there is no variable left to enter or remove any more.
 #'
 #' @param model An object of class \code{lm}.
 #' @param include Character or numeric vector; variables to be included in selection process.
@@ -11,12 +12,12 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, details of variable selection will
 #'   be printed on screen.
-#' @param x An object of class \code{ols_step_both_aic}.
+#' @param x An object of class \code{ols_step_both_*}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_step_both_aic} returns an object of class \code{"ols_step_both_aic"}.
-#' An object of class \code{"ols_step_both_aic"} is a list containing the
+#' @return \code{ols_step_both_*} returns an object of class \code{"ols_step_both_*"}.
+#' An object of class \code{"ols_step_both_*"} is a list containing the
 #' following components:
 #'
 #' \item{model}{final model; an object of class \code{lm}}
@@ -89,9 +90,9 @@ print.ols_step_both_aic <- function(x, ...) {
 #' @rdname ols_step_both_aic
 #' @export
 #'
-plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
+plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
 
-  p <- ols_stepaic_plot(x, details)
+  p <- ols_stepaic_plot(x, details, digits)
 
   if (print_plot) {
     print(p)
@@ -99,4 +100,148 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
     return(p)
   }
 
+}
+
+#' @export
+#' @rdname ols_step_both_aic
+#'
+ols_step_both_sbc <- function(model, ...) UseMethod("ols_step_both_sbc")
+
+#' @export
+#' @rdname ols_step_both_aic
+#'
+ols_step_both_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_both(model, "sbc", include, exclude, progress, details)  
+  class(out) <- "ols_step_both_sbc"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_both_sbc <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "both")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_both_aic
+#' @export
+#'
+plot.ols_step_both_sbc <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_both_aic
+#'
+ols_step_both_sbic <- function(model, ...) UseMethod("ols_step_both_sbic")
+
+#' @export
+#' @rdname ols_step_both_aic
+#'
+ols_step_both_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_both(model, "sbic", include, exclude, progress, details)  
+  class(out) <- "ols_step_both_sbic"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_both_sbic <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "both")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_both_aic
+#' @export
+#'
+plot.ols_step_both_sbic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_both_aic
+#'
+ols_step_both_r2 <- function(model, ...) UseMethod("ols_step_both_r2")
+
+#' @export
+#' @rdname ols_step_both_aic
+#'
+ols_step_both_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_both(model, "rsq", include, exclude, progress, details)  
+  class(out) <- "ols_step_both_r2"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_both_r2 <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "both")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_both_aic
+#' @export
+#'
+plot.ols_step_both_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_both_aic
+#'
+ols_step_both_adj_r2 <- function(model, ...) UseMethod("ols_step_both_adj_r2")
+
+#' @export
+#' @rdname ols_step_both_aic
+#'
+ols_step_both_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_both(model, "adjrsq", include, exclude, progress, details)  
+  class(out) <- "ols_step_both_adj_r2"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_both_adj_r2 <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "both")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_both_aic
+#' @export
+#'
+plot.ols_step_both_adj_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 }

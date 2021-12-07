@@ -1,8 +1,9 @@
-#' Stepwise AIC backward regression
+#' Stepwise IC backward regression
 #'
 #' @description
 #' Build regression model from a set of candidate predictor variables by
-#' removing predictors based on akaike information criterion, in a stepwise
+#' removing predictors based on akaike information criterion, schwarz bayesian criterion,
+#' sawa bayesian criterion, r-squared or adjusted r-squared, in a stepwise
 #' manner until there is no variable left to remove any more.
 #'
 #' @param model An object of class \code{lm}; the model should include all
@@ -12,12 +13,12 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
-#' @param x An object of class \code{ols_step_backward_aic}.
+#' @param x An object of class \code{ols_step_backward_*}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_step_backward_aic} returns an object of class \code{"ols_step_backward_aic"}.
-#' An object of class \code{"ols_step_backward_aic"} is a list containing the
+#' @return \code{ols_step_backward_*} returns an object of class \code{"ols_step_backward_*"}.
+#' An object of class \code{"ols_step_backward_*"} is a list containing the
 #' following components:
 #'
 #' \item{model}{final model; an object of class \code{lm}}
@@ -84,14 +85,155 @@ print.ols_step_backward_aic <- function(x, ...) {
 #' @rdname ols_step_backward_aic
 #' @export
 #'
-plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
-
-  p <- ols_stepaic_plot(x, details)
-
+plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
   if (print_plot) {
     print(p)
   } else {
     return(p)
   }
+}
 
+#' @export
+#' @rdname ols_step_backward_aic
+#'
+ols_step_backward_sbc <- function(model, ...) UseMethod("ols_step_backward_sbc")
+
+#' @export
+#' @rdname ols_step_backward_aic
+#'
+ols_step_backward_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_backward(model, "sbc", include, exclude, progress, details)  
+  class(out) <- "ols_step_backward_sbc"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_backward_sbc <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "backward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_backward_aic
+#' @export
+#'
+plot.ols_step_backward_sbc <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_backward_aic
+#'
+ols_step_backward_sbic <- function(model, ...) UseMethod("ols_step_backward_sbic")
+
+#' @export
+#' @rdname ols_step_backward_aic
+#'
+ols_step_backward_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_backward(model, "sbic", include, exclude, progress, details)  
+  class(out) <- "ols_step_backward_sbic"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_backward_sbic <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "backward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_backward_aic
+#' @export
+#'
+plot.ols_step_backward_sbic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_backward_aic
+#'
+ols_step_backward_r2 <- function(model, ...) UseMethod("ols_step_backward_r2")
+
+#' @export
+#' @rdname ols_step_backward_aic
+#'
+ols_step_backward_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_backward(model, "rsq", include, exclude, progress, details)  
+  class(out) <- "ols_step_backward_r2"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_backward_r2 <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "backward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_backward_aic
+#' @export
+#'
+plot.ols_step_backward_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_backward_aic
+#'
+ols_step_backward_adj_r2 <- function(model, ...) UseMethod("ols_step_backward_adj_r2")
+
+#' @export
+#' @rdname ols_step_backward_aic
+#'
+ols_step_backward_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_backward(model, "adjrsq", include, exclude, progress, details)  
+  class(out) <- "ols_step_backward_adj_r2"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_backward_adj_r2 <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "backward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_backward_aic
+#' @export
+#'
+plot.ols_step_backward_adj_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 }

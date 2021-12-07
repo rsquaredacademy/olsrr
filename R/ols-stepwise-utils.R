@@ -338,9 +338,9 @@ ols_stepwise_vars <- function(preds, direction = c("forward", "backward", "both"
 
 }
 
-ols_stepaic_plot <- function(x, details = TRUE) {
+ols_stepaic_plot <- function(x, details = TRUE, digits = 3) {
 
-  pred <- ols_step_plot_text(x, x$others$direction, details, x$others$criteria)
+  pred <- ols_step_plot_text(x, x$others$direction, details, x$others$criteria, digits)
   data <- ols_stepwise_plot_data(x, pred, x$others$criteria)
   info <- ols_metric_info(x, x$others$direction, x$others$criteria)
   ols_stepaic_plot_build(data$d, data$d2, data$xmin, data$xmax, data$ymin, data$ymax, info, x$others$direction, x$others$criteria)
@@ -362,21 +362,21 @@ ols_stepwise_plot_data <- function(x, pred, metric = "r2") {
 }
 
 
-ols_step_plot_text <- function(x, direction = c("forward", "backward", "both"), details = TRUE, metric = "r2") {
+ols_step_plot_text <- function(x, direction = c("forward", "backward", "both"), details = TRUE, metric = "r2", digits = 3) {
 
   method <- match.arg(direction)
 
   if (method == "forward" || method == "backward") {
     if (details) {
-      pred <- paste0("[", x$metrics$variable, ", ", format(round(x$metrics[[metric]], 3), nsmall = 3), "]")
+      pred <- paste0("[", x$metrics$variable, ", ", format(round(x$metrics[[metric]], digits), nsmall = digits), "]")
     } else {
       pred <- x$metrics$variable
     }
   } else {
     if (details) {
       pred <- ifelse(x$metrics$method == "addition",
-                             paste0("[+", x$metrics$variable, ", ", format(round(x$metrics[[metric]], 3), nsmall = 3), "]"),
-                             paste0("[-", x$metrics$variable, ", ", format(round(x$metrics[[metric]], 3), nsmall = 3), "]"))
+                             paste0("[+", x$metrics$variable, ", ", format(round(x$metrics[[metric]], digits), nsmall = digits), "]"),
+                             paste0("[-", x$metrics$variable, ", ", format(round(x$metrics[[metric]], digits), nsmall = digits), "]"))
     } else {
       pred <- ifelse(x$metrics$method == "addition",
                                paste0("+", x$metrics$variable),

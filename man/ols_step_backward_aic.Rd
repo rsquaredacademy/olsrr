@@ -4,7 +4,19 @@
 \alias{ols_step_backward_aic}
 \alias{ols_step_backward_aic.default}
 \alias{plot.ols_step_backward_aic}
-\title{Stepwise AIC backward regression}
+\alias{ols_step_backward_sbc}
+\alias{ols_step_backward_sbc.default}
+\alias{plot.ols_step_backward_sbc}
+\alias{ols_step_backward_sbic}
+\alias{ols_step_backward_sbic.default}
+\alias{plot.ols_step_backward_sbic}
+\alias{ols_step_backward_r2}
+\alias{ols_step_backward_r2.default}
+\alias{plot.ols_step_backward_r2}
+\alias{ols_step_backward_adj_r2}
+\alias{ols_step_backward_adj_r2.default}
+\alias{plot.ols_step_backward_adj_r2}
+\title{Stepwise IC backward regression}
 \usage{
 ols_step_backward_aic(model, ...)
 
@@ -17,7 +29,59 @@ ols_step_backward_aic(model, ...)
   ...
 )
 
-\method{plot}{ols_step_backward_aic}(x, print_plot = TRUE, details = TRUE, ...)
+\method{plot}{ols_step_backward_aic}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_backward_sbc(model, ...)
+
+\method{ols_step_backward_sbc}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_backward_sbc}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_backward_sbic(model, ...)
+
+\method{ols_step_backward_sbic}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_backward_sbic}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_backward_r2(model, ...)
+
+\method{ols_step_backward_r2}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_backward_r2}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_backward_adj_r2(model, ...)
+
+\method{ols_step_backward_adj_r2}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_backward_adj_r2}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}; the model should include all
@@ -34,13 +98,13 @@ candidate predictor variables.}
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}
 
-\item{x}{An object of class \code{ols_step_backward_aic}.}
+\item{x}{An object of class \code{ols_step_backward_*}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
-\code{ols_step_backward_aic} returns an object of class \code{"ols_step_backward_aic"}.
-An object of class \code{"ols_step_backward_aic"} is a list containing the
+\code{ols_step_backward_*} returns an object of class \code{"ols_step_backward_*"}.
+An object of class \code{"ols_step_backward_*"} is a list containing the
 following components:
 
 \item{model}{final model; an object of class \code{lm}}
@@ -49,7 +113,8 @@ following components:
 }
 \description{
 Build regression model from a set of candidate predictor variables by
-removing predictors based on akaike information criterion, in a stepwise
+removing predictors based on akaike information criterion, schwarz bayesian criterion,
+sawa bayesian criterion, r-squared or adjusted r-squared, in a stepwise
 manner until there is no variable left to remove any more.
 }
 \examples{

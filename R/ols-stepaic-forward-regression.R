@@ -1,8 +1,9 @@
-#' Stepwise AIC forward regression
+#' Stepwise IC forward regression
 #'
 #' @description
 #' Build regression model from a set of candidate predictor variables by
-#' entering predictors based on akaike information criterion, in a stepwise
+#' entering predictors based on akaike information criterion, schwarz bayesian criterion,
+#' sawa bayesian criterion, r-squared or adjusted r-squared, in a stepwise
 #' manner until there is no variable left to enter any more.
 #'
 #' @param model An object of class \code{lm}.
@@ -11,11 +12,12 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
-#' @param x An object of class \code{ols_step_forward_aic}.
+#' @param x An object of class \code{ols_step_forward_*}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
+#' @param digits Number of decimal places to display.
 #' @param ... Other arguments.
-#' @return \code{ols_step_forward_aic} returns an object of class \code{"ols_step_forward_aic"}.
-#' An object of class \code{"ols_step_forward_aic"} is a list containing the
+#' @return \code{ols_step_forward_*} returns an object of class \code{"ols_step_forward_*"}.
+#' An object of class \code{"ols_step_forward_*"} is a list containing the
 #' following components:
 #'
 #' \item{model}{final model; an object of class \code{lm}}
@@ -84,9 +86,9 @@ print.ols_step_forward_aic <- function(x, ...) {
 #' @rdname ols_step_forward_aic
 #' @export
 #'
-plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
+plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
 
-  p <- ols_stepaic_plot(x, details)
+  p <- ols_stepaic_plot(x, details, digits)
 
   if (print_plot) {
     print(p)
@@ -94,4 +96,148 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, ...)
     return(p)
   }
 
+}
+
+#' @export
+#' @rdname ols_step_forward_aic
+#'
+ols_step_forward_sbc <- function(model, ...) UseMethod("ols_step_forward_sbc")
+
+#' @export
+#' @rdname ols_step_forward_aic
+#'
+ols_step_forward_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_forward(model, "sbc", include, exclude, progress, details)  
+  class(out) <- "ols_step_forward_sbc"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_forward_sbc <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "forward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_forward_aic
+#' @export
+#'
+plot.ols_step_forward_sbc <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_forward_aic
+#'
+ols_step_forward_sbic <- function(model, ...) UseMethod("ols_step_forward_sbic")
+
+#' @export
+#' @rdname ols_step_forward_aic
+#'
+ols_step_forward_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_forward(model, "sbic", include, exclude, progress, details)  
+  class(out) <- "ols_step_forward_sbic"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_forward_sbic <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "forward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_forward_aic
+#' @export
+#'
+plot.ols_step_forward_sbic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_forward_aic
+#'
+ols_step_forward_r2 <- function(model, ...) UseMethod("ols_step_forward_r2")
+
+#' @export
+#' @rdname ols_step_forward_aic
+#'
+ols_step_forward_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_forward(model, "rsq", include, exclude, progress, details)  
+  class(out) <- "ols_step_forward_r2"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_forward_r2 <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "forward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_forward_aic
+#' @export
+#'
+plot.ols_step_forward_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' @export
+#' @rdname ols_step_forward_aic
+#'
+ols_step_forward_adj_r2 <- function(model, ...) UseMethod("ols_step_forward_adj_r2")
+
+#' @export
+#' @rdname ols_step_forward_aic
+#'
+ols_step_forward_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_forward(model, "adjrsq", include, exclude, progress, details)  
+  class(out) <- "ols_step_forward_adj_r2"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_forward_adj_r2 <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "forward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_forward_aic
+#' @export
+#'
+plot.ols_step_forward_adj_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 }

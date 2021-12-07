@@ -4,7 +4,19 @@
 \alias{ols_step_both_aic}
 \alias{ols_step_both_aic.default}
 \alias{plot.ols_step_both_aic}
-\title{Stepwise AIC regression}
+\alias{ols_step_both_sbc}
+\alias{ols_step_both_sbc.default}
+\alias{plot.ols_step_both_sbc}
+\alias{ols_step_both_sbic}
+\alias{ols_step_both_sbic.default}
+\alias{plot.ols_step_both_sbic}
+\alias{ols_step_both_r2}
+\alias{ols_step_both_r2.default}
+\alias{plot.ols_step_both_r2}
+\alias{ols_step_both_adj_r2}
+\alias{ols_step_both_adj_r2.default}
+\alias{plot.ols_step_both_adj_r2}
+\title{Stepwise IC regression}
 \usage{
 ols_step_both_aic(model, ...)
 
@@ -17,7 +29,59 @@ ols_step_both_aic(model, ...)
   ...
 )
 
-\method{plot}{ols_step_both_aic}(x, print_plot = TRUE, details = TRUE, ...)
+\method{plot}{ols_step_both_aic}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_both_sbc(model, ...)
+
+\method{ols_step_both_sbc}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_both_sbc}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_both_sbic(model, ...)
+
+\method{ols_step_both_sbic}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_both_sbic}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_both_r2(model, ...)
+
+\method{ols_step_both_r2}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_both_r2}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
+
+ols_step_both_adj_r2(model, ...)
+
+\method{ols_step_both_adj_r2}{default}(
+  model,
+  include = NULL,
+  exclude = NULL,
+  progress = FALSE,
+  details = FALSE,
+  ...
+)
+
+\method{plot}{ols_step_both_adj_r2}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -33,13 +97,13 @@ ols_step_both_aic(model, ...)
 \item{details}{Logical; if \code{TRUE}, details of variable selection will
 be printed on screen.}
 
-\item{x}{An object of class \code{ols_step_both_aic}.}
+\item{x}{An object of class \code{ols_step_both_*}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
 \value{
-\code{ols_step_both_aic} returns an object of class \code{"ols_step_both_aic"}.
-An object of class \code{"ols_step_both_aic"} is a list containing the
+\code{ols_step_both_*} returns an object of class \code{"ols_step_both_*"}.
+An object of class \code{"ols_step_both_*"} is a list containing the
 following components:
 
 \item{model}{final model; an object of class \code{lm}}
@@ -47,8 +111,9 @@ following components:
 }
 \description{
 Build regression model from a set of candidate predictor variables by
-entering and removing predictors based on akaike information criteria, in a
-stepwise manner until there is no variable left to enter or remove any more.
+entering and removing predictors based on akaike information criteria, 
+schwarz bayesian criterion, sawa bayesian criterion, r-squared or adjusted r-squared, 
+in a stepwise manner until there is no variable left to enter or remove any more.
 }
 \examples{
 \dontrun{
