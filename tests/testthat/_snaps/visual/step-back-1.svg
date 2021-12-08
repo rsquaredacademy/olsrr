@@ -31,9 +31,9 @@
 <circle cx='224.06' cy='281.48' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='377.33' cy='283.60' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='530.60' cy='286.68' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
-<text x='231.72' y='287.35' style='font-size: 8.54px; font-family: sans;' textLength='58.37px' lengthAdjust='spacingAndGlyphs'>[alc_mod, 0.78]</text>
-<text x='384.99' y='289.48' style='font-size: 8.54px; font-family: sans;' textLength='52.68px' lengthAdjust='spacingAndGlyphs'>[gender, 0.78]</text>
-<text x='538.26' y='292.55' style='font-size: 8.54px; font-family: sans;' textLength='40.34px' lengthAdjust='spacingAndGlyphs'>[age, 0.78]</text>
+<text x='231.72' y='287.35' style='font-size: 8.54px; font-family: sans;' textLength='63.12px' lengthAdjust='spacingAndGlyphs'>[alc_mod, 0.782]</text>
+<text x='384.99' y='289.48' style='font-size: 8.54px; font-family: sans;' textLength='57.43px' lengthAdjust='spacingAndGlyphs'>[gender, 0.781]</text>
+<text x='538.26' y='292.55' style='font-size: 8.54px; font-family: sans;' textLength='45.09px' lengthAdjust='spacingAndGlyphs'>[age, 0.781]</text>
 <text x='70.79' y='46.82' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='72.59px' lengthAdjust='spacingAndGlyphs'> Full Model  : 0.782</text>
 <text x='70.79' y='59.12' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='72.60px' lengthAdjust='spacingAndGlyphs'>Final Model : 0.781</text>
 <rect x='40.13' y='22.78' width='674.39' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
