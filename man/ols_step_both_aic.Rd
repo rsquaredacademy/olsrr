@@ -100,6 +100,8 @@ be printed on screen.}
 \item{x}{An object of class \code{ols_step_both_*}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
+
+\item{digits}{Number of decimal places to display.}
 }
 \value{
 \code{ols_step_both_*} returns an object of class \code{"ols_step_both_*"}.

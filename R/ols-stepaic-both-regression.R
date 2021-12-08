@@ -14,6 +14,7 @@
 #'   be printed on screen.
 #' @param x An object of class \code{ols_step_both_*}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
+#' @param digits Number of decimal places to display.
 #' @param ... Other arguments.
 #'
 #' @return \code{ols_step_both_*} returns an object of class \code{"ols_step_both_*"}.

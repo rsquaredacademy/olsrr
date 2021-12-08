@@ -101,6 +101,8 @@ each step.}
 \item{x}{An object of class \code{ols_step_backward_*}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
+
+\item{digits}{Number of decimal places to display.}
 }
 \value{
 \code{ols_step_backward_*} returns an object of class \code{"ols_step_backward_*"}.
