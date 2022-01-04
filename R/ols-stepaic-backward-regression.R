@@ -257,6 +257,7 @@ plot.ols_step_backward_sbic <- function(x, print_plot = TRUE, details = TRUE, di
 #' ols_step_backward_r2(model)
 #'
 #' # final model
+#' k <- ols_step_backward_aic(model)
 #' k$model
 #'
 #' # include or exclude variable
@@ -326,6 +327,7 @@ plot.ols_step_backward_r2 <- function(x, print_plot = TRUE, details = TRUE, digi
 #' ols_step_backward_adj_r2(model)
 #'
 #' # final model
+#' k <- ols_step_backward_aic(model)
 #' k$model
 #'
 #' # include or exclude variable

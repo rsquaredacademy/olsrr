@@ -58,6 +58,7 @@ model <- lm(y ~ ., data = surgical)
 ols_step_backward_adj_r2(model)
 
 # final model
+k <- ols_step_backward_aic(model)
 k$model
 
 # include or exclude variable
