@@ -256,11 +256,6 @@ plot.ols_step_backward_sbic <- function(x, print_plot = TRUE, details = TRUE, di
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_backward_r2(model)
 #'
-#' # stepwise backward regression plot
-#' model <- lm(y ~ ., data = surgical)
-#' k <- ols_step_backward_r2(model)
-#' plot(k)
-#'
 #' # final model
 #' k$model
 #'
@@ -329,11 +324,6 @@ plot.ols_step_backward_r2 <- function(x, print_plot = TRUE, details = TRUE, digi
 #' # stepwise backward regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_backward_adj_r2(model)
-#'
-#' # stepwise backward regression plot
-#' model <- lm(y ~ ., data = surgical)
-#' k <- ols_step_backward_adj_r2(model)
-#' plot(k)
 #'
 #' # final model
 #' k$model

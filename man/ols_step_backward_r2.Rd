@@ -57,11 +57,6 @@ no variable left to remove any more.
 model <- lm(y ~ ., data = surgical)
 ols_step_backward_r2(model)
 
-# stepwise backward regression plot
-model <- lm(y ~ ., data = surgical)
-k <- ols_step_backward_r2(model)
-plot(k)
-
 # final model
 k$model
 
