@@ -34,8 +34,6 @@
 #' Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 #' Prentice Hall
 #'
-#' @family variable selection procedures
-#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp, data = mtcars)
 #' k <- ols_step_all_possible(model)

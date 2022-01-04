@@ -1,9 +1,8 @@
-#' Stepwise IC forward regression
+#' Stepwise AIC forward regression
 #'
 #' @description
 #' Build regression model from a set of candidate predictor variables by
-#' entering predictors based on akaike information criterion, schwarz bayesian criterion,
-#' sawa bayesian criterion, r-squared or adjusted r-squared, in a stepwise
+#' entering predictors based on akaike information criterion, in a stepwise
 #' manner until there is no variable left to enter any more.
 #'
 #' @param model An object of class \code{lm}.
@@ -16,9 +15,8 @@
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param digits Number of decimal places to display.
 #' @param ... Other arguments.
-#' @return \code{ols_step_forward_*} returns an object of class \code{"ols_step_forward_*"}.
-#' An object of class \code{"ols_step_forward_*"} is a list containing the
-#' following components:
+#'
+#' @return List containing the following components:
 #'
 #' \item{model}{final model; an object of class \code{lm}}
 #' \item{metrics}{selection metrics}
@@ -58,7 +56,7 @@
 #' # use index of variable instead of name
 #' ols_step_forward_aic(model, include = c(5), exclude = c(4))
 #'
-#' @family variable selection procedures
+#' @family forward selection procedures
 #'
 #' @export
 #'
@@ -68,7 +66,7 @@ ols_step_forward_aic <- function(model, ...) UseMethod("ols_step_forward_aic")
 #' @rdname ols_step_forward_aic
 #'
 ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "aic", include, exclude, progress, details)  
+  out <- ols_step_forward(model, "aic", include, exclude, progress, details)
   class(out) <- "ols_step_forward_aic"
   return(out)
 }
@@ -98,16 +96,59 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, digi
 
 }
 
+#' Stepwise SBC forward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering predictors based on schwarz bayesian criterion, in a stepwise
+#' manner until there is no variable left to enter any more.
+#'
+#' @inheritParams ols_step_forward_aic
+#'
+#' @inherit ols_step_forward_aic return references
+#'
+#' @examples
+#' # stepwise forward regression
+#' model <- lm(y ~ ., data = surgical)
+#' ols_step_forward_sbc(model)
+#'
+#' # stepwise forward regression plot
+#' k <- ols_step_forward_sbc(model)
+#' plot(k)
+#'
+#' # extract final model
+#' k$model
+#'
+#' # include or exclude variables
+#' # force variable to be included in selection process
+#' ols_step_forward_sbc(model, include = c("age"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_sbc(model, include = c(5))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_forward_sbc(model, exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_sbc(model, exclude = c(4))
+#'
+#' # include & exclude variables in the selection process
+#' ols_step_forward_sbc(model, include = c("age"), exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_sbc(model, include = c(5), exclude = c(4))
+#'
+#' @family forward selection procedures
+#'
 #' @export
-#' @rdname ols_step_forward_aic
 #'
 ols_step_forward_sbc <- function(model, ...) UseMethod("ols_step_forward_sbc")
 
+#' @rdname ols_step_forward_sbc
 #' @export
-#' @rdname ols_step_forward_aic
 #'
 ols_step_forward_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "sbc", include, exclude, progress, details)  
+  out <- ols_step_forward(model, "sbc", include, exclude, progress, details)
   class(out) <- "ols_step_forward_sbc"
   return(out)
 }
@@ -122,7 +163,7 @@ print.ols_step_forward_sbc <- function(x, ...) {
   }
 }
 
-#' @rdname ols_step_forward_aic
+#' @rdname ols_step_forward_sbc
 #' @export
 #'
 plot.ols_step_forward_sbc <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
@@ -134,16 +175,58 @@ plot.ols_step_forward_sbc <- function(x, print_plot = TRUE, details = TRUE, digi
   }
 }
 
+#' Stepwise SBIC forward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering predictors based on sawa bayesian criterion, in a stepwise
+#' manner until there is no variable left to enter any more.
+#'
+#' @inheritParams ols_step_forward_aic
+#' @inherit ols_step_forward_aic return references
+#'
+#' @examples
+#' # stepwise forward regression
+#' model <- lm(y ~ ., data = surgical)
+#' ols_step_forward_sbic(model)
+#'
+#' # stepwise forward regression plot
+#' k <- ols_step_forward_sbic(model)
+#' plot(k)
+#'
+#' # extract final model
+#' k$model
+#'
+#' # include or exclude variables
+#' # force variable to be included in selection process
+#' ols_step_forward_sbic(model, include = c("age"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_sbic(model, include = c(5))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_forward_sbic(model, exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_sbic(model, exclude = c(4))
+#'
+#' # include & exclude variables in the selection process
+#' ols_step_forward_sbic(model, include = c("age"), exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_sbic(model, include = c(5), exclude = c(4))
+#'
+#' @family forward selection procedures
+#'
 #' @export
-#' @rdname ols_step_forward_aic
 #'
 ols_step_forward_sbic <- function(model, ...) UseMethod("ols_step_forward_sbic")
 
 #' @export
-#' @rdname ols_step_forward_aic
+#' @rdname ols_step_forward_sbic
 #'
 ols_step_forward_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "sbic", include, exclude, progress, details)  
+  out <- ols_step_forward(model, "sbic", include, exclude, progress, details)
   class(out) <- "ols_step_forward_sbic"
   return(out)
 }
@@ -158,7 +241,7 @@ print.ols_step_forward_sbic <- function(x, ...) {
   }
 }
 
-#' @rdname ols_step_forward_aic
+#' @rdname ols_step_forward_sbic
 #' @export
 #'
 plot.ols_step_forward_sbic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
@@ -170,16 +253,58 @@ plot.ols_step_forward_sbic <- function(x, print_plot = TRUE, details = TRUE, dig
   }
 }
 
+#' Stepwise R-Squared forward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering predictors based on r-squared, in a stepwise manner until there
+#' is no variable left to enter any more.
+#'
+#' @inheritParams ols_step_forward_aic
+#' @inherit ols_step_forward_aic return references
+#'
+#' @examples
+#' # stepwise forward regression
+#' model <- lm(y ~ ., data = surgical)
+#' ols_step_forward_r2(model)
+#'
+#' # stepwise forward regression plot
+#' k <- ols_step_forward_r2(model)
+#' plot(k)
+#'
+#' # extract final model
+#' k$model
+#'
+#' # include or exclude variables
+#' # force variable to be included in selection process
+#' ols_step_forward_r2(model, include = c("age"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_r2(model, include = c(5))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_forward_r2(model, exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_r2(model, exclude = c(4))
+#'
+#' # include & exclude variables in the selection process
+#' ols_step_forward_r2(model, include = c("age"), exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_r2(model, include = c(5), exclude = c(4))
+#'
+#' @family forward selection procedures
+#'
 #' @export
-#' @rdname ols_step_forward_aic
 #'
 ols_step_forward_r2 <- function(model, ...) UseMethod("ols_step_forward_r2")
 
+#' @rdname ols_step_forward_r2
 #' @export
-#' @rdname ols_step_forward_aic
 #'
 ols_step_forward_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "rsq", include, exclude, progress, details)  
+  out <- ols_step_forward(model, "rsq", include, exclude, progress, details)
   class(out) <- "ols_step_forward_r2"
   return(out)
 }
@@ -194,7 +319,7 @@ print.ols_step_forward_r2 <- function(x, ...) {
   }
 }
 
-#' @rdname ols_step_forward_aic
+#' @rdname ols_step_forward_r2
 #' @export
 #'
 plot.ols_step_forward_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
@@ -206,16 +331,58 @@ plot.ols_step_forward_r2 <- function(x, print_plot = TRUE, details = TRUE, digit
   }
 }
 
+#' Stepwise Adjusted R-Squared forward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' entering predictors based on adjusted r-squared, in a stepwise
+#' manner until there is no variable left to enter any more.
+#'
+#' @inheritParams ols_step_forward_aic
+#' @inherit ols_step_forward_aic return references
+#'
+#' @examples
+#' # stepwise forward regression
+#' model <- lm(y ~ ., data = surgical)
+#' ols_step_forward_adj_r2(model)
+#'
+#' # stepwise forward regression plot
+#' k <- ols_step_forward_adj_r2(model)
+#' plot(k)
+#'
+#' # extract final model
+#' k$model
+#'
+#' # include or exclude variables
+#' # force variable to be included in selection process
+#' ols_step_forward_adj_r2(model, include = c("age"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_adj_r2(model, include = c(5))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_forward_adj_r2(model, exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_adj_r2(model, exclude = c(4))
+#'
+#' # include & exclude variables in the selection process
+#' ols_step_forward_adj_r2(model, include = c("age"), exclude = c("liver_test"))
+#'
+#' # use index of variable instead of name
+#' ols_step_forward_adj_r2(model, include = c(5), exclude = c(4))
+#'
+#' @family forward selection procedures
+#'
 #' @export
-#' @rdname ols_step_forward_aic
 #'
 ols_step_forward_adj_r2 <- function(model, ...) UseMethod("ols_step_forward_adj_r2")
 
+#' @rdname ols_step_forward_adj_r2
 #' @export
-#' @rdname ols_step_forward_aic
 #'
 ols_step_forward_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "adjrsq", include, exclude, progress, details)  
+  out <- ols_step_forward(model, "adjrsq", include, exclude, progress, details)
   class(out) <- "ols_step_forward_adj_r2"
   return(out)
 }
@@ -230,7 +397,7 @@ print.ols_step_forward_adj_r2 <- function(x, ...) {
   }
 }
 
-#' @rdname ols_step_forward_aic
+#' @rdname ols_step_forward_adj_r2
 #' @export
 #'
 plot.ols_step_forward_adj_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {

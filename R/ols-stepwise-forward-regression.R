@@ -78,7 +78,7 @@
 #' @importFrom stats qt
 #' @importFrom car Anova
 #'
-#' @family variable selection procedures
+#' @family forward selection procedures
 #'
 #' @export
 #'

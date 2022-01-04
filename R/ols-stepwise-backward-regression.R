@@ -72,7 +72,7 @@
 #' # final model
 #' k$model
 #'
-#' @family variable selection procedures
+#' @family backward selection procedures
 #'
 #' @export
 #'

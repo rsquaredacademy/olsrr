@@ -94,4 +94,4 @@ ols_step_both_p(model, exclude = c(1))
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
-\concept{variable selection_procedures}
+\concept{both direction selection_procedures}

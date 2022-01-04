@@ -60,7 +60,7 @@
 #' ols_step_both_p(model, exclude = c(1))
 #' }
 #'
-#' @family variable selection_procedures
+#' @family both direction selection_procedures
 #'
 #' @export
 #'
