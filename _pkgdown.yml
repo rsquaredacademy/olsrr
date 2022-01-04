@@ -61,29 +61,57 @@ reference:
   contents:
   - ols_regress
 
-- title: Variable Selection Procedures
+- title: All Possible Regression
 
   contents:
   - ols_step_all_possible
   - ols_step_all_possible_betas
+
+- title: Best Subset Regression
+
+  contents:
   - ols_step_best_subset
-  - ols_step_backward_p
-  - ols_step_forward_p
-  - ols_step_both_p
-  - ols_step_backward_aic
+
+- title: Forward Selection
+
+  contents:
   - ols_step_forward_aic
+  - ols_step_forward_sbc
+  - ols_step_forward_sbic
+  - ols_step_forward_r2
+  - ols_step_forward_adj_r2
+  - ols_step_forward_p
+  
+- title: Backward Selection
+
+  contents:
+  - ols_step_backward_aic
+  - ols_step_backward_sbc
+  - ols_step_backward_sbic
+  - ols_step_backward_r2
+  - ols_step_backward_adj_r2
+  - ols_step_backward_p
+
+- title: Both Direction Selection
+
+  contents:
   - ols_step_both_aic
+  - ols_step_both_sbc
+  - ols_step_both_sbic
+  - ols_step_both_r2
+  - ols_step_both_adj_r2
+  - ols_step_both_p
 
 - title: Residual Diagnostics
 
   contents:
-  - ols_plot_resid_qq
-  - ols_plot_resid_hist
   - ols_plot_resid_box
-  - ols_test_normality
-  - ols_test_correlation
   - ols_plot_resid_fit
-
+  - ols_plot_resid_hist
+  - ols_plot_resid_qq
+  - ols_test_correlation
+  - ols_test_normality
+  
 - title: Heteroskedasticity
 
   contents:
