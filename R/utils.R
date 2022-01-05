@@ -71,6 +71,8 @@ null_model_metrics <- function(model) {
   output <- summary(model)
   anovam <- anova(model)
   aic    <- ols_aic(model)
+  sbc    <- ols_sbc(model)
+  sbic   <- ols_sbic(model, model)
   n      <- length(anovam$Df)
   ess    <- anovam$`Sum Sq`[n]
   tss    <- sum(anovam$`Sum Sq`)
@@ -81,6 +83,8 @@ null_model_metrics <- function(model) {
   
   list(adjr = adjr,
        aic  = aic,
+       sbc  = sbc, 
+       sbic = sbic,
        ess  = ess,
        rsq  = rsq,
        rss  = rss,

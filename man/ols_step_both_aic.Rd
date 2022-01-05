@@ -17,7 +17,7 @@ ols_step_both_aic(model, ...)
   ...
 )
 
-\method{plot}{ols_step_both_aic}(x, print_plot = TRUE, details = TRUE, ...)
+\method{plot}{ols_step_both_aic}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -33,17 +33,18 @@ ols_step_both_aic(model, ...)
 \item{details}{Logical; if \code{TRUE}, details of variable selection will
 be printed on screen.}
 
-\item{x}{An object of class \code{ols_step_both_aic}.}
+\item{x}{An object of class \code{ols_step_both_*}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
+
+\item{digits}{Number of decimal places to display.}
 }
 \value{
-\code{ols_step_both_aic} returns an object of class \code{"ols_step_both_aic"}.
-An object of class \code{"ols_step_both_aic"} is a list containing the
-following components:
+List containing the following components:
 
 \item{model}{final model; an object of class \code{lm}}
 \item{metrics}{selection metrics}
+\item{others}{list; info used for plotting and printing}
 }
 \description{
 Build regression model from a set of candidate predictor variables by
@@ -91,13 +92,10 @@ ols_step_both_aic(model, include = c(6), exclude = c(2))
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 }
 \seealso{
-Other variable selection procedures: 
-\code{\link{ols_step_all_possible}()},
-\code{\link{ols_step_backward_aic}()},
-\code{\link{ols_step_backward_p}()},
-\code{\link{ols_step_best_subset}()},
-\code{\link{ols_step_forward_aic}()},
-\code{\link{ols_step_forward_p}()},
-\code{\link{ols_step_rsquared}()}
+Other both direction selection procedures: 
+\code{\link{ols_step_both_adj_r2}()},
+\code{\link{ols_step_both_r2}()},
+\code{\link{ols_step_both_sbc}()},
+\code{\link{ols_step_both_sbic}()}
 }
-\concept{variable selection procedures}
+\concept{both direction selection procedures}

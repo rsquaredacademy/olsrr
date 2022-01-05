@@ -31,6 +31,7 @@
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
 #' @examples
+#' \dontrun{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_both_p(model)
@@ -57,8 +58,9 @@
 #'
 #' # use index of variable instead of name
 #' ols_step_both_p(model, exclude = c(1))
+#' }
 #'
-#' @family variable selection_procedures
+#' @family both direction selection_procedures
 #'
 #' @export
 #'

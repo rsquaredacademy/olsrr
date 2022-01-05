@@ -61,6 +61,7 @@ entering and removing predictors based on p values, in a stepwise manner
 until there is no variable left to enter or remove any more.
 }
 \examples{
+\dontrun{
 # stepwise regression
 model <- lm(y ~ ., data = surgical)
 ols_step_both_p(model)
@@ -87,9 +88,10 @@ ols_step_both_p(model, exclude = c("x1"))
 
 # use index of variable instead of name
 ols_step_both_p(model, exclude = c(1))
+}
 
 }
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
-\concept{variable selection_procedures}
+\concept{both direction selection_procedures}

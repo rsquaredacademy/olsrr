@@ -7,6 +7,8 @@
 #' @param method A character vector; specify the method to compute AIC. Valid
 #'   options include R, STATA and SAS.
 #'
+#' @param corrected Logical; if \code{TRUE}, returns corrected akaike information criterion for SAS method.
+#'
 #' @details
 #' AIC provides a means for model selection. Given a collection of models for
 #' the data, AIC estimates the quality of each model, relative to each of the
@@ -18,6 +20,9 @@
 #'
 #' \emph{SAS}
 #' \deqn{AIC = n * ln(SSE / n) + 2p}
+#'
+#' \emph{corrected}
+#' \deqn{AIC = n * ln(SSE / n) + ((n * (n + p)) / (n - p - 2))}
 #'
 #' where \emph{n} is the sample size and \emph{p} is the number of model parameters including intercept.
 #'
@@ -43,17 +48,26 @@
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_aic(model, method = 'SAS')
 #'
+#' # corrected akaike information criterion
+#' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+#' ols_aic(model, method = 'SAS', corrected = TRUE)
+#'
 #' @family model selection criteria
 #'
 #' @importFrom stats logLik
 #'
 #' @export
 #'
-ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
+ols_aic <- function(model, method = c("R", "STATA", "SAS"), corrected = FALSE) {
 
   check_model(model)
 
   method <- match.arg(method)
+
+  if (method != "SAS") {
+    corrected <- FALSE
+  }
+
   n      <- model_rows(model)
   p      <- model_n_coeffs(model)
 
@@ -70,8 +84,13 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS")) {
   } else {
 
     sse <- model_rss(model)
-    n * log(sse / n) + 2 * p
 
+    if (corrected) {
+      (n * log(sse / n)) + ((n * (n + p)) / (n - p - 2))
+    } else {
+      (n * log(sse / n)) + (2 * p)
+    }
+    
   } 
 
 }

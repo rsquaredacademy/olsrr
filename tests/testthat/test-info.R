@@ -4,6 +4,7 @@ test_that("aic output matches expected result", {
   expect_equal(ols_aic(fullmodel, method = "R"), AIC(fullmodel))
   expect_equal(ols_aic(fullmodel, method = "STATA"), 63.83669)
   expect_equal(round(ols_aic(fullmodel, method = "SAS"), 3), 26.944)
+  expect_equal(round(ols_aic(fullmodel, method = "SAS", TRUE), 3), 55.944)
 
   model <- lm(y ~ x1 + x2 + x4, data = cement)
   expect_equal(ols_aic(model, method = "R"), AIC(model))

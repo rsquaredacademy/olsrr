@@ -17,7 +17,7 @@ ols_step_forward_aic(model, ...)
   ...
 )
 
-\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, details = TRUE, ...)
+\method{plot}{ols_step_forward_aic}(x, print_plot = TRUE, details = TRUE, digits = 3, ...)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
@@ -33,14 +33,14 @@ ols_step_forward_aic(model, ...)
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}
 
-\item{x}{An object of class \code{ols_step_forward_aic}.}
+\item{x}{An object of class \code{ols_step_forward_*}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
+
+\item{digits}{Number of decimal places to display.}
 }
 \value{
-\code{ols_step_forward_aic} returns an object of class \code{"ols_step_forward_aic"}.
-An object of class \code{"ols_step_forward_aic"} is a list containing the
-following components:
+List containing the following components:
 
 \item{model}{final model; an object of class \code{lm}}
 \item{metrics}{selection metrics}
@@ -87,13 +87,11 @@ ols_step_forward_aic(model, include = c(5), exclude = c(4))
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 }
 \seealso{
-Other variable selection procedures: 
-\code{\link{ols_step_all_possible}()},
-\code{\link{ols_step_backward_aic}()},
-\code{\link{ols_step_backward_p}()},
-\code{\link{ols_step_best_subset}()},
-\code{\link{ols_step_both_aic}()},
+Other forward selection procedures: 
+\code{\link{ols_step_forward_adj_r2}()},
 \code{\link{ols_step_forward_p}()},
-\code{\link{ols_step_rsquared}()}
+\code{\link{ols_step_forward_r2}()},
+\code{\link{ols_step_forward_sbc}()},
+\code{\link{ols_step_forward_sbic}()}
 }
-\concept{variable selection procedures}
+\concept{forward selection procedures}

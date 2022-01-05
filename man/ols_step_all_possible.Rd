@@ -57,14 +57,3 @@ plot(k)
 Mendenhall William and  Sinsich Terry, 2012, A Second Course in Statistics Regression Analysis (7th edition).
 Prentice Hall
 }
-\seealso{
-Other variable selection procedures: 
-\code{\link{ols_step_backward_aic}()},
-\code{\link{ols_step_backward_p}()},
-\code{\link{ols_step_best_subset}()},
-\code{\link{ols_step_both_aic}()},
-\code{\link{ols_step_forward_aic}()},
-\code{\link{ols_step_forward_p}()},
-\code{\link{ols_step_rsquared}()}
-}
-\concept{variable selection procedures}

@@ -294,10 +294,10 @@ test_that("rsquared forward regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = stepdata)
   
-  p1 <- plot(ols_step_rsquared(model), print_plot = FALSE)
+  p1 <- plot(ols_step_forward_r2(model), print_plot = FALSE)
   vdiffr::expect_doppelganger("rsquared forward regression plot details", p1$plot)
 
-  p2 <- plot(ols_step_rsquared(model), details = FALSE, print_plot = FALSE)
+  p2 <- plot(ols_step_forward_r2(model), details = FALSE, print_plot = FALSE)
   vdiffr::expect_doppelganger("rsquared forward regression plot", p2$plot)
 })
 
@@ -305,10 +305,10 @@ test_that("adjusted rsquared forward regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = stepdata)
   
-  p1 <- plot(ols_step_rsquared(model, "adj_r2"), print_plot = FALSE)
+  p1 <- plot(ols_step_forward_adj_r2(model), print_plot = FALSE)
   vdiffr::expect_doppelganger("adjusted rsquared forward regression plot details", p1$plot)
 
-  p2 <- plot(ols_step_rsquared(model, "adj_r2"), details = FALSE, print_plot = FALSE)
+  p2 <- plot(ols_step_forward_adj_r2(model), details = FALSE, print_plot = FALSE)
   vdiffr::expect_doppelganger("adjusted rsquared forward regression plot", p2$plot)
 })
 
@@ -316,10 +316,10 @@ test_that("adjusted rsquared backward regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = stepdata)
   
-  p1 <- plot(ols_step_rsquared(model, "adj_r2", "backward"), print_plot = FALSE)
+  p1 <- plot(ols_step_backward_adj_r2(model), print_plot = FALSE)
   vdiffr::expect_doppelganger("adjusted rsquared backward regression plot details", p1$plot)
 
-  p2 <- plot(ols_step_rsquared(model, "adj_r2", "backward"), details = FALSE, print_plot = FALSE)
+  p2 <- plot(ols_step_backward_adj_r2(model), details = FALSE, print_plot = FALSE)
   vdiffr::expect_doppelganger("adjusted rsquared backward regression plot", p2$plot)
 })
 
@@ -327,10 +327,10 @@ test_that("rsquared both direction regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = stepdata)
   
-  p1 <- plot(ols_step_rsquared(model, direction = "both"), print_plot = FALSE)
+  p1 <- plot(ols_step_both_r2(model), print_plot = FALSE)
   vdiffr::expect_doppelganger("rsquared both direction regression plot details", p1$plot)
 
-  p2 <- plot(ols_step_rsquared(model, direction = "both"), details = FALSE, print_plot = FALSE)
+  p2 <- plot(ols_step_both_r2(model), details = FALSE, print_plot = FALSE)
   vdiffr::expect_doppelganger("rsquared both direction regression plot", p2$plot)
 })
 
@@ -338,9 +338,75 @@ test_that("adjusted rsquared both direction regression plot is as expected", {
   skip_on_cran()
   model <- lm(y ~ ., data = stepdata)
   
-  p1 <- plot(ols_step_rsquared(model, "adj_r2", direction = "both"), print_plot = FALSE)
+  p1 <- plot(ols_step_both_adj_r2(model), print_plot = FALSE)
   vdiffr::expect_doppelganger("adjusted rsquared both direction regression plot details", p1$plot)
 
-  p2 <- plot(ols_step_rsquared(model, "adj_r2", direction = "both"), details = FALSE, print_plot = FALSE)
+  p2 <- plot(ols_step_both_adj_r2(model), details = FALSE, print_plot = FALSE)
   vdiffr::expect_doppelganger("adjusted rsquared both direction regression plot", p2$plot)
+})
+
+test_that("sbc forward regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_forward_sbc(model), print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbc forward regression plot details", p1$plot)
+
+  p2 <- plot(ols_step_forward_sbc(model), details = FALSE, print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbc forward regression plot", p2$plot)
+})
+
+test_that("sbc backward regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_backward_sbc(model), print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbc backward regression plot details", p1$plot)
+
+  p2 <- plot(ols_step_backward_sbc(model), details = FALSE, print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbc backward regression plot", p2$plot)
+})
+
+test_that("sbc both direction regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_both_sbc(model), print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbc both direction regression plot details", p1$plot)
+
+  p2 <- plot(ols_step_both_sbc(model), details = FALSE, print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbc both direction regression plot", p2$plot)
+})
+
+test_that("sbic forward regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_forward_sbic(model), print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbic forward regression plot details", p1$plot)
+
+  p2 <- plot(ols_step_forward_sbic(model), details = FALSE, print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbic forward regression plot", p2$plot)
+})
+
+test_that("sbic backward regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_backward_sbic(model), print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbic backward regression plot details", p1$plot)
+
+  p2 <- plot(ols_step_backward_sbic(model), details = FALSE, print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbic backward regression plot", p2$plot)
+})
+
+test_that("sbic both direction regression plot is as expected", {
+  skip_on_cran()
+  model <- lm(y ~ ., data = stepdata)
+  
+  p1 <- plot(ols_step_both_sbic(model), print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbc both direction regression plot details", p1$plot)
+
+  p2 <- plot(ols_step_both_sbic(model), details = FALSE, print_plot = FALSE)
+  vdiffr::expect_doppelganger("sbc both direction regression plot", p2$plot)
 })

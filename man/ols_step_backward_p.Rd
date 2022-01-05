@@ -106,13 +106,11 @@ k$model
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
 \seealso{
-Other variable selection procedures: 
-\code{\link{ols_step_all_possible}()},
+Other backward selection procedures: 
+\code{\link{ols_step_backward_adj_r2}()},
 \code{\link{ols_step_backward_aic}()},
-\code{\link{ols_step_best_subset}()},
-\code{\link{ols_step_both_aic}()},
-\code{\link{ols_step_forward_aic}()},
-\code{\link{ols_step_forward_p}()},
-\code{\link{ols_step_rsquared}()}
+\code{\link{ols_step_backward_r2}()},
+\code{\link{ols_step_backward_sbc}()},
+\code{\link{ols_step_backward_sbic}()}
 }
-\concept{variable selection procedures}
+\concept{backward selection procedures}

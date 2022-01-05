@@ -33,11 +33,11 @@
 <circle cx='374.88' cy='243.43' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='477.80' cy='131.92' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
 <circle cx='580.72' cy='94.29' r='2.49' style='stroke-width: 0.71; stroke: #0000FF;' />
-<text x='174.18' y='499.44' style='font-size: 8.54px; font-family: sans;' textLength='60.26px' lengthAdjust='spacingAndGlyphs'>[liver_test, 0.45]</text>
-<text x='277.10' y='362.17' style='font-size: 8.54px; font-family: sans;' textLength='64.55px' lengthAdjust='spacingAndGlyphs'>[alc_heavy, 0.57]</text>
-<text x='380.03' y='249.31' style='font-size: 8.54px; font-family: sans;' textLength='74.51px' lengthAdjust='spacingAndGlyphs'>[enzyme_test, 0.66]</text>
-<text x='482.95' y='137.80' style='font-size: 8.54px; font-family: sans;' textLength='51.26px' lengthAdjust='spacingAndGlyphs'>[pindex, 0.75]</text>
-<text x='585.87' y='100.17' style='font-size: 8.54px; font-family: sans;' textLength='39.39px' lengthAdjust='spacingAndGlyphs'>[bcs, 0.78]</text>
+<text x='174.18' y='499.44' style='font-size: 8.54px; font-family: sans;' textLength='65.01px' lengthAdjust='spacingAndGlyphs'>[liver_test, 0.455]</text>
+<text x='277.10' y='362.17' style='font-size: 8.54px; font-family: sans;' textLength='69.29px' lengthAdjust='spacingAndGlyphs'>[alc_heavy, 0.567]</text>
+<text x='380.03' y='249.31' style='font-size: 8.54px; font-family: sans;' textLength='79.26px' lengthAdjust='spacingAndGlyphs'>[enzyme_test, 0.659]</text>
+<text x='482.95' y='137.80' style='font-size: 8.54px; font-family: sans;' textLength='56.00px' lengthAdjust='spacingAndGlyphs'>[pindex, 0.750]</text>
+<text x='585.87' y='100.17' style='font-size: 8.54px; font-family: sans;' textLength='44.14px' lengthAdjust='spacingAndGlyphs'>[bcs, 0.781]</text>
 <text x='66.11' y='46.82' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='75.93px' lengthAdjust='spacingAndGlyphs'>Base Model  : 0.000</text>
 <text x='66.11' y='59.12' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='72.60px' lengthAdjust='spacingAndGlyphs'>Final Model : 0.781</text>
 <rect x='35.24' y='22.78' width='679.28' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />

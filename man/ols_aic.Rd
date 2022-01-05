@@ -4,13 +4,15 @@
 \alias{ols_aic}
 \title{Akaike information criterion}
 \usage{
-ols_aic(model, method = c("R", "STATA", "SAS"))
+ols_aic(model, method = c("R", "STATA", "SAS"), corrected = FALSE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
 \item{method}{A character vector; specify the method to compute AIC. Valid
 options include R, STATA and SAS.}
+
+\item{corrected}{Logical; if \code{TRUE}, returns corrected akaike information criterion for SAS method.}
 }
 \value{
 Akaike information criterion of the model.
@@ -30,6 +32,9 @@ sum of squares. Below is the formula in each case:
 \emph{SAS}
 \deqn{AIC = n * ln(SSE / n) + 2p}
 
+\emph{corrected}
+\deqn{AIC = n * ln(SSE / n) + ((n * (n + p)) / (n - p - 2))}
+
 where \emph{n} is the sample size and \emph{p} is the number of model parameters including intercept.
 }
 \examples{
@@ -44,6 +49,10 @@ ols_aic(model, method = 'STATA')
 # using SAS computation method
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_aic(model, method = 'SAS')
+
+# corrected akaike information criterion
+model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+ols_aic(model, method = 'SAS', corrected = TRUE)
 
 }
 \references{

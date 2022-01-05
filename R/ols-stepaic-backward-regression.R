@@ -12,13 +12,12 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
-#' @param x An object of class \code{ols_step_backward_aic}.
+#' @param x An object of class \code{ols_step_backward_*}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
+#' @param digits Number of decimal places to display.
 #' @param ... Other arguments.
 #'
-#' @return \code{ols_step_backward_aic} returns an object of class \code{"ols_step_backward_aic"}.
-#' An object of class \code{"ols_step_backward_aic"} is a list containing the
-#' following components:
+#' @return List containing the following components:
 #'
 #' \item{model}{final model; an object of class \code{lm}}
 #' \item{metrics}{selection metrics}
@@ -56,7 +55,7 @@
 #' @importFrom ggplot2 geom_text
 #' @importFrom utils tail
 #'
-#' @family variable selection procedures
+#' @family backward selection procedures
 #'
 #' @export
 #'
@@ -66,165 +65,8 @@ ols_step_backward_aic <- function(model, ...) UseMethod("ols_step_backward_aic")
 #' @rdname ols_step_backward_aic
 #'
 ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-
-  if (details) {
-    progress <- FALSE
-  }
-
-  check_inputs(model, include, exclude, progress, details)
-
-  response <- names(model$model)[1]
-  l        <- model$model
-  indterms <- coeff_names(model)
-  lenterms <- length(indterms)
-
-  if (is.numeric(include)) {
-    include <- indterms[include]
-  }
-
-  if (is.numeric(exclude)) {
-    exclude <- indterms[exclude]
-  }
-
-  nam   <- setdiff(indterms, exclude)
-  cterm <- setdiff(nam, include)
-  preds <- nam
-
-  if (progress || details) {
-    ols_candidate_terms(nam, "backward")
-  }
-    
-  aic_f <- ols_aic(model)
-  mi    <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-  laic  <- aic_f
-  lrss  <- mi$rss
-  less  <- mi$ess
-  lrsq  <- mi$rsq
-  larsq <- mi$adjr
-
-  if (details) {
-    ols_base_model_stats(response, preds, aic_f)
-  }
-
-  ilp   <- length(preds)
-  end   <- FALSE
-  step  <- 0
-  rpred <- c()
-  aics  <- c()
-  ess   <- c()
-  rss   <- c()
-  rsq   <- c()
-  arsq  <- c()
-
-  for (i in seq_len(ilp)) {
-
-    predictors <- preds[-i]
-
-    m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
-
-    aics[i] <- ols_aic(m$model)
-    ess[i]  <- m$ess
-    rss[i]  <- m$rss
-    rsq[i]  <- m$rsq
-    arsq[i] <- m$adjr
-  }
-
-  da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-  da2 <- da[order(da$aics), ]
-  da3 <- cbind(loc = order(aics), da2)
-
-  if (details) {
-    ols_stepwise_metrics(da2, "aic", predictors, aics, rss, ess, rsq, arsq)
-  }
-
-  linc <- length(include)
-
-  while (!end) {
-
-    for (i in seq_len(linc)) {
-      lnam <- which(da3$predictors == include[i])
-      da3 <- da3[-lnam, ]
-    }
-
-    minc <- da3$loc[1]
-
-    if (da3$aics[1] < aic_f) {
-
-      rpred <- c(rpred, preds[minc])
-      preds <- preds[-minc]
-      ilp   <- length(preds)
-      step  <- step + 1
-      aic_f <- aics[minc]
-
-      mi <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-
-      laic  <- c(laic, aic_f)
-      lrss  <- c(lrss, mi$rss)
-      less  <- c(less, mi$ess)
-      lrsq  <- c(lrsq, mi$rsq)
-      larsq <- c(larsq, mi$adjr)
-      aics  <- c()
-      ess   <- c()
-      rss   <- c()
-      rsq   <- c()
-      arsq  <- c()
-
-      if (progress) {
-        ols_progress_init("backward")
-        ols_progress_display(rpred, "others")
-      }
-
-      for (i in seq_len(ilp)) {
-
-        predictors <- preds[-i]
-
-        m <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
-
-        aics[i] <- ols_aic(m$model)
-        ess[i]  <- m$ess
-        rss[i]  <- m$rss
-        rsq[i]  <- m$rsq
-        arsq[i] <- m$adjr
-      }
-
-      da  <- data.frame(predictors = preds, aics = aics, ess = ess, rss = rss, rsq = rsq, arsq = arsq)
-      da2 <- da[order(da$aics), ]
-      da3 <- cbind(loc = order(aics), da2)
-
-      if (details) {
-        ols_stepwise_details(step, rpred, preds, response, aic_f, "removed")
-        ols_stepwise_metrics(da2, "aic", predictors, aics, rss, ess, rsq, arsq)
-      }
-    } else {
-      end <- TRUE
-      if (progress || details) {
-        ols_stepwise_break("backward")
-      }
-    }
-
-  }
-
-
-  if (details) {
-    ols_stepwise_vars(rpred, "backward")
-  }
-
-  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
-
-  metrics     <- data.frame(step     = seq_len(step),
-                            variable = rpred,
-                            r2       = tail(lrsq,  n = step),
-                            adj_r2   = tail(larsq, n = step),
-                            aic      = tail(laic,  n = step),
-                            rss      = tail(lrss,  n = step),
-                            ess      = tail(less,  n = step))
-
-  out <- list(metrics = metrics,
-              model   = final_model,
-              others  = list(full_model = model))
-
+  out <- ols_step_backward(model, "aic", include, exclude, progress, details)
   class(out) <- "ols_step_backward_aic"
-
   return(out)
 }
 
@@ -241,14 +83,299 @@ print.ols_step_backward_aic <- function(x, ...) {
 #' @rdname ols_step_backward_aic
 #' @export
 #'
-plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, ...) {
-
-  p <- ols_stepaic_plot(x, "backward", details)
-
+plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
   if (print_plot) {
     print(p)
   } else {
     return(p)
   }
+}
 
+#' Stepwise SBC backward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' removing predictors based on schwarz bayesian criterion, in a stepwise
+#' manner until there is no variable left to remove any more.
+#'
+#' @inheritParams ols_step_backward_aic
+#'
+#' @inherit ols_step_backward_aic return references
+#'
+#' @examples
+#' # stepwise backward regression
+#' model <- lm(y ~ ., data = surgical)
+#' ols_step_backward_sbc(model)
+#'
+#' # stepwise backward regression plot
+#' model <- lm(y ~ ., data = surgical)
+#' k <- ols_step_backward_sbc(model)
+#' plot(k)
+#'
+#' # final model
+#' k$model
+#'
+#' # include or exclude variable
+#' # force variables to be included in the selection process
+#' ols_step_backward_sbc(model, include = c("alc_mod", "gender"))
+#'
+#' # use index of variable instead of name
+#' ols_step_backward_sbc(model, include = c(7, 6))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_backward_sbc(model, exclude = c("alc_heavy", "bcs"))
+#'
+#' # use index of variable instead of name
+#' ols_step_backward_sbc(model, exclude = c(8, 1))
+#'
+#' @family backward selection procedures
+#'
+#' @export
+#'
+ols_step_backward_sbc <- function(model, ...) UseMethod("ols_step_backward_sbc")
+
+#' @export
+#' @rdname ols_step_backward_sbc
+#'
+ols_step_backward_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_backward(model, "sbc", include, exclude, progress, details)
+  class(out) <- "ols_step_backward_sbc"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_backward_sbc <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "backward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_backward_sbc
+#' @export
+#'
+plot.ols_step_backward_sbc <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' Stepwise SBIC backward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' removing predictors based on sawa bayesian criterion, in a stepwise
+#' manner until there is no variable left to remove any more.
+#'
+#' @inheritParams ols_step_backward_aic
+#'
+#' @inherit ols_step_backward_aic return references
+#'
+#' @examples
+#' # stepwise backward regression
+#' model <- lm(y ~ ., data = surgical)
+#' ols_step_backward_sbic(model)
+#'
+#' # stepwise backward regression plot
+#' model <- lm(y ~ ., data = surgical)
+#' k <- ols_step_backward_sbic(model)
+#' plot(k)
+#'
+#' # final model
+#' k$model
+#'
+#' # include or exclude variable
+#' # force variables to be included in the selection process
+#' ols_step_backward_sbic(model, include = c("alc_mod", "gender"))
+#'
+#' # use index of variable instead of name
+#' ols_step_backward_sbic(model, include = c(7, 6))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_backward_sbic(model, exclude = c("alc_heavy", "bcs"))
+#'
+#' # use index of variable instead of name
+#' ols_step_backward_sbic(model, exclude = c(8, 1))
+#'
+#' @family backward selection procedures
+#'
+#' @export
+#'
+ols_step_backward_sbic <- function(model, ...) UseMethod("ols_step_backward_sbic")
+
+#' @export
+#' @rdname ols_step_backward_sbic
+#'
+ols_step_backward_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_backward(model, "sbic", include, exclude, progress, details)
+  class(out) <- "ols_step_backward_sbic"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_backward_sbic <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "backward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_backward_sbic
+#' @export
+#'
+plot.ols_step_backward_sbic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' Stepwise R-Squared backward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' removing predictors based on r-squared, in a stepwise manner until there is
+#' no variable left to remove any more.
+#'
+#' @inheritParams ols_step_backward_aic
+#'
+#' @inherit ols_step_backward_aic return references
+#'
+#' @examples
+#' # stepwise backward regression
+#' model <- lm(y ~ ., data = surgical)
+#' ols_step_backward_r2(model)
+#'
+#' # final model
+#' k <- ols_step_backward_aic(model)
+#' k$model
+#'
+#' # include or exclude variable
+#' # force variables to be included in the selection process
+#' ols_step_backward_r2(model, include = c("alc_mod", "gender"))
+#'
+#' # use index of variable instead of name
+#' ols_step_backward_r2(model, include = c(7, 6))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_backward_r2(model, exclude = c("alc_heavy", "bcs"))
+#'
+#' # use index of variable instead of name
+#' ols_step_backward_r2(model, exclude = c(8, 1))
+#'
+#' @family backward selection procedures
+#'
+#' @export
+#'
+ols_step_backward_r2 <- function(model, ...) UseMethod("ols_step_backward_r2")
+
+#' @export
+#' @rdname ols_step_backward_r2
+#'
+ols_step_backward_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_backward(model, "rsq", include, exclude, progress, details)
+  class(out) <- "ols_step_backward_r2"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_backward_r2 <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "backward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_backward_r2
+#' @export
+#'
+plot.ols_step_backward_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
+}
+
+#' Stepwise Adjusted R-Squared backward regression
+#'
+#' @description
+#' Build regression model from a set of candidate predictor variables by
+#' removing predictors based on adjusted r-squared, in a stepwise
+#' manner until there is no variable left to remove any more.
+#'
+#' @inheritParams ols_step_backward_aic
+#'
+#' @inherit ols_step_backward_aic return references
+#'
+#' @examples
+#' # stepwise backward regression
+#' model <- lm(y ~ ., data = surgical)
+#' ols_step_backward_adj_r2(model)
+#'
+#' # final model
+#' k <- ols_step_backward_aic(model)
+#' k$model
+#'
+#' # include or exclude variable
+#' # force variables to be included in the selection process
+#' ols_step_backward_adj_r2(model, include = c("alc_mod", "gender"))
+#'
+#' # use index of variable instead of name
+#' ols_step_backward_adj_r2(model, include = c(7, 6))
+#'
+#' # force variable to be excluded from selection process
+#' ols_step_backward_adj_r2(model, exclude = c("alc_heavy", "bcs"))
+#'
+#' # use index of variable instead of name
+#' ols_step_backward_adj_r2(model, exclude = c(8, 1))
+#'
+#' @family backward selection procedures
+#'
+#' @export
+#'
+ols_step_backward_adj_r2 <- function(model, ...) UseMethod("ols_step_backward_adj_r2")
+
+#' @export
+#' @rdname ols_step_backward_adj_r2
+#'
+ols_step_backward_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+  out <- ols_step_backward(model, "adjrsq", include, exclude, progress, details)
+  class(out) <- "ols_step_backward_adj_r2"
+  return(out)
+}
+
+#' @export
+#'
+print.ols_step_backward_adj_r2 <- function(x, ...) {
+  if (length(x$metrics$step) > 0) {
+    print_step_output(x, "backward")
+  } else {
+    print("No variables have been removed from the model.")
+  }
+}
+
+#' @rdname ols_step_backward_adj_r2
+#' @export
+#'
+plot.ols_step_backward_adj_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  p <- ols_stepaic_plot(x, details, digits)
+  if (print_plot) {
+    print(p)
+  } else {
+    return(p)
+  }
 }
