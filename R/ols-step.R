@@ -594,7 +594,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
         da <- data.frame(predictors = preds[len_inc: lpreds], aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
 
         if (details) {
-          ols_stepwise_metrics(da, criteria, predictors, aics, bics, sbics, rsq, arsq, "remove")
+          ols_stepwise_metrics(da, criteria, da$predictors, aics, bics, sbics, rsq, arsq, "remove")
         }
 
         mat  <- switch(criteria,

@@ -218,7 +218,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
 
       if (details) {
         rsq1   <- tail(rsq, n = 1)
-        ols_stepwise_details(step, preds, rpred, response, rsq1, "removed", "R-Squared")
+        ols_stepwise_details(step, preds, rpred, response, rsq1, "removed", "rsq")
       }
 
     } else {
