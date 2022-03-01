@@ -10,11 +10,11 @@
       Step    Variable         AIC        SBC       SBIC        R2       Adj. R2 
       --------------------------------------------------------------------------
        0      Base Model     802.606    806.584    649.398    0.00000    0.00000 
-       1      liver_test     771.875         NA    616.009    0.45454    0.44405 
-       2      alc_heavy      761.439         NA    605.506    0.56674    0.54975 
-       3      enzyme_test    750.509         NA    595.297    0.65900    0.63854 
-       4      pindex         735.715         NA    582.943    0.75015    0.72975 
-       5      bcs            730.620         NA    579.638    0.78091    0.75808 
+       1      liver_test     771.875    777.842    616.009    0.45454    0.44405 
+       2      alc_heavy      761.439    769.395    605.506    0.56674    0.54975 
+       3      enzyme_test    750.509    760.454    595.297    0.65900    0.63854 
+       4      pindex         735.715    747.649    582.943    0.75015    0.72975 
+       5      bcs            730.620    744.543    579.638    0.78091    0.75808 
       --------------------------------------------------------------------------
       
       Final Model Output 
@@ -90,11 +90,11 @@
       Step    Variable         AIC        SBC       SBIC        R2       Adj. R2 
       --------------------------------------------------------------------------
        0      Base Model     802.606    806.584    649.398    0.00000    0.00000 
-       1      liver_test     771.875         NA    616.009    0.45454    0.44405 
-       2      alc_heavy      761.439         NA    605.506    0.56674    0.54975 
-       3      enzyme_test    750.509         NA    595.297    0.65900    0.63854 
-       4      pindex         735.715         NA    582.943    0.75015    0.72975 
-       5      bcs            730.620         NA    579.638    0.78091    0.75808 
+       1      liver_test     771.875    777.842    616.009    0.45454    0.44405 
+       2      alc_heavy      761.439    769.395    605.506    0.56674    0.54975 
+       3      enzyme_test    750.509    760.454    595.297    0.65900    0.63854 
+       4      pindex         735.715    747.649    582.943    0.75015    0.72975 
+       5      bcs            730.620    744.543    579.638    0.78091    0.75808 
       --------------------------------------------------------------------------
       
       Final Model Output 
@@ -154,9 +154,9 @@
       8. alc_heavy 
       
       
-      Step      => 0 
-      Model     => y ~ 1 
-      R-Squared => 0 
+      Step   => 0 
+      Model  => y ~ 1 
+      R2     => 0 
       
       Initiating stepwise selection... 
       
@@ -177,7 +177,7 @@
       Step      => 1 
       Selected  => liver_test 
       Model     => y ~ liver_test 
-      R-Squared => 0.455 
+      R2        => 0.455 
       
                            Selection Metrics Table                      
       -----------------------------------------------------------------
@@ -195,7 +195,7 @@
       Step      => 2 
       Selected  => alc_heavy 
       Model     => y ~ liver_test + alc_heavy 
-      R-Squared => 0.567 
+      R2        => 0.567 
       
                            Selection Metrics Table                      
       -----------------------------------------------------------------
@@ -212,7 +212,7 @@
       Step      => 3 
       Selected  => enzyme_test 
       Model     => y ~ liver_test + alc_heavy + enzyme_test 
-      R-Squared => 0.659 
+      R2        => 0.659 
       
                           Selection Metrics Table                     
       ---------------------------------------------------------------
@@ -228,7 +228,7 @@
       Step      => 4 
       Selected  => pindex 
       Model     => y ~ liver_test + alc_heavy + enzyme_test + pindex 
-      R-Squared => 0.75 
+      R2        => 0.75 
       
                           Selection Metrics Table                     
       ---------------------------------------------------------------
@@ -243,7 +243,7 @@
       Step      => 5 
       Selected  => bcs 
       Model     => y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs 
-      R-Squared => 0.781 
+      R2        => 0.781 
       
                           Selection Metrics Table                     
       ---------------------------------------------------------------
@@ -271,11 +271,11 @@
       Step    Variable         AIC        SBC       SBIC        R2       Adj. R2 
       --------------------------------------------------------------------------
        0      Base Model     802.606    806.584    649.398    0.00000    0.00000 
-       1      liver_test     771.875         NA    616.009    0.45454    0.44405 
-       2      alc_heavy      761.439         NA    605.506    0.56674    0.54975 
-       3      enzyme_test    750.509         NA    595.297    0.65900    0.63854 
-       4      pindex         735.715         NA    582.943    0.75015    0.72975 
-       5      bcs            730.620         NA    579.638    0.78091    0.75808 
+       1      liver_test     771.875    777.842    616.009    0.45454    0.44405 
+       2      alc_heavy      761.439    769.395    605.506    0.56674    0.54975 
+       3      enzyme_test    750.509    760.454    595.297    0.65900    0.63854 
+       4      pindex         735.715    747.649    582.943    0.75015    0.72975 
+       5      bcs            730.620    744.543    579.638    0.78091    0.75808 
       --------------------------------------------------------------------------
       
       Final Model Output 
@@ -466,9 +466,9 @@
       8. alc_mod 
       
       
-      Step      => 0 
-      Model     => y ~ 1 
-      R-Squared => 0 
+      Step   => 0 
+      Model  => y ~ 1 
+      R2     => 0 
       
       Initiating stepwise selection... 
       
@@ -482,7 +482,7 @@
       Step      => 1 
       Selected  => bcs 
       Model     => y ~ bcs 
-      R-Squared => 0.12 
+      R2        => 0.12 
       
                           Selection Metrics Table                     
       ---------------------------------------------------------------
@@ -495,7 +495,7 @@
       Step      => 2 
       Selected  => alc_heavy 
       Model     => y ~ bcs + alc_heavy 
-      R-Squared => 0.241 
+      R2        => 0.241 
       
                           Selection Metrics Table                     
       ---------------------------------------------------------------
@@ -509,7 +509,7 @@
       Step      => 3 
       Selected  => pindex 
       Model     => y ~ bcs + alc_heavy + pindex 
-      R-Squared => 0.427 
+      R2        => 0.427 
       
                            Selection Metrics Table                      
       -----------------------------------------------------------------
@@ -524,7 +524,7 @@
       Step      => 4 
       Selected  => enzyme_test 
       Model     => y ~ bcs + alc_heavy + pindex + enzyme_test 
-      R-Squared => 0.771 
+      R2        => 0.771 
       
                            Selection Metrics Table                      
       -----------------------------------------------------------------

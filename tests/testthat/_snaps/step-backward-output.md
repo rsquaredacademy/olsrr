@@ -148,26 +148,26 @@
       8. alc_heavy 
       
       
-      Step      => 0 
-      Model     => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy 
-      R-Squared => 0.782 
+      Step   => 0 
+      Model  => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_mod + alc_heavy 
+      R2     => 0.782 
       
       Initiating stepwise selection... 
       
       Step     => 1 
       Removed  => alc_mod 
       Model    => y ~ bcs + pindex + enzyme_test + liver_test + age + gender + alc_heavy 
-        => 0.78177 
+      R2       => 0.78177 
       
       Step     => 2 
       Removed  => gender 
       Model    => y ~ bcs + pindex + enzyme_test + liver_test + age + alc_heavy 
-        => 0.78142 
+      R2       => 0.78142 
       
       Step     => 3 
       Removed  => age 
       Model    => y ~ bcs + pindex + enzyme_test + liver_test + alc_heavy 
-        => 0.78091 
+      R2       => 0.78091 
       
       
       No more variables to be removed.
@@ -376,9 +376,9 @@
       8. alc_mod 
       
       
-      Step      => 0 
-      Model     => y ~ 1 
-      R-Squared => 0.782 
+      Step   => 0 
+      Model  => y ~ 1 
+      R2     => 0.782 
       
       Initiating stepwise selection... 
       
@@ -399,7 +399,7 @@
       Step     => 1 
       Removed  => alc_mod 
       Model    => y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender 
-        => 0.78177 
+      R2       => 0.78177 
       
         Significance Table    
       -----------------------
@@ -417,7 +417,7 @@
       Step     => 2 
       Removed  => gender 
       Model    => y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age 
-        => 0.78142 
+      R2       => 0.78142 
       
         Significance Table    
       -----------------------
@@ -434,7 +434,7 @@
       Step     => 3 
       Removed  => age 
       Model    => y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test 
-        => 0.78091 
+      R2       => 0.78091 
       
         Significance Table    
       -----------------------

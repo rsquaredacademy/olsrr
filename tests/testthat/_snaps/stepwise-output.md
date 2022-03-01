@@ -154,36 +154,36 @@
       8. alc_heavy 
       
       
-      Step      => 0 
-      Model     => y ~ 1 
-      R-Squared => 0 
+      Step   => 0 
+      Model  => y ~ 1 
+      R2     => 0 
       
       Initiating stepwise selection... 
       
       Step      => 1 
       Selected  => liver_test 
       Model     => y ~ liver_test 
-      R-Squared => 0.455 
+      R2        => 0.455 
       
       Step      => 2 
       Selected  => alc_heavy 
       Model     => y ~ liver_test + alc_heavy 
-      R-Squared => 0.567 
+      R2        => 0.567 
       
       Step      => 3 
       Selected  => enzyme_test 
       Model     => y ~ liver_test + alc_heavy + enzyme_test 
-      R-Squared => 0.659 
+      R2        => 0.659 
       
       Step      => 4 
       Selected  => pindex 
       Model     => y ~ liver_test + alc_heavy + enzyme_test + pindex 
-      R-Squared => 0.75 
+      R2        => 0.75 
       
       Step      => 5 
       Selected  => bcs 
       Model     => y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs 
-      R-Squared => 0.781 
+      R2        => 0.781 
       
       
       No more variables to be added or removed.
