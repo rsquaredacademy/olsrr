@@ -309,8 +309,8 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
                               r2         = rsq,
                               adj_r2     = adjrsq,
                               aic        = aic,
-                              sbic       = sbic,
                               sbc        = sbc,
+                              sbic       = sbic,
                               mallows_cp = cp,
                               rmse       = rmse)
 

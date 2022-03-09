@@ -295,8 +295,8 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
                             r2         = rsq,
                             adj_r2     = adjrsq,
                             aic        = aic,
-                            sbic       = sbic,
                             sbc        = sbc,
+                            sbic       = sbic,
                             mallows_cp = cp,
                             rmse       = rmse)
 

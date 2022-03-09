@@ -135,8 +135,8 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
                         r2         = rsq,
                         adj_r2     = adjrsq,
                         aic        = aic,
-                        sbic       = sbic,
                         sbc        = sbc,
+                        sbic       = sbic,
                         mallows_cp = cp,
                         rmse       = rmse)
 

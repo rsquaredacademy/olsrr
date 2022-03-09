@@ -188,8 +188,8 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
                               r2         = rsq,
                               adj_r2     = arsq,
                               aic        = aic,
-                              sbic       = sbic,
                               sbc        = sbc,
+                              sbic       = sbic,
                               mallows_cp = cp,
                               rmse       = rmse)
 
