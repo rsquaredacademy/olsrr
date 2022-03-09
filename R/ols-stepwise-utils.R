@@ -536,12 +536,7 @@ print_step_mi <- function(data, method) {
 
   if (method == "forward" || method == "both") {
     np <- coeff_names(data$others$base_model)
-
-    if (is.null(np)) {
-      mi <- null_model_metrics(data$others$base_model)
-    } else {
-      mi <- ols_regress(data$others$base_model)
-    }
+    mi <- null_model_metrics(data$others$base_model, data$others$full_model)
   } else {
     mi <- ols_regress(data$others$full_model)
   }

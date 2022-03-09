@@ -66,13 +66,13 @@ l <- function(x) {
   return(out)
 }
 
-null_model_metrics <- function(model) {
+null_model_metrics <- function(model, full_model) {
   
   output <- summary(model)
   anovam <- anova(model)
   aic    <- ols_aic(model)
   sbc    <- ols_sbc(model)
-  sbic   <- ols_sbic(model, model)
+  sbic   <- ols_sbic(model, full_model)
   n      <- length(anovam$Df)
   ess    <- anovam$`Sum Sq`[n]
   tss    <- sum(anovam$`Sum Sq`)

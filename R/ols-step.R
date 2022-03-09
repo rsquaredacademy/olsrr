@@ -56,7 +56,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
 
     aics[i]  <- ols_aic(k$model)
     bics[i]  <- ols_sbc(k$model)
-    sbics[i] <- ols_sbic(k$model, k$model)
+    sbics[i] <- ols_sbic(k$model, model)
     rsq[i]   <- k$rsq
     arsq[i]  <- k$adjr
   }
@@ -72,10 +72,10 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   }
 
   mat  <- switch(criteria,
-    aic = aics,
-    sbc = bics,
-    sbic = sbics,
-    rsq = rsq,
+    aic    = aics,
+    sbc    = bics,
+    sbic   = sbics,
+    rsq    = rsq,
     adjrsq = arsq)
 
   minc <- ols_threshold(mat, criteria)
@@ -133,7 +133,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
       k          <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
       aics[i]    <- ols_aic(k$model)
       bics[i]    <- ols_sbc(k$model)
-      sbics[i]   <- ols_sbic(k$model, k$model)
+      sbics[i]   <- ols_sbic(k$model, model)
       rsq[i]     <- k$rsq
       arsq[i]    <- k$adjr
     l}
@@ -148,18 +148,19 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     }
 
     mat  <- switch(criteria,
-      aic = aics,
-      sbc = bics,
-      sbic = sbics,
-      rsq = rsq,
+      aic    = aics,
+      sbc    = bics,
+      sbic   = sbics,
+      rsq    = rsq,
       adjrsq = arsq)
 
     faic  <- switch(criteria,
-      aic = laic,
-      sbc = lbic,
-      sbic = lsbic,
-      rsq = lrsq,
+      aic    = laic,
+      sbc    = lbic,
+      sbic   = lsbic,
+      rsq    = lrsq,
       adjrsq = larsq)
+
     minaic <- ols_threshold(mat, criteria)
     crit   <- ols_next_criteria(criteria, mat, minaic, faic, lpreds)
 
@@ -214,10 +215,10 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   }
 
   indicator <- switch(criteria,
-    aic = "aic",
-    sbc = "sbc",
-    sbic = "sbic",
-    rsq = "r2",
+    aic    = "aic",
+    sbc    = "sbc",
+    sbic   = "sbic",
+    rsq    = "r2",
     adjrsq = "adj_r2")
 
   metrics     <- data.frame(step     = seq_len(step),
@@ -231,8 +232,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   out <- list(metrics = metrics,
               model   = final_model,
               others  = list(base_model = base_model,
-                             criteria = indicator,
-                             direction = "forward"))
+                             criteria   = indicator,
+                             direction  = "forward",
+                             full_model = model))
 
   return(out)
 }
@@ -298,7 +300,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
 
     aics[i]  <- ols_aic(m$model)
     bics[i]  <- ols_sbc(m$model)
-    sbics[i] <- ols_sbic(m$model, m$model)
+    sbics[i] <- ols_sbic(m$model, model)
     rsq[i]   <- m$rsq
     arsq[i]  <- m$adjr
   }
@@ -307,10 +309,10 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
   da2 <- ols_sort_metrics(da, criteria)
 
   mat  <- switch(criteria,
-               aic = aics,
-               sbc = bics,
-               sbic = sbics,
-               rsq = rsq,
+               aic    = aics,
+               sbc    = bics,
+               sbic   = sbics,
+               rsq    = rsq,
                adjrsq = arsq)
 
   if (grepl("rsq", criteria)) {
@@ -373,7 +375,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
 
         aics[i]  <- ols_aic(m$model)
         bics[i]  <- ols_sbc(m$model)
-        sbics[i] <- ols_sbic(m$model, m$model)
+        sbics[i] <- ols_sbic(m$model, model)
         rsq[i]   <- m$rsq
         arsq[i]  <- m$adjr
       }
@@ -382,10 +384,10 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
       da2 <- ols_sort_metrics(da, criteria)
 
       mat  <- switch(criteria,
-               aic = aics,
-               sbc = bics,
-               sbic = sbics,
-               rsq = rsq,
+               aic    = aics,
+               sbc    = bics,
+               sbic   = sbics,
+               rsq    = rsq,
                adjrsq = arsq)
 
       if (grepl("rsq", criteria)) {
@@ -413,10 +415,10 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
   }
 
   indicator <- switch(criteria,
-    aic = "aic",
-    sbc = "sbc",
-    sbic = "sbic",
-    rsq = "r2",
+    aic    = "aic",
+    sbc    = "sbc",
+    sbic   = "sbic",
+    rsq    = "r2",
     adjrsq = "adj_r2")
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
@@ -432,8 +434,8 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
   out <- list(metrics = metrics,
               model   = final_model,
               others  = list(full_model = model,
-                             criteria = indicator,
-                             direction = "backward"))
+                             criteria   = indicator,
+                             direction  = "backward"))
 
   return(out)
 }
@@ -510,7 +512,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
 
       aics[i]  <- ols_aic(m$model)
       bics[i]  <- ols_sbc(m$model)
-      sbics[i] <- ols_sbic(m$model, m$model)
+      sbics[i] <- ols_sbic(m$model, model)
       rsq[i]   <- m$rsq
       arsq[i]  <- m$adjr
     }
@@ -522,10 +524,10 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
     }
 
     mat  <- switch(criteria,
-    aic = aics,
-    sbc = bics,
-    sbic = sbics,
-    rsq = rsq,
+    aic    = aics,
+    sbc    = bics,
+    sbic   = sbics,
+    rsq    = rsq,
     adjrsq = arsq)
 
     minc <- ols_threshold(mat, criteria)
@@ -557,10 +559,10 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
       }
 
       kaic  <- switch(criteria,
-          aic = maic,
-          sbc = mbic,
-          sbic = msbic,
-          rsq = mrsq,
+          aic    = maic,
+          sbc    = mbic,
+          sbic   = msbic,
+          rsq    = mrsq,
           adjrsq = marsq)
 
       if (details) {
@@ -584,7 +586,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
 
           aics[j]  <- ols_aic(m$model)
           bics[j]  <- ols_sbc(m$model)
-          sbics[j] <- ols_sbic(m$model, m$model)
+          sbics[j] <- ols_sbic(m$model, model)
           rsq[j]   <- m$rsq
           arsq[j]  <- m$adjr
 
@@ -598,17 +600,17 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
         }
 
         mat  <- switch(criteria,
-          aic = aics,
-          sbc = bics,
-          sbic = sbics,
-          rsq = rsq,
+          aic    = aics,
+          sbc    = bics,
+          sbic   = sbics,
+          rsq    = rsq,
           adjrsq = arsq)
 
         faic  <- switch(criteria,
-          aic = laic,
-          sbc = lbic,
-          sbic = lsbic,
-          rsq = lrsq,
+          aic    = laic,
+          sbc    = lbic,
+          sbic   = lsbic,
+          rsq    = lrsq,
           adjrsq = larsq)
 
         minc2 <- ols_threshold(mat, criteria)
@@ -640,10 +642,10 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
           lpreds <- length(preds)
 
           kaic  <- switch(criteria,
-            aic = maic,
-            sbc = mbic,
-            sbic = msbic,
-            rsq = mrsq,
+            aic    = maic,
+            sbc    = mbic,
+            sbic   = msbic,
+            rsq    = mrsq,
             adjrsq = marsq)
 
           if (details) {
@@ -667,10 +669,10 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
   }
 
   indicator <- switch(criteria,
-    aic = "aic",
-    sbc = "sbc",
-    sbic = "sbic",
-    rsq = "r2",
+    aic    = "aic",
+    sbc    = "sbc",
+    sbic   = "sbic",
+    rsq    = "r2",
     adjrsq = "adj_r2")
 
   final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
@@ -687,8 +689,9 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
   out <- list(metrics = metrics,
               model   = final_model,
               others   = list(base_model = base_model,
-                              criteria = indicator,
-                              direction = "both"))
+                              criteria   = indicator,
+                              direction  = "both",
+                              full_model = model))
 
   return(out)
 }
