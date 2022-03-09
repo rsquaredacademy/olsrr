@@ -316,7 +316,8 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
     out <- list(metrics = metrics,
                 model   = final_model,
-                others  = list(base_model = base_model))
+                others  = list(base_model = base_model,
+                               full_model = model))
 
     class(out) <- "ols_step_forward_p"
 

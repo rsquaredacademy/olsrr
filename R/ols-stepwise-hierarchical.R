@@ -142,7 +142,8 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 
   result <- list(metrics = metrics,
                  model   = final_model,
-                 others  = list(base_model = base_model))
+                 others  = list(base_model = base_model,
+                                full_model = model))
 
   class(result) <- "ols_step_forward_p"
 

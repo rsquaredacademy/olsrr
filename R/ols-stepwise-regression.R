@@ -310,6 +310,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   out <- list(metrics = metrics,
               model   = final_model,
               others  = list(base_model = base_model,
+                             full_model = model,
                              beta_pval = beta_pval))
 
   class(out) <- "ols_step_both_p"
