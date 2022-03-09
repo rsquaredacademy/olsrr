@@ -20,16 +20,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -100,16 +103,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -281,16 +287,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -441,16 +450,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -497,16 +509,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -577,16 +592,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -758,16 +776,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -902,16 +923,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.878       RMSE                 188.249 
-      R-Squared               0.771       Coef. Var             28.147 
-      Adj. R-Squared          0.753       MSE                39053.801 
-      Pred R-Squared          0.695       MAE                  140.619 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.878       RMSE                 188.249 
+      R-Squared                 0.771       MSE                39053.801 
+      Adj. R-Squared            0.753       Coef. Var             28.147 
+      Pred R-Squared            0.695       AIC                  730.924 
+      MAE                     140.619       SBC                  742.858 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -957,16 +981,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -1037,16 +1064,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -1218,16 +1248,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -1362,16 +1395,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.878       RMSE                 188.249 
-      R-Squared               0.771       Coef. Var             28.147 
-      Adj. R-Squared          0.753       MSE                39053.801 
-      Pred R-Squared          0.695       MAE                  140.619 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.878       RMSE                 188.249 
+      R-Squared                 0.771       MSE                39053.801 
+      Adj. R-Squared            0.753       Coef. Var             28.147 
+      Pred R-Squared            0.695       AIC                  730.924 
+      MAE                     140.619       SBC                  742.858 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
