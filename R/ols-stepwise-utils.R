@@ -403,7 +403,7 @@ ols_metric_info <- function(x, direction = c("forward", "backward", "both"), met
 
   np <- coeff_names(the_model)
   if (is.null(np)) {
-    mi <- null_model_metrics(the_model)
+    mi <- null_model_metrics(the_model, x$others$full_model)
   } else {
     mi <- ols_regress(the_model)
   }
