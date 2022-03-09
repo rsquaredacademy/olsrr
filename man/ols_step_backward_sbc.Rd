@@ -62,6 +62,9 @@ model <- lm(y ~ ., data = surgical)
 k <- ols_step_backward_sbc(model)
 plot(k)
 
+# selection metrics
+k$metrics
+
 # final model
 k$model
 

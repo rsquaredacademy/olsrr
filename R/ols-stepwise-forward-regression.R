@@ -69,12 +69,6 @@
 #' k <- ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 #' plot(k)
 #'
-#' # selection metrics
-#' k$metrics
-#'
-#' # final model
-#' k$model
-#'
 #' @importFrom stats qt
 #' @importFrom car Anova
 #'

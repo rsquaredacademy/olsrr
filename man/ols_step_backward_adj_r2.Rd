@@ -57,8 +57,9 @@ manner until there is no variable left to remove any more.
 model <- lm(y ~ ., data = surgical)
 ols_step_backward_adj_r2(model)
 
-# final model
+# final model and selection metrics
 k <- ols_step_backward_aic(model)
+k$metrics
 k$model
 
 # include or exclude variable

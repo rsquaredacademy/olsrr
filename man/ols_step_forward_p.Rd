@@ -95,12 +95,6 @@ ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 k <- ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 plot(k)
 
-# selection metrics
-k$metrics
-
-# final model
-k$model
-
 }
 \references{
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.

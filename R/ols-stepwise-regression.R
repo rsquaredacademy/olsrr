@@ -41,6 +41,9 @@
 #' k <- ols_step_both_p(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#' 
 #' # final model
 #' k$model
 #'

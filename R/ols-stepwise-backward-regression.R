@@ -66,12 +66,6 @@
 #' k <- ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 #' plot(k)
 #'
-#' # selection metrics
-#' k$metrics
-#'
-#' # final model
-#' k$model
-#'
 #' @family backward selection procedures
 #'
 #' @export
@@ -199,9 +193,9 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
                               mallows_cp = cp,
                               rmse       = rmse)
 
-    out <- list(metrics    = metrics,
-                model      = final_model,
-                others     = list(full_model = model))
+    out <- list(metrics = metrics,
+                model   = final_model,
+                others  = list(full_model = model))
 
     class(out) <- "ols_step_backward_p"
 
