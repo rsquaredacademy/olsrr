@@ -49,20 +49,12 @@
 ols_plot_dffits <- function(model, print_plot = TRUE) {
 
   check_model(model)
-
-  dffitsm    <- unlist(dffits(model))
-  k          <- model_n_coeffs(model)
-  n          <- model_rows(model)
-  dffits_t   <- sqrt(k / n) * 2
-  title      <- names(model.frame(model))[1]
-  dfits_data <- data.frame(obs = seq_len(n), dbetas = dffitsm)
-  d          <- ols_prep_dfbeta_data(dfits_data, dffits_t)
-  f          <- ols_prep_dfbeta_outliers(d)
+  data <- ols_prep_dffits_plot_data(model)
 
   p <-
-    ggplot(d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = dffitsm)) +
+    ggplot(data$d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = data$dfm)) +
     geom_linerange(colour = "blue") +
-    geom_hline(yintercept = c(0, dffits_t, -dffits_t), colour = "red") +
+    geom_hline(yintercept = c(0, data$dft, -data$dft), colour = "red") +
     geom_point(colour = "blue", shape = 1) +
     geom_text(hjust = -0.2, nudge_x = 0.15, size = 3, family = "serif",
               fontface = "italic", colour = "darkred", na.rm = TRUE)
@@ -72,20 +64,35 @@ ols_plot_dffits <- function(model, print_plot = TRUE) {
     p +
     annotate("text", x = Inf, y = Inf, hjust = 1.5, vjust = 2,
              family = "serif", fontface = "italic", colour = "darkred",
-             label = paste("Threshold:", round(dffits_t, 2)))
+             label = paste("Threshold:", round(data$dft, 2)))
 
   # guides
   p <-
     p +
     xlab("Observation") +
     ylab("DFFITS") +
-    ggtitle(paste("Influence Diagnostics for", title))
+    ggtitle(paste("Influence Diagnostics for", data$title))
 
   if (print_plot) {
     suppressWarnings(print(p))
   } else {
-    colnames(f) <- c("observation", "dffits")
-    return(list(plot = p, outliers = f, threshold = round(dffits_t, 2)))
+    return(list(plot = p, outliers = data$f, threshold = round(data$dft, 2)))
   }
 
+}
+
+
+ols_prep_dffits_plot_data <- function(model) {
+
+  dffitsm    <- unlist(dffits(model))
+  k          <- model_n_coeffs(model)
+  n          <- model_rows(model)
+  dffits_t   <- sqrt(k / n) * 2
+  title      <- names(model.frame(model))[1]
+  dfits_data <- data.frame(obs = seq_len(n), dbetas = dffitsm)
+  d          <- ols_prep_dfbeta_data(dfits_data, dffits_t)
+  f          <- ols_prep_dfbeta_outliers(d)
+  colnames(f) <- c("observation", "dffits")
+
+  list(d = d, dft = dffits_t, title = title, f = f, dfm = dffitsm)
 }
