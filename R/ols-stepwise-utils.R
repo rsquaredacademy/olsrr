@@ -79,10 +79,10 @@ ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backwar
 ols_base_model_stats <- function(response, include, criteria, aic) {
 
   mat  <- switch(criteria,
-    aic = "AIC    ",
-    sbc = "SBC    ",
-    sbic = "SBIC   ",
-    rsq = "R2     ",
+    aic    = "AIC    ",
+    sbc    = "SBC    ",
+    sbic   = "SBIC   ",
+    rsq    = "R2     ",
     adjrsq = "Adj. R2")
 
   cat("\n")
@@ -169,10 +169,10 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
   }
 
   mat  <- switch(metric,
-    aic = "AIC    ",
-    sbc = "SBC    ",
-    sbic = "SBIC   ",
-    rsq = "R2     ",
+    aic    = "AIC    ",
+    sbc    = "SBC    ",
+    sbic   = "SBIC   ",
+    rsq    = "R2     ",
     adjrsq = "Adj. R2")
 
   cat(paste0(mat, "  =>"), round(aic, 5), "\n\n")
@@ -422,10 +422,10 @@ ols_stepaic_plot_build <- function(d, d2, xmin, xmax, ymin, ymax, metric_info, d
   method <- match.arg(direction)
 
   mat  <- switch(criteria,
-    aic = "AIC",
-    sbc = "SBC",
-    sbic = "SBIC",
-    r2 = "R2",
+    aic    = "AIC",
+    sbc    = "SBC",
+    sbic   = "SBIC",
+    r2     = "R2",
     adj_r2 = "Adj. R2")
 
   if (method == "forward") {
@@ -673,21 +673,23 @@ ols_rsquared_removed <- function(metric, step, rpred, preds, response, aic_f) {
 
 ols_base_criteria <- function(model, criteria) {
   switch (criteria,
-    aic = ols_aic(model),
-    sbc = ols_sbc(model),
-    sbic = ols_sbic(model, model),
-    rsq  = summary(model)$r.squared,
+    aic    = ols_aic(model),
+    sbc    = ols_sbc(model),
+    sbic   = ols_sbic(model, model),
+    rsq    = summary(model)$r.squared,
     adjrsq = summary(model)$adj.r.squared
   )
 }
 
 ols_sort_metrics <- function(data, criteria) {
+
   mat  <- switch(criteria,
-    aic = "aics",
-    sbc = "bics",
-    sbic = "sbics",
-    rsq = "rsq",
+    aic    = "aics",
+    sbc    = "bics",
+    sbic   = "sbics",
+    rsq    = "rsq",
     adjrsq = "arsq")
+
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
     data[order(data[[mat]]), ]
   } else {

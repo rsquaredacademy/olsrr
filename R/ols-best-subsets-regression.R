@@ -225,7 +225,7 @@ plot.ols_step_best_subset <- function(x, model = NA, print_plot = TRUE, ...) {
                   plot_4 = p4, plot_5 = p5, plot_6 = p6)
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Best Subset Regression")
   } else {
     return(myplots)
   }

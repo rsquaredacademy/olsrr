@@ -47,7 +47,7 @@ ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
   }
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Residual Plus Component Plot")
   } else {
     return(myplots)
   }

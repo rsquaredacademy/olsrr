@@ -18,15 +18,15 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  p1 <- ols_plot_resid_fit(model)
-  p2 <- ols_plot_resid_stud_fit(model)
-  p3 <- ols_plot_resid_lev(model)
-  p4 <- ols_plot_resid_qq(model)
-  p5 <- ols_plot_obs_fit(model) 
-  p6 <- ols_plot_cooksd_chart(model)
-  p7 <- ols_plot_fm(model)
-  p8 <- ols_plot_resid_spread(model)
-  p9 <- ols_plot_resid_hist(model)
+  p1  <- ols_plot_resid_fit(model)
+  p2  <- ols_plot_resid_stud_fit(model)
+  p3  <- ols_plot_resid_lev(model)
+  p4  <- ols_plot_resid_qq(model)
+  p5  <- ols_plot_obs_fit(model) 
+  p6  <- ols_plot_cooksd_chart(model)
+  p7  <- ols_plot_fm(model)
+  p8  <- ols_plot_resid_spread(model)
+  p9  <- ols_plot_resid_hist(model)
   p10 <- ols_plot_resid_box(model)
 
   result <- list(

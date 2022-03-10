@@ -341,7 +341,7 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRU
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Stepwise Both Direction Regression")
   } else {
     return(myplots)
   }

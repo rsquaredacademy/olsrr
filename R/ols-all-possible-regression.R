@@ -130,7 +130,7 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
                   plot_4 = p4, plot_5 = p5, plot_6 = p6)
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "All Possible Regression")
   } else {
     return(myplots)
   }
