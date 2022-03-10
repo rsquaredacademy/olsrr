@@ -84,10 +84,7 @@ ols_test_normality.default <- function(y, ...) {
   cvm <- cvm.test(y)
   ad  <- ad.test(y)
 
-  result <- list(kolmogorv = ks,
-                 shapiro   = sw,
-                 cramer    = cvm,
-                 anderson  = ad)
+  result <- list(kolmogorv = ks, shapiro = sw, cramer = cvm, anderson = ad)
 
   class(result) <- "ols_test_normality"
   return(result)

@@ -81,14 +81,8 @@ null_model_metrics <- function(model, full_model) {
   adjr   <- output$adj.r.squared
   rmse   <- sqrt(mean(model$residuals ^ 2))
   
-  list(adjr = adjr,
-       aic  = aic,
-       sbc  = sbc, 
-       sbic = sbic,
-       ess  = ess,
-       rsq  = rsq,
-       rss  = rss,
-       rmse = rmse)
+  list(adjr = adjr, aic = aic, sbc = sbc,  sbic = sbic, ess = ess,
+       rsq = rsq, rss = rss, rmse = rmse)
   
 }
 

@@ -721,6 +721,14 @@ ols_next_criteria <- function(criteria, mat, minaic, laic, lpreds) {
   }
 }
 
+coeff_names <- function(model) {
+  colnames(attr(model$terms, which = "factor"))
+}
 
+model_colnames <- function(model) {
+  names(model.frame(model))
+}
 
-
+coeff_length <- function(predicts, gap) {
+  sum(nchar(predicts)) + gap
+}

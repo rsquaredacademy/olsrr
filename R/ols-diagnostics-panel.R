@@ -36,7 +36,7 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
   )
 
   if (print_plot) {
-    marrangeGrob(result, nrow = 2, ncol = 2)
+    marrangeGrob(result, nrow = 2, ncol = 2, top = "Regression Diagnostics")
   } else {
     return(result)
   }

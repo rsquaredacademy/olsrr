@@ -55,24 +55,6 @@ print.ols_correlations <- function(x, ...) {
   print_correlations(x)
 }
 
-
-cordata <- function(model) {
-  ols_prep_avplot_data(model)
-}
-
-cmdata <- function(mdata) {
-  cor(mdata)[-1, 1]
-}
-
-rtwo <- function(i, mdata) {
-  dat <- mdata[, c(-1, -i), drop = FALSE]
-  summary(lm(mdata[[1]] ~ ., data = dat))[[8]]
-}
-
-corsign <- function(model) {
-  sign(summary(model)$coefficients[-1, 1])
-}
-
 corout <- function(model, r2) {
 
   r1               <- summary(model)$r.squared
@@ -103,4 +85,21 @@ corm2 <- function(model) {
   }
 
   return(r2)
+}
+
+cordata <- function(model) {
+  ols_prep_avplot_data(model)
+}
+
+cmdata <- function(mdata) {
+  cor(mdata)[-1, 1]
+}
+
+rtwo <- function(i, mdata) {
+  dat <- mdata[, c(-1, -i), drop = FALSE]
+  summary(lm(mdata[[1]] ~ ., data = dat))[[8]]
+}
+
+corsign <- function(model) {
+  sign(summary(model)$coefficients[-1, 1])
 }

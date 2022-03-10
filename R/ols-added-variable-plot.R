@@ -92,29 +92,3 @@ ols_plot_added_variable <- function(model, print_plot = TRUE) {
   }
 
 }
-
-#' Remove columns
-#'
-#' Removes columns and returns a matrix.
-#'
-#' @param data A `data.frame`.
-#' @param i A numeric vector of length 1.
-#'
-#' @noRd
-#'
-remove_columns <- function(data, i) {
-	as.matrix(data[, c(-1, -i)])
-}
-
-#' Select columns
-#'
-#' Select column and return as matrix.
-#'
-#' @param data A `data.frame`.
-#' @param i A numeric vector of length 1.
-#'
-#' @noRd
-#'
-select_columns <- function(data, i = 1) {
-	as.matrix(data[, i])
-}

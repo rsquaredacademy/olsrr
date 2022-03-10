@@ -82,16 +82,9 @@ ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = 
     }
   }
 
-  out <- list(
-    dendf = result$dendf,
-    f     = result$f,
-    fv    = fitted_values,
-    numdf = result$numdf,
-    p     = result$p,
-    preds = nam,
-    resp  = resp,
-    rhs   = rhs,
-    vars  = vars)
+  out <- list(dendf = result$dendf, f = result$f, fv = fitted_values,
+              numdf = result$numdf, p = result$p, preds = nam,
+              resp = resp, rhs = rhs, vars = vars)
 
   class(out) <- "ols_test_f"
 

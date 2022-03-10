@@ -77,13 +77,8 @@ ols_test_score.default <- function(model, fitted_values = TRUE, rhs = FALSE,
     }
   }
 
-  out <- list(df    = d$np,
-              fv    = fitted_values,
-              p     = d$p,
-              preds = d$preds,
-              resp  = resp,
-              rhs   = rhs,
-              score = d$score)
+  out <- list(df = d$np, fv = fitted_values, p = d$p, preds = d$preds,
+              resp = resp, rhs = rhs, score = d$score)
 
   class(out) <- "ols_test_score"
   return(out)
@@ -105,10 +100,7 @@ rhsout <- function(model) {
   score     <- rhs_score(l, ind, nrow(l))
   p         <- pchisq(score, length(nam), lower.tail = F)
 
-  list(score = score,
-       preds = nam,
-       np    = length(nam),
-       p     = p)
+  list(score = score, preds = nam, np = length(nam), p = p)
 
 }
 
@@ -117,10 +109,7 @@ fitout <- function(model, resp) {
   score <- fit_score(model)
   p     <- pchisq(score, 1, lower.tail = F)
 
-  list(score = score,
-       preds = paste("fitted values of", resp),
-       np    = 1,
-       p     = p)
+  list(score = score, preds = paste("fitted values of", resp), np = 1, p = p)
 
 }
 
@@ -130,10 +119,7 @@ varout <- function(model, vars) {
   nd    <- ncol(score_data(model, vars)) - 1
   p     <- pchisq(score, nd, lower.tail = F)
 
-  list(score = score,
-       preds = vars,
-       np    = nd,
-       p     = p)
+  list(score = score, preds = vars, np = nd, p = p)
 
 }
 
