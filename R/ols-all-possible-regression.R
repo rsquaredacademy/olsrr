@@ -130,7 +130,7 @@ plot.ols_step_all_possible <- function(x, model = NA, print_plot = TRUE, ...) {
                   plot_4 = p4, plot_5 = p5, plot_6 = p6)
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "All Possible Regression")
   } else {
     return(myplots)
   }
@@ -361,41 +361,4 @@ allpos_helper <- function(model) {
   )
 
   return(result)
-}
-
-#' Coefficient names
-#'
-#' Returns the names of the coefficients including interaction variables.
-#'
-#' @param model An object of class \code{lm}.
-#'
-#' @noRd
-#'
-coeff_names <- function(model) {
-  colnames(attr(model$terms, which = "factor"))
-}
-
-#' Model data columns
-#'
-#' Returns the names of the columns in the data used in the model.
-#'
-#' @param model An object of class \cdoe{lm}.
-#'
-#' @noRd
-#'
-model_colnames <- function(model) {
-  names(model.frame(model))
-}
-
-#' Coefficients length
-#'
-#' Returns the length of the coefficient names.
-#'
-#' @param predicts Name of the predictors in the model.
-#' @param gap A numeric vector.
-#'
-#' @noRd
-#'
-coeff_length <- function(predicts, gap) {
-  sum(nchar(predicts)) + gap
 }

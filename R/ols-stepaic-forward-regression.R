@@ -34,6 +34,9 @@
 #' k <- ols_step_forward_aic(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#' 
 #' # extract final model
 #' k$model
 #'
@@ -116,6 +119,9 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, digi
 #' k <- ols_step_forward_sbc(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
 #' # extract final model
 #' k$model
 #'
@@ -193,6 +199,9 @@ plot.ols_step_forward_sbc <- function(x, print_plot = TRUE, details = TRUE, digi
 #' # stepwise forward regression plot
 #' k <- ols_step_forward_sbic(model)
 #' plot(k)
+#'
+#' # selection metrics
+#' k$metrics
 #'
 #' # extract final model
 #' k$model
@@ -272,6 +281,9 @@ plot.ols_step_forward_sbic <- function(x, print_plot = TRUE, details = TRUE, dig
 #' k <- ols_step_forward_r2(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
 #' # extract final model
 #' k$model
 #'
@@ -349,6 +361,9 @@ plot.ols_step_forward_r2 <- function(x, print_plot = TRUE, details = TRUE, digit
 #' # stepwise forward regression plot
 #' k <- ols_step_forward_adj_r2(model)
 #' plot(k)
+#'
+#' # selection metrics
+#' k$metrics
 #'
 #' # extract final model
 #' k$model

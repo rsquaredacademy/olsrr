@@ -36,6 +36,9 @@
 #' k <- ols_step_both_aic(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
 #' # final model
 #' k$model
 #'
@@ -123,6 +126,9 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, digits 
 #' k <- ols_step_both_sbc(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
 #' # final model
 #' k$model
 #'
@@ -206,6 +212,9 @@ plot.ols_step_both_sbc <- function(x, print_plot = TRUE, details = TRUE, digits 
 #' model <- lm(y ~ ., data = stepdata)
 #' k <- ols_step_both_sbic(model)
 #' plot(k)
+#'
+#' # selection metrics
+#' k$metrics
 #'
 #' # final model
 #' k$model
@@ -291,6 +300,9 @@ plot.ols_step_both_sbic <- function(x, print_plot = TRUE, details = TRUE, digits
 #' k <- ols_step_both_r2(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
 #' # final model
 #' k$model
 #'
@@ -374,6 +386,9 @@ plot.ols_step_both_r2 <- function(x, print_plot = TRUE, details = TRUE, digits =
 #' model <- lm(y ~ ., data = stepdata)
 #' k <- ols_step_both_adj_r2(model)
 #' plot(k)
+#'
+#' # selection metrics
+#' k$metrics
 #'
 #' # final model
 #' k$model

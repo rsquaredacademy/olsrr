@@ -41,6 +41,9 @@
 #' k <- ols_step_both_p(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#' 
 #' # final model
 #' k$model
 #'
@@ -292,8 +295,8 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
                             r2         = rsq,
                             adj_r2     = adjrsq,
                             aic        = aic,
-                            sbic       = sbic,
                             sbc        = sbc,
+                            sbic       = sbic,
                             mallows_cp = cp,
                             rmse       = rmse)
 
@@ -307,6 +310,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   out <- list(metrics = metrics,
               model   = final_model,
               others  = list(base_model = base_model,
+                             full_model = model,
                              beta_pval = beta_pval))
 
   class(out) <- "ols_step_both_p"
@@ -337,7 +341,7 @@ plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRU
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Stepwise Both Direction Regression")
   } else {
     return(myplots)
   }

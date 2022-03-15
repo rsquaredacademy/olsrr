@@ -79,10 +79,10 @@ ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backwar
 ols_base_model_stats <- function(response, include, criteria, aic) {
 
   mat  <- switch(criteria,
-    aic = "AIC    ",
-    sbc = "SBC    ",
-    sbic = "SBIC   ",
-    rsq = "R2     ",
+    aic    = "AIC    ",
+    sbc    = "SBC    ",
+    sbic   = "SBIC   ",
+    rsq    = "R2     ",
     adjrsq = "Adj. R2")
 
   cat("\n")
@@ -169,10 +169,10 @@ ols_stepwise_details <- function(step, rpred, preds, response, aic, type = c("ad
   }
 
   mat  <- switch(metric,
-    aic = "AIC    ",
-    sbc = "SBC    ",
-    sbic = "SBIC   ",
-    rsq = "R2     ",
+    aic    = "AIC    ",
+    sbc    = "SBC    ",
+    sbic   = "SBIC   ",
+    rsq    = "R2     ",
     adjrsq = "Adj. R2")
 
   cat(paste0(mat, "  =>"), round(aic, 5), "\n\n")
@@ -403,7 +403,7 @@ ols_metric_info <- function(x, direction = c("forward", "backward", "both"), met
 
   np <- coeff_names(the_model)
   if (is.null(np)) {
-    mi <- null_model_metrics(the_model)
+    mi <- null_model_metrics(the_model, x$others$full_model)
   } else {
     mi <- ols_regress(the_model)
   }
@@ -422,10 +422,10 @@ ols_stepaic_plot_build <- function(d, d2, xmin, xmax, ymin, ymax, metric_info, d
   method <- match.arg(direction)
 
   mat  <- switch(criteria,
-    aic = "AIC",
-    sbc = "SBC",
-    sbic = "SBIC",
-    r2 = "R2",
+    aic    = "AIC",
+    sbc    = "SBC",
+    sbic   = "SBIC",
+    r2     = "R2",
     adj_r2 = "Adj. R2")
 
   if (method == "forward") {
@@ -536,12 +536,7 @@ print_step_mi <- function(data, method) {
 
   if (method == "forward" || method == "both") {
     np <- coeff_names(data$others$base_model)
-
-    if (is.null(np)) {
-      mi <- null_model_metrics(data$others$base_model)
-    } else {
-      mi <- ols_regress(data$others$base_model)
-    }
+    mi <- null_model_metrics(data$others$base_model, data$others$full_model)
   } else {
     mi <- ols_regress(data$others$full_model)
   }
@@ -624,23 +619,23 @@ ols_rsquared_init <- function(include, metric, response, rsq_base) {
   cat("\n")
     if (is.null(include)) {
       if (metric == "r2") {
-        cat("Step      => 0", "\n")
-        cat("Model     =>", paste(response, "~", 1, "\n"))
-        cat("R-Squared =>", round(rsq_base, 3), "\n\n")
+        cat("Step   => 0", "\n")
+        cat("Model  =>", paste(response, "~", 1, "\n"))
+        cat("R2     =>", round(rsq_base, 3), "\n\n")
       } else {
-        cat("Step           => 0", "\n")
-        cat("Model          =>", paste(response, "~", 1, "\n"))
-        cat("Adj. R-Squared =>", round(rsq_base, 3), "\n\n")
+        cat("Step     => 0", "\n")
+        cat("Model    =>", paste(response, "~", 1, "\n"))
+        cat("Adj. R2  =>", round(rsq_base, 3), "\n\n")
       }
     } else {
       if (metric == "r2") {
-        cat("Step      => 0", "\n")
-        cat("Model     =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-        cat("R-Squared =>", round(rsq_base, 3), "\n\n")
+        cat("Step   => 0", "\n")
+        cat("Model  =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+        cat("R2     =>", round(rsq_base, 3), "\n\n")
       } else {
-        cat("Step           => 0", "\n")
-        cat("Model          =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
-        cat("Adj. R-Squared =>", round(rsq_base, 3), "\n\n")
+        cat("Step     => 0", "\n")
+        cat("Model    =>", paste(response, "~", paste(include, collapse = " + "), "\n"))
+        cat("Adj. R2  =>", round(rsq_base, 3), "\n\n")
       }
     }
     cat("Initiating stepwise selection...", "\n\n")
@@ -652,47 +647,49 @@ ols_rsquared_selected <- function(metric, step, preds, response, rsq1) {
         cat("Step      =>", step, "\n")
         cat("Selected  =>", tail(preds, n = 1), "\n")
         cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("R-Squared =>", round(rsq1, 3), "\n\n")
+        cat("R2        =>", round(rsq1, 3), "\n\n")
       } else {
-        cat("Step           =>", step, "\n")
-        cat("Selected       =>", tail(preds, n = 1), "\n")
-        cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-        cat("Adj. R-Squared =>", round(rsq1, 3), "\n\n")
+        cat("Step      =>", step, "\n")
+        cat("Selected  =>", tail(preds, n = 1), "\n")
+        cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+        cat("Adj. R2   =>", round(rsq1, 3), "\n\n")
       }
 }
 
 
 ols_rsquared_removed <- function(metric, step, rpred, preds, response, aic_f) {
   if (metric == "r2") {
-          cat("Step      =>", step, "\n")
-          cat("Removed   =>", tail(rpred, n = 1), "\n")
-          cat("Model     =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-          cat("R-Squared =>", aic_f, "\n\n")
+          cat("Step     =>", step, "\n")
+          cat("Removed  =>", tail(rpred, n = 1), "\n")
+          cat("Model    =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+          cat("R2       =>", aic_f, "\n\n")
         } else {
-          cat("Step           =>", step, "\n")
-          cat("Removed        =>", tail(rpred, n = 1), "\n")
-          cat("Model          =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
-          cat("Adj. R-Squared =>", aic_f, "\n\n")
+          cat("Step     =>", step, "\n")
+          cat("Removed  =>", tail(rpred, n = 1), "\n")
+          cat("Model    =>", paste(response, "~", paste(preds, collapse = " + "), "\n"))
+          cat("Adj. R2  =>", aic_f, "\n\n")
         }
 }
 
 ols_base_criteria <- function(model, criteria) {
   switch (criteria,
-    aic = ols_aic(model),
-    sbc = ols_sbc(model),
-    sbic = ols_sbic(model, model),
-    rsq  = summary(model)$r.squared,
+    aic    = ols_aic(model),
+    sbc    = ols_sbc(model),
+    sbic   = ols_sbic(model, model),
+    rsq    = summary(model)$r.squared,
     adjrsq = summary(model)$adj.r.squared
   )
 }
 
 ols_sort_metrics <- function(data, criteria) {
+
   mat  <- switch(criteria,
-    aic = "aics",
-    sbc = "bics",
-    sbic = "sbics",
-    rsq = "rsq",
+    aic    = "aics",
+    sbc    = "bics",
+    sbic   = "sbics",
+    rsq    = "rsq",
     adjrsq = "arsq")
+
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
     data[order(data[[mat]]), ]
   } else {
@@ -724,6 +721,14 @@ ols_next_criteria <- function(criteria, mat, minaic, laic, lpreds) {
   }
 }
 
+coeff_names <- function(model) {
+  colnames(attr(model$terms, which = "factor"))
+}
 
+model_colnames <- function(model) {
+  names(model.frame(model))
+}
 
-
+coeff_length <- function(predicts, gap) {
+  sum(nchar(predicts)) + gap
+}

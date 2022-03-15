@@ -3,16 +3,19 @@
     Code
       ols_regress(mpg ~ disp + hp + wt, data = mtcars)
     Output
-                              Model Summary                          
-      --------------------------------------------------------------
-      R                       0.909       RMSE                2.468 
-      R-Squared               0.827       Coef. Var          13.135 
-      Adj. R-Squared          0.808       MSE                 6.964 
-      Pred R-Squared          0.768       MAE                 1.907 
-      --------------------------------------------------------------
+                               Model Summary                          
+      ---------------------------------------------------------------
+      R                       0.909       RMSE                 2.468 
+      R-Squared               0.827       MSE                  6.964 
+      Adj. R-Squared          0.808       Coef. Var           13.135 
+      Pred R-Squared          0.768       AIC                158.643 
+      MAE                     1.907       SBC                165.972 
+      ---------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                      ANOVA                                 
       --------------------------------------------------------------------
@@ -39,16 +42,19 @@
     Code
       ols_regress(lm(mpg ~ disp + hp + wt, data = mtcars))
     Output
-                              Model Summary                          
-      --------------------------------------------------------------
-      R                       0.909       RMSE                2.468 
-      R-Squared               0.827       Coef. Var          13.135 
-      Adj. R-Squared          0.808       MSE                 6.964 
-      Pred R-Squared          0.768       MAE                 1.907 
-      --------------------------------------------------------------
+                               Model Summary                          
+      ---------------------------------------------------------------
+      R                       0.909       RMSE                 2.468 
+      R-Squared               0.827       MSE                  6.964 
+      Adj. R-Squared          0.808       Coef. Var           13.135 
+      Pred R-Squared          0.768       AIC                158.643 
+      MAE                     1.907       SBC                165.972 
+      ---------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                      ANOVA                                 
       --------------------------------------------------------------------

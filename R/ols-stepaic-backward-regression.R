@@ -36,6 +36,9 @@
 #' k <- ols_step_backward_aic(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'  
 #' # final model
 #' k$model
 #'
@@ -113,6 +116,9 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, dig
 #' k <- ols_step_backward_sbc(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
 #' # final model
 #' k$model
 #'
@@ -187,6 +193,9 @@ plot.ols_step_backward_sbc <- function(x, print_plot = TRUE, details = TRUE, dig
 #' k <- ols_step_backward_sbic(model)
 #' plot(k)
 #'
+#' # selection metrics
+#' k$metrics
+#'
 #' # final model
 #' k$model
 #'
@@ -256,8 +265,9 @@ plot.ols_step_backward_sbic <- function(x, print_plot = TRUE, details = TRUE, di
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_backward_r2(model)
 #'
-#' # final model
+#' # final model and selection metrics
 #' k <- ols_step_backward_aic(model)
+#' k$metrics
 #' k$model
 #'
 #' # include or exclude variable
@@ -326,8 +336,9 @@ plot.ols_step_backward_r2 <- function(x, print_plot = TRUE, details = TRUE, digi
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_backward_adj_r2(model)
 #'
-#' # final model
+#' # final model and selection metrics
 #' k <- ols_step_backward_aic(model)
+#' k$metrics
 #' k$model
 #'
 #' # include or exclude variable

@@ -172,16 +172,9 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
     }
   }
 
-  out <- list(
-    bp       = bp,
-    fv       = fitted.values,
-    multiple = multiple,
-    p        = p,
-    padj     = method,
-    preds    = predictors,
-    resp     = response,
-    rhs      = rhs,
-    vars     = vars)
+  out <- list(bp = bp, fv = fitted.values, multiple = multiple, p = p,
+              padj = method, preds = predictors, resp = response,
+              rhs = rhs, vars = vars)
 
   class(out) <- "ols_test_breusch_pagan"
 

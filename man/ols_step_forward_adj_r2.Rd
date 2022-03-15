@@ -60,6 +60,9 @@ ols_step_forward_adj_r2(model)
 k <- ols_step_forward_adj_r2(model)
 plot(k)
 
+# selection metrics
+k$metrics
+
 # extract final model
 k$model
 

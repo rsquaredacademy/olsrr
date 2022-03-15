@@ -66,13 +66,13 @@ l <- function(x) {
   return(out)
 }
 
-null_model_metrics <- function(model) {
+null_model_metrics <- function(model, full_model) {
   
   output <- summary(model)
   anovam <- anova(model)
   aic    <- ols_aic(model)
   sbc    <- ols_sbc(model)
-  sbic   <- ols_sbic(model, model)
+  sbic   <- ols_sbic(model, full_model)
   n      <- length(anovam$Df)
   ess    <- anovam$`Sum Sq`[n]
   tss    <- sum(anovam$`Sum Sq`)
@@ -81,14 +81,8 @@ null_model_metrics <- function(model) {
   adjr   <- output$adj.r.squared
   rmse   <- sqrt(mean(model$residuals ^ 2))
   
-  list(adjr = adjr,
-       aic  = aic,
-       sbc  = sbc, 
-       sbic = sbic,
-       ess  = ess,
-       rsq  = rsq,
-       rss  = rss,
-       rmse = rmse)
+  list(adjr = adjr, aic = aic, sbc = sbc,  sbic = sbic, ess = ess,
+       rsq = rsq, rss = rss, rmse = rmse)
   
 }
 

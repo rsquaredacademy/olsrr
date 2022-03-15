@@ -2,15 +2,15 @@ print_reg <- function(data) {
 
   # width
   # prints
-  a <- c("R", "R-Squared", "Adj. R-Squared", "Pred R-Squared")
+  a <- c("R", "R-Squared", "Adj. R-Squared", "Pred R-Squared", "MAE")
   b <- c(
-    format(round(data$r, 3), nsmall = 3), format(round(data$rsq, 3), nsmall = 3), format(round(data$adjr, 3), nsmall = 3),
-    format(round(data$prsq, 3), nsmall = 3)
+    format(round(data$r, 3), nsmall = 3), format(round(data$rsq, 3), nsmall = 3), format(round(data$adjr, 3), nsmall = 3), 
+    format(round(data$prsq, 3), nsmall = 3), format(round(data$mae, 3), nsmall = 3)
   )
-  d <- c("RMSE", "Coef. Var", "MSE", "MAE")
+  d <- c("RMSE", "MSE", "Coef. Var", "AIC", "SBC")
   e <- c(
-    format(round(data$rmse, 3), nsmall = 3), format(round(data$cv, 3), nsmall = 3), format(round(data$mse, 3), nsmall = 3),
-    format(round(data$mae, 3), nsmall = 3)
+    format(round(data$rmse, 3), nsmall = 3), format(round(data$mse, 3), nsmall = 3), format(round(data$cv, 3), nsmall = 3),
+    format(round(data$aic, 3), nsmall = 3), format(round(data$sbc, 3), nsmall = 3)
   )
 
   w1 <- max(nchar(a))
@@ -27,7 +27,7 @@ print_reg <- function(data) {
     cat(fl(a[i], w1), fs(), fs(), fs(), fg(b[i], w2), fs(), fs(), fl(d[i], w3), fs(), fs(), fs(), fg(e[i], w4), "\n")
   }
   cat(rep("-", w5), sep = "", "\n")
-  cat(" RMSE: Root Mean Square Error", "\n", "MSE: Mean Square Error", "\n", "MAE: Mean Absolute Error", "\n\n")
+  cat(" RMSE: Root Mean Square Error", "\n", "MSE: Mean Square Error", "\n", "MAE: Mean Absolute Error", "\n", "AIC: Akaike Information Criteria", "\n", "SBC: Schwarz Bayesian Criteria", "\n\n")
 
   # anova
   w7 <- nchar("Regression")

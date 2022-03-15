@@ -60,6 +60,9 @@ ols_step_forward_sbc(model)
 k <- ols_step_forward_sbc(model)
 plot(k)
 
+# selection metrics
+k$metrics
+
 # extract final model
 k$model
 

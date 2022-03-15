@@ -66,12 +66,6 @@
 #' k <- ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 #' plot(k)
 #'
-#' # selection metrics
-#' k$metrics
-#'
-#' # final model
-#' k$model
-#'
 #' @family backward selection procedures
 #'
 #' @export
@@ -172,7 +166,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
           if (details) {
             mypred <- c(include, cterms)
             rsq1   <- tail(rsq, n = 1)
-            ols_stepwise_details(step, rpred, mypred, response, rsq1, "removed", "Rsq")
+            ols_stepwise_details(step, rpred, mypred, response, rsq1, "removed", "rsq")
           }
         } else {
           end <- TRUE
@@ -194,14 +188,14 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
                               r2         = rsq,
                               adj_r2     = arsq,
                               aic        = aic,
-                              sbic       = sbic,
                               sbc        = sbc,
+                              sbic       = sbic,
                               mallows_cp = cp,
                               rmse       = rmse)
 
-    out <- list(metrics    = metrics,
-                model      = final_model,
-                others     = list(full_model = model))
+    out <- list(metrics = metrics,
+                model   = final_model,
+                others  = list(full_model = model))
 
     class(out) <- "ols_step_backward_p"
 
@@ -235,7 +229,7 @@ plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, details =
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Stepwise Backward Regression")
   } else {
     return(myplots)
   }

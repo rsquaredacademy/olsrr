@@ -135,14 +135,15 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
                         r2         = rsq,
                         adj_r2     = adjrsq,
                         aic        = aic,
-                        sbic       = sbic,
                         sbc        = sbc,
+                        sbic       = sbic,
                         mallows_cp = cp,
                         rmse       = rmse)
 
   result <- list(metrics = metrics,
                  model   = final_model,
-                 others  = list(base_model = base_model))
+                 others  = list(base_model = base_model,
+                                full_model = model))
 
   class(result) <- "ols_step_forward_p"
 
@@ -218,7 +219,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
 
       if (details) {
         rsq1   <- tail(rsq, n = 1)
-        ols_stepwise_details(step, preds, rpred, response, rsq1, "removed", "R-Squared")
+        ols_stepwise_details(step, preds, rpred, response, rsq1, "removed", "rsq")
       }
 
     } else {

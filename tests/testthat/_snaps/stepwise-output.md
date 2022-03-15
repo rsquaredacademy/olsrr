@@ -9,7 +9,7 @@
       ------------------------------------------------------------------------------
       Step    Variable             AIC        SBC       SBIC        R2       Adj. R2 
       ------------------------------------------------------------------------------
-       0      Base Model         802.606    806.584    649.398    0.00000    0.00000 
+       0      Base Model         802.606    806.584    646.794    0.00000    0.00000 
        1      liver_test (+)     771.875    777.842    616.009    0.45454    0.44405 
        2      alc_heavy (+)      761.439    769.395    605.506    0.56674    0.54975 
        3      enzyme_test (+)    750.509    760.454    595.297    0.65900    0.63854 
@@ -20,16 +20,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -89,7 +92,7 @@
       ------------------------------------------------------------------------------
       Step    Variable             AIC        SBC       SBIC        R2       Adj. R2 
       ------------------------------------------------------------------------------
-       0      Base Model         802.606    806.584    649.398    0.00000    0.00000 
+       0      Base Model         802.606    806.584    646.794    0.00000    0.00000 
        1      liver_test (+)     771.875    777.842    616.009    0.45454    0.44405 
        2      alc_heavy (+)      761.439    769.395    605.506    0.56674    0.54975 
        3      enzyme_test (+)    750.509    760.454    595.297    0.65900    0.63854 
@@ -100,16 +103,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------
@@ -154,36 +160,36 @@
       8. alc_heavy 
       
       
-      Step      => 0 
-      Model     => y ~ 1 
-      R-Squared => 0 
+      Step   => 0 
+      Model  => y ~ 1 
+      R2     => 0 
       
       Initiating stepwise selection... 
       
       Step      => 1 
       Selected  => liver_test 
       Model     => y ~ liver_test 
-      R-Squared => 0.455 
+      R2        => 0.455 
       
       Step      => 2 
       Selected  => alc_heavy 
       Model     => y ~ liver_test + alc_heavy 
-      R-Squared => 0.567 
+      R2        => 0.567 
       
       Step      => 3 
       Selected  => enzyme_test 
       Model     => y ~ liver_test + alc_heavy + enzyme_test 
-      R-Squared => 0.659 
+      R2        => 0.659 
       
       Step      => 4 
       Selected  => pindex 
       Model     => y ~ liver_test + alc_heavy + enzyme_test + pindex 
-      R-Squared => 0.75 
+      R2        => 0.75 
       
       Step      => 5 
       Selected  => bcs 
       Model     => y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs 
-      R-Squared => 0.781 
+      R2        => 0.781 
       
       
       No more variables to be added or removed.
@@ -193,7 +199,7 @@
       ------------------------------------------------------------------------------
       Step    Variable             AIC        SBC       SBIC        R2       Adj. R2 
       ------------------------------------------------------------------------------
-       0      Base Model         802.606    806.584    649.398    0.00000    0.00000 
+       0      Base Model         802.606    806.584    646.794    0.00000    0.00000 
        1      liver_test (+)     771.875    777.842    616.009    0.45454    0.44405 
        2      alc_heavy (+)      761.439    769.395    605.506    0.56674    0.54975 
        3      enzyme_test (+)    750.509    760.454    595.297    0.65900    0.63854 
@@ -204,16 +210,19 @@
       Final Model Output 
       ------------------
       
-                                Model Summary                           
-      -----------------------------------------------------------------
-      R                       0.884       RMSE                 184.276 
-      R-Squared               0.781       Coef. Var             27.839 
-      Adj. R-Squared          0.758       MSE                38202.426 
-      Pred R-Squared          0.700       MAE                  137.656 
-      -----------------------------------------------------------------
+                                 Model Summary                            
+      -------------------------------------------------------------------
+      R                         0.884       RMSE                 184.276 
+      R-Squared                 0.781       MSE                38202.426 
+      Adj. R-Squared            0.758       Coef. Var             27.839 
+      Pred R-Squared            0.700       AIC                  730.620 
+      MAE                     137.656       SBC                  744.543 
+      -------------------------------------------------------------------
        RMSE: Root Mean Square Error 
        MSE: Mean Square Error 
        MAE: Mean Absolute Error 
+       AIC: Akaike Information Criteria 
+       SBC: Schwarz Bayesian Criteria 
       
                                        ANOVA                                  
       -----------------------------------------------------------------------

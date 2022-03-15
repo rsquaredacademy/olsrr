@@ -69,12 +69,6 @@
 #' k <- ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 #' plot(k)
 #'
-#' # selection metrics
-#' k$metrics
-#'
-#' # final model
-#' k$model
-#'
 #' @importFrom stats qt
 #' @importFrom car Anova
 #'
@@ -315,14 +309,15 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
                               r2         = rsq,
                               adj_r2     = adjrsq,
                               aic        = aic,
+                              sbc        = sbc,
                               sbic       = sbic,
-                              bic        = sbc,
                               mallows_cp = cp,
                               rmse       = rmse)
 
     out <- list(metrics = metrics,
                 model   = final_model,
-                others  = list(base_model = base_model))
+                others  = list(base_model = base_model,
+                               full_model = model))
 
     class(out) <- "ols_step_forward_p"
 
@@ -356,7 +351,7 @@ plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, details = 
   myplots <- list(plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4)
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Stepwise Forward Regression")
   } else {
     return(myplots)
   }

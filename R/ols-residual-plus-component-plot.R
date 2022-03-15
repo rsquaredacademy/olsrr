@@ -47,7 +47,7 @@ ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
   }
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Residual Plus Component Plot")
   } else {
     return(myplots)
   }
@@ -59,7 +59,6 @@ cpdata <- function(data, mc, e, i) {
 
   x <- data[[i]]
   y <- ((mc[i] * data[i]) + e)[[1]]
-
   data.frame(x = x, y = y)
 
 }
@@ -73,11 +72,6 @@ cpout <- function(model) {
   nam    <- names(data)
   indvar <- names(model.frame(model))[1]
 
-  list(e      = e,
-       mc     = mc,
-       data   = data,
-       lmc    = lmc,
-       nam    = nam,
-       indvar = indvar)
+  list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)
 
 }

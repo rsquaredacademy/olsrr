@@ -64,11 +64,7 @@ ols_plot_resid_stand <- function(model, threshold = NULL, print_plot = TRUE) {
   if (print_plot) {
     suppressWarnings(print(p))
   } else {
-    return(
-      list(plot      = p,
-           outliers  = f,
-           threshold = threshold)
-      )
+    return(list(plot = p, outliers = f, threshold = threshold))
   }
 
 }

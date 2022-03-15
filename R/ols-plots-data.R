@@ -446,3 +446,11 @@ ols_prep_srchart_data <- function(model, threshold = NULL) {
   return(out)
 
 }
+
+remove_columns <- function(data, i) {
+	as.matrix(data[, c(-1, -i)])
+}
+
+select_columns <- function(data, i = 1) {
+	as.matrix(data[, i])
+}

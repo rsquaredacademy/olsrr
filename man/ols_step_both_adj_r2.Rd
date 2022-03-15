@@ -62,6 +62,9 @@ model <- lm(y ~ ., data = stepdata)
 k <- ols_step_both_adj_r2(model)
 plot(k)
 
+# selection metrics
+k$metrics
+
 # final model
 k$model
 
