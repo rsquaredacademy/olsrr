@@ -311,8 +311,8 @@ ols_mallows_cp <- function(model, fullmodel) {
   check_model(fullmodel)
 
   n <- model_rows(model)
-  p <- anova_coeffs(model)
-  q <- full_model_coeffs(fullmodel)
+  p <- model_n_coeffs(model)
+  q <- model_n_coeffs(fullmodel)
 
   mcpout(model, fullmodel, n, p, q)
 
