@@ -265,6 +265,12 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
       maxf  <- which(fvals == max(fvals, na.rm = TRUE))
       minp  <- pvals[maxf]
+      len_minp <- length(minp)
+
+      if (len_minp > 1) {
+        minp <- minp[1]
+        maxf <- maxf[1]
+      }
 
       if (minp <= p_val) {
 
