@@ -148,6 +148,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   if (len_minp > 1) {
     minp <- minp[1]
+    maxf <- maxf[1]
   }
 
   if (pvals[minp] > p_enter) {
@@ -207,6 +208,12 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
     maxf  <- which(fvals == max(fvals, na.rm = TRUE))
     minp  <- pvals[maxf]
+    len_minp <- length(minp)
+
+    if (len_minp > 1) {
+      minp <- minp[1]
+      maxf <- maxf[1]
+    }
 
     if (minp <= p_enter) {
 
@@ -246,6 +253,12 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
       minf    <- which(fvals_r == min(fvals_r, na.rm = TRUE))
       maxp    <- pvals_r[minf]
+      len_maxp <- length(maxp)
+
+      if (len_maxp > 1) {
+        maxp <- maxp[1]
+        minf <- minf[1]
+      }
 
       if (maxp > p_remove) {
 
