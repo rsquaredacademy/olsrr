@@ -6,7 +6,6 @@
 ^\.travis\.yml$
 ^codecov\.yml$
 ^appveyor\.yml$
-^CONDUCT\.md$
 ^CONTRIBUTING\.MD$
 ^ISSUE_TEMPLATE\.md$
 ^SUPPORT\.md$
@@ -16,3 +15,4 @@
 ^hex_olsrr\.png$
 ^debug\.log$
 ^\.github$
+^CODE_OF_CONDUCT\.md$

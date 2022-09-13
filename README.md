@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![cran
 checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
 [![R build
@@ -61,6 +61,8 @@ devtools::install_github("rsquaredacademy/olsrr")
 
 olsrr uses consistent prefix `ols_` for easy tab completion.
 
+    #> Warning: package 'dplyr' was built under R version 4.1.3
+
 olsrr is built with the aim of helping those users who are new to the R
 language. If you know how to write a `formula` or build models using
 `lm`, you will find olsrr very useful. Most of the functions use an
@@ -72,16 +74,19 @@ demo:
 
 ``` r
 ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#>                         Model Summary                          
-#> --------------------------------------------------------------
-#> R                       0.914       RMSE                2.409 
-#> R-Squared               0.835       Coef. Var          13.051 
-#> Adj. R-Squared          0.811       MSE                 6.875 
-#> Pred R-Squared          0.771       MAE                 1.858 
-#> --------------------------------------------------------------
+#>                          Model Summary                          
+#> ---------------------------------------------------------------
+#> R                       0.914       RMSE                 2.409 
+#> R-Squared               0.835       MSE                  6.875 
+#> Adj. R-Squared          0.811       Coef. Var           13.051 
+#> Pred R-Squared          0.771       AIC                159.070 
+#> MAE                     1.858       SBC                167.864 
+#> ---------------------------------------------------------------
 #>  RMSE: Root Mean Square Error 
 #>  MSE: Mean Square Error 
 #>  MAE: Mean Absolute Error 
+#>  AIC: Akaike Information Criteria 
+#>  SBC: Schwarz Bayesian Criteria 
 #> 
 #>                                ANOVA                                 
 #> --------------------------------------------------------------------
@@ -119,31 +124,34 @@ model <- lm(y ~ ., data = surgical)
 ols_step_both_p(model)
 #> 
 #> 
-#>                          Stepwise Summary                          
-#> -----------------------------------------------------------------
-#> Step    Variable             AIC      R-Squared    Adj. R-Squared 
-#> -----------------------------------------------------------------
-#>  0      Base Model         802.606      0.00000           0.00000 
-#>  1      liver_test (+)     771.875      0.45454           0.44405 
-#>  2      alc_heavy (+)      761.439      0.56674           0.54975 
-#>  3      enzyme_test (+)    750.509      0.65900           0.63854 
-#>  4      pindex (+)         735.715      0.75015           0.72975 
-#>  5      bcs (+)            730.620      0.78091           0.75808 
-#> -----------------------------------------------------------------
+#>                                 Stepwise Summary                                
+#> ------------------------------------------------------------------------------
+#> Step    Variable             AIC        SBC       SBIC        R2       Adj. R2 
+#> ------------------------------------------------------------------------------
+#>  0      Base Model         802.606    806.584    646.794    0.00000    0.00000 
+#>  1      liver_test (+)     771.875    777.842    616.009    0.45454    0.44405 
+#>  2      alc_heavy (+)      761.439    769.395    605.506    0.56674    0.54975 
+#>  3      enzyme_test (+)    750.509    760.454    595.297    0.65900    0.63854 
+#>  4      pindex (+)         735.715    747.649    582.943    0.75015    0.72975 
+#>  5      bcs (+)            730.620    744.543    579.638    0.78091    0.75808 
+#> ------------------------------------------------------------------------------
 #> 
 #> Final Model Output 
 #> ------------------
 #> 
-#>                           Model Summary                           
-#> -----------------------------------------------------------------
-#> R                       0.884       RMSE                 184.276 
-#> R-Squared               0.781       Coef. Var             27.839 
-#> Adj. R-Squared          0.758       MSE                38202.426 
-#> Pred R-Squared          0.700       MAE                  137.656 
-#> -----------------------------------------------------------------
+#>                            Model Summary                            
+#> -------------------------------------------------------------------
+#> R                         0.884       RMSE                 184.276 
+#> R-Squared                 0.781       MSE                38202.426 
+#> Adj. R-Squared            0.758       Coef. Var             27.839 
+#> Pred R-Squared            0.700       AIC                  730.620 
+#> MAE                     137.656       SBC                  744.543 
+#> -------------------------------------------------------------------
 #>  RMSE: Root Mean Square Error 
 #>  MSE: Mean Square Error 
 #>  MAE: Mean Absolute Error 
+#>  AIC: Akaike Information Criteria 
+#>  SBC: Schwarz Bayesian Criteria 
 #> 
 #>                                  ANOVA                                  
 #> -----------------------------------------------------------------------
@@ -183,29 +191,32 @@ k <- ols_step_backward_aic(model)
 k
 #> 
 #> 
-#>                        Stepwise Summary                       
-#> ------------------------------------------------------------
-#> Step    Variable        AIC      R-Squared    Adj. R-Squared 
-#> ------------------------------------------------------------
-#>  0      Full Model    736.390      0.78184           0.74305 
-#>  1      alc_mod       734.407      0.78177           0.74856 
-#>  2      gender        732.494      0.78142           0.75351 
-#>  3      age           730.620      0.78091           0.75808 
-#> ------------------------------------------------------------
+#>                              Stepwise Summary                              
+#> -------------------------------------------------------------------------
+#> Step    Variable        AIC        SBC       SBIC        R2       Adj. R2 
+#> -------------------------------------------------------------------------
+#>  0      Full Model    736.390    756.280    586.665    0.78184    0.74305 
+#>  1      alc_mod       734.407    752.308    583.884    0.78177    0.74856 
+#>  2      gender        732.494    748.406    581.290    0.78142    0.75351 
+#>  3      age           730.620    744.543    578.844    0.78091    0.75808 
+#> -------------------------------------------------------------------------
 #> 
 #> Final Model Output 
 #> ------------------
 #> 
-#>                           Model Summary                           
-#> -----------------------------------------------------------------
-#> R                       0.884       RMSE                 184.276 
-#> R-Squared               0.781       Coef. Var             27.839 
-#> Adj. R-Squared          0.758       MSE                38202.426 
-#> Pred R-Squared          0.700       MAE                  137.656 
-#> -----------------------------------------------------------------
+#>                            Model Summary                            
+#> -------------------------------------------------------------------
+#> R                         0.884       RMSE                 184.276 
+#> R-Squared                 0.781       MSE                38202.426 
+#> Adj. R-Squared            0.758       Coef. Var             27.839 
+#> Pred R-Squared            0.700       AIC                  730.620 
+#> MAE                     137.656       SBC                  744.543 
+#> -------------------------------------------------------------------
 #>  RMSE: Root Mean Square Error 
 #>  MSE: Mean Square Error 
 #>  MAE: Mean Absolute Error 
+#>  AIC: Akaike Information Criteria 
+#>  SBC: Schwarz Bayesian Criteria 
 #> 
 #>                                  ANOVA                                  
 #> -----------------------------------------------------------------------
@@ -294,3 +305,9 @@ If you encounter a bug, please file a minimal reproducible example using
 [reprex](https://reprex.tidyverse.org/index.html) on github. For
 questions and clarifications, use
 [StackOverflow](https://stackoverflow.com/).
+
+## Code of Conduct
+
+Please note that the olsrr project is released with a [Contributor Code
+of Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.
