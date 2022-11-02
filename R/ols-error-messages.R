@@ -5,6 +5,12 @@ check_model <- function(model) {
   }
 }
 
+check_order <- function(n, max_order) {
+  if (max_order > n) {
+    stop("Maximum subset order should be less than or equal to the number of predictors in the specified model.", call. = FALSE)
+  }
+}
+
 check_logic <- function(logic) {
 
   lval        <- is.logical(logic)

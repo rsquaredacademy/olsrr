@@ -14,9 +14,11 @@ ols_step_all_possible(model, ...)
 
 \item{...}{Other arguments.}
 
-\item{x}{An object of class \code{ols_best_subset}.}
+\item{x}{An object of class \code{ols_step_all_possible}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
+
+\item{max_order}{Maximum subset order.}
 }
 \value{
 \code{ols_step_all_possible} returns an object of class \code{"ols_step_all_possible"}.
@@ -51,6 +53,10 @@ k
 
 # plot
 plot(k)
+
+# maximum subset
+model <- lm(mpg ~ disp + hp + drat + wt + qsec, data = mtcars)
+ols_step_all_possible(model, max_order = 3)
 
 }
 \references{
