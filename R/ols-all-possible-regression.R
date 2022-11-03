@@ -54,6 +54,7 @@
 ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
 
 #' @export
+#' @rdname ols_step_all_possible
 #'
 ols_step_all_possible.default <- function(model, max_order = NULL, ...) {
 

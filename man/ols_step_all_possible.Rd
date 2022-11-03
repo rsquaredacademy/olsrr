@@ -2,10 +2,13 @@
 % Please edit documentation in R/ols-all-possible-regression.R
 \name{ols_step_all_possible}
 \alias{ols_step_all_possible}
+\alias{ols_step_all_possible.default}
 \alias{plot.ols_step_all_possible}
 \title{All possible regression}
 \usage{
 ols_step_all_possible(model, ...)
+
+\method{ols_step_all_possible}{default}(model, max_order = NULL, ...)
 
 \method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE, ...)
 }
@@ -14,11 +17,11 @@ ols_step_all_possible(model, ...)
 
 \item{...}{Other arguments.}
 
+\item{max_order}{Maximum subset order.}
+
 \item{x}{An object of class \code{ols_step_all_possible}.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
-
-\item{max_order}{Maximum subset order.}
 }
 \value{
 \code{ols_step_all_possible} returns an object of class \code{"ols_step_all_possible"}.
