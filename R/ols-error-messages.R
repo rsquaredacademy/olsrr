@@ -1,5 +1,5 @@
 check_model <- function(model) {
-  if (!all(class(model) == "lm")) {
+  if (!any(class(model) == "lm")) {
     model_name <- deparse(substitute(model))
     stop(paste0("`", model_name, "` must be an object of class `lm`."), call. = FALSE)
   }
