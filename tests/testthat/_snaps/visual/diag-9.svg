@@ -27,12 +27,12 @@
 </defs>
 <g clip-path='url(#cpNDAuMTN8NzE0LjUyfDIyLjc4fDU0NS4xMQ==)'>
 <rect x='40.13' y='22.78' width='674.39' height='522.33' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
-<rect x='70.79' y='384.84' width='102.18' height='136.53' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter; fill: #ADD8E6;' />
-<rect x='172.97' y='111.77' width='102.18' height='409.60' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter; fill: #ADD8E6;' />
-<rect x='275.15' y='66.26' width='102.18' height='455.11' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter; fill: #ADD8E6;' />
-<rect x='377.33' y='202.79' width='102.18' height='318.58' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter; fill: #ADD8E6;' />
-<rect x='479.51' y='521.37' width='102.18' height='0.00' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter; fill: #ADD8E6;' />
-<rect x='581.69' y='384.84' width='102.18' height='136.53' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter; fill: #ADD8E6;' />
+<rect x='70.79' y='384.84' width='102.18' height='136.53' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #ADD8E6;' />
+<rect x='172.97' y='111.77' width='102.18' height='409.60' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #ADD8E6;' />
+<rect x='275.15' y='66.26' width='102.18' height='455.11' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #ADD8E6;' />
+<rect x='377.33' y='202.79' width='102.18' height='318.58' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #ADD8E6;' />
+<rect x='479.51' y='521.37' width='102.18' height='0.00' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #ADD8E6;' />
+<rect x='581.69' y='384.84' width='102.18' height='136.53' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter; fill: #ADD8E6;' />
 <polyline points='118.59,385.08 125.06,374.24 131.53,362.92 138.00,351.14 144.46,338.93 150.93,326.32 157.40,313.33 163.86,300.02 170.33,286.43 176.80,272.61 183.27,258.61 189.73,244.50 196.20,230.33 202.67,216.18 209.13,202.11 215.60,188.20 222.07,174.53 228.54,161.17 235.00,148.20 241.47,135.70 247.94,123.75 254.40,112.41 260.87,101.77 267.34,91.89 273.80,82.85 280.27,74.69 286.74,67.49 293.21,61.28 299.67,56.12 306.14,52.04 312.61,49.07 319.07,47.22 325.54,46.53 332.01,46.98 338.48,48.57 344.94,51.31 351.41,55.15 357.88,60.08 364.34,66.07 370.81,73.06 377.28,81.02 383.75,89.88 390.21,99.58 396.68,110.06 403.15,121.25 409.61,133.08 416.08,145.47 422.55,158.35 429.02,171.63 435.48,185.24 441.95,199.11 448.42,213.15 454.88,227.29 461.35,241.46 467.82,255.59 474.28,269.62 480.75,283.48 487.22,297.13 493.69,310.50 500.15,323.55 506.62,336.25 513.09,348.55 519.55,360.42 526.02,371.84 532.49,382.79 538.96,393.25 545.42,403.20 551.89,412.64 558.36,421.57 564.82,429.99 571.29,437.90 577.76,445.31 584.23,452.23 590.69,458.67 597.16,464.65 603.63,470.19 610.09,475.29 616.56,479.99 623.03,484.30 629.49,488.24 ' style='stroke-width: 2.56; stroke: #0000A0; stroke-linecap: butt;' />
 <rect x='40.13' y='22.78' width='674.39' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>

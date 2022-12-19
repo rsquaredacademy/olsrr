@@ -48,14 +48,14 @@ ols_response_data <- function(model) {
 }
 
 ols_response_dotplot <- function(d, nam) {
-  ggplot(d, aes_string(x = "x")) +
+  ggplot(d, aes(x = x)) +
     geom_dotplot(binwidth = 1, fill = "blue") +
     xlab(nam[1]) +
     ggtitle(paste("Dot Plot of", nam[1]))
 }
 
 ols_response_trend <- function(d, nam) {
-  ggplot(d, aes_string(x = "x", y = "y")) +
+  ggplot(d, aes(x = x, y = y)) +
     geom_point(color = "blue") +
     geom_line(color = "blue") +
     xlab("Observation") +
@@ -64,14 +64,14 @@ ols_response_trend <- function(d, nam) {
 }
 
 ols_response_hist <- function(d, nam) {
-  ggplot(d, aes_string(x = "x")) +
+  ggplot(d, aes(x = x)) +
     geom_histogram(bins = 5, color = "black", fill = "blue") +
     xlab(nam[1]) +
     ggtitle(paste("Histogram of", nam[1]))
 }
 
 ols_response_box <- function(d, nam) {
-  ggplot(d, aes_string(x = factor(0), y = "x")) +
+  ggplot(d, aes(x = factor(0), y = x)) +
     geom_boxplot(fill = "blue") +
     xlab("") +
     ylab(nam[1]) +

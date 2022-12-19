@@ -43,8 +43,8 @@
 <circle cx='372.67' cy='47.45' r='3.56' style='stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;' />
 <line x1='372.67' y1='274.69' x2='372.67' y2='68.55' style='stroke-width: 1.07; stroke: #3366FF; stroke-linecap: butt;' />
 <line x1='372.67' y1='414.76' x2='372.67' y2='530.99' style='stroke-width: 1.07; stroke: #3366FF; stroke-linecap: butt;' />
-<polygon points='159.02,274.69 159.02,414.76 586.33,414.76 586.33,274.69 159.02,274.69 ' style='stroke-width: 1.07; stroke: #3366FF; fill: #CCCCCC;' />
-<line x1='159.02' y1='353.55' x2='586.33' y2='353.55' style='stroke-width: 2.13; stroke: #3366FF; stroke-linecap: butt;' />
+<polygon points='159.02,274.69 159.02,414.76 586.33,414.76 586.33,274.69 159.02,274.69 ' style='stroke-width: 1.07; stroke: #3366FF; stroke-linecap: butt; stroke-linejoin: miter; fill: #CCCCCC;' />
+<line x1='159.02' y1='353.55' x2='586.33' y2='353.55' style='stroke-width: 2.13; stroke: #3366FF; stroke-linecap: butt; stroke-linejoin: miter;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <text x='25.90' y='540.81' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='7.82px' lengthAdjust='spacingAndGlyphs'>-4</text>
