@@ -7,7 +7,7 @@
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![cran
-checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
+checks](https://badges.cranchecks.info/summary/olsrr.svg)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
 [![R build
 status](https://github.com/rsquaredacademy/olsrr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/olsrr/actions)
 [![Coverage
@@ -23,14 +23,14 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 The olsrr package provides following tools for building OLS regression
 models using R:
 
--   Comprehensive Regression Output
--   Variable Selection Procedures
--   Heteroskedasticity Tests
--   Collinearity Diagnostics
--   Model Fit Assessment
--   Measures of Influence
--   Residual Diagnostics
--   Variable Contribution Assessment
+- Comprehensive Regression Output
+- Variable Selection Procedures
+- Heteroskedasticity Tests
+- Collinearity Diagnostics
+- Model Fit Assessment
+- Measures of Influence
+- Residual Diagnostics
+- Variable Contribution Assessment
 
 ## Installation
 
@@ -45,23 +45,21 @@ devtools::install_github("rsquaredacademy/olsrr")
 
 ## Articles
 
--   [Quick
-    Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
--   [Variable Selection
-    Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
--   [Residual
-    Diagnostics](https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html)
--   [Heteroskedasticity](https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html)
--   [Measures of
-    Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
--   [Collinearity
-    Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
+- [Quick
+  Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
+- [Variable Selection
+  Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
+- [Residual
+  Diagnostics](https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html)
+- [Heteroskedasticity](https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html)
+- [Measures of
+  Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
+- [Collinearity
+  Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
 
 ## Usage
 
 olsrr uses consistent prefix `ols_` for easy tab completion.
-
-    #> Warning: package 'dplyr' was built under R version 4.1.3
 
 olsrr is built with the aim of helping those users who are new to the R
 language. If you know how to write a `formula` or build models using
@@ -246,7 +244,7 @@ k
 Breusch Pagan test is used to test for herteroskedasticity (non-constant
 error variance). It tests whether the variance of the errors from a
 regression is dependent on the values of the independent variables. It
-is a *χ*<sup>2</sup> test.
+is a $\chi^{2}$ test.
 
 ``` r
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
