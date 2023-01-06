@@ -99,7 +99,7 @@ We have made some changes to the API to make it more user friendly:
 - error in diagnostic panel ([#45](https://github.com/rsquaredacademy/olsrr/issues/45))
 - standardized betas in the presence of interaction terms ([#46](https://github.com/rsquaredacademy/olsrr/issues/46))
 
-A big thanks goes to ([Dr. Kimberly Henry](http://psy.psych.colostate.edu/psylist/detail.asp?Num=163)) for
+A big thanks goes to ([Dr. Kimberly Henry](https://kimberlyhenry.github.io/my_website/)) for
 identifying bugs and other valuable feedback that helped improve the package.
 
 # olsrr 0.3.0
