@@ -95,6 +95,12 @@ test_that("dffits plot is as expected", {
   vdiffr::expect_doppelganger("dffits plot", p$plot)
 })
 
+test_that("dffits plot is as expected when not using size adjusted cutoff", {
+  skip_on_cran()
+  p <- ols_plot_dffits(model, size_adj_threshold = FALSE, print_plot = FALSE)
+  vdiffr::expect_doppelganger("dffits cutoff plot", p$plot)
+})
+
 test_that("deleted studentized residual vs fitted plot is as expected", {
   skip_on_cran()
   p <- ols_plot_resid_stud_fit(model, print_plot = FALSE)

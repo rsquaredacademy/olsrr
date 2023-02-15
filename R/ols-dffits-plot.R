@@ -3,7 +3,10 @@
 #' Plot for detecting influential observations using DFFITs.
 #'
 #' @param model An object of class \code{lm}.
-#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
+#' @param size_adj_threshold logical; if \code{TRUE} (the default), size 
+#' adjusted threshold is used to determine influential observations.
+#' @param print_plot logical; if \code{TRUE}, prints the plot else returns a 
+#' plot object.
 #'
 #' @details
 #' DFFIT - difference in fits, is used to identify influential data points. It
@@ -19,9 +22,12 @@
 #' }
 #'
 #' An observation is deemed influential if the absolute value of its DFFITS value is greater than:
-#' \deqn{2\sqrt(p + 1) / (n - p -1)}
+#' \deqn{2\sqrt((p + 1) / (n - p -1))}
 #'
-#' where n is the number of observations and p is the number of predictors including intercept.
+#' A size-adjusted cutoff recommended by Belsley, Kuh, and Welsch is 
+#' \deqn{2\sqrt(p / n)} and is used by default in **olsrr**.
+#' 
+#' where \code{n} is the number of observations and \code{p} is the number of predictors including intercept.
 #'
 #' @return \code{ols_plot_dffits} returns  a list containing the
 #' following components:
@@ -39,6 +45,7 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_plot_dffits(model)
+#' ols_plot_dffits(model, size_adj_threshold = FALSE)
 #'
 #' @seealso [ols_plot_dfbetas()]
 #'
@@ -46,10 +53,10 @@
 #'
 #' @export
 #'
-ols_plot_dffits <- function(model, print_plot = TRUE) {
+ols_plot_dffits <- function(model, size_adj_threshold = TRUE, print_plot = TRUE) {
 
   check_model(model)
-  data <- ols_prep_dffits_plot_data(model)
+  data <- ols_prep_dffits_plot_data(model, size_adj_threshold)
 
   p <-
     ggplot(data$d, aes(x = obs, y = dbetas, label = txt, ymin = 0, ymax = data$dfm)) +
@@ -82,12 +89,17 @@ ols_plot_dffits <- function(model, print_plot = TRUE) {
 }
 
 
-ols_prep_dffits_plot_data <- function(model) {
+ols_prep_dffits_plot_data <- function(model, size_adj_threshold = TRUE) {
 
   dffitsm    <- unlist(dffits(model))
   k          <- model_n_coeffs(model)
   n          <- model_rows(model)
-  dffits_t   <- sqrt(k / n) * 2
+  
+  # threshold
+  normal_t   <- 2 * sqrt((k + 1) / (n - k - 1))
+  adj_t      <- sqrt(k / n) * 2
+  dffits_t   <- ifelse(size_adj_threshold, adj_t, normal_t)
+
   title      <- names(model.frame(model))[1]
   dfits_data <- data.frame(obs = seq_len(n), dbetas = dffitsm)
   d          <- ols_prep_dfbeta_data(dfits_data, dffits_t)
