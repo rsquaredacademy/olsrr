@@ -11,3 +11,4 @@ Tools for teaching and learning OLS regression
 See the README on
 \href{https://github.com/rsquaredacademy/olsrr}{GitHub}
 }
+\keyword{internal}

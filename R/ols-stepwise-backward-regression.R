@@ -139,7 +139,15 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
       nm    <- length(m_sum$`F value`)
       fvals <- m_sum$`F value`[ppos:nm]
       pvals <- m_sum$`Pr(>F)`
-      minf  <- which(fvals == min(fvals, na.rm = TRUE)) + ppos - 1
+      min_f <- which(fvals == min(fvals, na.rm = TRUE))
+
+      len_minf <- length(min_f)
+
+      if (len_minf > 1) {
+        min_f <- min_f[1]
+      }
+
+      minf <- min_f + ppos - 1
 
 
         if (pvals[minf] > p_val) {

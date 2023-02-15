@@ -5,9 +5,9 @@
 
 <!-- badges: start -->
 
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
 [![cran
-checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
+checks](https://badges.cranchecks.info/summary/olsrr.svg)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
 [![R build
 status](https://github.com/rsquaredacademy/olsrr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/olsrr/actions)
 [![Coverage
@@ -23,14 +23,14 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 The olsrr package provides following tools for building OLS regression
 models using R:
 
--   Comprehensive Regression Output
--   Variable Selection Procedures
--   Heteroskedasticity Tests
--   Collinearity Diagnostics
--   Model Fit Assessment
--   Measures of Influence
--   Residual Diagnostics
--   Variable Contribution Assessment
+- Comprehensive Regression Output
+- Variable Selection Procedures
+- Heteroskedasticity Tests
+- Collinearity Diagnostics
+- Model Fit Assessment
+- Measures of Influence
+- Residual Diagnostics
+- Variable Contribution Assessment
 
 ## Installation
 
@@ -45,17 +45,17 @@ devtools::install_github("rsquaredacademy/olsrr")
 
 ## Articles
 
--   [Quick
-    Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
--   [Variable Selection
-    Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
--   [Residual
-    Diagnostics](https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html)
--   [Heteroskedasticity](https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html)
--   [Measures of
-    Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
--   [Collinearity
-    Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
+- [Quick
+  Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
+- [Variable Selection
+  Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
+- [Residual
+  Diagnostics](https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html)
+- [Heteroskedasticity](https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html)
+- [Measures of
+  Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
+- [Collinearity
+  Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
 
 ## Usage
 
@@ -72,16 +72,19 @@ demo:
 
 ``` r
 ols_regress(mpg ~ disp + hp + wt + qsec, data = mtcars)
-#>                         Model Summary                          
-#> --------------------------------------------------------------
-#> R                       0.914       RMSE                2.409 
-#> R-Squared               0.835       Coef. Var          13.051 
-#> Adj. R-Squared          0.811       MSE                 6.875 
-#> Pred R-Squared          0.771       MAE                 1.858 
-#> --------------------------------------------------------------
+#>                          Model Summary                          
+#> ---------------------------------------------------------------
+#> R                       0.914       RMSE                 2.409 
+#> R-Squared               0.835       MSE                  6.875 
+#> Adj. R-Squared          0.811       Coef. Var           13.051 
+#> Pred R-Squared          0.771       AIC                159.070 
+#> MAE                     1.858       SBC                167.864 
+#> ---------------------------------------------------------------
 #>  RMSE: Root Mean Square Error 
 #>  MSE: Mean Square Error 
 #>  MAE: Mean Absolute Error 
+#>  AIC: Akaike Information Criteria 
+#>  SBC: Schwarz Bayesian Criteria 
 #> 
 #>                                ANOVA                                 
 #> --------------------------------------------------------------------
@@ -119,31 +122,34 @@ model <- lm(y ~ ., data = surgical)
 ols_step_both_p(model)
 #> 
 #> 
-#>                          Stepwise Summary                          
-#> -----------------------------------------------------------------
-#> Step    Variable             AIC      R-Squared    Adj. R-Squared 
-#> -----------------------------------------------------------------
-#>  0      Base Model         802.606      0.00000           0.00000 
-#>  1      liver_test (+)     771.875      0.45454           0.44405 
-#>  2      alc_heavy (+)      761.439      0.56674           0.54975 
-#>  3      enzyme_test (+)    750.509      0.65900           0.63854 
-#>  4      pindex (+)         735.715      0.75015           0.72975 
-#>  5      bcs (+)            730.620      0.78091           0.75808 
-#> -----------------------------------------------------------------
+#>                                 Stepwise Summary                                
+#> ------------------------------------------------------------------------------
+#> Step    Variable             AIC        SBC       SBIC        R2       Adj. R2 
+#> ------------------------------------------------------------------------------
+#>  0      Base Model         802.606    806.584    646.794    0.00000    0.00000 
+#>  1      liver_test (+)     771.875    777.842    616.009    0.45454    0.44405 
+#>  2      alc_heavy (+)      761.439    769.395    605.506    0.56674    0.54975 
+#>  3      enzyme_test (+)    750.509    760.454    595.297    0.65900    0.63854 
+#>  4      pindex (+)         735.715    747.649    582.943    0.75015    0.72975 
+#>  5      bcs (+)            730.620    744.543    579.638    0.78091    0.75808 
+#> ------------------------------------------------------------------------------
 #> 
 #> Final Model Output 
 #> ------------------
 #> 
-#>                           Model Summary                           
-#> -----------------------------------------------------------------
-#> R                       0.884       RMSE                 184.276 
-#> R-Squared               0.781       Coef. Var             27.839 
-#> Adj. R-Squared          0.758       MSE                38202.426 
-#> Pred R-Squared          0.700       MAE                  137.656 
-#> -----------------------------------------------------------------
+#>                            Model Summary                            
+#> -------------------------------------------------------------------
+#> R                         0.884       RMSE                 184.276 
+#> R-Squared                 0.781       MSE                38202.426 
+#> Adj. R-Squared            0.758       Coef. Var             27.839 
+#> Pred R-Squared            0.700       AIC                  730.620 
+#> MAE                     137.656       SBC                  744.543 
+#> -------------------------------------------------------------------
 #>  RMSE: Root Mean Square Error 
 #>  MSE: Mean Square Error 
 #>  MAE: Mean Absolute Error 
+#>  AIC: Akaike Information Criteria 
+#>  SBC: Schwarz Bayesian Criteria 
 #> 
 #>                                  ANOVA                                  
 #> -----------------------------------------------------------------------
@@ -183,29 +189,32 @@ k <- ols_step_backward_aic(model)
 k
 #> 
 #> 
-#>                        Stepwise Summary                       
-#> ------------------------------------------------------------
-#> Step    Variable        AIC      R-Squared    Adj. R-Squared 
-#> ------------------------------------------------------------
-#>  0      Full Model    736.390      0.78184           0.74305 
-#>  1      alc_mod       734.407      0.78177           0.74856 
-#>  2      gender        732.494      0.78142           0.75351 
-#>  3      age           730.620      0.78091           0.75808 
-#> ------------------------------------------------------------
+#>                              Stepwise Summary                              
+#> -------------------------------------------------------------------------
+#> Step    Variable        AIC        SBC       SBIC        R2       Adj. R2 
+#> -------------------------------------------------------------------------
+#>  0      Full Model    736.390    756.280    586.665    0.78184    0.74305 
+#>  1      alc_mod       734.407    752.308    583.884    0.78177    0.74856 
+#>  2      gender        732.494    748.406    581.290    0.78142    0.75351 
+#>  3      age           730.620    744.543    578.844    0.78091    0.75808 
+#> -------------------------------------------------------------------------
 #> 
 #> Final Model Output 
 #> ------------------
 #> 
-#>                           Model Summary                           
-#> -----------------------------------------------------------------
-#> R                       0.884       RMSE                 184.276 
-#> R-Squared               0.781       Coef. Var             27.839 
-#> Adj. R-Squared          0.758       MSE                38202.426 
-#> Pred R-Squared          0.700       MAE                  137.656 
-#> -----------------------------------------------------------------
+#>                            Model Summary                            
+#> -------------------------------------------------------------------
+#> R                         0.884       RMSE                 184.276 
+#> R-Squared                 0.781       MSE                38202.426 
+#> Adj. R-Squared            0.758       Coef. Var             27.839 
+#> Pred R-Squared            0.700       AIC                  730.620 
+#> MAE                     137.656       SBC                  744.543 
+#> -------------------------------------------------------------------
 #>  RMSE: Root Mean Square Error 
 #>  MSE: Mean Square Error 
 #>  MAE: Mean Absolute Error 
+#>  AIC: Akaike Information Criteria 
+#>  SBC: Schwarz Bayesian Criteria 
 #> 
 #>                                  ANOVA                                  
 #> -----------------------------------------------------------------------
@@ -235,7 +244,7 @@ k
 Breusch Pagan test is used to test for herteroskedasticity (non-constant
 error variance). It tests whether the variance of the errors from a
 regression is dependent on the values of the independent variables. It
-is a *χ*<sup>2</sup> test.
+is a $\chi^{2}$ test.
 
 ``` r
 model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
@@ -294,3 +303,9 @@ If you encounter a bug, please file a minimal reproducible example using
 [reprex](https://reprex.tidyverse.org/index.html) on github. For
 questions and clarifications, use
 [StackOverflow](https://stackoverflow.com/).
+
+## Code of Conduct
+
+Please note that the olsrr project is released with a [Contributor Code
+of Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.

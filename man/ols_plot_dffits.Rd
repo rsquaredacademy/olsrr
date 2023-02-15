@@ -4,12 +4,16 @@
 \alias{ols_plot_dffits}
 \title{DFFITS plot}
 \usage{
-ols_plot_dffits(model, print_plot = TRUE)
+ols_plot_dffits(model, size_adj_threshold = TRUE, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
-\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
+\item{size_adj_threshold}{logical; if \code{TRUE} (the default), size 
+adjusted threshold is used to determine influential observations.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a 
+plot object.}
 }
 \value{
 \code{ols_plot_dffits} returns  a list containing the
@@ -35,13 +39,17 @@ Steps to compute DFFITs:
 }
 
 An observation is deemed influential if the absolute value of its DFFITS value is greater than:
-\deqn{2\sqrt(p + 1) / (n - p -1)}
+\deqn{2\sqrt((p + 1) / (n - p -1))}
 
-where n is the number of observations and p is the number of predictors including intercept.
+A size-adjusted cutoff recommended by Belsley, Kuh, and Welsch is 
+\deqn{2\sqrt(p / n)} and is used by default in **olsrr**.
+
+where \code{n} is the number of observations and \code{p} is the number of predictors including intercept.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_dffits(model)
+ols_plot_dffits(model, size_adj_threshold = FALSE)
 
 }
 \references{

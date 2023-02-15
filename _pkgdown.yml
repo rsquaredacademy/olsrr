@@ -1,4 +1,6 @@
 url: https://olsrr.rsquaredacademy.com
+template:
+  bootstrap: 5
 
 authors:
   Aravind Hebbali:
@@ -6,205 +8,206 @@ authors:
 
 templates:
   params:
-    bootswatch: cosmo
-    ganalytics: UA-57270671-33
-    docsearch:
-      api_key:
-      index_name: olsrr
+    bootswatch: cerulean
 
 navbar:
-  title: "olsrr"
+  title: 'olsrr'
   type: inverse
   left:
-    - text: "Home"
+    - text: 'Home'
       href: index.html
-    - text: "Guides"
+    - text: 'Guides'
       menu:
-        - text: "Intro"
+        - text: 'Intro'
           href: articles/intro.html
-        - text: "Residual Diagnostics"
+        - text: 'Residual Diagnostics'
           href: articles/residual_diagnostics.html
-        - text: "Measures of Influence"
+        - text: 'Measures of Influence'
           href: articles/influence_measures.html
-        - text: "Heteroskedasticity"
+        - text: 'Heteroskedasticity'
           href: articles/heteroskedasticity.html
-        - text: "Collinearity Diagnostics"
+        - text: 'Collinearity Diagnostics'
           href: articles/regression_diagnostics.html
-        - text: "Variable Selection"
+        - text: 'Variable Selection'
           href: articles/variable_selection.html
-    - text: "Reference"
+    - text: 'Reference'
       menu:
-        - text: "Functions"
+        - text: 'Functions'
           href: reference/index.html
-        - text: "Media"
+        - text: 'Media'
           href: articles/reference-media.html
-        - text: "News"
+        - text: 'News'
           href: news/index.html
   right:
-   - icon: fa-github
-     href: https://github.com/rsquaredacademy/olsrr
-
+    - icon: fa-github
+      href: https://github.com/rsquaredacademy/olsrr
 
 home:
   links:
-  - text: Learn more
-    href: https://www.rsquaredacademy.com
-  - text: Try shiny app
-    href: https://www.rsquaredcomputing.com/shiny/olsrr/
-  - text: Docker Image
-    href: https://hub.docker.com/r/rsquaredacademy/olsrr/
-
+    - text: Our R packages
+      href: https://pkgs.rsquaredacademy.com
+    - text: Read our blog
+      href: https://blog.rsquaredacademy.com
+    - text: Our ebooks
+      href: https://ebooks.rsquaredacademy.com
+    - text: Online courses
+      href: https://www.rsquaredacademy.com
 
 reference:
-- title: Regression
+  - title: Shiny App
 
-  contents:
-  - ols_regress
+    contents:
+      - ols_launch_app
 
-- title: All Possible Regression
+  - title: Regression
 
-  contents:
-  - ols_step_all_possible
-  - ols_step_all_possible_betas
+    contents:
+      - ols_regress
 
-- title: Best Subset Regression
+  - title: All Possible Regression
 
-  contents:
-  - ols_step_best_subset
+    contents:
+      - ols_step_all_possible
+      - ols_step_all_possible_betas
 
-- title: Forward Selection
+  - title: Best Subset Regression
 
-  contents:
-  - ols_step_forward_aic
-  - ols_step_forward_sbc
-  - ols_step_forward_sbic
-  - ols_step_forward_r2
-  - ols_step_forward_adj_r2
-  - ols_step_forward_p
-  
-- title: Backward Selection
+    contents:
+      - ols_step_best_subset
 
-  contents:
-  - ols_step_backward_aic
-  - ols_step_backward_sbc
-  - ols_step_backward_sbic
-  - ols_step_backward_r2
-  - ols_step_backward_adj_r2
-  - ols_step_backward_p
+  - title: Forward Selection
 
-- title: Both Direction Selection
+    contents:
+      - ols_step_forward_aic
+      - ols_step_forward_sbc
+      - ols_step_forward_sbic
+      - ols_step_forward_r2
+      - ols_step_forward_adj_r2
+      - ols_step_forward_p
 
-  contents:
-  - ols_step_both_aic
-  - ols_step_both_sbc
-  - ols_step_both_sbic
-  - ols_step_both_r2
-  - ols_step_both_adj_r2
-  - ols_step_both_p
+  - title: Backward Selection
 
-- title: Residual Diagnostics
+    contents:
+      - ols_step_backward_aic
+      - ols_step_backward_sbc
+      - ols_step_backward_sbic
+      - ols_step_backward_r2
+      - ols_step_backward_adj_r2
+      - ols_step_backward_p
 
-  contents:
-  - ols_plot_resid_box
-  - ols_plot_resid_fit
-  - ols_plot_resid_hist
-  - ols_plot_resid_qq
-  - ols_test_correlation
-  - ols_test_normality
-  
-- title: Heteroskedasticity
+  - title: Both Direction Selection
 
-  contents:
-  - ols_test_bartlett
-  - ols_test_breusch_pagan
-  - ols_test_score
-  - ols_test_f
+    contents:
+      - ols_step_both_aic
+      - ols_step_both_sbc
+      - ols_step_both_sbic
+      - ols_step_both_r2
+      - ols_step_both_adj_r2
+      - ols_step_both_p
 
-- title: Collinearity Diagnostics
+  - title: Residual Diagnostics
 
-  contents:
-  - ols_coll_diag
-  - ols_vif_tol
-  - ols_eigen_cindex
+    contents:
+      - ols_plot_resid_box
+      - ols_plot_resid_fit
+      - ols_plot_resid_hist
+      - ols_plot_resid_qq
+      - ols_test_correlation
+      - ols_test_normality
 
-- title: Measures of Influence
+  - title: Heteroskedasticity
 
-  contents:
-  - ols_plot_cooksd_bar
-  - ols_plot_cooksd_chart
-  - ols_plot_dfbetas
-  - ols_plot_dffits
-  - ols_plot_resid_stud
-  - ols_plot_resid_stand
-  - ols_plot_resid_lev
-  - ols_plot_resid_stud_fit
-  - ols_plot_hadi
-  - ols_plot_resid_pot
-  - ols_leverage
-  - ols_hadi
-  - ols_press
-  - ols_pred_rsq
-  - ols_test_outlier
+    contents:
+      - ols_test_bartlett
+      - ols_test_breusch_pagan
+      - ols_test_score
+      - ols_test_f
 
-- title: Information Criteria
+  - title: Collinearity Diagnostics
 
-  contents:
-  - ols_aic
-  - ols_sbc
-  - ols_sbic
-  - ols_mallows_cp
-  - ols_msep
-  - ols_fpe
-  - ols_apc
-  - ols_hsp
+    contents:
+      - ols_coll_diag
+      - ols_vif_tol
+      - ols_eigen_cindex
 
+  - title: Measures of Influence
 
-- title: Model Fit Assessment
+    contents:
+      - ols_plot_cooksd_bar
+      - ols_plot_cooksd_chart
+      - ols_plot_dfbetas
+      - ols_plot_dffits
+      - ols_plot_resid_stud
+      - ols_plot_resid_stand
+      - ols_plot_resid_lev
+      - ols_plot_resid_stud_fit
+      - ols_plot_hadi
+      - ols_plot_resid_pot
+      - ols_leverage
+      - ols_hadi
+      - ols_press
+      - ols_pred_rsq
+      - ols_test_outlier
 
-  contents:
-  - ols_plot_resid_fit_spread
-  - ols_plot_fm
-  - ols_plot_resid_spread
-  - ols_correlations
-  - ols_plot_obs_fit
-  - ols_pure_error_anova
-  - ols_plot_diagnostics
+  - title: Information Criteria
 
-- title: Plot Data
+    contents:
+      - ols_aic
+      - ols_sbc
+      - ols_sbic
+      - ols_mallows_cp
+      - ols_msep
+      - ols_fpe
+      - ols_apc
+      - ols_hsp
 
-  contents:
-  - ols_prep_avplot_data
-  - ols_prep_regress_x
-  - ols_prep_regress_y
-  - ols_prep_cdplot_data
-  - ols_prep_outlier_obs
-  - ols_prep_cdplot_outliers
-  - ols_prep_dfbeta_data
-  - ols_prep_dfbeta_outliers
-  - ols_prep_dsrvf_data
-  - ols_prep_rfsplot_fmdata
-  - ols_prep_rvsrplot_data
-  - ols_prep_rstudlev_data
-  - ols_prep_srplot_data
-  - ols_prep_srchart_data
+  - title: Model Fit Assessment
 
-- title: Variable Contribution
+    contents:
+      - ols_plot_resid_fit_spread
+      - ols_plot_fm
+      - ols_plot_resid_spread
+      - ols_correlations
+      - ols_plot_obs_fit
+      - ols_pure_error_anova
+      - ols_plot_diagnostics
 
-  contents:
-  - ols_plot_resid_regressor
-  - ols_plot_added_variable
-  - ols_plot_comp_plus_resid
+  - title: Plot Data
 
-- title: Miscellaneous
+    contents:
+      - ols_prep_avplot_data
+      - ols_prep_regress_x
+      - ols_prep_regress_y
+      - ols_prep_cdplot_data
+      - ols_prep_outlier_obs
+      - ols_prep_cdplot_outliers
+      - ols_prep_dfbeta_data
+      - ols_prep_dfbeta_outliers
+      - ols_prep_dsrvf_data
+      - ols_prep_rfsplot_fmdata
+      - ols_prep_rvsrplot_data
+      - ols_prep_rstudlev_data
+      - ols_prep_srplot_data
+      - ols_prep_srchart_data
 
-  contents:
-  - ols_plot_response
-  - ols_plot_reg_line
+  - title: Variable Contribution
 
-- title: Data
-  desc: >
-    olsrr comes with a built-in datasets which are used to
-    illustrate the functions as well as for running tests.
-  contents:
-  - surgical
-  - stepdata
+    contents:
+      - ols_plot_resid_regressor
+      - ols_plot_added_variable
+      - ols_plot_comp_plus_resid
+      - rvsr_plot_shiny
+
+  - title: Miscellaneous
+
+    contents:
+      - ols_plot_response
+      - ols_plot_reg_line
+
+  - title: Data
+    desc: >
+      olsrr comes with a built-in datasets which are used to
+      illustrate the functions as well as for running tests.
+    contents:
+      - surgical
+      - stepdata

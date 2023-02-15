@@ -6,6 +6,7 @@
 #' \href{https://github.com/rsquaredacademy/olsrr}{GitHub}
 #'
 #' @docType package
+#' @keywords internal
 #' @name olsrr
 NULL
 

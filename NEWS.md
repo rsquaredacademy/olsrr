@@ -18,6 +18,10 @@
 - `ols_regress()` returned residual standard error instead of RMSE (@jens-daniel-mueller, [#165](https://github.com/rsquaredacademy/olsrr/issues/165))
 - Extracting model data ([#159](https://github.com/rsquaredacademy/olsrr/issues/159))
 - ols_plot_resid_stud() fails to plot outliers due to y-axis range ([#155](https://github.com/rsquaredacademy/olsrr/issues/155))
+- ols_correlations error ([#191](https://github.com/rsquaredacademy/olsrr/issues/191))
+- Mallow's Cp behaves inconsistently depending on model specification ([#196](https://github.com/rsquaredacademy/olsrr/issues/196))
+- ols_step_forward_p(...) problem using the funtion ols_step_forward_p ([#200](https://github.com/rsquaredacademy/olsrr/issues/200))
+- Output of the command "ols_step_both_aic" doesn't contain final model ([#201](https://github.com/rsquaredacademy/olsrr/issues/201))
 
 # olsrr 0.5.3
 
@@ -95,7 +99,7 @@ We have made some changes to the API to make it more user friendly:
 - error in diagnostic panel ([#45](https://github.com/rsquaredacademy/olsrr/issues/45))
 - standardized betas in the presence of interaction terms ([#46](https://github.com/rsquaredacademy/olsrr/issues/46))
 
-A big thanks goes to ([Dr. Kimberly Henry](http://psy.psych.colostate.edu/psylist/detail.asp?Num=163)) for
+A big thanks goes to ([Dr. Kimberly Henry](https://kimberlyhenry.github.io/my_website/)) for
 identifying bugs and other valuable feedback that helped improve the package.
 
 # olsrr 0.3.0

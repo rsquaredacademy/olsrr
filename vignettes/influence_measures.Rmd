@@ -80,9 +80,15 @@ Proposed by Welsch and Kuh (1977). It is the scaled difference between the $i^{t
 
 An observation is deemed influential if the absolute value of its DFFITS value is greater than: 
 
-$${2}*{\frac{\sqrt{(p + 1)}}{(n - p -1)}}$$
+$${2}*\sqrt{\frac{(p + 1)}{(n - p - 1)}}$$
+
+A size-adjusted cutoff recommended by Belsley, Kuh, and Welsch is
+
+$${2}*\sqrt{\frac{p}{n}}$$
 
 where n is the number of observations and p is the number of predictors including intercept.
+
+olsrr uses the size adjusted cutoff by default.
 
 ```{r dfitsplot, fig.width=5, fig.height=5, fig.align='center'}
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

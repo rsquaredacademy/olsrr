@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
-[![cran checks](https://cranchecks.info/badges/summary/olsrr)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
+[![cran checks](https://badges.cranchecks.info/summary/olsrr.svg)](https://cran.r-project.org/web/checks/check_results_olsrr.html)
 [![R build status](https://github.com/rsquaredacademy/olsrr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/olsrr/actions)
 [![Coverage status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master) [![status](https://tinyverse.netlify.com/badge/olsrr)](https://CRAN.R-project.org/package=olsrr) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) [![](https://cranlogs.r-pkg.org/badges/grand-total/olsrr)](https://cran.r-project.org/package=olsrr) 
 <!-- badges: end -->
@@ -126,3 +126,7 @@ ols_coll_diag(model)
 If you encounter a bug, please file a minimal reproducible example using 
 [reprex](https://reprex.tidyverse.org/index.html) on github. For questions and clarifications, 
 use [StackOverflow](https://stackoverflow.com/).
+
+## Code of Conduct
+
+Please note that the olsrr project is released with a [Contributor Code of Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

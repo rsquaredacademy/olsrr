@@ -6,7 +6,8 @@
 #' independent variables.
 #'
 #' @param model An object of class \code{lm}.
-#' @param x An object of class \code{ols_best_subset}.
+#' @param max_order Maximum subset order.
+#' @param x An object of class \code{ols_step_all_possible}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
 #'
@@ -41,6 +42,10 @@
 #'
 #' # plot
 #' plot(k)
+#' 
+#' # maximum subset
+#' model <- lm(mpg ~ disp + hp + drat + wt + qsec, data = mtcars)
+#' ols_step_all_possible(model, max_order = 3)
 #'
 #' @importFrom utils combn
 #'
@@ -49,13 +54,14 @@
 ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
 
 #' @export
+#' @rdname ols_step_all_possible
 #'
-ols_step_all_possible.default <- function(model, ...) {
+ols_step_all_possible.default <- function(model, max_order = NULL, ...) {
 
   check_model(model)
   check_npredictors(model, 2)
 
-  metrics <- allpos_helper(model)
+  metrics <- allpos_helper(model, max_order)
 
   ui <- data.frame(
     n          = metrics$lpreds,
@@ -285,10 +291,11 @@ ols_step_all_possible_betas <- function(object, ...) {
 #'
 #' @noRd
 #'
-allpos_helper <- function(model) {
+allpos_helper <- function(model, max_order = NULL) {
 
-  nam   <- coeff_names(model)
-  n     <- length(nam)
+  nam <- coeff_names(model)
+  n   <- length(nam)
+  
   r     <- seq_len(n)
   combs <- list()
 
@@ -296,9 +303,18 @@ allpos_helper <- function(model) {
     combs[[i]] <- combn(n, r[i])
   }
 
+  if (!is.null(max_order)) {
+    check_order(n, max_order)
+  }
+
+  if (is.null(max_order)) {
+    max_order <- n
+  }
+
   pos_data  <- model$model
   predicts  <- nam
-  lc        <- length(combs)
+  # lc        <- length(combs)
+  lc        <- max_order
   varnames  <- model_colnames(model)
   len_preds <- length(predicts)
   gap       <- len_preds - 1

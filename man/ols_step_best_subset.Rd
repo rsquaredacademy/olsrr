@@ -10,6 +10,7 @@ ols_step_best_subset(model, ...)
 
 \method{ols_step_best_subset}{default}(
   model,
+  max_order = NULL,
   include = NULL,
   exclude = NULL,
   metric = c("rsquare", "adjr", "predrsq", "cp", "aic", "sbic", "sbc", "msep", "fpe",
@@ -23,6 +24,8 @@ ols_step_best_subset(model, ...)
 \item{model}{An object of class \code{lm}.}
 
 \item{...}{Other inputs.}
+
+\item{max_order}{Maximum subset order.}
 
 \item{include}{Character or numeric vector; variables to be included in selection process.}
 
@@ -51,6 +54,10 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_step_best_subset(model)
 ols_step_best_subset(model, metric = "adjr")
 ols_step_best_subset(model, metric = "cp")
+
+# maximum subset
+model <- lm(mpg ~ disp + hp + drat + wt + qsec, data = mtcars)
+ols_step_best_subset(model, max_order = 3)
 
 # plot
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

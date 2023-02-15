@@ -1,7 +1,13 @@
 check_model <- function(model) {
-  if (!all(class(model) == "lm")) {
+  if (!any(class(model) == "lm")) {
     model_name <- deparse(substitute(model))
     stop(paste0("`", model_name, "` must be an object of class `lm`."), call. = FALSE)
+  }
+}
+
+check_order <- function(n, max_order) {
+  if (max_order > n) {
+    stop("Maximum subset order should be less than or equal to the number of predictors in the specified model.", call. = FALSE)
   }
 }
 

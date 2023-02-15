@@ -6,6 +6,7 @@
 #' model is R2 but the user can choose any of the other available metrics.
 #'
 #' @param model An object of class \code{lm}.
+#' @param max_order Maximum subset order.
 #' @param include Character or numeric vector; variables to be included in selection process.
 #' @param exclude Character or numeric vector; variables to be excluded from selection process.
 #' @param metric Metric to select model.
@@ -28,6 +29,10 @@
 #' ols_step_best_subset(model, metric = "adjr")
 #' ols_step_best_subset(model, metric = "cp")
 #'
+#' # maximum subset
+#' model <- lm(mpg ~ disp + hp + drat + wt + qsec, data = mtcars)
+#' ols_step_best_subset(model, max_order = 3)
+#' 
 #' # plot
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' k <- ols_step_best_subset(model)
@@ -46,7 +51,8 @@ ols_step_best_subset <- function(model, ...) UseMethod("ols_step_best_subset")
 #' @export
 #' @rdname ols_step_best_subset
 #' 
-ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
+ols_step_best_subset.default <- function(model, max_order = NULL, 
+                                         include = NULL, exclude = NULL,
                                          metric = c("rsquare", "adjr", "predrsq",
                                                     "cp", "aic", "sbic", "sbc",
                                                     "msep", "fpe", "apc", "hsp"),
@@ -97,7 +103,16 @@ ols_step_best_subset.default <- function(model, include = NULL, exclude = NULL,
     combs[[i]] <- combn(n, r[i])
   }
 
-  lc        <- length(combs)
+  if (!is.null(max_order)) {
+    check_order(n, max_order)
+  }
+
+  if (is.null(max_order)) {
+    max_order <- n
+  }
+
+  # lc        <- length(combs)
+  lc        <- max_order
   varnames  <- model_colnames(model)
   data      <- model$model
   colas     <- unname(unlist(lapply(combs, ncol)))
