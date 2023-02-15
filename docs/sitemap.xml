@@ -1,19 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/404.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/influence_measures.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/intro.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/reference-media.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/articles/variable_selection.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/authors.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/google02e424888b5e2def.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/index.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/ISSUE_TEMPLATE.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/addvar_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/aic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/all_subset.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/auto.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/bartlett_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/best_subset.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/box_resid.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/bp_test.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/cement.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/coll_diag.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/conf_band.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/conf_line.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/cooksd_bplot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/cooksd_chart.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/correlations.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/corr_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/cplusr_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/dfbetas_panel.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/dffits_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/diag_panel.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/dpred.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/dsrvsp_plot.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/fitness.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/fm_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/f_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/gmsep.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/hadi.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/hadi_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/hist_resid.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/hsb.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/jp.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/leverage.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/mallow_cp.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/norm_test.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/olsrr.html</loc>
@@ -22,22 +166,79 @@
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_aic.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_all_subset.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_all_subset_betas.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_apc.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_avplots.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_bartlett_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_best_subset.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_bp_test.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_cooksd_barplot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_cooksd_chart.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_correlations.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_corr_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_deps.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_dfbetas_panel.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_dffits_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_diagnostic_panel.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_dsrvsp_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_fm_plot.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_fpe.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_f_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_gmsep.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_hadi.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_hadi_plot.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_hsp.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_jp.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_launch_app.html</loc>
@@ -50,6 +251,15 @@
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_msep.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_norm_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_ovsp_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_pc.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.html</loc>
@@ -118,6 +328,9 @@
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_plot_response.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_potrsd_plot.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_pred_rsq.html</loc>
   </url>
   <url>
@@ -172,10 +385,70 @@
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_regress.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_reg_line.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_resid_hist.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_resp_viz.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rfs_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rpc_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rsdlev_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rsd_boxplot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rsd_hist.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rsd_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rsd_qqplot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rvsp_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_rvsr_plot.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_sbc.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_sbic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_score_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_sp.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_srsd_chart.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_srsd_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_stepaic_backward.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_stepaic_both.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_stepaic_forward.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_stepwise.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.html</loc>
@@ -184,13 +457,31 @@
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible_betas.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_adj_r2.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_aic.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_p.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_r2.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_sbc.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_backward_sbic.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_adj_r2.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_aic.html</loc>
@@ -199,10 +490,34 @@
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_r2.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_sbc.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_both_sbic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_aic.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_r2.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_sbc.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_step_forward_sbic.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.html</loc>
@@ -226,36 +541,105 @@
     <loc>https://olsrr.rsquaredacademy.com/reference/ols_test_score.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ols_update.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/ovsp_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/pc.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/poten_resid_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/pred_diag.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/pred_rsq.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/press.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/pure_error_anova.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/qqresid.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/regress.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/reg_line.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/resid_boxplot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/rfs_plot.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/rivers.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/rsd_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/rvsp_plot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/rvsr_plot.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/rvsr_plot_shiny.html</loc>
   </url>
   <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/sbc.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/sbic.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/score_test.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/sp.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/srplot.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/stepaic_backward.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/stepaic_both.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/stepaic_forward.html</loc>
+  </url>
+  <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/stepdata.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/stepwise.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/step_backward.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/step_forward.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/studres_chart.html</loc>
+  </url>
+  <url>
+    <loc>https://olsrr.rsquaredacademy.com/reference/studvslev_plot.html</loc>
   </url>
   <url>
     <loc>https://olsrr.rsquaredacademy.com/reference/surgical.html</loc>
   </url>
   <url>
-    <loc>https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html</loc>
-  </url>
-  <url>
-    <loc>https://olsrr.rsquaredacademy.com/articles/influence_measures.html</loc>
-  </url>
-  <url>
-    <loc>https://olsrr.rsquaredacademy.com/articles/intro.html</loc>
-  </url>
-  <url>
-    <loc>https://olsrr.rsquaredacademy.com/articles/reference-media.html</loc>
-  </url>
-  <url>
-    <loc>https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html</loc>
-  </url>
-  <url>
-    <loc>https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html</loc>
-  </url>
-  <url>
-    <loc>https://olsrr.rsquaredacademy.com/articles/variable_selection.html</loc>
+    <loc>https://olsrr.rsquaredacademy.com/SUPPORT.html</loc>
   </url>
 </urlset>
