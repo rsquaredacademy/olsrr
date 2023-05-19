@@ -11,7 +11,7 @@ checks](https://badges.cranchecks.info/summary/olsrr.svg)](https://cran.r-projec
 [![R build
 status](https://github.com/rsquaredacademy/olsrr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/olsrr/actions)
 [![Coverage
-status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/olsrr?branch=master)
+status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://app.codecov.io/github/rsquaredacademy/olsrr?branch=master)
 [![status](https://tinyverse.netlify.com/badge/olsrr)](https://CRAN.R-project.org/package=olsrr)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
