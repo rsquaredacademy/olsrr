@@ -4,14 +4,18 @@
 \alias{ols_plot_cooksd_bar}
 \title{Cooks' D bar plot}
 \usage{
-ols_plot_cooksd_bar(model, type = 1, print_plot = TRUE)
+ols_plot_cooksd_bar(model, type = 1, threshold = NULL, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
-\item{type}{An integer between 1 and 5 selecting one of the 6 methods for computing the threshold.}
+\item{type}{An integer between 1 and 5 selecting one of the 5 methods for
+computing the threshold.}
 
-\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
+\item{threshold}{Threshold for detecting outliers.}
+
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a
+plot object.}
 }
 \value{
 \code{ols_plot_cooksd_bar} returns  a list containing the
@@ -61,6 +65,8 @@ where \strong{n} and \strong{k} stand for
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_cooksd_bar(model)
+ols_plot_cooksd_bar(model, type = 4)
+ols_plot_cooksd_bar(model, threshold = 0.2)
 
 }
 \seealso{
