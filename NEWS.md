@@ -1,10 +1,22 @@
-# olsrr 0.5.3.9000
+# olsrr 0.6.0
+
+This is a minor release for bug fixes and other enhancements.
 
 ## New Features
 
-- Force variables in/out in variable selection procedures
-- Hierarchical selection
-- Variable selection using r-squared and adjusted r-squared
+- hierarchical selection can be enables when using `p` values as variable selection metric
+
+## Enhancements
+
+- force variables to be included or excluded from the model at all stages of variable selection
+- Variable selection methods allow use of the following metrics:
+    - p value
+    - akaike information criterion (aic)
+    - schwarz bayesian criterion (sbc)
+    - sawa bayesian criterion (sbic)
+    - r-square
+    - adjusted r-square
+- Choose threshold for determining influential observations in `ols_plot_dffits()`
 
 ## Bug Fixes
 
