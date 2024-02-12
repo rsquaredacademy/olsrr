@@ -39,5 +39,5 @@ ols_plot_resid_stud(model, threshold = 2)
 
 }
 \seealso{
-[ols_plot_resid_stand()]
+\code{\link[=ols_plot_resid_stand]{ols_plot_resid_stand()}}
 }

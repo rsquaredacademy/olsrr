@@ -17,20 +17,21 @@ Imports:
     gridExtra,
     nortest,
     stats,
-    utils
+    utils,
+    xplorerr
 Suggests:
     covr,
     descriptr,
     knitr,
     rmarkdown,
     testthat,
-    vdiffr,
-    xplorerr
+    vdiffr
 License: MIT + file LICENSE
 URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
 Config/testthat/edition: 3

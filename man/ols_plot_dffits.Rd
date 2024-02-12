@@ -9,10 +9,10 @@ ols_plot_dffits(model, size_adj_threshold = TRUE, print_plot = TRUE)
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
-\item{size_adj_threshold}{logical; if \code{TRUE} (the default), size 
+\item{size_adj_threshold}{logical; if \code{TRUE} (the default), size
 adjusted threshold is used to determine influential observations.}
 
-\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a 
+\item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a
 plot object.}
 }
 \value{
@@ -33,16 +33,16 @@ when the ith data point is omitted.
 Steps to compute DFFITs:
 
 \itemize{
-  \item Delete observations one at a time.
-  \item Refit the regression model on remaining \eqn{n - 1} observations
-  \item examine how much all of the fitted values change when the ith observation is deleted.
+\item Delete observations one at a time.
+\item Refit the regression model on remaining \eqn{n - 1} observations
+\item examine how much all of the fitted values change when the ith observation is deleted.
 }
 
 An observation is deemed influential if the absolute value of its DFFITS value is greater than:
 \deqn{2\sqrt((p + 1) / (n - p -1))}
 
-A size-adjusted cutoff recommended by Belsley, Kuh, and Welsch is 
-\deqn{2\sqrt(p / n)} and is used by default in **olsrr**.
+A size-adjusted cutoff recommended by Belsley, Kuh, and Welsch is
+\deqn{2\sqrt(p / n)} and is used by default in \strong{olsrr}.
 
 where \code{n} is the number of observations and \code{p} is the number of predictors including intercept.
 }
@@ -60,5 +60,5 @@ Wiley Series in Probability and Mathematical Statistics.
 New York: John Wiley & Sons. ISBN 0-471-05856-4.
 }
 \seealso{
-[ols_plot_dfbetas()]
+\code{\link[=ols_plot_dfbetas]{ols_plot_dfbetas()}}
 }

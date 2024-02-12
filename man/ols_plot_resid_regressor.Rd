@@ -25,5 +25,5 @@ ols_plot_resid_regressor(model, 'drat')
 
 }
 \seealso{
-[ols_plot_added_variable()], [ols_plot_comp_plus_resid()]
+\code{\link[=ols_plot_added_variable]{ols_plot_added_variable()}}, \code{\link[=ols_plot_comp_plus_resid]{ols_plot_comp_plus_resid()}}
 }

@@ -28,5 +28,5 @@ Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical 
 Chicago, IL., McGraw Hill/Irwin.
 }
 \seealso{
-[ols_plot_added_variable()], [ols_plot_resid_regressor()]
+\code{\link[=ols_plot_added_variable]{ols_plot_added_variable()}}, \code{\link[=ols_plot_resid_regressor]{ols_plot_resid_regressor()}}
 }

@@ -46,8 +46,8 @@ The residual sum of squares resulting from a regression can be decomposed
 into 2 components:
 
 \itemize{
-  \item Due to lack of fit
-  \item Due to random variation
+\item Due to lack of fit
+\item Due to random variation
 }
 
 If most of the error is due to lack of fit and not just random error, the

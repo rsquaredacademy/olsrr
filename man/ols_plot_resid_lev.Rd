@@ -23,5 +23,5 @@ ols_plot_resid_lev(model, threshold = 3)
 
 }
 \seealso{
-[ols_plot_resid_stud_fit()], [ols_plot_resid_lev()]
+\code{\link[=ols_plot_resid_stud_fit]{ols_plot_resid_stud_fit()}}, \code{\link[=ols_plot_resid_lev]{ols_plot_resid_lev()}}
 }

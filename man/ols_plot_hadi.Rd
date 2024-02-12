@@ -25,5 +25,5 @@ ols_plot_hadi(model)
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
 \seealso{
-[ols_plot_resid_pot()]
+\code{\link[=ols_plot_resid_pot]{ols_plot_resid_pot()}}
 }

@@ -6,6 +6,7 @@
 #'
 #' @param model An object of class \code{lm}.
 #' @param type An integer between 1 and 5 selecting one of the 6 methods for computing the threshold.
+#' @param threshold Threshold for detecting outliers.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
 #' @details
@@ -51,6 +52,8 @@
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_cooksd_chart(model)
+#' ols_plot_cooksd_chart(model, type = 4)
+#' ols_plot_cooksd_chart(model, threshold = 0.2)
 #'
 #' @importFrom ggplot2 geom_linerange
 #'
@@ -58,7 +61,7 @@
 #'
 #' @export
 #'
-ols_plot_cooksd_chart <- function(model, type = 1, print_plot = TRUE) {
+ols_plot_cooksd_chart <- function(model, type = 1, threshold = NULL, print_plot = TRUE) {
 
   check_model(model)
 
@@ -66,20 +69,24 @@ ols_plot_cooksd_chart <- function(model, type = 1, print_plot = TRUE) {
   d <- ols_prep_outlier_obs(k)
   f <- ols_prep_cdplot_outliers(k)
 
+  if (is.null(threshold)) {
+      threshold <- k$ts
+  }
+
   p <- 
     ggplot(d, aes(x = obs, y = cd, label = txt, ymin = min(cd), ymax = cd)) +
     geom_linerange(colour = "blue") + 
     geom_point(shape = 1, colour = "blue") +
     geom_text(vjust = -1, size = 3, family = "serif", fontface = "italic",
               colour = "darkred", na.rm = TRUE) +
-    geom_hline(yintercept = k$ts, colour = "red") 
+    geom_hline(yintercept = threshold, colour = "red") 
 
   # annotations
   p <- 
     p +
     annotate("text", x = Inf, y = Inf, hjust = 1.2, vjust = 2,
       family = "serif", fontface = "italic", colour = "darkred",
-      label = paste("Threshold:", round(k$ts, 3)))
+      label = paste("Threshold:", round(threshold, 3)))
 
   # guides
   p <-
@@ -92,7 +99,7 @@ ols_plot_cooksd_chart <- function(model, type = 1, print_plot = TRUE) {
   if (print_plot) {
     suppressWarnings(print(p))
   } else {
-    return(list(plot = p, outliers = f, threshold = k$ts))
+    return(list(plot = p, outliers = f, threshold = threshold))
   }
 
 }

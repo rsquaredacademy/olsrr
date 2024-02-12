@@ -27,8 +27,10 @@
 #'
 #' @examples
 #' # using grouping variable
-#' library(descriptr)
-#' ols_test_bartlett(mtcarz, 'mpg', group_var = 'cyl')
+#' if (require("descriptr")) {
+#'   library(descriptr)
+#'   ols_test_bartlett(mtcarz, 'mpg', group_var = 'cyl')
+#' }
 #'
 #' # using variables
 #' ols_test_bartlett(hsb, 'read', 'write')

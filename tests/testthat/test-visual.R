@@ -70,6 +70,9 @@ test_that("cooks d bar plot is as expected", {
   p <- ols_plot_cooksd_bar(model, print_plot = FALSE)
   vdiffr::expect_doppelganger("cooks d bar plot", p$plot)
 
+  p1 <- ols_plot_cooksd_bar(model, threshold = 0.2, print_plot = FALSE)
+  vdiffr::expect_doppelganger("cooks d bar plot threshold", p1$plot)
+  
   p2 <- ols_plot_cooksd_bar(model, type = 2, print_plot = FALSE)
   vdiffr::expect_doppelganger("cooks d bar plot type 2", p2$plot)
 
@@ -87,6 +90,9 @@ test_that("cooks d bar chart is as expected", {
   skip_on_cran()
   p <- ols_plot_cooksd_chart(model, print_plot = FALSE)
   vdiffr::expect_doppelganger("cooks d bar chart", p$plot)
+
+  p1 <- ols_plot_cooksd_chart(model, threshold = 0.2, print_plot = FALSE)
+  vdiffr::expect_doppelganger("cooks d bar chart threshold", p1$plot)
 })
 
 test_that("dffits plot is as expected", {

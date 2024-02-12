@@ -7,8 +7,6 @@
 #' @export
 #'
 ols_launch_app <- function() {
-
-	check_suggests('xplorerr')
 	xplorerr::app_linear_regression()
 }
  

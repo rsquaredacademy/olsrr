@@ -4,12 +4,14 @@
 \alias{ols_plot_cooksd_chart}
 \title{Cooks' D chart}
 \usage{
-ols_plot_cooksd_chart(model, type = 1, print_plot = TRUE)
+ols_plot_cooksd_chart(model, type = 1, threshold = NULL, print_plot = TRUE)
 }
 \arguments{
 \item{model}{An object of class \code{lm}.}
 
 \item{type}{An integer between 1 and 5 selecting one of the 6 methods for computing the threshold.}
+
+\item{threshold}{Threshold for detecting outliers.}
 
 \item{print_plot}{logical; if \code{TRUE}, prints the plot else returns a plot object.}
 }
@@ -33,9 +35,9 @@ residual and leverage i.e it takes it account both the \emph{x} value and
 Steps to compute Cook's distance:
 
 \itemize{
-  \item Delete observations one at a time.
-  \item Refit the regression model on remaining \eqn{n - 1} observations
-  \item exmine how much all of the fitted values change when the ith observation is deleted.
+\item Delete observations one at a time.
+\item Refit the regression model on remaining \eqn{n - 1} observations
+\item exmine how much all of the fitted values change when the ith observation is deleted.
 }
 
 A data point having a large cook's d indicates that the data point strongly
@@ -44,25 +46,27 @@ the threshold used for detecting or classifying observations as outliers
 and we list them below.
 
 \itemize{
-  \item \strong{Type 1} : 4 / n
-  \item \strong{Type 2} : 4 / (n - k - 1)
-  \item \strong{Type 3} : ~1
-  \item \strong{Type 4} : 1 / (n - k - 1)
-  \item \strong{Type 5} : 3 * mean(Vector of cook's distance values)
+\item \strong{Type 1} : 4 / n
+\item \strong{Type 2} : 4 / (n - k - 1)
+\item \strong{Type 3} : ~1
+\item \strong{Type 4} : 1 / (n - k - 1)
+\item \strong{Type 5} : 3 * mean(Vector of cook's distance values)
 }
 
 where \strong{n} and \strong{k} stand for
 
 \itemize{
-  \item \strong{n}: Number of observations
-  \item \strong{k}: Number of predictors
+\item \strong{n}: Number of observations
+\item \strong{k}: Number of predictors
 }
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_cooksd_chart(model)
+ols_plot_cooksd_chart(model, type = 4)
+ols_plot_cooksd_chart(model, threshold = 0.2)
 
 }
 \seealso{
-[ols_plot_cooksd_bar()]
+\code{\link[=ols_plot_cooksd_bar]{ols_plot_cooksd_bar()}}
 }

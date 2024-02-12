@@ -23,7 +23,15 @@ library(goftest)
 
 ## Introduction
 
-## All Possible Regression
+Variable selection refers to the process of choosing the most relevant variables to include in a 
+regression model. They help to improve model performance and avoid over fitting. 
+
+Before we explore stepwise selection methods, let us take a quick look at all/best subset regression.
+As they evaluate every possible variable combination, these methods are computationally intensive and may 
+crash your system if used with a large set of variables. We have included them in the package purely for 
+educational purpose.
+
+### All Possible Regression
 
 All subset regression tests all possible subsets of the set of potential independent variables. If there are K potential independent variables (besides the constant), then there are $2^{k}$ distinct subsets of them to be tested. For example, if you have 10 candidate independent variables, the number of subsets to be tested is $2^{10}$, which is 1024, and if you have 20 candidate variables, the number is $2^{20}$, which is more than one million.
 
@@ -32,15 +40,7 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_step_all_possible(model)
 ```
 
-The `plot` method shows the panel of fit criteria for all possible regression methods. 
-
-```{r allsubplot, fig.width=10, fig.height=10, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-k <- ols_step_all_possible(model)
-plot(k)
-```
-
-## Best Subset Regression
+### Best Subset Regression
 
 Select the subset of predictors that do the best at meeting some well-defined objective criterion, 
 such as having the largest R2 value or the smallest MSE, Mallow's Cp or AIC.
@@ -50,188 +50,134 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_step_best_subset(model)
 ```
 
-The `plot` method shows the panel of fit criteria for best subset regression methods. 
+## Stepwise Selection
 
-```{r bestsubplot, fig.width=10, fig.height=10, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
-k <- ols_step_best_subset(model)
-plot(k)
+Stepwise regression is a method of fitting regression models that involves the 
+iterative selection of independent variables to use in a model. It can be 
+achieved through forward selection, backward elimination, or a combination of 
+both methods. The forward selection approach starts with no variables and adds 
+each new variable incrementally, testing for statistical significance, while 
+the backward elimination method begins with a full model and then removes the 
+least statistically significant variables one at a time.
+
+### Model
+
+We will use the below model throughout this article except in the case of hierarchical selection. 
+You can learn more about the data [here](https://olsrr.rsquaredacademy.com/reference/surgical).
+
+```{r model}
+model <- lm(y ~ ., data = surgical)
+summary(model)
 ```
 
-## Stepwise Forward Regression
+### Model specification 
 
-Build regression model from a set of candidate predictor variables by entering predictors based on 
-p values, in a stepwise manner until there is no variable left to enter any more. The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
+Irrespective of the stepwise method being used, we have to specify the full model i.e. all the variabels/predictors 
+under consideration as `olsrr` extracts the candidate variables for selection/elimination from the model specified.
 
-### Variable Selection
+##### Forward selection
 
 ```{r stepf1}
 # stepwise forward regression
-model <- lm(y ~ ., data = surgical)
 ols_step_forward_p(model)
 ```
 
-### Plot
+##### Backward elimination
 
-```{r stepf2, fig.width=10, fig.height=10, fig.align='center'}
-model <- lm(y ~ ., data = surgical)
-k <- ols_step_forward_p(model)
-plot(k)
-```
-
-### Detailed Output
-
-```{r stepwisefdetails}
-# stepwise forward regression
-model <- lm(y ~ ., data = surgical)
-ols_step_forward_p(model, details = TRUE)
-```
-
-## Stepwise Backward Regression
-
-Build regression model from a set of candidate predictor variables by removing predictors based on 
-p values, in a stepwise manner until there is no variable left to remove any more. The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
-
-### Variable Selection
-
-```{r stepb, fig.width=10, fig.height=10, fig.align='center'}
+```{r stepb}
 # stepwise backward regression
-model <- lm(y ~ ., data = surgical)
 ols_step_backward_p(model)
 ```
 
-### Plot
+### Criteria 
 
-```{r stepb2, fig.width=10, fig.height=10, fig.align='center'}
-model <- lm(y ~ ., data = surgical)
-k <- ols_step_backward_p(model)
+The criteria for selecting variables may be one of the following:
+
+- p value
+- akaike information criterion (aic)
+- schwarz bayesian criterion (sbc)
+- sawa bayesian criterion (sbic)
+- r-square
+- adjusted r-square
+  
+### Include/exclude variables 
+
+We can force variables to be included or excluded from the model at all stages of variable selection. The
+variables may be specified either by name or position in the model specified.
+
+##### By name
+
+```{r include_name}
+ols_step_forward_p(model, include = c("age", "alc_mod"))
+```
+
+##### By index
+
+```{r include_index}
+ols_step_forward_p(model, include = c(5, 7))
+```
+
+### Standardized output
+
+All stepwise selection methods display standard output which includes:
+
+- selection summary
+- model summary
+- ANOVA
+- parameter estimates
+
+```{r output}
+# adjusted r-square 
+ols_step_forward_adj_r2(model)
+```
+
+### Visualization
+
+Use the `plot()` method to visualize variable selection. It will display how the variable selection criteria 
+changes at each step of the selection process along with the variable selected.
+
+```{r visualize}
+# adjusted r-square 
+k <- ols_step_forward_adj_r2(model)
 plot(k)
 ```
 
-### Detailed Output
+### Verbose output
 
-```{r stepwisebdetails}
-# stepwise backward regression
-model <- lm(y ~ ., data = surgical)
-ols_step_backward_p(model, details = TRUE)
+To view the detailed regression output at each stage of variable selection/elimination, set `details` to `TRUE`. It will
+display the following information at each step:
+
+- step number
+- variable selected/eliminated
+- model 
+- value of the criteria at that stage
+
+```{r details}
+# adjusted r-square 
+ols_step_forward_adj_r2(model, details = TRUE)
 ```
 
-## Stepwise Regression
+### Progress
 
-Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
-p values, in a stepwise manner until there is no variable left to enter or remove any more. The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
+To view the progress in the variable selection procedure, set `progress` to `TRUE`. It will display the variable 
+being selected/eliminated at each step until there are no more candidate variables left.
 
-### Variable Selection
-
-```{r stepwise1}
-# stepwise regression
-model <- lm(y ~ ., data = surgical)
-ols_step_both_p(model)
+```{r progress}
+# adjusted r-square 
+ols_step_forward_adj_r2(model, progress = TRUE)
 ```
 
-### Plot
+### Hierarchical selection 
 
-```{r stepwise2, fig.width=10, fig.height=10, fig.align='center'}
-model <- lm(y ~ ., data = surgical)
-k <- ols_step_both_p(model)
-plot(k)
-```
+When using `p` values as the criterion for selecting/eliminating variables, we can enable hierarchical
+selection. In this method, the search for the most significant variable is restricted to the next available
+variable. In the below example, as `liver_test` does not meet the threshold for selection, none of the 
+variables after `liver_test` are considered for further selection i.e. the stepwise selection ends as soon
+as it comes across a variable that does not meet the selection threshold. You can learn more about hierachichal
+selection [here](https://www.stata.com/manuals/rstepwise.pdf).
 
-### Detailed Output
-
-```{r stepwisedetails}
-# stepwise regression
-model <- lm(y ~ ., data = surgical)
-ols_step_both_p(model, details = TRUE)
-```
-
-## Stepwise AIC Forward Regression
-
-Build regression model from a set of candidate predictor variables by entering predictors based on 
-Akaike Information Criteria, in a stepwise manner until there is no variable left to enter any more.
-The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
-
-### Variable Selection
-
-```{r stepaicf1}
-# stepwise aic forward regression
-model <- lm(y ~ ., data = surgical)
-ols_step_forward_aic(model)
-```
-
-### Plot
-
-```{r stepaicf2, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(y ~ ., data = surgical)
-k <- ols_step_forward_aic(model)
-plot(k)
-```
-
-### Detailed Output
-
-```{r stepwiseaicfdetails}
-# stepwise aic forward regression
-model <- lm(y ~ ., data = surgical)
-ols_step_forward_aic(model, details = TRUE)
-```
-
-## Stepwise AIC Backward Regression
-
-Build regression model from a set of candidate predictor variables by removing predictors based on 
-Akaike Information Criteria, in a stepwise manner until there is no variable left to remove any more.
-The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
-
-### Variable Selection
-
-```{r stepaicb1}
-# stepwise aic backward regression
-model <- lm(y ~ ., data = surgical)
-k <- ols_step_backward_aic(model)
-k
-```
-
-### Plot
-
-```{r stepaicb2, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(y ~ ., data = surgical)
-k <- ols_step_backward_aic(model)
-plot(k)
-```
-
-### Detailed Output
-
-```{r stepwiseaicbdetails}
-# stepwise aic backward regression
-model <- lm(y ~ ., data = surgical)
-ols_step_backward_aic(model, details = TRUE)
-```
-
-## Stepwise AIC Regression
-
-Build regression model from a set of candidate predictor variables by entering and removing predictors based on 
-Akaike Information Criteria, in a stepwise manner until there is no variable left to enter or remove any more.
-The model should include all the candidate predictor variables. If details is set to `TRUE`, each step is displayed.
-
-### Variable Selection
-
-```{r stepwiseaic1}
-# stepwise aic regression
-model <- lm(y ~ ., data = surgical)
-ols_step_both_aic(model)
-```
-
-### Plot
-
-```{r stepwiseaic2, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(y ~ ., data = surgical)
-k <- ols_step_both_aic(model)
-plot(k)
-```
-
-### Detailed Output
-
-```{r stepwiseaicdetails}
-# stepwise aic regression
-model <- lm(y ~ ., data = surgical)
-ols_step_both_aic(model, details = TRUE)
+```{r hierarchical}
+# hierarchical selection
+m <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+ols_step_forward_p(m, 0.1, hierarchical = TRUE)
 ```
