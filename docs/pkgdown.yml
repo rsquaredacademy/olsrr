@@ -1,5 +1,5 @@
-pandoc: 2.19.2
-pkgdown: 2.0.6
+pandoc: 3.1.1
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   heteroskedasticity: heteroskedasticity.html
@@ -9,7 +9,7 @@ articles:
   regression_diagnostics: regression_diagnostics.html
   residual_diagnostics: residual_diagnostics.html
   variable_selection: variable_selection.html
-last_built: 2023-02-15T14:23Z
+last_built: 2024-02-12T13:27Z
 urls:
   reference: https://olsrr.rsquaredacademy.com/reference
   article: https://olsrr.rsquaredacademy.com/articles

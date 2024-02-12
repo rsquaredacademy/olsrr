@@ -8,10 +8,10 @@
 <meta name="description" content="olsrr">
 <title>Heteroscedasticity • olsrr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Heteroscedasticity">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Heteroscedasticity">
 <meta property="og:description" content="olsrr">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">olsrr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@
       <img src="" class="logo" alt=""><h1>Heteroscedasticity</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/heteroskedasticity.Rmd" class="external-link"><code>vignettes/heteroskedasticity.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rsquaredacademy/olsrr/blob/HEAD/../../../../R/Packages/statistics/olsrr/vignettes/heteroskedasticity.Rmd" class="external-link"><code>../../../../R/Packages/statistics/olsrr/vignettes/heteroskedasticity.Rmd</code></a></small>
       <div class="d-none name"><code>heteroskedasticity.Rmd</code></div>
     </div>
 
@@ -132,39 +132,39 @@ and one grouping variable, a formula or a linear model.</p>
 <h5 id="use-grouping-variable">Use grouping variable<a class="anchor" aria-label="anchor" href="#use-grouping-variable"></a>
 </h5>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/ols_test_bartlett.html">ols_test_bartlett</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="st">'read'</span>, group_var <span class="op">=</span> <span class="st">'female'</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##     Bartlett's Test of Homogenity of Variances    </span>
-<span class="co">## ------------------------------------------------</span>
-<span class="co">## Ho: Variances are equal across groups</span>
-<span class="co">## Ha: Variances are unequal for atleast two groups</span>
-<span class="co">## </span>
-<span class="co">##         Test Summary         </span>
-<span class="co">##  ----------------------------</span>
-<span class="co">##  DF            =    1 </span>
-<span class="co">##  Chi2          =    0.1866579 </span>
-<span class="co">##  Prob &gt; Chi2   =    0.6657129</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_test_bartlett.html">ols_test_bartlett</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="st">'read'</span>, group_var <span class="op">=</span> <span class="st">'female'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##     Bartlett's Test of Homogenity of Variances    </span></span>
+<span><span class="co">## ------------------------------------------------</span></span>
+<span><span class="co">## Ho: Variances are equal across groups</span></span>
+<span><span class="co">## Ha: Variances are unequal for atleast two groups</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Test Summary         </span></span>
+<span><span class="co">##  ----------------------------</span></span>
+<span><span class="co">##  DF            =    1 </span></span>
+<span><span class="co">##  Chi2          =    0.1866579 </span></span>
+<span><span class="co">##  Prob &gt; Chi2   =    0.6657129</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="using-variables">Using variables<a class="anchor" aria-label="anchor" href="#using-variables"></a>
 </h5>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/ols_test_bartlett.html">ols_test_bartlett</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="st">'read'</span>, <span class="st">'write'</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##     Bartlett's Test of Homogenity of Variances    </span>
-<span class="co">## ------------------------------------------------</span>
-<span class="co">## Ho: Variances are equal across groups</span>
-<span class="co">## Ha: Variances are unequal for atleast two groups</span>
-<span class="co">## </span>
-<span class="co">##         Data          </span>
-<span class="co">##  ---------------------</span>
-<span class="co">##  Variables: read write </span>
-<span class="co">## </span>
-<span class="co">##         Test Summary         </span>
-<span class="co">##  ----------------------------</span>
-<span class="co">##  DF            =    1 </span>
-<span class="co">##  Chi2          =    1.222871 </span>
-<span class="co">##  Prob &gt; Chi2   =    0.2687979</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_test_bartlett.html">ols_test_bartlett</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="st">'read'</span>, <span class="st">'write'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##     Bartlett's Test of Homogenity of Variances    </span></span>
+<span><span class="co">## ------------------------------------------------</span></span>
+<span><span class="co">## Ho: Variances are equal across groups</span></span>
+<span><span class="co">## Ha: Variances are unequal for atleast two groups</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Data          </span></span>
+<span><span class="co">##  ---------------------</span></span>
+<span><span class="co">##  Variables: read write </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Test Summary         </span></span>
+<span><span class="co">##  ----------------------------</span></span>
+<span><span class="co">##  DF            =    1 </span></span>
+<span><span class="co">##  Chi2          =    1.222871 </span></span>
+<span><span class="co">##  Prob &gt; Chi2   =    0.2687979</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -185,164 +185,164 @@ method.</p>
 <h5 id="use-fitted-values-of-the-model">Use fitted values of the model<a class="anchor" aria-label="anchor" href="#use-fitted-values-of-the-model"></a>
 </h5>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Breusch Pagan Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------------------</span>
-<span class="co">##  Ho: the variance is constant            </span>
-<span class="co">##  Ha: the variance is not constant        </span>
-<span class="co">## </span>
-<span class="co">##              Data               </span>
-<span class="co">##  -------------------------------</span>
-<span class="co">##  Response : mpg </span>
-<span class="co">##  Variables: fitted values of mpg </span>
-<span class="co">## </span>
-<span class="co">##        Test Summary         </span>
-<span class="co">##  ---------------------------</span>
-<span class="co">##  DF            =    1 </span>
-<span class="co">##  Chi2          =    1.429672 </span>
-<span class="co">##  Prob &gt; Chi2   =    0.231818</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Breusch Pagan Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------------------</span></span>
+<span><span class="co">##  Ho: the variance is constant            </span></span>
+<span><span class="co">##  Ha: the variance is not constant        </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##              Data               </span></span>
+<span><span class="co">##  -------------------------------</span></span>
+<span><span class="co">##  Response : mpg </span></span>
+<span><span class="co">##  Variables: fitted values of mpg </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##        Test Summary         </span></span>
+<span><span class="co">##  ---------------------------</span></span>
+<span><span class="co">##  DF            =    1 </span></span>
+<span><span class="co">##  Chi2          =    1.429672 </span></span>
+<span><span class="co">##  Prob &gt; Chi2   =    0.231818</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="use-independent-variables-of-the-model">Use independent variables of the model<a class="anchor" aria-label="anchor" href="#use-independent-variables-of-the-model"></a>
 </h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Breusch Pagan Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------------------</span>
-<span class="co">##  Ho: the variance is constant            </span>
-<span class="co">##  Ha: the variance is not constant        </span>
-<span class="co">## </span>
-<span class="co">##            Data            </span>
-<span class="co">##  --------------------------</span>
-<span class="co">##  Response : mpg </span>
-<span class="co">##  Variables: disp hp wt drat </span>
-<span class="co">## </span>
-<span class="co">##         Test Summary         </span>
-<span class="co">##  ----------------------------</span>
-<span class="co">##  DF            =    4 </span>
-<span class="co">##  Chi2          =    1.513808 </span>
-<span class="co">##  Prob &gt; Chi2   =    0.8241927</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Breusch Pagan Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------------------</span></span>
+<span><span class="co">##  Ho: the variance is constant            </span></span>
+<span><span class="co">##  Ha: the variance is not constant        </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##            Data            </span></span>
+<span><span class="co">##  --------------------------</span></span>
+<span><span class="co">##  Response : mpg </span></span>
+<span><span class="co">##  Variables: disp hp wt drat </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Test Summary         </span></span>
+<span><span class="co">##  ----------------------------</span></span>
+<span><span class="co">##  DF            =    4 </span></span>
+<span><span class="co">##  Chi2          =    1.513808 </span></span>
+<span><span class="co">##  Prob &gt; Chi2   =    0.8241927</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="use-independent-variables-of-the-model-and-perform-multiple-tests">Use independent variables of the model and perform multiple
 tests<a class="anchor" aria-label="anchor" href="#use-independent-variables-of-the-model-and-perform-multiple-tests"></a>
 </h5>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Breusch Pagan Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------------------</span>
-<span class="co">##  Ho: the variance is constant            </span>
-<span class="co">##  Ha: the variance is not constant        </span>
-<span class="co">## </span>
-<span class="co">##            Data            </span>
-<span class="co">##  --------------------------</span>
-<span class="co">##  Response : mpg </span>
-<span class="co">##  Variables: disp hp wt drat </span>
-<span class="co">## </span>
-<span class="co">##         Test Summary (Unadjusted p values)       </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   Variable           chi2       df        p     </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   disp             1.2355345     1    0.2663334 </span>
-<span class="co">##   hp               0.9209878     1    0.3372157 </span>
-<span class="co">##   wt               1.2529988     1    0.2629805 </span>
-<span class="co">##   drat             1.1668486     1    0.2800497 </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   simultaneous     1.5138083     4    0.8241927 </span>
-<span class="co">##  ----------------------------------------------</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Breusch Pagan Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------------------</span></span>
+<span><span class="co">##  Ho: the variance is constant            </span></span>
+<span><span class="co">##  Ha: the variance is not constant        </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##            Data            </span></span>
+<span><span class="co">##  --------------------------</span></span>
+<span><span class="co">##  Response : mpg </span></span>
+<span><span class="co">##  Variables: disp hp wt drat </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Test Summary (Unadjusted p values)       </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   Variable           chi2       df        p     </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   disp             1.2355345     1    0.2663334 </span></span>
+<span><span class="co">##   hp               0.9209878     1    0.3372157 </span></span>
+<span><span class="co">##   wt               1.2529988     1    0.2629805 </span></span>
+<span><span class="co">##   drat             1.1668486     1    0.2800497 </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   simultaneous     1.5138083     4    0.8241927 </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="bonferroni-p-value-adjustment">Bonferroni p value Adjustment<a class="anchor" aria-label="anchor" href="#bonferroni-p-value-adjustment"></a>
 </h5>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span>, p.adj <span class="op">=</span> <span class="st">'bonferroni'</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Breusch Pagan Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------------------</span>
-<span class="co">##  Ho: the variance is constant            </span>
-<span class="co">##  Ha: the variance is not constant        </span>
-<span class="co">## </span>
-<span class="co">##            Data            </span>
-<span class="co">##  --------------------------</span>
-<span class="co">##  Response : mpg </span>
-<span class="co">##  Variables: disp hp wt drat </span>
-<span class="co">## </span>
-<span class="co">##         Test Summary (Bonferroni p values)       </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   Variable           chi2       df        p     </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   disp             1.2355345     1    1.0000000 </span>
-<span class="co">##   hp               0.9209878     1    1.0000000 </span>
-<span class="co">##   wt               1.2529988     1    1.0000000 </span>
-<span class="co">##   drat             1.1668486     1    1.0000000 </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   simultaneous     1.5138083     4    0.8241927 </span>
-<span class="co">##  ----------------------------------------------</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span>, p.adj <span class="op">=</span> <span class="st">'bonferroni'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Breusch Pagan Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------------------</span></span>
+<span><span class="co">##  Ho: the variance is constant            </span></span>
+<span><span class="co">##  Ha: the variance is not constant        </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##            Data            </span></span>
+<span><span class="co">##  --------------------------</span></span>
+<span><span class="co">##  Response : mpg </span></span>
+<span><span class="co">##  Variables: disp hp wt drat </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Test Summary (Bonferroni p values)       </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   Variable           chi2       df        p     </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   disp             1.2355345     1    1.0000000 </span></span>
+<span><span class="co">##   hp               0.9209878     1    1.0000000 </span></span>
+<span><span class="co">##   wt               1.2529988     1    1.0000000 </span></span>
+<span><span class="co">##   drat             1.1668486     1    1.0000000 </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   simultaneous     1.5138083     4    0.8241927 </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="sidak-p-value-adjustment">Sidak p value Adjustment<a class="anchor" aria-label="anchor" href="#sidak-p-value-adjustment"></a>
 </h5>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span>, p.adj <span class="op">=</span> <span class="st">'sidak'</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Breusch Pagan Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------------------</span>
-<span class="co">##  Ho: the variance is constant            </span>
-<span class="co">##  Ha: the variance is not constant        </span>
-<span class="co">## </span>
-<span class="co">##            Data            </span>
-<span class="co">##  --------------------------</span>
-<span class="co">##  Response : mpg </span>
-<span class="co">##  Variables: disp hp wt drat </span>
-<span class="co">## </span>
-<span class="co">##           Test Summary (Sidak p values)          </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   Variable           chi2       df        p     </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   disp             1.2355345     1    0.7102690 </span>
-<span class="co">##   hp               0.9209878     1    0.8070305 </span>
-<span class="co">##   wt               1.2529988     1    0.7049362 </span>
-<span class="co">##   drat             1.1668486     1    0.7313356 </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   simultaneous     1.5138083     4    0.8241927 </span>
-<span class="co">##  ----------------------------------------------</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span>, p.adj <span class="op">=</span> <span class="st">'sidak'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Breusch Pagan Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------------------</span></span>
+<span><span class="co">##  Ho: the variance is constant            </span></span>
+<span><span class="co">##  Ha: the variance is not constant        </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##            Data            </span></span>
+<span><span class="co">##  --------------------------</span></span>
+<span><span class="co">##  Response : mpg </span></span>
+<span><span class="co">##  Variables: disp hp wt drat </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##           Test Summary (Sidak p values)          </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   Variable           chi2       df        p     </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   disp             1.2355345     1    0.7102690 </span></span>
+<span><span class="co">##   hp               0.9209878     1    0.8070305 </span></span>
+<span><span class="co">##   wt               1.2529988     1    0.7049362 </span></span>
+<span><span class="co">##   drat             1.1668486     1    0.7313356 </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   simultaneous     1.5138083     4    0.8241927 </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="holms-p-value-adjustment">Holm’s p value Adjustment<a class="anchor" aria-label="anchor" href="#holms-p-value-adjustment"></a>
 </h5>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span>, p.adj <span class="op">=</span> <span class="st">'holm'</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Breusch Pagan Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------------------</span>
-<span class="co">##  Ho: the variance is constant            </span>
-<span class="co">##  Ha: the variance is not constant        </span>
-<span class="co">## </span>
-<span class="co">##            Data            </span>
-<span class="co">##  --------------------------</span>
-<span class="co">##  Response : mpg </span>
-<span class="co">##  Variables: disp hp wt drat </span>
-<span class="co">## </span>
-<span class="co">##           Test Summary (Holm's p values)         </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   Variable           chi2       df        p     </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   disp             1.2355345     1    0.7990002 </span>
-<span class="co">##   hp               0.9209878     1    0.3372157 </span>
-<span class="co">##   wt               1.2529988     1    1.0000000 </span>
-<span class="co">##   drat             1.1668486     1    0.5600994 </span>
-<span class="co">##  ----------------------------------------------</span>
-<span class="co">##   simultaneous     1.5138083     4    0.8241927 </span>
-<span class="co">##  ----------------------------------------------</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">drat</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span>, multiple <span class="op">=</span> <span class="cn">TRUE</span>, p.adj <span class="op">=</span> <span class="st">'holm'</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Breusch Pagan Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------------------</span></span>
+<span><span class="co">##  Ho: the variance is constant            </span></span>
+<span><span class="co">##  Ha: the variance is not constant        </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##            Data            </span></span>
+<span><span class="co">##  --------------------------</span></span>
+<span><span class="co">##  Response : mpg </span></span>
+<span><span class="co">##  Variables: disp hp wt drat </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##           Test Summary (Holm's p values)         </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   Variable           chi2       df        p     </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   disp             1.2355345     1    0.7990002 </span></span>
+<span><span class="co">##   hp               0.9209878     1    0.3372157 </span></span>
+<span><span class="co">##   wt               1.2529988     1    1.0000000 </span></span>
+<span><span class="co">##   drat             1.1668486     1    0.5600994 </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span>
+<span><span class="co">##   simultaneous     1.5138083     4    0.8241927 </span></span>
+<span><span class="co">##  ----------------------------------------------</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -356,61 +356,61 @@ and a subset of the independent variables.</p>
 <h5 id="use-fitted-values-of-the-model-1">Use fitted values of the model<a class="anchor" aria-label="anchor" href="#use-fitted-values-of-the-model-1"></a>
 </h5>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_score.html">ols_test_score</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Score Test for Heteroskedasticity</span>
-<span class="co">##  ---------------------------------</span>
-<span class="co">##  Ho: Variance is homogenous</span>
-<span class="co">##  Ha: Variance is not homogenous</span>
-<span class="co">## </span>
-<span class="co">##  Variables: fitted values of mpg </span>
-<span class="co">## </span>
-<span class="co">##         Test Summary         </span>
-<span class="co">##  ----------------------------</span>
-<span class="co">##  DF            =    1 </span>
-<span class="co">##  Chi2          =    0.5163959 </span>
-<span class="co">##  Prob &gt; Chi2   =    0.4723832</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_score.html">ols_test_score</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Score Test for Heteroskedasticity</span></span>
+<span><span class="co">##  ---------------------------------</span></span>
+<span><span class="co">##  Ho: Variance is homogenous</span></span>
+<span><span class="co">##  Ha: Variance is not homogenous</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  Variables: fitted values of mpg </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Test Summary         </span></span>
+<span><span class="co">##  ----------------------------</span></span>
+<span><span class="co">##  DF            =    1 </span></span>
+<span><span class="co">##  Chi2          =    0.5163959 </span></span>
+<span><span class="co">##  Prob &gt; Chi2   =    0.4723832</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="use-independent-variables-of-the-model-1">Use independent variables of the model<a class="anchor" aria-label="anchor" href="#use-independent-variables-of-the-model-1"></a>
 </h5>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_score.html">ols_test_score</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Score Test for Heteroskedasticity</span>
-<span class="co">##  ---------------------------------</span>
-<span class="co">##  Ho: Variance is homogenous</span>
-<span class="co">##  Ha: Variance is not homogenous</span>
-<span class="co">## </span>
-<span class="co">##  Variables: disp hp wt qsec </span>
-<span class="co">## </span>
-<span class="co">##         Test Summary         </span>
-<span class="co">##  ----------------------------</span>
-<span class="co">##  DF            =    4 </span>
-<span class="co">##  Chi2          =    2.039404 </span>
-<span class="co">##  Prob &gt; Chi2   =    0.7285114</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_score.html">ols_test_score</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Score Test for Heteroskedasticity</span></span>
+<span><span class="co">##  ---------------------------------</span></span>
+<span><span class="co">##  Ho: Variance is homogenous</span></span>
+<span><span class="co">##  Ha: Variance is not homogenous</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  Variables: disp hp wt qsec </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Test Summary         </span></span>
+<span><span class="co">##  ----------------------------</span></span>
+<span><span class="co">##  DF            =    4 </span></span>
+<span><span class="co">##  Chi2          =    2.039404 </span></span>
+<span><span class="co">##  Prob &gt; Chi2   =    0.7285114</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="specify-variables">Specify variables<a class="anchor" aria-label="anchor" href="#specify-variables"></a>
 </h5>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_score.html">ols_test_score</a></span><span class="op">(</span><span class="va">model</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'disp'</span>, <span class="st">'hp'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  Score Test for Heteroskedasticity</span>
-<span class="co">##  ---------------------------------</span>
-<span class="co">##  Ho: Variance is homogenous</span>
-<span class="co">##  Ha: Variance is not homogenous</span>
-<span class="co">## </span>
-<span class="co">##  Variables: disp hp </span>
-<span class="co">## </span>
-<span class="co">##         Test Summary         </span>
-<span class="co">##  ----------------------------</span>
-<span class="co">##  DF            =    2 </span>
-<span class="co">##  Chi2          =    0.9983196 </span>
-<span class="co">##  Prob &gt; Chi2   =    0.6070405</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_score.html">ols_test_score</a></span><span class="op">(</span><span class="va">model</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'disp'</span>, <span class="st">'hp'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  Score Test for Heteroskedasticity</span></span>
+<span><span class="co">##  ---------------------------------</span></span>
+<span><span class="co">##  Ho: Variance is homogenous</span></span>
+<span><span class="co">##  Ha: Variance is not homogenous</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  Variables: disp hp </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##         Test Summary         </span></span>
+<span><span class="co">##  ----------------------------</span></span>
+<span><span class="co">##  DF            =    2 </span></span>
+<span><span class="co">##  Chi2          =    0.9983196 </span></span>
+<span><span class="co">##  Prob &gt; Chi2   =    0.6070405</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -424,64 +424,64 @@ model and a subset of the independent variables.</p>
 <h5 id="use-fitted-values-of-the-model-2">Use fitted values of the model<a class="anchor" aria-label="anchor" href="#use-fitted-values-of-the-model-2"></a>
 </h5>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_f.html">ols_test_f</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  F Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------</span>
-<span class="co">##  Ho: Variance is homogenous</span>
-<span class="co">##  Ha: Variance is not homogenous</span>
-<span class="co">## </span>
-<span class="co">##  Variables: fitted values of mpg </span>
-<span class="co">## </span>
-<span class="co">##       Test Summary        </span>
-<span class="co">##  -------------------------</span>
-<span class="co">##  Num DF     =    1 </span>
-<span class="co">##  Den DF     =    30 </span>
-<span class="co">##  F          =    0.4920617 </span>
-<span class="co">##  Prob &gt; F   =    0.4884154</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_f.html">ols_test_f</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  F Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------</span></span>
+<span><span class="co">##  Ho: Variance is homogenous</span></span>
+<span><span class="co">##  Ha: Variance is not homogenous</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  Variables: fitted values of mpg </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##       Test Summary        </span></span>
+<span><span class="co">##  -------------------------</span></span>
+<span><span class="co">##  Num DF     =    1 </span></span>
+<span><span class="co">##  Den DF     =    30 </span></span>
+<span><span class="co">##  F          =    0.4920617 </span></span>
+<span><span class="co">##  Prob &gt; F   =    0.4884154</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="use-independent-variables-of-the-model-2">Use independent variables of the model<a class="anchor" aria-label="anchor" href="#use-independent-variables-of-the-model-2"></a>
 </h5>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_f.html">ols_test_f</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  F Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------</span>
-<span class="co">##  Ho: Variance is homogenous</span>
-<span class="co">##  Ha: Variance is not homogenous</span>
-<span class="co">## </span>
-<span class="co">##  Variables: disp hp wt qsec </span>
-<span class="co">## </span>
-<span class="co">##       Test Summary        </span>
-<span class="co">##  -------------------------</span>
-<span class="co">##  Num DF     =    4 </span>
-<span class="co">##  Den DF     =    27 </span>
-<span class="co">##  F          =    0.4594694 </span>
-<span class="co">##  Prob &gt; F   =    0.7647271</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_f.html">ols_test_f</a></span><span class="op">(</span><span class="va">model</span>, rhs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  F Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------</span></span>
+<span><span class="co">##  Ho: Variance is homogenous</span></span>
+<span><span class="co">##  Ha: Variance is not homogenous</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  Variables: disp hp wt qsec </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##       Test Summary        </span></span>
+<span><span class="co">##  -------------------------</span></span>
+<span><span class="co">##  Num DF     =    4 </span></span>
+<span><span class="co">##  Den DF     =    27 </span></span>
+<span><span class="co">##  F          =    0.4594694 </span></span>
+<span><span class="co">##  Prob &gt; F   =    0.7647271</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="specify-variables-1">Specify variables<a class="anchor" aria-label="anchor" href="#specify-variables-1"></a>
 </h5>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="fu"><a href="../reference/ols_test_f.html">ols_test_f</a></span><span class="op">(</span><span class="va">model</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'disp'</span>, <span class="st">'hp'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">##  F Test for Heteroskedasticity</span>
-<span class="co">##  -----------------------------</span>
-<span class="co">##  Ho: Variance is homogenous</span>
-<span class="co">##  Ha: Variance is not homogenous</span>
-<span class="co">## </span>
-<span class="co">##  Variables: disp hp </span>
-<span class="co">## </span>
-<span class="co">##       Test Summary        </span>
-<span class="co">##  -------------------------</span>
-<span class="co">##  Num DF     =    2 </span>
-<span class="co">##  Den DF     =    29 </span>
-<span class="co">##  F          =    0.4669306 </span>
-<span class="co">##  Prob &gt; F   =    0.631555</span></code></pre>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_test_f.html">ols_test_f</a></span><span class="op">(</span><span class="va">model</span>, vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'disp'</span>, <span class="st">'hp'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">##  F Test for Heteroskedasticity</span></span>
+<span><span class="co">##  -----------------------------</span></span>
+<span><span class="co">##  Ho: Variance is homogenous</span></span>
+<span><span class="co">##  Ha: Variance is not homogenous</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##  Variables: disp hp </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##       Test Summary        </span></span>
+<span><span class="co">##  -------------------------</span></span>
+<span><span class="co">##  Num DF     =    2 </span></span>
+<span><span class="co">##  Den DF     =    29 </span></span>
+<span><span class="co">##  F          =    0.4669306 </span></span>
+<span><span class="co">##  Prob &gt; F   =    0.631555</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -498,7 +498,7 @@ model and a subset of the independent variables.</p>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer>
