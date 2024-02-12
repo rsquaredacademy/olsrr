@@ -62,11 +62,11 @@ values of a independent variable.
 Computation
 
 \itemize{
-  \item Fit a regression model
-  \item Regress the squared residuals from the above model on the independent variables
-  \item Compute \eqn{nR^2}. It follows a chi square distribution with p -1 degrees of
-        freedom, where p is the number of independent variables, n is the sample size and
-				 \eqn{R^2} is the coefficient of determination from the regression in step 2.
+\item Fit a regression model
+\item Regress the squared residuals from the above model on the independent variables
+\item Compute \eqn{nR^2}. It follows a chi square distribution with p -1 degrees of
+freedom, where p is the number of independent variables, n is the sample size and
+\eqn{R^2} is the coefficient of determination from the regression in step 2.
 }
 }
 \examples{

@@ -73,5 +73,5 @@ ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)
 
 }
 \references{
-https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting%20Standardized%20Coefficients%20Right.pdf
+https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting\%20Standardized\%20Coefficients\%20Right.pdf
 }

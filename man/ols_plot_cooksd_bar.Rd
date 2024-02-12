@@ -37,9 +37,9 @@ residual and leverage i.e it takes it account both the \emph{x} value and
 Steps to compute Cook's distance:
 
 \itemize{
-  \item Delete observations one at a time.
-  \item Refit the regression model on remaining \eqn{n - 1} observations
-  \item examine how much all of the fitted values change when the ith observation is deleted.
+\item Delete observations one at a time.
+\item Refit the regression model on remaining \eqn{n - 1} observations
+\item examine how much all of the fitted values change when the ith observation is deleted.
 }
 
 A data point having a large cook's d indicates that the data point strongly
@@ -48,18 +48,18 @@ the threshold used for detecting or classifying observations as outliers and
 we list them below.
 
 \itemize{
-  \item \strong{Type 1} : 4 / n
-  \item \strong{Type 2} : 4 / (n - k - 1)
-  \item \strong{Type 3} : ~1
-  \item \strong{Type 4} : 1 / (n - k - 1)
-  \item \strong{Type 5} : 3 * mean(Vector of cook's distance values)
+\item \strong{Type 1} : 4 / n
+\item \strong{Type 2} : 4 / (n - k - 1)
+\item \strong{Type 3} : ~1
+\item \strong{Type 4} : 1 / (n - k - 1)
+\item \strong{Type 5} : 3 * mean(Vector of cook's distance values)
 }
 
 where \strong{n} and \strong{k} stand for
 
 \itemize{
-  \item \strong{n}: Number of observations
-  \item \strong{k}: Number of predictors
+\item \strong{n}: Number of observations
+\item \strong{k}: Number of predictors
 }
 }
 \examples{
@@ -70,5 +70,5 @@ ols_plot_cooksd_bar(model, threshold = 0.2)
 
 }
 \seealso{
-[ols_plot_cooksd_chart()]
+\code{\link[=ols_plot_cooksd_chart]{ols_plot_cooksd_chart()}}
 }

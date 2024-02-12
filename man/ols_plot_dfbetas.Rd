@@ -41,5 +41,5 @@ Wiley Series in Probability and Mathematical Statistics.
 New York: John Wiley & Sons. pp. ISBN 0-471-05856-4.
 }
 \seealso{
-[ols_plot_dffits()]
+\code{\link[=ols_plot_dffits]{ols_plot_dffits()}}
 }

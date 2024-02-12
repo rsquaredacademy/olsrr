@@ -39,9 +39,9 @@ Percent of variance in the predictor that cannot be accounted for by other predi
 Steps to calculate tolerance:
 
 \itemize{
-  \item Regress the kth predictor on rest of the predictors in the model.
-  \item Compute \eqn{R^2} - the coefficient of determination from the regression in the above step.
-  \item \eqn{Tolerance = 1 - R^2}
+\item Regress the kth predictor on rest of the predictors in the model.
+\item Compute \eqn{R^2} - the coefficient of determination from the regression in the above step.
+\item \eqn{Tolerance = 1 - R^2}
 }
 
 \emph{Variance Inflation Factor}
@@ -57,9 +57,9 @@ requiring correction.
 Steps to calculate VIF:
 
 \itemize{
-  \item Regress the kth predictor on rest of the predictors in the model.
-  \item Compute \eqn{R^2} - the coefficient of determination from the regression in the above step.
-  \item \eqn{Tolerance = 1 / 1 - R^2 = 1 / Tolerance}
+\item Regress the kth predictor on rest of the predictors in the model.
+\item Compute \eqn{R^2} - the coefficient of determination from the regression in the above step.
+\item \eqn{Tolerance = 1 / 1 - R^2 = 1 / Tolerance}
 }
 
 \emph{Condition Index}

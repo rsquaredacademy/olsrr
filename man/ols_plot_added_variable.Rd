@@ -29,9 +29,9 @@ model. Let the response variable of the model be \emph{Y}
 Steps to construct an added variable plot:
 
 \itemize{
-  \item Regress \emph{Y} on all variables other than \emph{X} and store the residuals (\emph{Y} residuals).
-  \item Regress \emph{X} on all the other variables included in the model (\emph{X} residuals).
-  \item Construct a scatter plot of \emph{Y} residuals and \emph{X} residuals.
+\item Regress \emph{Y} on all variables other than \emph{X} and store the residuals (\emph{Y} residuals).
+\item Regress \emph{X} on all the other variables included in the model (\emph{X} residuals).
+\item Construct a scatter plot of \emph{Y} residuals and \emph{X} residuals.
 }
 
 What do the \emph{Y} and \emph{X} residuals represent? The \emph{Y} residuals represent the part
@@ -56,5 +56,5 @@ Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical 
 Chicago, IL., McGraw Hill/Irwin.
 }
 \seealso{
-[ols_plot_resid_regressor()], [ols_plot_comp_plus_resid()]
+\code{\link[=ols_plot_resid_regressor]{ols_plot_resid_regressor()}}, \code{\link[=ols_plot_comp_plus_resid]{ols_plot_comp_plus_resid()}}
 }

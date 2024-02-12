@@ -3,6 +3,8 @@
 \docType{package}
 \name{olsrr}
 \alias{olsrr}
+\alias{_PACKAGE}
+\alias{olsrr-package}
 \title{\code{olsrr} package}
 \description{
 Tools for teaching and learning OLS regression
@@ -10,5 +12,18 @@ Tools for teaching and learning OLS regression
 \details{
 See the README on
 \href{https://github.com/rsquaredacademy/olsrr}{GitHub}
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://olsrr.rsquaredacademy.com/}
+  \item \url{https://github.com/rsquaredacademy/olsrr}
+  \item Report bugs at \url{https://github.com/rsquaredacademy/olsrr/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Aravind Hebbali \email{hebbali.aravind@gmail.com}
+
 }
 \keyword{internal}
