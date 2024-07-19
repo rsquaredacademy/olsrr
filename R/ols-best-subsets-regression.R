@@ -32,7 +32,7 @@
 #' # maximum subset
 #' model <- lm(mpg ~ disp + hp + drat + wt + qsec, data = mtcars)
 #' ols_step_best_subset(model, max_order = 3)
-#' 
+#'
 #' # plot
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' k <- ols_step_best_subset(model)
@@ -50,8 +50,8 @@ ols_step_best_subset <- function(model, ...) UseMethod("ols_step_best_subset")
 
 #' @export
 #' @rdname ols_step_best_subset
-#' 
-ols_step_best_subset.default <- function(model, max_order = NULL, 
+#'
+ols_step_best_subset.default <- function(model, max_order = NULL,
                                          include = NULL, exclude = NULL,
                                          metric = c("rsquare", "adjr", "predrsq",
                                                     "cp", "aic", "sbic", "sbc",
@@ -77,7 +77,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
       stop(paste(paste(exclude[!npm], collapse = ", "), "not part of the model and hence cannot be forcibly excluded. Please verify the variable names."), call. = FALSE)
     }
   }
-  
+
   if (is.numeric(include)) {
     if (any(include > lenterms)) {
       stop(paste0("Index of variable to be included should be between 1 and ", lenterms, "."), call. = FALSE)
@@ -88,7 +88,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
 
   if (is.numeric(exclude)) {
     if (any(exclude > lenterms)) {
-      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)  
+      stop(paste0("Index of variable to be excluded should be between 1 and ", lenterms, "."), call. = FALSE)
     } else {
       exclude <- indterms[exclude]
     }
@@ -152,23 +152,23 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   lpreds    <- c()
 
   for (i in seq_len(len_elig)) {
-      predictors        <- predicts[[i]]
-      lp                <- length(predictors)
-      out               <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = data)
-      mcount            <- mcount + 1
-      lpreds[mcount]    <- lp
-      rsq[[mcount]]     <- out$rsq
-      adjr[[mcount]]    <- out$adjr
-      cp[[mcount]]      <- ols_mallows_cp(out$model, model)
-      aic[[mcount]]     <- ols_aic(out$model)
-      sbic[[mcount]]    <- ols_sbic(out$model, model)
-      sbc[[mcount]]     <- ols_sbc(out$model)
-      gmsep[[mcount]]   <- ols_msep(out$model)
-      jp[[mcount]]      <- ols_fpe(out$model)
-      pc[[mcount]]      <- ols_apc(out$model)
-      sp[[mcount]]      <- ols_hsp(out$model)
-      predrsq[[mcount]] <- ols_pred_rsq(out$model)
-      preds[[mcount]]   <- paste(predictors, collapse = " ")
+    predictors        <- predicts[[i]]
+    lp                <- length(predictors)
+    out               <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = data)
+    mcount            <- mcount + 1
+    lpreds[mcount]    <- lp
+    rsq[[mcount]]     <- out$rsq
+    adjr[[mcount]]    <- out$adjr
+    cp[[mcount]]      <- ols_mallows_cp(out$model, model)
+    aic[[mcount]]     <- ols_aic(out$model)
+    sbic[[mcount]]    <- ols_sbic(out$model, model)
+    sbc[[mcount]]     <- ols_sbc(out$model)
+    gmsep[[mcount]]   <- ols_msep(out$model)
+    jp[[mcount]]      <- ols_fpe(out$model)
+    pc[[mcount]]      <- ols_apc(out$model)
+    sp[[mcount]]      <- ols_hsp(out$model)
+    predrsq[[mcount]] <- ols_pred_rsq(out$model)
+    preds[[mcount]]   <- paste(predictors, collapse = " ")
   }
 
   ui <- data.frame(
@@ -197,13 +197,13 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   } else {
     temp <- lapply(l, function(x) x[order(x[[metrics]]), ][1, ])
   }
-  
+
   sorted <- do.call(rbind, temp)
   mindex <- seq_len(nrow(sorted))
   sorted <- cbind(mindex, sorted)
   result <- list(metrics = sorted)
   class(result) <- c("ols_step_best_subset")
-  
+
   return(result)
 
 }
@@ -261,8 +261,8 @@ best_subset_plot <- function(d, var, title = "R-Square") {
   ggplot(d1, aes(x = a, y = b)) +
     geom_line(color = "blue") +
     geom_point(color = "blue", shape = 1, size = 2) +
-    xlab("") + 
-    ylab("") + 
+    xlab("") +
+    ylab("") +
     ggtitle(title) +
     theme(axis.ticks = element_blank())
 
