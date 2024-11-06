@@ -1,4 +1,15 @@
-# olsrr 0.6.0.9000
+# olsrr 0.6.1
+
+This is a patch release for urgent bug fixes.
+
+## Bug Fixes
+
+- Limit maximum subset order in `ols_step_all_possible()` ([#202](https://github.com/rsquaredacademy/olsrr/issues/202))
+- Check model type ([#204](https://github.com/rsquaredacademy/olsrr/issues/204))
+- Mismatch in column names in `ols_step_all_possible()` ([#211](https://github.com/rsquaredacademy/olsrr/issues/211))
+- RMSE is not square root of MSE in `ols_regress()` ([#213](https://github.com/rsquaredacademy/olsrr/issues/213))
+- `geom_segment()` warning in `ols_plot_obs_fit()` ([#217](https://github.com/rsquaredacademy/olsrr/issues/217))
+- New snapshot added every time tests are run ([#218](https://github.com/rsquaredacademy/olsrr/issues/218))
 
 # olsrr 0.6.0
 

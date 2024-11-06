@@ -1,5 +1,5 @@
 #' @importFrom stats model.matrix confint.lm
-#' @importFrom stats as.formula
+#' @importFrom stats as.formula deviance
 reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
 
   model      <- lm(formula = formula, data = data)
@@ -20,7 +20,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   sbic       <- ols_sbic(model, model)
   prsq       <- ols_pred_rsq(model)
   n          <- length(anovam$Df)
-  mse        <- anovam$`Mean Sq`[n]
+  mse        <- mean(model$residuals ^ 2)
   error_df   <- anovam$Df[n]
   model_df   <- sum(anovam$Df) - error_df
   total_df   <- sum(anovam$Df)

@@ -67,7 +67,7 @@ ols_regress(model)
 #>                          Model Summary                          
 #> ---------------------------------------------------------------
 #> R                       0.914       RMSE                 2.409 
-#> R-Squared               0.835       MSE                  6.875 
+#> R-Squared               0.835       MSE                  5.801 
 #> Adj. R-Squared          0.811       Coef. Var           13.051 
 #> Pred R-Squared          0.771       AIC                159.070 
 #> MAE                     1.858       SBC                167.864 

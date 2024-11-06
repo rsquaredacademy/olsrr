@@ -1,5 +1,4 @@
-# when fitted.values == TRUE, fitted values from the regression
-	are used for the test
+# when fitted.values == TRUE, fitted vals from reg are used
 
     Code
       ols_test_breusch_pagan(model)

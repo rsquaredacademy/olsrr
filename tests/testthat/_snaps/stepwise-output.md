@@ -23,7 +23,7 @@
                                  Model Summary                            
       -------------------------------------------------------------------
       R                         0.884       RMSE                 184.276 
-      R-Squared                 0.781       MSE                38202.426 
+      R-Squared                 0.781       MSE                33957.712 
       Adj. R-Squared            0.758       Coef. Var             27.839 
       Pred R-Squared            0.700       AIC                  730.620 
       MAE                     137.656       SBC                  744.543 
@@ -106,7 +106,7 @@
                                  Model Summary                            
       -------------------------------------------------------------------
       R                         0.884       RMSE                 184.276 
-      R-Squared                 0.781       MSE                38202.426 
+      R-Squared                 0.781       MSE                33957.712 
       Adj. R-Squared            0.758       Coef. Var             27.839 
       Pred R-Squared            0.700       AIC                  730.620 
       MAE                     137.656       SBC                  744.543 
@@ -213,7 +213,7 @@
                                  Model Summary                            
       -------------------------------------------------------------------
       R                         0.884       RMSE                 184.276 
-      R-Squared                 0.781       MSE                38202.426 
+      R-Squared                 0.781       MSE                33957.712 
       Adj. R-Squared            0.758       Coef. Var             27.839 
       Pred R-Squared            0.700       AIC                  730.620 
       MAE                     137.656       SBC                  744.543 

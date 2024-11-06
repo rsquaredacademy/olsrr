@@ -102,7 +102,7 @@ ols_step_all_possible.default <- function(model, max_order = NULL, ...) {
 print.ols_step_all_possible <- function(x, ...) {
 
   n <- max(x$result$mindex)
-  k <- data.frame(x$result)[, c(1:5, 7)]
+  k <- data.frame(x$result)[, c(1:5, 8)]
   names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square", "Mallow's Cp")
   print(k)
 

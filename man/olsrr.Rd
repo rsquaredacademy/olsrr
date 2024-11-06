@@ -3,7 +3,6 @@
 \docType{package}
 \name{olsrr}
 \alias{olsrr}
-\alias{_PACKAGE}
 \alias{olsrr-package}
 \title{\code{olsrr} package}
 \description{
