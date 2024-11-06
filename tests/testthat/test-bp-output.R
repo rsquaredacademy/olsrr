@@ -1,4 +1,4 @@
-test_that("when fitted.values == TRUE, fitted values from the regression\n\tare used for the test", {
+test_that("when fitted.values == TRUE, fitted vals from reg are used", {
   model <- lm(mpg ~ disp + hp + wt + drat + qsec, data = mtcars)
   expect_snapshot(ols_test_breusch_pagan(model))
   expect_snapshot(ols_test_breusch_pagan(model, rhs = TRUE))
