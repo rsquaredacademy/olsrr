@@ -20,5 +20,5 @@ if (getRversion() >= "2.15.1") {
     "txt", "cd", "fct_color", "ckd", "dbetas", "color", "pred", "ds", "dsr",
     "fstatistic", "hadi", "Df", "res", "pot", "lfit", "rerror", "ybar",
     "yhat", "predicted", "resid", "lev_thrsh", "leverage", "levrstud",
-    "sdres"))
+    "sdres", "x1", "x2", "y1", "y2"))
 }
