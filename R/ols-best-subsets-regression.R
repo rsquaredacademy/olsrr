@@ -95,6 +95,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   }
 
   nam   <- setdiff(coeff_names(model), exclude)
+  nam   <- setdiff(coeff_names(model), include)
   n     <- length(nam)
   r     <- seq_len(n)
   combs <- list()
@@ -118,19 +119,25 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
   predicts  <- list()
-  k         <- 1
+
+  if (is.null(include)) {
+    k <- 1
+  } else {
+    predicts[[1]] <- include
+    k <- 2
+  }
 
   for (i in seq_len(lc)) {
     for (j in seq_len(colas[i])) {
-      predicts[[k]] <- nam[combs[[i]][, j]]
+      predicts[[k]] <- c(include, nam[combs[[i]][, j]])
       k <- k + 1
     }
   }
 
-  if(!is.null(include)) {
-    y <- grep(include, predicts)
-    predicts <- predicts[y]
-  }
+  # if(!is.null(include)) {
+  #   y <- grep(include, predicts)
+  #   predicts <- predicts[y]
+  # }
 
   len_elig <- length(predicts)
 
@@ -205,6 +212,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   class(result) <- c("ols_step_best_subset")
 
   return(result)
+  # return(list(nam, combs, colas, predicts))
 
 }
 
