@@ -1,5 +1,10 @@
 # olsrr 0.6.1.9000
 
+## Bug Fixes
+
+- `ols_step_best_subset()` unable to force more than one variable in selection process ([#210](https://github.com/rsquaredacademy/olsrr/issues/210))
+- `plot()` with `ols_step_both_aic()` doesn't show anything when AIC values are negative ([#212](https://github.com/rsquaredacademy/olsrr/issues/212))
+
 # olsrr 0.6.1
 
 This is a patch release for urgent bug fixes.
