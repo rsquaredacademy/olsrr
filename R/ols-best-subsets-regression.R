@@ -95,7 +95,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   }
 
   nam   <- setdiff(coeff_names(model), exclude)
-  nam   <- setdiff(coeff_names(model), include)
+  nam   <- setdiff(nam, include)
   n     <- length(nam)
   r     <- seq_len(n)
   combs <- list()

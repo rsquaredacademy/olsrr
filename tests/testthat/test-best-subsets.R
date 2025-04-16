@@ -26,12 +26,12 @@ test_that("best subsets regression returns the appropriate error", {
 test_that("output from best subsets regression matches the expected output when variables are locked in", {
 
   k <- ols_step_best_subset(model, include = c("x3"))
-  pred_exp <- c("x3", "x3 x4", "x1 x2 x3", "x1 x2 x3 x4")
+  pred_exp <- c("x3", "x3 x4", "x3 x1 x2", "x3 x1 x2 x4")
   expect_equal(k$metrics$mindex, c(1, 2, 3, 4))
   expect_equal(k$metrics$predictors, pred_exp, ignore_attr = TRUE)
 
   k <- ols_step_best_subset(model, include = c(3))
-  pred_exp <- c("x3", "x3 x4", "x1 x2 x3", "x1 x2 x3 x4")
+  pred_exp <- c("x3", "x3 x4", "x3 x1 x2", "x3 x1 x2 x4")
   expect_equal(k$metrics$mindex, c(1, 2, 3, 4))
   expect_equal(k$metrics$predictors, pred_exp, ignore_attr = TRUE)
 })
