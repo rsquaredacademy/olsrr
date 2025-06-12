@@ -90,4 +90,71 @@ max_nchar <- function(char, val, rn = 3, ns = 3) {
   max(nchar(char), nchar(format(round(val, rn), nsmall = ns)))
 }
 
+ols_get_terms <- function(model) {
+  attr(model$terms, 'term.label')
+}
 
+ols_get_variables <- function(model) {
+  vars  <- names(model$model)
+  n     <- length(vars)
+  resp  <- vars[1]
+  preds <- vars[2:n]
+  list(response = resp, predictors = preds)
+}
+
+ols_get_data <- function(model) {
+  model$model
+}
+
+ols_get_df <- function(model) {
+  model$df.residual
+}
+
+ols_get_intercept <- function(model) {
+  model$coefficients[[1]]
+}
+
+ols_get_model_matrix <- function(model) {
+  model.matrix(model)
+}
+
+ols_get_predicted <- function(model) {
+  as.numeric(model$fitted.values)
+}
+
+ols_get_sigma <- function(model) {
+  summary(model)$sigma
+}
+
+ols_get_residuals <- function(model) {
+  model$residuals
+}
+
+ols_get_deviance <- function(model) {
+  deviance(model)
+}
+
+ols_get_parameters <- function(model) {
+  params <- model$coefficients[, 1]
+  data.frame(Parameter = names(params), Estimate = unname(params))
+}
+
+ols_get_predictors <- function(model) {
+  model$model[, -1]
+}
+
+ols_get_response <- function(model) {
+  model$model[, 1]
+}
+
+ols_get_call <- function(model) {
+  model$call
+}
+
+ols_get_obs <- function(model) {
+  nrow(model$model)
+}
+
+ols_has_intercept <- function(model) {
+  as.logical(attr(model$terms, "intercept"))
+}

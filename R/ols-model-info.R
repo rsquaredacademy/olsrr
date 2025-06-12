@@ -18,3 +18,28 @@
 ols_get_formula <- function(model) {
   formula(model)
 }
+
+#' Interaction terms
+#'
+#' Returns interaction terms present in the model.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @return \code{Character} vector or \code{NULL}.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl * hp * disp + gear * drat, data = mtcars)
+#' ols_get_interaction_terms(model)
+#'
+#' @export
+#'
+ols_get_interaction_terms <- function(model) {
+  terms <- model$terms
+  i <- attr(terms, 'order')
+  if (any(i > 1)) {
+    iterms <- i > 1
+    return(attr(terms, 'term.labels')[iterms])
+  } else {
+    return(NULL)
+  }
+}
