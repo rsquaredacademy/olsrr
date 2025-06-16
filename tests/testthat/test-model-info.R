@@ -39,3 +39,11 @@ test_that("response is not null", {
   got   <- ols_get_variables(model)$response
   expect_equal(want, got)
 })
+
+test_that("model data is returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- c("mpg", "disp", "hp", "wt")
+  got   <- names(ols_get_data(model))
+  expect_equal(want, got)
+})
+

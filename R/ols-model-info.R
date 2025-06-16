@@ -69,3 +69,21 @@ ols_get_variables <- function(model) {
   }
   list(response = resp, predictors = preds)
 }
+
+#' Model data
+#' 
+#' Returns data used in model.
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return An object of class \code{data.frame}.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl * hp * disp + gear * drat, data = mtcars)
+#' ols_get_data(model)
+#'
+#' @export
+#'
+ols_get_data <- function(model) {
+  model$model
+}
