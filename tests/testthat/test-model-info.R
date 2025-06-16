@@ -47,3 +47,10 @@ test_that("model data is returned", {
   expect_equal(want, got)
 })
 
+test_that("residual degrees of freedom is returned", {
+  model <- lm(mpg ~ wt * cyl + vs * hp * gear + carb, data = mtcars)
+  want  <- 20
+  got   <- ols_get_df(model)
+  expect_equal(want, got)
+})
+  

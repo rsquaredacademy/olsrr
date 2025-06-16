@@ -94,22 +94,6 @@ ols_get_terms <- function(model) {
   attr(model$terms, 'term.label')
 }
 
-ols_get_variables <- function(model) {
-  vars  <- names(model$model)
-  n     <- length(vars)
-  resp  <- vars[1]
-  preds <- vars[2:n]
-  list(response = resp, predictors = preds)
-}
-
-ols_get_data <- function(model) {
-  model$model
-}
-
-ols_get_df <- function(model) {
-  model$df.residual
-}
-
 ols_get_intercept <- function(model) {
   model$coefficients[[1]]
 }
