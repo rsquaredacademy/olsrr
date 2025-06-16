@@ -43,3 +43,29 @@ ols_get_interaction_terms <- function(model) {
     return(NULL)
   }
 }
+
+#' Model variables
+#' 
+#' Return model variables.
+#'
+#' @param model An object of class \code{lm}.
+#'
+#' @return List with response and predictors.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl * hp * disp + gear * drat, data = mtcars)
+#' ols_get_variables(model)
+#'
+#' @export
+#'
+ols_get_variables <- function(model) {
+  vars  <- names(model$model)
+  n     <- length(vars)
+  resp  <- vars[1]
+  if (n == 1) {
+    preds <- NULL
+  } else {
+    preds <- vars[2:n] 
+  }
+  list(response = resp, predictors = preds)
+}
