@@ -106,3 +106,44 @@ ols_get_data <- function(model) {
 ols_get_df <- function(model) {
   model$df.residual
 }
+
+
+#' Model intercept
+#' 
+#' Returns the value of the model intercept. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return The value of the intercept. 
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_intercept(model)
+#'
+#' model <- lm(mpg ~ 0 + wt + cyl + hp + disp, data = mtcars)
+#' ols_get_intercept(model)
+#'
+#' @export
+#'
+ols_get_intercept <- function(model) {
+  if (ols_has_intercept(model)) {
+    return(model$coefficients[[1]])
+  }
+  return(NULL)
+}
+
+#' Model matrix
+#' 
+#' Returns the design matrix. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_model_matrix(model)
+#'
+#' @export
+#'
+ols_get_model_matrix <- function(model) {
+  model.matrix(model)
+}

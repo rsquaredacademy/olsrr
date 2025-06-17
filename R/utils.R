@@ -94,14 +94,6 @@ ols_get_terms <- function(model) {
   attr(model$terms, 'term.label')
 }
 
-ols_get_intercept <- function(model) {
-  model$coefficients[[1]]
-}
-
-ols_get_model_matrix <- function(model) {
-  model.matrix(model)
-}
-
 ols_get_predicted <- function(model) {
   as.numeric(model$fitted.values)
 }
