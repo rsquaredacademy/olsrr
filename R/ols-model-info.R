@@ -201,3 +201,21 @@ ols_get_residuals <- function(model) {
 ols_get_sigma <- function(model) {
   summary(model)$sigma
 }
+
+#' Variance covariance matrix
+#' 
+#' Returns the variance covariance matrix from the model. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Variance covariance matrix. 
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_vcov(model)
+#'
+#' @export
+#'
+ols_get_vcov <- function(model) {
+  vcov(model)
+}

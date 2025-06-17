@@ -96,3 +96,10 @@ test_that("sigma is returned", {
   got   <- round(ols_get_sigma(model), 2)
   expect_equal(want, got)
 })
+
+test_that("variance covariance matrix is returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- c("(Intercept)", "disp", "hp", "wt")
+  got   <- colnames(ols_get_vcov(model))
+  expect_equal(want, got)
+})
