@@ -219,3 +219,21 @@ ols_get_sigma <- function(model) {
 ols_get_vcov <- function(model) {
   vcov(model)
 }
+
+#' Deviance 
+#' 
+#' Returns the model deviance. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Model deviance. 
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_deviance(model)
+#'
+#' @export
+#'
+ols_get_deviance <- function(model) {
+  deviance(model)
+}

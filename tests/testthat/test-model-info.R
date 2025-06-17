@@ -103,3 +103,10 @@ test_that("variance covariance matrix is returned", {
   got   <- colnames(ols_get_vcov(model))
   expect_equal(want, got)
 })
+
+test_that("deviance is returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- 194.99
+  got   <- round(ols_get_deviance(model), 2)
+  expect_equal(want, got)
+})
