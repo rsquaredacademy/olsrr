@@ -89,3 +89,10 @@ test_that("residuals are returned", {
   got   <- length(ols_get_residuals(model))
   expect_equal(want, got)
 })
+
+test_that("sigma is returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- 2.64
+  got   <- round(ols_get_sigma(model), 2)
+  expect_equal(want, got)
+})

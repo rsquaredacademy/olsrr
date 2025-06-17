@@ -94,10 +94,6 @@ ols_get_terms <- function(model) {
   attr(model$terms, 'term.label')
 }
 
-ols_get_sigma <- function(model) {
-  summary(model)$sigma
-}
-
 ols_get_deviance <- function(model) {
   deviance(model)
 }

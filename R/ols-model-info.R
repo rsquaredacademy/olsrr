@@ -183,3 +183,21 @@ ols_get_predicted <- function(model) {
 ols_get_residuals <- function(model) {
   as.numeric(model$residuals)
 }
+
+#' Sigma 
+#' 
+#' Returns the residual standard deviation.
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Residual standard deviation.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_sigma(model)
+#'
+#' @export
+#'
+ols_get_sigma <- function(model) {
+  summary(model)$sigma
+}
