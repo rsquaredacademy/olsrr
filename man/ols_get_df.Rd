@@ -9,8 +9,11 @@ ols_get_df(model)
 \arguments{
 \item{model}{An object of class \code{lm}.}
 }
+\value{
+Residual degrees of freedom.
+}
 \description{
-Returns model/residual degrees of freedom.
+Returns residual degrees of freedom.
 }
 \examples{
 model <- lm(mpg ~ wt + cyl * hp * disp + gear * drat, data = mtcars)

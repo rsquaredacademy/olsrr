@@ -91,9 +91,11 @@ ols_get_data <- function(model) {
 
 #' Degrees of freedom
 #' 
-#' Returns model/residual degrees of freedom.
+#' Returns residual degrees of freedom.
 #' 
 #' @param model An object of class \code{lm}.
+#'
+#' @return Residual degrees of freedom.
 #'
 #' @examples
 #' model <- lm(mpg ~ wt + cyl * hp * disp + gear * drat, data = mtcars)
