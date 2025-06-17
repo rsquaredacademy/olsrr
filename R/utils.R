@@ -94,11 +94,6 @@ ols_get_terms <- function(model) {
   attr(model$terms, 'term.label')
 }
 
-ols_get_parameters <- function(model) {
-  params <- model$coefficients[, 1]
-  data.frame(Parameter = names(params), Estimate = unname(params))
-}
-
 ols_get_predictors <- function(model) {
   model$model[, -1]
 }

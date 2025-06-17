@@ -110,3 +110,10 @@ test_that("deviance is returned", {
   got   <- round(ols_get_deviance(model), 2)
   expect_equal(want, got)
 })
+
+test_that("parameters and estimates are returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- c("(Intercept)", "disp", "hp", "wt")
+  got   <- ols_get_parameters(model)[, 1]
+  expect_equal(want, got)
+})

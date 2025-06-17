@@ -237,3 +237,22 @@ ols_get_vcov <- function(model) {
 ols_get_deviance <- function(model) {
   deviance(model)
 }
+
+#' Model parameters 
+#' 
+#' Returns the coefficients. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return A \code{data.frame} with model coefficients.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_parameters(model)
+#'
+#' @export
+#'
+ols_get_parameters <- function(model) {
+  params <- model$coefficients
+  data.frame(Parameter = names(params), Estimate = unname(params))
+}
