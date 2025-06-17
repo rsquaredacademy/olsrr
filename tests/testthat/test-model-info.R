@@ -117,3 +117,10 @@ test_that("parameters and estimates are returned", {
   got   <- ols_get_parameters(model)[, 1]
   expect_equal(want, got)
 })
+
+test_that("predictor data is returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- c("disp", "hp", "wt")
+  got   <- names(ols_get_predictors(model))
+  expect_equal(want, got)
+})

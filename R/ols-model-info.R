@@ -256,3 +256,21 @@ ols_get_parameters <- function(model) {
   params <- model$coefficients
   data.frame(Parameter = names(params), Estimate = unname(params))
 }
+
+#' Predictor variable data
+#' 
+#' Returns the data of all model predictors.
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return A \code{data.frame} with model predictors.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_predictors(model)
+#'
+#' @export
+#'
+ols_get_predictors <- function(model) {
+  model$model[, -1]
+}
