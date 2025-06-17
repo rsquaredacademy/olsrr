@@ -94,10 +94,6 @@ ols_get_terms <- function(model) {
   attr(model$terms, 'term.label')
 }
 
-ols_get_predicted <- function(model) {
-  as.numeric(model$fitted.values)
-}
-
 ols_get_sigma <- function(model) {
   summary(model)$sigma
 }

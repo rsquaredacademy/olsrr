@@ -147,3 +147,21 @@ ols_get_intercept <- function(model) {
 ols_get_model_matrix <- function(model) {
   model.matrix(model)
 }
+
+#' Fitted values
+#' 
+#' Returns the fitted values. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Fitted values. 
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_predicted(model)
+#'
+#' @export
+#'
+ols_get_predicted <- function(model) {
+  as.numeric(model$fitted.values)
+}
