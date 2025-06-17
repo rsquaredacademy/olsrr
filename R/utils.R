@@ -98,10 +98,6 @@ ols_get_sigma <- function(model) {
   summary(model)$sigma
 }
 
-ols_get_residuals <- function(model) {
-  model$residuals
-}
-
 ols_get_deviance <- function(model) {
   deviance(model)
 }

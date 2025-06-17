@@ -165,3 +165,21 @@ ols_get_model_matrix <- function(model) {
 ols_get_predicted <- function(model) {
   as.numeric(model$fitted.values)
 }
+
+#' Model residuals 
+#' 
+#' Returns the residuals from the model. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Residuals from the regression model. 
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_residuals(model)
+#'
+#' @export
+#'
+ols_get_residuals <- function(model) {
+  as.numeric(model$residuals)
+}

@@ -82,3 +82,10 @@ test_that("fitted values are returned", {
   got   <- length(ols_get_predicted(model))
   expect_equal(want, got)
 })
+
+test_that("residuals are returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- 32
+  got   <- length(ols_get_residuals(model))
+  expect_equal(want, got)
+})
