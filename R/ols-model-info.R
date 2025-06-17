@@ -292,3 +292,21 @@ ols_get_predictors <- function(model) {
 ols_get_response <- function(model) {
   model$model[, 1]
 }
+
+#' Model function call 
+#' 
+#' Returns the model's function call. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Model's function call. 
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_call(model)
+#'
+#' @export
+#'
+ols_get_call <- function(model) {
+  model$call
+}

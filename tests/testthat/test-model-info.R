@@ -131,3 +131,10 @@ test_that("response data is returned", {
   got   <- head(ols_get_response(model))
   expect_equal(want, got)
 })
+
+test_that("model call is returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- as.call(lm(mpg ~ disp + hp + wt, data = mtcars)$call)
+  got   <- ols_get_call(model)
+  expect_equal(want, got)
+})
