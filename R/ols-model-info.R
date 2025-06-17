@@ -274,3 +274,21 @@ ols_get_parameters <- function(model) {
 ols_get_predictors <- function(model) {
   model$model[, -1]
 }
+
+#' Response variable data
+#' 
+#' Returns the values of the response variable of a model.
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Values of the response variable.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_response(model)
+#'
+#' @export
+#'
+ols_get_response <- function(model) {
+  model$model[, 1]
+}

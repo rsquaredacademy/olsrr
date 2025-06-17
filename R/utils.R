@@ -98,9 +98,9 @@ ols_get_terms <- function(model) {
 #  model$model[, -1]
 #}
 
-ols_get_response <- function(model) {
-  model$model[, 1]
-}
+#ols_get_response <- function(model) {
+#  model$model[, 1]
+#}
 
 ols_get_call <- function(model) {
   model$call
