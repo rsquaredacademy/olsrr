@@ -323,12 +323,30 @@ ols_get_call <- function(model) {
 #'
 #' @examples
 #' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
-#' ols_get_obs(model)
+#' ols_count_obs(model)
 #'
 #' @export
 #'
-ols_get_obs <- function(model) {
+ols_count_obs <- function(model) {
   nrow(model$model)
+}
+
+#' Parameters count
+#'
+#' Returns the number of parameters from a model. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Number of parameters.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_count_parameters(model)
+#'
+#' @export
+#'
+ols_count_parameters <- function(model) {
+  nrow(ols_get_parameters(model))
 }
 
 #' Model intercept check 
