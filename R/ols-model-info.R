@@ -369,3 +369,35 @@ ols_count_parameters <- function(model) {
 ols_has_intercept <- function(model) {
   as.logical(attr(model$terms, "intercept"))
 }
+
+#' Model object info
+#'
+#' Comprehensive information from model objects.
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return A list with information about model objects.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl * hp * disp + gear * drat, data = mtcars)
+#' ols_model_info(model)
+#'
+#' @export
+#'
+ols_model_info <- function(model) {
+  return(
+    list(
+      call               = ols_get_call(model),
+      degrees_of_freedom = ols_get_df(model),
+      deviance           = ols_get_deviance(model),
+      formula            = ols_get_formula(model),
+      has_intercept      = ols_has_intercept(model),
+      interaction_terms  = ols_get_interaction_terms(model),
+      intercept_value    = ols_get_intercept(model),
+      obs                = ols_count_obs(model),
+      parameters         = ols_get_parameters(model),
+      sigma              = ols_get_sigma(model),
+      variables          = ols_get_variables(model)
+    )
+  )
+}

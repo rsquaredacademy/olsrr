@@ -146,6 +146,13 @@ test_that("number of observations is returned", {
   expect_equal(want, got)
 })
 
+test_that("number of parameters is returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- 4
+  got   <- ols_count_parameters(model)
+  expect_equal(want, got)
+})
+
 test_that("model has intercept", {
   model <- lm(mpg ~ disp + hp + wt, data = mtcars)
   got   <- ols_has_intercept(model)
@@ -158,3 +165,11 @@ test_that("model has no intercept", {
   expect_false(got)
 })
 
+test_that("model info is correct", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  got   <- ols_model_info(model)
+  expect_equal(got$degrees_of_freedom, 28)
+  expect_true(got$has_intercept)
+  expect_null(got$interaction_terms)
+  expect_equal(got$obs, 32)
+})
