@@ -16,7 +16,6 @@ ols_step_forward_p(model, ...)
   hierarchical = FALSE,
   progress = FALSE,
   details = FALSE,
-  steps = NULL,
   ...
 )
 
