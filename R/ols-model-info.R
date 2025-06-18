@@ -330,3 +330,24 @@ ols_get_call <- function(model) {
 ols_get_obs <- function(model) {
   nrow(model$model)
 }
+
+#' Model intercept check 
+#' 
+#' Checks if model has an intercept. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return \code{TRUE} if \code{model} has an intercept, \code{FALSE} otherwise.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_has_intercept(model)
+#'
+#' model <- lm(mpg ~ 0 + wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_has_intercept(model)
+#'
+#' @export
+#'
+ols_has_intercept <- function(model) {
+  as.logical(attr(model$terms, "intercept"))
+}

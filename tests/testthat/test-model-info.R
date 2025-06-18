@@ -145,3 +145,15 @@ test_that("number of observations is returned", {
   got   <- ols_get_obs(model)
   expect_equal(want, got)
 })
+
+test_that("model has intercept", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  got   <- ols_has_intercept(model)
+  expect_true(got)
+})
+
+test_that("model has no intercept", {
+  model <- lm(mpg ~ 0 + disp + hp + wt, data = mtcars)
+  got   <- ols_has_intercept(model)
+  expect_false(got)
+})

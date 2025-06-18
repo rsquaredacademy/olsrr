@@ -90,10 +90,3 @@ max_nchar <- function(char, val, rn = 3, ns = 3) {
   max(nchar(char), nchar(format(round(val, rn), nsmall = ns)))
 }
 
-ols_get_terms <- function(model) {
-  attr(model$terms, 'term.label')
-}
-
-ols_has_intercept <- function(model) {
-  as.logical(attr(model$terms, "intercept"))
-}
