@@ -138,3 +138,10 @@ test_that("model call is returned", {
   got   <- ols_get_call(model)
   expect_equal(want, got)
 })
+
+test_that("number of observations is returned", {
+  model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  want  <- 32
+  got   <- ols_get_obs(model)
+  expect_equal(want, got)
+})

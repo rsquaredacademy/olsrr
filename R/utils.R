@@ -94,10 +94,6 @@ ols_get_terms <- function(model) {
   attr(model$terms, 'term.label')
 }
 
-ols_get_obs <- function(model) {
-  nrow(model$model)
-}
-
 ols_has_intercept <- function(model) {
   as.logical(attr(model$terms, "intercept"))
 }

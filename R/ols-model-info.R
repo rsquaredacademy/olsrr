@@ -214,6 +214,8 @@ ols_get_sigma <- function(model) {
 #' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
 #' ols_get_vcov(model)
 #'
+#' @importFrom stats vcov
+#'
 #' @export
 #'
 ols_get_vcov <- function(model) {
@@ -309,4 +311,22 @@ ols_get_response <- function(model) {
 #'
 ols_get_call <- function(model) {
   model$call
+}
+
+#' Observations 
+#' 
+#' Returns the number of observation from a model. 
+#' 
+#' @param model An object of class \code{lm}.
+#'
+#' @return Number of observations.
+#'
+#' @examples
+#' model <- lm(mpg ~ wt + cyl + hp + disp + gear + drat, data = mtcars)
+#' ols_get_obs(model)
+#'
+#' @export
+#'
+ols_get_obs <- function(model) {
+  nrow(model$model)
 }
