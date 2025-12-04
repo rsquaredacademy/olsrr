@@ -64,6 +64,11 @@ reference:
     contents:
       - ols_regress
 
+  - title: Model Performance
+
+    contents:
+      - ols_model_performance
+
   - title: All Possible Regression
 
     contents:
@@ -171,6 +176,30 @@ reference:
       - ols_plot_obs_fit
       - ols_pure_error_anova
       - ols_plot_diagnostics
+
+  - title: Model Object Info
+
+    contents:
+      - ols_model_info
+      - ols_get_formula
+      - ols_get_interaction_terms
+      - ols_get_variables
+      - ols_get_data
+      - ols_get_df
+      - ols_get_intercept
+      - ols_get_model_matrix
+      - ols_get_predicted
+      - ols_get_residuals
+      - ols_get_sigma
+      - ols_get_vcov
+      - ols_get_deviance
+      - ols_get_parameters
+      - ols_get_predictors
+      - ols_get_response
+      - ols_get_call
+      - ols_count_obs
+      - ols_count_parameters
+      - ols_has_intercept
 
   - title: Plot Data
 

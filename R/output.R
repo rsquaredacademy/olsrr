@@ -785,3 +785,41 @@ print_step_rsquared <- function(data) {
   }
 
 }
+
+print_model_perf <- function(data) {
+  a <- c("R", "R-Squared", "Adj. R-Squared", "Pred R-Squared")
+  b <- c(
+    format(round(data$r, 3), nsmall = 3),
+    format(round(data$rsq, 3), nsmall = 3),
+    format(round(data$adjr, 3), nsmall = 3),
+    format(round(data$prsq, 3), nsmall = 3)
+  )
+  d <- c("AIC", "SBC", "SBIC", "RMSE")
+  e <- c(
+    format(round(data$aic, 3), nsmall = 3),
+    format(round(data$sbc, 3), nsmall = 3),
+    format(round(data$sbic, 3), nsmall = 3),
+    format(round(data$rmse, 3), nsmall = 3)
+  )
+
+  w1 <- max(nchar(a))
+  w2 <- max(nchar(format(b, nsmall = 3)))
+  w3 <- max(nchar(d))
+  w4 <- max(nchar(format(e, nsmall = 3)))
+  w5 <- sum(w1, w2, w3, w4, 15)
+  nw <- length(b)
+
+  # model summary
+  cat(fc("Model Performance", w5), "\n")
+  cat(rep("-", w5), sep = "", "\n")
+  for (i in seq_len(nw)) {
+    cat(fl(a[i], w1), fs(), fg(b[i], w2), fs(), fs(), fl(d[i], w3),
+      fs(), fg(e[i], w4), "\n")
+  }
+  cat(rep("-", w5), sep = "", "\n")
+  cat("  AIC: Akaike Information Criteria", "\n",
+    " SBC: Schwarz Bayesian Criteria", "\n",
+    "SBIC: Sawa's Bayesian Criteria", "\n",
+    "RMSE: Root Mean Square Error", "\n\n")
+
+}
