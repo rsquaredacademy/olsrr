@@ -63,6 +63,7 @@ reference:
 
     contents:
       - ols_regress
+      - ols_anova
 
   - title: Model Performance
 
