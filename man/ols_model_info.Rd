@@ -2,7 +2,7 @@
 % Please edit documentation in R/ols-model-info.R
 \name{ols_model_info}
 \alias{ols_model_info}
-\title{Model Info}
+\title{Model object info}
 \usage{
 ols_model_info(model)
 }
