@@ -69,6 +69,7 @@ reference:
 
     contents:
       - ols_model_performance
+      - ols_compare_model_performance
 
   - title: All Possible Regression
 
