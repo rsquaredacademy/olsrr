@@ -16,6 +16,7 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #' each step.
+#' @param steps Number of steps after which the stepwise procedures should stop.
 #' @param x An object of class \code{ols_step_both_p}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
@@ -43,7 +44,7 @@
 #'
 #' # selection metrics
 #' k$metrics
-#' 
+#'
 #' # final model
 #' k$model
 #'
@@ -61,6 +62,10 @@
 #'
 #' # use index of variable instead of name
 #' ols_step_both_p(model, exclude = c(1))
+#'
+#' # steps
+#' ols_step_both_p(model, steps = 3)
+#'
 #' }
 #'
 #' @family both direction selection_procedures
@@ -72,7 +77,7 @@ ols_step_both_p <- function(model, ...) UseMethod("ols_step_both_p")
 #' @export
 #' @rdname ols_step_both_p
 #'
-ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
   if (details) {
     progress <- FALSE
@@ -129,7 +134,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   base_model <- ols_base_model(include, response, l)
   rsq_base   <- summary(base_model)$r.squared
-    
+
   if (details) {
     ols_rsquared_init(include, "r2", response, rsq_base)
   }
@@ -183,6 +188,10 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   all_step  <- step
   var_index <- tail(preds, n = 1)
+
+  if (!is.null(steps)) {
+    mlen_p <- steps
+  }
 
   while (step < mlen_p) {
 

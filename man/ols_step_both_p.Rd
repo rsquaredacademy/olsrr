@@ -16,6 +16,7 @@ ols_step_both_p(model, ...)
   exclude = NULL,
   progress = FALSE,
   details = FALSE,
+  steps = NULL,
   ...
 )
 
