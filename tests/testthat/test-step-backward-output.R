@@ -11,3 +11,10 @@ test_that("output from stepwise backward hierarchical regression", {
   expect_snapshot(ols_step_backward_p(model, hierarchical = TRUE, progress = TRUE))
   expect_snapshot(ols_step_backward_p(model, hierarchical = TRUE, details = TRUE))
 })
+
+test_that("output from stepwise backward regression matches when steps is specified", {
+  model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+  expect_snapshot(ols_step_backward_p(model, steps = 2))
+  expect_snapshot(ols_step_backward_p(model, steps = 2, progress = TRUE))
+  expect_snapshot(ols_step_backward_p(model, steps = 2, details = TRUE))
+})
