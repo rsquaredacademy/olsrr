@@ -13,27 +13,36 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
+#' @param steps Number of steps after which the stepwise procedures should stop.
 #'
 #' @examples
+#' # forward hierarchical selection
 #' model <- lm(y ~ ., data = surgical)
+#' ols_step_hierarchical(model)
+#'
+#' # backward hierarchical selection
 #' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + alc_mod + age + gender, data = surgical)
+#' ols_step_hierarchical(model, forward = FALSE)
+#'
+#' # steps
 #' model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+#' ols_step_hierarchical(model, steps = 2)
 #'
 #' @keywords internal
 #'
 #' @noRd
 #'
-ols_step_hierarchical <- function(model, p_value = 0.1, forward = TRUE, progress = FALSE, details = FALSE) {
+ols_step_hierarchical <- function(model, p_value = 0.1, forward = TRUE, progress = FALSE, details = FALSE, steps = NULL) {
 
   if (forward) {
-    ols_step_hierarchical_forward(model, p_value, progress, details)
+    ols_step_hierarchical_forward(model, p_value, progress, details, steps)
   } else {
-    ols_step_hierarchical_backward(model, p_value, progress, details)
+    ols_step_hierarchical_backward(model, p_value, progress, details, steps)
   }
 
 }
 
-ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE) {
+ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE, steps = NULL) {
 
   if (details) {
     progress <- FALSE
@@ -56,7 +65,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   if (progress || details) {
     ols_candidate_terms(nam, "forward")
   }
-    
+
   step     <- 0
   rsq      <- c()
   adjrsq   <- c()
@@ -68,13 +77,17 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 
   base_model <- lm(paste(response, "~", 1), data = l)
   rsq_base   <- summary(base_model)$r.squared
-    
+
   if (details) {
     ols_rsquared_init(NULL, "r2", response, rsq_base)
   }
 
   if (progress) {
     ols_progress_init("forward")
+  }
+
+  if (!is.null(steps)) {
+    mlen_p <- steps
   }
 
   for (i in seq_len(mlen_p)) {
@@ -151,7 +164,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 
 }
 
-ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE) {
+ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE, steps = NULL) {
 
   if (details) {
     progress <- FALSE
@@ -166,9 +179,9 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
   cterms   <- nam
 
   if (progress || details) {
-    ols_candidate_terms(nam, "backward")  
+    ols_candidate_terms(nam, "backward")
   }
-    
+
   step     <- 0
   rsq      <- c()
   adjrsq   <- c()
@@ -179,7 +192,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
   rmse     <- c()
 
   rsq_base   <- summary(model)$r.squared
-    
+
   if (details) {
     ols_rsquared_init(NULL, "r2", response, rsq_base)
   }
@@ -194,7 +207,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
     m_sum       <- Anova(m)
     pvals       <- m_sum$`Pr(>F)`[1:i]
     p_vals      <- pvals[i]
-  
+
     if (details) {
       d <- data.frame(predictors = predictors, p_val = pvals)
       ols_stepwise_table_p(d, predictors, pvals)
@@ -220,6 +233,12 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
       if (details) {
         rsq1   <- tail(rsq, n = 1)
         ols_stepwise_details(step, preds, rpred, response, rsq1, "removed", "rsq")
+      }
+
+      if (!is.null(steps)) {
+        if (step == steps) {
+          break
+        }
       }
 
     } else {

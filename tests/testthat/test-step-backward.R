@@ -29,6 +29,13 @@ test_that("backward hierarchical selection output matches the expected result", 
   expect_equal(k$metrics$variable, c("alc_mod", "gender", "age", "liver_test"), ignore_attr = TRUE)
 })
 
+test_that("backward hierarchical selection stops after a specific number of steps", {
+  model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+  k <- ols_step_backward_p(model, 0.1, hierarchical = TRUE, steps = 2)
+  expect_equal(k$metrics$step, 1:2)
+  expect_equal(k$metrics$variable, c("alc_mod", "gender"), ignore_attr = TRUE)
+})
+
 test_that("backward elimination output matches the expected result when steps in specified", {
   model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
   k <- ols_step_backward_p(model, steps = 2)
