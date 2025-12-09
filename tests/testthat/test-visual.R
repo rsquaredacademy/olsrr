@@ -417,8 +417,8 @@ test_that("sbic both direction regression plot is as expected", {
   model <- lm(y ~ ., data = stepdata)
   
   p1 <- plot(ols_step_both_sbic(model), print_plot = FALSE)
-  vdiffr::expect_doppelganger("sbc both direction regression plot details", p1$plot)
+  vdiffr::expect_doppelganger("sbic both direction regression plot details", p1$plot)
 
   p2 <- plot(ols_step_both_sbic(model), details = FALSE, print_plot = FALSE)
-  vdiffr::expect_doppelganger("sbc both direction regression plot", p2$plot)
+  vdiffr::expect_doppelganger("sbic both direction regression plot", p2$plot)
 })
