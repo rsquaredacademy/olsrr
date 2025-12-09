@@ -1,4 +1,4 @@
-ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
   if (details) {
     progress <- FALSE
@@ -108,6 +108,10 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     if (interactive()) {
       Sys.sleep(0.5)  
     }
+  }
+
+  if (!is.null(steps)) {
+    mlen_p <- steps
   }
 
   while (step < mlen_p) {
@@ -239,7 +243,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   return(out)
 }
 
-ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
   if (details) {
     progress <- FALSE
@@ -400,6 +404,15 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
         ols_stepwise_details(step, rpred, preds, response, base_metric, "removed", criteria)
         ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq, "remove")
       }
+
+      if (!is.null(steps)) {
+        if (step == steps) {
+          end <- TRUE
+          if (progress || details) {
+            ols_stepwise_break("backward")
+          }
+        }
+      }
     } else {
       end <- TRUE
       if (progress || details) {
@@ -440,7 +453,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
   return(out)
 }
 
-ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
+ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq"), include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
   if (details) {
     progress <- FALSE
@@ -493,6 +506,10 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
 
   if (progress) {
     ols_progress_init("both")
+  }
+  
+  if (!is.null(steps)) {
+    mlen_p <- steps
   }
 
   while (step < mlen_p) {
