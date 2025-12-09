@@ -14,6 +14,7 @@ ols_step_forward_r2(model, ...)
   exclude = NULL,
   progress = FALSE,
   details = FALSE,
+  steps = NULL,
   ...
 )
 
@@ -32,6 +33,8 @@ ols_step_forward_r2(model, ...)
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}
+
+\item{steps}{Number of steps after which the stepwise procedures should stop.}
 
 \item{x}{An object of class \code{ols_step_forward_*}.}
 
@@ -84,6 +87,9 @@ ols_step_forward_r2(model, include = c("age"), exclude = c("liver_test"))
 
 # use index of variable instead of name
 ols_step_forward_r2(model, include = c(5), exclude = c(4))
+
+# steps
+ols_step_forward_r2(model, steps = 2)
 
 }
 \references{

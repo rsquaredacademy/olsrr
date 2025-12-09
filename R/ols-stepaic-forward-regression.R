@@ -11,6 +11,7 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
+#' @param steps Number of steps after which the stepwise procedures should stop.
 #' @param x An object of class \code{ols_step_forward_*}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param digits Number of decimal places to display.
@@ -36,7 +37,7 @@
 #'
 #' # selection metrics
 #' k$metrics
-#' 
+#'
 #' # extract final model
 #' k$model
 #'
@@ -59,6 +60,9 @@
 #' # use index of variable instead of name
 #' ols_step_forward_aic(model, include = c(5), exclude = c(4))
 #'
+#' # steps
+#' ols_step_forward_aic(model, steps = 2)
+#'
 #' @family forward selection procedures
 #'
 #' @export
@@ -68,8 +72,8 @@ ols_step_forward_aic <- function(model, ...) UseMethod("ols_step_forward_aic")
 #' @export
 #' @rdname ols_step_forward_aic
 #'
-ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "aic", include, exclude, progress, details)
+ols_step_forward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_forward(model, "aic", include, exclude, progress, details, steps)
   class(out) <- "ols_step_forward_aic"
   return(out)
 }
@@ -144,6 +148,9 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, digi
 #' # use index of variable instead of name
 #' ols_step_forward_sbc(model, include = c(5), exclude = c(4))
 #'
+#' # steps
+#' ols_step_forward_sbc(model, steps = 2)
+#' 
 #' @family forward selection procedures
 #'
 #' @export
@@ -153,8 +160,8 @@ ols_step_forward_sbc <- function(model, ...) UseMethod("ols_step_forward_sbc")
 #' @rdname ols_step_forward_sbc
 #' @export
 #'
-ols_step_forward_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "sbc", include, exclude, progress, details)
+ols_step_forward_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_forward(model, "sbc", include, exclude, progress, details, steps)
   class(out) <- "ols_step_forward_sbc"
   return(out)
 }
@@ -225,6 +232,9 @@ plot.ols_step_forward_sbc <- function(x, print_plot = TRUE, details = TRUE, digi
 #' # use index of variable instead of name
 #' ols_step_forward_sbic(model, include = c(5), exclude = c(4))
 #'
+#' # steps
+#' ols_step_forward_sbic(model, steps = 2)
+#' 
 #' @family forward selection procedures
 #'
 #' @export
@@ -234,8 +244,8 @@ ols_step_forward_sbic <- function(model, ...) UseMethod("ols_step_forward_sbic")
 #' @export
 #' @rdname ols_step_forward_sbic
 #'
-ols_step_forward_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "sbic", include, exclude, progress, details)
+ols_step_forward_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_forward(model, "sbic", include, exclude, progress, details, steps)
   class(out) <- "ols_step_forward_sbic"
   return(out)
 }
@@ -306,6 +316,9 @@ plot.ols_step_forward_sbic <- function(x, print_plot = TRUE, details = TRUE, dig
 #' # use index of variable instead of name
 #' ols_step_forward_r2(model, include = c(5), exclude = c(4))
 #'
+#' # steps
+#' ols_step_forward_r2(model, steps = 2)
+#' 
 #' @family forward selection procedures
 #'
 #' @export
@@ -315,8 +328,8 @@ ols_step_forward_r2 <- function(model, ...) UseMethod("ols_step_forward_r2")
 #' @rdname ols_step_forward_r2
 #' @export
 #'
-ols_step_forward_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "rsq", include, exclude, progress, details)
+ols_step_forward_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_forward(model, "rsq", include, exclude, progress, details, steps)
   class(out) <- "ols_step_forward_r2"
   return(out)
 }
@@ -387,6 +400,9 @@ plot.ols_step_forward_r2 <- function(x, print_plot = TRUE, details = TRUE, digit
 #' # use index of variable instead of name
 #' ols_step_forward_adj_r2(model, include = c(5), exclude = c(4))
 #'
+#' # steps
+#' ols_step_forward_adj_r2(model, steps = 2)
+#' 
 #' @family forward selection procedures
 #'
 #' @export
@@ -396,8 +412,8 @@ ols_step_forward_adj_r2 <- function(model, ...) UseMethod("ols_step_forward_adj_
 #' @rdname ols_step_forward_adj_r2
 #' @export
 #'
-ols_step_forward_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_forward(model, "adjrsq", include, exclude, progress, details)
+ols_step_forward_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_forward(model, "adjrsq", include, exclude, progress, details, steps)
   class(out) <- "ols_step_forward_adj_r2"
   return(out)
 }
