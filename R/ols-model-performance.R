@@ -104,8 +104,7 @@ ols_compare_model_performance.lm <- function(...) {
     sigma[i] = summary(models[[i]])$sigma
   }
 
-  result <- cbind(model_names, result)
-  result <- cbind(result, sigma)
+  result <- cbind(cbind(model_names, result), sigma)
 
   col_names <- c("name", "r2", "r2_adj", "r2_pred", "aic", "sbc", "sbic",
     "rmse", "sigma")
