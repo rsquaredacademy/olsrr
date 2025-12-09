@@ -14,6 +14,7 @@ ols_step_backward_aic(model, ...)
   exclude = NULL,
   progress = FALSE,
   details = FALSE,
+  steps = NULL,
   ...
 )
 
@@ -33,6 +34,8 @@ candidate predictor variables.}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}
+
+\item{steps}{Number of steps after which the stepwise procedures should stop.}
 
 \item{x}{An object of class \code{ols_step_backward_*}.}
 
@@ -64,7 +67,7 @@ plot(k)
 
 # selection metrics
 k$metrics
- 
+
 # final model
 k$model
 
@@ -80,6 +83,9 @@ ols_step_backward_aic(model, exclude = c("alc_heavy", "bcs"))
 
 # use index of variable instead of name
 ols_step_backward_aic(model, exclude = c(8, 1))
+
+# steps
+ols_step_backward_aic(model, steps = 2)
 
 }
 \references{

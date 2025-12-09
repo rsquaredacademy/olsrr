@@ -12,6 +12,7 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
+#' @param steps Number of steps after which the stepwise procedures should stop.
 #' @param x An object of class \code{ols_step_backward_*}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param digits Number of decimal places to display.
@@ -38,7 +39,7 @@
 #'
 #' # selection metrics
 #' k$metrics
-#'  
+#'
 #' # final model
 #' k$model
 #'
@@ -55,6 +56,9 @@
 #' # use index of variable instead of name
 #' ols_step_backward_aic(model, exclude = c(8, 1))
 #'
+#' # steps
+#' ols_step_backward_aic(model, steps = 2)
+#'
 #' @importFrom ggplot2 geom_text
 #' @importFrom utils tail
 #'
@@ -67,8 +71,8 @@ ols_step_backward_aic <- function(model, ...) UseMethod("ols_step_backward_aic")
 #' @export
 #' @rdname ols_step_backward_aic
 #'
-ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_backward(model, "aic", include, exclude, progress, details)
+ols_step_backward_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_backward(model, "aic", include, exclude, progress, details, steps)
   class(out) <- "ols_step_backward_aic"
   return(out)
 }
@@ -135,6 +139,9 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, dig
 #' # use index of variable instead of name
 #' ols_step_backward_sbc(model, exclude = c(8, 1))
 #'
+#' # steps
+#' ols_step_backward_sbc(model, steps = 2)
+#'
 #' @family backward selection procedures
 #'
 #' @export
@@ -144,8 +151,8 @@ ols_step_backward_sbc <- function(model, ...) UseMethod("ols_step_backward_sbc")
 #' @export
 #' @rdname ols_step_backward_sbc
 #'
-ols_step_backward_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_backward(model, "sbc", include, exclude, progress, details)
+ols_step_backward_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_backward(model, "sbc", include, exclude, progress, details, steps)
   class(out) <- "ols_step_backward_sbc"
   return(out)
 }
@@ -212,6 +219,9 @@ plot.ols_step_backward_sbc <- function(x, print_plot = TRUE, details = TRUE, dig
 #' # use index of variable instead of name
 #' ols_step_backward_sbic(model, exclude = c(8, 1))
 #'
+#' # steps
+#' ols_step_backward_sbic(model, steps = 2)
+#'
 #' @family backward selection procedures
 #'
 #' @export
@@ -221,8 +231,8 @@ ols_step_backward_sbic <- function(model, ...) UseMethod("ols_step_backward_sbic
 #' @export
 #' @rdname ols_step_backward_sbic
 #'
-ols_step_backward_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_backward(model, "sbic", include, exclude, progress, details)
+ols_step_backward_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_backward(model, "sbic", include, exclude, progress, details, steps)
   class(out) <- "ols_step_backward_sbic"
   return(out)
 }
@@ -283,6 +293,9 @@ plot.ols_step_backward_sbic <- function(x, print_plot = TRUE, details = TRUE, di
 #' # use index of variable instead of name
 #' ols_step_backward_r2(model, exclude = c(8, 1))
 #'
+#' # steps
+#' ols_step_backward_r2(model, steps = 2)
+#'
 #' @family backward selection procedures
 #'
 #' @export
@@ -292,8 +305,8 @@ ols_step_backward_r2 <- function(model, ...) UseMethod("ols_step_backward_r2")
 #' @export
 #' @rdname ols_step_backward_r2
 #'
-ols_step_backward_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_backward(model, "rsq", include, exclude, progress, details)
+ols_step_backward_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_backward(model, "rsq", include, exclude, progress, details, steps)
   class(out) <- "ols_step_backward_r2"
   return(out)
 }
@@ -354,6 +367,9 @@ plot.ols_step_backward_r2 <- function(x, print_plot = TRUE, details = TRUE, digi
 #' # use index of variable instead of name
 #' ols_step_backward_adj_r2(model, exclude = c(8, 1))
 #'
+#' # steps
+#' ols_step_backward_adj_r2(model, steps = 2)
+#'
 #' @family backward selection procedures
 #'
 #' @export
@@ -363,8 +379,8 @@ ols_step_backward_adj_r2 <- function(model, ...) UseMethod("ols_step_backward_ad
 #' @export
 #' @rdname ols_step_backward_adj_r2
 #'
-ols_step_backward_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_backward(model, "adjrsq", include, exclude, progress, details)
+ols_step_backward_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_backward(model, "adjrsq", include, exclude, progress, details, steps)
   class(out) <- "ols_step_backward_adj_r2"
   return(out)
 }
