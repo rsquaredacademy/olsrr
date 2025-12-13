@@ -61,7 +61,7 @@
 <rect x='607.77' y='517.57' width='8.79' height='3.80' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #0000FF;' />
 <line x1='35.24' y1='521.37' x2='644.24' y2='521.37' style='stroke-width: 1.07; stroke-linecap: butt;' />
 <line x1='35.24' y1='89.69' x2='644.24' y2='89.69' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
-<text x='631.97' y='37.98' text-anchor='end' style='font-size: 11.04px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='61.37px' lengthAdjust='spacingAndGlyphs'>Threshold: 1</text>
+<text x='632.01' y='37.92' text-anchor='end' style='font-size: 11.00px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='61.15px' lengthAdjust='spacingAndGlyphs'>Threshold: 1</text>
 <rect x='35.24' y='22.78' width='609.00' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>

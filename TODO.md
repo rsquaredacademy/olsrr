@@ -18,12 +18,6 @@
 - ols_get_obs(model)
 - ols_has_intercept(model)
 
-### Below functions are inspired from the parameter package:
-
-- ols_get_pvalues(model)
-- ols_get_se(model)
-- ols_get_ci(model)
-
 ### Below functions are inspired from the performance package:
 
 - ols_model_performance(model)
@@ -34,24 +28,12 @@
 - ols_test_model(model)
 - ols_test_normality(model)
 - ols_test_outliers(model)
-- R2 functions
+- ols_test_lr(model)
+- ols_test_wald(model)
 
 ### Compare models
 
 - compare multiple model
-
-### blorr
-
-- ols_model_fit_stats
-- ols_test_lr
-- ols_rsq_mcfadden
-- ols_rsq_mcfadden_adj
-- ols_rsq_cox_snell
-- ols_rsq_nagelkerke
-- ols_rsq_mckelvey_zavoina
-- ols_rsq_effron
-- ols_rsq_count
-- ols_rsq_count_adj
 
 ### Shiny
 
