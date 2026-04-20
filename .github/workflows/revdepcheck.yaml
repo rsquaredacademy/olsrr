@@ -21,6 +21,11 @@ jobs:
         with:
           use-public-rspm: true # Faster binary installs
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+
       - name: Setup Dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
