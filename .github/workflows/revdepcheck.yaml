@@ -1,0 +1,43 @@
+name: olsrr-revdepcheck
+
+on:
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions tab
+
+jobs:
+  revdepcheck:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true # Vital for fast binary installs on Linux
+
+      - name: Setup R Dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::revdepcheck
+            any::rcmdcheck
+          needs: check
+
+      - name: Run revdepcheck
+        run: |
+          # 1. Initialize the revdep structure
+          # 2. Specifically add olsrr's known downstream packages
+          # 3. Run the check
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
+          revdepcheck::revdep_add(packages = c("xplorerr", "NumericEnsembles", "AFR", "pprof", "SQI", "HanStat"))
+          revdepcheck::revdep_check(num_workers = 2)
+        shell: Rscript {0}
+
+      - name: Upload Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olsrr-revdep-results
+          path: revdep/
