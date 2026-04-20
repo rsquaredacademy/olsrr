@@ -28,7 +28,7 @@ jobs:
 
       - name: Install revdepcheck manually
         run: |
-          install.packages("remotes")
+          install.packages(c("remotes", "RSQLite", "rcmdcheck"))
           remotes::install_github("r-lib/revdepcheck")
           install.packages("rcmdcheck")
         shell: Rscript {0}
@@ -36,8 +36,15 @@ jobs:
       - name: Run revdepcheck
         run: |
           options(repos = c(CRAN = "https://cloud.r-project.org"))
-          # Explicitly add the downstream packages for olsrr
+
+          # 1. Force-clear any existing revdep metadata
+          if (dir.exists("revdep")) revdepcheck::revdep_reset()
+
+          # 2. Re-initialize and add your specific targets
+          # This creates the 'todo' table the error is looking for
           revdepcheck::revdep_add(packages = c("xplorerr", "NumericEnsembles", "AFR", "pprof", "SQI", "HanStat"))
+
+          # 3. Now run the check
           revdepcheck::revdep_check(num_workers = 2)
         shell: Rscript {0}
 
