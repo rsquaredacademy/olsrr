@@ -23,17 +23,20 @@ jobs:
       - name: Setup R Dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: |
-            any::revdepcheck
-            any::rcmdcheck
           needs: check
+          # We remove the 'extra-packages' line here to avoid the pak error
+
+      - name: Install revdepcheck manually
+        run: |
+          install.packages("remotes")
+          remotes::install_github("r-lib/revdepcheck")
+          install.packages("rcmdcheck")
+        shell: Rscript {0}
 
       - name: Run revdepcheck
         run: |
-          # 1. Initialize the revdep structure
-          # 2. Specifically add olsrr's known downstream packages
-          # 3. Run the check
           options(repos = c(CRAN = "https://cloud.r-project.org"))
+          # Explicitly add the downstream packages for olsrr
           revdepcheck::revdep_add(packages = c("xplorerr", "NumericEnsembles", "AFR", "pprof", "SQI", "HanStat"))
           revdepcheck::revdep_check(num_workers = 2)
         shell: Rscript {0}
