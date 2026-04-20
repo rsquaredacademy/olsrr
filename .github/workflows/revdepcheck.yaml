@@ -37,14 +37,20 @@ jobs:
         run: |
           options(repos = c(CRAN = "https://cloud.r-project.org"))
 
-          # 1. Force-clear any existing revdep metadata
-          if (dir.exists("revdep")) revdepcheck::revdep_reset()
+          # 1. Clean out any corrupted directory
+          if (dir.exists("revdep")) unlink("revdep", recursive = TRUE)
 
-          # 2. Re-initialize and add your specific targets
-          # This creates the 'todo' table the error is looking for
+          # 2. Re-create the structure
+          dir.create("revdep")
+
+          # 3. Use the explicit init and add sequence
+          # This ensures the SQLite 'todo' table is created before check() runs
           revdepcheck::revdep_add(packages = c("xplorerr", "NumericEnsembles", "AFR", "pprof", "SQI", "HanStat"))
 
-          # 3. Now run the check
+          # 4. Check the status to verify 'todo' table exists
+          print(revdepcheck::revdep_todo())
+
+          # 5. Execute
           revdepcheck::revdep_check(num_workers = 2)
         shell: Rscript {0}
 
