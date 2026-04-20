@@ -1,6 +1,9 @@
 name: olsrr-revdepcheck
 
 on:
+  push:
+    branches:
+      - develop
   workflow_dispatch: # Allows manual trigger from the GitHub Actions tab
 
 jobs:
