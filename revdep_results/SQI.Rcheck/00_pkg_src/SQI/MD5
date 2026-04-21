@@ -1,0 +1,10 @@
+b4d63a3e8f057fc21ed24cbb3a509566 *DESCRIPTION
+043b84e4cbedbf89b5c3852cc14fbf9a *NAMESPACE
+b8b7ed75d7b51043e76772845afebcea *R/SQI.R
+eab87763d774ad335992c041ccc96d60 *data/Data.rda
+255192d37a20f538c25cff9389cf4346 *inst/extdata/SQI.xlsx
+3ab7b8d1b5425f3b55baa48d3f18fbd6 *inst/extdata/example.Rdata
+c1fb946377fc16fb5dc551cd38d1f09d *man/Data.Rd
+8a37e78decc7161342dcac85372b23a6 *man/PCAIndex.Rd
+496dfcdc943052b33af9033a19095719 *man/RegIndex.Rd
+8de142566ebf50a0812e2955e83a7726 *man/ScoingIndex.Rd

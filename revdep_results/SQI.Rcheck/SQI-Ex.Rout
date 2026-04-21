@@ -1,0 +1,96 @@
+
+R version 4.5.2 (2025-10-31 ucrt) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "SQI"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> options(pager = "console")
+> library('SQI')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("PCAIndex")
+> ### * PCAIndex
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: PCAIndex
+> ### Title: Soil Quality Index Based on Regression
+> ### Aliases: PCAIndex
+> 
+> ### ** Examples
+> 
+> library("SQI")
+> OP<-c(7,1111,9999,9999,9999,9999,9999,9999,9999,9999,1111)
+> PIndex<-PCAIndex(DataFrame = Data,OptimumValue = OP)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("RegIndex")
+> ### * RegIndex
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: RegIndex
+> ### Title: Soil Quality Index Based on Regression
+> ### Aliases: RegIndex
+> 
+> ### ** Examples
+> 
+> library("SQI")
+> OP<-c(7,1111,9999,9999,9999,9999,9999,9999,9999,9999,1111)
+> RIndex<-RegIndex(DataFrame = Data,Dep_col=7,OptimumValue = OP)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ScoingIndex")
+> ### * ScoingIndex
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ScoingIndex
+> ### Title: Soil Quality Index Based on Linear Scoring
+> ### Aliases: ScoingIndex
+> 
+> ### ** Examples
+> 
+> library("SQI")
+> OP<-c(7,1111,9999,9999,9999,9999,9999,9999,9999,9999,1111)
+> ScoreIndex<-ScoingIndex(DataFrame = Data,OptimumValue = OP)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  11.25 0.91 12.22 NA NA 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

@@ -1,0 +1,163 @@
+
+R version 4.5.2 (2025-10-31 ucrt) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "HanStat"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> options(pager = "console")
+> library('HanStat')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("HansStat-Data")
+> ### * HansStat-Data
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: HansStat Data
+> ### Title: Radomized data for testing models
+> ### Aliases: 'HansStat Data'
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data(data)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("LinReg")
+> ### * LinReg
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: LinReg
+> ### Title: LinReg
+> ### Aliases: LinReg
+> ### Keywords: Linear Regression
+> 
+> ### ** Examples
+> 
+> m<-LinReg('dv',c('iv_1','iv_2','iv_3'),data=data,BS=FALSE,NBS=1000,OC=FALSE,plot=TRUE)
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'
+> print(m$Results)
+$`Linear Model`
+
+Call:
+lm(formula = formula_model, data = data_regression)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-33.180  -8.620   1.241   7.626  29.040 
+
+Coefficients:
+          Estimate Std. Error t value Pr(>|t|)
+Intercept -0.10200    1.36729  -0.075    0.941
+iv_1       0.07434    0.09283   0.801    0.425
+iv_2       0.06682    0.09201   0.726    0.469
+iv_3       0.11584    0.09280   1.248    0.215
+
+Residual standard error: 13.62 on 96 degrees of freedom
+Multiple R-squared:  0.02678,	Adjusted R-squared:  -0.003634 
+F-statistic: 0.8805 on 3 and 96 DF,  p-value: 0.4541
+
+
+$Model_interpretation
+                                                                                                                                                                      value 
+"The conducted model can not explain a significant proportion of variance of dv by the included independent variables (F( 3 , 96 )= 0.881 , Rsquared= -0.004 , p= 0.454 )." 
+
+$Model_effect_size
+[1] "According to Cohen(1992) this result can be described as a no effect (fsquared= -0.004 )."
+
+$Coefficients_interpretation
+$Coefficients_interpretation$`Variable: iv_1`
+[1] "An increase in iv_1 by one unit results in an increase in dv by 0.074 . The result is not significant."
+
+$Coefficients_interpretation$`Variable: iv_2`
+[1] "An increase in iv_2 by one unit results in an increase in dv by 0.067 . The result is not significant."
+
+$Coefficients_interpretation$`Variable: iv_3`
+[1] "An increase in iv_3 by one unit results in an increase in dv by 0.116 . The result is not significant."
+
+
+> print(m$Require)
+$Autocorrelation
+[1] "No evidence for autocorrelation. Durbin-Watson-Statistics:  2.252 Autocorrelation:  -0.13 ."
+
+$Linearity
+[1] "No evidence for non linearity. RESET Statistics:  0.117 ."
+
+$Multicollinearity
+[1] "No evidence for Multicollinearity. VIF: 1.009 ."
+[2] "No evidence for Multicollinearity. VIF: 1.013 ."
+[3] "No evidence for Multicollinearity. VIF: 1.013 ."
+
+$Homoscedasticity
+[1] "No evidence for Heteroscedasticity. Breusch Pagan Test : 1.83 ."
+
+$Gaussian_assumption
+[1] "No evidence for violation of Gaussian assumption. Shapiro-Wilk Test : 0.989 ."
+
+$Violations
+[1] "->->-> Total number of violated requirements: 0 !"
+
+> print(m$Plots)
+[[1]]
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("data")
+> ### * data
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: data
+> ### Title: Randomized data for testing models Contains 5 Variables, one
+> ###   dependent, 4 independent. The fourth independent is correlated with
+> ###   the dependent
+> ### Aliases: data
+> ### Keywords: datasets
+> 
+> ### ** Examples
+> 
+> data(data)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  18.7 1.53 20.35 NA NA 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

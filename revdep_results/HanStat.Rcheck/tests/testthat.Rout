@@ -1,0 +1,36 @@
+
+R version 4.5.2 (2025-10-31 ucrt) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # This file is part of the standard setup for testthat.
+> # It is recommended that you do not modify it.
+> #
+> # Where should you do additional test configuration?
+> # Learn more about the roles of various files in:
+> # * https://r-pkgs.org/tests.html
+> # * https://testthat.r-lib.org/reference/test_package.html#special-files
+> 
+> library(testthat)
+Warning message:
+package 'testthat' was built under R version 4.5.3 
+> library(HanStat)
+> 
+> test_check("HanStat")
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 1 ]
+> 
+> proc.time()
+   user  system elapsed 
+  10.14    1.26   11.53 

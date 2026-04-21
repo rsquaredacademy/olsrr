@@ -1,0 +1,375 @@
+---
+title: "NumericEnsembles Introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{NumericEnsembles Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Welcome to the NumericEnsembles package! This package only does one thing, but it does it much better than anything else I have ever seen anywhere. That one thing is building the most accurate model for numeric data.
+
+**How does NumericEnsembles automatically build the most accurate model?**
+
+The NumericEnsembles package automatically builds 32 models. 18 of the models are individual models, and 14 are ensembles of models. Only one of the 32 models will have the lowest RMSE on the holdout data, but that result virtually always beats the best published results, both in published research and data science contests. In past measures, multiple results from NumericEnsembles have beat all the best published results. We will see an example in this Vignette where our we have 15+ results that beat all the results in a Kaggle competition.
+
+**Let's walk through the steps to see how this is done (example 1 of 2).**
+
+Our first example is one of the best known data sets of all time: Boston Housing. We will work for the same result as data science contests and professionally published articles: Minimizing the RMSE of the predicted sale price. Let's start with a baseline.
+
+**First example: Let's best the top score in a Kaggle competition on the Boston Housing data set**
+
+The Kaggle competition is named **UOU G03784 Spring 2022 Term Project.**
+
+As we will see, the NumericEnsembles package will automatically return an RMSE that is more than 90% smaller than the winning entry in that Kaggle competition. That winning score in the Kaggle competition was 2.41243.
+
+The Boston Housing data set is in the MASS package. It can be found by MASS::Boston.
+
+The NumericEnsembles package only has one function, Numeric (with a capital N), and it automatically does everything for the user.
+
+#### All the arguments in the Numeric function must have a value, or the function will not work correctly.
+
+**Set up the NumericEnsembles function**
+
+Here is what the Numeric function looks like with comments about each part:
+
+``` r
+library(NumericEnsembles)
+Numeric(data = MASS::Boston,
+        colnum = 14,
+        numresamples = 2,
+        remove_VIF_above = 5.00,
+        remove_data_correlations_greater_than = 1.00,
+        remove_ensemble_correlations_greater_than = 1.00,
+        scale_all_predictors_in_data = "N",
+        data_reduction_method = 0,
+        ensemble_reduction_method = 0,
+        how_to_handle_strings = 0,
+        predict_on_new_data = "N",
+        stratified_random_column = 0,
+        save_all_trained_models = "N",
+        set_seed = "Y",
+        save_all_plots = "N",
+        use_parallel = "Y",
+        train_amount = 0.60,
+        test_amount = 0.20,
+        validation_amount = 0.20)
+```
+
+The function uses set.seed, so the results are consistent.
+
+### **The value used for the seed in this example is 12345.**
+
+The lowest RMSE is 0.1444 ± 0.0381, as this shows:
+
+![set.seed=12345](images/setseed=12345.jpg)
+
+**The function will do the following, all completed automatically:**
+
+**Plot exploratory data analysis:**
+
+• Pairwise scatter plots of the numeric features/columns in the data
+
+• Print a correlation table of the numeric data
+
+• Print a correlation table of the data as circles and colors
+
+• Print a correlation table of the data as numbers and colors
+
+• Print boxplots of the numeric data
+
+• Print histograms of the numeric data
+
+• Print a table of predictor (MEDV) vs each column in the data
+
+**Randomly resample the data, then split data into train, test and validation**
+
+For example, I frequently do 25 random resamplings, as this gives a more accurate result than a single sampling of the data.
+
+**Automatically builds 18 individual numeric models, as follows:**
+
+• Bagging
+
+• BayesGLM (Generalized Linear Models), called BayesGLM in the package
+
+• Bayes Regularized Neural Networks (called BayesRNN in the package)
+
+• Cubist
+
+• Earth
+
+• Elastic (tuned with optimized via cross validation)
+
+• Generalized Additive Models including smoothing splines (tuned with optimized hyperparameters)
+
+• Gradient Boosted
+
+• Lasso (optimized via cross validation)
+
+• Linear (optimized hyperparameters)
+
+• Neuralnet (optimized)
+
+• Partial Least Squares
+
+• Principal Components Regression
+
+• Ridge (optimized via cross validation)
+
+• RPart
+
+• Support Vector Machines (tuned with optimized hyperparameters)
+
+• Tree
+
+• XGBoost
+
+For each of the models, the function fits the model and completes the following, all done automatically for each resampling:
+
+• Starts a timer to measure the amount of time for each function (such as Random Forest)
+
+• Fits the model to the training data
+
+• Makes predictions and calculates accuracy on the train, test and validation data sets
+
+• Calculates the mean of the results for test and validation, labels those as holdout
+
+• Calculates overfitting as mean of the holdout RMSE / mean of the train RMSE
+
+• Calculates Bias
+
+• Creates a vector of predictions, called y_hat (such as y_hat_bag_rf) which will be used to make ensembles of model results
+
+**Automatically build weighted ensembles**
+
+Next the function automatically builds weighted ensembles. For example the first result is:
+
+"BagRF" = y_hat_bag_rf \* 1 / bag_rf_holdout_RMSE_mean
+
+which takes the output of the bag_rf function (y_hat) and multiplies it by 1/holdout_RMSE. What this does is give higher value to more accurate results, and lower value to less accurate results. For example, if the mean RMSE on the holdout data is 5, this will divide that value by 5. If the mean result is 20, it will divide the result by 20, thus giving a smaller value to the weighted ensemble.
+
+Next the function uses the user input to remove data that is above a certain correlation (in the function the user has an option to remove_all_ensemble_correlations_above), such as 0.90
+
+**Exploratory data analysis for the weighted ensembles**
+
+Next the function completes several plots for exploratory data analysis for the ensembles:
+
+• Head of the ensemble
+
+• Correlation table of the ensemble
+
+**Split the ensemble into train, test and validation sets**
+
+The function splits the data into the same values as the initial data.
+
+**Randomly resample the ensemble data**
+
+**Automatically build 14 models from the ensemble data**
+
+It does the same procedures for the ensemble as it did for the individual models:
+
+Fit the model on the training data, make predictions and check accuracy on the test and validation data. Calculate bias, MAE, MSE, SSE for each model, calculate the time.
+
+• Ensemble Bagging
+
+• Ensemble Bayes GLM
+
+• Ensemble BayesRNN
+
+• Ensemble Cubist
+
+• Ensemble Earth
+
+• Ensemble Elastic (optimized via cross validation)
+
+• Ensemble Gradient Boosted
+
+• Ensemble Lasso (optimized via cross validation)
+
+• Ensemble Linear (tuned with optimized hyperparameters)
+
+• Ensemble Neuralnet
+
+• Ensemble Ridge (optimized via cross validation)
+
+• Ensemble RPart
+
+• Ensemble Trees
+
+**Automatic summary table**
+
+The function automatically creates a summary table with the following results for each of the 32 models, initally sorted by Holdout RMSE, but the table can be sorted by any column:
+
+• Model name
+
+• Holdout RMSE (accuracy)
+
+• RMSE lower 95% confidence interval
+
+• RMSE upper 95% confidence interval
+
+• Standard deviation of the holdout RMSE
+
+• Overfitting mean
+
+• Overfitting lower 95% confidence interval
+
+• Overfitting upper 95% confidence interval
+
+• Overfitting standard deviation
+
+• Mean bias
+
+• Mean of the data
+
+• Standard deviation of the data
+
+• Mean train RMSE
+
+• Mean test RMSE
+
+• Mean validation RMSE (the holdout RMSE is the mean of test and validation)
+
+• Overfitting Min
+
+• Overfitting Mean
+
+• Overfitting Max
+
+• Duration
+
+Here is an example of the head of the summary report when we ran the function on Boston Housing. Note that all the most accurate models are all ensembles:
+
+| Model             | RMSE   | 1 standard deviation |
+|-------------------|--------|----------------------|
+| EnsembleBayesRNN  | 0.1444 | 0.0381               |
+| EnsembleCubist    | 0.2644 | 0.0787               |
+| EnsembleEarth     | 0.3884 | 0.0537               |
+| EnsembleBayesGLM  | 0.5708 | 0.0181               |
+| EnsembleNueralnet | 0.0575 | 0.0289               |
+| EnsembleLasso     | 0.5783 | 0.0029               |
+
+**Automatic summary plots**
+
+The function automatically returns 25 plots, here is the predicted vs actual for the best model:
+
+![Predicted vs actual for the model with the lowest RMSE](images/Best_model_actual_vs_predicted.jpg.jpeg)
+
+As a note, the overfitting by resample plot is potentially very useful. Clearly some of the models overfit more than others. This plot gives the results for each resample (25 in this case), and it's very easy to see some of the models are more consistent than others. Here is a closeup of a few of the results, so the difference between train and holdout can be easily seen:
+
+![Train vs Holdout for each resampling](images/Train_vs_holdout.jpg){width="700"}
+
+<br><br>
+
+![Accuracy barchart](images/Accuracy_barchart.jpeg){width="700"}
+
+<br><br>
+
+![Mean bias by model](images/Bias.jpeg){width="700"}
+
+<br><br>
+
+![Duration](images/Duration.jpeg){width="700"}
+
+**Summary**: NumericEnsembles accomplishes all of these tasks in one code chunk, and typically the best model here beats the best models from previously published results.
+
+Lowest RMSE from the Kaggle competition: 2.09684
+
+Lowest RMSE from the NumericEnsembles package: 0.1444
+
+Decrease in error rate:93.1134% decrease using Numeric Ensembles compared to the best result from the student Kaggle competition. In addition, NumericEnsembles returns tables, charts, and much more.
+
+Calculate percentage change: from V~1~ = 2.09684 to V~2~ = 0.1444 
+
+#### **(𝑉2−𝑉1)\|𝑉1\|×100**
+
+#### **=(0.1269−2.41243)\|2.41243\|×100**
+
+#### **=−2.285532.41243×100**
+
+#### **=−0.947397×100**
+
+#### **=−94.2485% change**
+
+#### **=94.2485 % decrease**
+
+Source: <https://www.calculatorsoup.com/calculators/algebra/percent-change-calculator.php>
+
+**In fact, 22 models from NumericEnsembles beat the #1 result from the Kaggle results.** (22nd most accurate NumericEnsembles result = 1.9301, best result in the Kaggle competition = 2.09684). The Kaggle competition with 49 teams and 699 submissions!
+
+# **Example #2: Including categorical data in NumericEnsembles**
+
+For this example we are going to model the price of carseats. The issue is there are three non-numeric columns in the data set. Here is the head of the data:
+
+![Head of Carseats data](images/Head_of_Carseats_data.jpg){width="700"}
+
+The NumericEnsembles function gives the user some options when there is categorical data. The options for categorical data are:
+
+0: No strings
+
+1: Factor Values
+
+2: One-Hot Encoding (that's what will be used in this example)
+
+3: One-Hot Encoding with jitter
+
+Otherwise everything runs exactly the same as in the first example.
+
+```         
+library(NumericEnsembles)
+Numeric(data = ISLR::Carseats,
+        colnum = 1,
+        numresamples = 25,
+        remove_VIF_above = 5.00,
+        remove_data_correlations_greater_than = 0.90,
+        remove_ensemble_correlations_greater_than = 0.90,
+        stratified_random_column = 0,
+        scale_all_predictors_in_data = "N",
+        data_reduction_method = 0,
+        ensemble_reduction_method = 0,
+        how_to_handle_strings = 1,
+        predict_on_new_data = "N",
+        save_all_trained_models = "N",
+        set_seed = "N",
+        save_all_plots = "N",
+        use_parallel = "Y",
+        train_amount = 0.60,
+        test_amount = 0.20,
+        validation_amount = 0.20)
+```
+
+# Example #3: Predicting on totally new data, saving all trained models
+
+We will look at a subset of the Boston Housing data set, rows 6-505. All the models will be built as in the first example. However (and this is a huge difference), we will use those pre-trained models to make predictions on totally new data.
+
+A common issue when determining if models are able to replicate on totally new data is using the exact same trained models on the new data. Thus we will not just be using (for example) Bagged Random Forest on the new data, but the **exact same trained model**. The NumericEnsembles package makes this very easy to do.
+
+We will run the analysis in a manner very similar to our first analysis, but with two very important changes:
+
+First, the data will be the Boston Housing data but the first five rows have been removed.
+
+Second, our new data will be the first five rows of Boston Housing, which have not been trained by any of the models. Here is what that function looks like in real life:
+
+When the function asks for the location of the new data, enter <https://raw.githubusercontent.com/InfiniteCuriosity/EnsemblesData/refs/heads/main/NewBoston.csv>
+
+The most accurate model this time is BayesRNN. Here are the actual vs predicted values for BayesRNN as given in the table:
+
+| Model          | House 1 | House 2 | House 3 | House 4 | House5 |
+|----------------|---------|---------|---------|---------|--------|
+| Actual data    | 24      | 21.6    | 34.7    | 33.4    | 36.2   |
+| Best Predicted | 23.8884 | 21.549  | 34.8931 | 33.5463 | 36.414 |
+| Difference     | -0.1116 | -0.051  | 0.1931  | 0.1563  | 0.214  |
+
+The mean difference is 0.0816. Since these measured are in thousands of dollars, the mean error is approximately \$80.16 on a home with a mean value of \$29,980.\
+\
+It is a valid conclusion that the best trained model (BayesRNN) worked successfully on totally new data.
+
+**Working with all the trained models**
+
+The NumericEnsembles package will also save the trained models in the Environment (but not on the user's hard drive). The trained models can provide a wealth of insight. For example, simply type the name of any model, and a \$, and all the options in the model become available. For example:
+
+![BayesRNN Options](images/BayesRNN_options.jpg)
+
+# Grand summary
+
+The NumericEnsembles package automatically completes all the model building, creation of tables, exploratory data analysis, summary tables, plots for the best model, summary barcharts, and much more. It only requires one block of code, the package completes everything else for the user.

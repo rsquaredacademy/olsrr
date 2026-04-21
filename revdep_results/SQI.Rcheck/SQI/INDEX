@@ -1,0 +1,4 @@
+Data                    This is data to be included in my package
+PCAIndex                Soil Quality Index Based on Regression
+RegIndex                Soil Quality Index Based on Regression
+ScoingIndex             Soil Quality Index Based on Linear Scoring

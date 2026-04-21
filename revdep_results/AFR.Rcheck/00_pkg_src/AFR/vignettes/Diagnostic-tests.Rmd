@@ -1,0 +1,150 @@
+---
+title: "Diagnostic-tests"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Diagnostic-tests}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE, message=FALSE}
+library(AFR)
+library(lmtest)
+library(stats)
+library(olsrr)
+```
+
+## Introduction
+
+For the analysis of multiple linear regression models statisticians apply Gauss-Markov theorem for the estimators of the regression to be best linear unbiased estimators (BLUE). The theorem includes 5 assumptions about heteroskedasticity, linearity, exogeneity, random sampling and non-collinearity.
+
+
+**AFR** provides:
+
+2 tests for detecting heteroskedasticity:
+
+- Breusch-Pagan Test
+- Goldfeld-Quandt Test
+
+3 tests for detecting multicollinearity and autocorrelation:
+
+- VIF test
+- Durbin Watson Test
+- Breusch-Godfrey Test
+
+
+4 tests for detecting normality:
+
+- Shapiro-Wilk test
+- Kolmogorov-Smirnov test
+- Cramer-Von Mises test
+- Anderson test
+
+
+### Heteroskedasticity
+
+One of the assumptions made about residuals/errors in OLS regression is that the errors have the
+same but unknown variance. This is known as constant variance or homoscedasticity. When this 
+assumption is violated, the problem is known as heteroscedasticity.Heteroskedasticity is one of 5 Gauss-Markov assumptions. It is tested by Breusch-Pagan and Goldfeld-Quandt tests. 
+
+#### Breusch-Pagan Test
+
+Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan in 1979. It is used to
+test for heteroskedasticity in a linear regression model and assumes that the error terms are 
+normally distributed. It tests whether the variance of the errors from a regression is dependent 
+on the values of the independent variables. Null hypothesis states that error variances are constant.
+
+
+```{r, echo=TRUE}
+model <- lm(real_gdp ~ imp + exp + poil + eurkzt,macroKZ)
+bp(model)
+```
+
+
+#### Goldfeld-Quandt Test
+
+The Goldfeld Quandt Test is a test used in regression analysis to test for homoscedasticity. It compares variances of two subgroups; one set of high values and one set of low values. If the variances differ, the test rejects the null hypothesis that the variances of the errors are not constant.
+
+
+```{r, echo=TRUE}
+model <- lm(real_gdp ~ imp + exp+poil+eurkzt, macroKZ)
+gq(model)
+```
+
+
+### Non-collinearity
+
+Multiple regression assumes that the independent variables are not highly correlated with each other. This assumption is tested using Variance Inflation Factor (VIF) values and by Durbin-Watson and Breusch-Godfrey tests for autocorrelation.
+
+#### VIF Test
+
+The VIF of the linear regression is defined as VIF = 1/T. With VIF > 5 there is an indication that multicollinearity may be present; with VIF > 10 there is certainly multicollinearity among the variables.
+
+```{r, echo=TRUE}
+model <- lm(real_gdp ~ imp + exp + poil + eurkzt,macroKZ)
+vif_reg(model)
+```
+
+#### Durbin-Watson Test
+
+The Durbin Watson (DW) statistic is a test for autocorrelation in the residuals from a statistical model or regression analysis. The Durbin-Watson statistic will always have a value ranging between 0 and 4. A value of 2.0 indicates there is no autocorrelation detected in the sample. Values from 0 to less than 2 point to positive autocorrelation and values from 2 to 4 means negative autocorrelation.
+
+```{r, echo=TRUE}
+model <- lm(real_gdp ~ imp + exp + poil + eurkzt,macroKZ)
+dwtest(model)
+```
+
+#### Breusch-Godfrey Test
+
+Alternatively, there is Breusch-Godfrey Test for autocorrelation check.It tests for the presence of serial correlation that has not been included in a proposed model structure and which, if present, would mean that incorrect conclusions would be drawn from other tests or that sub-optimal estimates of model parameters would be obtained.Null hypothesis states that there is no autocorrelation.
+
+```{r, echo=TRUE}
+model <- lm(real_gdp ~ imp + exp + poil + eurkzt,macroKZ)
+bg(model)
+```
+
+### Normality
+
+Normality refers to a specific statistical distribution called a normal distribution, or sometimes the Gaussian distribution or bell-shaped curve. The normal distribution is a symmetrical continuous distribution defined by the mean and standard deviation of the data. 
+
+In AFR package 4 normality tests are compiled in one *norm_test* function referred to *olsrr* package.
+
+```{r, echo=TRUE}
+#model <- lm(real_gdp ~ imp + exp + poil + eurkzt,macroKZ)
+#ols_test_normality(model)
+```
+
+
+#### Shapiro-Wilk statistic
+
+The null-hypothesis of this test is that the population is normally distributed. Thus, if the p value is less than the chosen alpha level, then the null hypothesis is rejected and there is evidence that the data tested are not normally distributed. On the other hand, if the p value is greater than the chosen alpha level, then the null hypothesis (that the data came from a normally distributed population) can not be rejected.
+
+#### Kolmogorov-Smirnov statistic
+
+The Kolmogorov–Smirnov statistic quantifies a distance between the empirical distribution function of the sample and the cumulative distribution function of the reference distribution, or between the empirical distribution functions of two samples. The null distribution of this statistic is calculated under the null hypothesis that the sample is drawn from the reference distribution (in the one-sample case) or that the samples are drawn from the same distribution (in the two-sample case).Since the p-value is less than .05, we reject the null hypothesis. 
+
+
+#### Cramer-Von Mises test
+
+Alternative to Kolmogorov-Smirnov test, Cramer-von Mises statistic is a measure of the mean squared difference between the empirical and hypothetical cumulative distribution functions. It is also used as a part of other algorithms, such as minimum distance estimation.The Cramér–von Mises test can be seen to be distribution-free if empirical distribution is continuous and the sample has no ties. Otherwise,  statistic is not the true asymptotic distribution. 
+
+
+#### Anderson test
+
+The Anderson-Darling test is used to test if a sample of data comes from a population with a specific distribution.The null hypothesis is that your data is not different from normal. Your alternate or alternative hypothesis is that your data is different from normal. You will make your decision about whether to reject or not reject the null based on your p-value. 
+
+
+For additional information please address:
+
+*Wooldridge, Jeffrey M. 2012. Introductory Econometrics: A Modern Approach, Fifth Edition.* 
+
+*Hyndman, Rob J and George Athanasopoulos. 2018. Forecasting: Principles and Practice, 2nd Edition.* 
+
+

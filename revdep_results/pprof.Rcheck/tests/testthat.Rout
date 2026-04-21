@@ -1,0 +1,169 @@
+
+R version 4.5.2 (2025-10-31 ucrt) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # This file is part of the standard setup for testthat.
+> # It is recommended that you do not modify it.
+> #
+> # Where should you do additional test configuration?
+> # Learn more about the roles of various files in:
+> # * https://r-pkgs.org/testing-design.html#sec-tests-files-overview
+> # * https://testthat.r-lib.org/articles/special-files.html
+> 
+> library(testthat)
+Warning message:
+package 'testthat' was built under R version 4.5.3 
+> library(pprof)
+> 
+> test_check("pprof")
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+3 out of 100 remaining providers with no events.
+0 out of 100 remaining providers with all events.
+After screening, 38.77% of all records exhibit occurrences of events (Y = 1)
+Implementing SerBIN algorithm (Rcpp) for fixed provider effects model ...
+Iter 1: Minimum criterion across all checks is 5.022e-01;
+Iter 2: Minimum criterion across all checks is 1.422e-01;
+Iter 3: Minimum criterion across all checks is 3.528e-02;
+Iter 4: Minimum criterion across all checks is 5.671e-03;
+Iter 5: Minimum criterion across all checks is 1.214e-03;
+Iter 6: Minimum criterion across all checks is 2.151e-04;
+Iter 7: Minimum criterion across all checks is 6.647e-05;
+Iter 8: Minimum criterion across all checks is 7.565e-06;
+serBIN (Rcpp) algorithm converged after 8 iterations!
+Setting levels: control = 0, case = 1
+Setting direction: controls < cases
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+3 out of 100 remaining providers with no events.
+0 out of 100 remaining providers with all events.
+After screening, 38.77% of all records exhibit occurrences of events (Y = 1)
+Implementing SerBIN algorithm (Rcpp) for fixed provider effects model ...
+Iter 1: Minimum criterion across all checks is 5.022e-01;
+Iter 2: Minimum criterion across all checks is 1.422e-01;
+Iter 3: Minimum criterion across all checks is 3.528e-02;
+Iter 4: Minimum criterion across all checks is 5.671e-03;
+Iter 5: Minimum criterion across all checks is 1.214e-03;
+Iter 6: Minimum criterion across all checks is 2.151e-04;
+Iter 7: Minimum criterion across all checks is 6.647e-05;
+Iter 8: Minimum criterion across all checks is 7.565e-06;
+serBIN (Rcpp) algorithm converged after 8 iterations!
+Setting levels: control = 0, case = 1
+Setting direction: controls < cases
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+Input format: data, Y.char, Z.char, and ProvID.char.
+Input format: formula and data.
+Input format: Y, Z, and ProvID.
+Input format: data, Y.char, Z.char, and ProvID.char.
+Input format: formula and data.
+Input format: Y, Z, and ProvID.
+3 out of 100 remaining providers with no events.
+0 out of 100 remaining providers with all events.
+After screening, 38.77% of all records exhibit occurrences of events (Y = 1)
+Implementing SerBIN algorithm (Rcpp) for fixed provider effects model ...
+Iter 1: Minimum criterion across all checks is 5.022e-01;
+Iter 2: Minimum criterion across all checks is 1.422e-01;
+Iter 3: Minimum criterion across all checks is 3.528e-02;
+Iter 4: Minimum criterion across all checks is 5.671e-03;
+Iter 5: Minimum criterion across all checks is 1.214e-03;
+Iter 6: Minimum criterion across all checks is 2.151e-04;
+Iter 7: Minimum criterion across all checks is 6.647e-05;
+Iter 8: Minimum criterion across all checks is 7.565e-06;
+serBIN (Rcpp) algorithm converged after 8 iterations!
+Setting levels: control = 0, case = 1
+Setting direction: controls < cases
+Input format: data, Y.char, Z.char, and ProvID.char.
+3 out of 100 remaining providers with no events.
+0 out of 100 remaining providers with all events.
+After screening, 38.77% of all records exhibit occurrences of events (Y = 1)
+Implementing SerBIN algorithm (Rcpp) for fixed provider effects model ...
+Iter 1: Minimum criterion across all checks is 5.022e-01;
+Iter 2: Minimum criterion across all checks is 1.422e-01;
+Iter 3: Minimum criterion across all checks is 3.528e-02;
+Iter 4: Minimum criterion across all checks is 5.671e-03;
+Iter 5: Minimum criterion across all checks is 1.214e-03;
+Iter 6: Minimum criterion across all checks is 2.151e-04;
+Iter 7: Minimum criterion across all checks is 6.647e-05;
+Iter 8: Minimum criterion across all checks is 7.565e-06;
+serBIN (Rcpp) algorithm converged after 8 iterations!
+Setting levels: control = 0, case = 1
+Setting direction: controls < cases
+Input format: formula and data.
+3 out of 100 remaining providers with no events.
+0 out of 100 remaining providers with all events.
+After screening, 38.77% of all records exhibit occurrences of events (Y = 1)
+Implementing SerBIN algorithm (Rcpp) for fixed provider effects model ...
+Iter 1: Minimum criterion across all checks is 5.022e-01;
+Iter 2: Minimum criterion across all checks is 1.422e-01;
+Iter 3: Minimum criterion across all checks is 3.528e-02;
+Iter 4: Minimum criterion across all checks is 5.671e-03;
+Iter 5: Minimum criterion across all checks is 1.214e-03;
+Iter 6: Minimum criterion across all checks is 2.151e-04;
+Iter 7: Minimum criterion across all checks is 6.647e-05;
+Iter 8: Minimum criterion across all checks is 7.565e-06;
+serBIN (Rcpp) algorithm converged after 8 iterations!
+Setting levels: control = 0, case = 1
+Setting direction: controls < cases
+Input format: Y, Z, and ProvID.
+Input format: data, Y.char, Z.char, and ProvID.char.
+Input format: formula and data.
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+3 out of 100 remaining providers with no events.
+0 out of 100 remaining providers with all events.
+After screening, 38.77% of all records exhibit occurrences of events (Y = 1)
+Implementing SerBIN algorithm (Rcpp) for fixed provider effects model ...
+Iter 1: Minimum criterion across all checks is 5.022e-01;
+Iter 2: Minimum criterion across all checks is 1.422e-01;
+Iter 3: Minimum criterion across all checks is 3.528e-02;
+Iter 4: Minimum criterion across all checks is 5.671e-03;
+Iter 5: Minimum criterion across all checks is 1.214e-03;
+Iter 6: Minimum criterion across all checks is 2.151e-04;
+Iter 7: Minimum criterion across all checks is 6.647e-05;
+Iter 8: Minimum criterion across all checks is 7.565e-06;
+serBIN (Rcpp) algorithm converged after 8 iterations!
+Setting levels: control = 0, case = 1
+Setting direction: controls < cases
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+Input format: Y, Z, and ProvID.
+3 out of 100 remaining providers with no events.
+0 out of 100 remaining providers with all events.
+After screening, 38.77% of all records exhibit occurrences of events (Y = 1)
+Implementing SerBIN algorithm (Rcpp) for fixed provider effects model ...
+Iter 1: Minimum criterion across all checks is 5.022e-01;
+Iter 2: Minimum criterion across all checks is 1.422e-01;
+Iter 3: Minimum criterion across all checks is 3.528e-02;
+Iter 4: Minimum criterion across all checks is 5.671e-03;
+Iter 5: Minimum criterion across all checks is 1.214e-03;
+Iter 6: Minimum criterion across all checks is 2.151e-04;
+Iter 7: Minimum criterion across all checks is 6.647e-05;
+Iter 8: Minimum criterion across all checks is 7.565e-06;
+serBIN (Rcpp) algorithm converged after 8 iterations!
+Setting levels: control = 0, case = 1
+Setting direction: controls < cases
+Input format: Y, Z, and ProvID.
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 173 ]
+> 
+> proc.time()
+   user  system elapsed 
+ 350.79   10.56  363.06 

@@ -1,0 +1,6 @@
+HansStat Data           Radomized data for testing models
+LinReg                  LinReg
+data                    Randomized data for testing models Contains 5
+                        Variables, one dependent, 4 independent. The
+                        fourth independent is correlated with the
+                        dependent

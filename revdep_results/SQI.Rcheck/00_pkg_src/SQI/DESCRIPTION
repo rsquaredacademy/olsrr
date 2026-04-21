@@ -1,0 +1,30 @@
+Package: SQI
+Type: Package
+Title: Soil Quality Index
+Version: 0.1.0
+Authors@R: c(person(" Dr. Owais Ali", "Wani", role = c("aut","cre"), email = "owaisaliwani@skuastkashmir.ac.in"),
+    person("Dr. Faaique", "Nazir", role = "aut", email = "faaiquenazir@gmail.com"),
+    person("Dr. Syed Sheraz", "Mahdi", role = "aut", email = "syedapbau@gmail.com"),
+    person("Dr. Shabir", "Bangroo", role = "aut", email = "shabir@skuastkashmir.ac.in"),
+    person("Dr. A Raouf", "Malik", role = "aut", email = "roufmalik@gmail.com"),
+    person("Dr. Shahnawaz Rasool", "Dar", role = "aut", email = "srdarskuastk@gmail.com"),
+    person("Dr. Md", "Yeasin", role = "aut", email = "yeasin.iasri@gmail.com"))
+Author: Dr. Owais Ali Wani [aut, cre],
+  Dr. Faaique Nazir [aut],
+  Dr. Syed Sheraz Mahdi [aut],
+  Dr. Shabir Bangroo [aut],
+  Dr. A Raouf Malik [aut],
+  Dr. Shahnawaz Rasool Dar [aut],
+  Dr. Md Yeasin [aut]
+Maintainer: Dr. Owais Ali Wani <owaisaliwani@skuastkashmir.ac.in>
+Description: The overall performance of soil ecosystem services and productivity greatly relies on soil health, making it a crucial indicator. The evaluation of soil physical, chemical, and biological parameters is necessary to determine the overall soil quality index. In our package, three commonly used methods, including linear scoring, regression-based, and principal component-based soil quality indexing, are employed to calculate the soil quality index. This package has been developed using concept of Bastida et al. (2008) and Doran and Parkin (1994) <doi:10.1016/j.geoderma.2008.08.007> <doi:10.2136/sssaspecpub35.c1>.  
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+Imports: readxl, dplyr, stats, matrixStats, olsrr, FactoMineR
+LazyData: true
+Depends: R (>= 3.5.0)
+NeedsCompilation: no
+Packaged: 2023-04-07 17:49:07 UTC; YEASIN
+Repository: CRAN
+Date/Publication: 2023-04-10 14:20:03 UTC

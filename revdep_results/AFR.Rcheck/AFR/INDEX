@@ -1,0 +1,25 @@
+HP                      Hodrick-Prescott filter for time series data
+bg                      Breusch-Godfrey test [BG test]
+bp                      Breusch-Pagan test
+check_betas             All possible regression variable coefficients.
+checkdata               Preliminary data check for errors
+corsel                  Multicollinearity test
+dec_plot                Decomposition plot
+difflog                 Transforming time-series data to stationary
+finratKZ                finratKZ dataset
+gq                      Godfrey-Quandt test
+macroKZ                 macroKZ dataset
+ols_test_normality      Test for normality Test for detecting violation
+                        of normality assumption.
+opt_size                Necessary size of the time-series dataset
+pct1                    Transforming time-series data to stationary
+pct4                    Transforming time-series data to stationary
+pt_multi                Pluto-Tasche method for multi-year probability
+                        of default (PD) analysis
+pt_one                  Pluto-Tasche method for one-year probability of
+                        default (PD) analysis
+reg_plot                Regression forecast plot
+reg_test                Test for detecting violation of Gauss-Markov
+                        assumptions.
+regsel_f                Regressors selection
+vif_reg                 VIF by variable

@@ -1,0 +1,79 @@
+ExampleDataBinary       Example data with binary outcomes
+ExampleDataLinear       Example data with continuous outcomes
+SM_output               Generic function for calculating standardized
+                        measures
+SM_output.linear_cre    Calculate direct/indirect standardized
+                        differences from a fitted 'linear_cre' object
+SM_output.linear_fe     Calculate direct/indirect standardized
+                        differences from a fitted 'linear_fe' object
+SM_output.linear_re     Calculate direct/indirect standardized
+                        differences from a fitted 'linear_re' object
+SM_output.logis_cre     Calculate direct/indirect standardized
+                        ratios/rates from a fitted 'logis_cre' object
+SM_output.logis_fe      Calculate direct/indirect standardized
+                        ratios/rates from a fitted 'logis_fe' object
+SM_output.logis_re      Calculate direct/indirect standardized
+                        ratios/rates from a fitted 'logis_re' object
+bar_plot                Get a bar plot for flagging percentage overall
+                        and stratified by provider sizes
+caterpillar_plot        Get a caterpillar plot to display confidence
+                        intervals for standardized measures
+confint.linear_cre      Get confidence intervals for provider effects
+                        or standardized measures from a fitted
+                        'linear_cre' object
+confint.linear_fe       Get confidence intervals for provider effects
+                        or standardized measures from a fitted
+                        'linear_fe' object
+confint.linear_re       Get confidence intervals for provider effects
+                        or standardized measures from a fitted
+                        'linear_re' object
+confint.logis_cre       Get confidence intervals for provider effects
+                        or standardized measures from a fitted
+                        'logis_cre' object
+confint.logis_fe        Get confidence intervals for provider effects
+                        or standardized measures from a fitted
+                        'logis_fe' object
+confint.logis_re        Get confidence intervals for provider effects
+                        or standardized measures from a fitted
+                        'logis_re' object
+data_check              Data quality check function
+ecls_data               Early Childhood Longitudinal Study Dataset
+linear_cre              Main Function for fitting correlated random
+                        effect linear model
+linear_fe               Main function for fitting the fixed effect
+                        linear model
+linear_re               Main Function for fitting the random effect
+                        linear model
+logis_cre               Main Function for fitting correlated random
+                        effect logistic model
+logis_fe                Main function for fitting the fixed effect
+                        logistic model
+logis_firth             Main function for fitting the fixed effect
+                        logistic model using firth correction
+logis_re                Main Function for fitting the random effect
+                        logistic model
+plot.linear_fe          Get funnel plot from a fitted 'linear_fe'
+                        object for institutional comparisons
+plot.logis_fe           Get funnel plot from a fitted 'logis_fe' object
+                        for institutional comparisons
+summary.linear_cre      Result Summaries of Covariate Estimates from a
+                        fitted 'linear_fe', 'linear_re' or 'linear_cre'
+                        object
+summary.logis_cre       Result Summaries of Covariate Estimates from a
+                        fitted 'logis_re' or 'logis_cre' object
+summary.logis_fe        Result Summaries of Covariate Estimates from a
+                        fitted 'logis_fe' object
+test                    Generic function for hypothesis testing of
+                        provider effects
+test.linear_cre         Conduct hypothesis testing for provider effects
+                        from a fitted 'linear_cre' object
+test.linear_fe          Conduct hypothesis testing for provider effects
+                        from a fitted 'linear_fe' object
+test.linear_re          Conduct hypothesis testing for provider effects
+                        from a fitted 'linear_re' object
+test.logis_cre          Conduct hypothesis testing for provider effects
+                        from a fitted 'logis_cre' object
+test.logis_fe           Conduct hypothesis testing for provider effects
+                        from a fitted 'logis_fe' object
+test.logis_re           Conduct hypothesis testing for provider effects
+                        from a fitted 'logis_re' object

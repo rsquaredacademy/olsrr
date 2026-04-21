@@ -1,0 +1,35 @@
+Package: AFR
+Type: Package
+Title: Toolkit for Regression Analysis of Kazakhstan Banking Sector
+        Data
+Version: 0.3.8
+Copyright: The Agency of the Republic of Kazakhstan for Regulation and
+        Development of Financial Market (ARDFM)
+Authors@R: c(person("Timur", "Abilkassymov", role = "aut"),
+             person("Shyngys", "Shuneyev", role = "aut"),
+             person("Alua", "Makhmetova", role = c("aut")),
+            person("Sultan", "Zhaparov", role = c("aut", "cre"),
+                    email = "saldau.sultan@gmail.com"))
+Author: Timur Abilkassymov [aut],
+  Shyngys Shuneyev [aut],
+  Alua Makhmetova [aut],
+  Sultan Zhaparov [aut, cre]
+Maintainer: Sultan Zhaparov <saldau.sultan@gmail.com>
+Description: Tool is created for regression, prediction and forecast analysis of macroeconomic and credit data.
+  The package includes functions from existing R packages adapted for banking sector of Kazakhstan.
+  The purpose of the package is to optimize statistical functions for easier interpretation for bank analysts and non-statisticians.
+License: GPL-2
+Depends: R (>= 3.5.0)
+Imports: car, forecast, zoo, olsrr, stats, lmtest, graphics,nlme,
+        ggplot2, tseries, gridExtra, utils, rlang, xts, nortest,
+        goftest, cli
+Suggests: knitr, rmarkdown, roxygen2
+Repository: CRAN
+Encoding: UTF-8
+VignetteBuilder: knitr
+LazyData: true
+RoxygenNote: 7.3.3
+NeedsCompilation: no
+Packaged: 2026-03-02 10:19:40 UTC; User
+Date/Publication: 2026-03-02 12:30:10 UTC
+Built: R 4.5.2; ; 2026-04-21 01:35:39 UTC; windows

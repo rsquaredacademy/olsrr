@@ -1,0 +1,13 @@
+app_descriptive         Descriptive Statistics
+app_inference           Inferential Statistics
+app_linear_regression   Linear Regression
+app_logistic_regression
+                        Logistic Regression
+app_rfm_analysis        RFM Analysis
+app_vistributions       Visualize distributions
+app_visualizer          Visualization
+exam                    Dummy data set for Cochran's Q test
+hsb                     High School and Beyond Data Set
+treatment               Dummy data set for 2 Sample Proportion test
+xpl_gvar                Repeat data
+xpl_nsignC              Return sign

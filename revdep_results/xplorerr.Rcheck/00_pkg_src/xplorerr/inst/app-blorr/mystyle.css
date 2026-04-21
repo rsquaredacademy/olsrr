@@ -1,0 +1,46 @@
+/*.btn, .btn-default, .action-button {
+	color: white;
+	background: #007ba7;
+	border-radius: 10px;
+	font-style: italic
+}
+*/
+
+.btn:hover {
+	color: white;
+	background: #007ba7;
+	font-style: italic
+}
+
+
+.btn-default:hover {
+	color: white;
+	background: #007ba7;
+	font-style: italic
+}
+
+
+.action-button:hover {
+	color: white;
+	background: #007ba7;
+	font-style: italic
+}
+
+h3 {
+	text-align:center;
+}
+
+#screener {
+    background-color:white;
+    border-color:white;
+}
+
+.shiny-text-output {
+    background-color:white;
+    border-color:white;
+}
+ 
+ .tab-pane .active a{
+ 	  background-color:white;
+    border-color:white;	
+ }

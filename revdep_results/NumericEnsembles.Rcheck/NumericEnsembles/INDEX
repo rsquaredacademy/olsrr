@@ -1,0 +1,12 @@
+Boston_housing          Boston_housing data
+Concrete                Concrete - This is the strength of concrete daa
+                        set originally posted on UCI
+Insurance               Insurance - The data is from UCI
+New_Boston              NewBoston—These are only the five rows c(1:3,
+                        210:211) from Boston Housing data set. This can
+                        be used as new data, and the Boston_housing
+                        data set as the original. The numeric function
+                        will return predictions on the new data.
+Numeric                 Numeric—function to automatically build 18
+                        individual models and 14 ensembles then return
+                        the results to the user
