@@ -53,6 +53,10 @@ pak::pak("rsquaredacademy/olsrr")
 
 ## Usage
 
+    #> Warning: package 'dplyr' was built under R version 4.5.3
+    #> Warning: package 'ggplot2' was built under R version 4.5.3
+    #> Warning: package 'gridExtra' was built under R version 4.5.3
+
 olsrr uses consistent prefix `ols_` for easy tab completion. If you know
 how to write a `formula` or build models using `lm`, you will find olsrr
 very useful. Most of the functions use an object of class `lm` as input.

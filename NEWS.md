@@ -1,4 +1,17 @@
-# olsrr 0.6.1.9000
+# olsrr 0.7.0
+
+This is a minor release for bug fixes and other enhancements.
+
+## New Features
+
+- compare performance of regression models using multiple metrics
+- ANOVA for regression models
+- evaluate performance of regression models
+- comprehensive information from model objects
+
+## Enhancements
+
+- Fixed number of steps in stepwise regression ([#214](https://github.com/rsquaredacademy/olsrr/issues/214))
 
 ## Bug Fixes
 

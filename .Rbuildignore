@@ -17,4 +17,6 @@
 ^\.github$
 ^CODE_OF_CONDUCT\.md$
 ^revdep$
+^revdep_sources$
+^revdep_results$
 TODO.md
