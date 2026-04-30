@@ -1,0 +1,46 @@
+Package: pprof
+Type: Package
+Title: Modeling, Standardization and Testing for Provider Profiling
+Version: 1.0.3
+Date: 2026-02-08
+Authors@R: c(
+   person("Xiaohan", "Liu", email = "xhliuu@umich.edu", role = c("aut", "cre")),
+   person("Lingfeng", "Luo", email = "lfluo@umich.edu", role = "aut"),
+   person("Yubo", "Shao", email = "ybshao@umich.edu ", role = "aut"),
+   person("Xiangeng", "Fang", email = "xgfang@umich.edu", role = "aut"),
+   person("Wenbo", "Wu", email = "Wenbo.Wu@nyulangone.org", role = "aut"),
+   person("Kevin", "He", email = "kevinhe@umich.edu", role = "aut"))
+Description: Implements linear and generalized linear models for provider profiling,
+    incorporating both fixed and random effects. For large-scale providers, the linear 
+    profiled-based method and the SerBIN method for binary data 
+    reduce the computational burden. Provides post-modeling features, such as 
+    indirect and direct standardization measures, hypothesis testing, 
+    confidence intervals, and post-estimation visualization. 
+    For more information, see Wu et al. (2022) <doi:10.1002/sim.9387>.
+License: MIT + file LICENSE
+LazyData: true
+Imports: Rcpp, RcppParallel, stats, caret, olsrr, pROC, poibin, dplyr,
+        ggplot2, Matrix, lme4, magrittr, scales, tibble, rlang,
+        tidyselect, globals
+LinkingTo: Rcpp, RcppArmadillo, RcppParallel
+Depends: R (>= 4.1.0)
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+RoxygenNote: 7.3.3
+URL: https://github.com/UM-KevinHe/pprof
+BugReports: https://github.com/UM-KevinHe/pprof/issues
+Encoding: UTF-8
+SystemRequirements: GNU make
+Config/testthat/edition: 3
+NeedsCompilation: yes
+Packaged: 2026-02-10 00:24:39 UTC; emilyliu
+Author: Xiaohan Liu [aut, cre],
+  Lingfeng Luo [aut],
+  Yubo Shao [aut],
+  Xiangeng Fang [aut],
+  Wenbo Wu [aut],
+  Kevin He [aut]
+Maintainer: Xiaohan Liu <xhliuu@umich.edu>
+Repository: CRAN
+Date/Publication: 2026-02-10 00:50:03 UTC
+Built: R 4.5.2; x86_64-w64-mingw32; 2026-04-21 02:05:18 UTC; windows
+Archs: x64

@@ -1,0 +1,489 @@
+---
+title: "NumericEnsembles Report Template"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{NumericEnsembles Report Template}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# Abstract here
+
+# Introduction
+
+# Statement of the problem from the customer's perspective
+
+# Literature review/summary, history of previous results
+
+# The goal of this investigation
+
+# Original source of the data
+
+# Github repository for reproducible results
+
+# Exploratory Data Analysis
+
+1.  Head of the data (put Head of Data report here)
+
+2.  Discussion of head of the data
+
+3.  Boxplots of numeric values (put plot here)
+
+4.  Discussion of Boxplots
+
+5.  Cook's D Bar Plot (put plot here)
+
+6.  Discussion of Cook's D Bar Plot
+
+7.  Outliers in the data
+
+8.  Discussion of outliers in the data
+
+9.  Histograms of each numeric column (put plot here)
+
+10. Discussion of histograms of each numeric column
+
+11. y (target) vs each predictor (put plot)
+
+12. Discussion of y (target) vs each predictor
+
+13. Correlation plot of the numeric data as circles and colors
+
+14. Correlation plot of the numeric data as numbers and colors
+
+15. Correlation of the data (report)
+
+16. Discussion of correlation of the data (report and charts)
+
+17. VIF report
+
+# Model building
+
+### Function call (replace with your function call):
+
+```         
+library(NumericEnsembles)
+Numeric(data = MASS::Boston,
+        colnum = 14,
+        numresamples = 25,
+        remove_VIF_above = 5.00,
+        remove_data_correlations_greater_thank = 0.99,
+        remove_ensemble_correlations_greater_than = 1.00,
+        scale_all_predictors_in_data = "N",
+        data_reduction_method = 1,
+        ensemble_reduction_method = 0,
+        how_to_handle_strings = 0,
+        predict_on_new_data = "N",
+        save_all_trained_models = "N",
+        set_seed = "N",
+        save_all_plots = "N",
+        use_parallel = "Y",
+        train_amount = 0.60,
+        test_amount = 0.20,
+        validation_amount = 0.20)
+```
+
+Discussion of function call here. (For example, the code above randomly
+resamples the data 25 times, saves all trained models and plots, and
+uses data reduction method = 1, and sets train = 0.60, test = 0.20,
+validation = 0.20, you might want to discuss other aspects of the
+function call. For example, the function call does not set a seed, so
+the results are random.)
+
+### **List of models (individual models first):**
+
+**Bagging:**
+
+`bagging_train_fit <- ipred::bagging(formula = y ~ ., data = train)`
+
+**BayesGLM:**
+
+`bayesglm_train_fit <- arm::bayesglm(y ~ ., data = train, family = gaussian(link = "identity"))`
+
+**BayesRNN**:
+
+`bayesrnn_train_fit <- brnn::brnn(x = as.matrix(train), y = trai$y)`
+
+**Cubist:**
+
+`cubist_train_fit <- Cubist::cubist(x = train[, 1:ncol(train) - 1], y = train$y)`
+
+**Earth:**
+
+`earth_train_fit <- earth::earth(x = train[, 1:ncol(train) - 1], y = train$y)`
+
+**Elastic (optimized by cross-validation):**
+
+```         
+y <- train$y
+x <- data.matrix(train %>% dplyr::select(-y))
+elastic_model <- glmnet::glmnet(x, y, alpha = 0.5)
+elastic_cv <- glmnet::cv.glmnet(x, y, alpha = 0.5)
+best_elastic_lambda <- elastic_cv$lambda.min
+best_elastic_model <- glmnet::glmnet(x, y, alpha = 0, lambda = best_elastic_lambda)
+```
+
+**Generalized Additive Models (with smoothing splines):**
+
+```         
+n_unique_vals <- purrr::map_dbl(df, dplyr::n_distinct)
+
+# Names of columns with >= 4 unique vals
+keep <- names(n_unique_vals)[n_unique_vals >= 4]
+
+gam_data <- df %>%
+dplyr::select(dplyr::all_of(keep))
+
+# Model data
+train1 <- train %>%
+dplyr::select(dplyr::all_of(keep))
+
+test1 <- test %>%
+dplyr::select(dplyr::all_of(keep))
+
+validation1 <- validation %>%
+dplyr::select(dplyr::all_of(keep))
+
+names_df <- names(gam_data[, 1:ncol(gam_data) - 1])
+f2 <- stats::as.formula(paste0("y ~", paste0("gam::s(", names_df, ")", collapse = "+")))
+
+gam_train_fit <- gam(f2, data = train1)
+```
+
+**Gradient Boosted:**
+
+```         
+gb_train_fit <- gbm::gbm(train$y ~ ., data = train, distribution = "gaussian", n.trees = 100, shrinkage = 0.1, interaction.depth = 10)
+```
+
+**Lasso:**
+
+```         
+y <- train$y
+x <- data.matrix(train %>% dplyr::select(-y))
+lasso_model <- glmnet(x, y, alpha = 1)
+lasso_cv <- glmnet::cv.glmnet(x, y, alpha = 1)
+best_lasso_lambda <- lasso_cv$lambda.min
+best_lasso_model <- glmnet(x, y, alpha = 1, lambda = best_lasso_lambda)
+```
+
+**Linear (optimized by tuning):**
+
+```         
+linear_train_fit <- e1071::tune.rpart(formula = y ~ ., data = train)
+```
+
+**Neuralnet:**
+
+```         
+neuralnet_train_fit <- nnet::nnet(train$y ~ ., data = train, size = 0, linout = TRUE, skip = TRUE)
+```
+
+**Partial Least Squares:**
+
+```         
+pls_train_fit <- pls::plsr(train$y ~ ., data = train)
+```
+
+**Principal Components:**
+
+```         
+pcr_train_fit <- pls::pcr(train$y ~ ., data = train)
+```
+
+**Ridge (optimized via cross-validation):**
+
+```         
+y <- train$y
+x <- data.matrix(train %>% dplyr::select(-y))
+ridge_model <- glmnet(x, y, alpha = 0)
+ridge_cv <- glmnet::cv.glmnet(x, y, alpha = 0)
+best_ridge_lambda <- ridge_cv$lambda.min
+best_ridge_model <- glmnet(x, y, alpha = 0, lambda = best_ridge_lambda)
+```
+
+**Rpart:**
+
+```         
+rpart_train_fit <- rpart::rpart(train$y ~ ., data = train)
+```
+
+**Support Vector Machines (optimized by tuning):**
+
+```         
+svm_train_fit <- e1071::tune.svm(x = train, y = train$y, data = train)
+```
+
+**Trees:**
+
+```         
+tree_train_fit <- tree::tree(train$y ~ ., data = train)
+```
+
+**XGBoost (Extreme Gradient Boosting):**
+
+```         
+train_x <- data.matrix(train[, -ncol(train)])
+train_y <- train[, ncol(train)]
+
+# define predictor and response variables in test set
+test_x <- data.matrix(test[, -ncol(test)])
+test_y <- test[, ncol(test)]
+
+# define predictor and response variables in validation set
+validation_x <- data.matrix(validation[, -ncol(validation)])
+validation_y <- validation[, ncol(validation)]
+
+# define final train, test and validation sets
+xgb_train <- xgboost::xgb.DMatrix(data = train_x, label = train_y)
+xgb_test <- xgboost::xgb.DMatrix(data = test_x, label = test_y)
+xgb_validation <- xgboost::xgb.DMatrix(data = validation_x, label = validation_y)
+
+# define watchlist
+watchlist <- list(train = xgb_train, validation = xgb_validation)
+watchlist_test <- list(train = xgb_train, test = xgb_test)
+watchlist_validation <- list(train = xgb_train, validation = xgb_validation)
+
+# fit XGBoost model and display training and validation data at each round
+xgb_model <- xgboost::xgb.train(data = xgb_train, max.depth = 3, watchlist = watchlist_test, nrounds = 70)
+```
+
+**How the ensemble is made:**
+
+```         
+ ensemble <- data.frame(
+      "Bagging" = y_hat_bagging * 1 / bagging_holdout_RMSE_mean,
+      "BayesGLM" = y_hat_bayesglm * 1 / bayesglm_holdout_RMSE_mean,
+      "BayesRNN" = y_hat_bayesrnn * 1 / bayesrnn_holdout_RMSE_mean,
+      "Cubist" = y_hat_cubist * 1 / cubist_holdout_RMSE_mean,
+      "Earth" = y_hat_earth * 1 / earth_holdout_RMSE_mean,
+      "Elastic" = y_hat_elastic *1 / elastic_holdout_RMSE,
+      "GAM" = y_hat_gam * 1 / gam_holdout_RMSE_mean,
+      "GBM" = y_hat_gb * 1 / gb_holdout_RMSE_mean,
+      "Lasso" = y_hat_lasso *1 / lasso_holdout_RMSE_mean,
+      "Linear" = y_hat_linear * 1 / linear_holdout_RMSE_mean,
+      "Neuralnet" = y_hat_neuralnet *1 / neuralnet_holdout_RMSE_mean,
+      "PCR" = y_hat_pcr * 1 / pcr_holdout_RMSE_mean,
+      "PLS" = y_hat_pls * 1 / pls_holdout_RMSE_mean,
+      "Ridge" = y_hat_ridge *1 / ridge_holdout_RMSE_mean,
+      "Rpart" = y_hat_rpart * 1 / rpart_holdout_RMSE_mean,
+      "SVM" = y_hat_svm * 1 / svm_holdout_RMSE_mean,
+      "Tree" = y_hat_tree * 1 / tree_holdout_RMSE_mean
+      )
+
+ensemble$y_ensemble <- c(test$y, validation$y)
+y_ensemble <- c(test$y, validation$y)
+
+if(sum(is.na(ensemble > 0))){
+ensemble <- ensemble[stats::complete.cases(ensemble), ] # Removes rows with NAs
+    }
+
+ensemble <- Filter(function(x) stats::var(x) != 0, ensemble) # Removes columns with no variation
+```
+
+**Ensemble Bagging:**
+
+```         
+ensemble_bagging_train_fit <- ipred::bagging(formula = y_ensemble ~ ., data = ensemble_train)
+```
+
+**Ensemble BayesGLM:**
+
+```         
+ensemble_bayesglm_train_fit <- arm::bayesglm(y_ensemble ~ ., data = ensemble_train, family = gaussian(link = "identity"))
+```
+
+**Ensemble BayesRNN:**
+
+```         
+ensemble_bayesrnn_train_fit <- brnn::brnn(x = as.matrix(ensemble_train), y = ensemble_train$y_ensemble)
+```
+
+**Ensemble Cubist:**
+
+```         
+ensemble_cubist_train_fit <- Cubist::cubist(x = ensemble_train[, 1:ncol(ensemble_train) - 1], y = ensemble_train$y_ensemble)
+```
+
+**Ensemble Earth:**
+
+```         
+ensemble_earth_train_fit <- earth::earth(x = ensemble_train[, 1:ncol(ensemble_train) - 1], y = ensemble_train$y_ensemble)
+```
+
+**Ensemble Elastic (optimized by cross-validation):**
+
+```         
+ensemble_y <- ensemble_train$y_ensemble
+ensemble_x <- data.matrix(ensemble_train %>% dplyr::select(-y_ensemble))
+ensemble_elastic_model <- glmnet(ensemble_x, ensemble_y, alpha = 0.5)
+ensemble_elastic_cv <- glmnet::cv.glmnet(ensemble_x, ensemble_y, alpha = 0.5)
+ensemble_best_elastic_lambda <- ensemble_elastic_cv$lambda.min
+ensemble_best_elastic_model <- glmnet(ensemble_x, ensemble_y, alpha = 0, lambda = ensemble_best_elastic_lambda)
+```
+
+**Ensemble Gradient Boosted:**
+
+```         
+ensemble_gb_train_fit <- gbm::gbm(ensemble_train$y_ensemble ~ .,
+data = ensemble_train, distribution = "gaussian", n.trees = 100,
+shrinkage = 0.1, interaction.depth = 10
+      )
+```
+
+**Ensemble Lasso:**
+
+```         
+ensemble_y <- ensemble_train$y_ensemble
+ensemble_x <- data.matrix(ensemble_train %>% dplyr::select(-y_ensemble))
+ensemble_lasso_model <- glmnet(ensemble_x, ensemble_y, alpha = 1)
+ensemble_lasso_cv <- glmnet::cv.glmnet(ensemble_x, ensemble_y, alpha = 1)
+ensemble_best_lasso_lambda <- ensemble_lasso_cv$lambda.min
+ensemble_best_lasso_model <- glmnet(ensemble_x, ensemble_y, alpha = 1, lambda = ensemble_best_lasso_lambda)
+```
+
+**Ensemble Linear (optimized by tuning):**
+
+```         
+ensemble_linear_train_fit <- e1071::tune.rpart(formula = y_ensemble ~ ., data = ensemble_train)
+```
+
+**Ensemble Neuralnet**
+
+ensemble_neuralnet \<- nnet::nnet(ensemble_train\$y_ensemble \~ ., data
+= ensemble_train, size = 0, linout = TRUE, skip = TRUE)
+
+**Ensemble Ridge:**
+
+```         
+ensemble_y <- ensemble_train$y_ensemble
+ensemble_x <- data.matrix(ensemble_train %>% dplyr::select(-y_ensemble))
+ensemble_ridge_model <- glmnet(ensemble_x, ensemble_y, alpha = 0)
+ensemble_ridge_cv <- glmnet::cv.glmnet(ensemble_x, ensemble_y, alpha = 0)
+ensemble_best_ridge_lambda <- ensemble_ridge_cv$lambda.min
+ensemble_best_ridge_model <- glmnet(ensemble_x, ensemble_y, alpha = 0, lambda = ensemble_best_ridge_lambda)
+```
+
+**Ensemble RPart:**
+
+```         
+ensemble_rpart_train_fit <- rpart::rpart(ensemble_train$y_ensemble ~ ., data = ensemble_train)
+```
+
+**Ensemble Support Vector Machines (optimized by tuning):**
+
+```         
+ensemble_svm_train_fit <- e1071::tune.svm(x = ensemble_train, y = ensemble_train$y_ensemble, data = ensemble_train)
+```
+
+**Ensemble Trees:**
+
+```         
+ensemble_tree_train_fit <- tree::tree(ensemble_train$y_ensemble ~ ., data = ensemble_train)
+```
+
+# How the data was split to prevent overfitting
+
+# Tuning models
+
+# Optimizing hyperparameters
+
+# Model evaluations
+
+1.  Accuracy and standard deviation of the root mean squared error of
+    all models (put model accuracy barchart here)
+
+2.  Accuracy (choose fixed or free scales) by resample and model here
+
+3.  Mean bias barchart
+
+4.  Bias plot
+
+5.  Duration barchart
+
+6.  Head of the ensemble (report)
+
+7.  Overfitting (Holdout RMSE / Train RMSE) barchart (measures
+    reproducibility)
+
+8.  Overfitting (Holdout RMSE / Train RMSE) by model and resample
+    (choose fixed or free scales)
+
+9.  Overfitting histograms
+
+10. Kolomogorov-Smirnov test barchart
+
+11. t-test bar chart
+
+12. Train vs holdout by model and resample (choose fixed or free scales)
+
+13. Summary report
+
+14. Ensemble Correlation report
+
+15. Head of ensemble report
+
+# Final model selection
+
+Most accurate model:
+
+1.  Mean holdout RMSE
+
+2.  Standard deviation of mean RMSE
+
+3.  t-test value (mean)
+
+4.  t-test standard deviation
+
+5.  KS-Test (mean)
+
+6.  KS-Test (standard deviation)
+
+7.  Bias
+
+8.  Bias standard deviation
+
+9.  Train RMSE
+
+10. Test RMSE
+
+11. Validation RMSE
+
+12. Holdout vs train RMSE
+
+13. Holdout vs train standard deviation
+
+14. Duration (mean)
+
+15. The actual model
+
+16. Meta-data about the most accurate model
+
+**Most accurate model charts:**
+
+1.  Predicted vs actual chart
+
+2.  Residuals chart
+
+3.  Histogram of residuals
+
+4.  Q-Q chart
+
+# Optional: Predict on untrained data results
+
+# Optional: Fully reproducible example using these trained models
+
+# Strongest predictive features
+
+# Strongest predictors of the predictors
+
+# Strongest evidence based recommendations with margins of error(s)
+
+# Comparison of current results vs previous results
+
+# Future goals with this data set
+
+# References

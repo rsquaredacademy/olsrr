@@ -6,6 +6,14 @@ test_that("stepwise selection output matches the expected result", {
   expect_equal(k$metrics$variable, c("x4", "x1", "x2"), ignore_attr = TRUE)
 })
 
+test_that("stepwise selection output matches when steps are specified", {
+  model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
+  k <- ols_step_both_aic(model, steps = 2)
+  expect_equal(k$metrics$step, 1:2)
+  expect_equal(k$metrics$method, c("addition", "addition"), ignore_attr = TRUE)
+  expect_equal(k$metrics$variable, c("x4", "x1"), ignore_attr = TRUE)
+})
+
 test_that("output from stepaic_both matches the expected output when variables are locked in", {
 
   model <- lm(y ~ ., data = stepdata)

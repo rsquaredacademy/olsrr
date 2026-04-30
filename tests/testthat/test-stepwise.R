@@ -43,6 +43,13 @@ test_that("output from stepwise selection matches the expected output when varia
 })
 
 
+test_that("output from stepwise selection matches the expected output when steps are specified", {
+  model <- lm(y ~ ., data = stepdata)
+  k <- ols_step_both_p(model, steps = 3)
+  expect_equal(k$metrics$step, 1:3)
+  expect_equal(k$metrics$variable, c("x6", "x1", "x3"), ignore_attr = TRUE)
+})
+
 test_that("stepaic_forward returns the appropriate error", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   expect_error(ols_step_both_p(model, include = c("dis")), "dis not part of the model and hence cannot be forcibly included. Please verify the variable names.")

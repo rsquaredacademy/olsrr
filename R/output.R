@@ -785,3 +785,103 @@ print_step_rsquared <- function(data) {
   }
 
 }
+
+print_model_perf <- function(data) {
+  a <- c("R", "R-Squared", "Adj. R-Squared", "Pred R-Squared")
+  b <- c(
+    format(round(data$r, 3), nsmall = 3),
+    format(round(data$rsq, 3), nsmall = 3),
+    format(round(data$adjr, 3), nsmall = 3),
+    format(round(data$prsq, 3), nsmall = 3)
+  )
+  d <- c("AIC", "SBC", "SBIC", "RMSE")
+  e <- c(
+    format(round(data$aic, 3), nsmall = 3),
+    format(round(data$sbc, 3), nsmall = 3),
+    format(round(data$sbic, 3), nsmall = 3),
+    format(round(data$rmse, 3), nsmall = 3)
+  )
+
+  w1 <- max(nchar(a))
+  w2 <- max(nchar(format(b, nsmall = 3)))
+  w3 <- max(nchar(d))
+  w4 <- max(nchar(format(e, nsmall = 3)))
+  w5 <- sum(w1, w2, w3, w4, 15)
+  nw <- length(b)
+
+  # model summary
+  cat(fc("Model Performance", w5), "\n")
+  cat(rep("-", w5), sep = "", "\n")
+  for (i in seq_len(nw)) {
+    cat(fl(a[i], w1), fs(), fg(b[i], w2), fs(), fs(), fl(d[i], w3),
+      fs(), fg(e[i], w4), "\n")
+  }
+  cat(rep("-", w5), sep = "", "\n")
+  cat("  AIC: Akaike Information Criteria", "\n",
+    " SBC: Schwarz Bayesian Criteria", "\n",
+    "SBIC: Sawa's Bayesian Criteria", "\n",
+    "RMSE: Root Mean Square Error", "\n\n")
+
+}
+
+print_anova <- function(data) {
+  w7 <- nchar("Regression")
+
+  w8 <- max(
+    nchar("Squares"), nchar(format(round(data$rss, 3), nsmall = 3)),
+    nchar(format(round(data$ess, 3), nsmall = 3)),
+    nchar(format(round(data$tss, 3), nsmall = 3))
+  )
+
+  w9 <- max(
+    nchar("DF"), nchar(format(round(data$model_df, 3), nsmall = 3)),
+    nchar(format(round(data$error_df, 3), nsmall = 3)),
+    nchar(format(round(data$total_df, 3), nsmall = 3))
+  )
+
+  w10 <- max(
+    nchar("Mean Square"),
+    nchar(format(round(data$rms, 3), nsmall = 3)),
+    nchar(format(round(data$ems, 3), nsmall = 3))
+  )
+
+  w11 <- max(nchar("F"), nchar(format(round(data$f, 3), nsmall = 3)))
+  w12 <- max(nchar("Sig."), nchar(format(round(data$p, 3), nsmall = 4)))
+  w <- sum(w7, w8, w9, w10, w11, w12, 21)
+
+  p <- format(round(data$p, 4), nsmall = 4)
+
+  cat(fc("ANOVA", w), "\n")
+  cat(rep("-", w), sep = "", "\n")
+
+  cat(fg("", w7), fs(), fg("Sum of", w8), fs(), fg("", w9), fs(), fg("", w10),
+    fs(), fg("", w11), fs(), fg("", w12), "\n")
+
+  cat(fg("", w7), fs(), fg("Squares", w8), fs(), fg("DF", w9), fs(),
+    fg("Mean Square", w10), fs(), fc("F", w11), fs(), fg("Sig.", w12), "\n")
+
+  cat(rep("-", w), sep = "", "\n")
+
+  cat(
+    fl("Regression", w7), fs(), fg(format(round(data$rss, 3), nsmall = 3), w8),
+    fs(), fg(round(data$model_df, 3), w9), fs(),
+    fg(format(round(data$rms, 3), nsmall = 3), w10), fs(),
+    fg(round(data$f, 3), w11), fs(), fg(p, w12), "\n"
+  )
+
+  cat(
+    fl("Residual", w7), fs(), fg(format(round(data$ess, 3), nsmall = 3), w8),
+    fs(), fg(round(data$error_df, 3), w9), fs(),
+    fg(format(round(data$ems, 3), nsmall = 3), w10), fs(), fg("", w11), fs(),
+    fg("", w12), "\n"
+  )
+
+  cat(
+    fl("Total", w7), fs(), fg(format(round(data$tss, 3), nsmall = 3), w8), fs(),
+    fg(round(data$total_df, 3), w9), fs(), fg("", w10), fs(),
+    fg("", w11), fs(), fg("", w12), "\n"
+  )
+
+  cat(rep("-", w), sep = "", "\n\n")
+
+}

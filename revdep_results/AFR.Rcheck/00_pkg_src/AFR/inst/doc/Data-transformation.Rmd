@@ -1,0 +1,80 @@
+---
+title: "Data-transformation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data-transformation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE, message=FALSE}
+library(AFR)
+library(stats)
+library(tseries)
+```
+
+## Introduction
+
+For the unbiased statistical analysis of data transformation is necessary to transform data for fit model assumptions. *AFR* package has default time-series dataset *macroKZ* of macroeconomic parameters for 2010-2022 period. Dataset is raw, not ordered, with missing values and etc.
+
+**AFR** recommends:
+
+Step 1. Check data for the format, missing values, outliers and *summary* statistics (min, max and etc). 
+
+Step 2. Check data for stationarity.
+
+Step 3. In case of non-stationarity transform data to stationarity by transformation method.
+
+Step 4. As data is transformed, choose regressors for a model.
+
+
+### Step 1
+
+As default dataset *macroKZ* is uploaded, check dataset by *checkdata* and *summary* functions. Depending on the outputs, apply necessary functions to eliminate inappropriate properties of the data. For instance, in case of missing values delete these missing values.
+
+```{r, echo=TRUE}
+data(macroKZ)
+checkdata(macroKZ)
+```
+
+Depending on the outputs, apply necessary functions to eliminate inappropriate properties of the data. For instance, in case of missing values delete these missing values.
+
+```{r, echo=TRUE}
+macroKZ<-na.remove(macroKZ)
+```
+
+### Step 2
+
+As dataset is preliminary cleaned, time-series data needs to be stationary. Stationarity is needed for the properties to be independent of time periods, i.e. mean, variance etc are constant over time.
+In R stationarity can be checked by Augmented-Dickey Fuller (*adf.test*) and/or Kwiatkowski-Phillips-Schmidt-Shin (*kpss.test*) tests.
+
+In more details, *macroKZ* can use *sapply* function to view which parameter is stationary or not.
+
+### Step 3
+
+If dataset, as a whole, or individual parameters are non-stationary, it is recommended to apply transformation techniques to make data stationary. Most common transformation tools are differencing (first and second order), logarithming, difference of logarithms, detrending and etc. After transformation method(s) is applied, make sure that data is stationary.
+
+```{r, results="hide"}
+new<-log(macroKZ)
+```
+
+### Step 4
+
+To build the best regression model regressors/independent variables need to be independent of each other. If this condition is violated, multicollinearity presents and regression estimators are biased. *AFR* package offers *corsel* function that estimates correlation between regressors in the dataset given a threshold (set by the user). The result can be presented numerically or logically (TRUE/FALSE). 
+
+```{r, results="hide"}
+corsel(macroKZ,num=FALSE,thrs=0.65)
+```
+
+Once regressors are chosen, linear regression model can be built via *lm* function.
+
+```{r, echo=TRUE}
+model<-lm(real_gdp~imp+exp+usdkzt+eurkzt, macroKZ)
+```

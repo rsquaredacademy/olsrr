@@ -1,0 +1,28 @@
+Package: HanStat
+Type: Package
+Title: Package for Easy Interpretation of Statistical Methods
+Version: 0.90.0
+Date: 2023-02-10
+Authors@R: person(given = "Konrad",
+           family = "Krahl",
+           role = c("aut", "cre"),
+           email = "Beratung@Hanseatic-Statistics.de",
+           comment = c(ORCID = "0000-0002-5528-1722"))
+Maintainer: Konrad Krahl <Beratung@Hanseatic-Statistics.de>
+URL: https://github.com/KonradKrahl/HanStat
+BugReports: https://github.com/KonradKrahl/HanStat
+Description: A simple and time saving multiple linear regression function (OLS) with interpretation, optional bootstrapping, effect size calculation and all tested requirements.
+Depends: R (>= 4.1.0)
+Imports: boot, car, crayon, ggplot2, lmtest, olsrr, ggpubr, devtools
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
+Language: en-US
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2023-02-11 13:09:06 UTC; konra
+Author: Konrad Krahl [aut, cre] (<https://orcid.org/0000-0002-5528-1722>)
+Repository: CRAN
+Date/Publication: 2023-02-13 09:20:25 UTC

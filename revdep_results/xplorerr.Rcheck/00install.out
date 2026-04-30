@@ -1,0 +1,23 @@
+* installing *source* package 'xplorerr' ...
+** this is package 'xplorerr' version '0.2.0'
+** package 'xplorerr' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+using C++ compiler: 'G__~1.EXE (GCC) 14.3.0'
+g++ -std=gnu++17  -I"C:/PROGRA~1/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/HP/AppData/Local/R/win-library/4.5/Rcpp/include'   -I"C:/rtools45/x86_64-w64-mingw32.static.posix/include"      -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c RcppExports.cpp -o RcppExports.o
+g++ -std=gnu++17  -I"C:/PROGRA~1/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/HP/AppData/Local/R/win-library/4.5/Rcpp/include'   -I"C:/rtools45/x86_64-w64-mingw32.static.posix/include"      -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c xpl-nsign.cpp -o xpl-nsign.o
+g++ -std=gnu++17  -I"C:/PROGRA~1/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/HP/AppData/Local/R/win-library/4.5/Rcpp/include'   -I"C:/rtools45/x86_64-w64-mingw32.static.posix/include"      -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c xpl-tvar.cpp -o xpl-tvar.o
+g++ -std=gnu++17 -shared -s -static-libgcc -o xplorerr.dll tmp.def RcppExports.o xpl-nsign.o xpl-tvar.o -LC:/rtools45/x86_64-w64-mingw32.static.posix/lib/x64 -LC:/rtools45/x86_64-w64-mingw32.static.posix/lib -LC:/PROGRA~1/R/R-45~1.2/bin/x64 -lR
+installing to F:/r/Packages/statistics/olsrr/revdep_results/xplorerr.Rcheck/00LOCK-xplorerr/00new/xplorerr/libs/x64
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (xplorerr)

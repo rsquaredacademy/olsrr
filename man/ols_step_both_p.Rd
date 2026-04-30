@@ -16,6 +16,7 @@ ols_step_both_p(model, ...)
   exclude = NULL,
   progress = FALSE,
   details = FALSE,
+  steps = NULL,
   ...
 )
 
@@ -41,6 +42,8 @@ from the model.}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}
+
+\item{steps}{Number of steps after which the stepwise procedures should stop.}
 
 \item{x}{An object of class \code{ols_step_both_p}.}
 
@@ -91,6 +94,10 @@ ols_step_both_p(model, exclude = c("x1"))
 
 # use index of variable instead of name
 ols_step_both_p(model, exclude = c(1))
+
+# steps
+ols_step_both_p(model, steps = 3)
+
 }
 
 }

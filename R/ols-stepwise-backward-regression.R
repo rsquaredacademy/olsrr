@@ -15,6 +15,7 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
+#' @param steps Number of steps after which the stepwise procedures should stop.
 #' @param x An object of class \code{ols_step_backward_p}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other inputs.
@@ -66,6 +67,10 @@
 #' k <- ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 #' plot(k)
 #'
+#' # steps
+#' ols_step_backward_p(model, steps = 2)
+#'
+#'
 #' @family backward selection procedures
 #'
 #' @export
@@ -75,7 +80,7 @@ ols_step_backward_p <- function(model, ...) UseMethod("ols_step_backward_p")
 #' @export
 #' @rdname ols_step_backward_p
 #'
-ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
+ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
   if (details) {
     progress <- FALSE
@@ -96,7 +101,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
   }
 
   if (hierarchical) {
-    ols_step_hierarchical(model, p_val, FALSE, progress, details)
+    ols_step_hierarchical(model, p_val, FALSE, progress, details, steps)
   } else {
     l        <- model$model
     nam      <- colnames(attr(model$terms, "factors"))
@@ -124,7 +129,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
     ppos  <- step + 1 + length(include)
 
     rsq_base   <- summary(model)$r.squared
-    
+
     if (details) {
       ols_rsquared_init(indterms, "r2", response, rsq_base)
     }
@@ -175,6 +180,15 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
             mypred <- c(include, cterms)
             rsq1   <- tail(rsq, n = 1)
             ols_stepwise_details(step, rpred, mypred, response, rsq1, "removed", "rsq")
+          }
+
+          if (!is.null(steps)) {
+            if (step == steps) {
+              end <- TRUE
+              if (progress || details) {
+                ols_stepwise_break(direction = "backward")
+              }
+            }
           }
         } else {
           end <- TRUE

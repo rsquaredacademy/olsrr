@@ -28,6 +28,20 @@ test_that("forward hierarchical selection output matches the expected result", {
   expect_equal(k$metrics$variable, c("bcs", "alc_heavy", "pindex", "enzyme_test"), ignore_attr = TRUE)
 })
 
+test_that("forward hierarchical selection stops after a specific number of steps", {
+  model <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+  k <- ols_step_forward_p(model, 0.1, hierarchical = TRUE, steps = 2)
+  expect_equal(k$metrics$step, 1:2)
+  expect_equal(k$metrics$variable, c("bcs", "alc_heavy"), ignore_attr = TRUE)
+})
+
+test_that("stepwise forward regression stops after a specific number of steps", {
+  model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
+  k <- ols_step_forward_p(model, steps = 2)
+  expect_equal(k$metrics$step, 1:2)
+  expect_equal(k$metrics$variable, c("x4", "x1"), ignore_attr = TRUE)
+})
+
 
 test_that("step_forward_p returns the appropriate error", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)

@@ -97,7 +97,7 @@
 <line x1='30.83' y1='302.63' x2='714.52' y2='302.63' style='stroke-width: 1.07; stroke: #BEBEBE; stroke-linecap: butt;' />
 <line x1='30.83' y1='83.89' x2='714.52' y2='83.89' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
 <line x1='30.83' y1='521.37' x2='714.52' y2='521.37' style='stroke-width: 1.07; stroke: #FF0000; stroke-linecap: butt;' />
-<text x='671.26' y='37.98' text-anchor='end' style='font-size: 11.04px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='86.53px' lengthAdjust='spacingAndGlyphs'>Threshold: abs(2)</text>
+<text x='671.41' y='37.92' text-anchor='end' style='font-size: 11.00px; font-style: italic; fill: #8B0000; font-family: sans;' textLength='86.22px' lengthAdjust='spacingAndGlyphs'>Threshold: abs(2)</text>
 <rect x='30.83' y='22.78' width='683.69' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>

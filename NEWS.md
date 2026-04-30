@@ -1,4 +1,22 @@
-# olsrr 0.6.1.9000
+# olsrr 0.7.0
+
+This is a minor release for bug fixes and other enhancements.
+
+## New Features
+
+- compare performance of regression models using multiple metrics
+- ANOVA for regression models
+- evaluate performance of regression models
+- comprehensive information from model objects
+
+## Enhancements
+
+- Fixed number of steps in stepwise regression ([#214](https://github.com/rsquaredacademy/olsrr/issues/214))
+
+## Bug Fixes
+
+- `ols_step_best_subset()` unable to force more than one variable in selection process ([#210](https://github.com/rsquaredacademy/olsrr/issues/210))
+- `plot()` with `ols_step_both_aic()` doesn't show anything when AIC values are negative ([#212](https://github.com/rsquaredacademy/olsrr/issues/212))
 
 # olsrr 0.6.1
 

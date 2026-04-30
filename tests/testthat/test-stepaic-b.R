@@ -16,6 +16,15 @@ test_that("output from stepaic_backward matches the expected output", {
 
 })
 
+test_that("output from stepaic_backward matches when steps are specified", {
+  k <- ols_step_backward_aic(model, steps = 1)
+  expect_equal(k$metrics$step, 1)
+  expect_equal(k$metrics$variable, c("disp"), ignore_attr = TRUE)
+  expect_equal(round(k$metrics$aic, 3), c(156.731), ignore_attr = TRUE)
+  expect_equal(round(k$metrics$r2, 3), c(0.837), ignore_attr = TRUE)
+  expect_equal(round(k$metrics$adj_r2, 3), c(0.819), ignore_attr = TRUE)
+})
+
 test_that("stepaic_backward returns the appropriate error", {
   expect_error(ols_step_backward_aic(model, include = c("dis")), "dis not part of the model and hence cannot be forcibly included. Please verify the variable names.")
   expect_error(ols_step_backward_aic(model, exclude = c("hps")), "hps not part of the model and hence cannot be forcibly excluded. Please verify the variable names.")

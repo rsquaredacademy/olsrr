@@ -1,0 +1,10 @@
+
+export(PCAIndex)
+export(RegIndex)
+export(ScoingIndex)
+import(FactoMineR)
+import("dplyr", except=c(count,filter,lag))
+import(matrixStats)
+import(olsrr)
+import(readxl)
+import(stats)

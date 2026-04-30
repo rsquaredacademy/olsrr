@@ -1,0 +1,82 @@
+name: olsrr-revdepcheck
+
+on:
+  workflow_dispatch: # Allows manual trigger from the Actions tab
+
+jobs:
+  revdepcheck:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true # Faster binary installs
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+
+      - name: Setup Dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::rcmdcheck
+            any::remotes
+          needs: check
+
+      - name: Run Manual Revdep Check
+        run: |
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+          # 1. Install the current local version of olsrr
+          message("Installing local olsrr...")
+          remotes::install_local(".", upgrade = "never")
+
+          # 2. Define targeted downstream packages
+          pkgs <- c("xplorerr", "NumericEnsembles", "AFR", "pprof", "SQI", "HanStat")
+
+          # 3. Prepare log directory
+          log_dir <- "revdep_logs"
+          if (!dir.exists(log_dir)) dir.create(log_dir)
+
+          # 4. Loop through and check each
+          results <- list()
+          for (pkg in pkgs) {
+            message(paste("\n=== Checking reverse dependency:", pkg, "==="))
+
+            # Install package dependencies
+            install.packages(pkg, dependencies = TRUE)
+
+            # Run check
+            check_res <- rcmdcheck::rcmdcheck(pkg, quiet = TRUE)
+            results[[pkg]] <- check_res
+
+            # Save logs for artifacts
+            writeLines(check_res$stdout, file.path(log_dir, paste0(pkg, "_stdout.log")))
+            writeLines(check_res$stderr, file.path(log_dir, paste0(pkg, "_stderr.log")))
+
+            # Print summary to console
+            print(check_res)
+          }
+
+          # 5. Determine if we should fail the build
+          errors <- vapply(results, function(x) length(x$errors) > 0, logical(1))
+          if (any(errors)) {
+            stop(paste("Failures detected in:", paste(names(errors)[errors], collapse = ", ")))
+          }
+        shell: Rscript {0}
+
+      - name: Upload Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: olsrr-revdep-results
+          path: revdep_logs/

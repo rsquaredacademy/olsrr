@@ -1,0 +1,64 @@
+* installing *source* package 'NumericEnsembles' ...
+** this is package 'NumericEnsembles' version '1.0.5'
+** package 'NumericEnsembles' successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+There were 23 warnings (use warnings() to see them)
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+Warning: package 'Cubist' was built under R version 4.5.3
+Warning: package 'Metrics' was built under R version 4.5.3
+Warning: package 'arm' was built under R version 4.5.3
+Warning: package 'brnn' was built under R version 4.5.3
+Warning: package 'truncnorm' was built under R version 4.5.3
+Warning: package 'caret' was built under R version 4.5.3
+Warning: package 'corrplot' was built under R version 4.5.3
+Warning: package 'doParallel' was built under R version 4.5.3
+Warning: package 'foreach' was built under R version 4.5.3
+Warning: package 'iterators' was built under R version 4.5.3
+Warning: package 'earth' was built under R version 4.5.3
+Warning: package 'plotmo' was built under R version 4.5.3
+Warning: package 'gam' was built under R version 4.5.3
+Warning: package 'gbm' was built under R version 4.5.3
+Warning: package 'glmnet' was built under R version 4.5.3
+Warning: package 'ipred' was built under R version 4.5.3
+Warning: package 'leaps' was built under R version 4.5.3
+Warning: package 'pls' was built under R version 4.5.3
+Warning: package 'randomForest' was built under R version 4.5.3
+Warning: package 'reactable' was built under R version 4.5.3
+Warning: package 'tree' was built under R version 4.5.3
+Warning: package 'vip' was built under R version 4.5.3
+Warning: package 'xgboost' was built under R version 4.5.3
+** testing if installed package can be loaded from final location
+Warning: package 'Cubist' was built under R version 4.5.3
+Warning: package 'Metrics' was built under R version 4.5.3
+Warning: package 'arm' was built under R version 4.5.3
+Warning: package 'brnn' was built under R version 4.5.3
+Warning: package 'truncnorm' was built under R version 4.5.3
+Warning: package 'caret' was built under R version 4.5.3
+Warning: package 'corrplot' was built under R version 4.5.3
+Warning: package 'doParallel' was built under R version 4.5.3
+Warning: package 'foreach' was built under R version 4.5.3
+Warning: package 'iterators' was built under R version 4.5.3
+Warning: package 'earth' was built under R version 4.5.3
+Warning: package 'plotmo' was built under R version 4.5.3
+Warning: package 'gam' was built under R version 4.5.3
+Warning: package 'gbm' was built under R version 4.5.3
+Warning: package 'glmnet' was built under R version 4.5.3
+Warning: package 'ipred' was built under R version 4.5.3
+Warning: package 'leaps' was built under R version 4.5.3
+Warning: package 'pls' was built under R version 4.5.3
+Warning: package 'randomForest' was built under R version 4.5.3
+Warning: package 'reactable' was built under R version 4.5.3
+Warning: package 'tree' was built under R version 4.5.3
+Warning: package 'vip' was built under R version 4.5.3
+Warning: package 'xgboost' was built under R version 4.5.3
+** testing if installed package keeps a record of temporary installation path
+* DONE (NumericEnsembles)

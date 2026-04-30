@@ -11,6 +11,7 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, details of variable selection will
 #'   be printed on screen.
+#' @param steps Number of steps after which the stepwise procedures should stop.
 #' @param x An object of class \code{ols_step_both_*}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param digits Number of decimal places to display.
@@ -62,6 +63,9 @@
 #'
 #' # use index of variable instead of name
 #' ols_step_both_aic(model, include = c(6), exclude = c(2))
+#'
+#' # steps
+#' ols_step_both_aic(model, steps = 3)
 #' }
 #'
 #' @family both direction selection procedures
@@ -73,8 +77,8 @@ ols_step_both_aic <- function(model, ...) UseMethod("ols_step_both_aic")
 #' @export
 #' @rdname ols_step_both_aic
 #'
-ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_both(model, "aic", include, exclude, progress, details)
+ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_both(model, "aic", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_aic"
   return(out)
 }
@@ -152,6 +156,9 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, digits 
 #'
 #' # use index of variable instead of name
 #' ols_step_both_sbc(model, include = c(6), exclude = c(2))
+#'
+#' # steps
+#' ols_step_both_sbc(model, steps = 3)
 #' }
 #'
 #' @family both direction selection procedures
@@ -163,8 +170,8 @@ ols_step_both_sbc <- function(model, ...) UseMethod("ols_step_both_sbc")
 #' @export
 #' @rdname ols_step_both_sbc
 #'
-ols_step_both_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_both(model, "sbc", include, exclude, progress, details)
+ols_step_both_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_both(model, "sbc", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_sbc"
   return(out)
 }
@@ -239,6 +246,9 @@ plot.ols_step_both_sbc <- function(x, print_plot = TRUE, details = TRUE, digits 
 #'
 #' # use index of variable instead of name
 #' ols_step_both_sbic(model, include = c(6), exclude = c(2))
+#'
+#' # steps
+#' ols_step_both_sbic(model, steps = 3)
 #' }
 #'
 #' @family both direction selection procedures
@@ -250,8 +260,8 @@ ols_step_both_sbic <- function(model, ...) UseMethod("ols_step_both_sbic")
 #' @export
 #' @rdname ols_step_both_sbic
 #'
-ols_step_both_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_both(model, "sbic", include, exclude, progress, details)
+ols_step_both_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_both(model, "sbic", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_sbic"
   return(out)
 }
@@ -326,6 +336,9 @@ plot.ols_step_both_sbic <- function(x, print_plot = TRUE, details = TRUE, digits
 #'
 #' # use index of variable instead of name
 #' ols_step_both_r2(model, include = c(6), exclude = c(2))
+#'
+#' # steps
+#' ols_step_both_r2(model, steps = 3)
 #' }
 #'
 #' @family both direction selection procedures
@@ -337,8 +350,8 @@ ols_step_both_r2 <- function(model, ...) UseMethod("ols_step_both_r2")
 #' @export
 #' @rdname ols_step_both_r2
 #'
-ols_step_both_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_both(model, "rsq", include, exclude, progress, details)
+ols_step_both_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_both(model, "rsq", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_r2"
   return(out)
 }
@@ -413,6 +426,9 @@ plot.ols_step_both_r2 <- function(x, print_plot = TRUE, details = TRUE, digits =
 #'
 #' # use index of variable instead of name
 #' ols_step_both_adj_r2(model, include = c(6), exclude = c(2))
+#'
+#' # steps
+#' ols_step_both_adj_r2(model, steps = 3)
 #' }
 #'
 #' @family both direction selection procedures
@@ -424,8 +440,8 @@ ols_step_both_adj_r2 <- function(model, ...) UseMethod("ols_step_both_adj_r2")
 #' @export
 #' @rdname ols_step_both_adj_r2
 #'
-ols_step_both_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, ...) {
-  out <- ols_step_both(model, "adjrsq", include, exclude, progress, details)
+ols_step_both_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  out <- ols_step_both(model, "adjrsq", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_adj_r2"
   return(out)
 }

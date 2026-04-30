@@ -1,0 +1,23 @@
+* installing *source* package 'pprof' ...
+** this is package 'pprof' version '1.0.3'
+** package 'pprof' successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+using C++ compiler: 'G__~1.EXE (GCC) 14.3.0'
+g++ -std=gnu++17  -I"C:/PROGRA~1/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/HP/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/HP/AppData/Local/R/win-library/4.5/RcppArmadillo/include' -I'C:/Users/HP/AppData/Local/R/win-library/4.5/RcppParallel/include'   -I"C:/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp -DRCPP_PARALLEL_USE_TBB=1   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c Firth.cpp -o Firth.o
+g++ -std=gnu++17  -I"C:/PROGRA~1/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/HP/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/HP/AppData/Local/R/win-library/4.5/RcppArmadillo/include' -I'C:/Users/HP/AppData/Local/R/win-library/4.5/RcppParallel/include'   -I"C:/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp -DRCPP_PARALLEL_USE_TBB=1   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c Fixed_effect.cpp -o Fixed_effect.o
+g++ -std=gnu++17  -I"C:/PROGRA~1/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/HP/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/HP/AppData/Local/R/win-library/4.5/RcppArmadillo/include' -I'C:/Users/HP/AppData/Local/R/win-library/4.5/RcppParallel/include'   -I"C:/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp -DRCPP_PARALLEL_USE_TBB=1   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c RcppExports.cpp -o RcppExports.o
+g++ -std=gnu++17  -I"C:/PROGRA~1/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/HP/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/HP/AppData/Local/R/win-library/4.5/RcppArmadillo/include' -I'C:/Users/HP/AppData/Local/R/win-library/4.5/RcppParallel/include'   -I"C:/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp -DRCPP_PARALLEL_USE_TBB=1   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c header.cpp -o header.o
+g++ -std=gnu++17 -shared -s -static-libgcc -o pprof.dll tmp.def Firth.o Fixed_effect.o RcppExports.o header.o -fopenmp -LC:/PROGRA~1/R/R-45~1.2/bin/x64 -lRlapack -LC:/PROGRA~1/R/R-45~1.2/bin/x64 -lRblas -lgfortran -lquadmath -LC:/Users/HP/AppData/Local/R/win-library/4.5/RcppParallel/libs/x64 -lRcppParallel -LC:/Users/HP/AppData/Local/R/win-library/4.5/RcppParallel/lib/x64 -ltbb -ltbbmalloc -LC:/rtools45/x86_64-w64-mingw32.static.posix/lib/x64 -LC:/rtools45/x86_64-w64-mingw32.static.posix/lib -LC:/PROGRA~1/R/R-45~1.2/bin/x64 -lR
+installing to F:/r/Packages/statistics/olsrr/revdep_results/pprof.Rcheck/00LOCK-pprof/00new/pprof/libs/x64
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (pprof)

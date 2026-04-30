@@ -90,4 +90,3 @@ max_nchar <- function(char, val, rn = 3, ns = 3) {
   max(nchar(char), nchar(format(round(val, rn), nsmall = ns)))
 }
 
-

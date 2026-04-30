@@ -15,6 +15,7 @@
 #' @param progress Logical; if \code{TRUE}, will display variable selection progress.
 #' @param details Logical; if \code{TRUE}, will print the regression result at
 #'   each step.
+#' @param steps Number of steps after which the stepwise procedures should stop.
 #' @param x An object of class \code{ols_step_forward_p}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
@@ -69,6 +70,9 @@
 #' k <- ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 #' plot(k)
 #'
+#' # steps
+#' ols_step_forward_p(model, steps = 3)
+#'
 #' @importFrom stats qt
 #' @importFrom car Anova
 #'
@@ -81,7 +85,7 @@ ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 #' @export
 #' @rdname ols_step_forward_p
 #'
-ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, ...) {
+ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
   if (details) {
     progress <- FALSE
@@ -102,7 +106,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
   }
 
   if (hierarchical) {
-    ols_step_hierarchical(model, p_val, TRUE, progress, details)
+    ols_step_hierarchical(model, p_val, TRUE, progress, details, steps)
   } else {
     l        <- model$model
     nam      <- colnames(attr(model$terms, "factors"))
@@ -137,7 +141,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
     base_model <- ols_base_model(include, response, l)
     rsq_base   <- summary(base_model)$r.squared
-    
+
     if (details) {
       ols_rsquared_init(include, "r2", response, rsq_base)
     }
@@ -226,6 +230,10 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         ols_rsquared_selected("r2", step, preds, response, rsq1)
       }
 
+    }
+
+    if (!is.null(steps)) {
+      mlen_p <- steps
     }
 
     while (step < mlen_p) {

@@ -1,0 +1,13 @@
+d75135d56585cdd0bcfc473ffe70737b *DESCRIPTION
+2491ec5b9971c39bb4cf06048852b24b *NAMESPACE
+1b4e19f88f898ac4ee41512bb2367c2d *NEWS.md
+fc8bfe0522ee00a2fc5be23310fa9349 *R/LinReg.R
+f6b912182213ca5be64f34c69b5b7b7d *R/data.R
+2dfda8eee18af452436784f1881fb94e *R/doc_data.R
+67e1002c6cf191480a9c7a072ab3154f *R/globals.R
+8ba7e73f3192d43f8d8b20f18daefe38 *data/data.RData
+549a7df8ab2b690a0c485832fa884a24 *man/HansStat-Data.Rd
+48ccee95d2d51870f67e2e6f72f525cb *man/LinReg.Rd
+ea1513cf376dddef59b6c8dd25cff471 *man/data.Rd
+ed654ff4be44d1fb70b492792acacc25 *tests/testthat.R
+67eb6e942d611660fe4c1e2309013b36 *tests/testthat/test-LinReg.R

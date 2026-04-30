@@ -9,6 +9,13 @@ test_that("output from stepaic_forward matches the expected output", {
   expect_equal(round(k$metrics$adj_r2, 3), c(0.745, 0.815), ignore_attr = TRUE)
 })
 
+test_that("output from stepaic_forward matches when steps is specified", {  
+  model <- lm(y ~ ., data = surgical)
+  k <- ols_step_forward_aic(model, steps = 2)
+  expect_equal(k$metrics$step, 1:2)
+  expect_equal(k$metrics$variable, c("liver_test", "alc_heavy"), ignore_attr = TRUE)
+})
+
 test_that("output from stepaic_forward matches the expected output when variables are locked in", {
 
   k <- ols_step_forward_aic(model, include = c("disp"))

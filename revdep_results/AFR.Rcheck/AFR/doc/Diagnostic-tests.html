@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Diagnostic-tests</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Diagnostic-tests</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>For the analysis of multiple linear regression models statisticians
+apply Gauss-Markov theorem for the estimators of the regression to be
+best linear unbiased estimators (BLUE). The theorem includes 5
+assumptions about heteroskedasticity, linearity, exogeneity, random
+sampling and non-collinearity.</p>
+<p><strong>AFR</strong> provides:</p>
+<p>2 tests for detecting heteroskedasticity:</p>
+<ul>
+<li>Breusch-Pagan Test</li>
+<li>Goldfeld-Quandt Test</li>
+</ul>
+<p>3 tests for detecting multicollinearity and autocorrelation:</p>
+<ul>
+<li>VIF test</li>
+<li>Durbin Watson Test</li>
+<li>Breusch-Godfrey Test</li>
+</ul>
+<p>4 tests for detecting normality:</p>
+<ul>
+<li>Shapiro-Wilk test</li>
+<li>Kolmogorov-Smirnov test</li>
+<li>Cramer-Von Mises test</li>
+<li>Anderson test</li>
+</ul>
+<div id="heteroskedasticity" class="section level3">
+<h3>Heteroskedasticity</h3>
+<p>One of the assumptions made about residuals/errors in OLS regression
+is that the errors have the same but unknown variance. This is known as
+constant variance or homoscedasticity. When this assumption is violated,
+the problem is known as heteroscedasticity.Heteroskedasticity is one of
+5 Gauss-Markov assumptions. It is tested by Breusch-Pagan and
+Goldfeld-Quandt tests.</p>
+<div id="breusch-pagan-test" class="section level4">
+<h4>Breusch-Pagan Test</h4>
+<p>Breusch Pagan Test was introduced by Trevor Breusch and Adrian Pagan
+in 1979. It is used to test for heteroskedasticity in a linear
+regression model and assumes that the error terms are normally
+distributed. It tests whether the variance of the errors from a
+regression is dependent on the values of the independent variables. Null
+hypothesis states that error variances are constant.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(real_gdp <span class="sc">~</span> imp <span class="sc">+</span> exp <span class="sc">+</span> poil <span class="sc">+</span> eurkzt,macroKZ)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">bp</span>(model)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt;                                Breusch-Pagan test                                </span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; Heteroskedasticity presents.</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; Please use other tests additionally.</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; In case of opposite results study the case further.</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; --------------------</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; BP            13.211 </span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; p-value         0.01 </span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; --------------------</span></span></code></pre></div>
+</div>
+<div id="goldfeld-quandt-test" class="section level4">
+<h4>Goldfeld-Quandt Test</h4>
+<p>The Goldfeld Quandt Test is a test used in regression analysis to
+test for homoscedasticity. It compares variances of two subgroups; one
+set of high values and one set of low values. If the variances differ,
+the test rejects the null hypothesis that the variances of the errors
+are not constant.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(real_gdp <span class="sc">~</span> imp <span class="sc">+</span> exp<span class="sc">+</span>poil<span class="sc">+</span>eurkzt, macroKZ)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">gq</span>(model)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;                               Goldfeld-Quandt test                               </span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; Homoskedasticity presents.</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Please use other tests additionally.</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; In case of opposite results study the case further.</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; -------------------</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; GQ             1.74 </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; p-value       0.112 </span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; df1              20 </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; df2              20 </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; -------------------</span></span></code></pre></div>
+</div>
+</div>
+<div id="non-collinearity" class="section level3">
+<h3>Non-collinearity</h3>
+<p>Multiple regression assumes that the independent variables are not
+highly correlated with each other. This assumption is tested using
+Variance Inflation Factor (VIF) values and by Durbin-Watson and
+Breusch-Godfrey tests for autocorrelation.</p>
+<div id="vif-test" class="section level4">
+<h4>VIF Test</h4>
+<p>The VIF of the linear regression is defined as VIF = 1/T. With VIF
+&gt; 5 there is an indication that multicollinearity may be present;
+with VIF &gt; 10 there is certainly multicollinearity among the
+variables.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(real_gdp <span class="sc">~</span> imp <span class="sc">+</span> exp <span class="sc">+</span> poil <span class="sc">+</span> eurkzt,macroKZ)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">vif_reg</span>(model)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;                            Variance Inflation Factor                             </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; If statistics exceeds 5, please be aware of multicollinearity.</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;    imp    exp   poil eurkzt </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;  1.655 14.621 17.925  2.022 </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; This value 14.621 exceeds acceptable threshold.</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; This value 17.925 exceeds acceptable threshold.</span></span></code></pre></div>
+</div>
+<div id="durbin-watson-test" class="section level4">
+<h4>Durbin-Watson Test</h4>
+<p>The Durbin Watson (DW) statistic is a test for autocorrelation in the
+residuals from a statistical model or regression analysis. The
+Durbin-Watson statistic will always have a value ranging between 0 and
+4. A value of 2.0 indicates there is no autocorrelation detected in the
+sample. Values from 0 to less than 2 point to positive autocorrelation
+and values from 2 to 4 means negative autocorrelation.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(real_gdp <span class="sc">~</span> imp <span class="sc">+</span> exp <span class="sc">+</span> poil <span class="sc">+</span> eurkzt,macroKZ)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">dwtest</span>(model)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;  Durbin-Watson test</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; data:  model</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; DW = 2.0436, p-value = 0.4148</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: true autocorrelation is greater than 0</span></span></code></pre></div>
+</div>
+<div id="breusch-godfrey-test" class="section level4">
+<h4>Breusch-Godfrey Test</h4>
+<p>Alternatively, there is Breusch-Godfrey Test for autocorrelation
+check.It tests for the presence of serial correlation that has not been
+included in a proposed model structure and which, if present, would mean
+that incorrect conclusions would be drawn from other tests or that
+sub-optimal estimates of model parameters would be obtained.Null
+hypothesis states that there is no autocorrelation.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(real_gdp <span class="sc">~</span> imp <span class="sc">+</span> exp <span class="sc">+</span> poil <span class="sc">+</span> eurkzt,macroKZ)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">bg</span>(model)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;           Breusch-Godfrey test for serial correlation of order up to 1           </span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; Residuals are not autocorrelated. </span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; -------------------</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; LM test       0.048 </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; p-value       0.827 </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; -------------------</span></span></code></pre></div>
+</div>
+</div>
+<div id="normality" class="section level3">
+<h3>Normality</h3>
+<p>Normality refers to a specific statistical distribution called a
+normal distribution, or sometimes the Gaussian distribution or
+bell-shaped curve. The normal distribution is a symmetrical continuous
+distribution defined by the mean and standard deviation of the data.</p>
+<p>In AFR package 4 normality tests are compiled in one
+<em>norm_test</em> function referred to <em>olsrr</em> package.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#model &lt;- lm(real_gdp ~ imp + exp + poil + eurkzt,macroKZ)</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#ols_test_normality(model)</span></span></code></pre></div>
+<div id="shapiro-wilk-statistic" class="section level4">
+<h4>Shapiro-Wilk statistic</h4>
+<p>The null-hypothesis of this test is that the population is normally
+distributed. Thus, if the p value is less than the chosen alpha level,
+then the null hypothesis is rejected and there is evidence that the data
+tested are not normally distributed. On the other hand, if the p value
+is greater than the chosen alpha level, then the null hypothesis (that
+the data came from a normally distributed population) can not be
+rejected.</p>
+</div>
+<div id="kolmogorov-smirnov-statistic" class="section level4">
+<h4>Kolmogorov-Smirnov statistic</h4>
+<p>The Kolmogorov–Smirnov statistic quantifies a distance between the
+empirical distribution function of the sample and the cumulative
+distribution function of the reference distribution, or between the
+empirical distribution functions of two samples. The null distribution
+of this statistic is calculated under the null hypothesis that the
+sample is drawn from the reference distribution (in the one-sample case)
+or that the samples are drawn from the same distribution (in the
+two-sample case).Since the p-value is less than .05, we reject the null
+hypothesis.</p>
+</div>
+<div id="cramer-von-mises-test" class="section level4">
+<h4>Cramer-Von Mises test</h4>
+<p>Alternative to Kolmogorov-Smirnov test, Cramer-von Mises statistic is
+a measure of the mean squared difference between the empirical and
+hypothetical cumulative distribution functions. It is also used as a
+part of other algorithms, such as minimum distance estimation.The
+Cramér–von Mises test can be seen to be distribution-free if empirical
+distribution is continuous and the sample has no ties. Otherwise,
+statistic is not the true asymptotic distribution.</p>
+</div>
+<div id="anderson-test" class="section level4">
+<h4>Anderson test</h4>
+<p>The Anderson-Darling test is used to test if a sample of data comes
+from a population with a specific distribution.The null hypothesis is
+that your data is not different from normal. Your alternate or
+alternative hypothesis is that your data is different from normal. You
+will make your decision about whether to reject or not reject the null
+based on your p-value.</p>
+<p>For additional information please address:</p>
+<p><em>Wooldridge, Jeffrey M. 2012. Introductory Econometrics: A Modern
+Approach, Fifth Edition.</em></p>
+<p><em>Hyndman, Rob J and George Athanasopoulos. 2018. Forecasting:
+Principles and Practice, 2nd Edition.</em></p>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

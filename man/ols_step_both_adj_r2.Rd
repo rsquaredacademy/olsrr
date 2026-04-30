@@ -14,6 +14,7 @@ ols_step_both_adj_r2(model, ...)
   exclude = NULL,
   progress = FALSE,
   details = FALSE,
+  steps = NULL,
   ...
 )
 
@@ -32,6 +33,8 @@ ols_step_both_adj_r2(model, ...)
 
 \item{details}{Logical; if \code{TRUE}, details of variable selection will
 be printed on screen.}
+
+\item{steps}{Number of steps after which the stepwise procedures should stop.}
 
 \item{x}{An object of class \code{ols_step_both_*}.}
 
@@ -88,6 +91,9 @@ ols_step_both_adj_r2(model, include = c("x6"), exclude = c("x2"))
 
 # use index of variable instead of name
 ols_step_both_adj_r2(model, include = c(6), exclude = c(2))
+
+# steps
+ols_step_both_adj_r2(model, steps = 3)
 }
 
 }

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>NumericEnsembles Report Template</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">NumericEnsembles Report Template</h1>
+
+
+
+<div id="abstract-here" class="section level1">
+<h1>Abstract here</h1>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+</div>
+<div id="statement-of-the-problem-from-the-customers-perspective" class="section level1">
+<h1>Statement of the problem from the customer’s perspective</h1>
+</div>
+<div id="literature-reviewsummary-history-of-previous-results" class="section level1">
+<h1>Literature review/summary, history of previous results</h1>
+</div>
+<div id="the-goal-of-this-investigation" class="section level1">
+<h1>The goal of this investigation</h1>
+</div>
+<div id="original-source-of-the-data" class="section level1">
+<h1>Original source of the data</h1>
+</div>
+<div id="github-repository-for-reproducible-results" class="section level1">
+<h1>Github repository for reproducible results</h1>
+</div>
+<div id="exploratory-data-analysis" class="section level1">
+<h1>Exploratory Data Analysis</h1>
+<ol style="list-style-type: decimal">
+<li><p>Head of the data (put Head of Data report here)</p></li>
+<li><p>Discussion of head of the data</p></li>
+<li><p>Boxplots of numeric values (put plot here)</p></li>
+<li><p>Discussion of Boxplots</p></li>
+<li><p>Cook’s D Bar Plot (put plot here)</p></li>
+<li><p>Discussion of Cook’s D Bar Plot</p></li>
+<li><p>Outliers in the data</p></li>
+<li><p>Discussion of outliers in the data</p></li>
+<li><p>Histograms of each numeric column (put plot here)</p></li>
+<li><p>Discussion of histograms of each numeric column</p></li>
+<li><p>y (target) vs each predictor (put plot)</p></li>
+<li><p>Discussion of y (target) vs each predictor</p></li>
+<li><p>Correlation plot of the numeric data as circles and
+colors</p></li>
+<li><p>Correlation plot of the numeric data as numbers and
+colors</p></li>
+<li><p>Correlation of the data (report)</p></li>
+<li><p>Discussion of correlation of the data (report and
+charts)</p></li>
+<li><p>VIF report</p></li>
+</ol>
+</div>
+<div id="model-building" class="section level1">
+<h1>Model building</h1>
+<div id="function-call-replace-with-your-function-call" class="section level3">
+<h3>Function call (replace with your function call):</h3>
+<pre><code>library(NumericEnsembles)
+Numeric(data = MASS::Boston,
+        colnum = 14,
+        numresamples = 25,
+        remove_VIF_above = 5.00,
+        remove_data_correlations_greater_thank = 0.99,
+        remove_ensemble_correlations_greater_than = 1.00,
+        scale_all_predictors_in_data = &quot;N&quot;,
+        data_reduction_method = 1,
+        ensemble_reduction_method = 0,
+        how_to_handle_strings = 0,
+        predict_on_new_data = &quot;N&quot;,
+        save_all_trained_models = &quot;N&quot;,
+        set_seed = &quot;N&quot;,
+        save_all_plots = &quot;N&quot;,
+        use_parallel = &quot;Y&quot;,
+        train_amount = 0.60,
+        test_amount = 0.20,
+        validation_amount = 0.20)</code></pre>
+<p>Discussion of function call here. (For example, the code above
+randomly resamples the data 25 times, saves all trained models and
+plots, and uses data reduction method = 1, and sets train = 0.60, test =
+0.20, validation = 0.20, you might want to discuss other aspects of the
+function call. For example, the function call does not set a seed, so
+the results are random.)</p>
+</div>
+<div id="list-of-models-individual-models-first" class="section level3">
+<h3><strong>List of models (individual models first):</strong></h3>
+<p><strong>Bagging:</strong></p>
+<p><code>bagging_train_fit &lt;- ipred::bagging(formula = y ~ ., data = train)</code></p>
+<p><strong>BayesGLM:</strong></p>
+<p><code>bayesglm_train_fit &lt;- arm::bayesglm(y ~ ., data = train, family = gaussian(link = &quot;identity&quot;))</code></p>
+<p><strong>BayesRNN</strong>:</p>
+<p><code>bayesrnn_train_fit &lt;- brnn::brnn(x = as.matrix(train), y = trai$y)</code></p>
+<p><strong>Cubist:</strong></p>
+<p><code>cubist_train_fit &lt;- Cubist::cubist(x = train[, 1:ncol(train) - 1], y = train$y)</code></p>
+<p><strong>Earth:</strong></p>
+<p><code>earth_train_fit &lt;- earth::earth(x = train[, 1:ncol(train) - 1], y = train$y)</code></p>
+<p><strong>Elastic (optimized by cross-validation):</strong></p>
+<pre><code>y &lt;- train$y
+x &lt;- data.matrix(train %&gt;% dplyr::select(-y))
+elastic_model &lt;- glmnet::glmnet(x, y, alpha = 0.5)
+elastic_cv &lt;- glmnet::cv.glmnet(x, y, alpha = 0.5)
+best_elastic_lambda &lt;- elastic_cv$lambda.min
+best_elastic_model &lt;- glmnet::glmnet(x, y, alpha = 0, lambda = best_elastic_lambda)</code></pre>
+<p><strong>Generalized Additive Models (with smoothing
+splines):</strong></p>
+<pre><code>n_unique_vals &lt;- purrr::map_dbl(df, dplyr::n_distinct)
+
+# Names of columns with &gt;= 4 unique vals
+keep &lt;- names(n_unique_vals)[n_unique_vals &gt;= 4]
+
+gam_data &lt;- df %&gt;%
+dplyr::select(dplyr::all_of(keep))
+
+# Model data
+train1 &lt;- train %&gt;%
+dplyr::select(dplyr::all_of(keep))
+
+test1 &lt;- test %&gt;%
+dplyr::select(dplyr::all_of(keep))
+
+validation1 &lt;- validation %&gt;%
+dplyr::select(dplyr::all_of(keep))
+
+names_df &lt;- names(gam_data[, 1:ncol(gam_data) - 1])
+f2 &lt;- stats::as.formula(paste0(&quot;y ~&quot;, paste0(&quot;gam::s(&quot;, names_df, &quot;)&quot;, collapse = &quot;+&quot;)))
+
+gam_train_fit &lt;- gam(f2, data = train1)</code></pre>
+<p><strong>Gradient Boosted:</strong></p>
+<pre><code>gb_train_fit &lt;- gbm::gbm(train$y ~ ., data = train, distribution = &quot;gaussian&quot;, n.trees = 100, shrinkage = 0.1, interaction.depth = 10)</code></pre>
+<p><strong>Lasso:</strong></p>
+<pre><code>y &lt;- train$y
+x &lt;- data.matrix(train %&gt;% dplyr::select(-y))
+lasso_model &lt;- glmnet(x, y, alpha = 1)
+lasso_cv &lt;- glmnet::cv.glmnet(x, y, alpha = 1)
+best_lasso_lambda &lt;- lasso_cv$lambda.min
+best_lasso_model &lt;- glmnet(x, y, alpha = 1, lambda = best_lasso_lambda)</code></pre>
+<p><strong>Linear (optimized by tuning):</strong></p>
+<pre><code>linear_train_fit &lt;- e1071::tune.rpart(formula = y ~ ., data = train)</code></pre>
+<p><strong>Neuralnet:</strong></p>
+<pre><code>neuralnet_train_fit &lt;- nnet::nnet(train$y ~ ., data = train, size = 0, linout = TRUE, skip = TRUE)</code></pre>
+<p><strong>Partial Least Squares:</strong></p>
+<pre><code>pls_train_fit &lt;- pls::plsr(train$y ~ ., data = train)</code></pre>
+<p><strong>Principal Components:</strong></p>
+<pre><code>pcr_train_fit &lt;- pls::pcr(train$y ~ ., data = train)</code></pre>
+<p><strong>Ridge (optimized via cross-validation):</strong></p>
+<pre><code>y &lt;- train$y
+x &lt;- data.matrix(train %&gt;% dplyr::select(-y))
+ridge_model &lt;- glmnet(x, y, alpha = 0)
+ridge_cv &lt;- glmnet::cv.glmnet(x, y, alpha = 0)
+best_ridge_lambda &lt;- ridge_cv$lambda.min
+best_ridge_model &lt;- glmnet(x, y, alpha = 0, lambda = best_ridge_lambda)</code></pre>
+<p><strong>Rpart:</strong></p>
+<pre><code>rpart_train_fit &lt;- rpart::rpart(train$y ~ ., data = train)</code></pre>
+<p><strong>Support Vector Machines (optimized by tuning):</strong></p>
+<pre><code>svm_train_fit &lt;- e1071::tune.svm(x = train, y = train$y, data = train)</code></pre>
+<p><strong>Trees:</strong></p>
+<pre><code>tree_train_fit &lt;- tree::tree(train$y ~ ., data = train)</code></pre>
+<p><strong>XGBoost (Extreme Gradient Boosting):</strong></p>
+<pre><code>train_x &lt;- data.matrix(train[, -ncol(train)])
+train_y &lt;- train[, ncol(train)]
+
+# define predictor and response variables in test set
+test_x &lt;- data.matrix(test[, -ncol(test)])
+test_y &lt;- test[, ncol(test)]
+
+# define predictor and response variables in validation set
+validation_x &lt;- data.matrix(validation[, -ncol(validation)])
+validation_y &lt;- validation[, ncol(validation)]
+
+# define final train, test and validation sets
+xgb_train &lt;- xgboost::xgb.DMatrix(data = train_x, label = train_y)
+xgb_test &lt;- xgboost::xgb.DMatrix(data = test_x, label = test_y)
+xgb_validation &lt;- xgboost::xgb.DMatrix(data = validation_x, label = validation_y)
+
+# define watchlist
+watchlist &lt;- list(train = xgb_train, validation = xgb_validation)
+watchlist_test &lt;- list(train = xgb_train, test = xgb_test)
+watchlist_validation &lt;- list(train = xgb_train, validation = xgb_validation)
+
+# fit XGBoost model and display training and validation data at each round
+xgb_model &lt;- xgboost::xgb.train(data = xgb_train, max.depth = 3, watchlist = watchlist_test, nrounds = 70)</code></pre>
+<p><strong>How the ensemble is made:</strong></p>
+<pre><code> ensemble &lt;- data.frame(
+      &quot;Bagging&quot; = y_hat_bagging * 1 / bagging_holdout_RMSE_mean,
+      &quot;BayesGLM&quot; = y_hat_bayesglm * 1 / bayesglm_holdout_RMSE_mean,
+      &quot;BayesRNN&quot; = y_hat_bayesrnn * 1 / bayesrnn_holdout_RMSE_mean,
+      &quot;Cubist&quot; = y_hat_cubist * 1 / cubist_holdout_RMSE_mean,
+      &quot;Earth&quot; = y_hat_earth * 1 / earth_holdout_RMSE_mean,
+      &quot;Elastic&quot; = y_hat_elastic *1 / elastic_holdout_RMSE,
+      &quot;GAM&quot; = y_hat_gam * 1 / gam_holdout_RMSE_mean,
+      &quot;GBM&quot; = y_hat_gb * 1 / gb_holdout_RMSE_mean,
+      &quot;Lasso&quot; = y_hat_lasso *1 / lasso_holdout_RMSE_mean,
+      &quot;Linear&quot; = y_hat_linear * 1 / linear_holdout_RMSE_mean,
+      &quot;Neuralnet&quot; = y_hat_neuralnet *1 / neuralnet_holdout_RMSE_mean,
+      &quot;PCR&quot; = y_hat_pcr * 1 / pcr_holdout_RMSE_mean,
+      &quot;PLS&quot; = y_hat_pls * 1 / pls_holdout_RMSE_mean,
+      &quot;Ridge&quot; = y_hat_ridge *1 / ridge_holdout_RMSE_mean,
+      &quot;Rpart&quot; = y_hat_rpart * 1 / rpart_holdout_RMSE_mean,
+      &quot;SVM&quot; = y_hat_svm * 1 / svm_holdout_RMSE_mean,
+      &quot;Tree&quot; = y_hat_tree * 1 / tree_holdout_RMSE_mean
+      )
+
+ensemble$y_ensemble &lt;- c(test$y, validation$y)
+y_ensemble &lt;- c(test$y, validation$y)
+
+if(sum(is.na(ensemble &gt; 0))){
+ensemble &lt;- ensemble[stats::complete.cases(ensemble), ] # Removes rows with NAs
+    }
+
+ensemble &lt;- Filter(function(x) stats::var(x) != 0, ensemble) # Removes columns with no variation</code></pre>
+<p><strong>Ensemble Bagging:</strong></p>
+<pre><code>ensemble_bagging_train_fit &lt;- ipred::bagging(formula = y_ensemble ~ ., data = ensemble_train)</code></pre>
+<p><strong>Ensemble BayesGLM:</strong></p>
+<pre><code>ensemble_bayesglm_train_fit &lt;- arm::bayesglm(y_ensemble ~ ., data = ensemble_train, family = gaussian(link = &quot;identity&quot;))</code></pre>
+<p><strong>Ensemble BayesRNN:</strong></p>
+<pre><code>ensemble_bayesrnn_train_fit &lt;- brnn::brnn(x = as.matrix(ensemble_train), y = ensemble_train$y_ensemble)</code></pre>
+<p><strong>Ensemble Cubist:</strong></p>
+<pre><code>ensemble_cubist_train_fit &lt;- Cubist::cubist(x = ensemble_train[, 1:ncol(ensemble_train) - 1], y = ensemble_train$y_ensemble)</code></pre>
+<p><strong>Ensemble Earth:</strong></p>
+<pre><code>ensemble_earth_train_fit &lt;- earth::earth(x = ensemble_train[, 1:ncol(ensemble_train) - 1], y = ensemble_train$y_ensemble)</code></pre>
+<p><strong>Ensemble Elastic (optimized by
+cross-validation):</strong></p>
+<pre><code>ensemble_y &lt;- ensemble_train$y_ensemble
+ensemble_x &lt;- data.matrix(ensemble_train %&gt;% dplyr::select(-y_ensemble))
+ensemble_elastic_model &lt;- glmnet(ensemble_x, ensemble_y, alpha = 0.5)
+ensemble_elastic_cv &lt;- glmnet::cv.glmnet(ensemble_x, ensemble_y, alpha = 0.5)
+ensemble_best_elastic_lambda &lt;- ensemble_elastic_cv$lambda.min
+ensemble_best_elastic_model &lt;- glmnet(ensemble_x, ensemble_y, alpha = 0, lambda = ensemble_best_elastic_lambda)</code></pre>
+<p><strong>Ensemble Gradient Boosted:</strong></p>
+<pre><code>ensemble_gb_train_fit &lt;- gbm::gbm(ensemble_train$y_ensemble ~ .,
+data = ensemble_train, distribution = &quot;gaussian&quot;, n.trees = 100,
+shrinkage = 0.1, interaction.depth = 10
+      )</code></pre>
+<p><strong>Ensemble Lasso:</strong></p>
+<pre><code>ensemble_y &lt;- ensemble_train$y_ensemble
+ensemble_x &lt;- data.matrix(ensemble_train %&gt;% dplyr::select(-y_ensemble))
+ensemble_lasso_model &lt;- glmnet(ensemble_x, ensemble_y, alpha = 1)
+ensemble_lasso_cv &lt;- glmnet::cv.glmnet(ensemble_x, ensemble_y, alpha = 1)
+ensemble_best_lasso_lambda &lt;- ensemble_lasso_cv$lambda.min
+ensemble_best_lasso_model &lt;- glmnet(ensemble_x, ensemble_y, alpha = 1, lambda = ensemble_best_lasso_lambda)</code></pre>
+<p><strong>Ensemble Linear (optimized by tuning):</strong></p>
+<pre><code>ensemble_linear_train_fit &lt;- e1071::tune.rpart(formula = y_ensemble ~ ., data = ensemble_train)</code></pre>
+<p><strong>Ensemble Neuralnet</strong></p>
+<p>ensemble_neuralnet &lt;- nnet::nnet(ensemble_train$y_ensemble ~ .,
+data = ensemble_train, size = 0, linout = TRUE, skip = TRUE)</p>
+<p><strong>Ensemble Ridge:</strong></p>
+<pre><code>ensemble_y &lt;- ensemble_train$y_ensemble
+ensemble_x &lt;- data.matrix(ensemble_train %&gt;% dplyr::select(-y_ensemble))
+ensemble_ridge_model &lt;- glmnet(ensemble_x, ensemble_y, alpha = 0)
+ensemble_ridge_cv &lt;- glmnet::cv.glmnet(ensemble_x, ensemble_y, alpha = 0)
+ensemble_best_ridge_lambda &lt;- ensemble_ridge_cv$lambda.min
+ensemble_best_ridge_model &lt;- glmnet(ensemble_x, ensemble_y, alpha = 0, lambda = ensemble_best_ridge_lambda)</code></pre>
+<p><strong>Ensemble RPart:</strong></p>
+<pre><code>ensemble_rpart_train_fit &lt;- rpart::rpart(ensemble_train$y_ensemble ~ ., data = ensemble_train)</code></pre>
+<p><strong>Ensemble Support Vector Machines (optimized by
+tuning):</strong></p>
+<pre><code>ensemble_svm_train_fit &lt;- e1071::tune.svm(x = ensemble_train, y = ensemble_train$y_ensemble, data = ensemble_train)</code></pre>
+<p><strong>Ensemble Trees:</strong></p>
+<pre><code>ensemble_tree_train_fit &lt;- tree::tree(ensemble_train$y_ensemble ~ ., data = ensemble_train)</code></pre>
+</div>
+</div>
+<div id="how-the-data-was-split-to-prevent-overfitting" class="section level1">
+<h1>How the data was split to prevent overfitting</h1>
+</div>
+<div id="tuning-models" class="section level1">
+<h1>Tuning models</h1>
+</div>
+<div id="optimizing-hyperparameters" class="section level1">
+<h1>Optimizing hyperparameters</h1>
+</div>
+<div id="model-evaluations" class="section level1">
+<h1>Model evaluations</h1>
+<ol style="list-style-type: decimal">
+<li><p>Accuracy and standard deviation of the root mean squared error of
+all models (put model accuracy barchart here)</p></li>
+<li><p>Accuracy (choose fixed or free scales) by resample and model
+here</p></li>
+<li><p>Mean bias barchart</p></li>
+<li><p>Bias plot</p></li>
+<li><p>Duration barchart</p></li>
+<li><p>Head of the ensemble (report)</p></li>
+<li><p>Overfitting (Holdout RMSE / Train RMSE) barchart (measures
+reproducibility)</p></li>
+<li><p>Overfitting (Holdout RMSE / Train RMSE) by model and resample
+(choose fixed or free scales)</p></li>
+<li><p>Overfitting histograms</p></li>
+<li><p>Kolomogorov-Smirnov test barchart</p></li>
+<li><p>t-test bar chart</p></li>
+<li><p>Train vs holdout by model and resample (choose fixed or free
+scales)</p></li>
+<li><p>Summary report</p></li>
+<li><p>Ensemble Correlation report</p></li>
+<li><p>Head of ensemble report</p></li>
+</ol>
+</div>
+<div id="final-model-selection" class="section level1">
+<h1>Final model selection</h1>
+<p>Most accurate model:</p>
+<ol style="list-style-type: decimal">
+<li><p>Mean holdout RMSE</p></li>
+<li><p>Standard deviation of mean RMSE</p></li>
+<li><p>t-test value (mean)</p></li>
+<li><p>t-test standard deviation</p></li>
+<li><p>KS-Test (mean)</p></li>
+<li><p>KS-Test (standard deviation)</p></li>
+<li><p>Bias</p></li>
+<li><p>Bias standard deviation</p></li>
+<li><p>Train RMSE</p></li>
+<li><p>Test RMSE</p></li>
+<li><p>Validation RMSE</p></li>
+<li><p>Holdout vs train RMSE</p></li>
+<li><p>Holdout vs train standard deviation</p></li>
+<li><p>Duration (mean)</p></li>
+<li><p>The actual model</p></li>
+<li><p>Meta-data about the most accurate model</p></li>
+</ol>
+<p><strong>Most accurate model charts:</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Predicted vs actual chart</p></li>
+<li><p>Residuals chart</p></li>
+<li><p>Histogram of residuals</p></li>
+<li><p>Q-Q chart</p></li>
+</ol>
+</div>
+<div id="optional-predict-on-untrained-data-results" class="section level1">
+<h1>Optional: Predict on untrained data results</h1>
+</div>
+<div id="optional-fully-reproducible-example-using-these-trained-models" class="section level1">
+<h1>Optional: Fully reproducible example using these trained models</h1>
+</div>
+<div id="strongest-predictive-features" class="section level1">
+<h1>Strongest predictive features</h1>
+</div>
+<div id="strongest-predictors-of-the-predictors" class="section level1">
+<h1>Strongest predictors of the predictors</h1>
+</div>
+<div id="strongest-evidence-based-recommendations-with-margins-of-errors" class="section level1">
+<h1>Strongest evidence based recommendations with margins of
+error(s)</h1>
+</div>
+<div id="comparison-of-current-results-vs-previous-results" class="section level1">
+<h1>Comparison of current results vs previous results</h1>
+</div>
+<div id="future-goals-with-this-data-set" class="section level1">
+<h1>Future goals with this data set</h1>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

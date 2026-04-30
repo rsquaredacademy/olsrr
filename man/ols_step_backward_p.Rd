@@ -16,6 +16,7 @@ ols_step_backward_p(model, ...)
   hierarchical = FALSE,
   progress = FALSE,
   details = FALSE,
+  steps = NULL,
   ...
 )
 
@@ -40,6 +41,8 @@ from the model.}
 
 \item{details}{Logical; if \code{TRUE}, will print the regression result at
 each step.}
+
+\item{steps}{Number of steps after which the stepwise procedures should stop.}
 
 \item{x}{An object of class \code{ols_step_backward_p}.}
 
@@ -94,6 +97,10 @@ ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 # plot
 k <- ols_step_backward_p(model, 0.1, hierarchical = TRUE)
 plot(k)
+
+# steps
+ols_step_backward_p(model, steps = 2)
+
 
 }
 \references{
