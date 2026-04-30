@@ -20,3 +20,5 @@
 ^revdep_sources$
 ^revdep_results$
 TODO.md
+^\.positai$
+^\.claude$
