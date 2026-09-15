@@ -22,3 +22,5 @@
 TODO.md
 ^\.positai$
 ^\.claude$
+^roadmap$
+^AGENTS\.md$
