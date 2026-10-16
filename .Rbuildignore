@@ -12,6 +12,7 @@
 ^olsrr\.jpg$
 ^_pkgdown\.yml$
 ^docs$
+^pkgdown$
 ^hex_olsrr\.png$
 ^debug\.log$
 ^\.github$
