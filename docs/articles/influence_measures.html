@@ -7,10 +7,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Measures of Influence • olsrr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Measures of Influence">
+<!-- Rsquared site-kit: Analytics & Consent (Phase A) --><!-- Brand ID: G-2QSPEL5WM6 for *.rsquaredacademy.com --><link rel="stylesheet" href="/site-kit/rsa-consent.css">
+<script src="/site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -20,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">olsrr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +32,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-<li class="nav-item dropdown">
+<li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-guides">
 <li><a class="dropdown-item" href="../articles/intro.html">Intro</a></li>
@@ -51,6 +53,7 @@
 </li>
       </ul>
 <ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://www.rsquaredacademy.com">Rsquared Academy</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/rsquaredacademy/olsrr"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
@@ -108,7 +111,7 @@ i.e it takes it account both the <strong>x</strong> value and
 <ul>
 <li>delete observations one at a time.</li>
 <li>refit the regression model on remaining
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(n - 1)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(n - 1)</annotation></semantics></math>
 observations</li>
 <li>examine how much all of the fitted values change when the ith
 observation is deleted.</li>
@@ -118,7 +121,7 @@ strongly influences the fitted values.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_cooksd_bar.html">ols_plot_cooksd_bar</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/ckdbp-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/ckdbp-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="cooks-d-chart">Cook’s D Chart<a class="anchor" aria-label="anchor" href="#cooks-d-chart"></a>
@@ -128,7 +131,7 @@ influence fitted values of the model.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_cooksd_chart.html">ols_plot_cooksd_chart</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/ckchart-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/ckchart-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="dfbetas-panel">DFBETAs Panel<a class="anchor" aria-label="anchor" href="#dfbetas-panel"></a>
@@ -146,7 +149,7 @@ as a size-adjusted cutoff.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_dfbetas.html">ols_plot_dfbetas</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/dfbpanel-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/dfbpanel-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="dffits-plot">DFFITS Plot<a class="anchor" aria-label="anchor" href="#dffits-plot"></a>
@@ -170,7 +173,7 @@ observation is deleted.</li>
 </ul>
 <p>An observation is deemed influential if the absolute value of its
 DFFITS value is greater than:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>*</mo><msqrt><mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mi>p</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mfrac></msqrt></mrow><annotation encoding="application/x-tex">{2}*\sqrt{\frac{(p + 1)}{(n - p - 1)}}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>*</mo><msqrt><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mi>p</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow></mfrac></msqrt></mrow><annotation encoding="application/x-tex">{2}*\sqrt{\frac{(p + 1)}{(n - p - 1)}}</annotation></semantics></math></p>
 <p>A size-adjusted cutoff recommended by Belsley, Kuh, and Welsch is</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>*</mo><msqrt><mfrac><mi>p</mi><mi>n</mi></mfrac></msqrt></mrow><annotation encoding="application/x-tex">{2}*\sqrt{\frac{p}{n}}</annotation></semantics></math></p>
 <p>where n is the number of observations and p is the number of
@@ -179,7 +182,7 @@ predictors including intercept.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_dffits.html">ols_plot_dffits</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/dfitsplot-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/dfitsplot-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="studentized-residual-plot">Studentized Residual Plot<a class="anchor" aria-label="anchor" href="#studentized-residual-plot"></a>
@@ -193,7 +196,7 @@ is larger than 3 (in absolute value) we can call it an outlier.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_stud.html">ols_plot_resid_stud</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/srplot-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/srplot-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="standardized-residual-chart">Standardized Residual Chart<a class="anchor" aria-label="anchor" href="#standardized-residual-chart"></a>
@@ -204,7 +207,7 @@ deviation.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_stand.html">ols_plot_resid_stand</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/srchart-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/srchart-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="studentized-residuals-vs-leverage-plot">Studentized Residuals vs Leverage Plot<a class="anchor" aria-label="anchor" href="#studentized-residuals-vs-leverage-plot"></a>
@@ -213,7 +216,7 @@ deviation.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">read</span> <span class="op">~</span> <span class="va">write</span> <span class="op">+</span> <span class="va">math</span> <span class="op">+</span> <span class="va">science</span>, data <span class="op">=</span> <span class="va">hsb</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_lev.html">ols_plot_resid_lev</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/studlev-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/studlev-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="deleted-studentized-residual-vs-fitted-values-plot">Deleted Studentized Residual vs Fitted Values Plot<a class="anchor" aria-label="anchor" href="#deleted-studentized-residual-vs-fitted-values-plot"></a>
@@ -222,7 +225,7 @@ deviation.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_stud_fit.html">ols_plot_resid_stud_fit</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/dsrvsp-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/dsrvsp-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="hadi-plot">Hadi Plot<a class="anchor" aria-label="anchor" href="#hadi-plot"></a>
@@ -234,7 +237,7 @@ based on Hadi’s measure.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_hadi.html">ols_plot_hadi</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/hadiplot-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/hadiplot-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="potential-residual-plot">Potential Residual Plot<a class="anchor" aria-label="anchor" href="#potential-residual-plot"></a>
@@ -244,7 +247,7 @@ points, outliers, or a combination of both.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_pot.html">ols_plot_resid_pot</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="influence_measures_files/figure-html/potres-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="influence_measures_files/figure-html/potres-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -258,7 +261,7 @@ points, outliers, or a combination of both.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy</a> · <a href="#" data-rsa-analytics-optout>Turn off analytics</a></p>
 </div>
 
     </footer>

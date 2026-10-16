@@ -1,0 +1,184 @@
+/**
+ * Rsquared Academy Site-Kit — Consent Banner & Opt-Out Styles
+ * Version: v1.0.0
+ *
+ * Lightweight, zero-external-font styles for the consent dialog
+ * and opt-out notifications. Fixed to the bottom viewport edge
+ * to prevent layout shifts on host pages.
+ */
+
+:root {
+  --rsa-accent: #2563EB;
+  --rsa-accent-hover: #1D4ED8;
+  --rsa-ink: #0F172A;
+  --rsa-ink-secondary: #475569;
+  --rsa-bg: #FFFFFF;
+  --rsa-border: #E2E8F0;
+  --rsa-decline-bg: #F1F5F9;
+  --rsa-decline-text: #0F172A;
+  --rsa-decline-hover: #E2E8F0;
+  --rsa-accept-bg: #2563EB;
+  --rsa-accept-text: #FFFFFF;
+  --rsa-accept-hover: #1D4ED8;
+  --rsa-focus-ring: #2563EB;
+  --rsa-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+  --rsa-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08), 0 -1px 3px rgba(15, 23, 42, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --rsa-accent: #3B82F6;
+    --rsa-accent-hover: #60A5FA;
+    --rsa-ink: #F8FAFC;
+    --rsa-ink-secondary: #94A3B8;
+    --rsa-bg: #0F172A;
+    --rsa-border: #334155;
+    --rsa-decline-bg: #1E293B;
+    --rsa-decline-text: #F8FAFC;
+    --rsa-decline-hover: #334155;
+    --rsa-accept-bg: #2563EB;
+    --rsa-accept-text: #FFFFFF;
+    --rsa-accept-hover: #3B82F6;
+    --rsa-focus-ring: #60A5FA;
+    --rsa-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4), 0 -1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Bottom-fixed consent dialog */
+.rsa-consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999999;
+  background-color: var(--rsa-bg);
+  color: var(--rsa-ink);
+  border-top: 1px solid var(--rsa-border);
+  box-shadow: var(--rsa-shadow);
+  font-family: var(--rsa-font);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  padding: 1rem 1.5rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.rsa-consent-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.rsa-consent-content {
+  flex: 1 1 340px;
+}
+
+.rsa-consent-title {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--rsa-ink);
+  letter-spacing: -0.01em;
+}
+
+.rsa-consent-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--rsa-ink-secondary);
+}
+
+.rsa-consent-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.rsa-consent-btn {
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1.125rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.05s ease;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.rsa-consent-btn:active {
+  transform: translateY(1px);
+}
+
+.rsa-consent-btn:focus-visible {
+  outline: 2px solid var(--rsa-focus-ring);
+  outline-offset: 2px;
+}
+
+.rsa-consent-btn-accept {
+  background-color: var(--rsa-accept-bg);
+  color: var(--rsa-accept-text);
+  border-color: var(--rsa-accept-bg);
+}
+
+.rsa-consent-btn-accept:hover {
+  background-color: var(--rsa-accept-hover);
+  border-color: var(--rsa-accept-hover);
+}
+
+.rsa-consent-btn-decline {
+  background-color: var(--rsa-decline-bg);
+  color: var(--rsa-decline-text);
+  border-color: var(--rsa-border);
+}
+
+.rsa-consent-btn-decline:hover {
+  background-color: var(--rsa-decline-hover);
+}
+
+/* Accessible floating toast confirmation for opt-out action */
+.rsa-optout-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000000;
+  background-color: var(--rsa-bg);
+  color: var(--rsa-ink);
+  border: 1px solid var(--rsa-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  font-family: var(--rsa-font);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.rsa-optout-toast.rsa-toast-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rsa-toast-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #10B981;
+  color: #FFFFFF;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
