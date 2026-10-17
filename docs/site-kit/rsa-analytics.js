@@ -1,6 +1,6 @@
 /**
  * Rsquared Academy Site-Kit — Analytics & Consent (Phase A)
- * Version: v1.0.0
+ * Version: v1.2.0
  *
  * Provides Google Analytics 4 integration with Consent Mode v2,
  * region-based consent banner for EEA/UK/CH visitors, cross-subdomain
