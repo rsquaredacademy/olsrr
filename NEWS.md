@@ -1,5 +1,15 @@
 # olsrr (development version)
 
+## Bug Fixes
+
+- `ols_test_bartlett()` coerces `group_var` to a factor, so numeric grouping variables return the correct degrees of freedom, statistic and p-value (audit F4).
+- `ols_pure_error_anova()` reports the overall regression F using the error mean square, matching `summary.lm()`, and returns `NA` for the lack of fit statistics when the model has no replicates (audit F5).
+- `ols_prep_avplot_data()` drops the intercept only for models that have one, preserves `drop = FALSE`, and keeps the real predictor names (audit F7).
+- `ols_correlations()` works for single-predictor models, returning the zero-order correlation with `NA` partial and part correlations (audit F8).
+- `ols_test_outlier()` reports the most extreme significant outliers when `n_max` truncates the result (audit F11).
+- `ols_get_predictors()` always returns a `data.frame`, including for single-predictor models (audit F14).
+- `ols_test_breusch_pagan()` accepts `vars = NULL` and falls back to the fitted values test (audit F15).
+
 # olsrr 0.7.0
 
 This is a minor release for bug fixes and other enhancements.

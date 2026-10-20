@@ -16,6 +16,10 @@
 #' independent variables in the model, but is estimated by the specific
 #' variable.
 #'
+#' Partial and part correlations are not defined for models with a single
+#' predictor and are returned as \code{NA}. The zero-order correlation is
+#' still available for such models.
+#'
 #' @return \code{ols_correlations} returns an object of class \code{"ols_correlations"}.
 #' An object of class \code{"ols_correlations"} is a data frame containing the
 #' following components:
@@ -63,10 +67,17 @@ corout <- function(model, r2) {
   n                <- ncol(mdata)
   ksign            <- corsign(model)
   n2               <- n - 1
-  parts            <- ksign * sqrt(r1 - r2)
-  partials         <- parts / sqrt(1 - r2)
+
+  if (length(r2) == 0) {
+    parts    <- rep(NA_real_, length(cor_mdata))
+    partials <- parts
+  } else {
+    parts    <- ksign * sqrt(r1 - r2)
+    partials <- parts / sqrt(1 - r2)
+  }
+
   result           <- data.frame(cor_mdata, partials, parts)
-  rownames(result) <- names(ksign)
+  rownames(result) <- names(coefficients(model))[-1]
   colnames(result) <- c("Zero-order", "Partial", "Part")
 
   return(result)
@@ -78,6 +89,10 @@ corm2 <- function(model) {
   mdata <- cordata(model)
   n     <- ncol(mdata)
   r2    <- c()
+
+  if (n < 3) {
+    return(r2)
+  }
 
   for (i in 2:n) {
     out <- rtwo(i, mdata)

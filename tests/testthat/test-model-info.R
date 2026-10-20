@@ -125,6 +125,15 @@ test_that("predictor data is returned", {
   expect_equal(want, got)
 })
 
+test_that("predictor data is a data.frame for a single predictor model", {
+  model <- lm(mpg ~ disp, data = mtcars)
+  got   <- ols_get_predictors(model)
+
+  expect_s3_class(got, "data.frame")
+  expect_equal(names(got), "disp")
+  expect_equal(got$disp, mtcars$disp, ignore_attr = TRUE)
+})
+
 test_that("response data is returned", {
   model <- lm(mpg ~ disp + hp + wt, data = mtcars)
   want  <- c(21.0, 21.0, 22.8, 21.4, 18.7, 18.1)

@@ -158,3 +158,20 @@ test_that("output from advarx matches the expected output", {
   
   expect_equal(actual, expected, ignore_attr = TRUE)
 })
+
+test_that("added variable plot data keeps predictor names with one predictor", {
+  model <- lm(mpg ~ disp, data = mtcars)
+  k     <- ols_prep_avplot_data(model)
+
+  expect_equal(names(k), c("mpg", "disp"))
+  expect_equal(k$disp, mtcars$disp, ignore_attr = TRUE)
+})
+
+test_that("added variable plot data keeps all predictors without an intercept", {
+  model <- lm(mpg ~ 0 + disp + hp, data = mtcars)
+  k     <- ols_prep_avplot_data(model)
+
+  expect_equal(names(k), c("mpg", "disp", "hp"))
+  expect_equal(k$disp, mtcars$disp, ignore_attr = TRUE)
+  expect_equal(k$hp, mtcars$hp, ignore_attr = TRUE)
+})

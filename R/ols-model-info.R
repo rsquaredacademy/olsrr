@@ -274,7 +274,7 @@ ols_get_parameters <- function(model) {
 #' @export
 #'
 ols_get_predictors <- function(model) {
-  model$model[, -1]
+  model$model[, -1, drop = FALSE]
 }
 
 #' Response variable data

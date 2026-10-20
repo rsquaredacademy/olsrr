@@ -10,4 +10,15 @@ test_that("correlations output match", {
   expect_equal(round(expt, 3), data)
 })
 
+test_that("single predictor model returns zero-order correlation and NA partials", {
+  model <- lm(mpg ~ disp, data = mtcars)
+  k     <- ols_correlations(model)
+
+  expect_s3_class(k, "data.frame")
+  expect_equal(rownames(k), "disp")
+  expect_equal(round(unname(k[["Zero-order"]]), 6), round(cor(mtcars$mpg, mtcars$disp), 6))
+  expect_true(is.na(k[["Partial"]]))
+  expect_true(is.na(k[["Part"]]))
+})
+
 

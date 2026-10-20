@@ -117,8 +117,8 @@ peanova <- function(model) {
   rms      <- rss / df_rss
   ems      <- ess / df_ess
   lms      <- lackoffit / df_lof
-  pms      <- random_error / df_error
-  rf       <- rms / pms
+  pms      <- if (df_error > 0) random_error / df_error else NA_real_
+  rf       <- rms / ems
   lf       <- lms / pms
   pr       <- pf(rf, df_rss, df_ess, lower.tail = F)
   pl       <- pf(lf, df_lof, df_error, lower.tail = F)
