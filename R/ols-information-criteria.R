@@ -7,7 +7,7 @@
 #' @param method A character vector; specify the method to compute AIC. Valid
 #'   options include R, STATA and SAS.
 #'
-#' @param corrected Logical; if \code{TRUE}, returns corrected akaike information criterion for SAS method.
+#' @param corrected Logical; if \code{TRUE}, returns corrected akaike information criterion.
 #'
 #' @details
 #' AIC provides a means for model selection. Given a collection of models for
@@ -22,6 +22,16 @@
 #' \deqn{AIC = n * ln(SSE / n) + 2p}
 #'
 #' \emph{corrected}
+#'
+#' \emph{R}
+#' \deqn{AIC = -2(loglikelihood) + 2k + \frac{2k(k + 1)}{n - k - 1}}
+#'
+#' where \emph{k} is \emph{p} + 1.
+#'
+#' \emph{STATA}
+#' \deqn{AIC = -2(loglikelihood) + 2p + \frac{2p(p + 1)}{n - p - 1}}
+#'
+#' \emph{SAS}
 #' \deqn{AIC = n * ln(SSE / n) + ((n * (n + p)) / (n - p - 2))}
 #'
 #' where \emph{n} is the sample size and \emph{p} is the number of model parameters including intercept.
@@ -51,6 +61,8 @@
 #' # corrected akaike information criterion
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_aic(model, method = 'SAS', corrected = TRUE)
+#' ols_aic(model, method = 'R', corrected = TRUE)
+#' ols_aic(model, method = 'STATA', corrected = TRUE)
 #'
 #' @family model selection criteria
 #'
@@ -64,34 +76,53 @@ ols_aic <- function(model, method = c("R", "STATA", "SAS"), corrected = FALSE) {
 
   method <- match.arg(method)
 
-  if (method != "SAS") {
-    corrected <- FALSE
-  }
-
-  n      <- model_rows(model)
-  p      <- model_n_coeffs(model)
+  n <- model_rows(model)
+  p <- model$rank
 
   if (method == "R") {
 
-    lk <- logLik(model)
-    -2 * lk[1] + 2 * (p + 1)
+    k <- p + 1
+    if (corrected) {
+      if (n - k - 1 <= 0) {
+        warning("Sample size n <= k + 1; corrected AIC cannot be computed.")
+        return(NA_real_)
+      }
+      lk <- logLik(model)
+      -2 * lk[1] + 2 * k + (2 * k * (k + 1)) / (n - k - 1)
+    } else {
+      lk <- logLik(model)
+      -2 * lk[1] + 2 * k
+    }
 
   } else if (method == "STATA") {
 
-    lk <- logLik(model)
-    -2 * lk[1] + 2 * p
+    if (corrected) {
+      if (n - p - 1 <= 0) {
+        warning("Sample size n <= p + 1; corrected AIC cannot be computed.")
+        return(NA_real_)
+      }
+      lk <- logLik(model)
+      -2 * lk[1] + 2 * p + (2 * p * (p + 1)) / (n - p - 1)
+    } else {
+      lk <- logLik(model)
+      -2 * lk[1] + 2 * p
+    }
 
   } else {
 
     sse <- model_rss(model)
 
     if (corrected) {
+      if (n - p - 2 <= 0) {
+        warning("Sample size n <= p + 2; corrected AIC cannot be computed.")
+        return(NA_real_)
+      }
       (n * log(sse / n)) + ((n * (n + p)) / (n - p - 2))
     } else {
       (n * log(sse / n)) + (2 * p)
     }
-    
-  } 
+
+  }
 
 }
 
@@ -149,7 +180,7 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
 
   method <- match.arg(method)
   n      <- model_rows(model)
-  p      <- model_n_coeffs(model)
+  p      <- model$rank
 
   if (method == "R") {
 
@@ -166,7 +197,7 @@ ols_sbc <- function(model, method = c("R", "STATA", "SAS")) {
     sse <- model_rss(model)
     n * log(sse / n) + p * log(n)
 
-  } 
+  }
 }
 
 
@@ -213,9 +244,15 @@ ols_sbic <- function(model, full_model) {
   check_model(full_model)
 
   n <- model_rows(model)
-  p <- anova_coeffs(model)
-  r <- full_model_coeffs(full_model)
-  q <- (q1(full_model, r) / (q2(model, p))) * (n)
+  p <- model$rank
+  r <- full_model$rank
+  sse <- deviance(model)
+  if (sse < 1e-10) {
+    warning("Residual sum of squares < 1e-10; SBIC returned NA.")
+    return(NA_real_)
+  }
+  mse_full <- deviance(full_model) / full_model$df.residual
+  q <- (n * mse_full) / sse
 
   sbicout(model, n, p, q)
 
@@ -248,7 +285,7 @@ q1 <- function(full_model, r) {
 #' @noRd
 #'
 q2 <- function(model, p) {
-  anova(model)[[2]][p] 
+  anova(model)[[2]][p]
 }
 
 #' SBIC internal
@@ -268,7 +305,7 @@ sbicout <- function(model, n, p, q) {
 
   a <- (2 * (p + 2) * q)
   b <- (2 * (q ^ 2))
-  (log(model_rss(model) / n) * n) + a - b
+  (log(deviance(model) / n) * n) + a - b
 
 }
 
@@ -311,8 +348,8 @@ ols_mallows_cp <- function(model, fullmodel) {
   check_model(fullmodel)
 
   n <- model_rows(model)
-  p <- model_n_coeffs(model)
-  q <- model_n_coeffs(fullmodel)
+  p <- model$rank
+  q <- fullmodel$rank
 
   mcpout(model, fullmodel, n, p, q)
 
@@ -334,10 +371,10 @@ ols_mallows_cp <- function(model, fullmodel) {
 #'
 mcpout <- function(model, fullmodel, n, p, q) {
 
-  sse <- model_rss(model)
+  sse <- deviance(model)
   sec <- (n - (2 * p))
-  mse <- rev(anova(fullmodel)[[3]])[1]
-  
+  mse <- deviance(fullmodel) / fullmodel$df.residual
+
   (sse / mse) - sec
 
 }
@@ -397,8 +434,8 @@ ols_msep <- function(model) {
 sepout <- function(model) {
 
   n   <- model_rows(model)
-  p   <- anova_coeffs(model)
-  mse <- anova(model)[[2]][p]
+  p   <- model$rank
+  mse <- deviance(model) / model$df.residual
   num <- ((n + 1) * (n - 2)) * mse
   den <- n * (n - p - 1)
 
@@ -458,8 +495,8 @@ ols_fpe <- function(model) {
 jpout <- function(model) {
 
   n   <- model_rows(model)
-  p   <- anova_coeffs(model)
-  mse <- anova(model)[[3]][p]
+  p   <- model$rank
+  mse <- deviance(model) / model$df.residual
   ((n + p) / n) * mse
 
 }
@@ -517,8 +554,8 @@ ols_apc <- function(model) {
 pcout <- function(model) {
 
   n   <- model_rows(model)
-  p   <- anova_coeffs(model)
-  rse <- summary(model)[[8]]
+  p   <- model$rank
+  rse <- summary(model)$r.squared
   ((n + p) / (n - p)) * (1 - rse)
 
 }
@@ -571,9 +608,9 @@ ols_hsp <- function(model) {
 spout <- function(model) {
 
   n   <- model_rows(model)
-  p   <- anova_coeffs(model)
-  mse <- anova(model)[[3]][p]
-    
+  p   <- model$rank
+  mse <- deviance(model) / model$df.residual
+
   mse / (n - p - 1)
 
 }
@@ -636,6 +673,5 @@ anova_coeffs <- function(model) {
 #' @noRd
 #'
 full_model_coeffs <- function(model) {
-  length(model.frame(model)) 
+  length(model.frame(model))
 }
-

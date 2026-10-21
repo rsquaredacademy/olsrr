@@ -1,5 +1,8 @@
 # olsrr (development version)
 
+- `ols_regress()` and `ols_model_performance()` now compute residual Mean Square Error (MSE) as `deviance(model) / model$df.residual`, aligning with the ANOVA residual mean square, and Root Mean Square Error (RMSE) as `sqrt(mse)` rather than using the sample variance denominator `mean(residuals^2)` ([#221](https://github.com/rsquaredacademy/olsrr/issues/221)).
+- Information criteria (`ols_msep()`, `ols_fpe()`, `ols_apc()`, `ols_hsp()`, `ols_mallows_cp()`, `ols_sbic()`, `ols_aic()`, `ols_sbc()`) now evaluate model complexity using `model$rank`, fixing parameter counting for factor variables and rank-deficient models; `ols_msep()` now uses the residual mean square error rather than sum of squares; `ols_aic(corrected = TRUE)` now implements the Hurvich-Tsai correction for R and STATA methods; and `ols_sbic()` and `ols_aic()` include guards returning NA with warnings on boundary conditions ([#224](https://github.com/rsquaredacademy/olsrr/issues/224)).
+
 # olsrr 0.7.0
 
 This is a minor release for bug fixes and other enhancements.
