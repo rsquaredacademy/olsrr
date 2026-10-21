@@ -2,6 +2,8 @@
 
 ## Bug Fixes
 
+- `ols_regress()` and `ols_model_performance()` now compute residual Mean Square Error (MSE) as `deviance(model) / model$df.residual`, aligning with the ANOVA residual mean square, and Root Mean Square Error (RMSE) as `sqrt(mse)` rather than using the sample variance denominator `mean(residuals^2)` ([#221](https://github.com/rsquaredacademy/olsrr/issues/221)).
+- Information criteria (`ols_msep()`, `ols_fpe()`, `ols_apc()`, `ols_hsp()`, `ols_mallows_cp()`, `ols_sbic()`, `ols_aic()`, `ols_sbc()`) now evaluate model complexity using `model$rank`, fixing parameter counting for factor variables and rank-deficient models; `ols_msep()` now uses the residual mean square error rather than sum of squares; `ols_aic(corrected = TRUE)` now implements the Hurvich-Tsai correction for R and STATA methods; and `ols_sbic()` and `ols_aic()` include guards returning NA with warnings on boundary conditions ([#224](https://github.com/rsquaredacademy/olsrr/issues/224)).
 - `ols_test_bartlett()` coerces `group_var` to a factor, so numeric grouping variables return the correct degrees of freedom, statistic and p-value (audit F4).
 - `ols_pure_error_anova()` reports the overall regression F using the error mean square, matching `summary.lm()`, and returns `NA` for the lack of fit statistics when the model has no replicates (audit F5).
 - `ols_prep_avplot_data()` drops the intercept only for models that have one, preserves `drop = FALSE`, and keeps the real predictor names (audit F7).

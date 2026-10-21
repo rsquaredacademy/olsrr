@@ -79,7 +79,8 @@ null_model_metrics <- function(model, full_model) {
   rss    <- tss - ess
   rsq    <- output$r.squared
   adjr   <- output$adj.r.squared
-  rmse   <- sqrt(mean(model$residuals ^ 2))
+  ems    <- deviance(model) / model$df.residual
+  rmse   <- sqrt(ems)
 
   list(adjr = adjr, aic = aic, sbc = sbc,  sbic = sbic, ess = ess,
        rsq = rsq, rss = rss, rmse = rmse)
@@ -89,4 +90,3 @@ null_model_metrics <- function(model, full_model) {
 max_nchar <- function(char, val, rn = 3, ns = 3) {
   max(nchar(char), nchar(format(round(val, rn), nsmall = ns)))
 }
-

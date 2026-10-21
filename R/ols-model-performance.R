@@ -36,7 +36,8 @@ ols_model_performance.default <- function(model, ...) {
   rsq  <- summary(model)$r.squared
   r    <- sqrt(rsq)
   adjr <- summary(model)$adj.r.squared
-  rmse <- sqrt(mean(model$residuals ^ 2))
+  ems  <- deviance(model) / model$df.residual
+  rmse <- sqrt(ems)
   aic  <- ols_aic(model)
   sbc  <- ols_sbc(model)
   sbic <- ols_sbic(model, model)
@@ -114,4 +115,3 @@ ols_compare_model_performance.lm <- function(...) {
 
   return(result)
 }
-

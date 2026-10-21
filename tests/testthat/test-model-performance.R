@@ -8,7 +8,7 @@ test_that("model performance works as expected", {
   expect_equal(round(perf$aic, 3), 158.643)
   expect_equal(round(perf$sbc, 3), 165.972)
   expect_equal(round(perf$sbic, 3), 68.933)
-  expect_equal(round(perf$rmse, 3), 2.468)
+  expect_equal(round(perf$rmse, 3), 2.639)
 })
 
 test_that("output from model performance is as expected", {
