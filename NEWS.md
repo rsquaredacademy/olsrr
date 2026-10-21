@@ -1,5 +1,7 @@
 # olsrr (development version)
 
+- `ols_regress()` and `ols_model_performance()` now compute residual Mean Square Error (MSE) as `deviance(model) / model$df.residual`, aligning with the ANOVA residual mean square, and Root Mean Square Error (RMSE) as `sqrt(mse)` rather than using the sample variance denominator `mean(residuals^2)` ([#221](https://github.com/rsquaredacademy/olsrr/issues/221)).
+
 # olsrr 0.7.0
 
 This is a minor release for bug fixes and other enhancements.

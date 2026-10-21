@@ -14,7 +14,8 @@ test_that("regress returns all the model validation metrics", {
   expect_equal(model$conf_lm[, 2], lm2)
 })
 
-test_that("If model includes interaction terms, ols_regress scales and centers\n          predictors before computing standardized betas", {
+test_that("If model includes interaction terms, ols_regress scales and centers
+          predictors before computing standardized betas", {
   model_inter <- ols_regress(price ~ weight * displacement, data = auto, iterm = TRUE)
   actual   <- round(model_inter$sbetas, 2)
   expected <- c(weight = 0.57, displacement = -0.15, `weight:displacement` = 0.38)
@@ -28,3 +29,38 @@ test_that("ols_regress returns error messages", {
   expect_error(ols_regress(mpg ~ disp + hp + wt, data = mtcars, title = 1), "1 is not a string, Please specify a string as title.")
 })
 
+test_that("MSE and RMSE use the ANOVA residual mean square (#221)", {
+  # 1. Verification on mtcars simple regression
+  m_mtcars_simple <- lm(mpg ~ disp, data = mtcars)
+  res_simple <- ols_regress(m_mtcars_simple)
+  expect_equal(res_simple$mse, 10.57196, tolerance = 1e-4)
+  expect_equal(res_simple$rmse, 3.251454, tolerance = 1e-4)
+  expect_equal(res_simple$mse, anova(m_mtcars_simple)["Residuals", "Mean Sq"])
+  expect_equal(res_simple$rmse, sqrt(deviance(m_mtcars_simple) / m_mtcars_simple$df.residual))
+
+  # 2. Verification on surgical data (multiple regression)
+  m_surgical <- lm(y ~ bcs + pindex + enzyme_test + liver_test, data = surgical)
+  res_surgical <- ols_regress(m_surgical)
+  expected_mse_surg <- deviance(m_surgical) / m_surgical$df.residual
+  expect_equal(res_surgical$mse, expected_mse_surg)
+  expect_equal(res_surgical$rmse, sqrt(expected_mse_surg))
+  expect_equal(res_surgical$mse, anova(m_surgical)["Residuals", "Mean Sq"])
+
+  # 3. Verification on cement data
+  m_cement <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
+  res_cement <- ols_regress(m_cement)
+  expected_mse_cement <- deviance(m_cement) / m_cement$df.residual
+  expect_equal(res_cement$mse, expected_mse_cement)
+  expect_equal(res_cement$rmse, sqrt(expected_mse_cement))
+  expect_equal(res_cement$mse, anova(m_cement)["Residuals", "Mean Sq"])
+
+  # 4. Verification on factor model (auto)
+  d_auto <- na.omit(auto)
+  d_auto$rep78 <- as.factor(d_auto$rep78)
+  m_auto <- lm(price ~ mpg + weight + rep78, data = d_auto)
+  res_auto <- ols_regress(m_auto)
+  expected_mse_auto <- deviance(m_auto) / m_auto$df.residual
+  expect_equal(res_auto$mse, expected_mse_auto)
+  expect_equal(res_auto$rmse, sqrt(expected_mse_auto))
+  expect_equal(res_auto$mse, anova(m_auto)["Residuals", "Mean Sq"])
+})

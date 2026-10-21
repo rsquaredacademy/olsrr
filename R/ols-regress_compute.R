@@ -12,7 +12,9 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   rsq        <- output$r.squared
   r          <- sqrt(rsq)
   adjr       <- output$adj.r.squared
-  rmse       <- sqrt(mean(model$residuals ^ 2))
+  ems        <- deviance(model) / model$df.residual
+  mse        <- ems
+  rmse       <- sqrt(ems)
   cv         <- (output$sigma / mean(dep[[1]])) * 100
   mae        <- mean(abs(residuals(model)))
   aic        <- ols_aic(model)
@@ -20,7 +22,6 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   sbic       <- ols_sbic(model, model)
   prsq       <- ols_pred_rsq(model)
   n          <- length(anovam$Df)
-  mse        <- mean(model$residuals ^ 2)
   error_df   <- anovam$Df[n]
   model_df   <- sum(anovam$Df) - error_df
   total_df   <- sum(anovam$Df)
