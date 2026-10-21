@@ -18,7 +18,8 @@
 #'
 #' Partial and part correlations are not defined for models with a single
 #' predictor and are returned as \code{NA}. The zero-order correlation is
-#' still available for such models.
+#' still available for such models. Models without an intercept are supported
+#' only with one predictor.
 #'
 #' @return \code{ols_correlations} returns an object of class \code{"ols_correlations"}.
 #' An object of class \code{"ols_correlations"} is a data frame containing the
@@ -68,6 +69,10 @@ corout <- function(model, r2) {
   ksign            <- corsign(model)
   n2               <- n - 1
 
+  if (attr(model$terms, "intercept") == 0 && length(r2) > 0) {
+    stop("ols_correlations() is not supported for models without an intercept and more than one predictor.", call. = FALSE)
+  }
+
   if (length(r2) == 0) {
     parts    <- rep(NA_real_, length(cor_mdata))
     partials <- parts
@@ -77,7 +82,11 @@ corout <- function(model, r2) {
   }
 
   result           <- data.frame(cor_mdata, partials, parts)
-  rownames(result) <- names(coefficients(model))[-1]
+  cnames <- names(coefficients(model))
+  if (attr(model$terms, "intercept") == 1) {
+    cnames <- cnames[-1]
+  }
+  rownames(result) <- cnames
   colnames(result) <- c("Zero-order", "Partial", "Part")
 
   return(result)

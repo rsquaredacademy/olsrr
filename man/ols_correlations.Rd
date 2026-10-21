@@ -35,7 +35,8 @@ variable.
 
 Partial and part correlations are not defined for models with a single
 predictor and are returned as \code{NA}. The zero-order correlation is
-still available for such models.
+still available for such models. Models without an intercept are supported
+only with one predictor.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

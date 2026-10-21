@@ -21,4 +21,18 @@ test_that("single predictor model returns zero-order correlation and NA partials
   expect_true(is.na(k[["Part"]]))
 })
 
+test_that("single predictor model without an intercept returns zero-order correlation and NA partials", {
+  model <- lm(mpg ~ 0 + disp, data = mtcars)
+  k     <- ols_correlations(model)
+  expect_equal(rownames(k), "disp")
+  expect_equal(unname(k[["Zero-order"]]), cor(mtcars$mpg, mtcars$disp))
+  expect_true(is.na(k[["Partial"]]))
+  expect_true(is.na(k[["Part"]]))
+})
 
+test_that("multi-predictor model without an intercept gives a clear error", {
+  expect_error(
+    ols_correlations(lm(mpg ~ 0 + disp + hp, data = mtcars)),
+    "not supported for models without an intercept and more than one predictor"
+  )
+})

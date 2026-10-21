@@ -103,6 +103,10 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
     }
   )
 
+  if (!fitted.values && !rhs && (is.null(vars) || length(vars) == 0 || all(is.na(vars)))) {
+    stop("Specify `vars`, or set `fitted.values = TRUE` or `rhs = TRUE`.", call. = FALSE)
+  }
+
   method <- match.arg(p.adj)
   p.adj  <- match.arg(p.adj)
 
