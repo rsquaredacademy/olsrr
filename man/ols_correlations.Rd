@@ -32,6 +32,11 @@ is removed from the model and partial correlations indicates amount of
 variance in response variable, which is not estimated by the other
 independent variables in the model, but is estimated by the specific
 variable.
+
+Partial and part correlations are not defined for models with a single
+predictor and are returned as \code{NA}. The zero-order correlation is
+still available for such models. Models without an intercept are supported
+only with one predictor.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

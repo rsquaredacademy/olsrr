@@ -97,11 +97,15 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   check_logic(multiple)
 
   suppressWarnings(
-    if (!is.na(vars[1])) {
+    if (!is.null(vars) && length(vars) > 0 && !all(is.na(vars))) {
       check_modelvars(model, vars)
       fitted.values <- FALSE
     }
   )
+
+  if (!fitted.values && !rhs && (is.null(vars) || length(vars) == 0 || all(is.na(vars)))) {
+    stop("Specify `vars`, or set `fitted.values = TRUE` or `rhs = TRUE`.", call. = FALSE)
+  }
 
   method <- match.arg(p.adj)
   p.adj  <- match.arg(p.adj)

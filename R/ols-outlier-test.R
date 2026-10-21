@@ -42,7 +42,7 @@ ols_outlier_data <- function(model, cut_off) {
   p_bon      <- n * p_val
   data_bon   <- na.omit(data.frame(stud_resid, p_val, p_bon))
   data_bonf  <- data_bon[data_bon$p_bon <= cut_off, ]
-  data_co    <- data_bonf[order(-data_bonf$p_bon), ]
+  data_co    <- data_bonf[order(data_bonf$p_bon), ]
   nf         <- nrow(data_co)
   out_names  <- c("studentized_residual", "unadjusted_p_val", "bonferroni_p_val")
 

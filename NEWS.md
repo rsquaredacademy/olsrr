@@ -1,7 +1,16 @@
 # olsrr (development version)
 
+## Bug Fixes
+
 - `ols_regress()` and `ols_model_performance()` now compute residual Mean Square Error (MSE) as `deviance(model) / model$df.residual`, aligning with the ANOVA residual mean square, and Root Mean Square Error (RMSE) as `sqrt(mse)` rather than using the sample variance denominator `mean(residuals^2)` ([#221](https://github.com/rsquaredacademy/olsrr/issues/221)).
 - Information criteria (`ols_msep()`, `ols_fpe()`, `ols_apc()`, `ols_hsp()`, `ols_mallows_cp()`, `ols_sbic()`, `ols_aic()`, `ols_sbc()`) now evaluate model complexity using `model$rank`, fixing parameter counting for factor variables and rank-deficient models; `ols_msep()` now uses the residual mean square error rather than sum of squares; `ols_aic(corrected = TRUE)` now implements the Hurvich-Tsai correction for R and STATA methods; and `ols_sbic()` and `ols_aic()` include guards returning NA with warnings on boundary conditions ([#224](https://github.com/rsquaredacademy/olsrr/issues/224)).
+- `ols_test_bartlett()` coerces `group_var` to a factor, so numeric grouping variables return the correct degrees of freedom, statistic and p-value (audit F4).
+- `ols_pure_error_anova()` reports the overall regression F using the error mean square, matching `summary.lm()`, and returns `NA` for the lack of fit statistics when the model has no replicates (audit F5).
+- `ols_prep_avplot_data()` drops the intercept only for models that have one, preserves `drop = FALSE`, and keeps the real predictor names (audit F7).
+- `ols_correlations()` works for single-predictor models, returning the zero-order correlation with `NA` partial and part correlations, and gives a clear error for multi-predictor models without an intercept (audit F8).
+- `ols_test_outlier()` reports the most extreme significant outliers when `n_max` truncates the result (audit F11).
+- `ols_get_predictors()` always returns a `data.frame`, including for single-predictor models (audit F14).
+- `ols_test_breusch_pagan()` accepts `vars = NULL` and falls back to the fitted values test; calling with `fitted.values = FALSE` without `vars` or `rhs` now errors (audit F15).
 
 # olsrr 0.7.0
 

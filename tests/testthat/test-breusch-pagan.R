@@ -240,5 +240,26 @@ test_that("when multiple == TRUE and vars != NA and p.adj == 'holm',
   expect_equal(k$preds, c("disp", "hp", "wt", "drat", "qsec"), ignore_attr = TRUE)
 })
 
+test_that("vars = NULL uses the fitted values test", {
+  k <- ols_test_breusch_pagan(model, vars = NULL)
+  b <- ols_test_breusch_pagan(model)
+
+  expect_equal(k$bp, b$bp)
+  expect_equal(k$df, b$df)
+  expect_equal(k$p, b$p)
+  expect_true(k$fv)
+})
 
 
+
+
+test_that("fitted.values = FALSE without vars or rhs throws an error", {
+  err_msg <- "Specify `vars`, or set `fitted.values = TRUE` or `rhs = TRUE`."
+  expect_error(ols_test_breusch_pagan(model, fitted.values = FALSE, vars = NULL), err_msg)
+  expect_error(ols_test_breusch_pagan(model, fitted.values = FALSE, vars = NA), err_msg)
+  expect_error(ols_test_breusch_pagan(model, fitted.values = FALSE, vars = character(0)), err_msg)
+  expect_error(ols_test_breusch_pagan(model, fitted.values = FALSE), err_msg)
+
+  expect_no_error(ols_test_breusch_pagan(model, fitted.values = FALSE, rhs = TRUE))
+  expect_no_error(ols_test_breusch_pagan(model))
+})

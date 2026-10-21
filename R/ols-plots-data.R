@@ -15,7 +15,13 @@
 ols_prep_avplot_data <- function(model) {
 
   m1 <- as.data.frame(model.frame(model))[1]
-  m2 <- as.data.frame(model.matrix(model))[, -1]
+  mm <- model.matrix(model)
+
+  if (attr(model$terms, "intercept") == 1) {
+    mm <- mm[, -1, drop = FALSE]
+  }
+
+  m2 <- as.data.frame(mm)
   as.data.frame(cbind(m1, m2))
 
 }
