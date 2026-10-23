@@ -115,7 +115,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   # lc        <- length(combs)
   lc        <- max_order
   varnames  <- model_colnames(model)
-  data      <- model$model
+  data      <- ols_model_data(model)
   colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
   predicts  <- list()

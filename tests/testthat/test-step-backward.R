@@ -50,3 +50,15 @@ test_that("step_backward_p returns the appropriate error", {
   expect_error(ols_step_backward_p(model, include = c(5)), "Index of variable to be included should be between 1 and 4.")
   expect_error(ols_step_backward_p(model, exclude = c(5)), "Index of variable to be excluded should be between 1 and 4.")
 })
+test_that("backward selection does not duplicate included variables (audit F12)", {
+  model <- lm(y ~ ., data = surgical)
+  k <- ols_step_backward_p(model, include = c("age", "alc_mod"))
+  tl <- attr(terms(k$model), "term.labels")
+  fm <- paste(deparse(formula(k$model)), collapse = " ")
+  toks <- trimws(strsplit(strsplit(fm, "~")[[1]][2], "\\+")[[1]])
+
+  expect_false(anyDuplicated(tl) > 0)
+  expect_false(anyDuplicated(toks) > 0)
+  expect_true(all(c("age", "alc_mod") %in% tl))
+  expect_equal(coef(k$model), coef(lm(formula(k$model), data = surgical)))
+})

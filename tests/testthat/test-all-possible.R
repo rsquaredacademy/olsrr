@@ -47,3 +47,12 @@ test_that("all possible regression betas are as expected", {
   expect_equal(actual$beta, expected$beta, ignore_attr = TRUE)
 })
 
+
+test_that("all possible regression refits transformed responses safely (audit F1)", {
+  model <- lm(log(mpg) ~ disp + hp, data = mtcars)
+  k <- ols_step_all_possible(model)
+
+  expect_equal(nrow(k$result), 3)
+  expect_equal(sort(k$result$rsquare)[3],
+               summary(lm(log(mpg) ~ disp + hp, data = mtcars))$r.squared)
+})

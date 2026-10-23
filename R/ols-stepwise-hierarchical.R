@@ -48,7 +48,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
     progress <- FALSE
   }
 
-  l        <- model$model
+  l        <- ols_model_data(model)
   nam      <- colnames(attr(model$terms, "factors"))
   n        <- ncol(l)
   response <- names(model$model)[1]
@@ -170,7 +170,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
     progress <- FALSE
   }
 
-  l        <- model$model
+  l        <- ols_model_data(model)
   nam      <- colnames(attr(model$terms, "factors"))
   n        <- ncol(l)
   response <- names(model$model)[1]

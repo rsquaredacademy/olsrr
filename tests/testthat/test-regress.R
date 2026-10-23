@@ -64,3 +64,23 @@ test_that("MSE and RMSE use the ANOVA residual mean square (#221)", {
   expect_equal(res_auto$rmse, sqrt(expected_mse_auto))
   expect_equal(res_auto$mse, anova(m_auto)["Residuals", "Mean Sq"])
 })
+
+test_that("ols_regress refits transformed and factor terms safely (audit F1)", {
+  models <- list(
+    log(mpg) ~ disp + hp,
+    mpg ~ factor(cyl) + hp,
+    mpg ~ poly(disp, 2) + hp,
+    mpg ~ I(disp^2) + hp
+  )
+
+  for (f in models) {
+    m   <- lm(f, data = mtcars)
+    got <- ols_regress(m)
+    ref <- lm(f, data = mtcars)
+
+    expect_equal(coef(got$model), coef(ref))
+    expect_equal(got$rsq, summary(ref)$r.squared)
+    expect_equal(got$aic, ols_aic(ref))
+    expect_equal(got$rmse, sqrt(deviance(ref) / ref$df.residual))
+  }
+})

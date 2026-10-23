@@ -99,7 +99,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   }
 
   response <- names(model$model)[1]
-  l        <- model$model
+  l        <- ols_model_data(model)
   lockterm <- c(include, exclude)
   nam      <- colnames(attr(model$terms, "factors"))
   cterms   <- setdiff(nam, exclude)
