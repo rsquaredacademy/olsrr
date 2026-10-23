@@ -34,7 +34,12 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   p          <- pf(f, model_df, error_df, lower.tail = F)
 
   # standardised betas
-  if (iterm) {
+  if (ncol(model.matrix(model)) < 2) {
+
+    # intercept-only model: no predictors to standardise
+    sbetas <- numeric(0)
+
+  } else if (iterm) {
 
     data_scaled <- data
 
