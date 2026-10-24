@@ -90,3 +90,46 @@ null_model_metrics <- function(model, full_model) {
 max_nchar <- function(char, val, rn = 3, ns = 3) {
   max(nchar(char), nchar(format(round(val, rn), nsmall = ns)))
 }
+
+# data used to fit a model, so that its original formula can be re-evaluated
+#
+# `model$model` stores term labels (e.g. "log(mpg)", "factor(cyl)") as column
+# names, so refitting a formula against it fails for any call term. When the
+# data are still available from the model call, return them restricted to the
+# rows used by the model (NA handling, subset, ...). Otherwise fall back to
+# `model$model`, which is safe for plain variable terms.
+ols_model_data <- function(model) {
+
+  env  <- environment(formula(model))
+  call <- model$call
+
+  if (is.null(env)) {
+    env <- parent.frame()
+  }
+
+  data <- NULL
+  if (!is.null(call) && !is.null(call$data)) {
+    data <- tryCatch(eval(call$data, envir = env), error = function(e) NULL)
+    if (is.null(data)) {
+      data <- tryCatch(eval(call$data, envir = parent.frame()), error = function(e) NULL)
+    }
+  }
+
+  if (!is.data.frame(data) && !is.matrix(data)) {
+    return(model$model)
+  }
+
+  data <- as.data.frame(data)
+  rn   <- attr(model$model, "row.names")
+
+  if (!is.null(rn)) {
+    rn  <- as.character(rn)
+    idx <- match(rn, rownames(data))
+    if (anyNA(idx) || anyDuplicated(idx) || length(idx) != nrow(model$model)) {
+      return(model$model)
+    }
+    data <- data[idx, , drop = FALSE]
+  }
+
+  data
+}

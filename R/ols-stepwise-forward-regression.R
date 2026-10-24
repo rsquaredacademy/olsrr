@@ -108,10 +108,26 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
   if (hierarchical) {
     ols_step_hierarchical(model, p_val, TRUE, progress, details, steps)
   } else {
-    l        <- model$model
+    l        <- ols_model_data(model)
     nam      <- colnames(attr(model$terms, "factors"))
+    include  <- unique(include)
+    exclude  <- unique(exclude)
     lockterm <- c(include, exclude)
     cterms   <- setdiff(nam, exclude)
+
+    if (ols_zero_rss(model)) {
+      ols_zero_rss_stop()
+      out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                       r2 = numeric(0), adj_r2 = numeric(0),
+                                       aic = numeric(0), sbc = numeric(0),
+                                       sbic = numeric(0), mallows_cp = numeric(0),
+                                       rmse = numeric(0)),
+                  model   = model,
+                  others  = list(base_model = model,
+                                 full_model = model))
+      class(out) <- "ols_step_forward_p"
+      return(out)
+    }
 
     if (progress || details) {
       ols_candidate_terms(cterms, "forward")
@@ -147,8 +163,8 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     }
 
     for (i in seq_len(mlen_p)) {
-      predictors  <- c(include, all_pred[i])
-      m           <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+      predictors  <- unique(c(include, all_pred[i]))
+      m           <- lm(ols_step_formula(response, predictors), data = l)
       m_sum       <- Anova(m)
       fvals[i]    <- m_sum$`F value`[ppos]
       pvals[i]    <- m_sum$`Pr(>F)`[ppos]
@@ -180,7 +196,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       }
     }
 
-    preds  <- c(preds, all_pred[maxf])
+    preds  <- unique(c(preds, all_pred[maxf]))
     lpreds <- length(preds)
 
     if (lpreds > 1) {
@@ -189,7 +205,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
         step   <- step + 1
         npreds <- preds[1:i]
-        fr     <- ols_regress(paste(response, "~", paste(npreds, collapse = " + ")), l)
+        fr     <- ols_regress(ols_step_formula(response, npreds), data = l)
         rsq    <- c(rsq, fr$rsq)
         adjrsq <- c(adjrsq, fr$adjr)
         aic    <- c(aic, ols_aic(fr$model))
@@ -212,7 +228,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     } else {
 
       step   <- step + 1
-      fr     <- ols_regress(paste(response, "~", preds), l)
+      fr     <- ols_regress(ols_step_formula(response, preds), data = l)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))
@@ -254,8 +270,8 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
       for (i in seq_len(len_p)) {
 
-        predictors  <- c(preds, all_pred[i])
-        m           <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+        predictors  <- unique(c(preds, all_pred[i]))
+        m           <- lm(ols_step_formula(response, predictors), data = l)
         m_sum       <- Anova(m)
         fvals[i]    <- m_sum$`F value`[ppos]
         pvals[i]    <- m_sum$`Pr(>F)`[ppos]
@@ -283,9 +299,9 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       if (minp <= p_val) {
 
         step   <- step + 1
-        preds  <- c(preds, all_pred[maxf])
+        preds  <- unique(c(preds, all_pred[maxf]))
         lpreds <- length(preds)
-        fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+        fr     <- ols_regress(ols_step_formula(response, preds), data = l)
         rsq    <- c(rsq, fr$rsq)
         adjrsq <- c(adjrsq, fr$adjr)
         aic    <- c(aic, ols_aic(fr$model))
@@ -316,7 +332,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       ols_stepwise_vars(preds, "forward")
     }
 
-    final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+    final_model <- lm(ols_step_formula(response, preds), data = l)
 
     metrics     <- data.frame(step       = seq_len(step),
                               variable   = preds,

@@ -58,3 +58,70 @@ test_that("stepaic_forward returns the appropriate error", {
   expect_error(ols_step_both_p(model, exclude = c(5)), "Index of variable to be excluded should be between 1 and 4.")
 })
 
+
+test_that("stepwise forward AIC does not crash when no variable improves the model (#186)", {
+  set.seed(20261023)
+  noise <- data.frame(y = rnorm(60), x1 = rnorm(60), x2 = rnorm(60), x3 = rnorm(60))
+  k <- ols_step_forward_aic(lm(y ~ ., data = noise))
+
+  expect_equal(deparse(formula(k$model)), "y ~ 1")
+  expect_equal(nrow(k$metrics), 0)
+})
+
+test_that("stepwise backward AIC falls back to an intercept-only model (#186)", {
+  set.seed(20261023)
+  noise <- data.frame(y = rnorm(60), x1 = rnorm(60), x2 = rnorm(60), x3 = rnorm(60))
+  k <- ols_step_backward_aic(lm(y ~ ., data = noise))
+
+  expect_equal(deparse(formula(k$model)), "y ~ 1")
+  expect_equal(nrow(k$metrics), 3)
+})
+
+test_that("stepwise selection stops on a near-perfect fit (#199)", {
+  perfect <- data.frame(y = 1:10, x = 1:10)
+  model   <- lm(y ~ x, data = perfect)
+
+  expect_message(k <- ols_step_forward_p(model), "near-perfect fit")
+  expect_equal(deparse(formula(k$model)), "y ~ x")
+  expect_equal(coef(k$model), coef(model))
+})
+
+test_that("stepwise selection breaks ties deterministically (#206)", {
+  set.seed(20261023)
+  x1  <- rnorm(30)
+  dup <- data.frame(y = x1 + rnorm(30, sd = 0.1), x1 = x1)
+  dup$x2 <- dup$x1
+
+  k <- ols_step_forward_aic(lm(y ~ x1 + x2, data = dup))
+  expect_equal(attr(terms(k$model), "term.labels"), "x1")
+  expect_equal(coef(k$model), coef(lm(y ~ x1, data = dup)))
+})
+
+test_that("stepwise backward AIC never drops a forced include variable (#172)", {
+  a <- ols_step_backward_aic(lm(mpg ~ disp + hp + wt, data = mtcars), include = "disp")
+  expect_equal(attr(terms(a$model), "term.labels")[1], "disp")
+
+  k   <- ols_step_forward_aic(lm(mpg ~ disp + hp + wt, data = mtcars), include = c("disp", "disp"))
+  toks <- trimws(strsplit(strsplit(paste(deparse(formula(k$model)), collapse = " "), "~")[[1]][2], "\\+")[[1]])
+  expect_equal(anyDuplicated(toks), 0L)
+})
+
+test_that("stepwise selection stops on a near-perfect fit in both directions (#199)", {
+  set.seed(20261023)
+  perfect <- data.frame(y = 1:10, x1 = 1:10, x2 = rnorm(10))
+  model   <- lm(y ~ x1 + x2, data = perfect)
+
+  expect_message(k <- ols_step_both_p(model), "near-perfect fit")
+  expect_equal(nrow(k$metrics), 0)
+  expect_equal(coef(k$model), coef(model))
+
+  expect_message(h <- ols_step_forward_p(model, hierarchical = TRUE), "near-perfect fit")
+  expect_equal(nrow(h$metrics), 0)
+  expect_message(g <- ols_step_backward_p(model, hierarchical = TRUE), "near-perfect fit")
+  expect_equal(nrow(g$metrics), 0)
+})
+
+test_that("stepwise selection ignores duplicated include variables", {
+  k <- ols_step_both_p(lm(mpg ~ disp + hp + wt, data = mtcars), include = c("disp", "disp"))
+  expect_equal(deparse(formula(k$model)), "mpg ~ disp + wt + hp")
+})

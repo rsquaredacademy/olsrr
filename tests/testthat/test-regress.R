@@ -64,3 +64,45 @@ test_that("MSE and RMSE use the ANOVA residual mean square (#221)", {
   expect_equal(res_auto$rmse, sqrt(expected_mse_auto))
   expect_equal(res_auto$mse, anova(m_auto)["Residuals", "Mean Sq"])
 })
+
+test_that("ols_regress refits transformed and factor terms safely (audit F1)", {
+  models <- list(
+    log(mpg) ~ disp + hp,
+    mpg ~ factor(cyl) + hp,
+    mpg ~ poly(disp, 2) + hp,
+    mpg ~ I(disp^2) + hp
+  )
+
+  for (f in models) {
+    m   <- lm(f, data = mtcars)
+    got <- ols_regress(m)
+    ref <- lm(f, data = mtcars)
+
+    expect_equal(coef(got$model), coef(ref))
+    expect_equal(got$rsq, summary(ref)$r.squared)
+    expect_equal(got$aic, ols_aic(ref))
+    expect_equal(got$rmse, sqrt(deviance(ref) / ref$df.residual))
+  }
+})
+
+test_that("refits use the model's rows, matched by name (audit F1)", {
+  d <- mtcars
+  rownames(d) <- NULL
+  d <- d[-c(1, 2), ]
+  d$mpg[29:30] <- NA
+  m <- lm(log(mpg) ~ disp + hp, data = d)
+
+  expect_equal(unname(ols_regress(m)$betas), unname(coef(m)))
+  expect_equal(nobs(ols_step_backward_aic(lm(mpg ~ disp + hp, data = d))$model), 28L)
+})
+
+test_that("standardised betas of interaction models keep the response untransformed", {
+  m <- lm(log(mpg) ~ disp * hp, data = mtcars)
+
+  expect_silent(got <- ols_regress(m)$sbetas)
+
+  ref <- lm(log(mpg) ~ scale(disp) * scale(hp), data = mtcars)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) / sd(log(mtcars$mpg))
+
+  expect_equal(unname(got), unname(expected))
+})

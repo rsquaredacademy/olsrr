@@ -103,15 +103,30 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
   if (hierarchical) {
     ols_step_hierarchical(model, p_val, FALSE, progress, details, steps)
   } else {
-    l        <- model$model
+    l        <- ols_model_data(model)
     nam      <- colnames(attr(model$terms, "factors"))
+    include  <- unique(include)
+    exclude  <- unique(exclude)
     lockterm <- c(include, exclude)
     response <- names(model$model)[1]
     preds    <- setdiff(nam, lockterm)
-    cterms   <- c(include, preds)
+    cterms   <- preds
+
+    if (ols_zero_rss(model)) {
+      ols_zero_rss_stop()
+      out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                       r2 = numeric(0), adj_r2 = numeric(0),
+                                       aic = numeric(0), sbc = numeric(0),
+                                       sbic = numeric(0), mallows_cp = numeric(0),
+                                       rmse = numeric(0)),
+                  model   = model,
+                  others  = list(full_model = model))
+      class(out) <- "ols_step_backward_p"
+      return(out)
+    }
 
     if (progress || details) {
-      ols_candidate_terms(cterms, "backward")
+      ols_candidate_terms(unique(c(include, cterms)), "backward")
     }
 
     end   <- FALSE
@@ -139,7 +154,16 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
     }
 
     while (!end) {
-      m     <- lm(paste(response, "~", paste(c(include, cterms), collapse = " + ")), l)
+
+      if (length(cterms) < 1) {
+        end <- TRUE
+        if (progress || details) {
+          ols_stepwise_break(direction = "backward")
+        }
+        break
+      }
+
+      m     <- lm(ols_step_formula(response, c(include, cterms)), data = l)
       m_sum <- Anova(m)
       nm    <- length(m_sum$`F value`)
       fvals <- m_sum$`F value`[ppos:nm]
@@ -157,11 +181,12 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
 
         if (pvals[minf] > p_val) {
 
-          step   <- step + 1
-          rpred  <- c(rpred, cterms[minf])
-          cterms <- cterms[-minf]
-          lp     <- length(rpred)
-          fr     <- ols_regress(paste(response, "~", paste(c(include, cterms), collapse = " + ")), l)
+          drop_var <- cterms[min_f]
+          step     <- step + 1
+          rpred    <- c(rpred, drop_var)
+          cterms   <- setdiff(cterms, drop_var)
+          lp       <- length(rpred)
+          fr       <- ols_regress(ols_step_formula(response, c(include, cterms)), data = l)
           rsq    <- c(rsq, fr$rsq)
           arsq   <- c(arsq, fr$adjr)
           rss    <- c(rss, fr$rss)
@@ -203,7 +228,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
       ols_stepwise_vars(rpred, "backward")
     }
 
-    final_model <- lm(paste(response, "~", paste(c(include, cterms), collapse = " + ")), data = l)
+    final_model <- lm(ols_step_formula(response, c(include, cterms)), data = l)
 
     metrics     <- data.frame(step       = seq_len(step),
                               variable   = rpred,

@@ -50,3 +50,11 @@ test_that("step_forward_p returns the appropriate error", {
   expect_error(ols_step_forward_p(model, include = c(5)), "Index of variable to be included should be between 1 and 4.")
   expect_error(ols_step_forward_p(model, exclude = c(5)), "Index of variable to be excluded should be between 1 and 4.")
 })
+test_that("forward selection refits transformed responses safely (audit F1)", {
+  model <- lm(log(mpg) ~ disp + hp + wt, data = mtcars)
+  k <- ols_step_forward_p(model)
+
+  expect_s3_class(k$model, "lm")
+  expect_equal(coef(k$model), coef(lm(formula(k$model), data = mtcars)))
+  expect_equal(k$model$df.residual, lm(formula(k$model), data = mtcars)$df.residual)
+})

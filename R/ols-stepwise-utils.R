@@ -702,27 +702,58 @@ ols_sort_metrics <- function(data, criteria) {
   }
 }
 
+# build a model formula from a response and candidate term labels, falling
+# back to an intercept-only model when no predictors remain
+ols_step_formula <- function(response, predictors) {
+  predictors <- unique(predictors)
+  rhs        <- if (length(predictors) > 0) paste(predictors, collapse = " + ") else "1"
+  as.formula(paste(response, "~", rhs))
+}
+
+# near-perfect fit / zero residual sum of squares guard
+ols_zero_rss <- function(model) {
+  isTRUE(deviance(model) < 1e-10)
+}
+
+ols_zero_rss_stop <- function() {
+  message("Residual sum of squares < 1e-10 (near-perfect fit). Variable selection stopped.")
+}
+
+# always return a single index; first match breaks ties deterministically
 ols_threshold <- function(data, criteria) {
+  if (length(data) < 1 || all(is.na(data))) {
+    return(NA_integer_)
+  }
+
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    which(data == min(data))
+    which(data == min(data, na.rm = TRUE))[1]
   } else {
-    which(data == max(data))
+    which(data == max(data, na.rm = TRUE))[1]
   }
 }
 
+# always return a single logical value, even for empty or missing input
 ols_f_criteria <- function(criteria, mat, minc, bmetric) {
+  if (length(minc) != 1 || is.na(minc)) {
+    return(FALSE)
+  }
+
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    mat[minc] < bmetric
+    isTRUE(mat[minc] < bmetric)
   } else {
-    mat[minc] > bmetric
+    isTRUE(mat[minc] > bmetric)
   }
 }
 
 ols_next_criteria <- function(criteria, mat, minaic, laic, lpreds) {
+  if (length(minaic) != 1 || is.na(minaic) || lpreds < 1 || length(laic) < lpreds) {
+    return(FALSE)
+  }
+
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    mat[minaic] < laic[lpreds]
+    isTRUE(mat[minaic] < laic[lpreds])
   } else {
-    mat[minaic] > laic[lpreds]
+    isTRUE(mat[minaic] > laic[lpreds])
   }
 }
 

@@ -311,7 +311,7 @@ allpos_helper <- function(model, max_order = NULL) {
     max_order <- n
   }
 
-  pos_data  <- model$model
+  pos_data  <- ols_model_data(model)
   predicts  <- nam
   # lc        <- length(combs)
   lc        <- max_order

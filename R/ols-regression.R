@@ -110,7 +110,7 @@ ols_regress.lm <- function(object, ...) {
   check_model(object)
 
   formula <- formula(object)
-  data    <- object$model
+  data    <- ols_model_data(object)
 
   ols_regress.default(object = formula, data = data)
 

@@ -98,11 +98,32 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
     exclude <- indterms[exclude]
   }
 
+  include <- unique(include)
+  exclude <- unique(exclude)
+
   response <- names(model$model)[1]
-  l        <- model$model
+  l        <- ols_model_data(model)
   lockterm <- c(include, exclude)
   nam      <- colnames(attr(model$terms, "factors"))
   cterms   <- setdiff(nam, exclude)
+
+  if (ols_zero_rss(model)) {
+    ols_zero_rss_stop()
+    out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                     method = character(0), r2 = numeric(0),
+                                     adj_r2 = numeric(0), aic = numeric(0),
+                                     sbc = numeric(0), sbic = numeric(0),
+                                     mallows_cp = numeric(0), rmse = numeric(0)),
+                model   = model,
+                others  = list(base_model = model,
+                               full_model = model,
+                               beta_pval  = data.frame(model = integer(0),
+                                                       predictor = character(0),
+                                                       beta = numeric(0),
+                                                       pval = numeric(0))))
+    class(out) <- "ols_step_both_p"
+    return(out)
+  }
 
   if (progress || details) {
     ols_candidate_terms(cterms, "both")

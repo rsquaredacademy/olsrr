@@ -48,3 +48,12 @@ test_that("output from best subsets regression matches the expected output when 
   expect_equal(k$metrics$mindex, c(1, 2, 3))
   expect_equal(k$metrics$predictors, pred_exp, ignore_attr = TRUE)
 })
+
+test_that("best subset selection refits transformed responses safely (audit F1)", {
+  model <- lm(log(mpg) ~ disp + hp + wt, data = mtcars)
+  k <- ols_step_best_subset(model)
+
+  expect_equal(nrow(k$metrics), 3)
+  expect_equal(k$metrics$rsquare[k$metrics$n == 3],
+               summary(lm(log(mpg) ~ disp + hp + wt, data = mtcars))$r.squared)
+})
