@@ -100,4 +100,28 @@ test_that("stepwise selection breaks ties deterministically (#206)", {
 test_that("stepwise backward AIC never drops a forced include variable (#172)", {
   a <- ols_step_backward_aic(lm(mpg ~ disp + hp + wt, data = mtcars), include = "disp")
   expect_equal(attr(terms(a$model), "term.labels")[1], "disp")
+
+  k   <- ols_step_forward_aic(lm(mpg ~ disp + hp + wt, data = mtcars), include = c("disp", "disp"))
+  toks <- trimws(strsplit(strsplit(paste(deparse(formula(k$model)), collapse = " "), "~")[[1]][2], "\\+")[[1]])
+  expect_equal(anyDuplicated(toks), 0L)
+})
+
+test_that("stepwise selection stops on a near-perfect fit in both directions (#199)", {
+  set.seed(20261023)
+  perfect <- data.frame(y = 1:10, x1 = 1:10, x2 = rnorm(10))
+  model   <- lm(y ~ x1 + x2, data = perfect)
+
+  expect_message(k <- ols_step_both_p(model), "near-perfect fit")
+  expect_equal(nrow(k$metrics), 0)
+  expect_equal(coef(k$model), coef(model))
+
+  expect_message(h <- ols_step_forward_p(model, hierarchical = TRUE), "near-perfect fit")
+  expect_equal(nrow(h$metrics), 0)
+  expect_message(g <- ols_step_backward_p(model, hierarchical = TRUE), "near-perfect fit")
+  expect_equal(nrow(g$metrics), 0)
+})
+
+test_that("stepwise selection ignores duplicated include variables", {
+  k <- ols_step_both_p(lm(mpg ~ disp + hp + wt, data = mtcars), include = c("disp", "disp"))
+  expect_equal(deparse(formula(k$model)), "mpg ~ disp + wt + hp")
 })

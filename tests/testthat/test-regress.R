@@ -84,3 +84,25 @@ test_that("ols_regress refits transformed and factor terms safely (audit F1)", {
     expect_equal(got$rmse, sqrt(deviance(ref) / ref$df.residual))
   }
 })
+
+test_that("refits use the model's rows, matched by name (audit F1)", {
+  d <- mtcars
+  rownames(d) <- NULL
+  d <- d[-c(1, 2), ]
+  d$mpg[29:30] <- NA
+  m <- lm(log(mpg) ~ disp + hp, data = d)
+
+  expect_equal(unname(ols_regress(m)$betas), unname(coef(m)))
+  expect_equal(nobs(ols_step_backward_aic(lm(mpg ~ disp + hp, data = d))$model), 28L)
+})
+
+test_that("standardised betas of interaction models keep the response untransformed", {
+  m <- lm(log(mpg) ~ disp * hp, data = mtcars)
+
+  expect_silent(got <- ols_regress(m)$sbetas)
+
+  ref <- lm(log(mpg) ~ scale(disp) * scale(hp), data = mtcars)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) / sd(log(mtcars$mpg))
+
+  expect_equal(unname(got), unname(expected))
+})

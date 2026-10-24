@@ -123,16 +123,12 @@ ols_model_data <- function(model) {
   rn   <- attr(model$model, "row.names")
 
   if (!is.null(rn)) {
-    idx   <- suppressWarnings(as.integer(rn))
-    valid <- !anyNA(idx) && all(idx >= 1L) && all(idx <= nrow(data)) && !anyDuplicated(idx)
-    if (valid) {
-      data <- data[idx, , drop = FALSE]
-    } else {
-      keep <- rownames(data) %in% as.character(rn)
-      if (any(keep)) {
-        data <- data[keep, , drop = FALSE]
-      }
+    rn  <- as.character(rn)
+    idx <- match(rn, rownames(data))
+    if (anyNA(idx) || anyDuplicated(idx) || length(idx) != nrow(model$model)) {
+      return(model$model)
     }
+    data <- data[idx, , drop = FALSE]
   }
 
   data

@@ -42,16 +42,21 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   } else if (iterm) {
 
     data_scaled <- data
+    resp        <- unique(c(all.vars(formula)[1], nam[1]))
 
     is_num    <- unname(unlist(lapply(data_scaled, is.numeric)))
-    num_scale <- as.data.frame(lapply(data_scaled[, is_num], scale))
-    newdata   <- cbind(data_scaled[, !is_num], num_scale)
+    is_num[names(data_scaled) %in% resp] <- FALSE
+    num_scale <- as.data.frame(lapply(data_scaled[, is_num, drop = FALSE], scale))
+    newdata   <- data_scaled[, !is_num, drop = FALSE]
+    if (ncol(num_scale) > 0) {
+      newdata <- cbind(newdata, num_scale)
+    }
     model2    <- lm(formula, data = newdata)
     output2   <- summary(model2)
     b         <- output2$coef[-1, 1]
     g         <- as.data.frame(model.matrix(model2)[, -1])
     sx        <- sapply(g, sd)
-    sy        <- sapply(model2$model[1], sd)
+    sy        <- sd(model.response(model.frame(model)))
     sbeta     <- b * sx / sy
     sbetas    <- sbeta
 

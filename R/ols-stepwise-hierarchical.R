@@ -62,6 +62,20 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   all_pred <- nam
   cterms   <- all_pred
 
+  if (ols_zero_rss(model)) {
+    ols_zero_rss_stop()
+    out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                     r2 = numeric(0), adj_r2 = numeric(0),
+                                     aic = numeric(0), sbc = numeric(0),
+                                     sbic = numeric(0), mallows_cp = numeric(0),
+                                     rmse = numeric(0)),
+                model   = model,
+                others  = list(base_model = model,
+                               full_model = model))
+    class(out) <- "ols_step_forward_p"
+    return(out)
+  }
+
   if (progress || details) {
     ols_candidate_terms(nam, "forward")
   }
@@ -177,6 +191,19 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
   mlen_p   <- length(nam)
   preds    <- c()
   cterms   <- nam
+
+  if (ols_zero_rss(model)) {
+    ols_zero_rss_stop()
+    out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                     r2 = numeric(0), adj_r2 = numeric(0),
+                                     aic = numeric(0), sbc = numeric(0),
+                                     sbic = numeric(0), mallows_cp = numeric(0),
+                                     rmse = numeric(0)),
+                model   = model,
+                others  = list(full_model = model))
+    class(out) <- "ols_step_backward_p"
+    return(out)
+  }
 
   if (progress || details) {
     ols_candidate_terms(nam, "backward")
