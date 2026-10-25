@@ -8,7 +8,7 @@
 #' @param model An object of class \code{lm}.
 #' @param max_order Maximum subset order.
 #' @param force logical; if \code{TRUE}, allows the combinatorial subset search to
-#'   proceed when the model has more than 20 predictors.
+#'   proceed when more than \code{2^20 - 1} models would be fitted.
 #' @param x An object of class \code{ols_step_all_possible}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
@@ -62,7 +62,7 @@ ols_step_all_possible.default <- function(model, max_order = NULL, force = FALSE
 
   check_model(model)
   check_npredictors(model, 2)
-  check_force(model, force)
+  check_force(model, force, max_order)
 
   metrics <- allpos_helper(model, max_order)
 
@@ -104,18 +104,29 @@ ols_step_all_possible.default <- function(model, max_order = NULL, force = FALSE
 #'
 #' @noRd
 #'
-check_force <- function(model, force) {
+check_force <- function(model, force, max_order = NULL) {
 
   p <- length(attr(model$terms, "term.labels"))
 
-  if (p > 20 && !force) {
-    stop("Combinatorial subset search with p > 20 predictors is prohibited without force = TRUE due to exponential computational scaling.",
+  if (is.null(max_order)) {
+    k <- p
+  } else {
+    check_order(p, max_order)
+    k <- max_order
+  }
+
+  n_models <- sum(choose(p, seq_len(k)))
+
+  if (n_models > 2^20 - 1 && !force) {
+    stop(paste0("Combinatorial subset search involving ", n_models,
+                " models is prohibited without force = TRUE due to exponential computational scaling."),
       call. = FALSE
     )
   }
 
-  if (p > 15) {
-    warning("Selecting among > 15 predictors involves fitting 2^p models. This may take significant time.",
+  if (n_models > 2^15 - 1) {
+    warning(paste0("Selecting among ", n_models,
+                   " models may take significant time."),
       call. = FALSE
     )
   }

@@ -6,34 +6,50 @@ make_noise_model <- function(p, n = 40, seed = 1) {
   lm(y ~ ., data = d)
 }
 
-test_that("all possible regression warns above 15 predictors", {
+test_that("all possible regression counts the models fitted when max_order is set", {
+  # 22 predictors and max_order = 2 fit sum(choose(22, 1:2)) = 253 models
+  model <- make_noise_model(22)
+
+  expect_no_error(k <- ols_step_all_possible(model, max_order = 2))
+  expect_equal(nrow(k$result), sum(choose(22, seq_len(2))))
+
+  # 18 predictors and max_order = 1 fit 18 models
+  model <- make_noise_model(18)
+
+  expect_no_warning(k <- ols_step_all_possible(model, max_order = 1))
+  expect_equal(nrow(k$result), 18)
+})
+
+test_that("all possible regression warns above 2^15 - 1 models", {
   model <- make_noise_model(16)
 
   expect_warning(
-    ols_step_all_possible(model, max_order = 1),
-    "Selecting among > 15 predictors involves fitting 2^p models. This may take significant time.",
+    olsrr:::check_force(model, force = FALSE, max_order = NULL),
+    "Selecting among 65535 models may take significant time.",
     fixed = TRUE
   )
 })
 
-test_that("all possible regression stops above 20 predictors without force", {
+test_that("all possible regression stops above 2^20 - 1 models without force", {
   model <- make_noise_model(21)
 
   expect_error(
-    ols_step_all_possible(model, max_order = 1),
-    "Combinatorial subset search with p > 20 predictors is prohibited without force = TRUE due to exponential computational scaling.",
+    olsrr:::check_force(model, force = FALSE, max_order = NULL),
+    "Combinatorial subset search involving 2097151 models is prohibited without force = TRUE due to exponential computational scaling.",
     fixed = TRUE
   )
 })
 
-test_that("force = TRUE allows more than 20 predictors", {
+test_that("force = TRUE allows a search involving more than 2^20 - 1 models", {
   model <- make_noise_model(21)
 
   expect_warning(
-    k <- ols_step_all_possible(model, max_order = 1, force = TRUE),
-    "Selecting among > 15 predictors involves fitting 2^p models. This may take significant time.",
+    olsrr:::check_force(model, force = TRUE, max_order = NULL),
+    "Selecting among 2097151 models may take significant time.",
     fixed = TRUE
   )
+
+  k <- ols_step_all_possible(model, max_order = 1)
 
   expect_s3_class(k, "ols_step_all_possible")
   expect_equal(nrow(k$result), 21)
