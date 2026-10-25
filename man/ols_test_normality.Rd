@@ -27,6 +27,22 @@ following components:
 \description{
 Test for detecting violation of normality assumption.
 }
+\details{
+The tests differ in the sample sizes they support. \code{shapiro.test()}
+requires between 3 and 5000 observations, and \code{nortest::ad.test()} and
+\code{nortest::cvm.test()} require at least 8. \code{ks.test()} does not
+document a sample-size limit of its own, but a minimum of 3 observations is
+required here so that the test is meaningful. Tests whose sample-size
+requirement is not met are skipped: their statistic and p-value are returned
+as \code{NA} and a single warning lists the skipped tests and the reason. If
+the sample is too small for every test, the function stops with an error.
+
+The Cramér–von Mises test is \code{nortest::cvm.test()}, the test of
+composite normality, which compares the data with a normal distribution
+whose mean and standard deviation are estimated from the data. It is
+deterministic. For very small p-values the test reports \code{7.37e-10}
+with a warning instead of a more precise value.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_test_normality(model)

@@ -61,7 +61,6 @@ library(dplyr)
 library(ggplot2)
 library(gridExtra)
 library(nortest)
-library(goftest)
 ```
 
 olsrr uses consistent prefix `ols_` for easy tab completion. If you know how to write a `formula` or build models using `lm`, you will find olsrr very useful. Most of the functions use an object of class `lm` as input. So you just need to build a model using `lm` and then pass it onto the functions in olsrr. Below is

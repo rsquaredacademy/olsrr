@@ -703,17 +703,29 @@ print_norm_test <- function(data) {
   )
   n <- length(stats)
 
+  # skip tests leave NA in the table; then every line must end at the width of
+  # the rule (the legacy output for complete tables has one trailing space)
+  trail <- if (anyNA(c(stats, pvals))) "" else " "
+
   # print
   cat(rep("-", w), sep = "", "\n")
   cat(
-    format("Test", width = w1, justify = "centre"), fs(), format("Statistic", width = w2, justify = "centre"),
-    fs(), format("pvalue", width = 7, justify = "centre"), "\n"
+    paste0(
+      format("Test", width = w1, justify = "centre"), " ", fs(), " ",
+      format("Statistic", width = w2, justify = "centre"), " ", fs(), " ",
+      format("pvalue", width = 7, justify = "centre"), trail
+    ), "\n",
+    sep = ""
   )
   cat(rep("-", w), sep = "", "\n")
   for (i in seq_len(n)) {
     cat(
-      format(tests[i], width = w1), fs(), format(as.character(round(stats[i], 4)), width = w2, justify = "centre"),
-      fs(), format(round(pvals[i], 4), nsmall = 4, width = 7, justify = "centre"), "\n"
+      paste0(
+        format(tests[i], width = w1), " ", fs(), " ",
+        format(as.character(round(stats[i], 4)), width = w2, justify = "centre"), " ", fs(), " ",
+        format(round(pvals[i], 4), nsmall = 4, width = 7, justify = "centre"), trail
+      ), "\n",
+      sep = ""
     )
   }
   cat(rep("-", w), sep = "", "\n")
