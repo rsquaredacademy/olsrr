@@ -40,6 +40,7 @@
 #' following components:
 #'
 #' \item{bp}{breusch pagan statistic}
+#' \item{df}{degrees of freedom of \code{bp} (\code{NA} when several tests are performed)}
 #' \item{p}{p-value of \code{bp}}
 #' \item{fv}{fitted values of the regression model}
 #' \item{rhs}{names of explanatory variables of fitted regression model}
@@ -117,6 +118,8 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   response   <- names(l)[1]
   predictors <- names(l)[-1]
 
+  df <- NA_integer_
+
   if (fitted.values) {
     vars <- NA
 
@@ -132,10 +135,12 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
       } else {
         result <- bp_case_2(l, model)
         bp     <- result$bp
+        df     <- result$df
         p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       }
     } else {
       bp <- bp_case_3(model)
+      df <- 1
       p  <- pchisq(bp, df = 1, lower.tail = FALSE)
     }
   } else {
@@ -151,6 +156,14 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
         len_vars <- length(vars)
 
         if (len_vars > 1) {
+          # bp_case_loop() and bp_case_5_inter() treat each element of `vars`
+          # as a single column of the model matrix, so multi-column terms
+          # (e.g. factors) cannot be looped over
+          cols <- vars_columns(model, vars)
+          if (length(cols) != length(vars)) {
+            stop("`multiple = TRUE` does not support factor terms in `vars`.", call. = FALSE)
+          }
+
           start   <- bp_case_one(l, model)
           len_var <- length(vars)
           loops   <- bp_case_loop(len_var, vars, start$l)
@@ -160,6 +173,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
         } else {
           result  <- bp_case_7(l, model, vars)
           bp      <- result$bp
+          df      <- result$df
           p       <- pchisq(bp, df = result$df, lower.tail = FALSE)
         }
       }
@@ -167,16 +181,18 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
       if (rhs) {
         result <- bp_case_6(l, model)
         bp     <- result$bp
+        df     <- result$df
         p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       } else {
         result <- bp_case_7(l, model, vars)
         bp     <- result$bp
+        df     <- result$df
         p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       }
     }
   }
 
-  out <- list(bp = bp, fv = fitted.values, multiple = multiple, p = p,
+  out <- list(bp = bp, df = df, fv = fitted.values, multiple = multiple, p = p,
               padj = method, preds = predictors, resp = response,
               rhs = rhs, vars = vars)
 
@@ -274,7 +290,7 @@ bp_case_7 <- function(l, model, vars) {
   n         <- nrow(l)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  l         <- cbind(l[, vars], ind)
+  l         <- cbind(l[, vars_columns(model, vars), drop = FALSE], ind)
   bp        <- bp_model(l)
   nd        <- ncol(l) - 1
 

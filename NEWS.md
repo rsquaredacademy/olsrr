@@ -2,6 +2,9 @@
 
 ## Bug Fixes
 
+- The package no longer accesses the network or offers to update itself when attached, and `xplorerr` is now a suggested package; `ols_launch_app()` explains how to install it when it is missing.
+- `ols_step_all_possible()` warns when a model has more than 15 predictors and refuses to run combinatorial selection with more than 20 predictors unless `force = TRUE`.
+- `ols_test_f()`, `ols_test_score()` and `ols_test_breusch_pagan()` accept factor terms in `vars`. `ols_test_breusch_pagan()` prints the degrees of freedom of the tested term(s) instead of the number of `vars`, and rejects factor terms with `multiple = TRUE` with an informative error instead of failing with `object 'cyl' not found`. `vars` are now validated against the model matrix, so model-matrix column names keep working and components of interaction terms that are not in the model get the standard model-variable error.
 - Stepwise selection is hardened against edge cases: the step counter is always initialized, backward elimination falls back to an intercept-only model when every predictor is dropped (#186), selection stops with an informative message when the residual sum of squares is below `1e-10` (#199), tied criteria are broken deterministically (#206), and forced `include` variables are no longer duplicated or removed by position (#172). `ols_regress()` also handles intercept-only models.
 - `ols_regress()`, `ols_step_forward_p()`, `ols_step_backward_p()`, `ols_step_best_subset()`, `ols_step_all_possible()` and the AIC, SBC and R2 stepwise routines now refit models that contain transformed terms (`log()`, `factor()`, `poly()`, `I()`) correctly, returning the same estimates as the original `lm()` fit.
 - The final model from `ols_step_backward_p()` no longer repeats variables passed through `include`.

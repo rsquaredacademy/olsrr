@@ -442,7 +442,7 @@ print_bp_test <- function(data) {
           cat(format("Test Summary", width = w, justify = "centre"), "\n")
           cat(" ", rep("-", w), sep = "", "\n")
           cat(
-            " DF            =   ", ldp, "\n",
+            " DF            =   ", data$df, "\n",
             "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
             "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
           )
@@ -501,7 +501,7 @@ print_bp_test <- function(data) {
         cat(format("Test Summary", width = w, justify = "centre"), "\n")
         cat(" ", rep("-", w), sep = "", "\n")
         cat(
-          " DF            =   ", lvars, "\n",
+          " DF            =   ", data$df, "\n",
           "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
           "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
         )

@@ -8,7 +8,7 @@
 \usage{
 ols_step_all_possible(model, ...)
 
-\method{ols_step_all_possible}{default}(model, max_order = NULL, ...)
+\method{ols_step_all_possible}{default}(model, max_order = NULL, force = FALSE, ...)
 
 \method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE, ...)
 }
@@ -18,6 +18,9 @@ ols_step_all_possible(model, ...)
 \item{...}{Other arguments.}
 
 \item{max_order}{Maximum subset order.}
+
+\item{force}{logical; if \code{TRUE}, allows the combinatorial subset search to
+proceed when the model has more than 20 predictors.}
 
 \item{x}{An object of class \code{ols_step_all_possible}.}
 

@@ -35,6 +35,7 @@ An object of class \code{"ols_test_breusch_pagan"} is a list containing the
 following components:
 
 \item{bp}{breusch pagan statistic}
+\item{df}{degrees of freedom of \code{bp} (\code{NA} when several tests are performed)}
 \item{p}{p-value of \code{bp}}
 \item{fv}{fitted values of the regression model}
 \item{rhs}{names of explanatory variables of fitted regression model}

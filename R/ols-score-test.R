@@ -174,5 +174,5 @@ score_data <- function(model, vars) {
   ind            <- as.data.frame(ind_score(model, var_resid)) 
   colnames(ind)  <- c("ind")
 
-  cbind(l[, vars], ind)
+  cbind(l[, vars_columns(model, vars), drop = FALSE], ind)
 }

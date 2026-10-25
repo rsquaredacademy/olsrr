@@ -25,3 +25,4 @@ TODO.md
 ^\.claude$
 ^roadmap$
 ^AGENTS\.md$
+^tests/testthat/Rplots\.pdf$
