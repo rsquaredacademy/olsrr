@@ -29,4 +29,9 @@ launches a Shiny app.
 
 ## Reverse dependencies
 
-TODO: revdepcheck
+We checked 6 reverse dependencies (AFR, HanStat, NumericEnsembles, pprof, SQI,
+xplorerr), comparing R CMD check results across CRAN and dev versions of this
+package.
+
+* We saw 0 new problems
+* We failed to check 0 packages
