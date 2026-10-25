@@ -20,7 +20,7 @@ ols_step_all_possible(model, ...)
 \item{max_order}{Maximum subset order.}
 
 \item{force}{logical; if \code{TRUE}, allows the combinatorial subset search to
-proceed when the model has more than 20 predictors.}
+proceed when more than \code{2^20 - 1} models would be fitted.}
 
 \item{x}{An object of class \code{ols_step_all_possible}.}
 
