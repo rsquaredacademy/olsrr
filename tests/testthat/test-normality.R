@@ -1,6 +1,9 @@
 test_that("normality tests skip Shapiro-Wilk for samples larger than 5000", {
   model <- lm(y ~ ., data = stepdata)
 
+  # Braun's adjustment in cvm.test(estimated = TRUE) randomly splits the data,
+  # so seed the package call and the reference call identically.
+  set.seed(20261025)
   w <- capture_warnings(nt <- ols_test_normality(model))
 
   expect_length(w, 1L)
@@ -15,7 +18,8 @@ test_that("normality tests skip Shapiro-Wilk for samples larger than 5000", {
 
   r       <- residuals(model)
   ks_ref  <- ks.test(r, "pnorm", mean(r), sd(r))
-  cvm_ref <- goftest::cvm.test(r)
+  set.seed(20261025)
+  cvm_ref <- goftest::cvm.test(r, "pnorm", mean(r), sd(r), estimated = TRUE)
   ad_ref  <- nortest::ad.test(r)
 
   expect_equal(unname(nt$kolmogorv$statistic), unname(ks_ref$statistic))
@@ -35,6 +39,7 @@ test_that("normality tests skip Shapiro-Wilk for samples larger than 5000", {
 test_that("normality tests skip Anderson-Darling for samples smaller than 8", {
   y <- c(1, 2, 3, 4, 5, 6)
 
+  set.seed(20261025)
   w <- capture_warnings(nt <- ols_test_normality(y))
 
   expect_length(w, 1L)
@@ -46,7 +51,8 @@ test_that("normality tests skip Anderson-Darling for samples smaller than 8", {
   expect_true(is.na(nt$anderson$p.value))
 
   ks_ref  <- ks.test(y, "pnorm", mean(y), sd(y))
-  cvm_ref <- goftest::cvm.test(y)
+  set.seed(20261025)
+  cvm_ref <- goftest::cvm.test(y, "pnorm", mean(y), sd(y), estimated = TRUE)
   sw_ref  <- shapiro.test(y)
 
   expect_equal(unname(nt$kolmogorv$statistic), unname(ks_ref$statistic))
@@ -62,4 +68,49 @@ test_that("normality tests error when the sample is too small for every test", {
     ols_test_normality(c(1, 2)),
     "at least 3 observations are required"
   )
+})
+
+test_that("Cramer-von Mises test compares the data with the normal distribution", {
+  set.seed(1)
+  x <- rnorm(200, 50, 10)
+
+  set.seed(20261025)
+  nt <- ols_test_normality(x)
+  set.seed(20261025)
+  ref <- goftest::cvm.test(x, "pnorm", mean(x), sd(x), estimated = TRUE)
+
+  expect_equal(unname(nt$cramer$statistic), unname(ref$statistic))
+  expect_equal(nt$cramer$p.value, ref$p.value)
+  expect_true(any(grepl("Normal distribution", nt$cramer$method)))
+  expect_gt(nt$cramer$p.value, 0.05)
+})
+
+test_that("Cramer-von Mises test rejects clearly non-normal data", {
+  # Braun's adjustment has low power for n = 200, so a larger exponential
+  # sample is used here to keep the rejection robust.
+  set.seed(1)
+  x <- rexp(1000)
+
+  set.seed(20261025)
+  nt <- ols_test_normality(x)
+  set.seed(20261025)
+  ref <- goftest::cvm.test(x, "pnorm", mean(x), sd(x), estimated = TRUE)
+
+  expect_equal(unname(nt$cramer$statistic), unname(ref$statistic))
+  expect_equal(nt$cramer$p.value, ref$p.value)
+  expect_lt(nt$cramer$p.value, 0.05)
+})
+
+test_that("Cramer-von Mises test for lm uses the residuals and the normal null", {
+  model <- lm(mpg ~ disp + hp + wt, mtcars)
+  r     <- residuals(model)
+
+  set.seed(20261025)
+  nt <- ols_test_normality(model)
+  set.seed(20261025)
+  ref <- goftest::cvm.test(r, "pnorm", mean(r), sd(r), estimated = TRUE)
+
+  expect_equal(unname(nt$cramer$statistic), unname(ref$statistic))
+  expect_equal(nt$cramer$p.value, ref$p.value)
+  expect_true(any(grepl("Normal distribution", nt$cramer$method)))
 })

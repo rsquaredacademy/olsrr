@@ -36,6 +36,9 @@ is required here so that the test is meaningful. Tests whose sample-size
 requirement is not met are skipped: their statistic and p-value are returned
 as \code{NA} and a single warning lists the skipped tests and the reason. If
 the sample is too small for every test, the function stops with an error.
+
+The Cramér–von Mises test compares the data with a normal distribution whose
+mean and standard deviation are estimated from the data.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

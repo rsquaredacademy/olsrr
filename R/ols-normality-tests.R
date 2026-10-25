@@ -58,6 +58,9 @@ ka <- function(k, stderr, n) {
 #' as \code{NA} and a single warning lists the skipped tests and the reason. If
 #' the sample is too small for every test, the function stops with an error.
 #'
+#' The Cramér–von Mises test compares the data with a normal distribution whose
+#' mean and standard deviation are estimated from the data.
+#'
 #' @return \code{ols_test_normality} returns an object of class \code{"ols_test_normality"}.
 #' An object of class \code{"ols_test_normality"} is a list containing the
 #' following components:
@@ -180,7 +183,7 @@ ols_test_normality.default <- function(y, ...) {
   if (skipped[["cramer"]]) {
     cvm <- skipped_normality_test("Cramer-von Mises", dname)
   } else {
-    cvm <- cvm.test(y)
+    cvm <- cvm.test(y, "pnorm", mean(y), sd(y), estimated = TRUE)
   }
 
   if (skipped[["anderson"]]) {
