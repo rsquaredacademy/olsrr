@@ -76,7 +76,8 @@ check_lfit <- function(model) {
 check_modelvars <- function(model, vars) {
 
   fmla  <- deparse(formula(model))
-  valid <- unique(c(attr(model$terms, "term.labels"), names(model$model)[-1]))
+  valid <- unique(c(attr(model$terms, "term.labels"),
+                    setdiff(colnames(model.matrix(model)), "(Intercept)")))
   k     <- vars %in% valid
   wvars <- vars[!k]
   nvars <- length(wvars)
@@ -101,7 +102,7 @@ vars_columns <- function(model, vars) {
     i <- match(v, terms)
     if (!is.na(i)) {
       out <- c(out, mm[assign == i])
-    } else if (v %in% names(model$model)[-1]) {
+    } else if (v %in% mm) {
       out <- c(out, v)
     }
   }
