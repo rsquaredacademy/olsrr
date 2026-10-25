@@ -2,6 +2,7 @@
 
 ## Bug Fixes
 
+- `ols_test_normality()` no longer fails for samples larger than 5000 or smaller than 8; tests outside their sample-size range are skipped with a warning.
 - The package no longer accesses the network or offers to update itself when attached, and `xplorerr` is now a suggested package; `ols_launch_app()` explains how to install it when it is missing.
 - `ols_step_all_possible()` warns when a model has more than 15 predictors and refuses to run combinatorial selection with more than 20 predictors unless `force = TRUE`.
 - `ols_test_f()`, `ols_test_score()` and `ols_test_breusch_pagan()` accept factor terms in `vars`. `ols_test_breusch_pagan()` prints the degrees of freedom of the tested term(s) instead of the number of `vars`, and rejects factor terms with `multiple = TRUE` with an informative error instead of failing with `object 'cyl' not found`. `vars` are now validated against the model matrix, so model-matrix column names keep working and components of interaction terms that are not in the model get the standard model-variable error.

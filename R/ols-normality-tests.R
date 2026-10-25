@@ -48,6 +48,16 @@ ka <- function(k, stderr, n) {
 #' @param y A numeric vector or an object of class \code{lm}.
 #' @param ... Other arguments.
 #'
+#' @details
+#' The tests differ in the sample sizes they support. \code{shapiro.test()}
+#' requires between 3 and 5000 observations and \code{nortest::ad.test()}
+#' requires at least 8. \code{ks.test()} and \code{goftest::cvm.test()} do not
+#' document a sample-size limit of their own, but a minimum of 3 observations
+#' is required here so that the test is meaningful. Tests whose sample-size
+#' requirement is not met are skipped: their statistic and p-value are returned
+#' as \code{NA} and a single warning lists the skipped tests and the reason. If
+#' the sample is too small for every test, the function stops with an error.
+#'
 #' @return \code{ols_test_normality} returns an object of class \code{"ols_test_normality"}.
 #' An object of class \code{"ols_test_normality"} is a list containing the
 #' following components:
@@ -71,6 +81,48 @@ ka <- function(k, stderr, n) {
 #'
 ols_test_normality <- function(y, ...) UseMethod("ols_test_normality")
 
+# Sample-size ranges supported by the normality tests. The Kolmogorov-Smirnov
+# and Cramer-von Mises tests have no documented limit; 3 observations is the
+# minimum used here for a meaningful normality test.
+normality_limits <- list(
+  shapiro   = list(label = "Shapiro-Wilk", min = 3L, max = 5000L),
+  kolmogorv = list(label = "Kolmogorov-Smirnov", min = 3L, max = Inf),
+  cramer    = list(label = "Cramer-von Mises", min = 3L, max = Inf),
+  anderson  = list(label = "Anderson-Darling", min = 8L, max = Inf)
+)
+
+normality_skip_reason <- function(test, n) {
+  lim <- normality_limits[[test]]
+
+  if (n >= lim$min && n <= lim$max) {
+    return(NULL)
+  }
+
+  if (is.finite(lim$max)) {
+    paste0(
+      lim$label, " test skipped: it requires between ", lim$min, " and ",
+      lim$max, " observations (n = ", n, ")."
+    )
+  } else {
+    paste0(
+      lim$label, " test skipped: it requires at least ", lim$min,
+      " observations (n = ", n, ")."
+    )
+  }
+}
+
+skipped_normality_test <- function(label, data_name) {
+  structure(
+    list(
+      statistic = NA_real_,
+      p.value   = NA_real_,
+      method    = paste(label, "test (skipped)"),
+      data.name = data_name
+    ),
+    class = "htest"
+  )
+}
+
 #' @export
 #'
 ols_test_normality.default <- function(y, ...) {
@@ -79,10 +131,63 @@ ols_test_normality.default <- function(y, ...) {
     stop("y must be numeric")
   }
 
-  ks  <- ks.test(y, "pnorm", mean(y), sd(y))
-  sw  <- shapiro.test(y)
-  cvm <- cvm.test(y)
-  ad  <- ad.test(y)
+  dname <- deparse(substitute(y))
+  y     <- y[!is.na(y)]
+  n     <- length(y)
+
+  skipped <- vapply(
+    names(normality_limits),
+    function(test) !is.null(normality_skip_reason(test, n)),
+    logical(1)
+  )
+
+  if (all(skipped)) {
+    stop(
+      paste0(
+        "Normality tests cannot be performed: at least 3 observations are ",
+        "required (n = ", n, ")."
+      ),
+      call. = FALSE
+    )
+  }
+
+  if (any(skipped)) {
+    warning(
+      paste0(
+        vapply(
+          names(normality_limits)[skipped],
+          function(test) normality_skip_reason(test, n),
+          character(1)
+        ),
+        collapse = "\n"
+      ),
+      call. = FALSE
+    )
+  }
+
+  if (skipped[["kolmogorv"]]) {
+    ks <- skipped_normality_test("Kolmogorov-Smirnov", dname)
+  } else {
+    ks <- ks.test(y, "pnorm", mean(y), sd(y))
+  }
+
+  if (skipped[["shapiro"]]) {
+    sw <- skipped_normality_test("Shapiro-Wilk", dname)
+  } else {
+    sw <- shapiro.test(y)
+  }
+
+  if (skipped[["cramer"]]) {
+    cvm <- skipped_normality_test("Cramer-von Mises", dname)
+  } else {
+    cvm <- cvm.test(y)
+  }
+
+  if (skipped[["anderson"]]) {
+    ad <- skipped_normality_test("Anderson-Darling", dname)
+  } else {
+    ad <- ad.test(y)
+  }
 
   result <- list(kolmogorv = ks, shapiro = sw, cramer = cvm, anderson = ad)
 

@@ -27,6 +27,16 @@ following components:
 \description{
 Test for detecting violation of normality assumption.
 }
+\details{
+The tests differ in the sample sizes they support. \code{shapiro.test()}
+requires between 3 and 5000 observations and \code{nortest::ad.test()}
+requires at least 8. \code{ks.test()} and \code{goftest::cvm.test()} do not
+document a sample-size limit of their own, but a minimum of 3 observations
+is required here so that the test is meaningful. Tests whose sample-size
+requirement is not met are skipped: their statistic and p-value are returned
+as \code{NA} and a single warning lists the skipped tests and the reason. If
+the sample is too small for every test, the function stops with an error.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_test_normality(model)
