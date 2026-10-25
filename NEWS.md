@@ -1,4 +1,4 @@
-# olsrr (development version)
+# olsrr 0.7.1
 
 ## Bug Fixes
 
