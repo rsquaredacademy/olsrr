@@ -50,16 +50,19 @@ ka <- function(k, stderr, n) {
 #'
 #' @details
 #' The tests differ in the sample sizes they support. \code{shapiro.test()}
-#' requires between 3 and 5000 observations and \code{nortest::ad.test()}
-#' requires at least 8. \code{ks.test()} and \code{goftest::cvm.test()} do not
-#' document a sample-size limit of their own, but a minimum of 3 observations
-#' is required here so that the test is meaningful. Tests whose sample-size
+#' requires between 3 and 5000 observations, and \code{nortest::ad.test()} and
+#' \code{nortest::cvm.test()} require at least 8. \code{ks.test()} does not
+#' document a sample-size limit of its own, but a minimum of 3 observations is
+#' required here so that the test is meaningful. Tests whose sample-size
 #' requirement is not met are skipped: their statistic and p-value are returned
 #' as \code{NA} and a single warning lists the skipped tests and the reason. If
 #' the sample is too small for every test, the function stops with an error.
 #'
-#' The Cramér–von Mises test compares the data with a normal distribution whose
-#' mean and standard deviation are estimated from the data.
+#' The Cramér–von Mises test is \code{nortest::cvm.test()}, the test of
+#' composite normality, which compares the data with a normal distribution
+#' whose mean and standard deviation are estimated from the data. It is
+#' deterministic. For very small p-values the test reports \code{7.37e-10}
+#' with a warning instead of a more precise value.
 #'
 #' @return \code{ols_test_normality} returns an object of class \code{"ols_test_normality"}.
 #' An object of class \code{"ols_test_normality"} is a list containing the
@@ -75,7 +78,6 @@ ka <- function(k, stderr, n) {
 #' ols_test_normality(model)
 #'
 #' @importFrom stats ks.test shapiro.test
-#' @importFrom goftest cvm.test
 #' @importFrom nortest ad.test
 #'
 #' @family residual diagnostics
@@ -85,12 +87,12 @@ ka <- function(k, stderr, n) {
 ols_test_normality <- function(y, ...) UseMethod("ols_test_normality")
 
 # Sample-size ranges supported by the normality tests. The Kolmogorov-Smirnov
-# and Cramer-von Mises tests have no documented limit; 3 observations is the
-# minimum used here for a meaningful normality test.
+# test has no documented limit; 3 observations is the minimum used here for a
+# meaningful normality test. nortest::cvm.test() requires at least 8.
 normality_limits <- list(
   shapiro   = list(label = "Shapiro-Wilk", min = 3L, max = 5000L),
   kolmogorv = list(label = "Kolmogorov-Smirnov", min = 3L, max = Inf),
-  cramer    = list(label = "Cramer-von Mises", min = 3L, max = Inf),
+  cramer    = list(label = "Cramer-von Mises", min = 8L, max = Inf),
   anderson  = list(label = "Anderson-Darling", min = 8L, max = Inf)
 )
 
@@ -183,7 +185,7 @@ ols_test_normality.default <- function(y, ...) {
   if (skipped[["cramer"]]) {
     cvm <- skipped_normality_test("Cramer-von Mises", dname)
   } else {
-    cvm <- cvm.test(y, "pnorm", mean(y), sd(y), estimated = TRUE)
+    cvm <- nortest::cvm.test(y)
   }
 
   if (skipped[["anderson"]]) {

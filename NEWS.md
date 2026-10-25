@@ -2,7 +2,7 @@
 
 ## Bug Fixes
 
-- `ols_test_normality()`'s Cramér–von Mises test now compares the data with a normal distribution (with estimated mean and standard deviation); it previously compared with the uniform distribution and rejected normality for almost any data.
+- `ols_test_normality()`'s Cramér–von Mises test now compares the data with a normal distribution whose mean and standard deviation are estimated from the data (`nortest::cvm.test()`); it previously compared with the uniform distribution and rejected normality for almost any data.
 - `ols_test_normality()` no longer fails for samples larger than 5000 or smaller than 8; tests outside their sample-size range are skipped with a warning.
 - The package no longer accesses the network or offers to update itself when attached, and `xplorerr` is now a suggested package; `ols_launch_app()` explains how to install it when it is missing.
 - `ols_step_all_possible()` warns when a model has more than 15 predictors and refuses to run combinatorial selection with more than 20 predictors unless `force = TRUE`.
@@ -22,6 +22,10 @@
 - `ols_test_outlier()` reports the most extreme significant outliers when `n_max` truncates the result (audit F11).
 - `ols_get_predictors()` always returns a `data.frame`, including for single-predictor models (audit F14).
 - `ols_test_breusch_pagan()` accepts `vars = NULL` and falls back to the fitted values test; calling with `fitted.values = FALSE` without `vars` or `rhs` now errors (audit F15).
+
+## Other changes
+
+- `goftest` is no longer a dependency: the Cramér–von Mises test for normality is now `nortest::cvm.test()`.
 
 # olsrr 0.7.0
 

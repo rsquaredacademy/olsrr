@@ -782,21 +782,16 @@ test_that("golden: ols_test_bartlett() matches stats::bartlett.test()", {
 
 test_that("golden: ols_test_normality() matches the reference tests", {
   # mtcars residuals: ks.test(y, "pnorm", mean(y), sd(y)); shapiro.test(y);
-  # goftest::cvm.test(y, "pnorm", mean(y), sd(y), estimated = TRUE);
-  # nortest::ad.test(y)
-  # cvm.test(estimated = TRUE) uses Braun's adjustment, which randomly splits
-  # the data, so both the statistic and the p-value depend on the RNG state.
-  # Seeding before each call makes the golden values reproducible.
-  set.seed(20261025)
+  # nortest::cvm.test(y); nortest::ad.test(y)
   nt <- ols_test_normality(golden_models$mtcars)
   expect_equal(unname(nt$kolmogorv$statistic), 0.115238409562, tolerance = tol)
   expect_equal(nt$kolmogorv$p.value, 0.746376839491, tolerance = tol)
   expect_equal(unname(nt$shapiro$statistic), 0.936613845275, tolerance = tol)
   expect_equal(nt$shapiro$p.value, 0.0600389289932, tolerance = tol)
-  # goftest::cvm.test(r, "pnorm", mean(r), sd(r), estimated = TRUE)$statistic
-  expect_equal(unname(nt$cramer$statistic), 0.301657266972, tolerance = tol)
-  # goftest::cvm.test(r, "pnorm", mean(r), sd(r), estimated = TRUE)$p.value
-  expect_equal(nt$cramer$p.value, 0.573107150106, tolerance = tol)
+  # nortest::cvm.test(r)$statistic
+  expect_equal(unname(nt$cramer$statistic), 0.0763615292131262, tolerance = tol)
+  # nortest::cvm.test(r)$p.value
+  expect_equal(nt$cramer$p.value, 0.22296590096595, tolerance = tol)
   expect_equal(unname(nt$anderson$statistic), 0.585919246391, tolerance = tol)
   expect_equal(nt$anderson$p.value, 0.118796346828, tolerance = tol)
 
@@ -805,20 +800,19 @@ test_that("golden: ols_test_normality() matches the reference tests", {
   expect_equal(unname(nt$kolmogorv$statistic),
     unname(ks.test(r, "pnorm", mean(r), sd(r))$statistic), tolerance = tol)
   expect_equal(nt$shapiro$p.value, shapiro.test(r)$p.value, tolerance = tol)
-  set.seed(20261025)
-  cvm_ref <- goftest::cvm.test(r, "pnorm", mean(r), sd(r), estimated = TRUE)
+  cvm_ref <- nortest::cvm.test(r)
   expect_equal(unname(nt$cramer$statistic), unname(cvm_ref$statistic),
     tolerance = tol)
+  expect_equal(nt$cramer$p.value, cvm_ref$p.value, tolerance = tol)
   expect_equal(unname(nt$anderson$statistic), unname(nortest::ad.test(r)$statistic),
     tolerance = tol)
 
   # fitness residuals
-  set.seed(20261025)
   nt2 <- ols_test_normality(golden_models$fitness)
   expect_equal(unname(nt2$kolmogorv$statistic), 0.13665783653, tolerance = tol)
   expect_equal(nt2$shapiro$p.value, 0.460321491288, tolerance = tol)
-  # goftest::cvm.test(rf, "pnorm", mean(rf), sd(rf), estimated = TRUE)$statistic
-  expect_equal(unname(nt2$cramer$statistic), 0.276526015024, tolerance = tol)
+  # nortest::cvm.test(rf)$statistic
+  expect_equal(unname(nt2$cramer$statistic), 0.0999413305082229, tolerance = tol)
   expect_equal(unname(nt2$anderson$statistic), 0.513678819837, tolerance = tol)
   expect_equal(nt2$anderson$p.value, 0.178641898632, tolerance = tol)
 })

@@ -12,7 +12,6 @@ Depends:
 Imports: 
     car,
     ggplot2,
-    goftest,
     graphics,
     gridExtra,
     nortest,
