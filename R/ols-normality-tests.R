@@ -73,6 +73,11 @@ ka <- function(k, stderr, n) {
 #' \item{cramer}{cramer von mises statistic}
 #' \item{anderson}{anderson darling statistic}
 #'
+#' @references
+#' Stephens, M. A. (1986). Tests based on EDF statistics. In R. B. D'Agostino and M. A. Stephens (Eds.), \emph{Goodness-of-Fit Techniques} (pp. 97--193). New York: Marcel Dekker.
+#'
+#' Thode, H. C. (2002). \emph{Testing for Normality}. New York: Marcel Dekker.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 #' ols_test_normality(model)

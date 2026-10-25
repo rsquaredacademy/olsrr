@@ -19,6 +19,9 @@
 #' \item{sbic}{sawa bayesian information criteria}
 #' \item{rmse}{root mean squared error}
 #'
+#' @references
+#' Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). \emph{Applied Linear Statistical Models}, 5th ed. New York: McGraw-Hill/Irwin.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
