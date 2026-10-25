@@ -17,15 +17,15 @@ Imports:
     gridExtra,
     nortest,
     stats,
-    utils,
-    xplorerr
+    utils
 Suggests:
     covr,
     descriptr,
     knitr,
     rmarkdown,
     testthat,
-    vdiffr
+    vdiffr,
+    xplorerr
 License: MIT + file LICENSE
 URL: https://olsrr.rsquaredacademy.com/, https://github.com/rsquaredacademy/olsrr
 BugReports: https://github.com/rsquaredacademy/olsrr/issues

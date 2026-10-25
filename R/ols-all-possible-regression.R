@@ -7,6 +7,8 @@
 #'
 #' @param model An object of class \code{lm}.
 #' @param max_order Maximum subset order.
+#' @param force logical; if \code{TRUE}, allows the combinatorial subset search to
+#'   proceed when the model has more than 20 predictors.
 #' @param x An object of class \code{ols_step_all_possible}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #' @param ... Other arguments.
@@ -56,10 +58,11 @@ ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
 #' @export
 #' @rdname ols_step_all_possible
 #'
-ols_step_all_possible.default <- function(model, max_order = NULL, ...) {
+ols_step_all_possible.default <- function(model, max_order = NULL, force = FALSE, ...) {
 
   check_model(model)
   check_npredictors(model, 2)
+  check_force(model, force)
 
   metrics <- allpos_helper(model, max_order)
 
@@ -97,12 +100,34 @@ ols_step_all_possible.default <- function(model, max_order = NULL, ...) {
   return(out)
 }
 
+#' Check the number of candidate predictor terms
+#'
+#' @noRd
+#'
+check_force <- function(model, force) {
+
+  p <- length(attr(model$terms, "term.labels"))
+
+  if (p > 20 && !force) {
+    stop("Combinatorial subset search with p > 20 predictors is prohibited without force = TRUE due to exponential computational scaling.",
+      call. = FALSE
+    )
+  }
+
+  if (p > 15) {
+    warning("Selecting among > 15 predictors involves fitting 2^p models. This may take significant time.",
+      call. = FALSE
+    )
+  }
+
+}
+
 #' @export
 #'
 print.ols_step_all_possible <- function(x, ...) {
 
   n <- max(x$result$mindex)
-  k <- data.frame(x$result)[, c(1:5, 8)]
+  k <- data.frame(x$result)[, c("mindex", "n", "predictors", "rsquare", "adjr", "cp")]
   names(k) <- c("Index", "N", "Predictors", "R-Square", "Adj. R-Square", "Mallow's Cp")
   print(k)
 
@@ -256,7 +281,7 @@ part_3 <- function(k, var, i) {
 #'
 ols_step_all_possible_betas <- function(object, ...) {
 
-  if (!all(class(object) == "lm")) {
+  if (!inherits(object, "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 

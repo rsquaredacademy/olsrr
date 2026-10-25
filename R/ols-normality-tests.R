@@ -95,7 +95,7 @@ ols_test_normality.default <- function(y, ...) {
 #'
 ols_test_normality.lm <- function(y, ...) {
 
-  if (!all(class(y) == "lm")) {
+  if (!inherits(y, "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 

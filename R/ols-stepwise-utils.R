@@ -481,7 +481,6 @@ ols_plot_stepwise <- function(x, metric = "r2", y_lab = "R-Square", details = TR
 
 }
 
-#' @importFrom ggplot2 aes_string
 ols_step_ggplot <- function(d, d2, xmin, xmax, ymin, ymax, y_lab, title, v_just, h_just, nudge = 0.05, ann_x, metric_info) {
 
   ggplot(d, aes(x = a, y = b)) +
