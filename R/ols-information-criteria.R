@@ -45,6 +45,10 @@
 #' Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 #' New York: John Wiley & Sons.
 #'
+#' Akaike, H. (1974). A new look at the statistical model identification. \emph{IEEE Transactions on Automatic Control}, 19(6), 716--723.
+#'
+#' Hurvich, C. M. and Tsai, C.-L. (1989). Regression and time series model selection in small samples. \emph{Biometrika}, 76(2), 297--307.
+#'
 #' @examples
 #' # using R computation method
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

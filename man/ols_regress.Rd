@@ -74,4 +74,8 @@ ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)
 }
 \references{
 https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting\%20Standardized\%20Coefficients\%20Right.pdf
+
+Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). \emph{Applied Linear Statistical Models}, 5th ed. New York: McGraw-Hill/Irwin.
+
+Aiken, L. S. and West, S. G. (1991). \emph{Multiple Regression: Testing and Interpreting Interactions}. Newbury Park, CA: Sage.
 }

@@ -36,3 +36,6 @@ model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_model_performance(model)
 
 }
+\references{
+Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). \emph{Applied Linear Statistical Models}, 5th ed. New York: McGraw-Hill/Irwin.
+}
