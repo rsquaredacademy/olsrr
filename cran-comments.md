@@ -48,7 +48,11 @@ The notes are:
 
 The `ols_launch_app()` example now runs only in an interactive session
 (`if (interactive())`), so the automated check no longer tries to launch the
-Shiny app.
+Shiny app. This is a documentation-only change: no exported function, argument
+default or executable code is affected, and the regenerated Rd matches roxygen
+output. It is the only way the `--run-dontrun` check reaches 0 errors, because
+launching the app requires the `caret` package, which is not installed on the
+check machine.
 
 ## Reverse dependencies
 
