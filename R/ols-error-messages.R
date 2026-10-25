@@ -76,7 +76,8 @@ check_lfit <- function(model) {
 check_modelvars <- function(model, vars) {
 
   fmla  <- deparse(formula(model))
-  k     <- vars %in% names(model$coefficients)
+  valid <- unique(c(attr(model$terms, "term.labels"), names(model$model)[-1]))
+  k     <- vars %in% valid
   wvars <- vars[!k]
   nvars <- length(wvars)
 
@@ -84,5 +85,27 @@ check_modelvars <- function(model, vars) {
     err_message <- paste0("Model `(", fmla, ")` should include the predictor(s) `", paste0(wvars, collapse = ", "), "`.")
     stop(err_message, call. = FALSE)
   }
+
+}
+
+# Map predictor terms to the columns of the model matrix. Factor terms expand
+# to one column per dummy; numeric terms map to themselves.
+vars_columns <- function(model, vars) {
+
+  terms  <- attr(model$terms, "term.labels")
+  assign <- attr(model.matrix(model), "assign")
+  mm     <- colnames(model.matrix(model))
+  out    <- character(0)
+
+  for (v in vars) {
+    i <- match(v, terms)
+    if (!is.na(i)) {
+      out <- c(out, mm[assign == i])
+    } else if (v %in% names(model$model)[-1]) {
+      out <- c(out, v)
+    }
+  }
+
+  out
 
 }

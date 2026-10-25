@@ -274,7 +274,7 @@ bp_case_7 <- function(l, model, vars) {
   n         <- nrow(l)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  l         <- cbind(l[, vars], ind)
+  l         <- cbind(l[, vars_columns(model, vars), drop = FALSE], ind)
   bp        <- bp_model(l)
   nd        <- ncol(l) - 1
 

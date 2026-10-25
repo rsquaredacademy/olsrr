@@ -114,7 +114,7 @@ fvar <- function(n, l, model, vars) {
   var_resid  <- (model_rss(model) / n) - 1
   ind        <- (residuals(model) ^ 2) / var_resid
   mdata      <- l[-1]
-  dl         <- mdata[, vars]
+  dl         <- mdata[, vars_columns(model, vars), drop = FALSE]
   dk         <- as.data.frame(cbind(ind, dl))
 
   summary(lm(ind ~ ., data = dk))$fstatistic
