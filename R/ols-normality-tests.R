@@ -21,6 +21,7 @@
 ols_test_correlation <- function(model) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_test_correlation")
   corrout(model)
 
 }
@@ -28,7 +29,7 @@ ols_test_correlation <- function(model) {
 corrout <- function(model) {
 
   n      <- model_rows(model)
-  stderr <- summary(model)[[6]]
+  stderr <- summary(model)$sigma
   h      <- ka(seq_len(n), stderr = stderr, n = n)
   out    <- sort(residuals(model))
 

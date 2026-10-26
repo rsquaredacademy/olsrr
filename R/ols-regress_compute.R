@@ -10,15 +10,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
 
   # a model frame adds synthetic columns for prior weights and offsets; neither
   # is a predictor
-  off_terms <- attr(model$terms, "offset")
-  drop      <- c("(weights)", "(offset)")
-  if (length(off_terms) > 0) {
-    variables <- as.list(attr(model$terms, "variables"))[-1]
-    drop      <- c(drop, vapply(variables[off_terms], function(x) {
-      paste(deparse(x), collapse = "")
-    }, character(1)))
-  }
-  predictors <- setdiff(nam[-1], drop)
+  predictors <- setdiff(nam[-1], synthetic_model_columns(model))
   output     <- summary(model)
   anovam     <- anova(model)
   dep        <- model.frame(model)[1]
@@ -29,7 +21,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
   mse        <- ems
   rmse       <- sqrt(ems)
   cv         <- (output$sigma / mean(dep[[1]])) * 100
-  mae        <- mean(abs(residuals(model)))
+  mae        <- mean(abs(model_residuals_used(model)))
   aic        <- ols_aic(model)
   sbc        <- ols_sbc(model)
   sbic       <- ols_sbic(model, model)

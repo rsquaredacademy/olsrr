@@ -16,3 +16,11 @@ test_that("added variable plot returns one plot per predictor", {
   expect_length(p, 3)
   expect_s3_class(p[[1]], "ggplot")
 })
+
+test_that("ols_prep_avplot_data() gives a clear error for non-model input", {
+  expect_error(
+    ols_prep_avplot_data(1),
+    "`model` must be an object of class `lm`",
+    fixed = TRUE
+  )
+})

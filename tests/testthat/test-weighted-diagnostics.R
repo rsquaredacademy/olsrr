@@ -78,3 +78,21 @@ test_that("ols_pure_error_anova() errors on weighted models (#236)", {
   m_unit <- lm(mpg ~ disp, data = mtcars, weights = rep(1, 32))
   expect_no_error(ols_pure_error_anova(m_unit))
 })
+
+test_that("ols_test_correlation() uses sigma and rejects weighted models (#236)", {
+  m_u <- lm(mpg ~ disp + hp + wt, data = mtcars)
+  expect_equal(ols_test_correlation(m_u), 0.9652493, tolerance = 1e-7)
+
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m_wt <- lm(mpg ~ disp + hp + wt, data = d, weights = w)
+
+  expect_error(
+    ols_test_correlation(m_wt),
+    "ols_test_correlation\\(\\) is not available for weighted models"
+  )
+
+  m_unit <- lm(mpg ~ disp + hp + wt, data = mtcars, weights = rep(1, 32))
+  expect_equal(ols_test_correlation(m_unit), ols_test_correlation(m_u))
+})

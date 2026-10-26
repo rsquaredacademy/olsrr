@@ -17,6 +17,7 @@
 #'
 ols_prep_avplot_data <- function(model) {
 
+  check_model(model)
   check_weights_diagnostic(model, "ols_prep_avplot_data")
 
   m1 <- as.data.frame(model.frame(model))[1]

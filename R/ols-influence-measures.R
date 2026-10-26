@@ -121,9 +121,9 @@ hadires <- function(model) {
 ols_press <- function(model) {
 
   check_model(model)
-  lev <- ols_leverage(model)
+  lev <- model_hatvalues_used(model)
   k   <- 1 - lev
-  sum((residuals(model) / k) ^ 2) 
+  sum((model_residuals_used(model) / k) ^ 2)
   
 }
 

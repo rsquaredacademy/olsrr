@@ -139,6 +139,13 @@ ols_regress.lm <- function(object, conf.level = 0.95, iterm = FALSE,
     stop("ols_regress() supports only lm models; fit the model with lm() or use the formula interface instead.", call. = FALSE)
   }
 
+  # reg_comp() needs the model frame and the qr decomposition; refit fits made
+  # with model = FALSE or qr = FALSE, keeping weights, offsets and subsetting
+  if (is.null(object$model) || is.null(object$qr)) {
+    refit <- stats::update(object, model = TRUE, qr = TRUE, evaluate = FALSE)
+    object <- eval(refit, environment(formula(object)))
+  }
+
   formula <- formula(object)
   data    <- ols_model_data(object)
 

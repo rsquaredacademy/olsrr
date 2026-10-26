@@ -182,3 +182,18 @@ test_that("model info is correct", {
   expect_null(got$interaction_terms)
   expect_equal(got$obs, 32)
 })
+
+test_that("getters exclude synthetic model-frame columns (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m_wt <- lm(mpg ~ disp + hp + wt, data = d, weights = w)
+
+  expect_equal(ols_get_variables(m_wt)$predictors, c("disp", "hp", "wt"))
+  expect_equal(names(ols_get_predictors(m_wt)), c("disp", "hp", "wt"))
+  expect_equal(nrow(ols_get_predictors(m_wt)), 32)
+
+  m_off <- lm(mpg ~ disp + hp + offset(wt), data = mtcars)
+  expect_equal(ols_get_variables(m_off)$predictors, c("disp", "hp"))
+  expect_equal(names(ols_get_predictors(m_off)), c("disp", "hp"))
+})

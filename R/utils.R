@@ -133,3 +133,38 @@ ols_model_data <- function(model) {
 
   data
 }
+
+# Model-frame columns that are not predictors: the synthetic prior weights and
+# offset columns and the offset terms themselves.
+synthetic_model_columns <- function(model) {
+
+  off_terms <- attr(model$terms, "offset")
+  drop      <- c("(weights)", "(offset)")
+
+  if (length(off_terms) > 0) {
+    variables <- as.list(attr(model$terms, "variables"))[-1]
+    drop      <- c(drop, vapply(variables[off_terms], function(x) {
+      paste(deparse(x), collapse = "")
+    }, character(1)))
+  }
+
+  drop
+}
+
+# Residuals and leverages of the rows used in the fit. residuals() and
+# hatvalues() pad these to the original number of rows for na.exclude fits;
+# model$residuals is always unpadded and the padded leverages are zero.
+model_residuals_used <- function(model) {
+  model$residuals
+}
+
+model_hatvalues_used <- function(model) {
+
+  lev <- unname(hatvalues(model))
+
+  if (length(lev) > length(model$residuals)) {
+    lev <- lev[!is.na(residuals(model))]
+  }
+
+  lev
+}

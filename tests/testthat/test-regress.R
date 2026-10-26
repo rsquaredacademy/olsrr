@@ -320,3 +320,40 @@ test_that("weighted models do not report synthetic model-frame columns as predic
     c("disp", "hp")
   )
 })
+
+test_that("ols_regress() refits models fitted with model = FALSE or qr = FALSE (#236)", {
+  m_model <- lm(mpg ~ disp + hp, data = mtcars, model = FALSE)
+  m_qr    <- lm(mpg ~ disp + hp, data = mtcars, qr = FALSE)
+
+  expect_equal(ols_regress(m_model)$betas, coef(m_model))
+  expect_equal(ols_regress(m_qr)$betas, coef(m_qr))
+  expect_equal(ols_regress(m_model)$betas, coef(lm(mpg ~ disp + hp, data = mtcars)))
+
+  # weights are carried over by the refit
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m_wt <- lm(mpg ~ disp + hp, data = d, weights = w, model = FALSE)
+
+  expect_equal(ols_regress(m_wt)$betas, coef(m_wt))
+  expect_equal(ols_regress(m_wt)$std_errors, summary(m_wt)$coefficients[, 2])
+})
+
+test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {
+  d <- mtcars
+  d$mpg[1] <- NA
+
+  m_exclude <- lm(mpg ~ disp + hp, data = d, na.action = na.exclude)
+  m_omit    <- lm(mpg ~ disp + hp, data = d, na.action = na.omit)
+
+  res_exclude <- ols_regress(m_exclude)
+  res_omit    <- ols_regress(m_omit)
+
+  expect_equal(res_exclude$mae, res_omit$mae)
+  expect_equal(res_exclude$prsq, res_omit$prsq)
+  expect_equal(res_exclude$mae, 2.524405, tolerance = 1e-6)
+  expect_equal(res_exclude$prsq, 0.6982694, tolerance = 1e-6)
+
+  expect_equal(ols_press(m_exclude), ols_press(m_omit))
+  expect_equal(ols_pred_rsq(m_exclude), ols_pred_rsq(m_omit))
+})

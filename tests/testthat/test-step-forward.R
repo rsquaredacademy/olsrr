@@ -135,3 +135,11 @@ test_that("ols_regress() and predict() work on stepwise final model with transfo
   expect_length(predict(k$model), 32)
   expect_length(predict(k$model, newdata = data.frame(disp = 200, hp = 100, wt = 3)), 1)
 })
+
+test_that("stepwise routines give a clear error for non-model input", {
+  expect_error(
+    ols_step_forward_p(1),
+    "`model` must be an object of class `lm`",
+    fixed = TRUE
+  )
+})

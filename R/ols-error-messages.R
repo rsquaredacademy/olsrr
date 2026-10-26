@@ -6,6 +6,7 @@ check_model <- function(model) {
 }
 
 check_weights <- function(model, fn = as.character(sys.call(-1)[[1]])) {
+  check_model(model)
   if (!is.null(model$weights) && any(model$weights != 1)) {
     fn_name <- if (is.character(fn)) fn else deparse(fn)
     fn_name <- sub(".*::", "", fn_name)
