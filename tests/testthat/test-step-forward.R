@@ -106,3 +106,32 @@ test_that("printing stepwise results with transformed terms works (audit F1)", {
     tolerance = 1e-6
   )
 })
+
+test_that("plot() of a 0-step forward_p result succeeds without error (#234)", {
+  d <- mtcars[1:5, ]
+  d$y <- 2 * d$disp + 3 * d$hp
+  m <- lm(y ~ disp + hp, data = d)
+
+  kf <- ols_step_forward_p(m)
+  expect_equal(nrow(kf$metrics), 0)
+  expect_no_error(plot(kf, print_plot = FALSE))
+
+  khf <- ols_step_forward_p(m, hierarchical = TRUE)
+  expect_equal(nrow(khf$metrics), 0)
+  expect_no_error(plot(khf, print_plot = FALSE))
+})
+
+test_that("ols_regress() and predict() work on stepwise final model with transformed terms (#246)", {
+  m <- lm(log(mpg) ~ disp + hp + wt, data = mtcars)
+  k <- ols_step_forward_p(m)
+
+  res <- ols_regress(k$model)
+  expect_equal(res$betas, coef(k$model))
+
+  out <- capture.output(print(res))
+  expect_true(any(grepl("Model Summary", out, fixed = TRUE)))
+  expect_true(any(grepl("Parameter Estimates", out, fixed = TRUE)))
+
+  expect_length(predict(k$model), 32)
+  expect_length(predict(k$model, newdata = data.frame(disp = 200, hp = 100, wt = 3)), 1)
+})

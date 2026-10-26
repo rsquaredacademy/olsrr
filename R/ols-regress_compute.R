@@ -1,8 +1,10 @@
 #' @importFrom stats model.matrix confint.lm
 #' @importFrom stats as.formula deviance
-reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
+reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", model = NULL) {
 
-  model      <- lm(formula = formula, data = data)
+  if (is.null(model)) {
+    model <- lm(formula = formula, data = data)
+  }
   nam        <- names(model.frame(model))
   response   <- nam[1]
   predictors <- nam[-1]
@@ -53,7 +55,12 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
     if (ncol(num_scale) > 0) {
       newdata <- cbind(newdata, num_scale)
     }
-    model2    <- lm(formula, data = newdata)
+    if (!is.null(model$weights)) {
+      w <- model$weights
+      model2 <- lm(formula, data = newdata, weights = w)
+    } else {
+      model2 <- lm(formula, data = newdata)
+    }
     output2   <- summary(model2)
     b         <- output2$coef[, 1]
     g         <- as.data.frame(model.matrix(model2))

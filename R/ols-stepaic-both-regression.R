@@ -78,6 +78,7 @@ ols_step_both_aic <- function(model, ...) UseMethod("ols_step_both_aic")
 #' @rdname ols_step_both_aic
 #'
 ols_step_both_aic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  check_weights(model, "ols_step_both_aic")
   out <- ols_step_both(model, "aic", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_aic"
   return(out)
@@ -97,6 +98,11 @@ print.ols_step_both_aic <- function(x, ...) {
 #' @export
 #'
 plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to or removed from the model.")
+    return(invisible(NULL))
+  }
 
   p <- ols_stepaic_plot(x, details, digits)
 
@@ -171,6 +177,7 @@ ols_step_both_sbc <- function(model, ...) UseMethod("ols_step_both_sbc")
 #' @rdname ols_step_both_sbc
 #'
 ols_step_both_sbc.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  check_weights(model, "ols_step_both_sbc")
   out <- ols_step_both(model, "sbc", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_sbc"
   return(out)
@@ -190,6 +197,10 @@ print.ols_step_both_sbc <- function(x, ...) {
 #' @export
 #'
 plot.ols_step_both_sbc <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to or removed from the model.")
+    return(invisible(NULL))
+  }
   p <- ols_stepaic_plot(x, details, digits)
   if (print_plot) {
     print(p)
@@ -261,6 +272,7 @@ ols_step_both_sbic <- function(model, ...) UseMethod("ols_step_both_sbic")
 #' @rdname ols_step_both_sbic
 #'
 ols_step_both_sbic.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  check_weights(model, "ols_step_both_sbic")
   out <- ols_step_both(model, "sbic", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_sbic"
   return(out)
@@ -280,6 +292,10 @@ print.ols_step_both_sbic <- function(x, ...) {
 #' @export
 #'
 plot.ols_step_both_sbic <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to or removed from the model.")
+    return(invisible(NULL))
+  }
   p <- ols_stepaic_plot(x, details, digits)
   if (print_plot) {
     print(p)
@@ -351,6 +367,7 @@ ols_step_both_r2 <- function(model, ...) UseMethod("ols_step_both_r2")
 #' @rdname ols_step_both_r2
 #'
 ols_step_both_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  check_weights(model, "ols_step_both_r2")
   out <- ols_step_both(model, "rsq", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_r2"
   return(out)
@@ -370,6 +387,10 @@ print.ols_step_both_r2 <- function(x, ...) {
 #' @export
 #'
 plot.ols_step_both_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to or removed from the model.")
+    return(invisible(NULL))
+  }
   p <- ols_stepaic_plot(x, details, digits)
   if (print_plot) {
     print(p)
@@ -441,6 +462,7 @@ ols_step_both_adj_r2 <- function(model, ...) UseMethod("ols_step_both_adj_r2")
 #' @rdname ols_step_both_adj_r2
 #'
 ols_step_both_adj_r2.default <- function(model, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+  check_weights(model, "ols_step_both_adj_r2")
   out <- ols_step_both(model, "adjrsq", include, exclude, progress, details, steps)
   class(out) <- "ols_step_both_adj_r2"
   return(out)
@@ -460,6 +482,10 @@ print.ols_step_both_adj_r2 <- function(x, ...) {
 #' @export
 #'
 plot.ols_step_both_adj_r2 <- function(x, print_plot = TRUE, details = TRUE, digits = 3, ...) {
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to or removed from the model.")
+    return(invisible(NULL))
+  }
   p <- ols_stepaic_plot(x, details, digits)
   if (print_plot) {
     print(p)

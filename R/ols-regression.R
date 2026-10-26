@@ -79,6 +79,11 @@ ols_regress <- function(object, ...) UseMethod("ols_regress")
 #'
 ols_regress.default <- function(object, data, conf.level = 0.95,
                                 iterm = FALSE, title = "model", ...) {
+  dots <- list(...)
+  if ("weights" %in% names(dots)) {
+    stop("weights are not supported in ols_regress when using a formula; fit the model with lm() and pass the model instead.", call. = FALSE)
+  }
+
   if (missing(data)) {
     stop("data missing", call. = FALSE)
   }
@@ -125,8 +130,33 @@ ols_regress.lm <- function(object, conf.level = 0.95, iterm = FALSE,
   formula <- formula(object)
   data    <- ols_model_data(object)
 
-  ols_regress.default(object = formula, data = data, conf.level = conf.level,
-                      iterm = iterm, title = title)
+  if (!is.numeric(conf.level)) {
+    stop("conf.level must be numeric", call. = FALSE)
+  }
+
+  if ((conf.level < 0) | (conf.level > 1)) {
+    stop("conf.level must be between 0 and 1", call. = FALSE)
+  }
+
+  check_logic(iterm)
+
+  if (!is.character(title)) {
+    stop(paste(title, "is not a string, Please specify a string as title."), call. = FALSE)
+  }
+
+  if (inherits(formula, "formula")) {
+    detect_iterm <- grepl(formula, pattern = "\\*")[3]
+  } else {
+    detect_iterm <- grepl(formula, pattern = "\\*")
+  }
+
+  if (detect_iterm) {
+    iterm <- TRUE
+  }
+
+  result <- reg_comp(formula, data, conf.level, iterm, title, model = object)
+  class(result) <- "ols_regress"
+  return(result)
 
 }
 

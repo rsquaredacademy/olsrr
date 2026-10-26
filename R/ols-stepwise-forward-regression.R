@@ -87,6 +87,8 @@ ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 #'
 ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
+  check_weights(model, "ols_step_forward_p")
+
   if (details) {
     progress <- FALSE
   }
@@ -139,6 +141,27 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     all_pred <- nam
     mlen_p   <- length(all_pred)
 
+    base_model <- ols_base_model(include, response, l)
+
+    if (mlen_p == 0) {
+      message("No candidate predictors left to enter.")
+      final_model <- ols_step_final_model(model, response, include, l)
+      out <- list(metrics = data.frame(step       = integer(0),
+                                        variable   = character(0),
+                                        r2         = numeric(0),
+                                        adj_r2     = numeric(0),
+                                        aic        = numeric(0),
+                                        sbc        = numeric(0),
+                                        sbic       = numeric(0),
+                                        mallows_cp = numeric(0),
+                                        rmse       = numeric(0)),
+                  model   = final_model,
+                  others  = list(base_model = base_model,
+                                 full_model = model))
+      class(out) <- "ols_step_forward_p"
+      return(out)
+    }
+
     step     <- 0
     ppos     <- step + 1 + length(include)
     preds    <- include
@@ -155,7 +178,6 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     sbc      <- c()
     rmse     <- c()
 
-    base_model <- ols_base_model(include, response, l)
     rsq_base   <- summary(base_model)$r.squared
 
     if (details) {
@@ -332,7 +354,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       ols_stepwise_vars(preds, "forward")
     }
 
-    final_model <- lm(ols_step_formula(response, preds), data = l)
+    final_model <- ols_step_final_model(model, response, preds, l)
 
     metrics     <- data.frame(step       = seq_len(step),
                               variable   = preds,
@@ -370,6 +392,11 @@ print.ols_step_forward_p <- function(x, ...) {
 #' @rdname ols_step_forward_p
 #'
 plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
+
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to the model.")
+    return(invisible(NULL))
+  }
 
   a <- NULL
 

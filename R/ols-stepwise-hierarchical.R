@@ -34,6 +34,8 @@
 #'
 ols_step_hierarchical <- function(model, p_value = 0.1, forward = TRUE, progress = FALSE, details = FALSE, steps = NULL) {
 
+  check_weights(model, "ols_step_hierarchical")
+
   if (forward) {
     ols_step_hierarchical_forward(model, p_value, progress, details, steps)
   } else {
@@ -43,6 +45,8 @@ ols_step_hierarchical <- function(model, p_value = 0.1, forward = TRUE, progress
 }
 
 ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE, steps = NULL) {
+
+  check_weights(model, "ols_step_hierarchical")
 
   if (details) {
     progress <- FALSE
@@ -155,7 +159,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
     ols_stepwise_vars(preds, "forward")
   }
 
-  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+  final_model <- ols_step_final_model(model, response, preds, l)
 
   metrics <- data.frame(step       = seq_len(step),
                         variable   = preds,
@@ -179,6 +183,8 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 }
 
 ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE, steps = NULL) {
+
+  check_weights(model, "ols_step_hierarchical")
 
   if (details) {
     progress <- FALSE
@@ -285,7 +291,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
     ols_stepwise_vars(preds, "backward")
   }
 
-  final_model <- lm(paste(response, "~", paste(pterms, collapse = " + ")), data = l)
+  final_model <- ols_step_final_model(model, response, pterms, l)
 
   metrics <- data.frame(step       = seq_len(step),
                         variable   = preds,

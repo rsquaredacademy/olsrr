@@ -82,6 +82,8 @@ ols_step_backward_p <- function(model, ...) UseMethod("ols_step_backward_p")
 #'
 ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
+  check_weights(model, "ols_step_backward_p")
+
   if (details) {
     progress <- FALSE
   }
@@ -228,7 +230,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
       ols_stepwise_vars(rpred, "backward")
     }
 
-    final_model <- lm(ols_step_formula(response, c(include, cterms)), data = l)
+    final_model <- ols_step_final_model(model, response, c(include, cterms), l)
 
     metrics     <- data.frame(step       = seq_len(step),
                               variable   = rpred,
@@ -267,6 +269,11 @@ print.ols_step_backward_p <- function(x, ...) {
 #' @rdname ols_step_backward_p
 #'
 plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
+
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been removed from the model.")
+    return(invisible(NULL))
+  }
 
   p1 <- ols_plot_stepwise(x, "r2", "R-Square", details, "backward")
   p2 <- ols_plot_stepwise(x, "adj_r2", "Adjusted R-Square", details, "backward")

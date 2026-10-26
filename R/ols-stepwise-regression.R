@@ -79,6 +79,8 @@ ols_step_both_p <- function(model, ...) UseMethod("ols_step_both_p")
 #'
 ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
+  check_weights(model, "ols_step_both_p")
+
   if (details) {
     progress <- FALSE
   }
@@ -330,7 +332,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
     }
   }
 
-  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+  final_model <- ols_step_final_model(model, response, preds, l)
 
   metrics     <- data.frame(step       = seq_len(all_step),
                             variable   = var_index,
@@ -375,6 +377,11 @@ print.ols_step_both_p <- function(x, ...) {
 #' @rdname ols_step_both_p
 #'
 plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
+
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to or removed from the model.")
+    return(invisible(NULL))
+  }
 
   p1 <- ols_plot_stepwise(x, "r2", "R-Square", details, "both")
   p2 <- ols_plot_stepwise(x, "adj_r2", "Adj. R-Square", details, "both")

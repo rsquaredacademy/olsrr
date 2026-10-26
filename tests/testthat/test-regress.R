@@ -155,3 +155,74 @@ test_that("standardised betas keep every coefficient of no-intercept models (aud
   expect_equal(std_beta("disp"), unname(round(expected[["disp"]], 3)))
   expect_equal(std_beta("hp"), unname(round(expected[["hp"]], 3)))
 })
+
+test_that("weighted ols_regress matches summary, anova, confint (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  res <- ols_regress(m)
+  s   <- summary(m)
+  a   <- anova(m)
+  ci  <- confint(m)
+
+  expect_equal(unname(res$betas), unname(coef(m)), tolerance = 1e-6)
+  expect_equal(unname(res$std_errors), unname(s$coefficients[, 2]), tolerance = 1e-6)
+  expect_equal(unname(res$tvalues), unname(s$coefficients[, 3]), tolerance = 1e-6)
+  expect_equal(unname(res$pvalues), unname(s$coefficients[, 4]), tolerance = 1e-6)
+  expect_equal(res$conf_lm, ci, tolerance = 1e-6)
+  expect_equal(res$rsq, s$r.squared, tolerance = 1e-6)
+  expect_equal(res$adjr, s$adj.r.squared, tolerance = 1e-6)
+  expect_equal(res$rmse, s$sigma, tolerance = 1e-6)
+
+  expect_equal(res$rss, sum(a$`Sum Sq`[1:2]), tolerance = 1e-6)
+  expect_equal(res$ess, a$`Sum Sq`[3], tolerance = 1e-6)
+  expect_equal(res$tss, sum(a$`Sum Sq`), tolerance = 1e-6)
+  expect_equal(res$model_df, sum(a$Df[1:2]))
+  expect_equal(res$error_df, a$Df[3])
+  expect_equal(res$total_df, sum(a$Df))
+  expect_equal(unname(res$f), unname(s$fstatistic[1]), tolerance = 1e-6)
+  expect_equal(res$p, pf(res$f, res$model_df, res$error_df, lower.tail = FALSE), tolerance = 1e-6)
+
+  expect_error(ols_regress(mpg ~ disp + hp, data = d, weights = d$w), "weights")
+})
+
+test_that("stepwise selection routines reject weighted models (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m_wt <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  routines <- list(
+    forward_p       = function(m) ols_step_forward_p(m),
+    backward_p      = function(m) ols_step_backward_p(m),
+    both_p          = function(m) ols_step_both_p(m),
+    forward_aic     = function(m) ols_step_forward_aic(m),
+    backward_aic    = function(m) ols_step_backward_aic(m),
+    both_aic        = function(m) ols_step_both_aic(m),
+    forward_sbc     = function(m) ols_step_forward_sbc(m),
+    backward_sbc    = function(m) ols_step_backward_sbc(m),
+    both_sbc        = function(m) ols_step_both_sbc(m),
+    forward_sbic    = function(m) ols_step_forward_sbic(m),
+    backward_sbic   = function(m) ols_step_backward_sbic(m),
+    both_sbic       = function(m) ols_step_both_sbic(m),
+    forward_r2      = function(m) ols_step_forward_r2(m),
+    backward_r2     = function(m) ols_step_backward_r2(m),
+    both_r2         = function(m) ols_step_both_r2(m),
+    forward_adj_r2  = function(m) ols_step_forward_adj_r2(m),
+    backward_adj_r2 = function(m) ols_step_backward_adj_r2(m),
+    both_adj_r2     = function(m) ols_step_both_adj_r2(m),
+    best_subset     = function(m) ols_step_best_subset(m),
+    all_possible    = function(m) ols_step_all_possible(m),
+    hierarchical    = function(m) ols_step_hierarchical(m)
+  )
+
+  for (nm in names(routines)) {
+    expect_error(routines[[nm]](m_wt), "weighted")
+  }
+
+  # unit weights are allowed
+  m_unit <- lm(mpg ~ disp + hp, data = mtcars, weights = rep(1, 32))
+  expect_no_error(ols_step_forward_p(m_unit))
+})
