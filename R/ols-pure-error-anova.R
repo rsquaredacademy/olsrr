@@ -22,6 +22,10 @@
 #' replicates for at least one of the values of the predictor x. This
 #' test generally only applies to datasets with plenty of replicates.
 #'
+#' The test is not available for weighted models, because the regression sum of
+#' squares would come from the weighted model while the lack of fit and pure
+#' error sums of squares are computed from unweighted residuals.
+#'
 #' @return \code{ols_pure_error_anova} returns an object of class
 #' \code{"ols_pure_error_anova"}. An object of class \code{"ols_pure_error_anova"} is a
 #' list containing the following components:
@@ -67,6 +71,8 @@ ols_pure_error_anova <- function(model, ...) UseMethod("ols_pure_error_anova")
 ols_pure_error_anova.default <- function(model, ...) {
 
   check_model(model)
+
+  check_weights_diagnostic(model, "ols_pure_error_anova")
 
   ln <- length(coefficients(model))
 

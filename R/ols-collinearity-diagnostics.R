@@ -52,6 +52,10 @@
 #' more variables that have large proportions of variance (.50 or more) that correspond to large condition
 #' indices. A rule of thumb is to label as large those condition indices in the range of 30 or larger.
 #'
+#' Tolerance, variance inflation factors, eigenvalues and condition indices are
+#' computed from the design (model) matrix and do not use the model weights, so
+#' they remain available for weighted models.
+#'
 #'
 #' @return \code{ols_coll_diag} returns an object of class \code{"ols_coll_diag"}.
 #' An object of class \code{"ols_coll_diag"} is a list containing the

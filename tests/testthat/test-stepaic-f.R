@@ -156,3 +156,19 @@ test_that("stepsbic_forward returns the appropriate error", {
   expect_error(ols_step_forward_sbic(model, include = c(5)), "Index of variable to be included should be between 1 and 4.")
   expect_error(ols_step_forward_sbic(model, exclude = c(5)), "Index of variable to be excluded should be between 1 and 4.")
 })
+
+test_that("ols_step_forward_aic(include = all) returns, prints and has included variables (#235)", {
+  m <- lm(mpg ~ disp + hp, data = mtcars)
+
+  expect_message(
+    k <- ols_step_forward_aic(m, include = c("disp", "hp")),
+    "No candidate"
+  )
+  expect_equal(names(coef(k$model)), c("(Intercept)", "disp", "hp"))
+  expect_equal(nrow(k$metrics), 0)
+
+  out <- capture.output(print(k))
+  expect_true(any(grepl("No variables have been added to the model", out, fixed = TRUE)))
+
+  expect_no_error(plot(k, print_plot = FALSE))
+})

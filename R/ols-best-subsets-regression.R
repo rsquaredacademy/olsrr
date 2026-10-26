@@ -59,6 +59,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
                                          ...) {
 
   check_model(model)
+  check_weights(model, "ols_step_best_subset")
   check_npredictors(model, 2)
 
   indterms <- coeff_names(model)

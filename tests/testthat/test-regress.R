@@ -155,3 +155,205 @@ test_that("standardised betas keep every coefficient of no-intercept models (aud
   expect_equal(std_beta("disp"), unname(round(expected[["disp"]], 3)))
   expect_equal(std_beta("hp"), unname(round(expected[["hp"]], 3)))
 })
+
+test_that("weighted ols_regress matches summary, anova, confint (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  res <- ols_regress(m)
+  s   <- summary(m)
+  a   <- anova(m)
+  ci  <- confint(m)
+
+  expect_equal(unname(res$betas), unname(coef(m)), tolerance = 1e-6)
+  expect_equal(unname(res$std_errors), unname(s$coefficients[, 2]), tolerance = 1e-6)
+  expect_equal(unname(res$tvalues), unname(s$coefficients[, 3]), tolerance = 1e-6)
+  expect_equal(unname(res$pvalues), unname(s$coefficients[, 4]), tolerance = 1e-6)
+  expect_equal(res$conf_lm, ci, tolerance = 1e-6)
+  expect_equal(res$rsq, s$r.squared, tolerance = 1e-6)
+  expect_equal(res$adjr, s$adj.r.squared, tolerance = 1e-6)
+  expect_equal(res$rmse, s$sigma, tolerance = 1e-6)
+
+  expect_equal(res$rss, sum(a$`Sum Sq`[1:2]), tolerance = 1e-6)
+  expect_equal(res$ess, a$`Sum Sq`[3], tolerance = 1e-6)
+  expect_equal(res$tss, sum(a$`Sum Sq`), tolerance = 1e-6)
+  expect_equal(res$model_df, sum(a$Df[1:2]))
+  expect_equal(res$error_df, a$Df[3])
+  expect_equal(res$total_df, sum(a$Df))
+  expect_equal(unname(res$f), unname(s$fstatistic[1]), tolerance = 1e-6)
+  expect_equal(res$p, pf(res$f, res$model_df, res$error_df, lower.tail = FALSE), tolerance = 1e-6)
+
+  expect_error(ols_regress(mpg ~ disp + hp, data = d, weights = d$w), "weights")
+  expect_error(ols_regress(mpg ~ disp + hp, data = d, weights = w), "weights")
+})
+
+test_that("weighted interaction models work in ols_regress() (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  wts <- d$w
+
+  models <- list(
+    lm(mpg ~ disp * hp, data = d, weights = w),
+    lm(log(mpg) ~ disp * hp, data = d, weights = w),
+    lm(mpg ~ disp * hp, data = mtcars, weights = wts),
+    lm(log(mpg) ~ disp * hp, data = mtcars, weights = wts)
+  )
+
+  for (m in models) {
+    res <- ols_regress(m)
+    s   <- summary(m)
+    a   <- anova(m)
+
+    expect_equal(unname(res$betas), unname(coef(m)), tolerance = 1e-8)
+    expect_equal(unname(res$std_errors), unname(s$coefficients[, 2]), tolerance = 1e-8)
+    expect_equal(unname(res$tvalues), unname(s$coefficients[, 3]), tolerance = 1e-8)
+    expect_equal(unname(res$pvalues), unname(s$coefficients[, 4]), tolerance = 1e-8)
+    expect_equal(res$conf_lm, confint(m), tolerance = 1e-8)
+    expect_equal(res$rsq, s$r.squared, tolerance = 1e-8)
+    expect_equal(res$adjr, s$adj.r.squared, tolerance = 1e-8)
+    expect_equal(res$rmse, s$sigma, tolerance = 1e-8)
+    expect_equal(res$rss, sum(a$`Sum Sq`[-nrow(a)]), tolerance = 1e-8)
+    expect_equal(res$ess, a$`Sum Sq`[nrow(a)], tolerance = 1e-8)
+    expect_equal(res$tss, sum(a$`Sum Sq`), tolerance = 1e-8)
+    expect_equal(unname(res$f), unname(s$fstatistic[1]), tolerance = 1e-8)
+    expect_silent(res$sbetas)
+    expect_equal(names(res$sbetas), names(coef(m))[-1])
+  }
+})
+
+test_that("standardised betas of weighted interaction models use a weighted fit on scaled predictors", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+
+  for (f in list(mpg ~ disp * hp, log(mpg) ~ disp * hp)) {
+    m   <- lm(f, data = d, weights = w)
+    got <- ols_regress(m)$sbetas
+
+    # definition: refit the model with every predictor standardised and the
+    # model's prior weights, then multiply each coefficient by the standard
+    # deviation of its (scaled-model) model-matrix column and divide by the
+    # standard deviation of the untransformed model response
+    scaled      <- d
+    scaled$disp <- as.numeric(scale(scaled$disp))
+    scaled$hp   <- as.numeric(scale(scaled$hp))
+    ref         <- lm(f, data = scaled, weights = w)
+    expected    <- coef(ref)[-1] *
+      apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+      sd(model.response(model.frame(m)))
+
+    expect_equal(unname(got), unname(expected), tolerance = 1e-8)
+  }
+})
+
+test_that("ols_regress() rejects glm objects with a clear message (#236)", {
+  g <- glm(am ~ disp + hp, data = mtcars, family = binomial)
+
+  expect_error(ols_regress(g), "supports only lm models")
+  expect_error(ols_regress(g), "formula interface")
+})
+
+test_that("stepwise selection routines reject weighted models (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m_wt <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  routines <- list(
+    forward_p       = function(m) ols_step_forward_p(m),
+    backward_p      = function(m) ols_step_backward_p(m),
+    both_p          = function(m) ols_step_both_p(m),
+    forward_aic     = function(m) ols_step_forward_aic(m),
+    backward_aic    = function(m) ols_step_backward_aic(m),
+    both_aic        = function(m) ols_step_both_aic(m),
+    forward_sbc     = function(m) ols_step_forward_sbc(m),
+    backward_sbc    = function(m) ols_step_backward_sbc(m),
+    both_sbc        = function(m) ols_step_both_sbc(m),
+    forward_sbic    = function(m) ols_step_forward_sbic(m),
+    backward_sbic   = function(m) ols_step_backward_sbic(m),
+    both_sbic       = function(m) ols_step_both_sbic(m),
+    forward_r2      = function(m) ols_step_forward_r2(m),
+    backward_r2     = function(m) ols_step_backward_r2(m),
+    both_r2         = function(m) ols_step_both_r2(m),
+    forward_adj_r2  = function(m) ols_step_forward_adj_r2(m),
+    backward_adj_r2 = function(m) ols_step_backward_adj_r2(m),
+    both_adj_r2     = function(m) ols_step_both_adj_r2(m),
+    best_subset     = function(m) ols_step_best_subset(m),
+    all_possible    = function(m) ols_step_all_possible(m),
+    hierarchical    = function(m) ols_step_hierarchical(m)
+  )
+
+  for (nm in names(routines)) {
+    expect_error(routines[[nm]](m_wt), "weighted")
+  }
+
+  # unit weights are allowed
+  m_unit <- lm(mpg ~ disp + hp, data = mtcars, weights = rep(1, 32))
+  expect_no_error(ols_step_forward_p(m_unit))
+})
+
+test_that("weighted models do not report synthetic model-frame columns as predictors (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+
+  m_unwt <- lm(mpg ~ disp + hp, data = d)
+  m_wt   <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  res_wt   <- ols_regress(m_wt)
+  res_unwt <- ols_regress(m_unwt)
+
+  expect_equal(res_wt$predictors, res_unwt$predictors)
+  expect_equal(res_wt$predictors, c("disp", "hp"))
+  expect_equal(res_wt$dependent, "mpg")
+
+  # offsets are not predictors either, for models and formulas
+  expect_equal(
+    ols_regress(lm(mpg ~ disp + hp + offset(wt), data = d))$predictors,
+    c("disp", "hp")
+  )
+  expect_equal(
+    ols_regress(mpg ~ disp + hp + offset(wt), data = d)$predictors,
+    c("disp", "hp")
+  )
+})
+
+test_that("ols_regress() refits models fitted with model = FALSE or qr = FALSE (#236)", {
+  m_model <- lm(mpg ~ disp + hp, data = mtcars, model = FALSE)
+  m_qr    <- lm(mpg ~ disp + hp, data = mtcars, qr = FALSE)
+
+  expect_equal(ols_regress(m_model)$betas, coef(m_model))
+  expect_equal(ols_regress(m_qr)$betas, coef(m_qr))
+  expect_equal(ols_regress(m_model)$betas, coef(lm(mpg ~ disp + hp, data = mtcars)))
+
+  # weights are carried over by the refit
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m_wt <- lm(mpg ~ disp + hp, data = d, weights = w, model = FALSE)
+
+  expect_equal(ols_regress(m_wt)$betas, coef(m_wt))
+  expect_equal(ols_regress(m_wt)$std_errors, summary(m_wt)$coefficients[, 2])
+})
+
+test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {
+  d <- mtcars
+  d$mpg[1] <- NA
+
+  m_exclude <- lm(mpg ~ disp + hp, data = d, na.action = na.exclude)
+  m_omit    <- lm(mpg ~ disp + hp, data = d, na.action = na.omit)
+
+  res_exclude <- ols_regress(m_exclude)
+  res_omit    <- ols_regress(m_omit)
+
+  expect_equal(res_exclude$mae, res_omit$mae)
+  expect_equal(res_exclude$prsq, res_omit$prsq)
+  expect_equal(res_exclude$mae, 2.524405, tolerance = 1e-6)
+  expect_equal(res_exclude$prsq, 0.6982694, tolerance = 1e-6)
+
+  expect_equal(ols_press(m_exclude), ols_press(m_omit))
+  expect_equal(ols_pred_rsq(m_exclude), ols_pred_rsq(m_omit))
+})

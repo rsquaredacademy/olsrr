@@ -61,6 +61,7 @@ ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
 ols_step_all_possible.default <- function(model, max_order = NULL, force = FALSE, ...) {
 
   check_model(model)
+  check_weights(model, "ols_step_all_possible")
   check_npredictors(model, 2)
   check_force(model, force, max_order)
 

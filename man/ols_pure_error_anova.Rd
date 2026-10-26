@@ -58,6 +58,10 @@ The lack of fit F test works only with simple linear regression.
 Moreover, it is important that the data contains repeat observations i.e.
 replicates for at least one of the values of the predictor x. This
 test generally only applies to datasets with plenty of replicates.
+
+The test is not available for weighted models, because the regression sum of
+squares would come from the weighted model while the lack of fit and pure
+error sums of squares are computed from unweighted residuals.
 }
 \examples{
 model <- lm(mpg ~ disp, data = mtcars)

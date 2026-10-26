@@ -62,3 +62,17 @@ test_that("backward selection does not duplicate included variables (audit F12)"
   expect_true(all(c("age", "alc_mod") %in% tl))
   expect_equal(coef(k$model), coef(lm(formula(k$model), data = surgical)))
 })
+
+test_that("plot() of a 0-step backward_p result succeeds without error (#234)", {
+  d <- mtcars[1:5, ]
+  d$y <- 2 * d$disp + 3 * d$hp
+  m <- lm(y ~ disp + hp, data = d)
+
+  kb <- ols_step_backward_p(m)
+  expect_equal(nrow(kb$metrics), 0)
+  expect_no_error(plot(kb, print_plot = FALSE))
+
+  khb <- ols_step_backward_p(m, hierarchical = TRUE)
+  expect_equal(nrow(khb$metrics), 0)
+  expect_no_error(plot(khb, print_plot = FALSE))
+})

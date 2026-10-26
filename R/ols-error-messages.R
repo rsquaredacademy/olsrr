@@ -5,6 +5,25 @@ check_model <- function(model) {
   }
 }
 
+check_weights <- function(model, fn = as.character(sys.call(-1)[[1]])) {
+  check_model(model)
+  if (!is.null(model$weights) && any(model$weights != 1)) {
+    fn_name <- if (is.character(fn)) fn else deparse(fn)
+    fn_name <- sub(".*::", "", fn_name)
+    fn_name <- sub("\\(.*", "", fn_name)
+    stop(paste0("weighted models are not supported by ", fn_name, "; fit without weights or use step()"), call. = FALSE)
+  }
+}
+
+# Diagnostics that refit auxiliary models from the model matrix are only valid
+# for the model they were fitted with; without the weights those refits are
+# silently unweighted.
+check_weights_diagnostic <- function(model, fn) {
+  if (!is.null(model$weights) && any(model$weights != 1)) {
+    stop(paste0(fn, "() is not available for weighted models."), call. = FALSE)
+  }
+}
+
 check_order <- function(n, max_order) {
   if (max_order > n) {
     stop("Maximum subset order should be less than or equal to the number of predictors in the specified model.", call. = FALSE)

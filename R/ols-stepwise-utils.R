@@ -1,6 +1,7 @@
-check_inputs <- function(model, include, exclude, progress, details) {
+check_inputs <- function(model, include, exclude, progress, details, fn = as.character(sys.call(-1)[[1]])) {
 
   check_model(model)
+  check_weights(model, fn)
   check_npredictors(model, 2)
 
   indterms <- coeff_names(model)
@@ -364,6 +365,10 @@ ols_step_plot_text <- function(x, direction = c("forward", "backward", "both"), 
 
   method <- match.arg(direction)
 
+  if (length(x$metrics$step) < 1) {
+    return(character(0))
+  }
+
   if (method == "forward" || method == "backward") {
     if (details) {
       pred <- paste0("[", x$metrics$variable, ", ", format(round(x$metrics[[metric]], digits), nsmall = digits), "]")
@@ -510,18 +515,11 @@ ols_print_final_model <- function(data) {
 #
 # the final model is fitted on an internal copy of the data, so re-evaluating
 # its own call fails for terms such as log(mpg) or factor(cyl) (the model frame
-# stores term labels as column names). Re-evaluate its formula against the data
-# of the model supplied by the user instead.
+# stores term labels as column names). ols_step_final_model() rebuilds the final
+# model with a call, data and formula environment that can be evaluated, so
+# ols_regress() can reuse the model itself.
 ols_final_regress <- function(data) {
-
-  full <- data$others$full_model
-
-  if (is.null(full)) {
-    return(ols_regress(data$model))
-  }
-
-  ols_regress(formula(data$model), data = ols_model_data(full))
-
+  ols_regress(data$model)
 }
 
 
@@ -725,6 +723,21 @@ ols_step_formula <- function(response, predictors) {
   predictors <- unique(predictors)
   rhs        <- if (length(predictors) > 0) paste(predictors, collapse = " + ") else "1"
   as.formula(paste(response, "~", rhs))
+}
+
+# construct and fit final model for stepwise selection routines
+ols_step_final_model <- function(model, response, predictors, data) {
+  form <- ols_step_formula(response, predictors)
+  environment(form) <- environment(formula(model))
+  final_model <- lm(form, data = data)
+  final_model$call$formula <- form
+  if (!is.null(model$call$data)) {
+    final_model$call$data <- model$call$data
+  }
+  if (!is.null(model$call$subset)) {
+    final_model$call$subset <- model$call$subset
+  }
+  final_model
 }
 
 # near-perfect fit / zero residual sum of squares guard

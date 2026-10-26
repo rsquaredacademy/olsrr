@@ -34,6 +34,10 @@ following components:
 Test for heteroskedasticity under the assumption that the errors are
 independent and identically distributed (i.i.d.).
 }
+\details{
+The test is not available for weighted models, because it refits
+auxiliary regressions that would ignore the model weights.
+}
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)

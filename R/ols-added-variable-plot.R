@@ -35,6 +35,10 @@
 #' importance of the contribution of \strong{X} to the model already containing the
 #' other predictors.
 #'
+#' @details The plot is not available for weighted models, because the partial
+#' residuals are computed from auxiliary regressions that would ignore the
+#' weights.
+#'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
@@ -56,6 +60,7 @@
 ols_plot_added_variable <- function(model, print_plot = TRUE) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_plot_added_variable")
 
   data    <- ols_prep_avplot_data(model)
   xnames  <- colnames(data)
