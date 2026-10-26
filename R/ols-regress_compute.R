@@ -34,7 +34,9 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   p          <- pf(f, model_df, error_df, lower.tail = F)
 
   # standardised betas
-  if (ncol(model.matrix(model)) < 2) {
+  int <- attr(model$terms, "intercept")
+
+  if ((ncol(model.matrix(model)) - int) < 1) {
 
     # intercept-only model: no predictors to standardise
     sbetas <- numeric(0)
@@ -53,8 +55,12 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
     }
     model2    <- lm(formula, data = newdata)
     output2   <- summary(model2)
-    b         <- output2$coef[-1, 1]
-    g         <- as.data.frame(model.matrix(model2)[, -1])
+    b         <- output2$coef[, 1]
+    g         <- as.data.frame(model.matrix(model2))
+    if (int) {
+      b <- b[-1]
+      g <- g[, -1, drop = FALSE]
+    }
     sx        <- sapply(g, sd)
     sy        <- sd(model.response(model.frame(model)))
     sbeta     <- b * sx / sy
@@ -62,8 +68,13 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
 
   } else {
 
-    b        <- output$coef[-1, 1]
-    g        <- as.data.frame(model.matrix(model)[, -1])
+    # keep every coefficient when there is no intercept
+    b        <- output$coef[, 1]
+    g        <- as.data.frame(model.matrix(model))
+    if (int) {
+      b <- b[-1]
+      g <- g[, -1, drop = FALSE]
+    }
     sx       <- sapply(g, sd)
     sy       <- sapply(model$model[1], sd)
     sbeta    <- b * sx / sy

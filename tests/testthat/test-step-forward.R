@@ -58,3 +58,51 @@ test_that("forward selection refits transformed responses safely (audit F1)", {
   expect_equal(coef(k$model), coef(lm(formula(k$model), data = mtcars)))
   expect_equal(k$model$df.residual, lm(formula(k$model), data = mtcars)$df.residual)
 })
+
+test_that("printing stepwise results with transformed terms works (audit F1)", {
+  # the printed Beta of `term` in the final model output table
+  beta_from_print <- function(out, term) {
+    lines <- trimws(out)
+    line  <- lines[startsWith(lines, term)][1]
+    rest  <- substring(line, nchar(term) + 1)
+    as.numeric(regmatches(rest, regexpr("-?[0-9]+\\.[0-9]+", rest)))
+  }
+
+  # the transformed term ends up in the final model of every procedure
+  models <- list(
+    "log"    = log(mpg) ~ disp + hp + wt + qsec,
+    "factor" = mpg ~ factor(cyl) + hp + wt + qsec,
+    "poly"   = mpg ~ poly(disp, 2) + hp + wt + qsec,
+    "I"      = mpg ~ I(disp/100) + hp + qsec
+  )
+
+  procedures <- c(
+    "ols_step_forward_p", "ols_step_backward_p", "ols_step_both_p",
+    "ols_step_forward_aic", "ols_step_backward_aic", "ols_step_both_aic",
+    "ols_step_forward_sbc", "ols_step_backward_sbc", "ols_step_both_sbc",
+    "ols_step_forward_sbic", "ols_step_backward_sbic", "ols_step_both_sbic",
+    "ols_step_forward_r2", "ols_step_backward_r2", "ols_step_both_r2",
+    "ols_step_forward_adj_r2", "ols_step_backward_adj_r2", "ols_step_both_adj_r2"
+  )
+
+  for (term in names(models)) {
+    model <- lm(models[[term]], data = mtcars)
+
+    for (procedure in procedures) {
+      k <- do.call(procedure, list(model))
+      expect_no_error(capture.output(print(k)))
+    }
+  }
+
+  # the printed coefficients are the estimates of the final model
+  k        <- ols_step_forward_p(lm(models[["log"]], data = mtcars))
+  out      <- capture.output(print(k))
+  ref      <- lm(formula(k$model), data = mtcars)
+  coefname <- names(coef(ref))[2]
+
+  expect_equal(
+    beta_from_print(out, coefname),
+    unname(round(coef(ref)[coefname], 3)),
+    tolerance = 1e-6
+  )
+})

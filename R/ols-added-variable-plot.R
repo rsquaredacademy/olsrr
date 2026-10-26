@@ -62,6 +62,10 @@ ols_plot_added_variable <- function(model, print_plot = TRUE) {
   nl      <- length(xnames)
   myplots <- list()
 
+  if (nl < 3) {
+    stop("The model must have at least two predictors to construct an added variable plot.", call. = FALSE)
+  }
+
   for (i in 2:nl) {
 
     x <- ols_prep_regress_x(data, i)
