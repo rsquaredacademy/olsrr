@@ -12,6 +12,10 @@ ols_prep_avplot_data(model)
 \description{
 Data for generating the added variable plots.
 }
+\details{
+The data are used by diagnostics that refit auxiliary models
+without weights and are therefore not available for weighted models.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_prep_avplot_data(model)

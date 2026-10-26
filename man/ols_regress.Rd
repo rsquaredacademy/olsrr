@@ -7,7 +7,7 @@
 \usage{
 ols_regress(object, ...)
 
-\method{ols_regress}{lm}(object, ...)
+\method{ols_regress}{lm}(object, conf.level = 0.95, iterm = FALSE, title = "model", ...)
 }
 \arguments{
 \item{object}{An object of class "formula" (or one that can be coerced to
@@ -15,6 +15,16 @@ that class): a symbolic description of the model to be fitted or class
 \code{lm}.}
 
 \item{...}{Other inputs.}
+
+\item{conf.level}{Confidence level for the confidence intervals of the
+coefficients.}
+
+\item{iterm}{Logical; if \code{TRUE}, the predictors are scaled and centered
+before computing the standardized betas. See \emph{Interaction Terms}
+below.}
+
+\item{title}{Character; title of the model, printed as the header of the
+parameter estimates table.}
 }
 \value{
 \code{ols_regress} returns an object of class \code{"ols_regress"}.
@@ -62,7 +72,18 @@ Ordinary least squares regression.
 \section{Interaction Terms}{
 
 If the model includes interaction terms, the standardized betas
-are computed after scaling and centering the predictors.
+are computed after scaling and centering the predictors (with the model's
+prior weights when the model is weighted) and refitting the model.
+}
+
+\section{Weighted Models}{
+
+Models fitted with \code{lm(..., weights = ...)} are supported. The reported
+estimates, standard errors, test statistics, confidence intervals and
+R-squared match \code{summary()}, \code{anova()} and \code{confint()}.
+Weights cannot be supplied through the formula interface; fit the model with
+\code{lm()} and pass the fitted model instead. Objects of class \code{glm}
+are not supported; use \code{lm()} or the formula interface.
 }
 
 \examples{

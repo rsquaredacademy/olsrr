@@ -58,3 +58,88 @@ test_that("forward selection refits transformed responses safely (audit F1)", {
   expect_equal(coef(k$model), coef(lm(formula(k$model), data = mtcars)))
   expect_equal(k$model$df.residual, lm(formula(k$model), data = mtcars)$df.residual)
 })
+
+test_that("printing stepwise results with transformed terms works (audit F1)", {
+  # the printed Beta of `term` in the final model output table
+  beta_from_print <- function(out, term) {
+    lines <- trimws(out)
+    line  <- lines[startsWith(lines, term)][1]
+    rest  <- substring(line, nchar(term) + 1)
+    as.numeric(regmatches(rest, regexpr("-?[0-9]+\\.[0-9]+", rest)))
+  }
+
+  # the transformed term ends up in the final model of every procedure
+  models <- list(
+    "log"    = log(mpg) ~ disp + hp + wt + qsec,
+    "factor" = mpg ~ factor(cyl) + hp + wt + qsec,
+    "poly"   = mpg ~ poly(disp, 2) + hp + wt + qsec,
+    "I"      = mpg ~ I(disp/100) + hp + qsec
+  )
+
+  procedures <- c(
+    "ols_step_forward_p", "ols_step_backward_p", "ols_step_both_p",
+    "ols_step_forward_aic", "ols_step_backward_aic", "ols_step_both_aic",
+    "ols_step_forward_sbc", "ols_step_backward_sbc", "ols_step_both_sbc",
+    "ols_step_forward_sbic", "ols_step_backward_sbic", "ols_step_both_sbic",
+    "ols_step_forward_r2", "ols_step_backward_r2", "ols_step_both_r2",
+    "ols_step_forward_adj_r2", "ols_step_backward_adj_r2", "ols_step_both_adj_r2"
+  )
+
+  for (term in names(models)) {
+    model <- lm(models[[term]], data = mtcars)
+
+    for (procedure in procedures) {
+      k <- do.call(procedure, list(model))
+      expect_no_error(capture.output(print(k)))
+    }
+  }
+
+  # the printed coefficients are the estimates of the final model
+  k        <- ols_step_forward_p(lm(models[["log"]], data = mtcars))
+  out      <- capture.output(print(k))
+  ref      <- lm(formula(k$model), data = mtcars)
+  coefname <- names(coef(ref))[2]
+
+  expect_equal(
+    beta_from_print(out, coefname),
+    unname(round(coef(ref)[coefname], 3)),
+    tolerance = 1e-6
+  )
+})
+
+test_that("plot() of a 0-step forward_p result succeeds without error (#234)", {
+  d <- mtcars[1:5, ]
+  d$y <- 2 * d$disp + 3 * d$hp
+  m <- lm(y ~ disp + hp, data = d)
+
+  kf <- ols_step_forward_p(m)
+  expect_equal(nrow(kf$metrics), 0)
+  expect_no_error(plot(kf, print_plot = FALSE))
+
+  khf <- ols_step_forward_p(m, hierarchical = TRUE)
+  expect_equal(nrow(khf$metrics), 0)
+  expect_no_error(plot(khf, print_plot = FALSE))
+})
+
+test_that("ols_regress() and predict() work on stepwise final model with transformed terms (#246)", {
+  m <- lm(log(mpg) ~ disp + hp + wt, data = mtcars)
+  k <- ols_step_forward_p(m)
+
+  res <- ols_regress(k$model)
+  expect_equal(res$betas, coef(k$model))
+
+  out <- capture.output(print(res))
+  expect_true(any(grepl("Model Summary", out, fixed = TRUE)))
+  expect_true(any(grepl("Parameter Estimates", out, fixed = TRUE)))
+
+  expect_length(predict(k$model), 32)
+  expect_length(predict(k$model, newdata = data.frame(disp = 200, hp = 100, wt = 3)), 1)
+})
+
+test_that("stepwise routines give a clear error for non-model input", {
+  expect_error(
+    ols_step_forward_p(1),
+    "`model` must be an object of class `lm`",
+    fixed = TRUE
+  )
+})

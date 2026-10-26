@@ -37,6 +37,10 @@ Partial and part correlations are not defined for models with a single
 predictor and are returned as \code{NA}. The zero-order correlation is
 still available for such models. Models without an intercept are supported
 only with one predictor.
+
+Part and partial correlations are not available for weighted
+models, because they are computed from auxiliary regressions that would
+ignore the model weights.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

@@ -65,7 +65,10 @@ ols_get_variables <- function(model) {
   if (n == 1) {
     preds <- NULL
   } else {
-    preds <- vars[2:n] 
+    preds <- setdiff(vars[2:n], synthetic_model_columns(model))
+    if (length(preds) == 0) {
+      preds <- NULL
+    }
   }
   list(response = resp, predictors = preds)
 }
@@ -274,7 +277,8 @@ ols_get_parameters <- function(model) {
 #' @export
 #'
 ols_get_predictors <- function(model) {
-  model$model[, -1, drop = FALSE]
+  preds <- model$model[, -1, drop = FALSE]
+  preds[, setdiff(names(preds), synthetic_model_columns(model)), drop = FALSE]
 }
 
 #' Response variable data

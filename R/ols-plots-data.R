@@ -4,6 +4,9 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' @details The data are used by diagnostics that refit auxiliary models
+#' without weights and are therefore not available for weighted models.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_prep_avplot_data(model)
@@ -13,6 +16,9 @@
 #' @export
 #'
 ols_prep_avplot_data <- function(model) {
+
+  check_model(model)
+  check_weights_diagnostic(model, "ols_prep_avplot_data")
 
   m1 <- as.data.frame(model.frame(model))[1]
   mm <- model.matrix(model)

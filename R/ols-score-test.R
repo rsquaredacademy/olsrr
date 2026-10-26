@@ -30,6 +30,9 @@
 #'
 #' Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
 #'
+#' @details The test is not available for weighted models, because it refits
+#' auxiliary regressions that would ignore the model weights.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
@@ -56,6 +59,7 @@ ols_test_score.default <- function(model, fitted_values = TRUE, rhs = FALSE,
                                    vars = NULL) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_test_score")
   check_logic(fitted_values)
   check_logic(rhs)
 

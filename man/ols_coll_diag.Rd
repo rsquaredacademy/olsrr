@@ -72,6 +72,10 @@ possible variance, subject to being uncorrelated with the first and second, and 
 of each of these linear combinations is called an eigenvalue. Collinearity is spotted by finding 2 or
 more variables that have large proportions of variance (.50 or more) that correspond to large condition
 indices. A rule of thumb is to label as large those condition indices in the range of 30 or larger.
+
+Tolerance, variance inflation factors, eigenvalues and condition indices are
+computed from the design (model) matrix and do not use the model weights, so
+they remain available for weighted models.
 }
 \examples{
 # model

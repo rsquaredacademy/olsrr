@@ -21,6 +21,10 @@
 #' still available for such models. Models without an intercept are supported
 #' only with one predictor.
 #'
+#' @details Part and partial correlations are not available for weighted
+#' models, because they are computed from auxiliary regressions that would
+#' ignore the model weights.
+#'
 #' @return \code{ols_correlations} returns an object of class \code{"ols_correlations"}.
 #' An object of class \code{"ols_correlations"} is a data frame containing the
 #' following components:
@@ -47,6 +51,7 @@ ols_correlations <- function(model) UseMethod("ols_correlations")
 ols_correlations.default <- function(model) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_correlations")
 
   result <- corout(model, corm2(model))
   class(result) <- c("ols_correlations", "data.frame")

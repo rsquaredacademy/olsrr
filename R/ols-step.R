@@ -48,6 +48,26 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     return(out)
   }
 
+  if (mlen_p == 0) {
+    message("No candidate predictors left to enter.")
+    base_model  <- ols_base_model(include, response, l)
+    final_model <- ols_step_final_model(model, response, include, l)
+    metrics     <- data.frame(step     = integer(0),
+                              variable = character(0),
+                              r2       = numeric(0),
+                              adj_r2   = numeric(0),
+                              aic      = numeric(0),
+                              sbc      = numeric(0),
+                              sbic     = numeric(0))
+    out <- list(metrics = metrics,
+                model   = final_model,
+                others  = list(base_model = base_model,
+                               criteria   = indicator,
+                               direction  = "forward",
+                               full_model = model))
+    return(out)
+  }
+
   if (progress || details) {
     ols_candidate_terms(nam, "forward")
     if (interactive()) {
@@ -241,7 +261,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     }
   }
 
-  final_model <- lm(ols_step_formula(response, preds), data = l)
+  final_model <- ols_step_final_model(model, response, preds, l)
 
   var_selected <- setdiff(preds, include)
   if (length(var_selected) == 0) {
@@ -489,7 +509,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
     ols_stepwise_vars(rpred, "backward")
   }
 
-  final_model <- lm(ols_step_formula(response, preds), data = l)
+  final_model <- ols_step_final_model(model, response, preds, l)
 
   metrics     <- data.frame(step     = seq_len(step),
                             variable = rpred,
@@ -765,7 +785,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
     ols_stepwise_vars(preds, "both")
   }
 
-  final_model <- lm(ols_step_formula(response, preds), data = l)
+  final_model <- ols_step_final_model(model, response, preds, l)
 
   metrics     <- data.frame(step     = seq_len(all_step),
                             variable = var_index,
