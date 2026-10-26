@@ -29,6 +29,9 @@
 #' @references
 #' Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
 #'
+#' @details The test is not available for weighted models, because it refits
+#' auxiliary regressions that would ignore the model weights.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -55,6 +58,7 @@ ols_test_f <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ..
 ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_test_f")
   check_logic(fitted_values)
   check_logic(rhs)
 

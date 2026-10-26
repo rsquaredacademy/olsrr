@@ -186,6 +186,74 @@ test_that("weighted ols_regress matches summary, anova, confint (#236)", {
   expect_equal(res$p, pf(res$f, res$model_df, res$error_df, lower.tail = FALSE), tolerance = 1e-6)
 
   expect_error(ols_regress(mpg ~ disp + hp, data = d, weights = d$w), "weights")
+  expect_error(ols_regress(mpg ~ disp + hp, data = d, weights = w), "weights")
+})
+
+test_that("weighted interaction models work in ols_regress() (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  wts <- d$w
+
+  models <- list(
+    lm(mpg ~ disp * hp, data = d, weights = w),
+    lm(log(mpg) ~ disp * hp, data = d, weights = w),
+    lm(mpg ~ disp * hp, data = mtcars, weights = wts),
+    lm(log(mpg) ~ disp * hp, data = mtcars, weights = wts)
+  )
+
+  for (m in models) {
+    res <- ols_regress(m)
+    s   <- summary(m)
+    a   <- anova(m)
+
+    expect_equal(unname(res$betas), unname(coef(m)), tolerance = 1e-8)
+    expect_equal(unname(res$std_errors), unname(s$coefficients[, 2]), tolerance = 1e-8)
+    expect_equal(unname(res$tvalues), unname(s$coefficients[, 3]), tolerance = 1e-8)
+    expect_equal(unname(res$pvalues), unname(s$coefficients[, 4]), tolerance = 1e-8)
+    expect_equal(res$conf_lm, confint(m), tolerance = 1e-8)
+    expect_equal(res$rsq, s$r.squared, tolerance = 1e-8)
+    expect_equal(res$adjr, s$adj.r.squared, tolerance = 1e-8)
+    expect_equal(res$rmse, s$sigma, tolerance = 1e-8)
+    expect_equal(res$rss, sum(a$`Sum Sq`[-nrow(a)]), tolerance = 1e-8)
+    expect_equal(res$ess, a$`Sum Sq`[nrow(a)], tolerance = 1e-8)
+    expect_equal(res$tss, sum(a$`Sum Sq`), tolerance = 1e-8)
+    expect_equal(unname(res$f), unname(s$fstatistic[1]), tolerance = 1e-8)
+    expect_silent(res$sbetas)
+    expect_equal(names(res$sbetas), names(coef(m))[-1])
+  }
+})
+
+test_that("standardised betas of weighted interaction models use a weighted fit on scaled predictors", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+
+  for (f in list(mpg ~ disp * hp, log(mpg) ~ disp * hp)) {
+    m   <- lm(f, data = d, weights = w)
+    got <- ols_regress(m)$sbetas
+
+    # definition: refit the model with every predictor standardised and the
+    # model's prior weights, then multiply each coefficient by the standard
+    # deviation of its (scaled-model) model-matrix column and divide by the
+    # standard deviation of the untransformed model response
+    scaled      <- d
+    scaled$disp <- as.numeric(scale(scaled$disp))
+    scaled$hp   <- as.numeric(scale(scaled$hp))
+    ref         <- lm(f, data = scaled, weights = w)
+    expected    <- coef(ref)[-1] *
+      apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+      sd(model.response(model.frame(m)))
+
+    expect_equal(unname(got), unname(expected), tolerance = 1e-8)
+  }
+})
+
+test_that("ols_regress() rejects glm objects with a clear message (#236)", {
+  g <- glm(am ~ disp + hp, data = mtcars, family = binomial)
+
+  expect_error(ols_regress(g), "supports only lm models")
+  expect_error(ols_regress(g), "formula interface")
 })
 
 test_that("stepwise selection routines reject weighted models (#236)", {

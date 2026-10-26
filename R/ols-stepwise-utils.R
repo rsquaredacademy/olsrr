@@ -515,8 +515,9 @@ ols_print_final_model <- function(data) {
 #
 # the final model is fitted on an internal copy of the data, so re-evaluating
 # its own call fails for terms such as log(mpg) or factor(cyl) (the model frame
-# stores term labels as column names). Re-evaluate its formula against the data
-# of the model supplied by the user instead.
+# stores term labels as column names). ols_step_final_model() rebuilds the final
+# model with a call, data and formula environment that can be evaluated, so
+# ols_regress() can reuse the model itself.
 ols_final_regress <- function(data) {
   ols_regress(data$model)
 }

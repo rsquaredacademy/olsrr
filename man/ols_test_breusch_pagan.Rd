@@ -69,6 +69,9 @@ Computation
 freedom, where p is the number of independent variables, n is the sample size and
 \eqn{R^2} is the coefficient of determination from the regression in step 2.
 }
+
+The test is not available for weighted models, because the auxiliary
+regression in step 2 would ignore the model weights.
 }
 \examples{
 # model

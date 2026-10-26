@@ -19,6 +19,9 @@ containing other predictors. The residuals from the model is regressed on the
 new predictor and if the plot shows non random pattern, you should consider
 adding the new predictor to the model.
 }
+\details{
+The plot is not available for weighted models.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_plot_resid_regressor(model, 'drat')

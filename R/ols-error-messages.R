@@ -14,6 +14,15 @@ check_weights <- function(model, fn = as.character(sys.call(-1)[[1]])) {
   }
 }
 
+# Diagnostics that refit auxiliary models from the model matrix are only valid
+# for the model they were fitted with; without the weights those refits are
+# silently unweighted.
+check_weights_diagnostic <- function(model, fn) {
+  if (!is.null(model$weights) && any(model$weights != 1)) {
+    stop(paste0(fn, "() is not available for weighted models."), call. = FALSE)
+  }
+}
+
 check_order <- function(n, max_order) {
   if (max_order > n) {
     stop("Maximum subset order should be less than or equal to the number of predictors in the specified model.", call. = FALSE)

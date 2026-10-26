@@ -35,6 +35,9 @@
 #' 				 \eqn{R^2} is the coefficient of determination from the regression in step 2.
 #' }
 #'
+#' The test is not available for weighted models, because the auxiliary
+#' regression in step 2 would ignore the model weights.
+#'
 #' @return \code{ols_test_breusch_pagan} returns an object of class \code{"ols_test_breusch_pagan"}.
 #' An object of class \code{"ols_test_breusch_pagan"} is a list containing the
 #' following components:
@@ -93,6 +96,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
                                 p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_test_breusch_pagan")
   check_logic(fitted.values)
   check_logic(rhs)
   check_logic(multiple)

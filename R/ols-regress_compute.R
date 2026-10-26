@@ -45,19 +45,34 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
 
   } else if (iterm) {
 
-    data_scaled <- data
+    # scale only the variables used by the model; the response (which may be
+    # a call such as log(y)) and any other columns, including the weights, are
+    # left untouched
+    data_scaled <- as.data.frame(data)
     resp        <- unique(c(all.vars(formula)[1], nam[1]))
+    model_vars  <- setdiff(all.vars(attr(model$terms, "variables")), resp)
 
-    is_num    <- unname(unlist(lapply(data_scaled, is.numeric)))
-    is_num[names(data_scaled) %in% resp] <- FALSE
-    num_scale <- as.data.frame(lapply(data_scaled[, is_num, drop = FALSE], scale))
-    newdata   <- data_scaled[, !is_num, drop = FALSE]
-    if (ncol(num_scale) > 0) {
-      newdata <- cbind(newdata, num_scale)
+    is_num     <- vapply(data_scaled, is.numeric, logical(1))
+    scale_cols <- intersect(names(data_scaled)[is_num], model_vars)
+
+    newdata <- data_scaled[, setdiff(names(data_scaled), scale_cols), drop = FALSE]
+    if (length(scale_cols) > 0) {
+      num_scale <- as.data.frame(lapply(data_scaled[, scale_cols, drop = FALSE], scale))
+      newdata   <- cbind(newdata, num_scale)
     }
+
     if (!is.null(model$weights)) {
-      w <- model$weights
-      model2 <- lm(formula, data = newdata, weights = w)
+      # carry the weights in a column whose name cannot clash with the data
+      # (passing `weights = w` would otherwise be looked up in `newdata`,
+      # where a column named `w` has been scaled and may be negative)
+      wt_name <- ".ols_wt"
+      while (wt_name %in% names(newdata)) {
+        wt_name <- paste0(wt_name, "_")
+      }
+      newdata[[wt_name]] <- unname(model$weights)
+      model2 <- eval(bquote(
+        lm(formula, data = newdata, weights = .(as.name(wt_name)))
+      ))
     } else {
       model2 <- lm(formula, data = newdata)
     }

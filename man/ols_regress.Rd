@@ -72,7 +72,18 @@ Ordinary least squares regression.
 \section{Interaction Terms}{
 
 If the model includes interaction terms, the standardized betas
-are computed after scaling and centering the predictors.
+are computed after scaling and centering the predictors (with the model's
+prior weights when the model is weighted) and refitting the model.
+}
+
+\section{Weighted Models}{
+
+Models fitted with \code{lm(..., weights = ...)} are supported. The reported
+estimates, standard errors, test statistics, confidence intervals and
+R-squared match \code{summary()}, \code{anova()} and \code{confint()}.
+Weights cannot be supplied through the formula interface; fit the model with
+\code{lm()} and pass the fitted model instead. Objects of class \code{glm}
+are not supported; use \code{lm()} or the formula interface.
 }
 
 \examples{

@@ -57,7 +57,16 @@
 #'
 #' @section Interaction Terms:
 #' If the model includes interaction terms, the standardized betas
-#' are computed after scaling and centering the predictors.
+#' are computed after scaling and centering the predictors (with the model's
+#' prior weights when the model is weighted) and refitting the model.
+#'
+#' @section Weighted Models:
+#' Models fitted with \code{lm(..., weights = ...)} are supported. The reported
+#' estimates, standard errors, test statistics, confidence intervals and
+#' R-squared match \code{summary()}, \code{anova()} and \code{confint()}.
+#' Weights cannot be supplied through the formula interface; fit the model with
+#' \code{lm()} and pass the fitted model instead. Objects of class \code{glm}
+#' are not supported; use \code{lm()} or the formula interface.
 #'
 #' @references https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting%20Standardized%20Coefficients%20Right.pdf
 #'
@@ -79,8 +88,7 @@ ols_regress <- function(object, ...) UseMethod("ols_regress")
 #'
 ols_regress.default <- function(object, data, conf.level = 0.95,
                                 iterm = FALSE, title = "model", ...) {
-  dots <- list(...)
-  if ("weights" %in% names(dots)) {
+  if ("weights" %in% names(match.call(expand.dots = FALSE)$...)) {
     stop("weights are not supported in ols_regress when using a formula; fit the model with lm() and pass the model instead.", call. = FALSE)
   }
 
@@ -126,6 +134,10 @@ ols_regress.lm <- function(object, conf.level = 0.95, iterm = FALSE,
                            title = "model", ...) {
 
   check_model(object)
+
+  if (!is.null(object$family)) {
+    stop("ols_regress() supports only lm models; fit the model with lm() or use the formula interface instead.", call. = FALSE)
+  }
 
   formula <- formula(object)
   data    <- ols_model_data(object)
