@@ -62,3 +62,19 @@ test_that("design-matrix collinearity diagnostics remain available for weighted 
   expect_no_error(ols_eigen_cindex(m))
   expect_no_error(ols_coll_diag(m))
 })
+
+test_that("ols_pure_error_anova() errors on weighted models (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m <- lm(mpg ~ disp, data = d, weights = w)
+
+  expect_error(
+    ols_pure_error_anova(m),
+    "ols_pure_error_anova\\(\\) is not available for weighted models"
+  )
+
+  # unit weights are still treated as unweighted
+  m_unit <- lm(mpg ~ disp, data = mtcars, weights = rep(1, 32))
+  expect_no_error(ols_pure_error_anova(m_unit))
+})

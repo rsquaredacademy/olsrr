@@ -7,7 +7,18 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
   }
   nam        <- names(model.frame(model))
   response   <- nam[1]
-  predictors <- nam[-1]
+
+  # a model frame adds synthetic columns for prior weights and offsets; neither
+  # is a predictor
+  off_terms <- attr(model$terms, "offset")
+  drop      <- c("(weights)", "(offset)")
+  if (length(off_terms) > 0) {
+    variables <- as.list(attr(model$terms, "variables"))[-1]
+    drop      <- c(drop, vapply(variables[off_terms], function(x) {
+      paste(deparse(x), collapse = "")
+    }, character(1)))
+  }
+  predictors <- setdiff(nam[-1], drop)
   output     <- summary(model)
   anovam     <- anova(model)
   dep        <- model.frame(model)[1]

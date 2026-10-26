@@ -294,3 +294,29 @@ test_that("stepwise selection routines reject weighted models (#236)", {
   m_unit <- lm(mpg ~ disp + hp, data = mtcars, weights = rep(1, 32))
   expect_no_error(ols_step_forward_p(m_unit))
 })
+
+test_that("weighted models do not report synthetic model-frame columns as predictors (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+
+  m_unwt <- lm(mpg ~ disp + hp, data = d)
+  m_wt   <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  res_wt   <- ols_regress(m_wt)
+  res_unwt <- ols_regress(m_unwt)
+
+  expect_equal(res_wt$predictors, res_unwt$predictors)
+  expect_equal(res_wt$predictors, c("disp", "hp"))
+  expect_equal(res_wt$dependent, "mpg")
+
+  # offsets are not predictors either, for models and formulas
+  expect_equal(
+    ols_regress(lm(mpg ~ disp + hp + offset(wt), data = d))$predictors,
+    c("disp", "hp")
+  )
+  expect_equal(
+    ols_regress(mpg ~ disp + hp + offset(wt), data = d)$predictors,
+    c("disp", "hp")
+  )
+})
