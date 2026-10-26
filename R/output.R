@@ -79,7 +79,18 @@ print_reg <- function(data) {
 
   k <- length(data$mvars)
 
-  sb <- c("", format(round(data$sbetas, 3), nsmall = 3))
+  # align the standardised betas with the coefficients by name; models without
+  # an intercept have a standardised beta for every coefficient
+  sb <- rep("", k)
+  if (length(data$sbetas) > 0) {
+    sbeta_val <- format(round(data$sbetas, 3), nsmall = 3)
+    if (is.null(names(data$sbetas))) {
+      sb[seq_along(sbeta_val)] <- sbeta_val
+    } else {
+      idx <- match(names(data$sbetas), data$mvars)
+      sb[idx[!is.na(idx)]] <- sbeta_val[!is.na(idx)]
+    }
+  }
 
   cat(fc("Parameter Estimates", w21), "\n")
   cat(rep("-", w21), sep = "", "\n")

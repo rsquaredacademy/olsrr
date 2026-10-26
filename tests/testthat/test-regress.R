@@ -106,3 +106,52 @@ test_that("standardised betas of interaction models keep the response untransfor
 
   expect_equal(unname(got), unname(expected))
 })
+
+test_that("ols_regress.lm() forwards conf.level, iterm and title (audit F2)", {
+  m <- lm(mpg ~ disp + hp, data = mtcars)
+
+  expect_equal(ols_regress(m, conf.level = 0.90)$conf_lm, confint(m, level = 0.90))
+  expect_equal(
+    ols_regress(m, conf.level = 0.90)$conf_lm["disp", 1],
+    confint(m, level = 0.90)["disp", 1]
+  )
+
+  out <- capture.output(print(ols_regress(m, title = "my model")))
+  expect_true(any(grepl("my model", out, fixed = TRUE)))
+
+  m_inter <- lm(mpg ~ disp * wt, data = mtcars)
+  expect_equal(
+    ols_regress(m_inter, iterm = TRUE)$sbetas,
+    ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)$sbetas
+  )
+  expect_error(ols_regress(m_inter, iterm = "yes"), "must be a flag")
+})
+
+test_that("standardised betas keep every coefficient of no-intercept models (audit F3)", {
+  m        <- lm(mpg ~ 0 + disp + hp, data = mtcars)
+  res      <- ols_regress(m)
+  expected <- coef(m) * c(sd(mtcars$disp), sd(mtcars$hp)) / sd(mtcars$mpg)
+
+  expect_length(res$betas, 2)
+  expect_length(res$sbetas, 2)
+  expect_equal(names(res$sbetas), names(coef(m)))
+  expect_equal(unname(res$sbetas), unname(expected))
+
+  m1 <- lm(mpg ~ 0 + disp, data = mtcars)
+  expect_length(ols_regress(m1)$sbetas, 1)
+  expect_equal(
+    unname(ols_regress(m1)$sbetas),
+    unname(coef(m1) * sd(mtcars$disp) / sd(mtcars$mpg))
+  )
+
+  # the printed Std. Beta column is aligned with the coefficients by name
+  out <- capture.output(print(res))
+  std_beta <- function(term) {
+    row <- Filter(function(r) identical(r[1], term), lapply(out, function(l) {
+      strsplit(trimws(l), "[[:space:]]+")[[1]]
+    }))
+    as.numeric(row[[1]][4])
+  }
+  expect_equal(std_beta("disp"), unname(round(expected[["disp"]], 3)))
+  expect_equal(std_beta("hp"), unname(round(expected[["hp"]], 3)))
+})

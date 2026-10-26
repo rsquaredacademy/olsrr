@@ -7,7 +7,7 @@
 \usage{
 ols_regress(object, ...)
 
-\method{ols_regress}{lm}(object, ...)
+\method{ols_regress}{lm}(object, conf.level = 0.95, iterm = FALSE, title = "model", ...)
 }
 \arguments{
 \item{object}{An object of class "formula" (or one that can be coerced to
@@ -15,6 +15,16 @@ that class): a symbolic description of the model to be fitted or class
 \code{lm}.}
 
 \item{...}{Other inputs.}
+
+\item{conf.level}{Confidence level for the confidence intervals of the
+coefficients.}
+
+\item{iterm}{Logical; if \code{TRUE}, the predictors are scaled and centered
+before computing the standardized betas. See \emph{Interaction Terms}
+below.}
+
+\item{title}{Character; title of the model, printed as the header of the
+parameter estimates table.}
 }
 \value{
 \code{ols_regress} returns an object of class \code{"ols_regress"}.

@@ -6,6 +6,14 @@
 #'   that class): a symbolic description of the model to be fitted or class
 #'   \code{lm}.
 #'
+#' @param conf.level Confidence level for the confidence intervals of the
+#'   coefficients.
+#' @param iterm Logical; if \code{TRUE}, the predictors are scaled and centered
+#'   before computing the standardized betas. See \emph{Interaction Terms}
+#'   below.
+#' @param title Character; title of the model, printed as the header of the
+#'   parameter estimates table.
+#'
 #' @param ... Other inputs.
 #'
 #' @return \code{ols_regress} returns an object of class \code{"ols_regress"}.
@@ -109,14 +117,16 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
 #' @rdname ols_regress
 #' @export
 #'
-ols_regress.lm <- function(object, ...) {
+ols_regress.lm <- function(object, conf.level = 0.95, iterm = FALSE,
+                           title = "model", ...) {
 
   check_model(object)
 
   formula <- formula(object)
   data    <- ols_model_data(object)
 
-  ols_regress.default(object = formula, data = data)
+  ols_regress.default(object = formula, data = data, conf.level = conf.level,
+                      iterm = iterm, title = title)
 
 }
 

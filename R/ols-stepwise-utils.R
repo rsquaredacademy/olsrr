@@ -502,8 +502,26 @@ ols_print_final_model <- function(data) {
   cat("\n\n")
   cat("Final Model Output", "\n")
   cat(rep("-", 18), sep = "", "\n\n")
-  print(ols_regress(data$model))
+  print(ols_final_regress(data))
   cat("\n")
+}
+
+# regress the final model of a stepwise selection procedure
+#
+# the final model is fitted on an internal copy of the data, so re-evaluating
+# its own call fails for terms such as log(mpg) or factor(cyl) (the model frame
+# stores term labels as column names). Re-evaluate its formula against the data
+# of the model supplied by the user instead.
+ols_final_regress <- function(data) {
+
+  full <- data$others$full_model
+
+  if (is.null(full)) {
+    return(ols_regress(data$model))
+  }
+
+  ols_regress(formula(data$model), data = ols_model_data(full))
+
 }
 
 
