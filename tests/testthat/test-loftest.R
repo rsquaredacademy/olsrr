@@ -29,6 +29,60 @@ test_that("overall regression F matches summary.lm", {
   expect_equal(k$pr, unname(pf(fs[1], fs[2], fs[3], lower.tail = FALSE)))
 })
 
+test_that("no-intercept lack-of-fit degrees of freedom come from the model rank (G02)", {
+  m <- lm(mpg ~ 0 + disp, mtcars)
+  o <- ols_pure_error_anova(m)
+  nd <- length(unique(mtcars$disp))
+
+  nested <- anova(m, lm(mpg ~ 0 + factor(disp), mtcars))
+
+  expect_equal(o$df_rss, 1)
+  expect_equal(o$df_ess, df.residual(m))
+  expect_equal(o$df_ess, 31)
+  expect_equal(o$df_lof, nd - m$rank)
+  expect_equal(o$df_lof, nested$Df[2])
+  expect_equal(o$df_error, nrow(mtcars) - nd)
+  expect_equal(o$rss, sum(mtcars$mpg ^ 2) - deviance(m))
+  expect_equal(o$rss, unname(anova(m)[1, 2]))
+
+  # the overall regression F agrees with summary() and the lack-of-fit F with
+  # the nested group-means ANOVA
+  expect_equal(o$rf, unname(summary(m)$fstatistic[1]))
+  expect_equal(o$rf, 36.56991, tolerance = 1e-5)
+  expect_equal(o$pr, unname(pf(summary(m)$fstatistic[1], o$df_rss, o$df_ess,
+                                lower.tail = FALSE)))
+  expect_equal(o$lf, nested$F[2])
+  expect_equal(o$pl, nested$`Pr(>F)`[2])
+
+  # the same decomposition after removing a fixed offset
+  mo   <- lm(mpg ~ 0 + disp + offset(qsec), mtcars)
+  oo   <- ols_pure_error_anova(mo)
+  adj  <- lm(I(mpg - qsec) ~ 0 + disp, mtcars)
+  full <- lm(I(mpg - qsec) ~ 0 + factor(disp), mtcars)
+  ref  <- anova(adj, full)
+
+  expect_equal(oo$df_lof, ref$Df[2])
+  expect_equal(oo$ess, deviance(mo))
+  expect_equal(oo$lf, ref$F[2])
+  expect_equal(oo$pl, ref$`Pr(>F)`[2])
+  expect_equal(oo$rf, unname(summary(mo)$fstatistic[1]))
+})
+
+test_that("constant or intercept-only models have no regression test (G02)", {
+  d <- transform(mtcars, x = 1)
+  m <- lm(mpg ~ x, d)
+
+  expect_error(
+    ols_pure_error_anova(m),
+    "no tested direction beyond the intercept"
+  )
+
+  expect_error(
+    ols_pure_error_anova(lm(mpg ~ 1, mtcars)),
+    "no tested direction beyond the intercept"
+  )
+})
+
 test_that("models without replicates are handled explicitly", {
   d     <- data.frame(x = 1:10, y = c(1, 3, 2, 5, 4, 7, 6, 9, 8, 11))
   model <- lm(y ~ x, d)

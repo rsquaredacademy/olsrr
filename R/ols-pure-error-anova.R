@@ -86,6 +86,16 @@ ols_pure_error_anova.default <- function(model, ...) {
     stop("Lack of fit F test is available only for simple linear regression.", call. = FALSE)
   }
 
+  # a constant or fully aliased predictor (and an intercept-only model) leaves
+  # no estimated direction beyond the intercept, so there is no regression sum
+  # of squares or regression F statistic to test
+  if (model$rank <= attr(model$terms, "intercept")) {
+    stop(paste0("ols_pure_error_anova(): the model has no tested direction beyond",
+                " the intercept, so the regression F test is undefined. The",
+                " predictor is constant or fully aliased with the intercept."),
+         call. = FALSE)
+  }
+
   k <- peanova(model)
 
   result <- list(lackoffit = k$lackoffit, pure_error = k$pure_error, rss = k$rss,
@@ -119,21 +129,31 @@ peanova <- function(model) {
   
   random_error <- sum(final$rerror)
 
-  rss      <- rss_model(model)
   ess      <- sum(lackoffit, random_error)
+  int      <- attr(model$terms, "intercept")
+  y        <- pea_frame(model)[[1]]
+
+  # the regression sum of squares is what the total leaves after the residual
+  # sum of squares. It cannot be read from row 1 of anova(): a no-intercept or
+  # fully aliased fit may have no regression row there.
+  rss      <- if (int) sum((y - mean(y)) ^ 2) - ess else sum(y ^ 2) - ess
   total    <- sum(ess, rss)
-  df_rss   <- 1
-  df_lof   <- nd - 2
+  df_rss   <- model$rank - int
+  df_ess   <- df.residual(model)
   df_error <- n - nd
-  df_ess   <- sum(df_lof, df_error)
+  df_lof   <- df_ess - df_error
   rms      <- rss / df_rss
   ems      <- ess / df_ess
-  lms      <- lackoffit / df_lof
+  lms      <- if (df_lof > 0) lackoffit / df_lof else NA_real_
   pms      <- if (df_error > 0) random_error / df_error else NA_real_
   rf       <- rms / ems
   lf       <- lms / pms
   pr       <- pf(rf, df_rss, df_ess, lower.tail = F)
-  pl       <- pf(lf, df_lof, df_error, lower.tail = F)
+  pl       <- if (df_lof > 0 && df_error > 0) {
+    pf(lf, df_lof, df_error, lower.tail = F)
+  } else {
+    NA_real_
+  }
 
   list(
     lackoffit = lackoffit, pure_error = random_error, rss = rss, ess = ess,
@@ -197,11 +217,6 @@ predictor_mean <- function(data, pred_name, resp) {
   data.frame(n = names(out), mean = as.numeric(out))
 
 }
-
-rss_model <- function(model) {
-  anova(model)[1, 2]
-}
-
 
 replicate_mean <- function(mean_pred, pred_u) {
 
