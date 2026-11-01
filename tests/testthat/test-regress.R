@@ -219,8 +219,9 @@ test_that("weighted interaction models work in ols_regress() (#236)", {
     expect_equal(res$ess, a$`Sum Sq`[nrow(a)], tolerance = 1e-8)
     expect_equal(res$tss, sum(a$`Sum Sq`), tolerance = 1e-8)
     expect_equal(unname(res$f), unname(s$fstatistic[1]), tolerance = 1e-8)
-    expect_silent(res$sbetas)
     expect_equal(names(res$sbetas), names(coef(m))[-1])
+    expect_true(all(is.finite(res$sbetas)))
+    expect_equal(length(res$sbetas), length(attr(m$terms, "term.labels")))
   }
 })
 
