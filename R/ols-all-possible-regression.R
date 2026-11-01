@@ -342,26 +342,24 @@ allpos_helper <- function(model, max_order = NULL) {
 
   nam <- coeff_names(model)
   n   <- length(nam)
-  
-  r     <- seq_len(n)
-  combs <- list()
 
-  for (i in seq_len(n)) {
-    combs[[i]] <- combn(n, r[i])
-  }
-
+  # validate the requested order before allocating anything, and enumerate only
+  # the orders that will actually be fitted: the unbounded enumeration of every
+  # subset is what makes a bounded search run out of memory
   if (!is.null(max_order)) {
     check_order(n, max_order)
   }
 
-  if (is.null(max_order)) {
-    max_order <- n
+  lc    <- if (is.null(max_order)) n else max_order
+  r     <- seq_len(lc)
+  combs <- vector("list", lc)
+
+  for (i in seq_len(lc)) {
+    combs[[i]] <- combn(n, r[i])
   }
 
   pos_data  <- ols_model_data(model)
   predicts  <- nam
-  # lc        <- length(combs)
-  lc        <- max_order
   varnames  <- model_colnames(model)
   len_preds <- length(predicts)
   gap       <- len_preds - 1

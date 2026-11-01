@@ -98,23 +98,21 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   nam   <- setdiff(coeff_names(model), exclude)
   nam   <- setdiff(nam, include)
   n     <- length(nam)
-  r     <- seq_len(n)
-  combs <- list()
 
-  for (i in seq_len(n)) {
-    combs[[i]] <- combn(n, r[i])
-  }
-
+  # validate the requested order before allocating anything, and enumerate only
+  # the orders that will actually be fitted
   if (!is.null(max_order)) {
     check_order(n, max_order)
   }
 
-  if (is.null(max_order)) {
-    max_order <- n
+  lc    <- if (is.null(max_order)) n else max_order
+  r     <- seq_len(lc)
+  combs <- vector("list", lc)
+
+  for (i in seq_len(lc)) {
+    combs[[i]] <- combn(n, r[i])
   }
 
-  # lc        <- length(combs)
-  lc        <- max_order
   varnames  <- model_colnames(model)
   data      <- ols_model_data(model)
   colas     <- unname(unlist(lapply(combs, ncol)))

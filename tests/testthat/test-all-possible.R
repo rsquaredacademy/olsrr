@@ -1,3 +1,22 @@
+# Combination-allocation counters. trace() evaluates its exit expression in the
+# traced function's own environment, so the counters live in the global
+# environment, which is on that function's search path.
+start_combn_trace <- function() {
+  assign(".ofx2_combn", c(calls = 0, bytes = 0), envir = globalenv())
+  trace(utils::combn, exit = quote({
+    .ofx2_combn <<- .ofx2_combn + c(1, as.numeric(object.size(returnValue())))
+  }), print = FALSE)
+}
+
+combn_trace <- function() {
+  get(".ofx2_combn", envir = globalenv())
+}
+
+stop_combn_trace <- function() {
+  untrace(utils::combn)
+  rm(".ofx2_combn", envir = globalenv())
+}
+
 test_that("all possible regression output matches the expected result", {
   model <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
   k <- ols_step_all_possible(model)
@@ -18,6 +37,58 @@ test_that("all possible regression output matches the expected result", {
   )
   expect_equal(k2$result$mindex, c(1:14))
   expect_equal(k2$result$predictors, preds_selected, ignore_attr = TRUE)
+})
+
+test_that("a bounded search enumerates only the requested subset orders (M3)", {
+  set.seed(5)
+  d <- as.data.frame(matrix(rnorm(40 * 16), 40))
+  names(d) <- paste0("x", seq_len(16))
+  d$y <- rnorm(40)
+  m <- lm(y ~ ., d)
+
+  start_combn_trace()
+  on.exit(stop_combn_trace(), add = TRUE)
+
+  ap <- ols_step_all_possible(m, max_order = 1)
+  expect_equal(nrow(ap$result), 16)
+  expect_setequal(ap$result$predictors, names(d)[1:16])
+  expect_equal(combn_trace()[["calls"]], 1)   # one order, not sixteen
+  expect_lt(combn_trace()[["bytes"]], 100000)
+
+  # the values are still those of the equivalent single-predictor fits
+  expect_equal(ap$result$rsquare[ap$result$predictors == "x1"],
+               summary(lm(y ~ x1, d))$r.squared)
+
+  start_combn_trace()
+  ap2 <- ols_step_all_possible(m, max_order = 2)
+  expect_equal(nrow(ap2$result), 16 + choose(16, 2))
+  expect_equal(combn_trace()[["calls"]], 2)
+  expect_lt(combn_trace()[["bytes"]], 100000)
+
+  start_combn_trace()
+  bs <- ols_step_best_subset(m, max_order = 2)
+  expect_equal(nrow(bs$metrics), 2)
+  expect_equal(combn_trace()[["calls"]], 2)
+
+  # a bound larger than the model is rejected before any allocation
+  start_combn_trace()
+  expect_error(ols_step_best_subset(lm(y ~ x1 + x2, d), max_order = 5),
+               "Maximum subset order")
+  expect_equal(combn_trace()[["calls"]], 0)
+})
+
+test_that("bounded searches stay cheap for many predictors (M3)", {
+  set.seed(5)
+  d <- as.data.frame(matrix(rnorm(40 * 22), 40))
+  d$y <- rnorm(40)
+
+  start_combn_trace()
+  on.exit(stop_combn_trace(), add = TRUE)
+
+  ap <- ols_step_all_possible(lm(y ~ ., d), max_order = 2)
+  expect_equal(nrow(ap$result), 22 + choose(22, 2))
+  expect_equal(combn_trace()[["calls"]], 2)
+  expect_lt(combn_trace()[["bytes"]], 100000)
 })
 
 test_that("all possible regression throws error messages", {
