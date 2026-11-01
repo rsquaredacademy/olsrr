@@ -283,6 +283,11 @@ part_3 <- function(k, var, i) {
 #' \item{predictor}{predictor}
 #' \item{beta_coef}{coefficient for the predictor}
 #'
+#' @details The table is built by refitting every subset of the model terms, so
+#' it is not available for weighted models (the subset fits would silently drop
+#' the weights) or for models without an intercept. Both cases stop with an
+#' informative error.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_step_all_possible_betas(model)
@@ -294,6 +299,8 @@ ols_step_all_possible_betas <- function(object, ...) {
   if (!inherits(object, "lm")) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
+
+  check_weights(object, "ols_step_all_possible_betas")
 
   if (length(object$coefficients) < 3) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)

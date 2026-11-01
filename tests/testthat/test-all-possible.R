@@ -82,3 +82,27 @@ test_that("all-possible routines respect a no-intercept model (H7)", {
     "requires a model with an intercept"
   )
 })
+
+test_that("the beta table rejects weighted models instead of dropping weights (H7)", {
+  d <- mtcars
+  d$w <- seq_len(nrow(d)) / 8
+  m <- lm(mpg ~ wt + hp, d, weights = w)
+
+  expect_error(
+    ols_step_all_possible_betas(m),
+    "weighted models are not supported"
+  )
+
+  # unit weights are the unweighted fit and stay accepted
+  mu <- lm(mpg ~ wt + hp, mtcars, weights = rep(1, 32))
+  b  <- ols_step_all_possible_betas(mu)
+  full <- b[b$model == max(b$model), ]
+
+  expect_equal(full$predictor, names(coef(mu)), ignore_attr = TRUE)
+  expect_equal(full$beta, unname(coef(mu)), ignore_attr = TRUE)
+
+  # the unweighted table's full model is still the input fit
+  bu <- ols_step_all_possible_betas(lm(mpg ~ wt + hp, mtcars))
+  expect_equal(bu$beta[bu$model == max(bu$model)], unname(coef(lm(mpg ~ wt + hp, mtcars))),
+               ignore_attr = TRUE)
+})
