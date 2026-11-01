@@ -104,6 +104,11 @@ hadires <- function(model) {
 #' PRESS to assess your model's predictive ability. Usually, the smaller the
 #' PRESS value, the better the model's predictive ability.
 #'
+#' For models fitted with prior weights, PRESS uses the weighted deleted
+#' residuals, \eqn{\sum w_i (e_i / (1 - h_i))^2}, so that the statistic is
+#' invariant to a constant rescaling of the weights. Unweighted models are the
+#' special case where every weight equals one.
+#'
 #' @return Predicted sum of squares of the model.
 #'
 #' @references
@@ -122,8 +127,10 @@ ols_press <- function(model) {
 
   check_model(model)
   lev <- model_hatvalues_used(model)
+  res <- model_residuals_used(model)
+  wts <- model_weights_used(model)
   k   <- 1 - lev
-  sum((model_residuals_used(model) / k) ^ 2)
+  sum(wts * (res / k) ^ 2)
   
 }
 
@@ -137,6 +144,10 @@ ols_press <- function(model) {
 #' @param model An object of class \code{lm}.
 #'
 #' @return Predicted rsquare of the model.
+#'
+#' @details Both the PRESS statistic and the total sum of squares use the
+#' model's prior weights, so predicted R-squared is invariant to a constant
+#' rescaling of the weights.
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

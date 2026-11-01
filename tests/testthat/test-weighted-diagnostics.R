@@ -96,3 +96,94 @@ test_that("ols_test_correlation() uses sigma and rejects weighted models (#236)"
   m_unit <- lm(mpg ~ disp + hp + wt, data = mtcars, weights = rep(1, 32))
   expect_equal(ols_test_correlation(m_unit), ols_test_correlation(m_u))
 })
+
+test_that("weighted PRESS and predicted R-squared use the model weights (H1)", {
+  d <- mtcars
+  d$w <- seq_len(nrow(d)) / 8
+  m   <- lm(mpg ~ wt + hp, data = d, weights = w)
+  m10 <- lm(mpg ~ wt + hp, data = d, weights = 10 * w)
+
+  h        <- hatvalues(m)
+  press    <- sum(d$w * (m$residuals / (1 - h))^2)
+  expected <- 1 - press / sum(anova(m)[, 2])
+
+  expect_equal(ols_press(m), press)
+  expect_equal(ols_pred_rsq(m), expected)
+  expect_equal(ols_pred_rsq(m), 0.7859224, tolerance = 1e-6)
+
+  # a constant rescaling of the weights leaves predicted R-squared unchanged
+  expect_equal(ols_pred_rsq(m10), ols_pred_rsq(m))
+  expect_equal(ols_press(m10), 10 * ols_press(m))
+
+  # the summary printed by ols_regress() reports the same statistic
+  expect_equal(ols_regress(m)$prsq, ols_pred_rsq(m))
+})
+
+test_that("zero prior weights are dropped consistently (H2)", {
+  zero_fit <- function(pos) {
+    d    <- mtcars
+    d$w  <- rep(1, nrow(d))
+    d$w[pos] <- 0
+    list(
+      fit = lm(mpg ~ wt + hp, data = d, weights = w),
+      ref = lm(mpg ~ wt + hp, data = d[-pos, ])
+    )
+  }
+
+  for (pos in c(1, 16, 32)) {
+    z <- zero_fit(pos)
+
+    expect_equal(ols_press(z$fit), ols_press(z$ref))
+    expect_equal(ols_pred_rsq(z$fit), ols_pred_rsq(z$ref))
+    expect_equal(ols_aic(z$fit), ols_aic(z$ref))
+    expect_equal(ols_aic(z$fit, corrected = TRUE), ols_aic(z$ref, corrected = TRUE))
+    expect_equal(ols_sbc(z$fit), ols_sbc(z$ref))
+    expect_equal(ols_sbc(z$fit), BIC(z$fit))
+    expect_equal(ols_regress(z$fit)$mae, ols_regress(z$ref)$mae)
+  }
+
+  # zero weights combined with na.exclude
+  d <- mtcars
+  d$w <- rep(1, nrow(d))
+  d$w[1] <- 0
+  d$mpg[2] <- NA
+  me  <- lm(mpg ~ wt + hp, data = d, weights = w, na.action = na.exclude)
+  mo  <- lm(mpg ~ wt + hp, data = d, weights = w, na.action = na.omit)
+  ref <- lm(mpg ~ wt + hp, data = d[-(1:2), ])
+
+  expect_equal(ols_press(me), ols_press(ref))
+  expect_equal(ols_press(me), ols_press(mo))
+  expect_equal(ols_pred_rsq(me), ols_pred_rsq(ref))
+})
+
+test_that("SAS information criteria use deviance and the effective sample size (H9)", {
+  d <- mtcars
+  d$w <- seq_len(nrow(d)) / 8
+  m <- lm(mpg ~ wt + hp, data = d, weights = w)
+
+  n    <- nobs(m)
+  sse  <- deviance(m)
+  aic  <- n * log(sse / n) + 2 * m$rank
+  sbc  <- n * log(sse / n) + log(n) * m$rank
+
+  expect_equal(ols_aic(m, method = "SAS"), aic)
+  expect_equal(ols_aic(m, method = "SAS", corrected = TRUE),
+               n * log(sse / n) + n * (n + m$rank) / (n - m$rank - 2))
+  expect_equal(ols_sbc(m, method = "SAS"), sbc)
+
+  # na.exclude and na.omit fits are the same fit and give the same criteria
+  d$mpg[1] <- NA
+  me <- lm(mpg ~ wt + hp, data = d, na.action = na.exclude)
+  mo <- lm(mpg ~ wt + hp, data = d, na.action = na.omit)
+
+  for (method in c("R", "STATA", "SAS")) {
+    expect_equal(ols_aic(me, method = method), ols_aic(mo, method = method))
+    expect_equal(ols_sbc(me, method = method), ols_sbc(mo, method = method))
+  }
+
+  expect_equal(ols_aic(me, method = "SAS"),
+               nobs(mo) * log(deviance(mo) / nobs(mo)) + 2 * mo$rank)
+  expect_equal(ols_sbc(me, method = "SAS"),
+               nobs(mo) * log(deviance(mo) / nobs(mo)) + log(nobs(mo)) * mo$rank)
+})
+

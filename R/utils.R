@@ -151,20 +151,93 @@ synthetic_model_columns <- function(model) {
   drop
 }
 
-# Residuals and leverages of the rows used in the fit. residuals() and
-# hatvalues() pad these to the original number of rows for na.exclude fits;
-# model$residuals is always unpadded and the padded leverages are zero.
+# Rows of the model frame actually used in the fit. lm() drops observations
+# with zero prior weights, but keeps their residuals (equal to zero) in
+# model$residuals, so residuals, weights and leverages must be aligned.
+model_used_rows <- function(model) {
+
+  n <- length(model$residuals)
+  w <- model$weights
+
+  if (is.null(w) || length(w) != n) {
+    return(rep(TRUE, n))
+  }
+
+  w != 0
+}
+
+# Residuals, leverages and prior weights of the rows used in the fit.
+# residuals() and hatvalues() pad these to the original number of rows for
+# na.exclude fits; model$residuals is always unpadded and the padded leverages
+# are zero.
 model_residuals_used <- function(model) {
-  model$residuals
+
+  model$residuals[model_used_rows(model)]
+
 }
 
 model_hatvalues_used <- function(model) {
 
-  lev <- unname(hatvalues(model))
+  lev <- hatvalues(model)
+  rn  <- names(model$residuals)
+  ln  <- names(lev)
 
-  if (length(lev) > length(model$residuals)) {
-    lev <- lev[!is.na(residuals(model))]
+  # lm() reports leverages for the rows used in the fit and, for na.exclude
+  # fits with zero weights, names them with a mix of the original and the
+  # model-frame rows; align by row name so residual and leverage pairs match
+  if (!is.null(rn) && !is.null(ln) && length(ln) > 0) {
+    lev  <- unname(lev[match(rn, ln)])
+    keep <- !is.na(lev) & model_used_rows(model)
+    return(lev[keep])
+  }
+
+  # unnamed fits: fall back to the lengths reported by hatvalues()
+  lev  <- unname(lev)
+  used <- model_used_rows(model)
+  n    <- length(used)
+
+  if (length(lev) == n) {
+    return(lev[used])
+  }
+
+  if (length(lev) == sum(used)) {
+    return(lev)
+  }
+
+  if (length(lev) > n) {
+    lev <- lev[!is.na(residuals(model))][seq_len(n)]
+    return(lev[used])
   }
 
   lev
+
+}
+
+# prior weights of the rows used in the fit; all ones for unweighted models
+model_weights_used <- function(model) {
+
+  w <- model$weights
+
+  if (is.null(w)) {
+    return(rep(1, length(model$residuals)))
+  }
+
+  w[model_used_rows(model)]
+
+}
+
+# fitted values of the rows used in the fit; fitted() pads na.exclude fits
+model_fitted_used <- function(model) {
+
+  fv <- model$fitted.values
+
+  if (is.null(fv)) {
+    fv <- unname(fitted(model))
+    if (length(fv) > length(model$residuals)) {
+      fv <- fv[!is.na(fitted(model))]
+    }
+  }
+
+  fv
+
 }
