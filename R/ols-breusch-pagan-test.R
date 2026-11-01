@@ -104,6 +104,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   suppressWarnings(
     if (!is.null(vars) && length(vars) > 0 && !all(is.na(vars))) {
       check_modelvars(model, vars)
+      vars          <- unique(vars)
       fitted.values <- FALSE
     }
   )
@@ -122,7 +123,8 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   response   <- names(l)[1]
   predictors <- names(l)[-1]
 
-  df <- NA_integer_
+  df    <- NA_integer_
+  simdf <- NA_integer_
 
   if (fitted.values) {
     vars <- NA
@@ -134,6 +136,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
         loops <- bp_case_loop(start$np, start$nam, start$l)
         inter <- bp_case_inter(start$l, start$np, loops$tstat)
         bp    <- inter$bp
+        simdf <- inter$simdf
         p     <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
 
       } else {
@@ -154,6 +157,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
         loops <- bp_case_loop(start$np, start$nam, start$l)
         inter <- bp_case_inter(start$l, start$np, loops$tstat)
         bp    <- inter$bp
+        simdf <- inter$simdf
         p     <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
 
       } else {
@@ -173,6 +177,7 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
           loops   <- bp_case_loop(len_var, vars, start$l)
           inter   <- bp_case_5_inter(l, model, vars, loops$tstat)
           bp      <- inter$bp
+          simdf   <- inter$simdf
           p       <- bp_case_adj(method, loops$pvals, inter$np, inter$ps)
         } else {
           result  <- bp_case_7(l, model, vars)
@@ -196,7 +201,8 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
     }
   }
 
-  out <- list(bp = bp, df = df, fv = fitted.values, multiple = multiple, p = p,
+  out <- list(bp = bp, df = df, simdf = simdf, fv = fitted.values,
+              multiple = multiple, p = p,
               padj = method, preds = predictors, resp = response,
               rhs = rhs, vars = vars)
 
@@ -227,11 +233,10 @@ bp_case_2 <- function(l, model) {
   n         <- model_rows(model)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  df        <- ncol(l[, -1])
   l         <- cbind(l[, -1], ind)
-  bp        <- bp_model(l)
+  aux       <- bp_model(l)
 
-  list(bp = bp, df = df)
+  list(bp = aux$bp, df = aux$df)
 
 }
 
@@ -247,7 +252,7 @@ bp_case_2 <- function(l, model) {
 bp_case_3 <- function(model) {
 
   `Sum Sq`     <- NULL
-  pred         <- fitted(model)
+  pred         <- model_fitted_used(model)
   scaled_resid <- resid_scaled(model, pred)
 
   (anova(lm(scaled_resid ~ pred))$`Sum Sq`[1]) / 2
@@ -270,10 +275,9 @@ bp_case_6 <- function(l, model) {
   n         <- nrow(l)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  np        <- length(names(l)[-1])
-  bp        <- bp_model(cbind(l, ind)[, -1])
-  
-  list(bp = bp, df = np)
+  aux       <- bp_model(cbind(l, ind)[, -1])
+
+  list(bp = aux$bp, df = aux$df)
 
 }
 
@@ -295,10 +299,9 @@ bp_case_7 <- function(l, model, vars) {
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
   l         <- cbind(l[, vars_columns(model, vars), drop = FALSE], ind)
-  bp        <- bp_model(l)
-  nd        <- ncol(l) - 1
+  aux       <- bp_model(l)
 
-  list(bp = bp, df = nd)
+  list(bp = aux$bp, df = aux$df)
 
 }
 
@@ -309,7 +312,13 @@ bp_case_7 <- function(l, model, vars) {
 #' @noRd
 #'
 bp_model <- function(l) {
-  bp_fit(lm(ind ~ ., data = l))
+
+  fit <- lm(ind ~ ., data = l)
+
+  # tested directions: columns of the auxiliary fit that are independent of the
+  # intercept, so that aliased predictors do not inflate the degrees of freedom
+  list(bp = bp_fit(fit), df = fit$rank - 1L)
+
 }
 
 bp_fit <- function(l) {
@@ -317,7 +326,7 @@ bp_fit <- function(l) {
 }
 
 ind_bp <- function(model, var_resid) {
-  data.frame(ind = ((residuals(model) ^ 2) / var_resid) - 1)
+  data.frame(ind = ((model_residuals_used(model) ^ 2) / var_resid) - 1)
 }
 
 #' @description
@@ -373,11 +382,11 @@ bp_case_loop <- function(np, nam, l) {
 #'
 bp_case_inter <- function(l, np, tstat) {
 
-  comp <- bp_fit(lm(ind ~ ., data = l[, -1])) 
-  ps   <- pchisq(comp, df = np, lower.tail = FALSE)
-  bp   <- c(tstat, comp)
+  aux  <- bp_model(l[, -1])
+  ps   <- pchisq(aux$bp, df = aux$df, lower.tail = FALSE)
+  bp   <- c(tstat, aux$bp)
 
-  list(bp = bp, ps = ps)
+  list(bp = bp, ps = ps, simdf = aux$df)
 
 }
 
@@ -427,11 +436,11 @@ bp_case_5_inter <- function(l, model, vars, tstat) {
   n         <- nrow(l)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  l         <- cbind(l[, -1][, vars], ind)
-  np        <- ncol(l) - 1
-  ps        <- pchisq(q = bp_model(l), df = np, lower.tail = FALSE)
-  bp        <- c(tstat, bp_model(l))
+  l         <- cbind(l[, -1][, vars, drop = FALSE], ind)
+  aux       <- bp_model(l)
+  ps        <- pchisq(q = aux$bp, df = aux$df, lower.tail = FALSE)
+  bp        <- c(tstat, aux$bp)
 
-  list(bp = bp, ps = ps, np = np)
+  list(bp = bp, ps = ps, np = aux$df, simdf = aux$df)
 
 }

@@ -117,7 +117,7 @@ vars_columns <- function(model, vars) {
   mm     <- colnames(model.matrix(model))
   out    <- character(0)
 
-  for (v in vars) {
+  for (v in unique(vars)) {
     i <- match(v, terms)
     if (!is.na(i)) {
       out <- c(out, mm[assign == i])
@@ -126,6 +126,6 @@ vars_columns <- function(model, vars) {
     }
   }
 
-  out
+  unique(out)
 
 }

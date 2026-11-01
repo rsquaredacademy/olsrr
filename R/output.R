@@ -245,7 +245,7 @@ print_bp_test <- function(data) {
         cat(
           " ", format("simultaneous", width = w1, justify = "left"), fs(),
           format(bp[ldp2], width = w2, justify = "centre"), fs(),
-          format(ldp, width = w3, justify = "right"), fs(),
+          format(data$simdf, width = w3, justify = "right"), fs(),
           format(p[ldp2], width = w4, justify = "centre"), "\n"
         )
         cat(" ", rep("-", w), sep = "", "\n")
@@ -364,7 +364,7 @@ print_bp_test <- function(data) {
         cat(
           " ", format("simultaneous", width = w1, justify = "left"), fs(),
           format(bp[ldp2], width = w2, justify = "centre"), fs(),
-          format(ldp, width = w3, justify = "right"), fs(),
+          format(data$simdf, width = w3, justify = "right"), fs(),
           format(p[ldp2], width = w4, justify = "centre"), "\n"
         )
         cat(" ", rep("-", w), sep = "", "\n")
@@ -425,7 +425,7 @@ print_bp_test <- function(data) {
           cat(
             " ", format("simultaneous", width = w1, justify = "left"), fs(),
             format(bp[ldp2], width = w2, justify = "centre"), fs(),
-            format(ldp, width = w3, justify = "right"), fs(),
+            format(data$simdf, width = w3, justify = "right"), fs(),
             format(p[ldp2], width = w4, justify = "centre"), "\n"
           )
           cat(" ", rep("-", w), sep = "", "\n")

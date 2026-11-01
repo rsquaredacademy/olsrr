@@ -141,7 +141,7 @@ peanova <- function(model) {
 
 pea_data <- function(model) {
 
-  data      <- model.frame(model)
+  data      <- pea_frame(model)
   pred_name <- names(data)[2]
   resp      <- names(data)[1]
   pred_u    <- pred_table(model)
@@ -156,8 +156,17 @@ pea_data <- function(model) {
 
 }
 
+# model frame without the synthetic columns (weights and offsets) so that the
+# response and predictor are the first two columns
+pea_frame <- function(model) {
+
+  data <- model.frame(model)
+  data[, setdiff(names(data), synthetic_model_columns(model)), drop = FALSE]
+
+}
+
 pred_table <- function(model) {
-  table(model.frame(model)[[2]])
+  table(pea_frame(model)[[2]])
 }
 
 pred_table_length <- function(model) {
@@ -188,7 +197,8 @@ replicate_mean <- function(mean_pred, pred_u) {
 
 pea_data_comp <- function(data, model, mean_rep) {
 
-  data$yhat      <- fitted(model)
+  # fitted values of the rows used in the fit; fitted() pads na.exclude fits
+  data$yhat      <- model_fitted_used(model)
   colnames(data) <- c("y", "pred", "yhat")
   data           <- data[order(data$pred), ]
   data           <- cbind(data, mean_rep)

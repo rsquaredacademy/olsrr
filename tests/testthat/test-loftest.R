@@ -41,4 +41,34 @@ test_that("models without replicates are handled explicitly", {
   expect_equal(k$rf, unname(summary(model)$fstatistic[1]))
 })
 
+test_that("unit weights give the same lack-of-fit ANOVA as no weights (H4)", {
+  m  <- lm(mpg ~ disp, mtcars)
+  mu <- lm(mpg ~ disp, mtcars, weights = rep(1, 32))
+
+  r  <- ols_pure_error_anova(m)
+  ru <- ols_pure_error_anova(mu)
+
+  expect_equal(
+    unlist(ru[c("rf", "lackoffit", "pure_error", "ess", "lf", "pl")]),
+    unlist(r[c("rf", "lackoffit", "pure_error", "ess", "lf", "pl")])
+  )
+  expect_equal(ru$ess, deviance(mu))
+  expect_equal(ru$ess, deviance(m))
+  expect_equal(ru$rf, unname(summary(mu)$fstatistic[1]))
+  expect_equal(ru$resp, "mpg")
+  expect_equal(ru$preds, "disp")
+
+  # na.exclude fits use the unpadded fitted values
+  d <- mtcars
+  d$mpg[1] <- NA
+  me <- lm(mpg ~ disp, d, na.action = na.exclude)
+  mo <- lm(mpg ~ disp, d, na.action = na.omit)
+
+  expect_equal(
+    unlist(ols_pure_error_anova(me)[c("rf", "lackoffit", "pure_error", "ess")]),
+    unlist(ols_pure_error_anova(mo)[c("rf", "lackoffit", "pure_error", "ess")])
+  )
+  expect_equal(ols_pure_error_anova(me)$ess, deviance(me))
+})
+
 

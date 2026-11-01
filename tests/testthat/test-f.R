@@ -70,3 +70,25 @@ test_that("when vars != NULL and rhs == TRUE, predictors in the model are\n\tuse
 })
 
 
+
+test_that("na.exclude and na.omit fits give the same F test (M5)", {
+  d <- mtcars
+  d$mpg[1] <- NA
+  me <- lm(mpg ~ disp + hp + wt, d, na.action = na.exclude)
+  mo <- lm(mpg ~ disp + hp + wt, d, na.action = na.omit)
+
+  k_me <- ols_test_f(me)
+  k_mo <- ols_test_f(mo)
+
+  expect_equal(k_me$f, k_mo$f)
+  expect_equal(k_me$p, k_mo$p)
+  expect_equal(k_me$numdf, k_mo$numdf)
+  expect_equal(k_me$dendf, k_mo$dendf)
+  expect_equal(k_me$f, 0.4624112, tolerance = 1e-6)
+
+  expect_equal(ols_test_f(me, rhs = TRUE)$f, ols_test_f(mo, rhs = TRUE)$f)
+  expect_equal(
+    ols_test_f(me, vars = c("disp", "hp"))$f,
+    ols_test_f(mo, vars = c("disp", "hp"))$f
+  )
+})

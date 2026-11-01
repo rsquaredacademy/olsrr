@@ -51,3 +51,49 @@ test_that("when vars != NULL and rhs == TRUE, predictors in the model are\n\tuse
 })
 
 
+
+test_that("na.exclude and na.omit fits give the same score test (M5)", {
+  d <- mtcars
+  d$mpg[1] <- NA
+  me <- lm(mpg ~ disp + hp + wt, d, na.action = na.exclude)
+  mo <- lm(mpg ~ disp + hp + wt, d, na.action = na.omit)
+
+  expect_equal(ols_test_score(me)$score, ols_test_score(mo)$score)
+  expect_equal(ols_test_score(me)$p, ols_test_score(mo)$p)
+  expect_equal(ols_test_score(me)$score, 0.4865436, tolerance = 1e-6)
+  expect_equal(ols_test_score(me, rhs = TRUE)$score, ols_test_score(mo, rhs = TRUE)$score)
+  expect_equal(
+    ols_test_score(me, vars = c("disp", "hp"))$score,
+    ols_test_score(mo, vars = c("disp", "hp"))$score
+  )
+  expect_equal(
+    ols_test_score(me, vars = c("disp", "hp"))$df,
+    ols_test_score(mo, vars = c("disp", "hp"))$df
+  )
+})
+
+test_that("aliased predictors do not inflate the auxiliary degrees of freedom (H8)", {
+  d <- mtcars
+  d$hp2 <- 2 * d$hp
+  m <- lm(mpg ~ wt + hp + hp2, d)
+
+  s <- ols_test_score(m, vars = c("hp", "hp2"))
+  expect_equal(s$df, 1)
+  expect_equal(s$p, pchisq(s$score, 1, lower.tail = FALSE))
+  expect_equal(s$p, 0.3486117, tolerance = 1e-6)
+
+  s1 <- ols_test_score(m, vars = "hp")
+  s2 <- ols_test_score(m, vars = c("hp", "hp"))
+  expect_equal(s2$score, s1$score)
+  expect_equal(s2$df, 1)
+
+  # rhs test on a rank-deficient design
+  rhs <- ols_test_score(m, rhs = TRUE)
+  expect_equal(rhs$df, 2)
+  expect_equal(rhs$p, pchisq(rhs$score, 2, lower.tail = FALSE))
+
+  mf <- lm(mpg ~ factor(cyl) + hp, mtcars)
+  sf <- ols_test_score(mf, vars = c("factor(cyl)", "factor(cyl)6"))
+  expect_equal(sf$df, 2)
+  expect_equal(sf$p, pchisq(sf$score, 2, lower.tail = FALSE))
+})

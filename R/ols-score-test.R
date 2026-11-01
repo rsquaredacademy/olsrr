@@ -65,6 +65,7 @@ ols_test_score.default <- function(model, fitted_values = TRUE, rhs = FALSE,
 
   if (length(vars) > 0) {
     check_modelvars(model, vars)
+    vars          <- unique(vars)
     fitted_values <- FALSE
   }
 
@@ -101,10 +102,10 @@ rhsout <- function(model) {
   nam       <- names(l)[-1]
   var_resid <- residual_var(model, nrow(l))
   ind       <- ind_score(model, var_resid)
-  score     <- rhs_score(l, ind, nrow(l))
-  p         <- pchisq(score, length(nam), lower.tail = F)
+  aux       <- rhs_score(l, ind, nrow(l))
+  p         <- pchisq(aux$score, aux$df, lower.tail = F)
 
-  list(score = score, preds = nam, np = length(nam), p = p)
+  list(score = aux$score, preds = nam, np = aux$df, p = p)
 
 }
 
@@ -119,35 +120,38 @@ fitout <- function(model, resp) {
 
 varout <- function(model, vars) {
 
-  score <- var_score(model, vars)
-  nd    <- ncol(score_data(model, vars)) - 1
-  p     <- pchisq(score, nd, lower.tail = F)
+  aux <- var_score(model, vars)
+  p   <- pchisq(aux$score, aux$df, lower.tail = F)
 
-  list(score = score, preds = vars, np = nd, p = p)
+  list(score = aux$score, preds = vars, np = aux$df, p = p)
 
 }
 
 residual_var <- function(model, n) {
-  sum(residuals(model) ^ 2) / n
+  sum(model_residuals_used(model) ^ 2) / n
 }
 
 ind_score <- function(model, var_resid) {
 
   vresid <- var_resid - 1
-  (residuals(model) ^ 2) / vresid
+  (model_residuals_used(model) ^ 2) / vresid
 
 }
 
 rhs_score <- function(l, ind, n) {
 
   ind <- data.frame(ind = ind)
-  (summary(lm(ind ~ ., data = cbind(l, ind)[, -1]))$r.squared) * n
+  fit <- lm(ind ~ ., data = cbind(l, ind)[, -1])
+
+  # tested directions: auxiliary columns independent of the intercept, so that
+  # aliased predictors do not inflate the degrees of freedom
+  list(score = summary(fit)$r.squared * n, df = fit$rank - 1L)
 
 }
 
 fit_score <- function(model) {
 
-  pred         <- fitted(model)
+  pred         <- model_fitted_used(model)
   scaled_resid <- resid_scaled(model, pred)
   l            <- ols_prep_avplot_data(model)
   n            <- nrow(l)
@@ -158,7 +162,7 @@ fit_score <- function(model) {
 
 resid_scaled <- function(model, pred) {
 
-  resid     <- residuals(model) ^ 2
+  resid     <- model_residuals_used(model) ^ 2
   avg_resid <- sum(resid) / length(pred)
   resid / avg_resid
 
@@ -166,9 +170,11 @@ resid_scaled <- function(model, pred) {
 
 var_score <- function(model, vars) {
 
-  n <- nrow(ols_prep_avplot_data(model)) 
-  (summary(lm(ind ~ ., data = score_data(model, vars)))$r.squared) * n
-    
+  n   <- nrow(ols_prep_avplot_data(model))
+  fit <- lm(ind ~ ., data = score_data(model, vars))
+
+  list(score = summary(fit)$r.squared * n, df = fit$rank - 1L)
+
 }
 
 score_data <- function(model, vars) {
