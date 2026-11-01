@@ -488,6 +488,41 @@ test_that("mixed formula and call offsets are carried through the refit (H6)", {
   expect_equal(full$beta, unname(coef(m)), ignore_attr = TRUE)
 })
 
+test_that("an offset variable is still standardised as a predictor (H6)", {
+  inline <- lm(mpg ~ wt * hp + offset(wt), mtcars)
+  call   <- lm(mpg ~ wt * hp, mtcars, offset = wt)
+
+  ds <- mtcars
+  ds$wt <- as.numeric(scale(ds$wt))
+  ds$hp <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ wt * hp, ds, offset = mtcars$wt)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  expect_equal(ols_regress(inline)$sbetas, expected)
+  expect_equal(ols_regress(inline)$sbetas, ols_regress(call)$sbetas)
+  expect_equal(unname(ols_regress(inline)$sbetas[2]), -0.3470564, tolerance = 1e-6)
+  expect_equal(unname(ols_regress(inline)$sbetas[3]), 0.2431090, tolerance = 1e-6)
+
+  # the same for a transformed occurrence of the offset variable and with
+  # prior weights
+  d <- mtcars
+  d$w <- seq_len(nrow(d)) / 16
+  inline2 <- lm(mpg ~ log(wt) * hp + offset(log(wt)), d, weights = w)
+  call2   <- lm(mpg ~ log(wt) * hp, d, weights = w, offset = log(wt))
+
+  ds2 <- d
+  ds2$logwt <- as.numeric(scale(log(ds2$wt)))
+  ds2$hp    <- as.numeric(scale(ds2$hp))
+  ref2 <- lm(mpg ~ logwt * hp, ds2, weights = w, offset = log(d$wt))
+  expected2 <- coef(ref2)[-1] * apply(model.matrix(ref2)[, -1, drop = FALSE], 2, sd) /
+    sd(d$mpg)
+
+  expect_equal(ols_regress(inline2)$sbetas, ols_regress(call2)$sbetas)
+  expect_equal(unname(ols_regress(inline2)$sbetas), unname(expected2))
+  expect_equal(names(ols_regress(inline2)$sbetas), c("log(wt)", "hp", "log(wt):hp"))
+})
+
 test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {  d <- mtcars
   d$mpg[1] <- NA
 

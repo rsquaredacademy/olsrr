@@ -202,8 +202,10 @@ ols_scale_terms <- function(model, data) {
   comps <- unique(unlist(strsplit(labels, ":", fixed = TRUE)))
   comps <- comps[nzchar(comps)]
 
-  # the response and the offset variables are never standardised
-  skip <- unique(c(all.vars(fml[[2]]), unlist(lapply(off_var, all.vars))))
+  # the response is never standardised. An offset variable is: the offset is
+  # carried as a frozen vector evaluated on the original columns, while the
+  # predictor occurrence is a separate column of the refit design.
+  skip <- all.vars(fml[[2]])
 
   map <- character(0)
 
