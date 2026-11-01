@@ -71,4 +71,46 @@ test_that("unit weights give the same lack-of-fit ANOVA as no weights (H4)", {
   expect_equal(ols_pure_error_anova(me)$ess, deviance(me))
 })
 
+test_that("offsets are removed from the response before the decomposition (H4)", {
+  m <- lm(mpg ~ disp + offset(qsec), mtcars)
+  r <- ols_pure_error_anova(m)
+
+  # the same decomposition as an explicitly offset-adjusted response
+  adj <- lm(I(mpg - qsec) ~ disp, mtcars)
+
+  expect_equal(r$ess, deviance(m))
+  expect_equal(r$ess, 363.40498, tolerance = 1e-6)
+  expect_equal(r$lackoffit, 352.73732, tolerance = 1e-6)
+  expect_equal(r$pure_error, 10.66767, tolerance = 1e-6)
+  expect_equal(r$lackoffit + r$pure_error, deviance(m))
+
+  # the regression row is the offset-adjusted fit, so the overall F agrees
+  expect_equal(r$rss, unname(anova(adj)[1, 2]))
+  expect_equal(r$rf, unname(summary(m)$fstatistic[1]))
+  expect_equal(r$rf, 48.05078, tolerance = 1e-6)
+  expect_equal(r$lf, (r$lackoffit / r$df_lof) / (r$pure_error / r$df_error))
+
+  # the same offset supplied through the model call
+  mc <- lm(mpg ~ disp, mtcars, offset = qsec)
+  expect_equal(
+    unlist(ols_pure_error_anova(mc)[c("rss", "ess", "lackoffit", "pure_error", "rf", "lf")]),
+    unlist(r[c("rss", "ess", "lackoffit", "pure_error", "rf", "lf")])
+  )
+
+  # unit weights and missing-value actions
+  mu <- lm(mpg ~ disp + offset(qsec), mtcars, weights = rep(1, 32))
+  expect_equal(ols_pure_error_anova(mu)$ess, deviance(mu))
+  expect_equal(ols_pure_error_anova(mu)$pure_error, r$pure_error)
+
+  d <- mtcars
+  d$mpg[1] <- NA
+  me <- lm(mpg ~ disp + offset(qsec), d, na.action = na.exclude)
+  mo <- lm(mpg ~ disp + offset(qsec), d, na.action = na.omit)
+  expect_equal(ols_pure_error_anova(me)$ess, deviance(me))
+  expect_equal(
+    unlist(ols_pure_error_anova(me)[c("rss", "ess", "lackoffit", "pure_error", "rf", "lf")]),
+    unlist(ols_pure_error_anova(mo)[c("rss", "ess", "lackoffit", "pure_error", "rf", "lf")])
+  )
+})
+
 

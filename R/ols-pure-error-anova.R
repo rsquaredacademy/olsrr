@@ -26,6 +26,12 @@
 #' squares would come from the weighted model while the lack of fit and pure
 #' error sums of squares are computed from unweighted residuals.
 #'
+#' A fixed offset (an `offset()` term in the formula or the `offset` argument of
+#' `lm()`) is known rather than estimated, so it is removed from the response
+#' before the sums of squares are split. The decomposition then applies to the
+#' offset-adjusted response and the error sum of squares equals
+#' `deviance(model)`; `mpred` holds the adjusted response.
+#'
 #' @return \code{ols_pure_error_anova} returns an object of class
 #' \code{"ols_pure_error_anova"}. An object of class \code{"ols_pure_error_anova"} is a
 #' list containing the following components:
@@ -157,11 +163,22 @@ pea_data <- function(model) {
 }
 
 # model frame without the synthetic columns (weights and offsets) so that the
-# response and predictor are the first two columns
+# response and predictor are the first two columns. A fixed offset is known, so
+# it is removed from the response before the sums of squares are split: the
+# decomposition then holds for the adjusted response (and `ess` equals
+# `deviance(model)`), which it does not for the raw response because the offset
+# varies within replicated predictor values.
 pea_frame <- function(model) {
 
   data <- model.frame(model)
-  data[, setdiff(names(data), synthetic_model_columns(model)), drop = FALSE]
+  data <- data[, setdiff(names(data), synthetic_model_columns(model)), drop = FALSE]
+  off  <- model$offset
+
+  if (!is.null(off) && length(off) == nrow(data)) {
+    data[[1]] <- data[[1]] - off
+  }
+
+  data
 
 }
 
@@ -197,8 +214,17 @@ replicate_mean <- function(mean_pred, pred_u) {
 
 pea_data_comp <- function(data, model, mean_rep) {
 
-  # fitted values of the rows used in the fit; fitted() pads na.exclude fits
-  data$yhat      <- model_fitted_used(model)
+  # fitted values of the rows used in the fit; fitted() pads na.exclude fits.
+  # The fixed offset is removed so that the response and the fitted values are
+  # on the same (offset-adjusted) scale.
+  yhat <- model_fitted_used(model)
+  off  <- model$offset
+
+  if (!is.null(off) && length(off) == length(yhat)) {
+    yhat <- yhat - off
+  }
+
+  data$yhat      <- yhat
   colnames(data) <- c("y", "pred", "yhat")
   data           <- data[order(data$pred), ]
   data           <- cbind(data, mean_rep)
