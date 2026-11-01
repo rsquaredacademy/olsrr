@@ -167,9 +167,9 @@ model_used_rows <- function(model) {
 }
 
 # Residuals, leverages and prior weights of the rows used in the fit.
-# residuals() and hatvalues() pad these to the original number of rows for
-# na.exclude fits; model$residuals is always unpadded and the padded leverages
-# are zero.
+# residuals() pads these to the original number of rows for na.exclude fits;
+# model$residuals is always unpadded and hatvalues() reports leverages for the
+# rows used in the fit.
 model_residuals_used <- function(model) {
 
   model$residuals[model_used_rows(model)]
@@ -182,16 +182,18 @@ model_hatvalues_used <- function(model) {
   rn  <- names(model$residuals)
   ln  <- names(lev)
 
-  # lm() reports leverages for the rows used in the fit and, for na.exclude
-  # fits with zero weights, names them with a mix of the original and the
-  # model-frame rows; align by row name so residual and leverage pairs match
-  if (!is.null(rn) && !is.null(ln) && length(ln) > 0) {
+  # lm() names leverages for the rows used in the fit and, for na.exclude fits
+  # with zero weights, with a mix of the original and the model-frame rows;
+  # align by row name so residual and leverage pairs match
+  if (!is.null(rn) && !is.null(ln) && length(ln) > 0 &&
+      !anyDuplicated(rn) && !anyDuplicated(ln)) {
     lev  <- unname(lev[match(rn, ln)])
     keep <- !is.na(lev) & model_used_rows(model)
     return(lev[keep])
   }
 
-  # unnamed fits: fall back to the lengths reported by hatvalues()
+  # unnamed or duplicated row names: fall back to the lengths reported by
+  # hatvalues()
   lev  <- unname(lev)
   used <- model_used_rows(model)
   n    <- length(used)
