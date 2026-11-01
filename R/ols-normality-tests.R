@@ -31,7 +31,7 @@ corrout <- function(model) {
   n      <- model_rows(model)
   stderr <- summary(model)$sigma
   h      <- ka(seq_len(n), stderr = stderr, n = n)
-  out    <- sort(residuals(model))
+  out    <- sort(model_residuals_used(model))
 
   cor(h, out)
 

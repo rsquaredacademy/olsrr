@@ -187,3 +187,12 @@ test_that("SAS information criteria use deviance and the effective sample size (
                nobs(mo) * log(deviance(mo) / nobs(mo)) + log(nobs(mo)) * mo$rank)
 })
 
+
+test_that("ols_test_correlation() works for na.exclude fits (M5)", {
+  d <- mtcars
+  d$mpg[1] <- NA
+  me <- lm(mpg ~ disp + hp + wt, d, na.action = na.exclude)
+  mo <- lm(mpg ~ disp + hp + wt, d, na.action = na.omit)
+
+  expect_equal(ols_test_correlation(me), ols_test_correlation(mo))
+})
