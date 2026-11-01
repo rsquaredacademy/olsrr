@@ -42,7 +42,7 @@ all of them pass on the fixed tree.
 | Item | Change | Status |
 |---|---|---|
 | 1. Maintainer email | `DESCRIPTION:5` now `aravindhebbali@rsquaredacademy.com` | Done |
-| 2. `cran-comments.md` environments | win-builder (R-devel, R-release), 2026-10-27 recorded as `0 errors | 0 warnings | 0 notes`; R-hub and macOS marked "to run" (no results invented); headline summary mentions weighted support and the weighted-statistics fixes; the one local note (new maintainer email) is explained | Done |
+| 2. `cran-comments.md` environments | win-builder (R-devel, R-release), 2026-10-27 recorded as `0 errors | 0 warnings | 0 notes`; R-hub and macOS marked "to run" (no results invented); headline summary mentions weighted support and the weighted-statistics fixes; the one local note (new maintainer email) is explained | **Superseded** — that run predates the fixes; see `docs-dev/ofx2-report.md` (re-audit F11). `cran-comments.md` now labels it as pre-fix and win-builder as "to re-run". |
 | 3. README re-knit | `README.Rmd` suppresses build warnings in the setup chunk; `README.md` re-rendered (MSE 5.801 → 6.875, RMSE 2.409 → 2.622, stale warnings gone) | Done |
 | 4. Four documentation typos | `exmine`→`examine` (`R/ols-cooks-d-chart.R:23`), `resiudual`→`residual` (`R/ols-plots-data.R:328`), `statistis`→`statistics` (`R/ols-anova.R:20`, `R/ols-regression.R:42`); `man/` regenerated | Done |
 | 5. Fast `\dontrun{}` examples | `ols_step_all_possible_betas()` example now runs; the six `ols_step_both_*()` examples are `\donttest{}`; `R CMD check --as-cran` runs them (`--run-donttest`, 99 s) | Done |

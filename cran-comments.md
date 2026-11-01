@@ -14,7 +14,10 @@ function is removed and no default changes. See `NEWS.md` for the full list.
 ## Test environments
 
 * local Windows 11 x64 (build 26300), R 4.6.1 (2026-06-24 ucrt)
-* win-builder (R-devel and R-release), 2026-10-27: 0 errors | 0 warnings | 0 notes
+* win-builder (R-devel and R-release): to re-run. The 2026-10-27 run recorded
+  `0 errors | 0 warnings | 0 notes` for the code **before** this fix round; it
+  predates every change described in `NEWS.md` and therefore does not validate
+  the release candidate.
 * R-hub (Windows, macOS, Ubuntu): to run
 * macOS (R-release): to run
 
