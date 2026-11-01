@@ -18,7 +18,7 @@ all of them pass on the fixed tree.
 
 | Finding | Test added | Fix (file:line) | Verified how | Status |
 |---|---|---|---|---|
-| H1 weighted predicted R² depends on weight scale | `test-weighted-diagnostics.R`: "weighted PRESS and predicted R-squared use the model weights (H1)" | `R/ols-influence-measures.R:126` (`ols_press()` now sums `w_i (e_i/(1-h_i))^2`); docs at `:103`; predicted R² already divides by the weighted ANOVA TSS | equals the weighted reference `1 - sum(w*(r/(1-h))^2)/sum(anova[,2])` = 0.7859224; invariant to `w -> 10w` (`press` scales by 10, R² unchanged); `ols_regress()$prsq` agrees | Fixed |
+| H1 weighted predicted R² depends on weight scale | `test-weighted-diagnostics.R`: "weighted PRESS and predicted R-squared use the model weights (H1)" | `R/ols-influence-measures.R:126` (`ols_press()` now sums `w_i (e_i/(1-h_i))^2`); docs at `:107`; predicted R² already divides by the weighted ANOVA TSS | equals the weighted reference `1 - sum(w*(r/(1-h))^2)/sum(anova[,2])` = 0.7859224; invariant to `w -> 10w` (`press` scales by 10, R² unchanged); `ols_regress()$prsq` agrees | Fixed |
 | H2 zero weights recycle and wrong criterion sample size | `test-weighted-diagnostics.R`: "zero prior weights are dropped consistently (H2)" | `R/utils.R:157` `model_used_rows()`, `:173` `model_residuals_used()`, `:179` `model_hatvalues_used()` (aligned by row name), `:219` `model_weights_used()`, `:232` `model_fitted_used()`; `R/ols-information-criteria.R:632` `model_rows()` now `nobs()` | zero weight at first/middle/last position: PRESS, predicted R², AIC, AICc, SBC and MAE equal the fit on the remaining rows; SBC equals base `BIC()`; zero weight + `na.exclude` equals `na.omit` and the reduced fit | Fixed |
 | H3 aliased coefficients shift inference | `test-regress.R`: "aliased coefficients are aligned by name (H3)" | `R/ols-regress_compute.R:107` coefficient table aligned by name, NA for aliases; standardised betas restricted to estimable columns (`:41`–`:104`) | `wt + I(2*wt) + hp`: SE/t/p/CI of `wt` and `hp` equal `summary()`/`confint()`; alias row all NA in the printout; zero-variance and aliased-interaction cases assert too | Fixed |
 | H4 unit-weight lack-of-fit ANOVA wrong | `test-loftest.R`: "unit weights give the same lack-of-fit ANOVA as no weights (H4)" | `R/ols-pure-error-anova.R:161` `pea_frame()` drops synthetic `(weights)`/offset columns; `:198` uses unpadded fitted values | full equality of unit-weight and unweighted `rf`, lack of fit, pure error, `ess`, `lf`, `pl` (F = 76.51, not 1.90); `ess == deviance(model)`; `na.exclude` equals `na.omit` | Fixed |
@@ -45,7 +45,7 @@ all of them pass on the fixed tree.
 | 2. `cran-comments.md` environments | win-builder (R-devel, R-release), 2026-10-27 recorded as `0 errors | 0 warnings | 0 notes`; R-hub and macOS marked "to run" (no results invented); headline summary mentions weighted support and the weighted-statistics fixes; the one local note (new maintainer email) is explained | Done |
 | 3. README re-knit | `README.Rmd` suppresses build warnings in the setup chunk; `README.md` re-rendered (MSE 5.801 → 6.875, RMSE 2.409 → 2.622, stale warnings gone) | Done |
 | 4. Four documentation typos | `exmine`→`examine` (`R/ols-cooks-d-chart.R:23`), `resiudual`→`residual` (`R/ols-plots-data.R:328`), `statistis`→`statistics` (`R/ols-anova.R:20`, `R/ols-regression.R:42`); `man/` regenerated | Done |
-| 5. Fast `\dontrun{}` examples | `ols_step_all_possible_betas()` example now runs; the six `ols_step_both_*()` examples are `\donttest{}`; `R CMD check --as-cran` runs them (`--run-donttest`, 107 s) | Done |
+| 5. Fast `\dontrun{}` examples | `ols_step_all_possible_betas()` example now runs; the six `ols_step_both_*()` examples are `\donttest{}`; `R CMD check --as-cran` runs them (`--run-donttest`, 99 s) | Done |
 | 6. `docs-dev/` out of the build | `.Rbuildignore` gains `^docs-dev$`; also `^\.git$` for M2 | Done |
 
 ## Deferred (not fixed, one line each)
@@ -81,7 +81,7 @@ Status: 1 NOTE
 0 errors, 0 warnings, 1 note. The note is the incoming-feasibility record of
 the requested maintainer-email change (same maintainer); it is explained in
 `cran-comments.md` for the CRAN submission. everything else passed, including
-examples (37 s), examples with `--run-donttest` (107 s), the test suite
+examples (38 s), examples with `--run-donttest` (99 s), the test suite
 (118 s) and vignette rebuilding (30 s). The tarball contains no `.git`,
 `docs-dev/`, `README.Rmd` or `cran-comments.md`.
 
