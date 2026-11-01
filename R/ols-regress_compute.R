@@ -58,8 +58,11 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
     if (!is.null(model$weights)) {
       fit_args$weights <- unname(model$weights)
     }
-    if (length(attr(model$terms, "offset")) == 0 && !is.null(model$offset)) {
-      fit_args$offset <- unname(model$offset)
+    # the formula offset terms are kept in the formula and the call offset (the
+    # part not already in the formula) is supplied separately, so neither is
+    # dropped and neither is counted twice
+    if (!is.null(sc$offset)) {
+      fit_args$offset <- sc$offset
     }
 
     model2  <- do.call(stats::lm, fit_args)
@@ -260,7 +263,16 @@ ols_scale_terms <- function(model, data) {
 
   fml2 <- as.formula(paste(resp, "~", paste(rhs, collapse = " + ")), env = env)
 
-  list(data = d, formula = fml2, map = map)
+  # offset supplied through the model call; the offset() terms of the original
+  # formula stay in the refit formula, where they are evaluated on the original
+  # columns and never standardised
+  off <- model_call_offset(model, d)
+
+  if (!is.null(off) && length(off) != nrow(d)) {
+    off <- NULL
+  }
+
+  list(data = d, formula = fml2, map = map, offset = off)
 
 }
 

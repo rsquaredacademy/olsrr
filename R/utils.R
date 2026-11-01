@@ -151,6 +151,73 @@ synthetic_model_columns <- function(model) {
   drop
 }
 
+# Sum of the offset() terms of the model formula on the model-frame rows.
+# Returns NULL when the formula has no offset terms.
+model_formula_offset <- function(model, data = NULL) {
+
+  off_idx <- attr(model$terms, "offset")
+
+  if (length(off_idx) == 0) {
+    return(NULL)
+  }
+
+  variables <- as.list(attr(model$terms, "variables"))[-1]
+  offs      <- variables[off_idx]
+  nms       <- vapply(offs, function(x) paste(deparse(x), collapse = ""), character(1))
+
+  # the model frame keeps the offset columns exactly as the formula found them
+  mf <- model$model
+
+  if (!is.null(mf) && all(nms %in% names(mf))) {
+    return(unname(rowSums(as.data.frame(mf)[, nms, drop = FALSE])))
+  }
+
+  if (is.null(data)) {
+    data <- ols_model_data(model)
+  }
+
+  d   <- as.data.frame(data)
+  env <- environment(formula(model))
+  if (is.null(env)) env <- parent.frame()
+
+  vals <- lapply(offs, function(x) {
+    tryCatch(eval(x, envir = d, enclos = env), error = function(e) NULL)
+  })
+
+  if (any(vapply(vals, is.null, logical(1))) || any(lengths(vals) != nrow(d))) {
+    return(NULL)
+  }
+
+  unname(rowSums(as.data.frame(vals)))
+
+}
+
+# Offset supplied through the model call, as opposed to offset() terms in the
+# formula, on the model-frame rows. lm() stores the evaluated total offset in
+# model$offset, so the part that belongs to the call is the total minus the
+# formula part; passing only one of them changes the model.
+model_call_offset <- function(model, data = NULL) {
+
+  total <- model$offset
+
+  if (is.null(total) || length(total) == 0) {
+    return(NULL)
+  }
+
+  if (length(attr(model$terms, "offset")) == 0) {
+    return(unname(total))
+  }
+
+  foff <- model_formula_offset(model, data)
+
+  if (is.null(foff) || length(foff) != length(total)) {
+    return(NULL)
+  }
+
+  unname(total - foff)
+
+}
+
 # Rows of the model frame actually used in the fit. lm() drops observations
 # with zero prior weights, but keeps their residuals (equal to zero) in
 # model$residuals, so residuals, weights and leverages must be aligned.

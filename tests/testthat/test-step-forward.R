@@ -177,6 +177,25 @@ test_that("selection preserves the intercept and model offsets (H7)", {
   expect_equal(predict(kc$model), predict(mc))
 })
 
+test_that("selection keeps mixed formula and call offsets (H6)", {
+  m  <- lm(mpg ~ wt * hp + offset(qsec), mtcars, offset = drat)
+  eq <- lm(mpg ~ wt * hp, mtcars, offset = qsec + drat)
+
+  # candidate metrics come from the same model, so both offset styles select
+  # the same terms with the same criteria at every step
+  k1 <- ols_step_forward_aic(m)
+  k2 <- ols_step_forward_aic(eq)
+  expect_equal(k1$metrics, k2$metrics)
+  expect_equal(coef(k1$model), coef(k2$model))
+
+  # include-all returns the input fit
+  k <- ols_step_forward_aic(m, include = c("wt", "hp", "wt:hp"))
+  expect_equal(coef(k$model), coef(m))
+  expect_equal(k$model$offset, m$offset)
+  expect_equal(predict(k$model), predict(m))
+  expect_equal(ols_aic(k$model), ols_aic(m))
+})
+
 test_that("selection keeps the formula environment of the input model (M1)", {
   res <- local({
     kk <- function(x) log(x)

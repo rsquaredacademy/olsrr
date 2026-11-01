@@ -749,16 +749,20 @@ ols_step_formula <- function(response, predictors, model = NULL) {
 
 }
 
-# fit a candidate model, carrying an offset supplied through the model call
-# (rather than the formula) on the rows used by the original model
+# fit a candidate model, carrying any offset of the original model on the rows
+# used by it. offset() terms of the formula are kept in the candidate formula;
+# the part supplied through the model call is added separately, so a model with
+# both keeps both.
 ols_step_lm <- function(form, data, model = NULL) {
 
   args <- list(formula = form, data = data)
 
-  if (!is.null(model) &&
-      length(attr(model$terms, "offset")) == 0 &&
-      !is.null(model$offset)) {
-    args$offset <- unname(model$offset)
+  if (!is.null(model)) {
+    off <- model_call_offset(model, data)
+
+    if (!is.null(off) && length(off) == nrow(as.data.frame(data))) {
+      args$offset <- off
+    }
   }
 
   do.call(stats::lm, args)

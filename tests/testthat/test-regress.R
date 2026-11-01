@@ -464,6 +464,30 @@ test_that("standardised betas carry model offsets through the refit (H6)", {
   expect_equal(nobs(ols_regress(me)$model), 31L)
 })
 
+test_that("mixed formula and call offsets are carried through the refit (H6)", {
+  m  <- lm(mpg ~ wt * hp + offset(qsec), mtcars, offset = drat)
+  eq <- lm(mpg ~ wt * hp, mtcars, offset = qsec + drat)
+
+  ds  <- mtcars
+  ds$wt <- as.numeric(scale(ds$wt))
+  ds$hp <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ wt * hp, ds, offset = qsec + drat)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  expect_equal(ols_regress(m)$sbetas, expected)
+  expect_equal(ols_regress(m)$sbetas, ols_regress(eq)$sbetas)
+
+  # the reported estimates are still the input model's
+  expect_equal(ols_regress(m)$betas, coef(m))
+
+  # the all-possible beta table carries both offset contributions
+  b    <- ols_step_all_possible_betas(m)
+  full <- b[b$model == max(b$model), ]
+  expect_equal(full$predictor, names(coef(m)), ignore_attr = TRUE)
+  expect_equal(full$beta, unname(coef(m)), ignore_attr = TRUE)
+})
+
 test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {  d <- mtcars
   d$mpg[1] <- NA
 
