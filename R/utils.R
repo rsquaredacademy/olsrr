@@ -284,7 +284,7 @@ model_hatvalues_frame <- function(model) {
   qr   <- model$qr
 
   if (!is.null(qr) && !isFALSE(qr) && length(qr$qr) > 0) {
-    lev <- rowSums(qr.Q(qr) ^ 2)
+    lev <- qr_hatvalues(qr)
     if (length(lev) == sum(used)) {
       out[used] <- lev
       return(out)
@@ -292,7 +292,9 @@ model_hatvalues_frame <- function(model) {
   }
 
   # models fitted without a QR decomposition: derive the leverages from the
-  # design matrix, which also keeps the model-frame row order
+  # design matrix, which also keeps the model-frame row order. Only the rows
+  # with a positive prior weight are in the fit, so form the decomposition on
+  # those rows and map the leverages back to the model-frame order.
   x <- model.matrix(model)
   w <- model$weights
 
@@ -300,7 +302,32 @@ model_hatvalues_frame <- function(model) {
     w <- rep(1, nrow(x))
   }
 
-  rowSums(qr.Q(qr(sqrt(w) * x)) ^ 2)
+  ok <- w != 0
+
+  if (!any(ok)) {
+    return(out)
+  }
+
+  out[ok] <- qr_hatvalues(qr(sqrt(w[ok]) * x[ok, , drop = FALSE]))
+
+  out
+
+}
+
+# Leverages of a QR decomposition. Only the first `rank` columns of Q span the
+# fitted space; for a rank-deficient design the remaining orthonormal columns
+# are arbitrary directions that were not estimated, so summing over all of
+# them reports leverages that do not belong to the fitted model.
+qr_hatvalues <- function(qr) {
+
+  n    <- nrow(qr$qr)
+  rank <- qr$rank
+
+  if (is.null(rank) || rank < 1L) {
+    return(numeric(n))
+  }
+
+  rowSums(qr.Q(qr)[, seq_len(rank), drop = FALSE] ^ 2)
 
 }
 

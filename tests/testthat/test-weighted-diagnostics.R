@@ -186,6 +186,53 @@ test_that("PRESS aligns leverages by model-frame row, not by row name (H2)", {
   expect_equal(ols_pred_rsq(repeated), ols_pred_rsq(m))
 })
 
+test_that("leverages and PRESS ignore non-estimable QR directions (G01)", {
+  m   <- lm(mpg ~ wt + I(2 * wt) + hp, mtcars)
+  ref <- lm(mpg ~ wt + hp, mtcars)
+
+  # the aliased column is not a fitted direction: the projection uses rank
+  # columns only and agrees with the equivalent estimable fit
+  expect_equal(m$rank, 3)
+  expect_equal(olsrr:::model_hatvalues_used(m), unname(hatvalues(ref)))
+  expect_equal(sum(olsrr:::model_hatvalues_used(m)), m$rank)
+
+  press <- sum((ref$residuals / (1 - hatvalues(ref))) ^ 2)
+  expect_equal(ols_press(m), press)
+  expect_equal(ols_press(m), 246.5062590, tolerance = 1e-6)
+  expect_equal(ols_pred_rsq(m), ols_pred_rsq(ref))
+  expect_equal(ols_pred_rsq(m), 0.7810871, tolerance = 1e-6)
+})
+
+test_that("rank-deficient weighted PRESS keeps row alignment (G01)", {
+  d <- mtcars
+  d$w <- seq_len(32) / 8
+  d$w[c(1, 16)] <- 0
+  d$mpg[c(2, 32)] <- NA
+  m   <- lm(mpg ~ wt + I(2 * wt) + hp, d, weights = w, na.action = na.exclude)
+  ref <- lm(mpg ~ wt + hp, d[-c(1, 2, 16, 32), ], weights = w)
+
+  press <- sum(ref$weights * (ref$residuals / (1 - hatvalues(ref))) ^ 2)
+
+  expect_equal(m$rank, 3)
+  expect_equal(sum(olsrr:::model_hatvalues_used(m)), m$rank)
+  expect_equal(ols_press(m), press, tolerance = 1e-10)
+  expect_equal(ols_press(m), 589.8720, tolerance = 1e-4)
+  expect_equal(ols_pred_rsq(m), ols_pred_rsq(ref), tolerance = 1e-10)
+
+  # row-name metadata remains irrelevant, including repeated names
+  repeated <- m
+  names(repeated$residuals) <- rep(c("a", "b"), length.out = length(repeated$residuals))
+  attr(repeated$model, "row.names") <-
+    rep(c("a", "b"), length.out = nrow(repeated$model))
+  expect_equal(ols_press(repeated), press, tolerance = 1e-10)
+
+  # the design-matrix fallback uses the same fitted directions
+  fallback <- m
+  fallback$qr <- NULL
+  expect_equal(sum(olsrr:::model_hatvalues_frame(fallback)), m$rank)
+  expect_equal(ols_press(fallback), press, tolerance = 1e-10)
+})
+
 test_that("SAS information criteria use deviance and the effective sample size (H9)", {
   d <- mtcars
   d$w <- seq_len(nrow(d)) / 8
