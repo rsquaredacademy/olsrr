@@ -331,6 +331,60 @@ qr_hatvalues <- function(qr) {
 
 }
 
+# Externally studentized residuals of the rows used in the fit. Base
+# rstudent() goes through lm.influence(), whose NA padding can misalign (and
+# fail) when zero prior weights and na.exclude omissions occur together, so the
+# statistic is computed from the same used-row residuals, weights and leverages
+# as PRESS.
+model_rstudent_used <- function(model) {
+
+  res  <- model_residuals_used(model)
+  w    <- model_weights_used(model)
+  h    <- model_hatvalues_used(model)
+  ew   <- res * sqrt(w)
+  rss  <- sum(ew ^ 2)
+  df   <- model$df.residual
+  rank <- model$rank
+
+  if (rank == 0L) {
+    return(ew / sqrt(rss / df))
+  }
+
+  if (df <= 1L) {
+    return(rep(NA_real_, length(res)))
+  }
+
+  sigma <- sqrt((rss - ew ^ 2 / (1 - h)) / (df - 1))
+  out   <- ew / (sigma * sqrt(1 - h))
+  out[is.infinite(out)] <- NaN
+
+  out
+
+}
+
+# Original observation identifiers for the rows of the model frame. na.action
+# records the omitted positions, while zero-weight rows remain in the frame;
+# inverse probability weights, omitted rows and repeated row names therefore
+# cannot shift the identifiers.
+model_obs_ids <- function(model) {
+
+  n    <- length(model$residuals)
+  omit <- model$na.action
+
+  if (is.null(omit)) {
+    return(seq_len(n))
+  }
+
+  omit <- as.integer(omit)
+
+  if (length(omit) == 0 || anyNA(omit)) {
+    return(seq_len(n))
+  }
+
+  seq_len(n + length(omit))[-omit]
+
+}
+
 # prior weights of the rows used in the fit; all ones for unweighted models
 model_weights_used <- function(model) {
 

@@ -146,6 +146,40 @@ test_that("output from rstudlev matches the expected result", {
   expect_equal(round(k$maxy, 3), 5.516)
 })
 
+test_that("studentized residual vs leverage data handles zero weights and omissions (G05)", {
+  cases <- list(
+    list(zero = 1, missing = 32),
+    list(zero = c(1, 16), missing = c(2, 31))
+  )
+
+  for (z in cases) {
+    d <- mtcars
+    d$w <- 1
+    d$w[z$zero] <- 0
+    d$mpg[z$missing] <- NA
+    m   <- lm(mpg ~ wt + hp, d, weights = w, na.action = na.exclude)
+    ref <- lm(mpg ~ wt + hp, d[-c(z$zero, z$missing), ])
+
+    got <- ols_prep_rstudlev_data(m)
+
+    expect_equal(got$levrstud$obs, setdiff(seq_len(32), c(z$zero, z$missing)))
+    expect_equal(got$levrstud$leverage, unname(hatvalues(ref)))
+    expect_equal(got$levrstud$rstudent, unname(rstudent(ref)))
+    expect_equal(got$lev_thrsh, (2 * length(coef(m))) / nobs(m))
+  }
+
+  # na.exclude without zero weights also keeps the original observation IDs
+  d <- mtcars
+  d$mpg[32] <- NA
+  m   <- lm(mpg ~ wt + hp, d, na.action = na.exclude)
+  ref <- lm(mpg ~ wt + hp, d[-32, ])
+  got <- ols_prep_rstudlev_data(m)
+
+  expect_equal(got$levrstud$obs, 1:31)
+  expect_equal(got$levrstud$leverage, unname(hatvalues(ref)))
+  expect_equal(got$levrstud$rstudent, unname(rstudent(ref)))
+})
+
 test_that("output from corrout matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   expect_equal(round(corrout(model), 3), 0.96)

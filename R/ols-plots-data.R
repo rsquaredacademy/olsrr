@@ -344,17 +344,28 @@ ols_prep_rstudlev_data <- function(model, threshold = NULL) {
     threshold <- 2
   }
 
-  leverage  <- unname(hatvalues(model))
-  rstudent  <- unname(rstudent(model))
+  # leverage and studentized residuals in positive-weight fit-row order. Base
+  # hatvalues()/rstudent() pad to the original rows, which both misaligns them
+  # with the model frame and fails when zero weights and na.exclude omissions
+  # occur together; the observation IDs are mapped back deliberately instead.
+  used      <- model_used_rows(model)
+  lev_all   <- model_hatvalues_frame(model)
+  rst_all   <- rep(NA_real_, length(used))
+  rst_all[used] <- model_rstudent_used(model)
+  obs_all   <- model_obs_ids(model)
+
+  leverage  <- lev_all[used]
+  rstudent  <- rst_all[used]
+  obs       <- obs_all[used]
   k         <- length(coefficients(model))
-  n         <- nrow(model.frame(model))
+  n         <- length(obs)
   lev_thrsh <- (2 * k) / n
   rst_thrsh <- threshold
   miny      <- min(rstudent) - 3
   maxy      <- max(rstudent) + 3
   minx      <- min(leverage)
   maxx      <- ifelse((max(leverage) > lev_thrsh), max(leverage), (lev_thrsh + 0.05))
-  levrstud  <- data.frame(obs = seq_len(n), leverage, rstudent)
+  levrstud  <- data.frame(obs = obs, leverage, rstudent)
 
   levrstud$color1 <- ifelse((levrstud$leverage < lev_thrsh & abs(levrstud$rstudent) < rst_thrsh), "normal", NA)
   levrstud$color2 <- ifelse((levrstud$leverage > lev_thrsh & abs(levrstud$rstudent) < rst_thrsh), "leverage", NA)
