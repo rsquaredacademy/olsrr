@@ -177,6 +177,23 @@ test_that("selection preserves the intercept and model offsets (H7)", {
   expect_equal(predict(kc$model), predict(mc))
 })
 
+test_that("selection keeps the model's contrast coding (H5)", {
+  m <- lm(mpg ~ factor(cyl) + hp, mtcars,
+          contrasts = list("factor(cyl)" = contr.sum))
+
+  k <- ols_step_forward_aic(m, include = c("factor(cyl)", "hp"))
+  expect_equal(names(coef(k$model)), names(coef(m)))
+  expect_equal(coef(k$model), coef(m))
+  expect_equal(predict(k$model), predict(m))
+
+  # a candidate fit also uses the contrasts, rather than dropping the factor
+  k2  <- ols_step_forward_aic(m)
+  sel <- attr(k2$model$terms, "term.labels")
+  ref <- lm(paste("mpg ~", paste(sel, collapse = " + ")), mtcars,
+            contrasts = list("factor(cyl)" = contr.sum))
+  expect_equal(coef(k2$model), coef(ref))
+})
+
 test_that("selection keeps mixed formula and call offsets (H6)", {
   m  <- lm(mpg ~ wt * hp + offset(qsec), mtcars, offset = drat)
   eq <- lm(mpg ~ wt * hp, mtcars, offset = qsec + drat)

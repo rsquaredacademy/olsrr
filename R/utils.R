@@ -151,6 +151,28 @@ synthetic_model_columns <- function(model) {
   drop
 }
 
+# Contrasts of `model` that apply to the terms of `form`. model.matrix() warns
+# when a contrasts entry names a variable the formula does not contain, which
+# happens whenever selection drops a factor from the candidate terms.
+model_contrasts <- function(model, form) {
+
+  con <- model$contrasts
+
+  if (length(con) == 0) {
+    return(NULL)
+  }
+
+  vars <- rownames(attr(stats::terms(form), "factors"))
+  con  <- con[names(con) %in% vars]
+
+  if (length(con) == 0) {
+    return(NULL)
+  }
+
+  con
+
+}
+
 # Sum of the offset() terms of the model formula on the model-frame rows.
 # Returns NULL when the formula has no offset terms.
 model_formula_offset <- function(model, data = NULL) {

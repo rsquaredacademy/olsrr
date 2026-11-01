@@ -523,6 +523,33 @@ test_that("an offset variable is still standardised as a predictor (H6)", {
   expect_equal(names(ols_regress(inline2)$sbetas), c("log(wt)", "hp", "log(wt):hp"))
 })
 
+test_that("standardised betas keep the model's contrast coding (H5)", {
+  m <- lm(mpg ~ factor(cyl) * hp, mtcars,
+          contrasts = list("factor(cyl)" = contr.sum))
+
+  ds <- mtcars
+  ds$hp <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ factor(cyl) * hp, ds, contrasts = list("factor(cyl)" = contr.sum))
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  res <- ols_regress(m)
+
+  expect_equal(names(res$sbetas), names(coef(m))[-1])
+  expect_equal(unname(res$sbetas), unname(expected))
+  expect_equal(unname(res$sbetas),
+               c(0.1645928, 0.1614386, -0.5105317, -0.4957139, 0.2765400),
+               tolerance = 1e-6)
+
+  # factor columns are still not standardised, and the treatment-contrast
+  # neighbour keeps its own parameterisation
+  mt <- lm(mpg ~ factor(cyl) * hp, mtcars)
+  expect_equal(names(ols_regress(mt)$sbetas), names(coef(mt))[-1])
+  expect_equal(ols_regress(mt)$sbetas[["hp"]],
+               unname(coef(mt)["hp"] * sd(mtcars$hp) / sd(mtcars$mpg)),
+               tolerance = 1e-6)
+})
+
 test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {  d <- mtcars
   d$mpg[1] <- NA
 

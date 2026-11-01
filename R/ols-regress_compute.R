@@ -64,6 +64,9 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
     if (!is.null(sc$offset)) {
       fit_args$offset <- sc$offset
     }
+    if (length(sc$contrasts) > 0) {
+      fit_args$contrasts <- sc$contrasts
+    }
 
     model2  <- do.call(stats::lm, fit_args)
     output2 <- summary(model2)
@@ -274,7 +277,11 @@ ols_scale_terms <- function(model, data) {
     off <- NULL
   }
 
-  list(data = d, formula = fml2, map = map, offset = off)
+  # factor terms keep their names in the refit formula, so the model's contrast
+  # specification can be passed through unchanged; without it the refit silently
+  # falls back to treatment contrasts
+  list(data = d, formula = fml2, map = map, offset = off,
+       contrasts = model_contrasts(model, fml2))
 
 }
 

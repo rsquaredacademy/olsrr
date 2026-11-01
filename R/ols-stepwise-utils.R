@@ -763,6 +763,14 @@ ols_step_lm <- function(form, data, model = NULL) {
     if (!is.null(off) && length(off) == nrow(as.data.frame(data))) {
       args$offset <- off
     }
+
+    # candidate formulas keep the original term names, so the input model's
+    # contrast coding applies to them unchanged
+    con <- model_contrasts(model, form)
+
+    if (!is.null(con)) {
+      args$contrasts <- con
+    }
   }
 
   do.call(stats::lm, args)
