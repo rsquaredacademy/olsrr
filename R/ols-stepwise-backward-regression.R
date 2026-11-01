@@ -165,7 +165,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
         break
       }
 
-      m     <- lm(ols_step_formula(response, c(include, cterms)), data = l)
+      m     <- ols_step_lm(ols_step_formula(response, c(include, cterms), model), l, model)
       m_sum <- Anova(m)
       nm    <- length(m_sum$`F value`)
       fvals <- m_sum$`F value`[ppos:nm]
@@ -188,7 +188,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
           rpred    <- c(rpred, drop_var)
           cterms   <- setdiff(cterms, drop_var)
           lp       <- length(rpred)
-          fr       <- ols_regress(ols_step_formula(response, c(include, cterms)), data = l)
+          fr       <- ols_step_fit(response, c(include, cterms), l, model)
           rsq    <- c(rsq, fr$rsq)
           arsq   <- c(arsq, fr$adjr)
           rss    <- c(rss, fr$rss)

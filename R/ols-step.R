@@ -50,7 +50,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
 
   if (mlen_p == 0) {
     message("No candidate predictors left to enter.")
-    base_model  <- ols_base_model(include, response, l)
+    base_model  <- ols_base_model(include, response, l, model)
     final_model <- ols_step_final_model(model, response, include, l)
     metrics     <- data.frame(step     = integer(0),
                               variable = character(0),
@@ -88,7 +88,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   lrsq  <- numeric(0)
   larsq <- numeric(0)
 
-  base_model  <- ols_base_model(include, response, l)
+  base_model  <- ols_base_model(include, response, l, model)
   base_metric <- ols_base_criteria(base_model, criteria)
 
   if (details) {
@@ -101,7 +101,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   for (i in seq_len(mlen_p)) {
 
     predictors <- c(include, all_pred[i])
-    k <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = l)
+    k <- ols_step_fit(response, predictors, l, model)
 
     aics[i]  <- ols_aic(k$model)
     bics[i]  <- ols_sbc(k$model)
@@ -171,7 +171,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     sbics <- c()
     rsq   <- c()
     arsq  <- c()
-    mo    <- ols_regress(ols_step_formula(response, preds), data = l)
+    mo    <- ols_step_fit(response, preds, l, model)
     met   <- ols_base_criteria(mo$model, criteria)
 
     if (details) {
@@ -184,7 +184,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     for (i in seq_len(len_p)) {
 
       predictors <- unique(c(preds, all_pred[i]))
-      k          <- ols_regress(ols_step_formula(response, predictors), data = l)
+      k          <- ols_step_fit(response, predictors, l, model)
       aics[i]    <- ols_aic(k$model)
       bics[i]    <- ols_sbc(k$model)
       sbics[i]   <- ols_sbic(k$model, model)
@@ -338,7 +338,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
     ols_candidate_terms(nam, "backward")
   }
     
-  mi    <- ols_regress(ols_step_formula(response, preds), data = l)
+  mi    <- ols_step_fit(response, preds, l, model)
   laic  <- ols_aic(model)
   lbic  <- ols_sbc(model)
   lsbic <- ols_sbic(model, model)
@@ -365,7 +365,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
 
     predictors <- preds[-i]
 
-    m <- ols_regress(ols_step_formula(response, predictors), data = l)
+    m <- ols_step_fit(response, predictors, l, model)
 
     aics[i]  <- ols_aic(m$model)
     bics[i]  <- ols_sbc(m$model)
@@ -428,7 +428,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
       step     <- step + 1
       base_metric <- mat[minc]
 
-      mi <- ols_regress(ols_step_formula(response, preds), data = l)
+      mi <- ols_step_fit(response, preds, l, model)
 
       laic   <- c(laic, mi$aic)
       lbic   <- c(lbic, mi$sbc)
@@ -457,7 +457,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
 
         predictors <- preds[-i]
 
-        m <- ols_regress(ols_step_formula(response, predictors), data = l)
+        m <- ols_step_fit(response, predictors, l, model)
 
         aics[i]  <- ols_aic(m$model)
         bics[i]  <- ols_sbc(m$model)
@@ -585,7 +585,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
   mlen_p     <- length(predictors)
   tech       <- c("addition", "removal")
 
-  base_model <- ols_base_model(include, response, l)
+  base_model <- ols_base_model(include, response, l, model)
   bmetric <- ols_base_criteria(base_model, criteria)
 
   if (details) {
@@ -624,7 +624,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
 
       predn <- unique(c(preds, predictors[i]))
 
-      m <- ols_regress(ols_step_formula(response, predn), data = l)
+      m <- ols_step_fit(response, predn, l, model)
 
       aics[i]  <- ols_aic(m$model)
       bics[i]  <- ols_sbc(m$model)
@@ -700,7 +700,7 @@ ols_step_both <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adjrsq
 
           preda <- setdiff(preds, remove_candidates[i])
 
-          m <- ols_regress(ols_step_formula(response, preda), data = l)
+          m <- ols_step_fit(response, preda, l, model)
 
           aics[j]  <- ols_aic(m$model)
           bics[j]  <- ols_sbc(m$model)

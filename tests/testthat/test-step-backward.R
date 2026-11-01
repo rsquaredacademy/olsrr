@@ -76,3 +76,17 @@ test_that("plot() of a 0-step backward_p result succeeds without error (#234)", 
   expect_equal(nrow(khb$metrics), 0)
   expect_no_error(plot(khb, print_plot = FALSE))
 })
+
+test_that("backward and both-direction selection preserve intercepts and offsets (H7)", {
+  for (fn in list(ols_step_backward_aic, ols_step_both_aic)) {
+    m <- lm(mpg ~ 0 + wt + hp, mtcars)
+    k <- fn(m)
+    expect_equal(attr(terms(k$model), "intercept"), 0)
+    expect_equal(coef(k$model), coef(lm(formula(k$model), data = mtcars)))
+
+    mo <- lm(mpg ~ wt + hp + offset(qsec), mtcars)
+    ko <- fn(mo)
+    expect_equal(length(ko$model$offset), 32L)
+    expect_equal(coef(ko$model), coef(lm(formula(ko$model), data = mtcars)))
+  }
+})

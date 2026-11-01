@@ -155,7 +155,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   fp      <- c()
   method  <- c()
 
-  base_model <- ols_base_model(include, response, l)
+  base_model <- ols_base_model(include, response, l, model)
   rsq_base   <- summary(base_model)$r.squared
 
   if (details) {
@@ -164,7 +164,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   for (i in seq_len(mlen_p)) {
     predictors <- c(include, all_pred[i])
-    m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m          <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
     m_sum      <- Anova(m)
     fvals[i]   <- m_sum$`F value`[ppos]
     pvals[i]   <- m_sum$`Pr(>F)`[ppos]
@@ -186,7 +186,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   preds   <- c(preds, all_pred[maxf])
   lpreds  <- length(preds)
   step    <- step + 1
-  fr      <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+  fr      <- ols_step_fit(response, preds, l, model)
   rsq     <- c(rsq, fr$rsq)
   adjrsq  <- c(adjrsq, fr$adjr)
   cp      <- c(cp, ols_mallows_cp(fr$model, model))
@@ -232,7 +232,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
     for (i in seq_len(len_p)) {
 
       predictors <- c(preds, all_pred[i])
-      m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+      m          <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
       m_sum      <- Anova(m)
       fvals[i]   <- m_sum$`F value`[ppos]
       pvals[i]   <- m_sum$`Pr(>F)`[ppos]
@@ -255,7 +255,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       lpreds    <- length(preds)
       all_step  <- all_step + 1
       step      <- step + 1
-      fr        <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+      fr        <- ols_step_fit(response, preds, l, model)
       rsq       <- c(rsq, fr$rsq)
       adjrsq    <- c(adjrsq, fr$adjr)
       aic       <- c(aic, ols_aic(fr$model))
@@ -277,7 +277,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       }
 
       # check p value of predictors previously added in above step
-      m2      <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
+      m2      <- ols_step_lm(ols_step_formula(response, preds, model), l, model)
       m2_sum  <- Anova(m2)
       len_inc <- length(include) + 1
       fvals_r <- m2_sum$`F value`[len_inc:lpreds]
@@ -300,7 +300,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
         preds     <- preds[-(minf + length(include))]
         all_step  <- all_step + 1
         ppos      <- ppos - length(minf)
-        fr        <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+        fr        <- ols_step_fit(response, preds, l, model)
         rsq       <- c(rsq, fr$rsq)
         adjrsq    <- c(adjrsq, fr$adjr)
         aic       <- c(aic, ols_aic(fr$model))

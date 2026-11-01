@@ -143,3 +143,54 @@ test_that("stepwise routines give a clear error for non-model input", {
     fixed = TRUE
   )
 })
+
+test_that("selection preserves the intercept and model offsets (H7)", {
+  # no-intercept model: the include-all result is the input fit
+  m <- lm(mpg ~ 0 + wt + hp, mtcars)
+  k <- ols_step_forward_aic(m, include = c("wt", "hp"))
+
+  expect_equal(attr(terms(k$model), "intercept"), 0)
+  expect_equal(coef(k$model), coef(m))
+
+  # no-intercept selection with candidates left explores no-intercept fits
+  m2 <- lm(mpg ~ 0 + wt + hp + disp, mtcars)
+  k2 <- ols_step_forward_aic(m2)
+  expect_equal(attr(terms(k2$model), "intercept"), 0)
+  sel <- attr(k2$model$terms, "term.labels")
+  expect_equal(coef(k2$model),
+               coef(lm(paste("mpg ~ 0 +", paste(sel, collapse = " + ")), mtcars)))
+
+  # inline offset: candidate fits and the final model keep the offset
+  mo <- lm(mpg ~ wt + hp + offset(qsec), mtcars)
+  ko <- ols_step_forward_aic(mo, include = c("wt", "hp"))
+
+  expect_equal(length(ko$model$offset), 32L)
+  expect_equal(coef(ko$model), coef(mo))
+  expect_equal(ko$model$offset, mo$offset)
+
+  # offset supplied to the model call behaves the same
+  mc <- lm(mpg ~ wt + hp, mtcars, offset = qsec)
+  kc <- ols_step_forward_aic(mc, include = c("wt", "hp"))
+
+  expect_equal(length(kc$model$offset), 32L)
+  expect_equal(coef(kc$model), coef(mc))
+  expect_equal(predict(kc$model), predict(mc))
+})
+
+test_that("selection keeps the formula environment of the input model (M1)", {
+  res <- local({
+    kk <- function(x) log(x)
+    mm <- lm(mpg ~ kk(wt) + hp, data = mtcars)
+    coef(ols_step_forward_aic(mm)$model)
+  })
+
+  expect_equal(unname(res), unname(coef(lm(mpg ~ log(wt) + hp, mtcars))))
+
+  # an external predictor vector also resolves in the formula environment
+  res2 <- local({
+    zz <- mtcars$disp
+    mm <- lm(mpg ~ wt + zz, data = mtcars)
+    coef(ols_step_forward_aic(mm)$model)
+  })
+  expect_equal(unname(res2), unname(coef(lm(mpg ~ wt + disp, mtcars))))
+})

@@ -93,7 +93,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   sbc      <- c()
   rmse     <- c()
 
-  base_model <- lm(paste(response, "~", 1), data = l)
+  base_model <- ols_base_model(NULL, response, l, model)
   rsq_base   <- summary(base_model)$r.squared
 
   if (details) {
@@ -110,7 +110,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 
   for (i in seq_len(mlen_p)) {
     predictors  <- c(preds, all_pred[i])
-    m           <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
     m_sum       <- Anova(m)
     pvals       <- c(pvals, m_sum$`Pr(>F)`[i])
     aicvals[i]  <- ols_aic(m)
@@ -128,7 +128,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
       preds  <- c(preds, cterms[i])
       p_val  <- c(p_val, pvals[i])
       step   <- step + 1
-      fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+      fr     <- ols_step_fit(response, preds, l, model)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))
@@ -236,7 +236,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
 
   for (i in rev(seq_len(mlen_p))) {
     predictors  <- cterms[1:i]
-    m           <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
     m_sum       <- Anova(m)
     pvals       <- m_sum$`Pr(>F)`[1:i]
     p_vals      <- pvals[i]
@@ -250,7 +250,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
       preds  <- c(preds, cterms[i])
       step   <- step + 1
       rpred  <- setdiff(cterms, preds)
-      fr     <- ols_regress(paste(response, "~", paste(rpred, collapse = " + ")), l)
+      fr     <- ols_step_fit(response, rpred, l, model)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))

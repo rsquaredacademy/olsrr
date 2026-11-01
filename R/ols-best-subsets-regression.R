@@ -162,7 +162,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   for (i in seq_len(len_elig)) {
     predictors        <- predicts[[i]]
     lp                <- length(predictors)
-    out               <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = data)
+    out               <- ols_step_fit(response, predictors, data, model)
     mcount            <- mcount + 1
     lpreds[mcount]    <- lp
     rsq[[mcount]]     <- out$rsq

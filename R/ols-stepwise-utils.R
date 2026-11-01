@@ -42,12 +42,8 @@ check_terms <- function(clude, indterms, include = TRUE) {
 
 }
 
-ols_base_model <- function(include, response, data) {
-  if (is.null(include)) {
-    lm(paste(response, "~", 1), data = data)
-  } else {
-    lm(paste(response, "~", paste(include, collapse = " + ")), data = data)
-  }
+ols_base_model <- function(include, response, data, model = NULL) {
+  ols_step_lm(ols_step_formula(response, include, model), data, model)
 }
 
 ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backward", "both")) {
@@ -717,20 +713,69 @@ ols_sort_metrics <- function(data, criteria) {
   }
 }
 
-# build a model formula from a response and candidate term labels, falling
-# back to an intercept-only model when no predictors remain
-ols_step_formula <- function(response, predictors) {
+# build a model formula from a response and candidate term labels, preserving
+# the intercept, the offsets and the formula environment of the original model
+ols_step_formula <- function(response, predictors, model = NULL) {
+
   predictors <- unique(predictors)
-  rhs        <- if (length(predictors) > 0) paste(predictors, collapse = " + ") else "1"
-  as.formula(paste(response, "~", rhs))
+  int        <- 1L
+  off_lbl    <- character(0)
+
+  if (!is.null(model)) {
+    int     <- attr(model$terms, "intercept")
+    off_idx <- attr(model$terms, "offset")
+
+    if (length(off_idx) > 0) {
+      vars    <- as.list(attr(model$terms, "variables"))[-1]
+      off_lbl <- vapply(vars[off_idx], function(x) {
+        paste(deparse(x), collapse = "")
+      }, character(1))
+    }
+  }
+
+  rhs <- c(if (int == 0) "0", predictors, off_lbl)
+  rhs <- if (length(rhs) > 0) paste(rhs, collapse = " + ") else "1"
+
+  form <- as.formula(paste(response, "~", rhs))
+
+  if (!is.null(model)) {
+    env <- environment(formula(model))
+    if (!is.null(env)) {
+      environment(form) <- env
+    }
+  }
+
+  form
+
+}
+
+# fit a candidate model, carrying an offset supplied through the model call
+# (rather than the formula) on the rows used by the original model
+ols_step_lm <- function(form, data, model = NULL) {
+
+  args <- list(formula = form, data = data)
+
+  if (!is.null(model) &&
+      length(attr(model$terms, "offset")) == 0 &&
+      !is.null(model$offset)) {
+    args$offset <- unname(model$offset)
+  }
+
+  do.call(stats::lm, args)
+
+}
+
+# fit and summarise a candidate model for stepwise selection
+ols_step_fit <- function(response, predictors, data, model) {
+  ols_regress(ols_step_lm(ols_step_formula(response, predictors, model), data, model))
 }
 
 # construct and fit final model for stepwise selection routines
 ols_step_final_model <- function(model, response, predictors, data) {
-  form <- ols_step_formula(response, predictors)
-  environment(form) <- environment(formula(model))
-  final_model <- lm(form, data = data)
+  form <- ols_step_formula(response, predictors, model)
+  final_model <- ols_step_lm(form, data, model)
   final_model$call$formula <- form
+  final_model$call$offset  <- model$call$offset
   if (!is.null(model$call$data)) {
     final_model$call$data <- model$call$data
   }

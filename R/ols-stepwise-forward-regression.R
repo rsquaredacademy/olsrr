@@ -141,7 +141,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     all_pred <- nam
     mlen_p   <- length(all_pred)
 
-    base_model <- ols_base_model(include, response, l)
+    base_model <- ols_base_model(include, response, l, model)
 
     if (mlen_p == 0) {
       message("No candidate predictors left to enter.")
@@ -186,7 +186,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
     for (i in seq_len(mlen_p)) {
       predictors  <- unique(c(include, all_pred[i]))
-      m           <- lm(ols_step_formula(response, predictors), data = l)
+      m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
       m_sum       <- Anova(m)
       fvals[i]    <- m_sum$`F value`[ppos]
       pvals[i]    <- m_sum$`Pr(>F)`[ppos]
@@ -227,7 +227,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
         step   <- step + 1
         npreds <- preds[1:i]
-        fr     <- ols_regress(ols_step_formula(response, npreds), data = l)
+        fr     <- ols_step_fit(response, npreds, l, model)
         rsq    <- c(rsq, fr$rsq)
         adjrsq <- c(adjrsq, fr$adjr)
         aic    <- c(aic, ols_aic(fr$model))
@@ -250,7 +250,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     } else {
 
       step   <- step + 1
-      fr     <- ols_regress(ols_step_formula(response, preds), data = l)
+      fr     <- ols_step_fit(response, preds, l, model)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))
@@ -293,7 +293,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       for (i in seq_len(len_p)) {
 
         predictors  <- unique(c(preds, all_pred[i]))
-        m           <- lm(ols_step_formula(response, predictors), data = l)
+        m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
         m_sum       <- Anova(m)
         fvals[i]    <- m_sum$`F value`[ppos]
         pvals[i]    <- m_sum$`Pr(>F)`[ppos]
@@ -323,7 +323,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         step   <- step + 1
         preds  <- unique(c(preds, all_pred[maxf]))
         lpreds <- length(preds)
-        fr     <- ols_regress(ols_step_formula(response, preds), data = l)
+        fr     <- ols_step_fit(response, preds, l, model)
         rsq    <- c(rsq, fr$rsq)
         adjrsq <- c(adjrsq, fr$adjr)
         aic    <- c(aic, ols_aic(fr$model))

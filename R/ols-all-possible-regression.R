@@ -385,7 +385,7 @@ allpos_helper <- function(model, max_order = NULL) {
       predictors <- nam[combs[[i]][, j]]
       lp         <- length(predictors)
 
-      out <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = pos_data)
+      out <- ols_step_fit(response, predictors, pos_data, model)
 
       mcount            <- mcount + 1
       lpreds[mcount]    <- lp
