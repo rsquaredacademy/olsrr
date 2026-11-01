@@ -56,3 +56,29 @@ test_that("all possible regression refits transformed responses safely (audit F1
   expect_equal(sort(k$result$rsquare)[3],
                summary(lm(log(mpg) ~ disp + hp, data = mtcars))$r.squared)
 })
+
+test_that("all-possible routines respect a no-intercept model (H7)", {
+  m <- lm(mpg ~ 0 + wt + hp + disp, mtcars)
+
+  # candidate models keep the input model definition, so the single-predictor
+  # model has the uncentred R-squared of a no-intercept fit
+  ap  <- ols_step_all_possible(m)
+  row <- ap$result[ap$result$predictors == "wt", ]
+  expect_equal(row$rsquare, summary(lm(mpg ~ 0 + wt, mtcars))$r.squared)
+
+  bs   <- ols_step_best_subset(m)
+  brow <- bs$metrics[bs$metrics$predictors == "wt", ]
+  expect_equal(brow$rsquare, summary(lm(mpg ~ 0 + wt, mtcars))$r.squared)
+
+  # the intercept model keeps the centred R-squared
+  apc  <- ols_step_all_possible(lm(mpg ~ wt + hp + disp, mtcars))
+  rowc <- apc$result[apc$result$predictors == "wt", ]
+  expect_equal(rowc$rsquare, summary(lm(mpg ~ wt, mtcars))$r.squared)
+  expect_false(isTRUE(all.equal(row$rsquare, rowc$rsquare)))
+
+  # the beta table is not defined without an intercept row to index by
+  expect_error(
+    ols_step_all_possible_betas(m),
+    "requires a model with an intercept"
+  )
+})

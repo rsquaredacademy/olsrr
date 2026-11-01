@@ -299,6 +299,11 @@ ols_step_all_possible_betas <- function(object, ...) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 
+  # the beta table attributes coefficients to models by their intercept rows
+  if (attr(object$terms, "intercept") == 0) {
+    stop("ols_step_all_possible_betas() requires a model with an intercept.", call. = FALSE)
+  }
+
   metrics    <- allpos_helper(object)
   beta_names <- names(metrics$betas)
   mindex     <- seq_len(length(metrics$rsq))
