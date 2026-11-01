@@ -226,3 +226,39 @@ test_that("ols_test_correlation() works for na.exclude fits (M5)", {  d <- mtcar
   expect_equal(ols_test_correlation(me), ols_test_correlation(mo))
 })
 
+test_that("zero-weight rows and end-of-frame omissions keep PRESS correct (H2)", {
+  fit <- function(zero, missing) {
+    d <- mtcars
+    d$w <- 1
+    d$w[zero] <- 0
+    d$mpg[missing] <- NA
+    list(
+      fit = lm(mpg ~ wt + hp, d, weights = w, na.action = na.exclude),
+      ref = lm(mpg ~ wt + hp, d[-c(zero, missing), ])
+    )
+  }
+
+  # the omitted row is the last one: lm.influence() pads the reduced
+  # positive-weight residuals before they can be aligned
+  z <- fit(1, 32)
+  press <- sum((z$ref$residuals / (1 - hatvalues(z$ref))) ^ 2)
+  expect_equal(ols_press(z$fit), press, tolerance = 1e-10)
+  expect_equal(ols_press(z$fit), 236.5578676, tolerance = 1e-6)
+  expect_equal(ols_pred_rsq(z$fit), ols_pred_rsq(z$ref), tolerance = 1e-10)
+  expect_equal(ols_regress(z$fit)$prsq, ols_pred_rsq(z$ref))
+
+  # second-to-last row, and several zero-weight and missing rows at once
+  z <- fit(31, 30)
+  expect_equal(ols_press(z$fit), ols_press(z$ref), tolerance = 1e-10)
+  expect_equal(ols_pred_rsq(z$fit), ols_pred_rsq(z$ref), tolerance = 1e-10)
+
+  d <- mtcars
+  d$w <- 1
+  d$w[c(1, 32)] <- 0
+  d$mpg[c(2, 31)] <- NA
+  me  <- lm(mpg ~ wt + hp, d, weights = w, na.action = na.exclude)
+  ref <- lm(mpg ~ wt + hp, d[-c(1, 2, 31, 32), ])
+  expect_equal(ols_press(me), ols_press(ref), tolerance = 1e-10)
+  expect_equal(ols_pred_rsq(me), ols_pred_rsq(ref), tolerance = 1e-10)
+})
+
