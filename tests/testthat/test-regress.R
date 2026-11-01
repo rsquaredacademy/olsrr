@@ -587,6 +587,38 @@ test_that("standardised betas keep the model's contrast coding (H5)", {
                tolerance = 1e-6)
 })
 
+test_that("factor levels that look like placeholders keep their names (G04)", {
+  d <- mtcars
+  d$g <- factor(ifelse(d$cyl == 4, "small", ".ols_sb_0001"),
+                levels = c("small", ".ols_sb_0001"))
+  m <- lm(mpg ~ hp * g, d)
+
+  expect_equal(names(coef(m))[-1],
+               c("hp", "g.ols_sb_0001", "hp:g.ols_sb_0001"))
+
+  ds <- d
+  ds$hp <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ hp * g, ds)
+  expected <- coef(ref)[-1] *
+    apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) / sd(d$mpg)
+
+  res <- ols_regress(m)
+
+  expect_equal(names(res$sbetas), names(coef(m))[-1])
+  expect_equal(unname(res$sbetas), unname(expected))
+  expect_equal(unname(res$sbetas), c(-1.2829443, -0.1350772, 0.6757784),
+               tolerance = 1e-6)
+
+  # every standardised beta is printed against its own coefficient row
+  out <- capture.output(print(res))
+  for (nm in names(res$sbetas)) {
+    line <- out[startsWith(trimws(out), paste0(nm, " "))]
+    expect_length(line, 1)
+    cell <- format(round(res$sbetas[[nm]], 3), nsmall = 3)
+    expect_true(grepl(cell, line, fixed = TRUE))
+  }
+})
+
 test_that("term structure comes from the terms object, not from splitting on colons (H5)", {
   d <- mtcars
   d[["a:b"]] <- d$wt

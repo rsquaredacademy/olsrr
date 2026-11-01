@@ -217,6 +217,17 @@ ols_scale_terms <- function(model, data) {
   # a separate column of the refit design.
   map <- character(0)
 
+  # placeholders are translated back to term names by textual substitution, so
+  # they must not occur anywhere in an original coefficient label. A factor
+  # level can itself contain text that looks like a placeholder; choose a
+  # placeholder that is not a substring of any data name, factor level or
+  # model-matrix column so only the generated structural names are rewritten.
+  reserved <- unique(c(
+    names(d),
+    unlist(lapply(d, levels), use.names = FALSE),
+    colnames(model.matrix(model))
+  ))
+
   for (cmp in comps) {
 
     val <- tryCatch(
@@ -252,10 +263,11 @@ ols_scale_terms <- function(model, data) {
     }
 
     # fixed-width suffixes keep the placeholders from being prefixes of one
-    # another, so mapping coefficient names back cannot hit a partial name
+    # another, so mapping coefficient names back cannot hit a partial name.
+    # Skip any placeholder that already occurs inside an original label.
     i   <- length(map) + 1L
     new <- sprintf(".ols_sb_%04d", i)
-    while (new %in% names(d)) {
+    while (new %in% names(d) || any(grepl(new, reserved, fixed = TRUE))) {
       i   <- i + 1L
       new <- sprintf(".ols_sb_%04d", i)
     }
