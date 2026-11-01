@@ -550,6 +550,36 @@ test_that("standardised betas keep the model's contrast coding (H5)", {
                tolerance = 1e-6)
 })
 
+test_that("term structure comes from the terms object, not from spliting on colons (H5)", {
+  d <- mtcars
+  d[["a:b"]] <- d$wt
+  m <- lm(mpg ~ `a:b` * hp, d)
+
+  ds <- d
+  ds[["a:b"]] <- as.numeric(scale(ds[["a:b"]]))
+  ds$hp       <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ `a:b` * hp, ds)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(d$mpg)
+
+  res <- ols_regress(m)
+
+  expect_equal(names(res$sbetas), c("`a:b`", "hp", "`a:b`:hp"))
+  expect_equal(unname(res$sbetas), unname(expected))
+  expect_equal(unname(res$sbetas),
+               c(-0.6707612, -0.3470564, 0.2431090),
+               tolerance = 1e-6)
+
+  # a term that cannot be evaluated is reported instead of being left unscaled
+  dead <- local({
+    dd  <- mtcars
+    fit <- lm(mpg ~ log(wt) * hp, data = dd)
+    rm(dd)
+    fit
+  })
+  expect_error(ols_regress(dead), "could not be evaluated")
+})
+
 test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {  d <- mtcars
   d$mpg[1] <- NA
 

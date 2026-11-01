@@ -201,9 +201,13 @@ ols_scale_terms <- function(model, data) {
 
   d <- as.data.frame(data)
 
-  # components of the terms; interactions are rebuilt from their components
-  comps <- unique(unlist(strsplit(labels, ":", fixed = TRUE)))
-  comps <- comps[nzchar(comps)]
+  # Term structure comes from the terms object, never from splitting deparsed
+  # term labels: a colon inside a (backticked) variable name is not an
+  # interaction operator. `factors` has one row per variable of the formula and
+  # one column per term, so a term is rebuilt from the variables it contains.
+  factors <- attr(model$terms, "factors")
+  vars    <- rownames(factors)
+  comps   <- vars[rowSums(factors) > 0]
 
   # the response is never standardised. An offset variable is: the offset is
   # carried as a frozen vector evaluated on the original columns, while the
@@ -220,11 +224,19 @@ ols_scale_terms <- function(model, data) {
 
     val <- tryCatch(
       eval(parse(text = cmp), envir = d, enclos = env),
-      error = function(e) NULL
+      error = function(e) e
     )
 
-    # factors, characters and any term that cannot be evaluated are left alone
-    if (is.null(val) || !is.numeric(val)) {
+    # a term that cannot be evaluated in the model data cannot be standardised;
+    # returning betas from a model with that term left unscaled would be wrong
+    if (inherits(val, "error")) {
+      stop(paste0("standardised betas are not available: the model term `", cmp,
+                  "` could not be evaluated in the model data (",
+                  conditionMessage(val), ")."), call. = FALSE)
+    }
+
+    # factors, characters and other non-numeric terms are left alone
+    if (!is.numeric(val)) {
       next
     }
 
@@ -242,11 +254,13 @@ ols_scale_terms <- function(model, data) {
       next
     }
 
-    new <- ".ols_sb"
-    i   <- 1
+    # fixed-width suffixes keep the placeholders from being prefixes of one
+    # another, so mapping coefficient names back cannot hit a partial name
+    i   <- length(map) + 1L
+    new <- sprintf(".ols_sb_%04d", i)
     while (new %in% names(d)) {
-      new <- paste0(".ols_sb_", i)
-      i   <- i + 1
+      i   <- i + 1L
+      new <- sprintf(".ols_sb_%04d", i)
     }
 
     d[[new]]   <- as.numeric(scale(val))
@@ -254,12 +268,14 @@ ols_scale_terms <- function(model, data) {
 
   }
 
-  new_labels <- vapply(labels, function(lbl) {
-    parts <- strsplit(lbl, ":", fixed = TRUE)[[1]]
-    hit   <- parts %in% map
-    parts[hit] <- names(map)[match(parts[hit], map)]
+  new_labels <- vapply(seq_along(labels), function(j) {
+    parts <- vars[factors[, j] > 0]
+    idx   <- match(parts, unname(map))
+    parts[!is.na(idx)] <- names(map)[idx[!is.na(idx)]]
     paste(parts, collapse = ":")
   }, character(1))
+
+  names(new_labels) <- NULL
 
   rhs <- c(if (attr(model$terms, "intercept") == 0) "0", new_labels, off_lbl)
   if (length(rhs) == 0) {
@@ -285,17 +301,19 @@ ols_scale_terms <- function(model, data) {
 
 }
 
-# Translate the refitted coefficient names back to the original term labels
+# Translate the refitted coefficient names back to the original term labels.
+# The placeholders never contain a colon and never prefix one another, so a
+# colon inside a variable name is never mistaken for an interaction.
 ols_term_names <- function(nms, map) {
 
   if (length(map) == 0) {
     return(nms)
   }
 
-  vapply(strsplit(nms, ":", fixed = TRUE), function(parts) {
-    idx <- match(parts, names(map))
-    parts[!is.na(idx)] <- unname(map[idx[!is.na(idx)]])
-    paste(parts, collapse = ":")
-  }, character(1))
+  for (ph in names(map)) {
+    nms <- gsub(ph, unname(map[[ph]]), nms, fixed = TRUE)
+  }
+
+  nms
 
 }
