@@ -178,40 +178,40 @@ model_residuals_used <- function(model) {
 
 model_hatvalues_used <- function(model) {
 
-  lev <- hatvalues(model)
-  rn  <- names(model$residuals)
-  ln  <- names(lev)
+  lev <- model_hatvalues_frame(model)
+  lev[model_used_rows(model)]
 
-  # lm() names leverages for the rows used in the fit and, for na.exclude fits
-  # with zero weights, with a mix of the original and the model-frame rows;
-  # align by row name so residual and leverage pairs match
-  if (!is.null(rn) && !is.null(ln) && length(ln) > 0 &&
-      !anyDuplicated(rn) && !anyDuplicated(ln)) {
-    lev  <- unname(lev[match(rn, ln)])
-    keep <- !is.na(lev) & model_used_rows(model)
-    return(lev[keep])
-  }
+}
 
-  # unnamed or duplicated row names: fall back to the lengths reported by
-  # hatvalues()
-  lev  <- unname(lev)
+# Leverages of every model-frame row. lm() keeps one row of the fit QR per
+# observation used in the fit, so the leverages are read by row index of the
+# model frame and are never matched by row name. Duplicated, missing, padded or
+# absent row names therefore cannot misalign residuals, weights and leverages.
+# Rows with a zero prior weight contribute nothing to the fit and get 0.
+model_hatvalues_frame <- function(model) {
+
   used <- model_used_rows(model)
-  n    <- length(used)
+  out  <- numeric(length(used))
+  qr   <- model$qr
 
-  if (length(lev) == n) {
-    return(lev[used])
+  if (!is.null(qr) && !isFALSE(qr) && length(qr$qr) > 0) {
+    lev <- rowSums(qr.Q(qr) ^ 2)
+    if (length(lev) == sum(used)) {
+      out[used] <- lev
+      return(out)
+    }
   }
 
-  if (length(lev) == sum(used)) {
-    return(lev)
+  # models fitted without a QR decomposition: derive the leverages from the
+  # design matrix, which also keeps the model-frame row order
+  x <- model.matrix(model)
+  w <- model$weights
+
+  if (is.null(w) || length(w) != nrow(x)) {
+    w <- rep(1, nrow(x))
   }
 
-  if (length(lev) > n) {
-    lev <- lev[!is.na(residuals(model))][seq_len(n)]
-    return(lev[used])
-  }
-
-  lev
+  rowSums(qr.Q(qr(sqrt(w) * x)) ^ 2)
 
 }
 

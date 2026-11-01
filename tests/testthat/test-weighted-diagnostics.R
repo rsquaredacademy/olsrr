@@ -156,6 +156,36 @@ test_that("zero prior weights are dropped consistently (H2)", {
   expect_equal(ols_pred_rsq(me), ols_pred_rsq(ref))
 })
 
+test_that("PRESS aligns leverages by model-frame row, not by row name (H2)", {
+  d <- mtcars
+  d$w <- 1
+  d$w[1] <- 0
+  d$mpg[2] <- NA
+  m   <- lm(mpg ~ wt + hp, d, weights = w, na.action = na.exclude)
+  ref <- lm(mpg ~ wt + hp, d[-(1:2), ])
+
+  press <- sum((ref$residuals / (1 - hatvalues(ref))) ^ 2)
+
+  expect_equal(ols_press(m), press, tolerance = 1e-10)
+  expect_equal(ols_press(m), 236.5615444, tolerance = 1e-6)
+  expect_equal(ols_pred_rsq(m), 1 - press / sum(anova(ref)[, 2]), tolerance = 1e-10)
+  expect_equal(ols_pred_rsq(m), 0.7895890, tolerance = 1e-6)
+
+  # row-name metadata cannot change the statistic: unnamed residuals
+  unnamed <- m
+  names(unnamed$residuals) <- NULL
+  expect_equal(ols_press(unnamed), press, tolerance = 1e-10)
+  expect_equal(ols_pred_rsq(unnamed), ols_pred_rsq(m))
+
+  # and neither can repeated row names
+  repeated <- m
+  names(repeated$residuals) <- rep(c("a", "b"), length.out = length(repeated$residuals))
+  attr(repeated$model, "row.names") <-
+    rep(c("a", "b"), length.out = nrow(repeated$model))
+  expect_equal(ols_press(repeated), press, tolerance = 1e-10)
+  expect_equal(ols_pred_rsq(repeated), ols_pred_rsq(m))
+})
+
 test_that("SAS information criteria use deviance and the effective sample size (H9)", {
   d <- mtcars
   d$w <- seq_len(nrow(d)) / 8
@@ -188,11 +218,11 @@ test_that("SAS information criteria use deviance and the effective sample size (
 })
 
 
-test_that("ols_test_correlation() works for na.exclude fits (M5)", {
-  d <- mtcars
+test_that("ols_test_correlation() works for na.exclude fits (M5)", {  d <- mtcars
   d$mpg[1] <- NA
   me <- lm(mpg ~ disp + hp + wt, d, na.action = na.exclude)
   mo <- lm(mpg ~ disp + hp + wt, d, na.action = na.omit)
 
   expect_equal(ols_test_correlation(me), ols_test_correlation(mo))
 })
+
