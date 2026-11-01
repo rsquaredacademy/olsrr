@@ -34,7 +34,7 @@ all of them pass on the fixed tree.
 |---|---|---|---|---|
 | M1 local formula environments lost | `test-step-forward.R`: "selection keeps the formula environment of the input model (M1)" | `R/ols-stepwise-utils.R:718` sets the formula environment from the input model for every candidate and final fit | a locally defined `kk()` and an external predictor vector both work and match the direct `lm()` fit | Fixed |
 | M4 VIF fails for one predictor / removes a predictor without intercept | `test-collindiag.R`: "VIF and tolerance work for one predictor and without an intercept (M4)" | `R/ols-collinearity-diagnostics.R:194` `viftol()` drops the intercept only when it exists, uses `drop = FALSE`, returns tolerance/VIF 1 for a lone predictor | one-predictor VIF = 1; no-intercept VIF equals `1/(1 - R²)` of each predictor on the others; multi-predictor values unchanged; convention documented | Fixed |
-| M5 `na.exclude` breaks heteroskedasticity diagnostics | `test-f.R`, `test-score.R`, `test-breusch-pagan.R`: "na.exclude and na.omit fits give the same … (M5)" | `R/ols-score-test.R:130`, `:134`, `:154`; `R/ols-breusch-pagan-test.R:328`, `:253`; `R/ols-f-test.R:107`, `:118`, `:132` use the used-rows residuals/fitted values | `ols_test_score`/`ols_test_f`/`ols_test_breusch_pagan` (fitted, `rhs`, `vars`, `multiple`) give identical values for `na.exclude` and `na.omit`; no more "0 (non-NA) cases" / length errors | Fixed |
+| M5 `na.exclude` breaks heteroskedasticity diagnostics | `test-f.R`, `test-score.R`, `test-breusch-pagan.R`: "na.exclude and na.omit fits give the same … (M5)" and `test-weighted-diagnostics.R`: "ols_test_correlation() works for na.exclude fits (M5)" | `R/ols-score-test.R:130`, `:134`, `:154`; `R/ols-breusch-pagan-test.R:328`, `:253`; `R/ols-f-test.R:107`, `:118`, `:132` use the used-rows residuals/fitted values; `R/ols-normality-tests.R:34` for `ols_test_correlation()` | `ols_test_score`/`ols_test_f`/`ols_test_breusch_pagan` (fitted, `rhs`, `vars`, `multiple`) give identical values for `na.exclude` and `na.omit`; no more "0 (non-NA) cases" / length errors; `ols_test_correlation()` agrees too | Fixed |
 | L1 Bartlett returns a result for invalid group sizes | `test-bartlett.R`: "invalid group sizes give the same errors as bartlett.test() (L1)" | `R/ols-bartlett-test.R:88` validates ≥ 2 non-empty groups and ≥ 2 complete observations per group after NA filtering | same errors as `stats::bartlett.test()` for one group and for a singleton group; valid two-group case still matches base R exactly | Fixed |
 
 ## CRAN must-fix items (Gemini sweep, items 1–6)
@@ -63,7 +63,7 @@ Full suite (`NOT_CRAN=true`, visual and snapshot tests enabled):
 
 ```
  failed   error warning skipped  passed
-      0       0       0       0    2134
+      0       0       0       0    2135
 ```
 
 Build and check from a clean `git archive HEAD` copy in a temporary directory:
