@@ -208,18 +208,16 @@ ols_scale_terms <- function(model, data) {
   vars    <- rownames(factors)
   comps   <- vars[rowSums(factors) > 0]
 
-  # the response is never standardised. An offset variable is: the offset is
-  # carried as a frozen vector evaluated on the original columns, while the
-  # predictor occurrence is a separate column of the refit design.
-  skip <- all.vars(fml[[2]])
-
+  # the response is never standardised: it stays in the refit formula exactly
+  # as written and is evaluated on the original columns, which are never
+  # overwritten. A raw variable that is a component of a transformed response
+  # can therefore still be standardised where it occurs as a predictor. An
+  # offset variable is standardised too: the offset is carried as a frozen
+  # vector evaluated on the original columns, while the predictor occurrence is
+  # a separate column of the refit design.
   map <- character(0)
 
   for (cmp in comps) {
-
-    if (cmp %in% skip) {
-      next
-    }
 
     val <- tryCatch(
       eval(parse(text = cmp), envir = d, enclos = env),

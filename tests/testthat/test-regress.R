@@ -107,6 +107,42 @@ test_that("standardised betas of interaction models keep the response untransfor
   expect_equal(unname(got), unname(expected))
 })
 
+test_that("a response component used as a predictor is still standardised (G03)", {
+  m  <- lm(I(mpg / wt) ~ wt * hp, mtcars)
+  ds <- transform(mtcars,
+                  y  = mpg / wt,
+                  wt = as.numeric(scale(wt)),
+                  hp = as.numeric(scale(hp)))
+  ref <- lm(y ~ wt * hp, ds)
+  expected <- coef(ref)[-1] *
+    apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg / mtcars$wt)
+
+  got <- ols_regress(m)$sbetas
+
+  expect_equal(names(got), names(coef(m))[-1])
+  expect_equal(unname(got), unname(expected))
+  expect_equal(unname(got), c(-0.8195021, -0.1546689, 0.4008095),
+               tolerance = 1e-6)
+
+  # the same for a raw response variable that also appears in the predictors
+  m2  <- lm(log(mpg) ~ mpg * hp, mtcars)
+  ds2 <- transform(mtcars,
+                   y  = log(mpg),
+                   mpg = as.numeric(scale(mpg)),
+                   hp  = as.numeric(scale(hp)))
+  ref2 <- lm(y ~ mpg * hp, ds2)
+  expected2 <- coef(ref2)[-1] *
+    apply(model.matrix(ref2)[, -1, drop = FALSE], 2, sd) /
+    sd(log(mtcars$mpg))
+
+  got2 <- ols_regress(m2)$sbetas
+
+  expect_equal(names(got2), names(coef(m2))[-1])
+  expect_equal(unname(got2), unname(expected2))
+  expect_equal(unname(got2[["hp"]]), 0.1079692, tolerance = 1e-6)
+})
+
 test_that("ols_regress.lm() forwards conf.level, iterm and title (audit F2)", {
   m <- lm(mpg ~ disp + hp, data = mtcars)
 
