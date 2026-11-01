@@ -62,8 +62,7 @@ Steps to calculate VIF:
 \item \eqn{Tolerance = 1 / 1 - R^2 = 1 / Tolerance}
 }
 
-\emph{Condition Index}
-
+\emph{Condition Index}#'
 Most multivariate statistical approaches involve decomposing a correlation matrix into linear
 combinations of variables. The linear combinations are chosen so that the first combination has
 the largest possible variance (subject to some restrictions), the second combination
@@ -72,6 +71,10 @@ possible variance, subject to being uncorrelated with the first and second, and 
 of each of these linear combinations is called an eigenvalue. Collinearity is spotted by finding 2 or
 more variables that have large proportions of variance (.50 or more) that correspond to large condition
 indices. A rule of thumb is to label as large those condition indices in the range of 30 or larger.
+
+For models without an intercept, every column of the model matrix is treated
+as a predictor and regressed on the remaining columns (with an intercept); no
+intercept column is removed from the design matrix.
 
 Tolerance, variance inflation factors, eigenvalues and condition indices are
 computed from the design (model) matrix and do not use the model weights, so

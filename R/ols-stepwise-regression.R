@@ -32,7 +32,7 @@
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_both_p(model)

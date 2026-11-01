@@ -107,11 +107,11 @@ ols_step_backward_p(model, steps = 2)
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 }
 \seealso{
-Other backward selection procedures: 
-\code{\link{ols_step_backward_adj_r2}()},
-\code{\link{ols_step_backward_aic}()},
-\code{\link{ols_step_backward_r2}()},
-\code{\link{ols_step_backward_sbc}()},
-\code{\link{ols_step_backward_sbic}()}
+Other backward selection procedures:
+\code{\link[=ols_step_backward_adj_r2]{ols_step_backward_adj_r2()}},
+\code{\link[=ols_step_backward_aic]{ols_step_backward_aic()}},
+\code{\link[=ols_step_backward_r2]{ols_step_backward_r2()}},
+\code{\link[=ols_step_backward_sbc]{ols_step_backward_sbc()}},
+\code{\link[=ols_step_backward_sbic]{ols_step_backward_sbic()}}
 }
 \concept{backward selection procedures}

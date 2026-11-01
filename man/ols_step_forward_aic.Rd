@@ -96,11 +96,11 @@ ols_step_forward_aic(model, steps = 2)
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 }
 \seealso{
-Other forward selection procedures: 
-\code{\link{ols_step_forward_adj_r2}()},
-\code{\link{ols_step_forward_p}()},
-\code{\link{ols_step_forward_r2}()},
-\code{\link{ols_step_forward_sbc}()},
-\code{\link{ols_step_forward_sbic}()}
+Other forward selection procedures:
+\code{\link[=ols_step_forward_adj_r2]{ols_step_forward_adj_r2()}},
+\code{\link[=ols_step_forward_p]{ols_step_forward_p()}},
+\code{\link[=ols_step_forward_r2]{ols_step_forward_r2()}},
+\code{\link[=ols_step_forward_sbc]{ols_step_forward_sbc()}},
+\code{\link[=ols_step_forward_sbic]{ols_step_forward_sbic()}}
 }
 \concept{forward selection procedures}

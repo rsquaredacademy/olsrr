@@ -60,9 +60,9 @@ Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regres
 Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
 }
 \seealso{
-Other heteroskedasticity tests: 
-\code{\link{ols_test_bartlett}()},
-\code{\link{ols_test_breusch_pagan}()},
-\code{\link{ols_test_f}()}
+Other heteroskedasticity tests:
+\code{\link[=ols_test_bartlett]{ols_test_bartlett()}},
+\code{\link[=ols_test_breusch_pagan]{ols_test_breusch_pagan()}},
+\code{\link[=ols_test_f]{ols_test_f()}}
 }
 \concept{heteroskedasticity tests}

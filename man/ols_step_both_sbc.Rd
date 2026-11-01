@@ -55,7 +55,7 @@ entering and removing predictors based on schwarz bayesian criterion, in a
 stepwise manner until there is no variable left to enter or remove any more.
 }
 \examples{
-\dontrun{
+\donttest{
 # stepwise regression
 model <- lm(y ~ ., data = stepdata)
 ols_step_both_sbc(model)
@@ -101,10 +101,10 @@ ols_step_both_sbc(model, steps = 3)
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 }
 \seealso{
-Other both direction selection procedures: 
-\code{\link{ols_step_both_adj_r2}()},
-\code{\link{ols_step_both_aic}()},
-\code{\link{ols_step_both_r2}()},
-\code{\link{ols_step_both_sbic}()}
+Other both direction selection procedures:
+\code{\link[=ols_step_both_adj_r2]{ols_step_both_adj_r2()}},
+\code{\link[=ols_step_both_aic]{ols_step_both_aic()}},
+\code{\link[=ols_step_both_r2]{ols_step_both_r2()}},
+\code{\link[=ols_step_both_sbic]{ols_step_both_sbic()}}
 }
 \concept{both direction selection procedures}

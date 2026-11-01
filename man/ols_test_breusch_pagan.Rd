@@ -103,9 +103,9 @@ Random Coefficient Variation. Econometrica 47, 1287–1294
 Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 }
 \seealso{
-Other heteroskedasticity tests: 
-\code{\link{ols_test_bartlett}()},
-\code{\link{ols_test_f}()},
-\code{\link{ols_test_score}()}
+Other heteroskedasticity tests:
+\code{\link[=ols_test_bartlett]{ols_test_bartlett()}},
+\code{\link[=ols_test_f]{ols_test_f()}},
+\code{\link[=ols_test_score]{ols_test_score()}}
 }
 \concept{heteroskedasticity tests}

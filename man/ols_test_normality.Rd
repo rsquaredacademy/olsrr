@@ -54,11 +54,11 @@ Stephens, M. A. (1986). Tests based on EDF statistics. In R. B. D'Agostino and M
 Thode, H. C. (2002). \emph{Testing for Normality}. New York: Marcel Dekker.
 }
 \seealso{
-Other residual diagnostics: 
-\code{\link{ols_plot_resid_box}()},
-\code{\link{ols_plot_resid_fit}()},
-\code{\link{ols_plot_resid_hist}()},
-\code{\link{ols_plot_resid_qq}()},
-\code{\link{ols_test_correlation}()}
+Other residual diagnostics:
+\code{\link[=ols_plot_resid_box]{ols_plot_resid_box()}},
+\code{\link[=ols_plot_resid_fit]{ols_plot_resid_fit()}},
+\code{\link[=ols_plot_resid_hist]{ols_plot_resid_hist()}},
+\code{\link[=ols_plot_resid_qq]{ols_plot_resid_qq()}},
+\code{\link[=ols_test_correlation]{ols_test_correlation()}}
 }
 \concept{residual diagnostics}

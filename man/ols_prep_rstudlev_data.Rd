@@ -12,7 +12,7 @@ ols_prep_rstudlev_data(model, threshold = NULL)
 \item{threshold}{Threshold for detecting outliers. Default is 2.}
 }
 \description{
-Generates data for studentized resiudual vs leverage plot.
+Generates data for studentized residual vs leverage plot.
 }
 \examples{
 model <- lm(read ~ write + math + science, data = hsb)

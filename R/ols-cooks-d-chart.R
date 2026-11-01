@@ -20,7 +20,7 @@
 #' \itemize{
 #'   \item Delete observations one at a time.
 #'   \item Refit the regression model on remaining \eqn{n - 1} observations
-#'   \item exmine how much all of the fitted values change when the ith observation is deleted.
+#'   \item examine how much all of the fitted values change when the ith observation is deleted.
 #' }
 #'
 #' A data point having a large cook's d indicates that the data point strongly

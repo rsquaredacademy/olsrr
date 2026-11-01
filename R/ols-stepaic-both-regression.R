@@ -27,7 +27,7 @@
 #' Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S. Fourth edition. Springer.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = stepdata)
 #' ols_step_both_aic(model)
@@ -126,7 +126,7 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, digits 
 #' @inherit ols_step_both_aic return references
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = stepdata)
 #' ols_step_both_sbc(model)
@@ -221,7 +221,7 @@ plot.ols_step_both_sbc <- function(x, print_plot = TRUE, details = TRUE, digits 
 #' @inherit ols_step_both_aic return references
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = stepdata)
 #' ols_step_both_sbic(model)
@@ -316,7 +316,7 @@ plot.ols_step_both_sbic <- function(x, print_plot = TRUE, details = TRUE, digits
 #' @inherit ols_step_both_aic return references
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = stepdata)
 #' ols_step_both_r2(model)
@@ -411,7 +411,7 @@ plot.ols_step_both_r2 <- function(x, print_plot = TRUE, details = TRUE, digits =
 #' @inherit ols_step_both_aic return references
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = stepdata)
 #' ols_step_both_adj_r2(model)

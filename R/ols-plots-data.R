@@ -325,7 +325,7 @@ ols_prep_rvsrplot_data <- function(model) {
 
 #' Studentized residual vs leverage plot data
 #'
-#' Generates data for studentized resiudual vs leverage plot.
+#' Generates data for studentized residual vs leverage plot.
 #'
 #' @param model An object of class \code{lm}.
 #' @param threshold Threshold for detecting outliers. Default is 2.

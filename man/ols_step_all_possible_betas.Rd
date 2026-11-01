@@ -22,9 +22,7 @@ ols_step_all_possible_betas(object, ...)
 Returns the coefficients for each variable from each model.
 }
 \examples{
-\dontrun{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_step_all_possible_betas(model)
-}
 
 }

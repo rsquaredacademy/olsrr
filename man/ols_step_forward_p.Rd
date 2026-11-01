@@ -109,11 +109,11 @@ Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical 
 Chicago, IL., McGraw Hill/Irwin.
 }
 \seealso{
-Other forward selection procedures: 
-\code{\link{ols_step_forward_adj_r2}()},
-\code{\link{ols_step_forward_aic}()},
-\code{\link{ols_step_forward_r2}()},
-\code{\link{ols_step_forward_sbc}()},
-\code{\link{ols_step_forward_sbic}()}
+Other forward selection procedures:
+\code{\link[=ols_step_forward_adj_r2]{ols_step_forward_adj_r2()}},
+\code{\link[=ols_step_forward_aic]{ols_step_forward_aic()}},
+\code{\link[=ols_step_forward_r2]{ols_step_forward_r2()}},
+\code{\link[=ols_step_forward_sbc]{ols_step_forward_sbc()}},
+\code{\link[=ols_step_forward_sbic]{ols_step_forward_sbic()}}
 }
 \concept{forward selection procedures}

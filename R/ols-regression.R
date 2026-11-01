@@ -39,7 +39,7 @@
 #' \item{tss}{total sum of squares}
 #' \item{rms}{regression mean square}
 #' \item{ems}{error mean square}
-#' \item{f}{f statistis}
+#' \item{f}{f statistics}
 #' \item{p}{p-value for \code{f}}
 #' \item{n}{number of predictors including intercept}
 #' \item{betas}{betas; estimated coefficients}

@@ -55,7 +55,7 @@ pak::pak("rsquaredacademy/olsrr")
 
 ## Usage
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(olsrr)
 library(dplyr)
 library(ggplot2)

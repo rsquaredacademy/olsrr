@@ -53,10 +53,6 @@ pak::pak("rsquaredacademy/olsrr")
 
 ## Usage
 
-    #> Warning: package 'dplyr' was built under R version 4.5.3
-    #> Warning: package 'ggplot2' was built under R version 4.5.3
-    #> Warning: package 'gridExtra' was built under R version 4.5.3
-
 olsrr uses consistent prefix `ols_` for easy tab completion. If you know
 how to write a `formula` or build models using `lm`, you will find olsrr
 very useful. Most of the functions use an object of class `lm` as input.
@@ -70,8 +66,8 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_regress(model)
 #>                          Model Summary                          
 #> ---------------------------------------------------------------
-#> R                       0.914       RMSE                 2.409 
-#> R-Squared               0.835       MSE                  5.801 
+#> R                       0.914       RMSE                 2.622 
+#> R-Squared               0.835       MSE                  6.875 
 #> Adj. R-Squared          0.811       Coef. Var           13.051 
 #> Pred R-Squared          0.771       AIC                159.070 
 #> MAE                     1.858       SBC                167.864 
@@ -117,4 +113,7 @@ Please note that the olsrr project is released with a [Contributor Code
 of Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
 
-<div data-rsa-signup data-site="olsrr.rsquaredacademy.com" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+<div data-rsa-signup="" data-site="olsrr.rsquaredacademy.com"
+data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html">
+
+</div>

@@ -20,11 +20,11 @@ ols_plot_resid_hist(model)
 
 }
 \seealso{
-Other residual diagnostics: 
-\code{\link{ols_plot_resid_box}()},
-\code{\link{ols_plot_resid_fit}()},
-\code{\link{ols_plot_resid_qq}()},
-\code{\link{ols_test_correlation}()},
-\code{\link{ols_test_normality}()}
+Other residual diagnostics:
+\code{\link[=ols_plot_resid_box]{ols_plot_resid_box()}},
+\code{\link[=ols_plot_resid_fit]{ols_plot_resid_fit()}},
+\code{\link[=ols_plot_resid_qq]{ols_plot_resid_qq()}},
+\code{\link[=ols_test_correlation]{ols_test_correlation()}},
+\code{\link[=ols_test_normality]{ols_test_normality()}}
 }
 \concept{residual diagnostics}

@@ -284,10 +284,8 @@ part_3 <- function(k, var, i) {
 #' \item{beta_coef}{coefficient for the predictor}
 #'
 #' @examples
-#' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_step_all_possible_betas(model)
-#' }
 #'
 #' @export
 #'
