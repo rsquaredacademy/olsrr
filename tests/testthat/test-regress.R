@@ -551,7 +551,7 @@ test_that("standardised betas keep the model's contrast coding (H5)", {
                tolerance = 1e-6)
 })
 
-test_that("term structure comes from the terms object, not from spliting on colons (H5)", {
+test_that("term structure comes from the terms object, not from splitting on colons (H5)", {
   d <- mtcars
   d[["a:b"]] <- d$wt
   m <- lm(mpg ~ `a:b` * hp, d)
