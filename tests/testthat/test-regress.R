@@ -339,8 +339,132 @@ test_that("ols_regress() refits models fitted with model = FALSE or qr = FALSE (
   expect_equal(ols_regress(m_wt)$std_errors, summary(m_wt)$coefficients[, 2])
 })
 
-test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {
-  d <- mtcars
+test_that("aliased coefficients are aligned by name (H3)", {
+  m <- lm(mpg ~ wt + I(2 * wt) + hp, mtcars)
+  r <- ols_regress(m)
+  cf <- summary(m)$coefficients
+
+  expect_equal(r$betas, coef(m))
+  expect_equal(r$std_errors[rownames(cf)], cf[, 2])
+  expect_equal(r$tvalues[rownames(cf)], cf[, 3])
+  expect_equal(r$pvalues[rownames(cf)], cf[, 4])
+  expect_true(is.na(r$std_errors[["I(2 * wt)"]]))
+  expect_true(is.na(r$tvalues[["I(2 * wt)"]]))
+  expect_true(is.na(r$pvalues[["I(2 * wt)"]]))
+  expect_true(all(is.na(r$conf_lm["I(2 * wt)", ])))
+  expect_equal(r$conf_lm[rownames(cf), ], confint(m)[rownames(cf), ])
+
+  # standardised betas only for estimable coefficients, named by coefficient
+  expected <- c(
+    wt = unname(coef(m)["wt"] * sd(mtcars$wt) / sd(mtcars$mpg)),
+    hp = unname(coef(m)["hp"] * sd(mtcars$hp) / sd(mtcars$mpg))
+  )
+  expect_equal(r$sbetas, expected)
+
+  # printed rows keep their own inference and leave the alias blank
+  out <- capture.output(print(r))
+  row <- function(term) {
+    Filter(function(x) identical(x[1], term),
+           lapply(out, function(l) strsplit(trimws(l), "[[:space:]]+")[[1]]))[[1]]
+  }
+  expect_equal(as.numeric(row("wt")[4]), unname(round(expected[["wt"]], 3)))
+  expect_equal(as.numeric(row("hp")[4]), unname(round(expected[["hp"]], 3)))
+  expect_equal(as.numeric(row("hp")[5]), unname(round(cf["hp", 3], 3)))
+  alias_row <- grep("I(2 * wt)", out, value = TRUE, fixed = TRUE)
+  expect_length(alias_row, 1)
+  expect_false(grepl("[0-9]", sub("I(2 * wt)", "", alias_row, fixed = TRUE)))
+
+  # a zero-variance predictor is aliased too
+  m0 <- lm(mpg ~ wt + I(0 * wt) + hp, mtcars)
+  r0 <- ols_regress(m0)
+  expect_equal(r0$betas, coef(m0))
+  expect_true(is.na(r0$std_errors[["I(0 * wt)"]]))
+  expect_false("I(0 * wt)" %in% names(r0$sbetas))
+
+  # an aliased interaction between two estimable terms
+  mi <- lm(mpg ~ wt * hp + I(2 * wt):hp, mtcars)
+  ri <- ols_regress(mi)
+  cfi <- summary(mi)$coefficients
+  expect_equal(ri$betas, coef(mi))
+  expect_equal(ri$std_errors[rownames(cfi)], cfi[, 2])
+  expect_true(is.na(ri$std_errors[["hp:I(2 * wt)"]]))
+})
+
+test_that("standardised betas respect transformed terms in interactions (H5)", {
+  m <- lm(mpg ~ log(wt) * hp, mtcars)
+  expect_silent(got <- ols_regress(m)$sbetas)
+
+  d   <- transform(mtcars,
+                   logwt = as.numeric(scale(log(wt))),
+                   hp    = as.numeric(scale(hp)))
+  ref <- lm(mpg ~ logwt * hp, d)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  expect_equal(unname(got), unname(expected))
+  expect_equal(names(got), c("log(wt)", "hp", "log(wt):hp"))
+
+  # categorical terms keep their levels, names and printed cells
+  mf  <- lm(mpg ~ factor(cyl) * hp, mtcars)
+  res <- ols_regress(mf)
+
+  expect_equal(names(res$sbetas), names(coef(mf))[-1])
+  expect_equal(
+    res$sbetas[["hp"]],
+    unname(coef(mf)["hp"] * sd(mtcars$hp) / sd(mtcars$mpg)),
+    tolerance = 1e-6
+  )
+
+  out   <- capture.output(print(res))
+  hprow <- Filter(function(x) identical(x[1], "hp"),
+                  lapply(out, function(l) strsplit(trimws(l), "[[:space:]]+")[[1]]))[[1]]
+  expect_equal(as.numeric(hprow[4]), unname(round(res$sbetas[["hp"]], 3)))
+
+  # matrix-valued terms cannot be standardised component-wise
+  expect_error(
+    ols_regress(lm(mpg ~ poly(disp, 2) * hp, mtcars)),
+    "matrix terms"
+  )
+})
+
+test_that("standardised betas carry model offsets through the refit (H6)", {
+  ds     <- mtcars
+  ds$wt  <- as.numeric(scale(ds$wt))
+  ds$hp  <- as.numeric(scale(ds$hp))
+  ref    <- lm(mpg ~ wt * hp, ds, offset = qsec)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  m  <- lm(mpg ~ wt * hp, mtcars, offset = qsec)
+  mf <- lm(mpg ~ wt * hp + offset(qsec), mtcars)
+
+  expect_equal(ols_regress(m)$sbetas, expected)
+  expect_equal(ols_regress(mf)$sbetas, expected)
+
+  # weights are carried along with the offset
+  set.seed(1)
+  d     <- mtcars
+  d$w   <- runif(32, 0.5, 2)
+  ds$w  <- d$w
+  mw    <- lm(mpg ~ wt * hp, d, weights = w, offset = qsec)
+  mfw   <- lm(mpg ~ wt * hp + offset(qsec), d, weights = w)
+  refw  <- lm(mpg ~ wt * hp, ds, weights = w, offset = qsec)
+  expected_w <- coef(refw)[-1] * apply(model.matrix(refw)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  expect_equal(ols_regress(mw)$sbetas, expected_w)
+  expect_equal(ols_regress(mfw)$sbetas, expected_w)
+
+  # missing rows: both forms give the same fit and the same betas
+  dm <- mtcars
+  dm$mpg[1] <- NA
+  me  <- lm(mpg ~ wt * hp, dm, offset = qsec, na.action = na.exclude)
+  mfe <- lm(mpg ~ wt * hp + offset(qsec), dm, na.action = na.exclude)
+  expect_equal(ols_regress(me)$sbetas, ols_regress(mfe)$sbetas)
+  expect_equal(nobs(ols_regress(me)$model), 31L)
+})
+
+test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {  d <- mtcars
   d$mpg[1] <- NA
 
   m_exclude <- lm(mpg ~ disp + hp, data = d, na.action = na.exclude)
