@@ -189,8 +189,7 @@ ols_scale_terms <- function(model, data) {
   fml     <- formula(model)
   labels  <- attr(model$terms, "term.labels")
   off_idx <- attr(model$terms, "offset")
-  vars    <- as.list(attr(model$terms, "variables"))[-1]
-  off_var <- vars[off_idx]
+  off_var <- as.list(attr(model$terms, "variables"))[-1][off_idx]
   off_lbl <- vapply(off_var, function(x) paste(deparse(x), collapse = ""), character(1))
   resp    <- paste(deparse(fml[[2]]), collapse = "")
   env     <- environment(fml)
@@ -274,8 +273,6 @@ ols_scale_terms <- function(model, data) {
     parts[!is.na(idx)] <- names(map)[idx[!is.na(idx)]]
     paste(parts, collapse = ":")
   }, character(1))
-
-  names(new_labels) <- NULL
 
   rhs <- c(if (attr(model$terms, "intercept") == 0) "0", new_labels, off_lbl)
   if (length(rhs) == 0) {
