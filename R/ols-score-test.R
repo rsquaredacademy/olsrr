@@ -33,6 +33,11 @@
 #' @details The test is not available for weighted models, because it refits
 #' auxiliary regressions that would ignore the model weights.
 #'
+#' A constant or fully aliased regressor supplies no direction to test beyond
+#' the auxiliary intercept, so the statistic has zero degrees of freedom and is
+#' undefined; the function then stops with an informative error instead of
+#' reporting a degenerate p value.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
@@ -145,6 +150,8 @@ rhs_score <- function(l, ind, n) {
 
   # tested directions: auxiliary columns independent of the intercept, so that
   # aliased predictors do not inflate the degrees of freedom
+  check_aux_rank(fit$rank, "ols_test_score")
+
   list(score = summary(fit)$r.squared * n, df = fit$rank - 1L)
 
 }
@@ -155,8 +162,13 @@ fit_score <- function(model) {
   scaled_resid <- resid_scaled(model, pred)
   l            <- ols_prep_avplot_data(model)
   n            <- nrow(l)
+  fit          <- lm(scaled_resid ~ pred)
 
-  (summary(lm(scaled_resid ~ pred))$r.squared) * n
+  # a constant `pred` (for example an intercept-only model) leaves no tested
+  # direction beyond the intercept
+  check_aux_rank(fit$rank, "ols_test_score")
+
+  (summary(fit)$r.squared) * n
 
 }
 
@@ -172,6 +184,8 @@ var_score <- function(model, vars) {
 
   n   <- nrow(ols_prep_avplot_data(model))
   fit <- lm(ind ~ ., data = score_data(model, vars))
+
+  check_aux_rank(fit$rank, "ols_test_score")
 
   list(score = summary(fit)$r.squared * n, df = fit$rank - 1L)
 

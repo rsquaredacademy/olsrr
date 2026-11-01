@@ -30,6 +30,22 @@ check_order <- function(n, max_order) {
   }
 }
 
+# Heteroskedasticity tests need at least one direction in the auxiliary
+# regression beyond the intercept. A constant or fully aliased regressor leaves
+# none: the statistic then has zero degrees of freedom, and a zero-degrees-of-
+# freedom chi-squared tail reports p = 0 (or p = 1) for a statistic that the
+# data do not define.
+check_aux_rank <- function(rank, fn) {
+
+  if (rank < 2L) {
+    stop(paste0(fn, "(): the auxiliary regression has no tested direction beyond",
+                " the intercept, so the test statistic is undefined. The selected",
+                " predictor(s) are constant or fully aliased with the intercept."),
+         call. = FALSE)
+  }
+
+}
+
 check_logic <- function(logic) {
 
   lval        <- is.logical(logic)

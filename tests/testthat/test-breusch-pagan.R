@@ -315,3 +315,37 @@ test_that("aliased predictors do not inflate the auxiliary degrees of freedom (H
   expect_length(sim, 1)
   expect_equal(as.integer(strsplit(trimws(sim), "[[:space:]]+")[[1]][3]), 1L)
 })
+
+test_that("an auxiliary design with no tested direction is rejected (H8)", {
+  d <- transform(mtcars, z = 1)
+  m <- lm(mpg ~ wt + hp + z, d)
+
+  # the audit case: a constant `vars` column supplied no direction beyond the
+  # auxiliary intercept, and a zero-degrees-of-freedom tail reported p = 0
+  expect_error(
+    ols_test_breusch_pagan(m, vars = "z"),
+    "no tested direction"
+  )
+
+  # every one-at-a-time row needs a direction of its own
+  expect_error(
+    ols_test_breusch_pagan(m, vars = c("wt", "z"), multiple = TRUE),
+    "no tested direction"
+  )
+
+  # the non-degenerate neighbours are unchanged
+  b <- ols_test_breusch_pagan(m, rhs = TRUE)
+  expect_equal(b$df, 2)
+  expect_equal(b$p, pchisq(b$bp, 2, lower.tail = FALSE))
+  expect_equal(b$bp, 1.0267659, tolerance = 1e-6)
+
+  bz <- ols_test_breusch_pagan(m, vars = "wt")
+  expect_equal(bz$df, 1)
+  expect_equal(bz$p, pchisq(bz$bp, 1, lower.tail = FALSE))
+
+  # an intercept-only model has no direction to test against its fitted values
+  expect_error(
+    ols_test_breusch_pagan(lm(mpg ~ 1, mtcars)),
+    "no tested direction"
+  )
+})

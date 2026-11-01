@@ -97,3 +97,29 @@ test_that("aliased predictors do not inflate the auxiliary degrees of freedom (H
   expect_equal(sf$df, 2)
   expect_equal(sf$p, pchisq(sf$score, 2, lower.tail = FALSE))
 })
+
+test_that("an auxiliary design with no tested direction is rejected (H8)", {
+  d <- transform(mtcars, z = 1)
+  m <- lm(mpg ~ wt + hp + z, d)
+
+  expect_error(
+    ols_test_score(m, vars = "z"),
+    "no tested direction"
+  )
+
+  # neighbours still return the chi-squared reference values
+  s <- ols_test_score(m, rhs = TRUE)
+  expect_equal(s$df, 2)
+  expect_equal(s$p, pchisq(s$score, 2, lower.tail = FALSE))
+  expect_equal(s$score, 0.8807225, tolerance = 1e-6)
+
+  sz <- ols_test_score(m, vars = "wt")
+  expect_equal(sz$df, 1)
+  expect_equal(sz$p, pchisq(sz$score, 1, lower.tail = FALSE))
+
+  expect_error(
+    ols_test_score(lm(mpg ~ 1, mtcars)),
+    "no tested direction"
+  )
+})
+

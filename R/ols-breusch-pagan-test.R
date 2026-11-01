@@ -38,6 +38,12 @@
 #' The test is not available for weighted models, because the auxiliary
 #' regression in step 2 would ignore the model weights.
 #'
+#' A constant or fully aliased regressor (for example a column that is always
+#' 1) supplies no direction to test beyond the auxiliary intercept. In that case
+#' the statistic has zero degrees of freedom and is undefined, so the function
+#' stops with an informative error rather than reporting a p value of 0 or 1
+#' from a degenerate chi-squared tail.
+#'
 #' @return \code{ols_test_breusch_pagan} returns an object of class \code{"ols_test_breusch_pagan"}.
 #' An object of class \code{"ols_test_breusch_pagan"} is a list containing the
 #' following components:
@@ -254,8 +260,13 @@ bp_case_3 <- function(model) {
   `Sum Sq`     <- NULL
   pred         <- model_fitted_used(model)
   scaled_resid <- resid_scaled(model, pred)
+  fit          <- lm(scaled_resid ~ pred)
 
-  (anova(lm(scaled_resid ~ pred))$`Sum Sq`[1]) / 2
+  # a constant `pred` (for example an intercept-only model) is aliased with the
+  # auxiliary intercept and leaves no tested direction
+  check_aux_rank(fit$rank, "ols_test_breusch_pagan")
+
+  (anova(fit)$`Sum Sq`[1]) / 2
 
 }
 
@@ -317,6 +328,8 @@ bp_model <- function(l) {
 
   # tested directions: columns of the auxiliary fit that are independent of the
   # intercept, so that aliased predictors do not inflate the degrees of freedom
+  check_aux_rank(fit$rank, "ols_test_breusch_pagan")
+
   list(bp = bp_fit(fit), df = fit$rank - 1L)
 
 }
@@ -366,7 +379,13 @@ bp_case_loop <- function(np, nam, l) {
   for (i in seq_len(np)) {
 
     form     <- as.formula(paste("ind ~", nam[i]))
-    tstat[i] <- bp_fit(lm(form, data = l))
+    aux      <- lm(form, data = l)
+
+    # a constant column has no direction of its own; it must not be reported as
+    # a one-degree-of-freedom test
+    check_aux_rank(aux$rank, "ols_test_breusch_pagan")
+
+    tstat[i] <- bp_fit(aux)
     pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = FALSE)
 
   }
