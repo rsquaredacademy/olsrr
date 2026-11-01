@@ -20,7 +20,8 @@ predictive ability.
 \details{
 Both the PRESS statistic and the total sum of squares use the
 model's prior weights, so predicted R-squared is invariant to a constant
-rescaling of the weights.
+rescaling of the weights even though PRESS itself is not: PRESS is a weighted
+sum of squared deleted residuals and scales with the weights.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

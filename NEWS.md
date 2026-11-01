@@ -2,7 +2,7 @@
 
 ## Bug Fixes
 
-- Predicted R-squared and PRESS now use the model weights for weighted models, so both statistics are invariant to a constant rescaling of the weights instead of moving towards one as the weights grow.
+- Predicted R-squared and PRESS now use the model weights for weighted models. PRESS is the weighted sum of squared deleted residuals, so it scales with the weights instead of moving towards one as the weights grow; predicted R-squared, the ratio of PRESS to the weighted total sum of squares, is invariant to a constant rescaling of the weights.
 - Observations with zero prior weights are excluded consistently from PRESS, predicted R-squared, MAE and the information criteria, which now use the effective sample size and the fitted model's deviance. Zero-weight fits now agree with the same model fitted after removing those rows, and `na.exclude` and `na.omit` fits agree with each other.
 - `ols_aic()` and `ols_sbc()` with `method = "SAS"` now use the model's residual sum of squares (honouring weights and `na.exclude`) instead of the unweighted, NA-padded residuals, so the criteria no longer depend on the missing-value action.
 - `ols_regress()` aligns the coefficient table by name when the model has aliased coefficients, so standard errors, t statistics, p values and confidence limits stay with their own terms instead of shifting onto the next one; standardized betas are computed only for estimable coefficients.

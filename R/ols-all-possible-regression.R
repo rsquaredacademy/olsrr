@@ -302,7 +302,10 @@ ols_step_all_possible_betas <- function(object, ...) {
 
   check_weights(object, "ols_step_all_possible_betas")
 
-  if (length(object$coefficients) < 3) {
+  # count predictor terms, not coefficients: a no-intercept model with two
+  # predictors must reach the intercept check below rather than be reported as
+  # having too few predictors
+  if (length(attr(object$terms, "term.labels")) < 2) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
   }
 

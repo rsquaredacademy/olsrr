@@ -22,10 +22,11 @@ error. Each fitted to obtain the predicted value for the ith observation. Use
 PRESS to assess your model's predictive ability. Usually, the smaller the
 PRESS value, the better the model's predictive ability.
 
-For models fitted with prior weights, PRESS uses the weighted deleted
-residuals, \eqn{\sum w_i (e_i / (1 - h_i))^2}, so that the statistic is
-invariant to a constant rescaling of the weights. Unweighted models are the
-special case where every weight equals one.
+For models fitted with prior weights, PRESS is the weighted sum of squared
+deleted residuals, \eqn{\sum w_i (e_i / (1 - h_i))^2}. It therefore scales
+with the weights: multiplying every weight by a constant multiplies PRESS by
+the same constant. Unweighted models are the special case where every weight
+equals one.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)

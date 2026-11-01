@@ -152,6 +152,21 @@ test_that("all-possible routines respect a no-intercept model (H7)", {
     ols_step_all_possible_betas(m),
     "requires a model with an intercept"
   )
+
+  # the intercept message wins for exactly two no-intercept predictors, and
+  # the predictor count is a count of terms, not of coefficients
+  expect_error(
+    ols_step_all_possible_betas(lm(mpg ~ 0 + wt + hp, mtcars)),
+    "requires a model with an intercept"
+  )
+  expect_error(
+    ols_step_all_possible_betas(lm(mpg ~ wt, mtcars)),
+    "at least 2 predictors"
+  )
+  expect_error(
+    ols_step_all_possible_betas(lm(mpg ~ 0 + wt, mtcars)),
+    "at least 2 predictors"
+  )
 })
 
 test_that("the beta table rejects weighted models instead of dropping weights (H7)", {

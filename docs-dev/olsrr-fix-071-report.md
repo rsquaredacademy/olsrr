@@ -106,8 +106,13 @@ files changed.
 
 - M3 and the documentation-polish items above are deferred deliberately (see the
   Deferred list).
-- No API was changed. `ols_press()` keeps its name and now documents the
-  weighted convention; `ols_test_breusch_pagan()` gains a `simdf` component
-  (in addition to the documented `df`) so the printed simultaneous row can show
-  the tested dimension; no exported function was added or removed.
+- No exported function was removed and no default changed. `ols_press()` keeps
+  its name and now documents the weighted convention; `ols_test_breusch_pagan()`
+  gains a `simdf` component (in addition to the documented `df`) so the printed
+  simultaneous row can show the tested dimension; no exported function was added
+  or removed. **Corrected 2026-11-01 (re-audit F13):** that round did change
+  accepted inputs — `ols_step_all_possible_betas()` now requires an intercept and
+  rejects weighted models, matrix-valued terms inside interactions error, and
+  models whose terms cannot be evaluated in the model data error. See
+  `docs-dev/ofx2-report.md`.
 - No new dependencies.

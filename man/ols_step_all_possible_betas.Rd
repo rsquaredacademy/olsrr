@@ -21,6 +21,12 @@ ols_step_all_possible_betas(object, ...)
 \description{
 Returns the coefficients for each variable from each model.
 }
+\details{
+The table is built by refitting every subset of the model terms, so
+it is not available for weighted models (the subset fits would silently drop
+the weights) or for models without an intercept. Both cases stop with an
+informative error.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 ols_step_all_possible_betas(model)

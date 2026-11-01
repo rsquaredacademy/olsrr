@@ -72,6 +72,14 @@ freedom, where p is the number of independent variables, n is the sample size an
 
 The test is not available for weighted models, because the auxiliary
 regression in step 2 would ignore the model weights.
+
+A constant or fully aliased regressor (for example a column that is always
+\enumerate{
+\item supplies no direction to test beyond the auxiliary intercept. In that case
+the statistic has zero degrees of freedom and is undefined, so the function
+stops with an informative error rather than reporting a p value of 0 or 1
+from a degenerate chi-squared tail.
+}
 }
 \examples{
 # model

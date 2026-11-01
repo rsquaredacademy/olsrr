@@ -41,7 +41,8 @@
 #'   \item \eqn{Tolerance = 1 / 1 - R^2 = 1 / Tolerance}
 #' }
 #'
-#' \emph{Condition Index}#'
+#' \emph{Condition Index}
+#'
 #' Most multivariate statistical approaches involve decomposing a correlation matrix into linear
 #' combinations of variables. The linear combinations are chosen so that the first combination has
 #' the largest possible variance (subject to some restrictions), the second combination
