@@ -374,6 +374,38 @@ qr_hatvalues <- function(qr) {
 
 }
 
+# Response metadata attributes (e.g. Stata 'label'/'format.stata') that base R's
+# influence functions carry through their arithmetic. The used-row subsetting in
+# model_residuals_used() drops them, so they are restored on the per-observation
+# statistics below for parity with rstandard()/rstudent()/cooks.distance()/dffits().
+model_residual_attrs <- function(model) {
+
+  a <- attributes(model$residuals)
+
+  if (is.null(a)) {
+    return(list())
+  }
+
+  a[setdiff(names(a), c("names", "dim", "dimnames"))]
+
+}
+
+restore_residual_attrs <- function(x, model) {
+
+  a <- model_residual_attrs(model)
+
+  if (length(a) == 0) {
+    return(x)
+  }
+
+  for (nm in names(a)) {
+    attr(x, nm) <- a[[nm]]
+  }
+
+  x
+
+}
+
 # Externally studentized residuals of the rows used in the fit. Base
 # rstudent() goes through lm.influence(), whose NA padding can misalign (and
 # fail) when zero prior weights and na.exclude omissions occur together, so the
@@ -390,16 +422,122 @@ model_rstudent_used <- function(model) {
   rank <- model$rank
 
   if (rank == 0L) {
-    return(ew / sqrt(rss / df))
+    return(restore_residual_attrs(ew / sqrt(rss / df), model))
   }
 
   if (df <= 1L) {
-    return(rep(NA_real_, length(res)))
+    return(restore_residual_attrs(rep(NA_real_, length(res)), model))
   }
 
   sigma <- sqrt((rss - ew ^ 2 / (1 - h)) / (df - 1))
   out   <- ew / (sigma * sqrt(1 - h))
   out[is.infinite(out)] <- NaN
+
+  restore_residual_attrs(out, model)
+
+}
+
+# Leave-one-out residual standard error of the rows used in the fit:
+# sqrt((RSS - e_i^2 / (1 - h_i)) / (df - 1)). Reused by the externally
+# studentized residuals, DFFITS and DFBETAS, which base R derives from
+# lm.influence() and so cannot handle zero weights plus na.exclude omissions.
+model_sigma_loocv_used <- function(model) {
+
+  ew  <- model_residuals_used(model) * sqrt(model_weights_used(model))
+  h   <- model_hatvalues_used(model)
+  rss <- sum(ew ^ 2)
+  df  <- model$df.residual
+
+  if (df <= 1L) {
+    return(rep(NA_real_, length(ew)))
+  }
+
+  sqrt((rss - ew ^ 2 / (1 - h)) / (df - 1))
+
+}
+
+# Internally studentized residuals (rstandard()) of the rows used in the fit,
+# computed directly so zero weights and na.exclude omissions stay aligned.
+model_rstandard_used <- function(model) {
+
+  ew    <- model_residuals_used(model) * sqrt(model_weights_used(model))
+  h     <- model_hatvalues_used(model)
+  rss   <- sum(ew ^ 2)
+  sigma <- sqrt(rss / model$df.residual)
+  out   <- ew / (sigma * sqrt(1 - h))
+  out[is.infinite(out)] <- NaN
+
+  restore_residual_attrs(out, model)
+
+}
+
+# Cook's distances of the rows used in the fit, computed from the used-row
+# residuals, weights and leverages so zero weights and omissions stay aligned.
+model_cooksd_used <- function(model) {
+
+  ew    <- model_residuals_used(model) * sqrt(model_weights_used(model))
+  h     <- model_hatvalues_used(model)
+  rss   <- sum(ew ^ 2)
+  sigma <- sqrt(rss / model$df.residual)
+  p     <- model$rank
+  out   <- ((ew / (sigma * (1 - h))) ^ 2 * h) / p
+  out[is.infinite(out)] <- NaN
+
+  restore_residual_attrs(out, model)
+
+}
+
+# DFFITS of the rows used in the fit: e_i sqrt(h_i) / (sigma_(-i) (1 - h_i)),
+# using the leave-one-out residual standard error as base R's dffits() does.
+model_dffits_used <- function(model) {
+
+  ew    <- model_residuals_used(model) * sqrt(model_weights_used(model))
+  h     <- model_hatvalues_used(model)
+  s_i   <- model_sigma_loocv_used(model)
+  out   <- ew * sqrt(h) / (s_i * (1 - h))
+  out[is.infinite(out)] <- NaN
+
+  restore_residual_attrs(out, model)
+
+}
+
+# DFBETAS of the rows used in the fit. Base R derives these from lm.influence(),
+# whose NA padding fails on zero weights plus na.exclude omissions, so the same
+# coefficient-change computation is reproduced from the fit QR and the used-row
+# residuals/weights/leverages. Columns follow the estimable coefficients.
+model_dfbetas_used <- function(model) {
+
+  qr <- model$qr
+
+  if (is.null(qr) || isFALSE(qr) || length(qr$qr) == 0) {
+    stop("model does not have a proper 'qr' component.", call. = FALSE)
+  }
+
+  rank <- model$rank
+
+  if (rank < 1L) {
+    return(matrix(numeric(0), nrow = length(model_residuals_used(model)),
+                  ncol = 0L))
+  }
+
+  e       <- model_residuals_used(model) * sqrt(model_weights_used(model))
+  h       <- model_hatvalues_used(model)
+  q       <- qr.Q(qr)[, seq_len(rank), drop = FALSE]
+  r       <- qr.R(qr)[seq_len(rank), seq_len(rank), drop = FALSE]
+  invRQtt <- t(backsolve(r, t(q)))
+  cf      <- invRQtt * ifelse(h == 1, 0, e / (1 - h))
+  xxi     <- chol2inv(qr$qr, rank)
+  s_i     <- model_sigma_loocv_used(model)
+
+  out <- cf / outer(s_i, sqrt(diag(xxi)))
+
+  cn <- names(coefficients(model))
+  if (!is.null(cn)) {
+    cn <- cn[!is.na(coefficients(model))]
+    if (length(cn) == ncol(out)) {
+      colnames(out) <- cn
+    }
+  }
 
   out
 
@@ -441,7 +579,9 @@ model_weights_used <- function(model) {
 
 }
 
-# fitted values of the rows used in the fit; fitted() pads na.exclude fits
+# fitted values of the rows used in the fit; fitted() pads na.exclude fits and
+# lm() keeps a placeholder fitted value for zero-weight rows, so both are
+# dropped here to align with the used-row residuals and leverages
 model_fitted_used <- function(model) {
 
   fv <- model$fitted.values
@@ -453,6 +593,6 @@ model_fitted_used <- function(model) {
     }
   }
 
-  fv
+  fv[model_used_rows(model)]
 
 }

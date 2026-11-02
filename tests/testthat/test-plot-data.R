@@ -79,3 +79,59 @@ test_that("ols_prep_dfbeta_data() and ols_prep_dfbeta_outliers() select the same
   expect_equal(unname(out$dbetas), c(0.4484991, -0.3583659, 0.3763120),
                tolerance = 1e-6)
 })
+
+test_that("plot helpers align influence measures to the used rows (J03)", {
+  cases <- list(
+    list(zero = 1, missing = 32),
+    list(zero = c(1, 16), missing = c(2, 31))
+  )
+
+  for (z in cases) {
+    d <- mtcars
+    d$w <- 1
+    d$w[z$zero] <- 0
+    d$mpg[z$missing] <- NA
+    m   <- lm(mpg ~ wt + hp, d, weights = w, na.action = na.exclude)
+    ref <- lm(mpg ~ wt + hp, d[-c(z$zero, z$missing), ])
+
+    ids <- setdiff(seq_len(32), c(z$zero, z$missing))
+
+    # deleted studentized residuals vs fitted
+    ds <- ols_prep_dsrvf_data(m)
+    expect_equal(ds$ds$obs, ids)
+    expect_equal(ds$ds$dsr, unname(rstudent(ref)))
+    expect_equal(ds$ds$pred, unname(fitted(ref)))
+
+    # standardized residual chart
+    sc <- ols_prep_srchart_data(m)
+    expect_equal(sc$obs, ids)
+    expect_equal(sc$sdres, unname(rstandard(ref)))
+
+    # studentized residual plot
+    sp <- ols_prep_srplot_data(m)
+    expect_equal(sp$dsr$obs, ids)
+    expect_equal(sp$dsr$dsr, unname(rstudent(ref)))
+
+    # cook's d plot
+    cd <- ols_prep_cdplot_data(m)
+    expect_equal(cd$ckd$obs, ids)
+    expect_equal(cd$ckd$cd, unname(cooks.distance(ref)))
+
+    # dffits, flagged at the size-adjusted threshold
+    k  <- length(coef(m))
+    nn <- nobs(m)
+    dff <- ols_plot_dffits(m, print_plot = FALSE)
+    keep <- abs(dffits(ref)) > 2 * sqrt(k / nn)
+    expect_equal(dff$outliers$observation, ids[keep])
+    expect_equal(dff$outliers$dffits, unname(dffits(ref))[keep])
+
+    # dfbetas, flagged at 2 / sqrt(n)
+    dfb <- ols_plot_dfbetas(m, print_plot = FALSE)
+    thr <- 2 / sqrt(nn)
+    for (j in seq_len(ncol(dfbetas(ref)))) {
+      keep <- abs(dfbetas(ref)[, j]) >= thr
+      expect_equal(dfb$outliers[[j]]$obs, ids[keep])
+      expect_equal(dfb$outliers[[j]]$dbetas, unname(dfbetas(ref)[, j])[keep])
+    }
+  }
+})

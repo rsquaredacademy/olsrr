@@ -94,11 +94,12 @@ ols_prep_regress_y <- function(data, i) {
 #'
 ols_prep_cdplot_data <- function(model, type = 1) {
 
-  cooksd    <- cooks.distance(model)
-  n         <- length(cooksd)
-  obs       <- seq_len(n)
-  ckd       <- data.frame(obs = obs, cd = cooksd)
-  ts        <- ols_cooks_ts(model, type)
+  used     <- model_used_rows(model)
+  obs      <- model_obs_ids(model)[used]
+  cooksd   <- model_cooksd_used(model)
+  n        <- length(cooksd)
+  ckd      <- data.frame(obs = obs, cd = cooksd)
+  ts       <- ols_cooks_ts(model, type)
   cooks_max <- max(cooksd)
 
   ckd$color     <- ifelse(ckd$cd >= ts, "outlier", "normal")
@@ -111,7 +112,7 @@ ols_prep_cdplot_data <- function(model, type = 1) {
 
 ols_cooks_ts <- function(model, type = 1) {
 
-  cooksd <- cooks.distance(model)
+  cooksd <- model_cooksd_used(model)
   n      <- length(cooksd)
   k      <- length(model$coefficients) - 1
 
@@ -235,10 +236,12 @@ ols_prep_dfbeta_outliers <- function(d) {
 #'
 ols_prep_dsrvf_data <- function(model, threshold = NULL) {
 
-  pred    <- fitted(model)
-  dsresid <- unname(rstudent(model))
-  n       <- length(dsresid)
-  ds      <- data.frame(obs = seq_len(n), dsr = dsresid)
+  used     <- model_used_rows(model)
+  obs      <- model_obs_ids(model)[used]
+  pred     <- model_fitted_used(model)
+  dsresid  <- model_rstudent_used(model)
+  n        <- length(dsresid)
+  ds       <- data.frame(obs = obs, dsr = dsresid)
 
   if (is.null(threshold)) {
     threshold <- 2
@@ -247,7 +250,7 @@ ols_prep_dsrvf_data <- function(model, threshold = NULL) {
   ds$color     <- ifelse((abs(ds$dsr) >= threshold), "outlier", "normal")
   ds$fct_color <- ordered(factor(ds$color), levels = c("normal", "outlier"))
 
-  ds2 <- data.frame(obs       = seq_len(n),
+  ds2 <- data.frame(obs       = obs,
                     pred      = pred,
                     dsr       = ds$dsr,
                     color     = ds$color,
@@ -415,8 +418,8 @@ ols_prep_srplot_data<- function(model, threshold = NULL) {
     threshold <- 3
   }
 
-  dstud <- unname(rstudent(model))
-  obs   <- seq_len(length(dstud))
+  dstud <- model_rstudent_used(model)
+  obs   <- model_obs_ids(model)[model_used_rows(model)]
   dsr   <- data.frame(obs = obs, dsr = dstud)
   dsr$color     <- ifelse((abs(dsr$dsr) >= threshold), "outlier", "normal")
   dsr$fct_color <- ordered(factor(dsr$color), levels = c("normal", "outlier"))
@@ -456,10 +459,10 @@ ols_prep_srchart_data <- function(model, threshold = NULL) {
     threshold <- 2
   }
 
-  sdres         <- rstandard(model)
+  sdres         <- model_rstandard_used(model)
   sdres_out     <- abs(sdres) > threshold
   outlier       <- sdres[sdres_out]
-  obs           <- seq_len(length(sdres))
+  obs           <- model_obs_ids(model)[model_used_rows(model)]
 
   out           <- data.frame(obs = obs, sdres = sdres)
   out$color     <- ifelse(((out$sdres >= threshold) | (out$sdres <= -threshold)), c("outlier"), c("normal"))
