@@ -357,7 +357,7 @@ ols_prep_rstudlev_data <- function(model, threshold = NULL) {
   leverage  <- lev_all[used]
   rstudent  <- rst_all[used]
   obs       <- obs_all[used]
-  k         <- length(coefficients(model))
+  k         <- model$rank
   n         <- length(obs)
   lev_thrsh <- (2 * k) / n
   rst_thrsh <- threshold
