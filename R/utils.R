@@ -272,6 +272,35 @@ model_hatvalues_used <- function(model) {
 
 }
 
+# Tolerance used when the model was fitted. lm() stores it in the call when a
+# non-default `tol` was supplied; the default matches lm.fit()/qr().
+model_fit_tol <- function(model) {
+
+  tol <- model$call$tol
+
+  if (is.null(tol)) {
+    return(1e-7)
+  }
+
+  if (is.numeric(tol) && length(tol) == 1L && is.finite(tol)) {
+    return(as.double(tol))
+  }
+
+  env <- environment(formula(model))
+  if (is.null(env)) {
+    env <- parent.frame()
+  }
+
+  tol <- tryCatch(eval(tol, envir = env), error = function(e) NULL)
+
+  if (is.null(tol) || !is.numeric(tol) || length(tol) != 1L || !is.finite(tol)) {
+    return(1e-7)
+  }
+
+  as.double(tol)
+
+}
+
 # Leverages of every model-frame row. lm() keeps one row of the fit QR per
 # observation used in the fit, so the leverages are read by row index of the
 # model frame and are never matched by row name. Duplicated, missing, padded or
@@ -308,7 +337,21 @@ model_hatvalues_frame <- function(model) {
     return(out)
   }
 
-  out[ok] <- qr_hatvalues(qr(sqrt(w[ok]) * x[ok, , drop = FALSE]))
+  # Reconstruct the fitted projection rather than a fresh one: the QR must use
+  # the fit's tolerance (a nearly dependent column the fit declared aliased must
+  # stay aliased) and the fitted rank (the leverage sum equals the rank). A
+  # default-tolerance qr() here can promote an aliased column to a third fitted
+  # direction and return the wrong leverages/PRESS.
+  xw  <- sqrt(w[ok]) * x[ok, , drop = FALSE]
+  qrf <- qr(xw, tol = model_fit_tol(model))
+
+  if (qrf$rank != model$rank) {
+    stop("cannot reconstruct the fitted projection: the design matrix has rank ",
+         qrf$rank, " but the model was fitted with rank ", model$rank,
+         "; refit with qr = TRUE.", call. = FALSE)
+  }
+
+  out[ok] <- qr_hatvalues(qrf)
 
   out
 
