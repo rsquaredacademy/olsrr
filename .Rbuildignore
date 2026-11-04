@@ -6,7 +6,6 @@
 ^\.travis\.yml$
 ^codecov\.yml$
 ^appveyor\.yml$
-^CONTRIBUTING\.MD$
 ^ISSUE_TEMPLATE\.md$
 ^SUPPORT\.md$
 ^olsrr\.jpg$
