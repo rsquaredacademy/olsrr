@@ -1,0 +1,75 @@
+name: Bug report
+description: Report a bug in olsrr with a reproducible example.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What went wrong, and what were you trying to do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reprex
+    attributes:
+      label: Reproducible example
+      description: |
+        A minimal reprex built with [reprex](https://reprex.tidyverse.org).
+        Use `library(olsrr)`, a small inline data frame or a built-in dataset,
+        the call that fails, and the output it gives.
+      render: r
+      placeholder: |
+        library(olsrr)
+
+        model <- lm(mpg ~ disp + hp, data = mtcars)
+        ols_step_best_subset(model)
+        #> <paste the output, error, or warning here>
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      description: What did you expect the example to return?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: What happened instead? Paste the full error or warning text.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: session_info
+    attributes:
+      label: Session info
+      description: Paste the output of `sessionInfo()` or `sessioninfo::session_info()`.
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: package_version
+    attributes:
+      label: Package version and install source
+      description: The olsrr version and where it came from (CRAN or a GitHub commit).
+      placeholder: olsrr 0.7.0.9000 from CRAN
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I ran the example in a fresh R session and it reproduces the problem.
+          required: true
+    validations:
+      required: true
