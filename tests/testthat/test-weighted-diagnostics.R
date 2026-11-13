@@ -226,49 +226,39 @@ test_that("rank-deficient weighted PRESS keeps row alignment (G01)", {
     rep(c("a", "b"), length.out = nrow(repeated$model))
   expect_equal(ols_press(repeated), press, tolerance = 1e-10)
 
-  # the design-matrix fallback uses the same fitted directions
+  # a fit without its QR cannot give the fitted projection exactly: error
   fallback <- m
   fallback$qr <- NULL
-  expect_equal(sum(olsrr:::model_hatvalues_frame(fallback)), m$rank)
-  expect_equal(ols_press(fallback), press, tolerance = 1e-10)
+  expect_error(ols_press(fallback), "qr = TRUE")
 })
 
-test_that("the QR fallback honours the fitted tolerance and rank (J01)", {
-  d <- transform(mtcars, z = wt + 0.001 * hp)
+test_that("fits without a QR are rejected, never reconstructed (K01)", {
+  d  <- transform(mtcars, z = wt + .001 * hp + .001 * sin(1:32))
+  tv <- .1
+  f  <- mpg ~ wt + z + hp
+  mods <- local({
+    tv <- .01
+    list(lm(f, d, tol = tv), lm(f, d, tol = tv, qr = FALSE))
+  })
 
-  # at tol = .1 the nearly dependent column is aliased: rank 2, not 3
-  m  <- lm(mpg ~ wt + z, d, tol = 0.1)
-  mf <- lm(mpg ~ wt + z, d, tol = 0.1, qr = FALSE)
+  # stored QR: rank 3, PRESS from explicit leave-one-out fits with tol = .01
+  expect_equal(mods[[1]]$rank, 3)
+  loo <- vapply(seq_len(32), function(i) {
+    fi <- lm(f, d[-i, ], tol = .01)
+    b  <- coef(fi)
+    b[is.na(b)] <- 0
+    x  <- model.matrix(f, d[i, , drop = FALSE])
+    d$mpg[i] - sum(x * b)
+  }, numeric(1))
+  expect_equal(ols_press(mods[[1]]), sum(loo ^ 2), tolerance = 1e-8)
+  expect_equal(ols_press(mods[[1]]), 246.357079950998, tolerance = 1e-8)
 
-  expect_equal(m$rank, 2)
-  expect_equal(mf$rank, 2)
+  # no QR: clear error naming the remedy, not a different projection
+  expect_error(ols_press(mods[[2]]), "refit with qr = TRUE")
+  expect_error(ols_pred_rsq(mods[[2]]), "qr")
 
-  # the stored-QR and fallback leverages both span the fitted rank
-  expect_equal(sum(olsrr:::model_hatvalues_used(m)), 2)
-  expect_equal(sum(olsrr:::model_hatvalues_used(mf)), 2)
-  expect_equal(olsrr:::model_hatvalues_used(mf), unname(hatvalues(m)))
-
-  # PRESS by hand from the stored-QR fit's residuals and leverages
-  press <- sum((m$residuals / (1 - hatvalues(m))) ^ 2)
-  expect_equal(press, 328.022775371, tolerance = 1e-8)
-
-  expect_equal(ols_press(mf), ols_press(m))
-  expect_equal(ols_press(mf), press, tolerance = 1e-10)
-  expect_equal(ols_press(mf), 328.022775371, tolerance = 1e-8)
-
-  # weighted fits: the fallback matches the stored QR and the weighted PRESS
-  dw <- transform(mtcars, z = wt + 0.001 * hp)
-  dw$w <- seq_len(32) / 8
-  mw  <- lm(mpg ~ wt + z, dw, tol = 0.1, weights = w)
-  mwf <- lm(mpg ~ wt + z, dw, tol = 0.1, weights = w, qr = FALSE)
-
-  wpress <- sum(mw$weights * (mw$residuals / (1 - hatvalues(mw))) ^ 2)
-  expect_equal(wpress, 773.676634658, tolerance = 1e-8)
-
-  expect_equal(sum(olsrr:::model_hatvalues_used(mwf)), mwf$rank)
-  expect_equal(ols_press(mwf), ols_press(mw))
-  expect_equal(ols_press(mwf), wpress, tolerance = 1e-10)
-  expect_equal(ols_press(mwf), 773.676634658, tolerance = 1e-8)
+  mw <- lm(mpg ~ wt + hp, mtcars, weights = seq_len(32) / 8, qr = FALSE)
+  expect_error(ols_press(mw), "refit with qr = TRUE")
 })
 
 test_that("SAS information criteria use deviance and the effective sample size (H9)", {

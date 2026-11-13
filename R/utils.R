@@ -272,35 +272,6 @@ model_hatvalues_used <- function(model) {
 
 }
 
-# Tolerance used when the model was fitted. lm() stores it in the call when a
-# non-default `tol` was supplied; the default matches lm.fit()/qr().
-model_fit_tol <- function(model) {
-
-  tol <- model$call$tol
-
-  if (is.null(tol)) {
-    return(1e-7)
-  }
-
-  if (is.numeric(tol) && length(tol) == 1L && is.finite(tol)) {
-    return(as.double(tol))
-  }
-
-  env <- environment(formula(model))
-  if (is.null(env)) {
-    env <- parent.frame()
-  }
-
-  tol <- tryCatch(eval(tol, envir = env), error = function(e) NULL)
-
-  if (is.null(tol) || !is.numeric(tol) || length(tol) != 1L || !is.finite(tol)) {
-    return(1e-7)
-  }
-
-  as.double(tol)
-
-}
-
 # Leverages of every model-frame row. lm() keeps one row of the fit QR per
 # observation used in the fit, so the leverages are read by row index of the
 # model frame and are never matched by row name. Duplicated, missing, padded or
@@ -320,40 +291,17 @@ model_hatvalues_frame <- function(model) {
     }
   }
 
-  # models fitted without a QR decomposition: derive the leverages from the
-  # design matrix, which also keeps the model-frame row order. Only the rows
-  # with a positive prior weight are in the fit, so form the decomposition on
-  # those rows and map the leverages back to the model-frame order.
-  x <- model.matrix(model)
-  w <- model$weights
-
-  if (is.null(w) || length(w) != nrow(x)) {
-    w <- rep(1, nrow(x))
-  }
-
-  ok <- w != 0
-
-  if (!any(ok)) {
+  # a rank-zero fit (no estimated direction) has zero leverage everywhere
+  if (identical(as.integer(model$rank), 0L)) {
     return(out)
   }
 
-  # Reconstruct the fitted projection rather than a fresh one: the QR must use
-  # the fit's tolerance (a nearly dependent column the fit declared aliased must
-  # stay aliased) and the fitted rank (the leverage sum equals the rank). A
-  # default-tolerance qr() here can promote an aliased column to a third fitted
-  # direction and return the wrong leverages/PRESS.
-  xw  <- sqrt(w[ok]) * x[ok, , drop = FALSE]
-  qrf <- qr(xw, tol = model_fit_tol(model))
-
-  if (qrf$rank != model$rank) {
-    stop("cannot reconstruct the fitted projection: the design matrix has rank ",
-         qrf$rank, " but the model was fitted with rank ", model$rank,
-         "; refit with qr = TRUE.", call. = FALSE)
-  }
-
-  out[ok] <- qr_hatvalues(qrf)
-
-  out
+  # The fitted projection can only be read from the fit's own QR (its pivot and
+  # estimable columns). Rebuilding it from the design matrix would have to guess
+  # the tolerance and the pivot, which can give a different fitted space, so a
+  # fit without its QR is rejected rather than approximated.
+  stop("the model has no 'qr' component, so its leverages cannot be ",
+       "recovered exactly; refit with qr = TRUE.", call. = FALSE)
 
 }
 
@@ -406,6 +354,24 @@ restore_residual_attrs <- function(x, model) {
 
 }
 
+# Weighted residuals and leverages of the used rows, with base R's boundary
+# conventions from lm.influence(): leverages within 10 * eps of 1 are set to 1
+# and residuals that are rounding error relative to the median are set to 0.
+model_influence_basis <- function(model) {
+
+  e <- model_residuals_used(model) * sqrt(model_weights_used(model))
+  h <- model_hatvalues_used(model)
+
+  if (length(e) > 0) {
+    e[abs(e) < 100 * .Machine$double.eps * median(abs(e))] <- 0
+  }
+
+  h[h > 1 - 10 * .Machine$double.eps] <- 1
+
+  list(e = e, h = h)
+
+}
+
 # Externally studentized residuals of the rows used in the fit. Base
 # rstudent() goes through lm.influence(), whose NA padding can misalign (and
 # fail) when zero prior weights and na.exclude omissions occur together, so the
@@ -413,10 +379,9 @@ restore_residual_attrs <- function(x, model) {
 # as PRESS.
 model_rstudent_used <- function(model) {
 
-  res  <- model_residuals_used(model)
-  w    <- model_weights_used(model)
-  h    <- model_hatvalues_used(model)
-  ew   <- res * sqrt(w)
+  ib   <- model_influence_basis(model)
+  ew   <- ib$e
+  h    <- ib$h
   rss  <- sum(ew ^ 2)
   df   <- model$df.residual
   rank <- model$rank
@@ -426,10 +391,10 @@ model_rstudent_used <- function(model) {
   }
 
   if (df <= 1L) {
-    return(restore_residual_attrs(rep(NA_real_, length(res)), model))
+    return(restore_residual_attrs(rep(NA_real_, length(ew)), model))
   }
 
-  sigma <- sqrt((rss - ew ^ 2 / (1 - h)) / (df - 1))
+  sigma <- model_sigma_loocv_used(model)
   out   <- ew / (sigma * sqrt(1 - h))
   out[is.infinite(out)] <- NaN
 
@@ -438,13 +403,13 @@ model_rstudent_used <- function(model) {
 }
 
 # Leave-one-out residual standard error of the rows used in the fit:
-# sqrt((RSS - e_i^2 / (1 - h_i)) / (df - 1)). Reused by the externally
-# studentized residuals, DFFITS and DFBETAS, which base R derives from
-# lm.influence() and so cannot handle zero weights plus na.exclude omissions.
+# sqrt((RSS - e_i^2 / (1 - h_i)) / (df - 1)), and sqrt(RSS / (df - 1)) where
+# the leverage is 1, as lm.influence() does.
 model_sigma_loocv_used <- function(model) {
 
-  ew  <- model_residuals_used(model) * sqrt(model_weights_used(model))
-  h   <- model_hatvalues_used(model)
+  ib  <- model_influence_basis(model)
+  ew  <- ib$e
+  h   <- ib$h
   rss <- sum(ew ^ 2)
   df  <- model$df.residual
 
@@ -452,49 +417,47 @@ model_sigma_loocv_used <- function(model) {
     return(rep(NA_real_, length(ew)))
   }
 
-  sqrt((rss - ew ^ 2 / (1 - h)) / (df - 1))
+  loo <- ifelse(h < 1, ew ^ 2 / (1 - h), 0)
+
+  sqrt((rss - loo) / (df - 1))
 
 }
 
-# Internally studentized residuals (rstandard()) of the rows used in the fit,
-# computed directly so zero weights and na.exclude omissions stay aligned.
+# Internally studentized residuals (rstandard()) of the rows used in the fit.
+# Undefined (NaN) where the leverage is 1, as in base R.
 model_rstandard_used <- function(model) {
 
-  ew    <- model_residuals_used(model) * sqrt(model_weights_used(model))
-  h     <- model_hatvalues_used(model)
-  rss   <- sum(ew ^ 2)
+  ib    <- model_influence_basis(model)
+  rss   <- sum(ib$e ^ 2)
   sigma <- sqrt(rss / model$df.residual)
-  out   <- ew / (sigma * sqrt(1 - h))
+  out   <- ib$e / (sigma * sqrt(1 - ib$h))
   out[is.infinite(out)] <- NaN
 
   restore_residual_attrs(out, model)
 
 }
 
-# Cook's distances of the rows used in the fit, computed from the used-row
-# residuals, weights and leverages so zero weights and omissions stay aligned.
+# Cook's distances of the rows used in the fit; NaN where the leverage is 1.
 model_cooksd_used <- function(model) {
 
-  ew    <- model_residuals_used(model) * sqrt(model_weights_used(model))
-  h     <- model_hatvalues_used(model)
-  rss   <- sum(ew ^ 2)
+  ib    <- model_influence_basis(model)
+  rss   <- sum(ib$e ^ 2)
   sigma <- sqrt(rss / model$df.residual)
   p     <- model$rank
-  out   <- ((ew / (sigma * (1 - h))) ^ 2 * h) / p
+  out   <- ((ib$e / (sigma * (1 - ib$h))) ^ 2 * ib$h) / p
   out[is.infinite(out)] <- NaN
 
   restore_residual_attrs(out, model)
 
 }
 
-# DFFITS of the rows used in the fit: e_i sqrt(h_i) / (sigma_(-i) (1 - h_i)),
-# using the leave-one-out residual standard error as base R's dffits() does.
+# DFFITS of the rows used in the fit: e_i sqrt(h_i) / (sigma_(-i) (1 - h_i));
+# NaN where the leverage is 1, as base R's dffits().
 model_dffits_used <- function(model) {
 
-  ew    <- model_residuals_used(model) * sqrt(model_weights_used(model))
-  h     <- model_hatvalues_used(model)
+  ib    <- model_influence_basis(model)
   s_i   <- model_sigma_loocv_used(model)
-  out   <- ew * sqrt(h) / (s_i * (1 - h))
+  out   <- ib$e * sqrt(ib$h) / (s_i * (1 - ib$h))
   out[is.infinite(out)] <- NaN
 
   restore_residual_attrs(out, model)
@@ -520,8 +483,9 @@ model_dfbetas_used <- function(model) {
                   ncol = 0L))
   }
 
-  e       <- model_residuals_used(model) * sqrt(model_weights_used(model))
-  h       <- model_hatvalues_used(model)
+  ib      <- model_influence_basis(model)
+  e       <- ib$e
+  h       <- ib$h
   q       <- qr.Q(qr)[, seq_len(rank), drop = FALSE]
   r       <- qr.R(qr)[seq_len(rank), seq_len(rank), drop = FALSE]
   invRQtt <- t(backsolve(r, t(q)))

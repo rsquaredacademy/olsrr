@@ -100,7 +100,7 @@ ols_prep_cdplot_data <- function(model, type = 1) {
   n        <- length(cooksd)
   ckd      <- data.frame(obs = obs, cd = cooksd)
   ts       <- ols_cooks_ts(model, type)
-  cooks_max <- max(cooksd)
+  cooks_max <- max(cooksd, na.rm = TRUE)
 
   ckd$color     <- ifelse(ckd$cd >= ts, "outlier", "normal")
   ckd$fct_color <- ordered(factor(ckd$color), levels = c("normal", "outlier"))
@@ -114,7 +114,7 @@ ols_cooks_ts <- function(model, type = 1) {
 
   cooksd <- model_cooksd_used(model)
   n      <- length(cooksd)
-  k      <- length(model$coefficients) - 1
+  k      <- model$rank - 1
 
   switch(type,
          `1` = (4 / n),
@@ -256,8 +256,8 @@ ols_prep_dsrvf_data <- function(model, threshold = NULL) {
                     color     = ds$color,
                     fct_color = ds$fct_color)
 
-  minx  <- min(ds2$dsr) - 1
-  maxx  <- max(ds2$dsr) + 1
+  minx  <- min(ds2$dsr, na.rm = TRUE) - 1
+  maxx  <- max(ds2$dsr, na.rm = TRUE) + 1
   cminx <- ifelse(minx < -threshold, minx, (-threshold - 0.5))
   cmaxx <- ifelse(maxx > threshold, maxx, (threshold + 0.5))
 
@@ -364,8 +364,8 @@ ols_prep_rstudlev_data <- function(model, threshold = NULL) {
   n         <- length(obs)
   lev_thrsh <- (2 * k) / n
   rst_thrsh <- threshold
-  miny      <- min(rstudent) - 3
-  maxy      <- max(rstudent) + 3
+  miny      <- min(rstudent, na.rm = TRUE) - 3
+  maxy      <- max(rstudent, na.rm = TRUE) + 3
   minx      <- min(leverage)
   maxx      <- ifelse((max(leverage) > lev_thrsh), max(leverage), (lev_thrsh + 0.05))
   levrstud  <- data.frame(obs = obs, leverage, rstudent)
@@ -424,8 +424,8 @@ ols_prep_srplot_data<- function(model, threshold = NULL) {
   dsr$color     <- ifelse((abs(dsr$dsr) >= threshold), "outlier", "normal")
   dsr$fct_color <- ordered(factor(dsr$color), levels = c("normal", "outlier"))
 
-  cminxx <- floor(min(dsr$dsr) - 1)
-  cmaxxx <- ceiling(max(dsr$dsr) + 1)
+  cminxx <- floor(min(dsr$dsr, na.rm = TRUE) - 1)
+  cmaxxx <- ceiling(max(dsr$dsr, na.rm = TRUE) + 1)
   cminx  <- ifelse(cminxx > -threshold, -threshold, cminxx)
   cmaxx  <- ifelse(cmaxxx < threshold, threshold, cmaxxx)
   nseq   <- seq_len(abs(cminx + 1)) * -1

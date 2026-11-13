@@ -94,7 +94,7 @@ ols_prep_dffits_plot_data <- function(model, size_adj_threshold = TRUE) {
   used     <- model_used_rows(model)
   obs      <- model_obs_ids(model)[used]
   dffitsm  <- model_dffits_used(model)
-  k        <- model_n_coeffs(model)
+  k        <- model$rank
   n        <- model_rows(model)
   
   # threshold
