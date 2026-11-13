@@ -337,3 +337,43 @@ test_that("zero-weight rows and end-of-frame omissions keep PRESS correct (H2)",
   expect_equal(ols_pred_rsq(me), ols_pred_rsq(ref), tolerance = 1e-10)
 })
 
+
+test_that("PRESS and predicted R-squared are NA at unit leverage (L02)", {
+  d <- data.frame(y = c(2, 5, 7, 3, 8, 1, 4), i = c(0, 0, 0, 0, 0, 0, 1))
+  m <- lm(y ~ i, d)
+
+  expect_warning(p <- ols_press(m), "7")
+  expect_true(is.na(p))
+  expect_warning(r <- ols_pred_rsq(m), "7")
+  expect_true(is.na(r))
+
+  # public summaries show NA, not 0 and not dropped
+  expect_warning(reg <- ols_regress(m))
+  expect_true(is.na(reg$prsq))
+  expect_true("prsq" %in% names(reg))
+  expect_warning(perf <- ols_model_performance(m))
+  expect_true(is.na(perf$prsq))
+
+  # singleton factor level, weighted version and omitted row
+  g  <- factor(c(rep("a", 6), "b"))
+  d2 <- data.frame(y = d$y, g = g, w = c(1, 2, 1, 2, 1, 2, 1))
+  expect_warning(p1 <- ols_press(lm(y ~ g, d2)))
+  expect_warning(p2 <- ols_press(lm(y ~ g, d2, weights = w)))
+  expect_true(is.na(p1) && is.na(p2))
+  d3 <- rbind(d2, data.frame(y = 9, g = factor("a", levels = c("a", "b")), w = 1))
+  d3$y[3] <- NA
+  expect_warning(p3 <- ols_press(lm(y ~ g, d3, na.action = na.exclude)))
+  expect_true(is.na(p3))
+
+  # row permutations give the same NA
+  for (ord in list(c(7, 1:6), c(2:7, 1), c(3, 7, 1, 2, 4, 5, 6))) {
+    expect_warning(pp <- ols_press(lm(y ~ i, d[ord, ])))
+    expect_true(is.na(pp))
+  }
+
+  # ordinary fits unchanged
+  o <- lm(mpg ~ wt + hp, mtcars)
+  expect_no_warning(po <- ols_press(o))
+  expect_equal(po, sum((o$residuals / (1 - hatvalues(o))) ^ 2))
+  expect_equal(ols_pred_rsq(o), 1 - po / sum(anova(o)[[2]]))
+})

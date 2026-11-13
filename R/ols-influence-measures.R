@@ -127,12 +127,33 @@ hadires <- function(model) {
 ols_press <- function(model) {
 
   check_model(model)
+  model_press_value(model, "ols_press")
+
+}
+
+# PRESS with the unit-leverage policy of model_influence_basis(): when deleting
+# an observation leaves its prediction unestimable (leverage 1 within
+# 10 * eps), the deleted residual is undefined, so PRESS is NA with a warning
+# naming the rows rather than a total built from rounding error.
+model_press_value <- function(model, fn) {
+
   lev <- model_hatvalues_used(model)
   res <- model_residuals_used(model)
   wts <- model_weights_used(model)
-  k   <- 1 - lev
-  sum(wts * (res / k) ^ 2)
-  
+
+  unit <- which(lev > 1 - 10 * .Machine$double.eps)
+
+  if (length(unit) > 0) {
+    obs <- model_obs_ids(model)[model_used_rows(model)][unit]
+    warning("`", fn, "()` is undefined: observation(s) ",
+            paste(obs, collapse = ", "),
+            " have leverage 1, so their deleted residuals cannot be estimated; returning NA.",
+            call. = FALSE)
+    return(NA_real_)
+  }
+
+  sum(wts * (res / (1 - lev)) ^ 2)
+
 }
 
 #' Predicted rsquare
@@ -163,7 +184,7 @@ ols_pred_rsq <- function(model) {
 
   check_model(model)
   tss  <- sum(anova(model)[[2]])
-  prts <- ols_press(model) / tss
+  prts <- model_press_value(model, "ols_pred_rsq") / tss
   1 - prts
 
 }

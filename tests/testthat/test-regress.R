@@ -358,22 +358,47 @@ test_that("weighted models do not report synthetic model-frame columns as predic
   )
 })
 
-test_that("ols_regress() refits models fitted with model = FALSE or qr = FALSE (#236)", {
-  m_model <- lm(mpg ~ disp + hp, data = mtcars, model = FALSE)
-  m_qr    <- lm(mpg ~ disp + hp, data = mtcars, qr = FALSE)
+test_that("ols_regress() rejects fits without a model frame or QR instead of refitting (L01)", {
+  msg <- "qr = TRUE, model = TRUE"
 
-  expect_equal(ols_regress(m_model)$betas, coef(m_model))
-  expect_equal(ols_regress(m_qr)$betas, coef(m_qr))
-  expect_equal(ols_regress(m_model)$betas, coef(lm(mpg ~ disp + hp, data = mtcars)))
+  expect_error(ols_regress(lm(mpg ~ disp + hp, mtcars, model = FALSE)), msg, fixed = TRUE)
+  expect_error(ols_regress(lm(mpg ~ disp + hp, mtcars, qr = FALSE)), msg, fixed = TRUE)
 
-  # weights are carried over by the refit
+  # audit case: formula and fitting environments differ
+  d <- transform(mtcars, z = wt + .001 * hp + .001 * sin(1:32))
+  tv <- .1
+  f <- mpg ~ wt + z + hp
+  mods <- local({
+    tv <- .01
+    list(lm(f, d, tol = tv), lm(f, d, tol = tv, qr = FALSE))
+  })
+  expect_error(ols_regress(mods[[2]]), msg, fixed = TRUE)
+  r <- ols_regress(mods[[1]])
+  expect_equal(r$betas, coef(mods[[1]]))
+  expect_equal(r$prsq, 0.781219577042816, tolerance = 1e-8)
+  expect_equal(r$rsq, 0.827030132715933, tolerance = 1e-8)
+  expect_equal(r$mse, 6.71628388198179, tolerance = 1e-8)
+
+  # changed call data must never leak into the result
+  dd <- mtcars
+  m  <- lm(mpg ~ wt + hp, dd, qr = FALSE)
+  dd$mpg <- 2 * dd$mpg
+  expect_error(ols_regress(m), msg, fixed = TRUE)
+})
+
+test_that("ordinary ols_regress() fits are unchanged (L01)", {
   set.seed(1)
   d <- mtcars
   d$w <- runif(32, 0.5, 2)
-  m_wt <- lm(mpg ~ disp + hp, data = d, weights = w, model = FALSE)
+  m <- lm(mpg ~ disp + hp, data = d, weights = w)
+  r <- ols_regress(m)
+  s <- summary(m)
 
-  expect_equal(ols_regress(m_wt)$betas, coef(m_wt))
-  expect_equal(ols_regress(m_wt)$std_errors, summary(m_wt)$coefficients[, 2])
+  expect_equal(r$betas, coef(m))
+  expect_equal(r$std_errors, s$coefficients[, 2])
+  expect_equal(r$rsq, s$r.squared)
+  expect_equal(r$mse, deviance(m) / m$df.residual)
+  expect_equal(r$prsq, ols_pred_rsq(m))
 })
 
 test_that("aliased coefficients are aligned by name (H3)", {
