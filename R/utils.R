@@ -363,7 +363,7 @@ model_influence_basis <- function(model) {
   h <- model_hatvalues_used(model)
 
   if (length(e) > 0) {
-    e[abs(e) < 100 * .Machine$double.eps * median(abs(e))] <- 0
+    e[abs(e) < 100 * .Machine$double.eps * stats::median(abs(e))] <- 0
   }
 
   h[h > 1 - 10 * .Machine$double.eps] <- 1
