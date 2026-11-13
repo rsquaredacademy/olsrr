@@ -691,3 +691,56 @@ test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {  d <- mt
   expect_equal(ols_press(m_exclude), ols_press(m_omit))
   expect_equal(ols_pred_rsq(m_exclude), ols_pred_rsq(m_omit))
 })
+
+test_that("auxiliary refits reject call data that differs from the fit (M01)", {
+  msg <- "has changed or cannot be found"
+
+  # audit case: the call symbol is bound to a different data frame
+  d <- mtcars
+  f <- mpg ~ wt * hp
+  m <- local({
+    d <- transform(mtcars, mpg = 2 * mpg)
+    lm(f, d)
+  })
+  expect_error(ols_regress(m), msg)
+
+  # changed after fitting
+  d  <- mtcars
+  m2 <- lm(mpg ~ wt * hp, d)
+  ref <- ols_regress(m2)$sbetas
+  d$mpg <- 2 * d$mpg
+  expect_error(ols_regress(m2), msg)
+
+  d  <- mtcars
+  m3 <- lm(mpg ~ wt * hp, d)
+  d$hp <- rev(d$hp)
+  expect_error(ols_regress(m3), msg)
+
+  # unchanged data: values equal the hand computation from the stored frame
+  mf <- model.frame(m2)
+  ds <- mf
+  ds$wt <- as.numeric(scale(ds$wt))
+  ds$hp <- as.numeric(scale(ds$hp))
+  rf <- lm(mpg ~ wt * hp, ds)
+  expected <- coef(rf)[-1] * apply(model.matrix(rf)[, -1, drop = FALSE], 2, sd) / sd(mf$mpg)
+  expect_equal(unname(ref), unname(expected))
+  expect_equal(unname(ref), c(-0.6707611747757308, -0.3470564211217647, 0.2431089991525895))
+
+  # selection functions use the same guard
+  fns <- list(ols_step_forward_aic, ols_step_forward_p, ols_step_backward_aic,
+              ols_step_backward_p, ols_step_both_aic, ols_step_both_p)
+  d  <- mtcars
+  f3 <- mpg ~ wt + hp + qsec
+  mm <- local({
+    d <- transform(mtcars, mpg = 2 * mpg)
+    lm(f3, d)
+  })
+  for (fn in fns) {
+    expect_error(suppressMessages(fn(mm, progress = FALSE)), msg)
+  }
+
+  ok <- lm(mpg ~ wt + hp + qsec, mtcars)
+  expect_no_error(suppressMessages(ols_step_forward_aic(ok)))
+  expect_equal(coef(ols_step_forward_aic(ok, include = c("wt", "hp", "qsec"))$model),
+               coef(ok))
+})

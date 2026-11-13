@@ -131,7 +131,85 @@ ols_model_data <- function(model) {
     data <- data[idx, , drop = FALSE]
   }
 
+  # Row names only prove the row labels match. Require the data found through
+  # the call to reproduce the fit's own stored observations exactly (response,
+  # every term variable, prior weights and offsets), else refuse to use it.
+  if (!model_data_matches(model, data, env)) {
+    stop("the data used to fit this model has changed or cannot be found; ",
+         "refit the model.", call. = FALSE)
+  }
+
   data
+}
+
+# Exact comparison of two model-frame columns by value (names, attributes and
+# storage type of the container are ignored; factors compare by label).
+same_frame_values <- function(a, b) {
+
+  if (is.factor(a) || is.factor(b)) {
+    return(identical(as.character(a), as.character(b)))
+  }
+
+  a <- as.matrix(a)
+  b <- as.matrix(b)
+
+  identical(dim(a), dim(b)) &&
+    identical(as.vector(unname(a)), as.vector(unname(b)))
+
+}
+
+# TRUE when evaluating the fit's term variables, weights and offset argument in
+# `data` gives exactly the values stored in the fit's model frame.
+model_data_matches <- function(model, data, env) {
+
+  mf <- model$model
+
+  if (is.null(mf)) {
+    return(TRUE)
+  }
+
+  vars <- as.list(attr(model$terms, "variables"))[-1]
+  n    <- nrow(mf)
+
+  if (nrow(data) != n) {
+    return(FALSE)
+  }
+
+  ok <- function(expr, stored) {
+    v <- tryCatch(eval(expr, envir = data, enclos = env), error = function(e) NULL)
+    !is.null(v) && NROW(v) == n && same_frame_values(v, stored)
+  }
+
+  for (i in seq_along(vars)) {
+    if (!ok(vars[[i]], mf[[i]])) {
+      return(FALSE)
+    }
+  }
+
+  call <- model$call
+
+  if (!is.null(call$weights)) {
+    if (!("(weights)" %in% names(mf)) || !ok(call$weights, mf[["(weights)"]])) {
+      return(FALSE)
+    }
+  }
+
+  if (!is.null(call$offset)) {
+    foff <- model_formula_offset(model, data)
+    tot  <- model$offset
+    ov   <- tryCatch(eval(call$offset, envir = data, enclos = env),
+                     error = function(e) NULL)
+    if (is.null(ov) || is.null(tot) || length(ov) != n) {
+      return(FALSE)
+    }
+    expect <- if (is.null(foff)) ov else ov + foff
+    if (!identical(as.vector(unname(expect)), as.vector(unname(tot)))) {
+      return(FALSE)
+    }
+  }
+
+  TRUE
+
 }
 
 # Model-frame columns that are not predictors: the synthetic prior weights and
