@@ -10,3 +10,9 @@ Base `c63ab36` (task/olsrr-fix-071). Findings from `ofxx5-reaudit.md`: L01, L02 
 User-visible: `ols_regress()` on `qr = FALSE`/`model = FALSE` fits now errors (NEWS). PRESS/predicted R-squared NA + warning at unit leverage (NEWS).
 
 Deferred: none new. Checks below.
+
+## Checks (after the last code commit 7c10407)
+
+- Commit 7c10407 accepts rank-zero fits in `ols_regress()` (they have no QR by construction; the stepwise routines fit `y ~ 0` candidates).
+- `devtools::test()`: FAIL 0 | WARN 0 | SKIP 0 | PASS 2449.
+- Clean `git archive` build and `R CMD check --as-cran --no-manual`: 0 errors | 0 warnings | 1 NOTE (CRAN incoming: maintainer address change, pre-existing and intended).
