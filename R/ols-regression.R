@@ -141,8 +141,10 @@ ols_regress.lm <- function(object, conf.level = 0.95, iterm = FALSE,
 
   # reg_comp() needs the fit's own model frame and QR. A fit without them is
   # rejected: refitting the call could use another environment, tolerance or
-  # data and report a different model than the one supplied.
-  if (is.null(object$model) || is.null(object$qr) || isFALSE(object$qr)) {
+  # data and report a different model than the one supplied. A rank-zero fit
+  # has no QR by construction and is accepted.
+  if (is.null(object$model) ||
+      (object$rank > 0L && (is.null(object$qr) || isFALSE(object$qr)))) {
     stop("ols_regress() needs the model frame and QR of the fit; ",
          "refit with lm(..., qr = TRUE, model = TRUE).", call. = FALSE)
   }
