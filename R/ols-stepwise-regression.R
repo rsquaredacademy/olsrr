@@ -136,6 +136,27 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   mlen_p   <- length(all_pred)
   tech     <- c("addition", "removal")
 
+  # every term is locked into the model: nothing can enter or leave
+  if (mlen_p == 0) {
+    message("No candidate predictors left to enter.")
+    base_model  <- ols_base_model(include, response, l, model)
+    final_model <- ols_step_final_model(model, response, include, l)
+    out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                     method = character(0), r2 = numeric(0),
+                                     adj_r2 = numeric(0), aic = numeric(0),
+                                     sbc = numeric(0), sbic = numeric(0),
+                                     mallows_cp = numeric(0), rmse = numeric(0)),
+                model   = final_model,
+                others  = list(base_model = base_model,
+                               full_model = model,
+                               beta_pval  = data.frame(model = integer(0),
+                                                       predictor = character(0),
+                                                       beta = numeric(0),
+                                                       pval = numeric(0))))
+    class(out) <- "ols_step_both_p"
+    return(out)
+  }
+
   pvalues <- c()
   lbetas  <- c()
   betas   <- c()

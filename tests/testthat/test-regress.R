@@ -19,7 +19,7 @@ test_that("If model includes interaction terms, ols_regress scales and centers
   model_inter <- ols_regress(price ~ weight * displacement, data = auto, iterm = TRUE)
   actual   <- round(model_inter$sbetas, 2)
   expected <- c(weight = 0.57, displacement = -0.15, `weight:displacement` = 0.38)
-  expect_equal(actual, expected, ignore_attr = TRUE)
+  expect_equal(actual, expected,)
 })
 
 test_that("ols_regress returns error messages", {
@@ -546,8 +546,8 @@ test_that("mixed formula and call offsets are carried through the refit (H6)", {
   # the all-possible beta table carries both offset contributions
   b    <- ols_step_all_possible_betas(m)
   full <- b[b$model == max(b$model), ]
-  expect_equal(full$predictor, names(coef(m)), ignore_attr = TRUE)
-  expect_equal(full$beta, unname(coef(m)), ignore_attr = TRUE)
+  expect_equal(full$predictor, names(coef(m)),)
+  expect_equal(full$beta, unname(coef(m)),)
 })
 
 test_that("an offset variable is still standardised as a predictor (H6)", {
@@ -671,7 +671,7 @@ test_that("term structure comes from the terms object, not from splitting on col
     rm(dd)
     fit
   })
-  expect_error(ols_regress(dead), "could not be evaluated")
+  expect_error(ols_regress(dead), "has changed or cannot be found")
 })
 
 test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {  d <- mtcars
@@ -743,4 +743,85 @@ test_that("auxiliary refits reject call data that differs from the fit (M01)", {
   expect_no_error(suppressMessages(ols_step_forward_aic(ok)))
   expect_equal(coef(ols_step_forward_aic(ok, include = c("wt", "hp", "qsec"))$model),
                coef(ok))
+})
+
+test_that("the data guard accepts ordinary unchanged fits (N03)", {
+  d <- mtcars
+  sb <- function(m) unname(ols_regress(m)$sbetas)
+  base3 <- c(-0.670761174775731, -0.347056421121765, 0.243108999152590)
+
+  w0 <- NULL
+  expect_equal(sb(lm(mpg ~ wt * hp, d, weights = w0)), base3)
+  o0 <- NULL
+  expect_equal(sb(lm(mpg ~ wt * hp, d, offset = o0)), base3)
+
+  ww <- rep(1, 32)
+  expect_equal(sb(lm(mpg ~ wt * hp, d, weights = ww, subset = hp > 100)),
+               c(-0.763562939581003, -0.202260379881657, 0.290113662908236))
+  oo <- d$qsec
+  expect_equal(sb(lm(mpg ~ wt * hp, d, offset = oo, subset = hp > 100)),
+               c(-0.965426646484783, 0.128670365030811, 0.310437093410121))
+  expect_equal(sb(lm(mpg ~ poly(wt, 2) + hp, d, subset = hp > 100)),
+               c(-0.841664658198665, 0.292051567550873, -0.264122102509875),
+              )
+  expect_equal(sb(lm(mpg ~ scale(wt) + hp, d, subset = hp > 100)),
+               c(-0.709907637360417, -0.296899313473184))
+
+  dn <- d
+  dn$mpg[c(2, 32)] <- NA
+  expect_no_error(ols_regress(lm(mpg ~ poly(wt, 2) + hp, dn, na.action = na.exclude)))
+  expect_no_error(ols_regress(lm(mpg ~ scale(wt) + hp, dn, na.action = na.exclude)))
+
+  dd <- transform(mtcars, a = sin(1:32) * 1e-5, b = cos(1:32) * 1e-5, c = 1:32 * 1e-5)
+  m <- lm(mpg ~ wt * hp + offset(a) + offset(b) + offset(c), dd, offset = qsec)
+  expect_equal(sb(m), c(-0.823439068414872, -0.036448913550227, 0.242119031118026))
+
+  # factors and transformed terms
+  df <- transform(mtcars, g = factor(cyl))
+  expect_no_error(ols_regress(lm(mpg ~ g * hp, df)))
+  expect_no_error(ols_regress(lm(log(mpg) ~ log(wt) * hp + I(qsec^2), df)))
+  expect_no_error(suppressMessages(ols_step_forward_aic(lm(mpg ~ poly(wt, 2) + hp + qsec, d, subset = hp > 100))))
+})
+
+test_that("changed data, levels and unrelated bindings are rejected (N01, N02)", {
+  msg <- "has changed or cannot be found"
+
+  d <- transform(mtcars, g = factor(cyl))
+  m <- lm(mpg ~ g * hp, d)
+  expected <- ols_regress(m)$sbetas
+  expect_equal(unname(expected),
+               c(0.008144386521190, -0.288477791207574, -1.282944252796579,
+                 0.258194497698283, 0.746130640996481), tolerance = 1e-8)
+  d$g <- relevel(d$g, "8")
+  expect_error(ols_regress(m), msg)
+  expect_error(suppressMessages(ols_step_both_p(m, include = c("g", "hp"))), msg)
+
+  # call data missing and an unrelated binding of the raw variable
+  r <- local({
+    dl <- mtcars
+    ml <- lm(log(mpg) ~ wt * hp, dl)
+    rm(dl)
+    mpg <- mtcars$mpg^2
+    list(ml, tryCatch(ols_regress(ml), error = function(e) conditionMessage(e)))
+  })
+  expect_match(r[[2]], msg)
+
+  # plain-variable fits keep working when the data object is gone
+  p <- local({
+    dl <- mtcars
+    mp <- lm(mpg ~ wt * hp, dl)
+    ref <- ols_regress(mp)$sbetas
+    rm(dl)
+    list(ref, ols_regress(mp)$sbetas)
+  })
+  expect_equal(p[[1]], p[[2]])
+})
+
+test_that("both-p selection with every term included returns the model (N04)", {
+  m <- lm(mpg ~ wt + hp, mtcars)
+  k <- suppressMessages(ols_step_both_p(m, include = c("wt", "hp")))
+  expect_s3_class(k, "ols_step_both_p")
+  expect_equal(nrow(k$metrics), 0)
+  expect_equal(coef(k$model), coef(m))
+  expect_equal(model.response(model.frame(k$model)), model.response(model.frame(m)))
 })

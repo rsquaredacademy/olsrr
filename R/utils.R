@@ -93,12 +93,20 @@ max_nchar <- function(char, val, rn = 3, ns = 3) {
 
 # data used to fit a model, so that its original formula can be re-evaluated
 #
-# `model$model` stores term labels (e.g. "log(mpg)", "factor(cyl)") as column
-# names, so refitting a formula against it fails for any call term. When the
-# data are still available from the model call, return them restricted to the
-# rows used by the model (NA handling, subset, ...). Otherwise fall back to
-# `model$model`, which is safe for plain variable terms.
+# The data found through the model call are used only when they reproduce the
+# fit exactly (see model_data_valid()); they are then returned restricted to the
+# rows the fit used. When the call data cannot be found, the stored model frame
+# is returned, but only for formulas made of plain variables: a transformed
+# term or offset would be re-evaluated from raw variables in the formula
+# environment, which can silently be a different object.
 ols_model_data <- function(model) {
+
+  refit_msg <- paste0("the data used to fit this model has changed or cannot ",
+                      "be found; refit the model.")
+
+  if (is.null(model$model)) {
+    stop(refit_msg, call. = FALSE)
+  }
 
   env  <- environment(formula(model))
   call <- model$call
@@ -116,99 +124,78 @@ ols_model_data <- function(model) {
   }
 
   if (!is.data.frame(data) && !is.matrix(data)) {
+    vars <- as.list(attr(model$terms, "variables"))[-1]
+    if (!all(vapply(vars, is.name, logical(1)))) {
+      stop(refit_msg, call. = FALSE)
+    }
     return(model$model)
   }
 
   data <- as.data.frame(data)
-  rn   <- attr(model$model, "row.names")
+  idx  <- model_data_valid(model, data, env)
 
-  if (!is.null(rn)) {
-    rn  <- as.character(rn)
-    idx <- match(rn, rownames(data))
-    if (anyNA(idx) || anyDuplicated(idx) || length(idx) != nrow(model$model)) {
-      return(model$model)
+  if (is.null(idx)) {
+    stop(refit_msg, call. = FALSE)
+  }
+
+  data[idx, , drop = FALSE]
+
+}
+
+# Rebuild the fit from `data` with R's own machinery (the call's subset,
+# weights, offset and na.action, evaluated as lm() did) and require the
+# evaluated response, model matrix (values and column names, so factor coding
+# and contrasts), prior weights and offset to be identical to the fit's. Returns
+# the row positions of `data` used by the fit, or NULL when they differ. Only
+# evaluated objects are compared, never call expressions.
+model_data_valid <- function(model, data, env) {
+
+  cl  <- model$call
+  mf0 <- model$model
+
+  args <- list(formula = formula(model), data = data,
+               drop.unused.levels = TRUE)
+
+  for (nm in c("subset", "weights", "offset", "na.action")) {
+    if (!is.null(cl[[nm]])) {
+      args[[nm]] <- cl[[nm]]
     }
-    data <- data[idx, , drop = FALSE]
   }
 
-  # Row names only prove the row labels match. Require the data found through
-  # the call to reproduce the fit's own stored observations exactly (response,
-  # every term variable, prior weights and offsets), else refuse to use it.
-  if (!model_data_matches(model, data, env)) {
-    stop("the data used to fit this model has changed or cannot be found; ",
-         "refit the model.", call. = FALSE)
-  }
-
-  data
-}
-
-# Exact comparison of two model-frame columns by value (names, attributes and
-# storage type of the container are ignored; factors compare by label).
-same_frame_values <- function(a, b) {
-
-  if (is.factor(a) || is.factor(b)) {
-    return(identical(as.character(a), as.character(b)))
-  }
-
-  a <- as.matrix(a)
-  b <- as.matrix(b)
-
-  identical(dim(a), dim(b)) &&
-    identical(as.vector(unname(a)), as.vector(unname(b)))
-
-}
-
-# TRUE when evaluating the fit's term variables, weights and offset argument in
-# `data` gives exactly the values stored in the fit's model frame.
-model_data_matches <- function(model, data, env) {
-
-  mf <- model$model
+  mf <- tryCatch(
+    eval(as.call(c(list(quote(stats::model.frame)), args)), envir = env),
+    error = function(e) NULL
+  )
 
   if (is.null(mf)) {
-    return(TRUE)
+    return(NULL)
   }
 
-  vars <- as.list(attr(model$terms, "variables"))[-1]
-  n    <- nrow(mf)
+  X <- tryCatch(
+    stats::model.matrix(attr(mf, "terms"), mf, contrasts.arg = model$contrasts),
+    error = function(e) NULL
+  )
 
-  if (nrow(data) != n) {
-    return(FALSE)
+  if (is.null(X)) {
+    return(NULL)
   }
 
-  ok <- function(expr, stored) {
-    v <- tryCatch(eval(expr, envir = data, enclos = env), error = function(e) NULL)
-    !is.null(v) && NROW(v) == n && same_frame_values(v, stored)
+  same <- identical(stats::model.response(mf), stats::model.response(mf0)) &&
+    identical(X, stats::model.matrix(model)) &&
+    identical(stats::model.weights(mf), stats::model.weights(mf0)) &&
+    identical(stats::model.offset(mf), stats::model.offset(mf0))
+
+  if (!isTRUE(same)) {
+    return(NULL)
   }
 
-  for (i in seq_along(vars)) {
-    if (!ok(vars[[i]], mf[[i]])) {
-      return(FALSE)
-    }
+  idx <- match(rownames(mf), rownames(data))
+
+  if (anyNA(idx)) {
+    return(NULL)
   }
 
-  call <- model$call
-
-  if (!is.null(call$weights)) {
-    if (!("(weights)" %in% names(mf)) || !ok(call$weights, mf[["(weights)"]])) {
-      return(FALSE)
-    }
-  }
-
-  if (!is.null(call$offset)) {
-    foff <- model_formula_offset(model, data)
-    tot  <- model$offset
-    ov   <- tryCatch(eval(call$offset, envir = data, enclos = env),
-                     error = function(e) NULL)
-    if (is.null(ov) || is.null(tot) || length(ov) != n) {
-      return(FALSE)
-    }
-    expect <- if (is.null(foff)) ov else ov + foff
-    if (!identical(as.vector(unname(expect)), as.vector(unname(tot)))) {
-      return(FALSE)
-    }
-  }
-
-  TRUE
+  idx
 
 }
 
