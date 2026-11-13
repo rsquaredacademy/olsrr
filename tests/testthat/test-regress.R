@@ -19,7 +19,7 @@ test_that("If model includes interaction terms, ols_regress scales and centers
   model_inter <- ols_regress(price ~ weight * displacement, data = auto, iterm = TRUE)
   actual   <- round(model_inter$sbetas, 2)
   expected <- c(weight = 0.57, displacement = -0.15, `weight:displacement` = 0.38)
-  expect_equal(actual, expected,)
+  expect_equal(actual, expected, ignore_attr = TRUE)
 })
 
 test_that("ols_regress returns error messages", {
@@ -546,8 +546,8 @@ test_that("mixed formula and call offsets are carried through the refit (H6)", {
   # the all-possible beta table carries both offset contributions
   b    <- ols_step_all_possible_betas(m)
   full <- b[b$model == max(b$model), ]
-  expect_equal(full$predictor, names(coef(m)),)
-  expect_equal(full$beta, unname(coef(m)),)
+  expect_equal(full$predictor, names(coef(m)), ignore_attr = TRUE)
+  expect_equal(full$beta, unname(coef(m)), ignore_attr = TRUE)
 })
 
 test_that("an offset variable is still standardised as a predictor (H6)", {
@@ -762,8 +762,7 @@ test_that("the data guard accepts ordinary unchanged fits (N03)", {
   expect_equal(sb(lm(mpg ~ wt * hp, d, offset = oo, subset = hp > 100)),
                c(-0.965426646484783, 0.128670365030811, 0.310437093410121))
   expect_equal(sb(lm(mpg ~ poly(wt, 2) + hp, d, subset = hp > 100)),
-               c(-0.841664658198665, 0.292051567550873, -0.264122102509875),
-              )
+               c(-0.841664658198665, 0.292051567550873, -0.264122102509875))
   expect_equal(sb(lm(mpg ~ scale(wt) + hp, d, subset = hp > 100)),
                c(-0.709907637360417, -0.296899313473184))
 
