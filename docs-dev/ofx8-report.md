@@ -12,3 +12,9 @@ Base `bd0fc88`. Findings from `ofxx7-reaudit.md`: N01, N02 (High), N03, N04 (Med
 Compatibility: `ols_regress()$sbetas` and all six selection routines (coefficients and metrics) are `identical()` to a36c0b3 on eight fits (interaction, `.`, surgical, hsb, no intercept, log terms, factor, offset). The earlier-test expectation "could not be evaluated" for a fit whose data is gone is now the refit message.
 
 User-visible: fits whose call data is missing and whose formula has transformed terms or offsets now stop with the refit message in `ols_regress()` for interaction/standardized betas and in selection (previously they re-evaluated the terms in the formula environment). In NEWS.
+
+## Checks (after the last code commit 190f36f)
+
+- `devtools::test()`: FAIL 0 | WARN 0 | SKIP 0 | PASS 2483.
+- Clean `git archive` build and `R CMD check --as-cran --no-manual`: 0 errors | 0 warnings | 1 NOTE (CRAN incoming: maintainer address change, pre-existing and intended).
+- `190f36f` only restores `ignore_attr = TRUE` arguments that a sed in `c1d4d68` removed from three existing assertions.
