@@ -124,7 +124,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
       ols_stepwise_table(d, predictors, pvals, rsqvals, arsqvals, aicvals)
     }
 
-    if (pvals[i] <= p_value) {
+    if (isTRUE(pvals[i] <= p_value)) {
       preds  <- c(preds, cterms[i])
       p_val  <- c(p_val, pvals[i])
       step   <- step + 1
@@ -246,7 +246,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
       ols_stepwise_table_p(d, predictors, pvals)
     }
 
-    if (p_vals >= p_value) {
+    if (isTRUE(p_vals >= p_value)) {
       preds  <- c(preds, cterms[i])
       step   <- step + 1
       rpred  <- setdiff(cterms, preds)

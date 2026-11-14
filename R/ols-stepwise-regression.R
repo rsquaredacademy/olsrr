@@ -193,16 +193,9 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
     pvals[i]   <- m_sum$`Pr(>F)`[ppos]
   }
 
-  maxf     <- which(fvals == max(fvals, na.rm = TRUE))
-  minp     <- which(pvals == min(pvals, na.rm = TRUE))
-  len_minp <- length(minp)
+  maxf <- ols_step_p_index(fvals, pvals)
 
-  if (len_minp > 1) {
-    minp <- minp[1]
-    maxf <- maxf[1]
-  }
-
-  if (pvals[minp] > p_enter) {
+  if (is.na(maxf) || pvals[maxf] > p_enter) {
     stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
   }
 
@@ -261,16 +254,9 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       pvals[i]   <- m_sum$`Pr(>F)`[ppos]
     }
 
-    maxf  <- which(fvals == max(fvals, na.rm = TRUE))
-    minp  <- pvals[maxf]
-    len_minp <- length(minp)
+    maxf <- ols_step_p_index(fvals, pvals)
 
-    if (len_minp > 1) {
-      minp <- minp[1]
-      maxf <- maxf[1]
-    }
-
-    if (minp <= p_enter) {
+    if (!is.na(maxf) && pvals[maxf] <= p_enter) {
 
       preds     <- c(preds, all_pred[maxf])
       var_index <- c(var_index, all_pred[maxf])
@@ -306,18 +292,11 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       fvals_r <- m2_sum$`F value`[len_inc:lpreds]
       pvals_r <- m2_sum$`Pr(>F)`[len_inc:lpreds]
 
-      minf    <- which(fvals_r == min(fvals_r, na.rm = TRUE))
-      maxp    <- pvals_r[minf]
-      len_maxp <- length(maxp)
+      minf <- ols_step_p_index(fvals_r, pvals_r, entry = FALSE)
 
-      if (len_maxp > 1) {
-        maxp <- maxp[1]
-        minf <- minf[1]
-      }
+      if (!is.na(minf) && pvals_r[minf] > p_remove) {
 
-      if (maxp > p_remove) {
-
-        var_index <- c(var_index, preds[minf])
+        var_index <- c(var_index, preds[minf + length(include)])
         lvar      <- length(var_index)
         method    <- c(method, tech[2])
         preds     <- preds[-(minf + length(include))]

@@ -204,15 +204,9 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       ols_stepwise_table(d, all_pred, pvals, rsqvals, arsqvals, aicvals)
     }
 
-    maxf     <- which(fvals == max(fvals, na.rm = TRUE))
-    minp     <- which(pvals == min(pvals, na.rm = TRUE))
-    len_minp <- length(minp)
+    maxf <- ols_step_p_index(fvals, pvals)
 
-    if (len_minp > 1) {
-      minp <- minp[1]
-    }
-
-    if (pvals[minp] > p_val) {
+    if (is.na(maxf) || pvals[maxf] > p_val) {
       stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
     } else {
       if (progress) {
@@ -311,16 +305,9 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         ols_stepwise_table(d, all_pred, pvals, rsqvals, arsqvals, aicvals)
       }
 
-      maxf  <- which(fvals == max(fvals, na.rm = TRUE))
-      minp  <- pvals[maxf]
-      len_minp <- length(minp)
+      maxf <- ols_step_p_index(fvals, pvals)
 
-      if (len_minp > 1) {
-        minp <- minp[1]
-        maxf <- maxf[1]
-      }
-
-      if (minp <= p_val) {
+      if (!is.na(maxf) && pvals[maxf] <= p_val) {
 
         step   <- step + 1
         preds  <- unique(c(preds, all_pred[maxf]))

@@ -793,9 +793,12 @@ ols_step_final_model <- function(model, response, predictors, data) {
     cl$formula <- form
     cl$contrasts <- model_contrasts(model, form)
     refit <- eval(cl, envir = environment(form))
-    if (!identical(stats::coef(refit), stats::coef(final_model)) ||
-        !identical(refit$fitted.values, final_model$fitted.values) ||
-        !identical(stats::model.offset(refit$model), off)) {
+    if (!identical(unname(as.numeric(stats::coef(refit))),
+                   unname(as.numeric(stats::coef(final_model)))) ||
+        !identical(unname(as.numeric(refit$fitted.values)),
+                   unname(as.numeric(final_model$fitted.values))) ||
+        !identical(unname(as.numeric(stats::model.offset(refit$model))),
+                   unname(as.numeric(off)))) {
       stop("the final model cannot reproduce the frozen-offset selection fit exactly; ",
            "prediction with newdata is not supported for this model.", call. = FALSE)
     }
@@ -822,16 +825,27 @@ ols_zero_rss_stop <- function() {
   message("Residual sum of squares < 1e-10 (near-perfect fit). Variable selection stopped.")
 }
 
-# always return a single index; first match breaks ties deterministically
+# Rank estimable terms by F, then p, then their original candidate order.
+# Inf is a valid F statistic (a perfect candidate fit); NA is not.
+ols_step_p_index <- function(fvals, pvals, entry = TRUE) {
+  valid <- which(!is.na(fvals) & !is.na(pvals))
+  if (length(valid) == 0) {
+    return(NA_integer_)
+  }
+  f <- if (entry) -fvals[valid] else fvals[valid]
+  valid[order(f, pvals[valid], valid)[1]]
+}
+
+# always return a single index; candidate order breaks criterion ties
 ols_threshold <- function(data, criteria) {
   if (length(data) < 1 || all(is.na(data))) {
     return(NA_integer_)
   }
 
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    which(data == min(data, na.rm = TRUE))[1]
+    which.min(data)
   } else {
-    which(data == max(data, na.rm = TRUE))[1]
+    which.max(data)
   }
 }
 

@@ -432,7 +432,7 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
 
       laic   <- c(laic, mi$aic)
       lbic   <- c(lbic, mi$sbc)
-      lsbic  <- c(lsbic, mi$sbic)
+      lsbic  <- c(lsbic, ols_sbic(mi$model, model))
       lrsq   <- c(lrsq, mi$rsq)
       larsq  <- c(larsq, mi$adjr)
       aics   <- c()

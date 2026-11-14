@@ -2,6 +2,9 @@
 
 ## Bug Fixes
 
+- Stepwise offset identity checks compare exact numeric values, allowing labelled or attributed responses without weakening the rejection of a different fit (P02).
+- Stepwise selectors choose one term per step, breaking F ties by p value then candidate order and other criterion ties by candidate order. Histories identify the term actually removed with forced predictors and report SBIC against the original full model (P03).
+- P-value selection ignores candidates with missing F tests and ends cleanly when none remain; an initial search with no eligible candidate gives the existing entry-criteria error (P04).
 - Stepwise selectors return offset models fitted from the original call, preserving offset expressions for correct predictions on new data and a compact printed call (P01). If that fit cannot exactly reproduce the frozen-offset selection fit, selection stops with an error.
 - `ols_regress()` and selection refits reject custom named contrast functions; fit with an explicit contrast matrix instead. Base contrast names are resolved from the stats namespace and refits use matrices, so changes to search-path functions or contrast options cannot change the fitted coding.
 - Standardized-beta and selection refits carry the fit's frozen total offset with formula offset terms removed, preserving cancelling formula and call offsets exactly instead of recovering a contribution by subtraction.
