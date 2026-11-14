@@ -104,8 +104,7 @@ ols_regress(model)
 
 If you encounter a bug, please file a minimal reproducible example using
 [reprex](https://reprex.tidyverse.org/index.html) on github. For
-questions and clarifications, use
-[StackOverflow](https://stackoverflow.com/).
+questions and clarifications, ask on Stack Overflow with the `r` tag.
 
 ## Code of Conduct
 
