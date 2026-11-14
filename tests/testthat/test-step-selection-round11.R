@@ -73,6 +73,8 @@ round11_check_history <- function(k, d, initial = character(), direction = "forw
 test_that("forward entry tests one tied candidate at a time (P03)", {
   d <- round11_tie_data()
   m <- lm(y ~ x1 + x2 + x3, data = d)
+  expect_identical(car::Anova(lm(y ~ x1, d))$`F value`[1],
+                   car::Anova(lm(y ~ x2, d))$`F value`[1])
   k <- ols_step_forward_p(m, p_val = 0.001)
   expect_identical(k$metrics$variable, "x1")
   expect_gt(coef(summary(lm(y ~ x1 + x2, d)))["x2", "Pr(>|t|)"], 0.001)
@@ -87,6 +89,9 @@ test_that("tied removals and criterion selectors have one accurate row per step 
   d <- expand.grid(x1 = c(-1, 1), x2 = c(-1, 1), z = c(-1, 1), e = c(-1, 1))
   d <- data.frame(y = d$z * 10 + d$e * 3 + (d$x1 + d$x2) / 4, d[1:3])
   m <- lm(y ~ x1 + x2 + z, d)
+  f <- car::Anova(m)$`F value`
+  expect_identical(f[1], f[2])
+  expect_identical(ols_aic(lm(y ~ x2 + z, d)), ols_aic(lm(y ~ x1 + z, d)))
   k <- ols_step_backward_p(m, p_val = 0.05)
   expect_identical(k$metrics$variable, c("x1", "x2"))
   round11_check_history(k, d, c("x1", "x2", "z"), "backward")
