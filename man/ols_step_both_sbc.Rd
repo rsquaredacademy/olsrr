@@ -60,7 +60,13 @@ Refits accept explicit contrast matrices or the base contrast names
 (resolved from the stats namespace); models fitted with custom named contrast
 functions must be refitted with an explicit matrix, for example
 \code{contrasts = list(g = my_matrix)}. Refits carry the fitted model's frozen total
-offset as an argument with all formula \code{offset()} terms removed.
+offset as an argument with all formula \code{offset()} terms removed for
+standardized-beta and selection computations. Returned stepwise models are
+fitted from the original call, preserving formula and argument offsets for
+prediction on new data. Their coefficients, fitted values and total offset
+must be identical to the frozen-offset selection fit; otherwise selection
+stops with an error because prediction with new data is not supported for
+that model.
 }
 \examples{
 \donttest{

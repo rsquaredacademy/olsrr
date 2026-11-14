@@ -780,20 +780,35 @@ ols_step_fit <- function(response, predictors, data, model) {
 ols_step_final_model <- function(model, response, predictors, data) {
   form <- ols_step_formula(response, predictors, model)
   final_model <- ols_step_lm(form, data, model)
-  final_model$call$formula <- form
-  # Keep the frozen total in the call too, so later validation/prediction does
-  # not restore only the original call contribution of a mixed-offset fit.
-  # Its length is the fitted row count: retain the refit's data and omit the
-  # original subset, rather than subsetting that frozen vector a second time.
-  if (!is.null(stats::model.offset(model$model))) {
-    return(final_model)
-  }
-  final_model$call$offset <- model$call$offset
-  if (!is.null(model$call$data)) {
-    final_model$call$data <- model$call$data
-  }
-  if (!is.null(model$call$subset)) {
-    final_model$call$subset <- model$call$subset
+  off <- stats::model.offset(model$model)
+  if (!is.null(off)) {
+    # Selection uses frozen offsets, but prediction needs the original
+    # expressions. Keep formula offsets in their original addition order.
+    variables <- as.list(attr(model$terms, "variables"))[-1]
+    for (term in variables[attr(model$terms, "offset")]) {
+      form[[3]] <- call("+", form[[3]], term)
+    }
+    cl <- model$call
+    cl[[1]] <- quote(stats::lm)
+    cl$formula <- form
+    cl$contrasts <- model_contrasts(model, form)
+    refit <- eval(cl, envir = environment(form))
+    if (!identical(stats::coef(refit), stats::coef(final_model)) ||
+        !identical(refit$fitted.values, final_model$fitted.values) ||
+        !identical(stats::model.offset(refit$model), off)) {
+      stop("the final model cannot reproduce the frozen-offset selection fit exactly; ",
+           "prediction with newdata is not supported for this model.", call. = FALSE)
+    }
+    final_model <- refit
+  } else {
+    final_model$call$formula <- form
+    final_model$call$offset <- model$call$offset
+    if (!is.null(model$call$data)) {
+      final_model$call$data <- model$call$data
+    }
+    if (!is.null(model$call$subset)) {
+      final_model$call$subset <- model$call$subset
+    }
   }
   final_model
 }

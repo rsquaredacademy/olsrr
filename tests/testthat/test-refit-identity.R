@@ -109,6 +109,9 @@ test_that("refits preserve the frozen total under offset cancellation (O02)", {
     k <- suppressMessages(get(nm)(m, include = c("wt", "hp", "wt:hp")))
     expect_identical(k$model$offset, model.offset(model.frame(m)))
     expect_identical(coef(k$model), coef(m))
+    expect_identical(k$model$fitted.values, m$fitted.values)
+    expect_identical(k$model$call$offset, quote(o))
+    expect_length(attr(terms(k$model), "offset"), 3L)
   }
   expect_identical(m, before)
 
@@ -134,6 +137,6 @@ test_that("refits preserve the frozen total under offset cancellation (O02)", {
     expect_identical(k$model$offset, model.offset(model.frame(ms)))
     expect_identical(coef(k$model), coef(ms))
     expect_identical(ols_regress(k$model, iterm = TRUE)$sbetas, ols_regress(ms)$sbetas)
-    expect_length(attr(terms(k$model), "offset"), 0L)
+    expect_length(attr(terms(k$model), "offset"), 1L)
   }
 })

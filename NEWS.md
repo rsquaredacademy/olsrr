@@ -2,6 +2,7 @@
 
 ## Bug Fixes
 
+- Stepwise selectors return offset models fitted from the original call, preserving offset expressions for correct predictions on new data and a compact printed call (P01). If that fit cannot exactly reproduce the frozen-offset selection fit, selection stops with an error.
 - `ols_regress()` and selection refits reject custom named contrast functions; fit with an explicit contrast matrix instead. Base contrast names are resolved from the stats namespace and refits use matrices, so changes to search-path functions or contrast options cannot change the fitted coding.
 - Standardized-beta and selection refits carry the fit's frozen total offset with formula offset terms removed, preserving cancelling formula and call offsets exactly instead of recovering a contribution by subtraction.
 - `ols_step_both_p()` with every term in `include` returns the included model with empty step metrics instead of failing.

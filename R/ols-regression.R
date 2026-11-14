@@ -21,7 +21,13 @@
 #' (resolved from the stats namespace); models fitted with custom named contrast
 #' functions must be refitted with an explicit matrix, for example
 #' `contrasts = list(g = my_matrix)`. Refits carry the fitted model's frozen total
-#' offset as an argument with all formula `offset()` terms removed.
+#' offset as an argument with all formula `offset()` terms removed for
+#' standardized-beta and selection computations. Returned stepwise models are
+#' fitted from the original call, preserving formula and argument offsets for
+#' prediction on new data. Their coefficients, fitted values and total offset
+#' must be identical to the frozen-offset selection fit; otherwise selection
+#' stops with an error because prediction with new data is not supported for
+#' that model.
 #'
 #' @return \code{ols_regress} returns an object of class \code{"ols_regress"}.
 #' An object of class \code{"ols_regress"} is a list containing the following
