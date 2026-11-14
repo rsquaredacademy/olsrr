@@ -2,6 +2,7 @@
 
 ## Bug Fixes
 
+- Stepwise selection plots no longer cut off the highest value when the plotted metric (e.g. AIC) has both negative and positive values (F13).
 - Stepwise offset identity checks compare exact numeric values, allowing labelled or attributed responses without weakening the rejection of a different fit (P02).
 - Stepwise selectors choose one term per step, breaking F ties by p value then candidate order and other criterion ties by candidate order. Histories identify the term actually removed with forced predictors and report SBIC against the original full model (P03).
 - P-value selection ignores candidates with missing F tests and ends cleanly when none remain; an initial search with no eligible candidate gives the existing entry-criteria error (P04).

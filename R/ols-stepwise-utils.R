@@ -343,13 +343,10 @@ ols_stepwise_plot_data <- function(x, pred, metric = "r2") {
   aic  <- x$metrics[[metric]]
   xmin <- 0
   xmax <- max(step) + 1
-  if (min(aic) < 0) {
-    ymin <- min(aic) + (min(aic) * 0.05)
-    ymax <- max(aic) - (max(aic) * 0.05)
-  } else {
-    ymin <- min(aic) - (min(aic) * 0.05)
-    ymax <- max(aic) + (max(aic) * 0.05)
-  }
+  # pad each end outward by 5% of its own magnitude; values that cross zero
+  # (e.g. AIC from -10 to 100) previously clipped the upper end (audit F13)
+  ymin <- min(aic) - abs(min(aic)) * 0.05
+  ymax <- max(aic) + abs(max(aic)) * 0.05
   d2   <- data.frame(x = step, y = aic, tx = pred)
   d    <- data.frame(a = step, b = aic)
 
