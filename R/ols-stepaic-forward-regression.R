@@ -5,6 +5,8 @@
 #' entering predictors based on akaike information criterion, in a stepwise
 #' manner until there is no variable left to enter any more.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}.
 #' @param include Character or numeric vector; variables to be included in selection process.
 #' @param exclude Character or numeric vector; variables to be excluded from selection process.
@@ -118,7 +120,7 @@ plot.ols_step_forward_aic <- function(x, print_plot = TRUE, details = TRUE, digi
 #'
 #' @inheritParams ols_step_forward_aic
 #'
-#' @inherit ols_step_forward_aic return references
+#' @inherit ols_step_forward_aic return references details
 #'
 #' @examples
 #' # stepwise forward regression
@@ -207,7 +209,7 @@ plot.ols_step_forward_sbc <- function(x, print_plot = TRUE, details = TRUE, digi
 #' manner until there is no variable left to enter any more.
 #'
 #' @inheritParams ols_step_forward_aic
-#' @inherit ols_step_forward_aic return references
+#' @inherit ols_step_forward_aic return references details
 #'
 #' @examples
 #' # stepwise forward regression
@@ -296,7 +298,7 @@ plot.ols_step_forward_sbic <- function(x, print_plot = TRUE, details = TRUE, dig
 #' is no variable left to enter any more.
 #'
 #' @inheritParams ols_step_forward_aic
-#' @inherit ols_step_forward_aic return references
+#' @inherit ols_step_forward_aic return references details
 #'
 #' @examples
 #' # stepwise forward regression
@@ -385,7 +387,7 @@ plot.ols_step_forward_r2 <- function(x, print_plot = TRUE, details = TRUE, digit
 #' manner until there is no variable left to enter any more.
 #'
 #' @inheritParams ols_step_forward_aic
-#' @inherit ols_step_forward_aic return references
+#' @inherit ols_step_forward_aic return references details
 #'
 #' @examples
 #' # stepwise forward regression

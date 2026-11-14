@@ -16,6 +16,13 @@
 #'
 #' @param ... Other inputs.
 #'
+#' @details Refits accept explicit contrast matrices or the base contrast names
+#' `contr.treatment`, `contr.sum`, `contr.helmert`, `contr.poly` and `contr.SAS`
+#' (resolved from the stats namespace); models fitted with custom named contrast
+#' functions must be refitted with an explicit matrix, for example
+#' `contrasts = list(g = my_matrix)`. Refits carry the fitted model's frozen total
+#' offset as an argument with all formula `offset()` terms removed.
+#'
 #' @return \code{ols_regress} returns an object of class \code{"ols_regress"}.
 #' An object of class \code{"ols_regress"} is a list containing the following
 #' components:

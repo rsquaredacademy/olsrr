@@ -5,6 +5,8 @@
 #' regressors, and so on. It tests all possible subsets of the set of potential
 #' independent variables.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}.
 #' @param max_order Maximum subset order.
 #' @param force logical; if \code{TRUE}, allows the combinatorial subset search to
@@ -274,6 +276,8 @@ part_3 <- function(k, var, i) {
 #'
 #' Returns the coefficients for each variable from each model.
 #'
+#' @inherit ols_regress details
+#'
 #' @param object An object of class \code{lm}.
 #' @param ... Other arguments.
 #'
@@ -287,6 +291,9 @@ part_3 <- function(k, var, i) {
 #' it is not available for weighted models (the subset fits would silently drop
 #' the weights) or for models without an intercept. Both cases stop with an
 #' informative error.
+#' Custom named contrast functions must be supplied as explicit contrast
+#' matrices when fitting the input model; base contrast names are resolved from
+#' the stats namespace before refitting.
 #'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)

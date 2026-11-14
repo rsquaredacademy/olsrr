@@ -5,6 +5,8 @@
 #' removing predictors based on akaike information criterion, in a stepwise
 #' manner until there is no variable left to remove any more.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
 #' @param include Character or numeric vector; variables to be included in selection process.
@@ -113,7 +115,7 @@ plot.ols_step_backward_aic <- function(x, print_plot = TRUE, details = TRUE, dig
 #'
 #' @inheritParams ols_step_backward_aic
 #'
-#' @inherit ols_step_backward_aic return references
+#' @inherit ols_step_backward_aic return references details
 #'
 #' @examples
 #' # stepwise backward regression
@@ -198,7 +200,7 @@ plot.ols_step_backward_sbc <- function(x, print_plot = TRUE, details = TRUE, dig
 #'
 #' @inheritParams ols_step_backward_aic
 #'
-#' @inherit ols_step_backward_aic return references
+#' @inherit ols_step_backward_aic return references details
 #'
 #' @examples
 #' # stepwise backward regression
@@ -283,7 +285,7 @@ plot.ols_step_backward_sbic <- function(x, print_plot = TRUE, details = TRUE, di
 #'
 #' @inheritParams ols_step_backward_aic
 #'
-#' @inherit ols_step_backward_aic return references
+#' @inherit ols_step_backward_aic return references details
 #'
 #' @examples
 #' # stepwise backward regression
@@ -362,7 +364,7 @@ plot.ols_step_backward_r2 <- function(x, print_plot = TRUE, details = TRUE, digi
 #'
 #' @inheritParams ols_step_backward_aic
 #'
-#' @inherit ols_step_backward_aic return references
+#' @inherit ols_step_backward_aic return references details
 #'
 #' @examples
 #' # stepwise backward regression

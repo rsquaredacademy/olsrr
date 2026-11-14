@@ -714,26 +714,18 @@ ols_sort_metrics <- function(data, criteria) {
 }
 
 # build a model formula from a response and candidate term labels, preserving
-# the intercept, the offsets and the formula environment of the original model
+# the intercept and formula environment of the original model. Offsets are
+# carried as the frozen total in ols_step_lm(), never re-evaluated in the formula.
 ols_step_formula <- function(response, predictors, model = NULL) {
 
   predictors <- unique(predictors)
   int        <- 1L
-  off_lbl    <- character(0)
 
   if (!is.null(model)) {
-    int     <- attr(model$terms, "intercept")
-    off_idx <- attr(model$terms, "offset")
-
-    if (length(off_idx) > 0) {
-      vars    <- as.list(attr(model$terms, "variables"))[-1]
-      off_lbl <- vapply(vars[off_idx], function(x) {
-        paste(deparse(x), collapse = "")
-      }, character(1))
-    }
+    int <- attr(model$terms, "intercept")
   }
 
-  rhs <- c(if (int == 0) "0", predictors, off_lbl)
+  rhs <- c(if (int == 0) "0", predictors)
   rhs <- if (length(rhs) > 0) paste(rhs, collapse = " + ") else "1"
 
   form <- as.formula(paste(response, "~", rhs))
@@ -750,17 +742,19 @@ ols_step_formula <- function(response, predictors, model = NULL) {
 }
 
 # fit a candidate model, carrying any offset of the original model on the rows
-# used by it. offset() terms of the formula are kept in the candidate formula;
-# the part supplied through the model call is added separately, so a model with
-# both keeps both.
+# used by it. The candidate formula has no offset() terms: the frozen total
+# is supplied separately, without subtracting and recovering contributions.
 ols_step_lm <- function(form, data, model = NULL) {
 
   args <- list(formula = form, data = data)
 
   if (!is.null(model)) {
-    off <- model_call_offset(model, data)
+    off <- stats::model.offset(model$model)
 
-    if (!is.null(off) && length(off) == nrow(as.data.frame(data))) {
+    if (!is.null(off)) {
+      if (length(off) != nrow(as.data.frame(data))) {
+        stop("the model offset cannot be carried unchanged; refit the model.", call. = FALSE)
+      }
       args$offset <- off
     }
 
@@ -787,7 +781,14 @@ ols_step_final_model <- function(model, response, predictors, data) {
   form <- ols_step_formula(response, predictors, model)
   final_model <- ols_step_lm(form, data, model)
   final_model$call$formula <- form
-  final_model$call$offset  <- model$call$offset
+  # Keep the frozen total in the call too, so later validation/prediction does
+  # not restore only the original call contribution of a mixed-offset fit.
+  # Its length is the fitted row count: retain the refit's data and omit the
+  # original subset, rather than subsetting that frozen vector a second time.
+  if (!is.null(stats::model.offset(model$model))) {
+    return(final_model)
+  }
+  final_model$call$offset <- model$call$offset
   if (!is.null(model$call$data)) {
     final_model$call$data <- model$call$data
   }

@@ -52,6 +52,14 @@ Fits all regressions involving one regressor, two regressors, three
 regressors, and so on. It tests all possible subsets of the set of potential
 independent variables.
 }
+\details{
+Refits accept explicit contrast matrices or the base contrast names
+\code{contr.treatment}, \code{contr.sum}, \code{contr.helmert}, \code{contr.poly} and \code{contr.SAS}
+(resolved from the stats namespace); models fitted with custom named contrast
+functions must be refitted with an explicit matrix, for example
+\code{contrasts = list(g = my_matrix)}. Refits carry the fitted model's frozen total
+offset as an argument with all formula \code{offset()} terms removed.
+}
 \examples{
 model <- lm(mpg ~ disp + hp, data = mtcars)
 k <- ols_step_all_possible(model)

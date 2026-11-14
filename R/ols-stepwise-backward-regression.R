@@ -5,6 +5,8 @@
 #' removing predictors based on p values, in a stepwise manner until there is
 #' no variable left to remove any more.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
 #' @param p_val p value; variables with p more than \code{p_val} will be removed

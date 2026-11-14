@@ -5,6 +5,8 @@
 #' entering and removing predictors based on akaike information criteria, in a
 #' stepwise manner until there is no variable left to enter or remove any more.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}.
 #' @param include Character or numeric vector; variables to be included in selection process.
 #' @param exclude Character or numeric vector; variables to be excluded from selection process.
@@ -123,7 +125,7 @@ plot.ols_step_both_aic <- function(x, print_plot = TRUE, details = TRUE, digits 
 #'
 #' @inheritParams ols_step_both_aic
 #'
-#' @inherit ols_step_both_aic return references
+#' @inherit ols_step_both_aic return references details
 #'
 #' @examples
 #' \donttest{
@@ -218,7 +220,7 @@ plot.ols_step_both_sbc <- function(x, print_plot = TRUE, details = TRUE, digits 
 #'
 #' @inheritParams ols_step_both_aic
 #'
-#' @inherit ols_step_both_aic return references
+#' @inherit ols_step_both_aic return references details
 #'
 #' @examples
 #' \donttest{
@@ -313,7 +315,7 @@ plot.ols_step_both_sbic <- function(x, print_plot = TRUE, details = TRUE, digits
 #'
 #' @inheritParams ols_step_both_aic
 #'
-#' @inherit ols_step_both_aic return references
+#' @inherit ols_step_both_aic return references details
 #'
 #' @examples
 #' \donttest{
@@ -408,7 +410,7 @@ plot.ols_step_both_r2 <- function(x, print_plot = TRUE, details = TRUE, digits =
 #'
 #' @inheritParams ols_step_both_aic
 #'
-#' @inherit ols_step_both_aic return references
+#' @inherit ols_step_both_aic return references details
 #'
 #' @examples
 #' \donttest{

@@ -87,6 +87,7 @@ test_that("backward and both-direction selection preserve intercepts and offsets
     mo <- lm(mpg ~ wt + hp + offset(qsec), mtcars)
     ko <- fn(mo)
     expect_equal(length(ko$model$offset), 32L)
-    expect_equal(coef(ko$model), coef(lm(formula(ko$model), data = mtcars)))
+    expect_equal(coef(ko$model), coef(lm(formula(ko$model), data = mtcars,
+                                        offset = model.offset(model.frame(mo)))))
   }
 })

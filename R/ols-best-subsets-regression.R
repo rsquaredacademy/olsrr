@@ -5,6 +5,8 @@
 #' smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
 #' model is R2 but the user can choose any of the other available metrics.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}.
 #' @param max_order Maximum subset order.
 #' @param include Character or numeric vector; variables to be included in selection process.

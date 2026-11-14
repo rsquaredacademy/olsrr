@@ -49,6 +49,14 @@ well-defined objective criterion, such as having the largest R2 value or the
 smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
 model is R2 but the user can choose any of the other available metrics.
 }
+\details{
+Refits accept explicit contrast matrices or the base contrast names
+\code{contr.treatment}, \code{contr.sum}, \code{contr.helmert}, \code{contr.poly} and \code{contr.SAS}
+(resolved from the stats namespace); models fitted with custom named contrast
+functions must be refitted with an explicit matrix, for example
+\code{contrasts = list(g = my_matrix)}. Refits carry the fitted model's frozen total
+offset as an argument with all formula \code{offset()} terms removed.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_step_best_subset(model)

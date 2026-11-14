@@ -41,7 +41,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
   # standardised betas
   int <- attr(model$terms, "intercept")
 
-  if ((ncol(model.matrix(model)) - int) < 1) {
+  if ((ncol(model_refit_matrix(model)) - int) < 1) {
 
     # intercept-only model: no predictors to standardise
     sbetas <- numeric(0)
@@ -58,9 +58,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
     if (!is.null(model$weights)) {
       fit_args$weights <- unname(model$weights)
     }
-    # the formula offset terms are kept in the formula and the call offset (the
-    # part not already in the formula) is supplied separately, so neither is
-    # dropped and neither is counted twice
+    # Carry the frozen total with no offset terms in the refit formula.
     if (!is.null(sc$offset)) {
       fit_args$offset <- sc$offset
     }
@@ -93,7 +91,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", m
     # keep every coefficient when there is no intercept
     b        <- output$coef[, 1]
     names(b) <- rownames(output$coef)
-    g        <- as.data.frame(model.matrix(model))
+    g        <- as.data.frame(model_refit_matrix(model))
     if (int) {
       b <- b[-1]
       g <- g[, -1, drop = FALSE]
@@ -188,9 +186,6 @@ ols_scale_terms <- function(model, data) {
 
   fml     <- formula(model)
   labels  <- attr(model$terms, "term.labels")
-  off_idx <- attr(model$terms, "offset")
-  off_var <- as.list(attr(model$terms, "variables"))[-1][off_idx]
-  off_lbl <- vapply(off_var, function(x) paste(deparse(x), collapse = ""), character(1))
   resp    <- paste(deparse(fml[[2]]), collapse = "")
   env     <- environment(fml)
 
@@ -225,7 +220,7 @@ ols_scale_terms <- function(model, data) {
   reserved <- unique(c(
     names(d),
     unlist(lapply(d, levels), use.names = FALSE),
-    colnames(model.matrix(model))
+    colnames(model_refit_matrix(model))
   ))
 
   for (cmp in comps) {
@@ -284,25 +279,22 @@ ols_scale_terms <- function(model, data) {
     paste(parts, collapse = ":")
   }, character(1))
 
-  rhs <- c(if (attr(model$terms, "intercept") == 0) "0", new_labels, off_lbl)
+  rhs <- c(if (attr(model$terms, "intercept") == 0) "0", new_labels)
   if (length(rhs) == 0) {
     rhs <- "1"
   }
 
   fml2 <- as.formula(paste(resp, "~", paste(rhs, collapse = " + ")), env = env)
 
-  # offset supplied through the model call; the offset() terms of the original
-  # formula stay in the refit formula, where they are evaluated on the original
-  # columns and never standardised
-  off <- model_call_offset(model, d)
+  # model.offset() preserves the fit's ordered additions, including cancellation.
+  off <- stats::model.offset(model$model)
 
   if (!is.null(off) && length(off) != nrow(d)) {
-    off <- NULL
+    stop("the model offset cannot be carried unchanged; refit the model.", call. = FALSE)
   }
 
   # factor terms keep their names in the refit formula, so the model's contrast
-  # specification can be passed through unchanged; without it the refit silently
-  # falls back to treatment contrasts
+  # matrices are resolved before refitting, independently of current options
   list(data = d, formula = fml2, map = map, offset = off,
        contrasts = model_contrasts(model, fml2))
 

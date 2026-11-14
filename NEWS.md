@@ -2,6 +2,9 @@
 
 ## Bug Fixes
 
+- `ols_regress()` and selection refits reject custom named contrast functions; fit with an explicit contrast matrix instead. Base contrast names are resolved from the stats namespace and refits use matrices, so changes to search-path functions or contrast options cannot change the fitted coding.
+- Standardized-beta and selection refits carry the fit's frozen total offset with formula offset terms removed, preserving cancelling formula and call offsets exactly instead of recovering a contribution by subtraction.
+- `ols_step_both_p()` with every term in `include` returns the included model with empty step metrics instead of failing.
 - The deleted-studentized-residual, standardized-residual, studentized-residual, Cook's D, DFFITS and DFBETAS plot data/plot functions now compute their influence measure on the positive-weight fit rows and map the original observation IDs back. Fits that combine zero prior weights with `na.action = na.exclude` no longer fail with a differing-row-count error, and their values and observation IDs agree with the same model fitted after removing the unused rows.
 - `ols_prep_rstudlev_data()` and `ols_plot_resid_lev()` compute the leverage threshold from the model rank rather than the number of coefficient slots, so adding an aliased predictor no longer raises the threshold and reclassifies genuine leverage points as "normal".
 - `ols_press()`, `ols_pred_rsq()` and the other leverage-based diagnostics stop with an error ("refit with qr = TRUE") for a model fitted with `qr = FALSE`, instead of rebuilding the projection from the design matrix. The fitted tolerance and pivot cannot be recovered from the call, and a rebuilt decomposition can span different columns than the fit and give a wrong PRESS; only the fit's own QR is used.
@@ -280,5 +283,3 @@ There were errors in the description of the values returned by some functions. T
 # olsrr 0.1.0
 
 First release.
-
-- `ols_step_both_p()` with every term in `include` returns the included model with empty step metrics instead of failing.

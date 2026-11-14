@@ -5,6 +5,8 @@
 #' entering predictors based on p values, in a stepwise manner until there is
 #' no variable left to enter any more.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
 #' @param p_val p value; variables with p value less than \code{p_val} will
