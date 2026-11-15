@@ -63,6 +63,7 @@ the defect while the package's selection decisions are stable.
 ```text
 Baseline: files 51; tests 406; passed 3353; failed 0; errors 0; warnings 0; skipped 0
 Final: files 52; tests 410; passed 3458; failed 0; errors 0; warnings 0; skipped 0
+After Claude's determinism test (dff637d, tests/testthat/test-step-determinism.R): files 53; tests 413; passed 3462 (ofxx14 L5)
 Original test-result summaries: all 406 rows identical (counts and outcome flags)
 Audit battery: 159 calls; differences 0
 Documented stepwise examples: 18 help pages; 150 selections; metrics, terms, coefficients identical
