@@ -81,7 +81,7 @@ test_that("selection keys merge last-bit differences on every platform (M4)", {
 })
 
 test_that("criterion improvements require distinct ten-digit keys (M2/M4)", {
-  # Audit p10-rsq3: two ulps must not count as an R-squared improvement.
+  # Audit p10-rsq3: last-bit changes must not count as an R-squared improvement.
   expect_false(ols_f_criteria("rsq", 0.2475087654506713252811, 1L,
                               0.2475087654506712975255))
   expect_false(ols_next_criteria("rsq", 0.2475087654506713252811, 1L,
