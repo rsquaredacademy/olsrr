@@ -1,11 +1,16 @@
 #' @importFrom stats model.matrix confint.lm
 #' @importFrom stats as.formula deviance
-reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
+reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model", model = NULL) {
 
-  model      <- lm(formula = formula, data = data)
+  if (is.null(model)) {
+    model <- lm(formula = formula, data = data)
+  }
   nam        <- names(model.frame(model))
   response   <- nam[1]
-  predictors <- nam[-1]
+
+  # a model frame adds synthetic columns for prior weights and offsets; neither
+  # is a predictor
+  predictors <- setdiff(nam[-1], synthetic_model_columns(model))
   output     <- summary(model)
   anovam     <- anova(model)
   dep        <- model.frame(model)[1]
@@ -16,7 +21,7 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   mse        <- ems
   rmse       <- sqrt(ems)
   cv         <- (output$sigma / mean(dep[[1]])) * 100
-  mae        <- mean(abs(residuals(model)))
+  mae        <- mean(abs(model_residuals_used(model)))
   aic        <- ols_aic(model)
   sbc        <- ols_sbc(model)
   sbic       <- ols_sbic(model, model)
@@ -34,49 +39,100 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   p          <- pf(f, model_df, error_df, lower.tail = F)
 
   # standardised betas
-  if (ncol(model.matrix(model)) < 2) {
+  int <- attr(model$terms, "intercept")
+
+  if ((ncol(model_refit_matrix(model)) - int) < 1) {
 
     # intercept-only model: no predictors to standardise
     sbetas <- numeric(0)
 
   } else if (iterm) {
 
-    data_scaled <- data
-    resp        <- unique(c(all.vars(formula)[1], nam[1]))
+    # standardise the modelled numeric terms and refit. Terms are standardised
+    # on the scale at which they enter the model (after any transformation),
+    # factor terms are left alone, and the response (which may be a call such
+    # as log(y)) and any offsets are carried through unchanged
+    sc  <- ols_scale_terms(model, data)
 
-    is_num    <- unname(unlist(lapply(data_scaled, is.numeric)))
-    is_num[names(data_scaled) %in% resp] <- FALSE
-    num_scale <- as.data.frame(lapply(data_scaled[, is_num, drop = FALSE], scale))
-    newdata   <- data_scaled[, !is_num, drop = FALSE]
-    if (ncol(num_scale) > 0) {
-      newdata <- cbind(newdata, num_scale)
+    fit_args <- list(formula = sc$formula, data = sc$data)
+    if (!is.null(model$weights)) {
+      fit_args$weights <- unname(model$weights)
     }
-    model2    <- lm(formula, data = newdata)
-    output2   <- summary(model2)
-    b         <- output2$coef[-1, 1]
-    g         <- as.data.frame(model.matrix(model2)[, -1])
-    sx        <- sapply(g, sd)
-    sy        <- sd(model.response(model.frame(model)))
-    sbeta     <- b * sx / sy
-    sbetas    <- sbeta
+    # Carry the frozen total with no offset terms in the refit formula.
+    if (!is.null(sc$offset)) {
+      fit_args$offset <- sc$offset
+    }
+    if (length(sc$contrasts) > 0) {
+      fit_args$contrasts <- sc$contrasts
+    }
+
+    model2  <- do.call(stats::lm, fit_args)
+    output2 <- summary(model2)
+    b       <- output2$coef[, 1]
+    names(b) <- rownames(output2$coef)
+    g       <- as.data.frame(model.matrix(model2))
+    if (int) {
+      b <- b[-1]
+      g <- g[, -1, drop = FALSE]
+    }
+
+    # align by name: aliased columns have no estimate
+    keep    <- names(b) %in% names(g)
+    b       <- b[keep]
+    g       <- g[, names(b), drop = FALSE]
+    sx      <- vapply(g, sd, numeric(1))
+    sy      <- sd(model.response(model.frame(model)))
+    sbeta   <- b * sx / sy
+    sbetas  <- sbeta
+    names(sbetas) <- ols_term_names(names(sbeta), sc$map)
 
   } else {
 
-    b        <- output$coef[-1, 1]
-    g        <- as.data.frame(model.matrix(model)[, -1])
-    sx       <- sapply(g, sd)
+    # keep every coefficient when there is no intercept
+    b        <- output$coef[, 1]
+    names(b) <- rownames(output$coef)
+    g        <- as.data.frame(model_refit_matrix(model))
+    if (int) {
+      b <- b[-1]
+      g <- g[, -1, drop = FALSE]
+    }
+
+    # align by name: aliased columns have no estimate
+    keep     <- names(b) %in% names(g)
+    b        <- b[keep]
+    g        <- g[, names(b), drop = FALSE]
+    sx       <- vapply(g, sd, numeric(1))
     sy       <- sapply(model$model[1], sd)
     sbeta    <- b * sx / sy
     sbetas   <- sbeta
 
   }
 
+  # coefficient table aligned by name; aliased coefficients have no estimate,
+  # standard error, t statistic or p-value
   betas      <- coefficients(model)
-  std_errors <- output$coefficients[, 2]
-  tvalues    <- output$coefficients[, 3]
-  pvalues    <- output$coefficients[, 4]
-  df         <- rep(1, n)
+  cf         <- output$coefficients
+  k          <- length(betas)
+  std_errors <- rep(NA_real_, k)
+  tvalues    <- rep(NA_real_, k)
+  pvalues    <- rep(NA_real_, k)
+  names(std_errors) <- names(tvalues) <- names(pvalues) <- names(betas)
+
+  idx        <- match(rownames(cf), names(betas))
+  ok         <- !is.na(idx)
+  std_errors[idx[ok]] <- cf[ok, 2]
+  tvalues[idx[ok]]    <- cf[ok, 3]
+  pvalues[idx[ok]]    <- cf[ok, 4]
+
   conf_lm    <- confint.lm(model, level = conf.level)
+  conf_full  <- matrix(NA_real_, k, 2L,
+                       dimnames = list(names(betas), colnames(conf_lm)))
+  cidx       <- match(rownames(conf_lm), names(betas))
+  cok        <- !is.na(cidx)
+  conf_full[cidx[cok], ] <- conf_lm[cok, , drop = FALSE]
+  conf_lm    <- conf_full
+
+  df         <- rep(1, n)
   mvars      <- names(model$coefficients)
 
 
@@ -118,4 +174,145 @@ reg_comp <- function(formula, data, conf.level = 0.95, iterm, title = "model") {
   )
 
   return(result)
+}
+
+# Data and formula for the standardised-beta refit of a model with interaction
+# terms. Each numeric component of the model terms is standardised on the scale
+# at which it enters the model (so log(wt) is standardised after the
+# transformation), factor components are left untouched, and offsets are
+# carried through unchanged. `map` maps the substituted column names back to the
+# original term components.
+ols_scale_terms <- function(model, data) {
+
+  fml     <- formula(model)
+  labels  <- attr(model$terms, "term.labels")
+  resp    <- paste(deparse(fml[[2]]), collapse = "")
+  env     <- environment(fml)
+
+  if (is.null(env)) {
+    env <- parent.frame()
+  }
+
+  d <- as.data.frame(data)
+
+  # Term structure comes from the terms object, never from splitting deparsed
+  # term labels: a colon inside a (backticked) variable name is not an
+  # interaction operator. `factors` has one row per variable of the formula and
+  # one column per term, so a term is rebuilt from the variables it contains.
+  factors <- attr(model$terms, "factors")
+  vars    <- rownames(factors)
+  comps   <- vars[rowSums(factors) > 0]
+
+  # the response is never standardised: it stays in the refit formula exactly
+  # as written and is evaluated on the original columns, which are never
+  # overwritten. A raw variable that is a component of a transformed response
+  # can therefore still be standardised where it occurs as a predictor. An
+  # offset variable is standardised too: the offset is carried as a frozen
+  # vector evaluated on the original columns, while the predictor occurrence is
+  # a separate column of the refit design.
+  map <- character(0)
+
+  # placeholders are translated back to term names by textual substitution, so
+  # they must not occur anywhere in an original coefficient label. A factor
+  # level can itself contain text that looks like a placeholder; choose a
+  # placeholder that is not a substring of any data name, factor level or
+  # model-matrix column so only the generated structural names are rewritten.
+  reserved <- unique(c(
+    names(d),
+    unlist(lapply(d, levels), use.names = FALSE),
+    colnames(model_refit_matrix(model))
+  ))
+
+  for (cmp in comps) {
+
+    val <- tryCatch(
+      eval(parse(text = cmp), envir = d, enclos = env),
+      error = function(e) e
+    )
+
+    # a term that cannot be evaluated in the model data cannot be standardised;
+    # returning betas from a model with that term left unscaled would be wrong
+    if (inherits(val, "error")) {
+      stop(paste0("standardised betas are not available: the model term `", cmp,
+                  "` could not be evaluated in the model data (",
+                  conditionMessage(val), ")."), call. = FALSE)
+    }
+
+    # factors, characters and other non-numeric terms are left alone
+    if (!is.numeric(val)) {
+      next
+    }
+
+    if (!is.null(dim(val))) {
+      stop("standardised betas are not available for matrix terms such as poly() in models with interactions.", call. = FALSE)
+    }
+
+    if (length(val) != nrow(d)) {
+      next
+    }
+
+    # a constant term has no scale to standardise; it is aliased anyway
+    sv <- tryCatch(stats::sd(val), error = function(e) NA_real_)
+    if (!is.finite(sv) || sv == 0) {
+      next
+    }
+
+    # fixed-width suffixes keep the placeholders from being prefixes of one
+    # another, so mapping coefficient names back cannot hit a partial name.
+    # Skip any placeholder that already occurs inside an original label.
+    i   <- length(map) + 1L
+    new <- sprintf(".ols_sb_%04d", i)
+    while (new %in% names(d) || any(grepl(new, reserved, fixed = TRUE))) {
+      i   <- i + 1L
+      new <- sprintf(".ols_sb_%04d", i)
+    }
+
+    d[[new]]   <- as.numeric(scale(val))
+    map[new]   <- cmp
+
+  }
+
+  new_labels <- vapply(seq_along(labels), function(j) {
+    parts <- vars[factors[, j] > 0]
+    idx   <- match(parts, unname(map))
+    parts[!is.na(idx)] <- names(map)[idx[!is.na(idx)]]
+    paste(parts, collapse = ":")
+  }, character(1))
+
+  rhs <- c(if (attr(model$terms, "intercept") == 0) "0", new_labels)
+  if (length(rhs) == 0) {
+    rhs <- "1"
+  }
+
+  fml2 <- as.formula(paste(resp, "~", paste(rhs, collapse = " + ")), env = env)
+
+  # model.offset() preserves the fit's ordered additions, including cancellation.
+  off <- stats::model.offset(model$model)
+
+  if (!is.null(off) && length(off) != nrow(d)) {
+    stop("the model offset cannot be carried unchanged; refit the model.", call. = FALSE)
+  }
+
+  # factor terms keep their names in the refit formula, so the model's contrast
+  # matrices are resolved before refitting, independently of current options
+  list(data = d, formula = fml2, map = map, offset = off,
+       contrasts = model_contrasts(model, fml2))
+
+}
+
+# Translate the refitted coefficient names back to the original term labels.
+# The placeholders never contain a colon and never prefix one another, so a
+# colon inside a variable name is never mistaken for an interaction.
+ols_term_names <- function(nms, map) {
+
+  if (length(map) == 0) {
+    return(nms)
+  }
+
+  for (ph in names(map)) {
+    nms <- gsub(ph, unname(map[[ph]]), nms, fixed = TRUE)
+  }
+
+  nms
+
 }

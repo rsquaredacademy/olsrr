@@ -5,10 +5,45 @@ check_model <- function(model) {
   }
 }
 
+check_weights <- function(model, fn = as.character(sys.call(-1)[[1]])) {
+  check_model(model)
+  if (!is.null(model$weights) && any(model$weights != 1)) {
+    fn_name <- if (is.character(fn)) fn else deparse(fn)
+    fn_name <- sub(".*::", "", fn_name)
+    fn_name <- sub("\\(.*", "", fn_name)
+    stop(paste0("weighted models are not supported by ", fn_name, "; fit without weights or use step()"), call. = FALSE)
+  }
+}
+
+# Diagnostics that refit auxiliary models from the model matrix are only valid
+# for the model they were fitted with; without the weights those refits are
+# silently unweighted.
+check_weights_diagnostic <- function(model, fn) {
+  if (!is.null(model$weights) && any(model$weights != 1)) {
+    stop(paste0(fn, "() is not available for weighted models."), call. = FALSE)
+  }
+}
+
 check_order <- function(n, max_order) {
   if (max_order > n) {
     stop("Maximum subset order should be less than or equal to the number of predictors in the specified model.", call. = FALSE)
   }
+}
+
+# Heteroskedasticity tests need at least one direction in the auxiliary
+# regression beyond the intercept. A constant or fully aliased regressor leaves
+# none: the statistic then has zero degrees of freedom, and a zero-degrees-of-
+# freedom chi-squared tail reports p = 0 (or p = 1) for a statistic that the
+# data do not define.
+check_aux_rank <- function(rank, fn) {
+
+  if (rank < 2L) {
+    stop(paste0(fn, "(): the auxiliary regression has no tested direction beyond",
+                " the intercept, so the test statistic is undefined. The selected",
+                " predictor(s) are constant or fully aliased with the intercept."),
+         call. = FALSE)
+  }
+
 }
 
 check_logic <- function(logic) {
@@ -98,7 +133,7 @@ vars_columns <- function(model, vars) {
   mm     <- colnames(model.matrix(model))
   out    <- character(0)
 
-  for (v in vars) {
+  for (v in unique(vars)) {
     i <- match(v, terms)
     if (!is.na(i)) {
       out <- c(out, mm[assign == i])
@@ -107,6 +142,6 @@ vars_columns <- function(model, vars) {
     }
   }
 
-  out
+  unique(out)
 
 }

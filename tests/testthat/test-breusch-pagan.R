@@ -263,3 +263,89 @@ test_that("fitted.values = FALSE without vars or rhs throws an error", {
   expect_no_error(ols_test_breusch_pagan(model, fitted.values = FALSE, rhs = TRUE))
   expect_no_error(ols_test_breusch_pagan(model))
 })
+
+test_that("na.exclude and na.omit fits give the same Breusch-Pagan test (M5)", {
+  d <- mtcars
+  d$mpg[1] <- NA
+  me <- lm(mpg ~ disp + hp + wt, d, na.action = na.exclude)
+  mo <- lm(mpg ~ disp + hp + wt, d, na.action = na.omit)
+
+  expect_equal(ols_test_breusch_pagan(me)$bp, ols_test_breusch_pagan(mo)$bp)
+  expect_equal(ols_test_breusch_pagan(me)$p, ols_test_breusch_pagan(mo)$p)
+  expect_equal(ols_test_breusch_pagan(me)$bp, 0.5508428, tolerance = 1e-6)
+
+  expect_equal(
+    ols_test_breusch_pagan(me, rhs = TRUE)$bp,
+    ols_test_breusch_pagan(mo, rhs = TRUE)$bp
+  )
+  expect_equal(
+    ols_test_breusch_pagan(me, vars = c("disp", "hp"))$bp,
+    ols_test_breusch_pagan(mo, vars = c("disp", "hp"))$bp
+  )
+  expect_equal(
+    ols_test_breusch_pagan(me, rhs = TRUE, multiple = TRUE)$p,
+    ols_test_breusch_pagan(mo, rhs = TRUE, multiple = TRUE)$p
+  )
+})
+
+test_that("aliased predictors do not inflate the auxiliary degrees of freedom (H8)", {
+  d <- mtcars
+  d$hp2 <- 2 * d$hp
+  m <- lm(mpg ~ wt + hp + hp2, d)
+
+  b <- ols_test_breusch_pagan(m, vars = c("hp", "hp2"))
+  expect_equal(b$df, 1)
+  expect_equal(b$p, pchisq(b$bp, 1, lower.tail = FALSE))
+  expect_equal(b$p, 0.3115296, tolerance = 1e-6)
+
+  # duplicate and overlapping selections are de-duplicated
+  b1 <- ols_test_breusch_pagan(m, vars = "hp")
+  b2 <- ols_test_breusch_pagan(m, vars = c("hp", "hp"))
+  expect_equal(b2$bp, b1$bp)
+  expect_equal(b2$df, 1)
+
+  mf <- lm(mpg ~ factor(cyl) + hp, mtcars)
+  bf <- ols_test_breusch_pagan(mf, vars = c("factor(cyl)", "factor(cyl)6"))
+  expect_equal(bf$df, 2)
+  expect_equal(bf$p, pchisq(bf$bp, 2, lower.tail = FALSE))
+
+  # the printed simultaneous row reports the tested dimension
+  out  <- capture.output(print(ols_test_breusch_pagan(m, vars = c("hp", "hp2"), multiple = TRUE)))
+  sim  <- grep("simultaneous", out, value = TRUE)
+  expect_length(sim, 1)
+  expect_equal(as.integer(strsplit(trimws(sim), "[[:space:]]+")[[1]][3]), 1L)
+})
+
+test_that("an auxiliary design with no tested direction is rejected (H8)", {
+  d <- transform(mtcars, z = 1)
+  m <- lm(mpg ~ wt + hp + z, d)
+
+  # the audit case: a constant `vars` column supplied no direction beyond the
+  # auxiliary intercept, and a zero-degrees-of-freedom tail reported p = 0
+  expect_error(
+    ols_test_breusch_pagan(m, vars = "z"),
+    "no tested direction"
+  )
+
+  # every one-at-a-time row needs a direction of its own
+  expect_error(
+    ols_test_breusch_pagan(m, vars = c("wt", "z"), multiple = TRUE),
+    "no tested direction"
+  )
+
+  # the non-degenerate neighbours are unchanged
+  b <- ols_test_breusch_pagan(m, rhs = TRUE)
+  expect_equal(b$df, 2)
+  expect_equal(b$p, pchisq(b$bp, 2, lower.tail = FALSE))
+  expect_equal(b$bp, 1.0267659, tolerance = 1e-6)
+
+  bz <- ols_test_breusch_pagan(m, vars = "wt")
+  expect_equal(bz$df, 1)
+  expect_equal(bz$p, pchisq(bz$bp, 1, lower.tail = FALSE))
+
+  # an intercept-only model has no direction to test against its fitted values
+  expect_error(
+    ols_test_breusch_pagan(lm(mpg ~ 1, mtcars)),
+    "no tested direction"
+  )
+})

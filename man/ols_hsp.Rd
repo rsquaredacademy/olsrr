@@ -33,13 +33,13 @@ Hocking, R. R. (1976). “The Analysis and Selection of Variables in a Linear Re
 32:1–50.
 }
 \seealso{
-Other model selection criteria: 
-\code{\link{ols_aic}()},
-\code{\link{ols_apc}()},
-\code{\link{ols_fpe}()},
-\code{\link{ols_mallows_cp}()},
-\code{\link{ols_msep}()},
-\code{\link{ols_sbc}()},
-\code{\link{ols_sbic}()}
+Other model selection criteria:
+\code{\link[=ols_aic]{ols_aic()}},
+\code{\link[=ols_apc]{ols_apc()}},
+\code{\link[=ols_fpe]{ols_fpe()}},
+\code{\link[=ols_mallows_cp]{ols_mallows_cp()}},
+\code{\link[=ols_msep]{ols_msep()}},
+\code{\link[=ols_sbc]{ols_sbc()}},
+\code{\link[=ols_sbic]{ols_sbic()}}
 }
 \concept{model selection criteria}

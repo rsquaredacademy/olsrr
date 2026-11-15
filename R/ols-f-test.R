@@ -29,6 +29,9 @@
 #' @references
 #' Wooldridge, J. M. 2013. Introductory Econometrics: A Modern Approach. 5th ed. Mason, OH: South-Western.
 #'
+#' @details The test is not available for weighted models, because it refits
+#' auxiliary regressions that would ignore the model weights.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -55,11 +58,13 @@ ols_test_f <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ..
 ols_test_f.default <- function(model, fitted_values = TRUE, rhs = FALSE, vars = NULL, ...) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_test_f")
   check_logic(fitted_values)
   check_logic(rhs)
 
   if (length(vars) > 0) {
     check_modelvars(model, vars)
+    vars          <- unique(vars)
     fitted_values <- FALSE
   }
 
@@ -101,7 +106,7 @@ frhs <- function(nam, model, n, l) {
 
   np         <- length(nam)
   var_resid  <- (model_rss(model) / n) - 1
-  ind        <- (residuals(model) ^ 2) / var_resid
+  ind        <- (model_residuals_used(model) ^ 2) / var_resid
   l          <- cbind(l, ind)
   mdata      <- l[-1]
 
@@ -112,7 +117,7 @@ frhs <- function(nam, model, n, l) {
 fvar <- function(n, l, model, vars) {
 
   var_resid  <- (model_rss(model) / n) - 1
-  ind        <- (residuals(model) ^ 2) / var_resid
+  ind        <- (model_residuals_used(model) ^ 2) / var_resid
   mdata      <- l[-1]
   dl         <- mdata[, vars_columns(model, vars), drop = FALSE]
   dk         <- as.data.frame(cbind(ind, dl))
@@ -123,9 +128,9 @@ fvar <- function(n, l, model, vars) {
 
 ffit <- function(model) {
 
-  pred         <- fitted(model)
+  pred         <- model_fitted_used(model)
   pred_len     <- length(pred)
-  resid        <- model$residuals ^ 2
+  resid        <- model_residuals_used(model) ^ 2
   avg_resid    <- sum(resid) / pred_len
   scaled_resid <- resid / avg_resid
 

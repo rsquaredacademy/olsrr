@@ -5,6 +5,8 @@
 #' removing predictors based on p values, in a stepwise manner until there is
 #' no variable left to remove any more.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
 #' @param p_val p value; variables with p more than \code{p_val} will be removed
@@ -81,6 +83,8 @@ ols_step_backward_p <- function(model, ...) UseMethod("ols_step_backward_p")
 #' @rdname ols_step_backward_p
 #'
 ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, steps = NULL, ...) {
+
+  check_weights(model, "ols_step_backward_p")
 
   if (details) {
     progress <- FALSE
@@ -163,30 +167,24 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
         break
       }
 
-      m     <- lm(ols_step_formula(response, c(include, cterms)), data = l)
+      m     <- ols_step_lm(ols_step_formula(response, c(include, cterms), model), l, model)
       m_sum <- Anova(m)
       nm    <- length(m_sum$`F value`)
       fvals <- m_sum$`F value`[ppos:nm]
       pvals <- m_sum$`Pr(>F)`
-      min_f <- which(fvals == min(fvals, na.rm = TRUE))
-
-      len_minf <- length(min_f)
-
-      if (len_minf > 1) {
-        min_f <- min_f[1]
-      }
+      min_f <- ols_step_p_index(fvals, pvals[ppos:nm], entry = FALSE)
 
       minf <- min_f + ppos - 1
 
 
-        if (pvals[minf] > p_val) {
+        if (!is.na(min_f) && pvals[minf] > p_val) {
 
           drop_var <- cterms[min_f]
           step     <- step + 1
           rpred    <- c(rpred, drop_var)
           cterms   <- setdiff(cterms, drop_var)
           lp       <- length(rpred)
-          fr       <- ols_regress(ols_step_formula(response, c(include, cterms)), data = l)
+          fr       <- ols_step_fit(response, c(include, cterms), l, model)
           rsq    <- c(rsq, fr$rsq)
           arsq   <- c(arsq, fr$adjr)
           rss    <- c(rss, fr$rss)
@@ -228,7 +226,7 @@ ols_step_backward_p.default <- function(model, p_val = 0.3, include = NULL, excl
       ols_stepwise_vars(rpred, "backward")
     }
 
-    final_model <- lm(ols_step_formula(response, c(include, cterms)), data = l)
+    final_model <- ols_step_final_model(model, response, c(include, cterms), l)
 
     metrics     <- data.frame(step       = seq_len(step),
                               variable   = rpred,
@@ -267,6 +265,11 @@ print.ols_step_backward_p <- function(x, ...) {
 #' @rdname ols_step_backward_p
 #'
 plot.ols_step_backward_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
+
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been removed from the model.")
+    return(invisible(NULL))
+  }
 
   p1 <- ols_plot_stepwise(x, "r2", "R-Square", details, "backward")
   p2 <- ols_plot_stepwise(x, "adj_r2", "Adjusted R-Square", details, "backward")

@@ -59,3 +59,33 @@ test_that("bartlett test matches stats::bartlett.test when the variable has miss
 
 
 
+
+test_that("invalid group sizes give the same errors as bartlett.test() (L1)", {
+  expect_error(
+    ols_test_bartlett(data.frame(y = 1:3, g = "a"), "y", group_var = "g"),
+    "all observations are in the same group"
+  )
+  expect_error(
+    ols_test_bartlett(data.frame(y = 1:3, g = c("a", "a", "b")), "y", group_var = "g"),
+    "there must be at least 2 observations in each group"
+  )
+
+  # NA filtering happens before the check
+  expect_error(
+    ols_test_bartlett(
+      data.frame(y = c(1, 2, NA, 3), g = c("a", "a", "a", "b")),
+      "y",
+      group_var = "g"
+    ),
+    "there must be at least 2 observations in each group"
+  )
+
+  # a valid two-group comparison still matches base R
+  d  <- data.frame(y = c(1, 2, 3, 4, 8, 9), g = rep(c("a", "b"), each = 3))
+  bt <- stats::bartlett.test(y ~ g, d)
+  k  <- ols_test_bartlett(d, "y", group_var = "g")
+
+  expect_equal(k$df, unname(bt$parameter))
+  expect_equal(k$fstat, unname(bt$statistic))
+  expect_equal(k$pval, bt$p.value)
+})

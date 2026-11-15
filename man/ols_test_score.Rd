@@ -34,6 +34,15 @@ following components:
 Test for heteroskedasticity under the assumption that the errors are
 independent and identically distributed (i.i.d.).
 }
+\details{
+The test is not available for weighted models, because it refits
+auxiliary regressions that would ignore the model weights.
+
+A constant or fully aliased regressor supplies no direction to test beyond
+the auxiliary intercept, so the statistic has zero degrees of freedom and is
+undefined; the function then stops with an informative error instead of
+reporting a degenerate p value.
+}
 \examples{
 # model
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)
@@ -56,9 +65,9 @@ Cook, R. D. and Weisberg, S. (1983) Diagnostics for heteroscedasticity in regres
 Koenker, R. 1981. A note on studentizing a test for heteroskedasticity. Journal of Econometrics 17: 107–112.
 }
 \seealso{
-Other heteroskedasticity tests: 
-\code{\link{ols_test_bartlett}()},
-\code{\link{ols_test_breusch_pagan}()},
-\code{\link{ols_test_f}()}
+Other heteroskedasticity tests:
+\code{\link[=ols_test_bartlett]{ols_test_bartlett()}},
+\code{\link[=ols_test_breusch_pagan]{ols_test_breusch_pagan()}},
+\code{\link[=ols_test_f]{ols_test_f()}}
 }
 \concept{heteroskedasticity tests}

@@ -1,8 +1,8 @@
 Package: olsrr
 Type: Package
 Title: Tools for Building OLS Regression Models 
-Version: 0.7.0.9000
-Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
+Version: 0.7.1
+Authors@R: person("Aravind", "Hebbali", email = "aravindhebbali@rsquaredacademy.com", role = c("aut", "cre"))
 Description: Tools designed to make it easier for users, particularly beginner/intermediate R users 
     to build ordinary least squares regression models. Includes comprehensive regression output, 
     heteroskedasticity tests, collinearity diagnostics, residual diagnostics, measures of influence, 
@@ -32,5 +32,5 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.1

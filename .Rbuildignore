@@ -25,3 +25,5 @@ TODO.md
 ^roadmap$
 ^AGENTS\.md$
 ^tests/testthat/Rplots\.pdf$
+^\.git$
+^docs-dev$

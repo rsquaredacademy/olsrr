@@ -5,6 +5,8 @@
 #' regressors, and so on. It tests all possible subsets of the set of potential
 #' independent variables.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}.
 #' @param max_order Maximum subset order.
 #' @param force logical; if \code{TRUE}, allows the combinatorial subset search to
@@ -61,6 +63,7 @@ ols_step_all_possible <- function(model, ...) UseMethod("ols_step_all_possible")
 ols_step_all_possible.default <- function(model, max_order = NULL, force = FALSE, ...) {
 
   check_model(model)
+  check_weights(model, "ols_step_all_possible")
   check_npredictors(model, 2)
   check_force(model, force, max_order)
 
@@ -273,6 +276,8 @@ part_3 <- function(k, var, i) {
 #'
 #' Returns the coefficients for each variable from each model.
 #'
+#' @inherit ols_regress details
+#'
 #' @param object An object of class \code{lm}.
 #' @param ... Other arguments.
 #'
@@ -282,11 +287,17 @@ part_3 <- function(k, var, i) {
 #' \item{predictor}{predictor}
 #' \item{beta_coef}{coefficient for the predictor}
 #'
+#' @details The table is built by refitting every subset of the model terms, so
+#' it is not available for weighted models (the subset fits would silently drop
+#' the weights) or for models without an intercept. Both cases stop with an
+#' informative error.
+#' Custom named contrast functions must be supplied as explicit contrast
+#' matrices when fitting the input model; base contrast names are resolved from
+#' the stats namespace before refitting.
+#'
 #' @examples
-#' \dontrun{
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_step_all_possible_betas(model)
-#' }
 #'
 #' @export
 #'
@@ -296,8 +307,18 @@ ols_step_all_possible_betas <- function(object, ...) {
     stop("Please specify a OLS linear regression model.", call. = FALSE)
   }
 
-  if (length(object$coefficients) < 3) {
+  check_weights(object, "ols_step_all_possible_betas")
+
+  # count predictor terms, not coefficients: a no-intercept model with two
+  # predictors must reach the intercept check below rather than be reported as
+  # having too few predictors
+  if (length(attr(object$terms, "term.labels")) < 2) {
     stop("Please specify a model with at least 2 predictors.", call. = FALSE)
+  }
+
+  # the beta table attributes coefficients to models by their intercept rows
+  if (attr(object$terms, "intercept") == 0) {
+    stop("ols_step_all_possible_betas() requires a model with an intercept.", call. = FALSE)
   }
 
   metrics    <- allpos_helper(object)
@@ -331,26 +352,24 @@ allpos_helper <- function(model, max_order = NULL) {
 
   nam <- coeff_names(model)
   n   <- length(nam)
-  
-  r     <- seq_len(n)
-  combs <- list()
 
-  for (i in seq_len(n)) {
-    combs[[i]] <- combn(n, r[i])
-  }
-
+  # validate the requested order before allocating anything, and enumerate only
+  # the orders that will actually be fitted: the unbounded enumeration of every
+  # subset is what makes a bounded search run out of memory
   if (!is.null(max_order)) {
     check_order(n, max_order)
   }
 
-  if (is.null(max_order)) {
-    max_order <- n
+  lc    <- if (is.null(max_order)) n else max_order
+  r     <- seq_len(lc)
+  combs <- vector("list", lc)
+
+  for (i in seq_len(lc)) {
+    combs[[i]] <- combn(n, r[i])
   }
 
   pos_data  <- ols_model_data(model)
   predicts  <- nam
-  # lc        <- length(combs)
-  lc        <- max_order
   varnames  <- model_colnames(model)
   len_preds <- length(predicts)
   gap       <- len_preds - 1
@@ -384,7 +403,7 @@ allpos_helper <- function(model, max_order = NULL) {
       predictors <- nam[combs[[i]][, j]]
       lp         <- length(predictors)
 
-      out <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = pos_data)
+      out <- ols_step_fit(response, predictors, pos_data, model)
 
       mcount            <- mcount + 1
       lpreds[mcount]    <- lp

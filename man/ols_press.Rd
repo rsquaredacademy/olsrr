@@ -21,6 +21,12 @@ The prediction sum of squares (PRESS) is the sum of squares of the prediction
 error. Each fitted to obtain the predicted value for the ith observation. Use
 PRESS to assess your model's predictive ability. Usually, the smaller the
 PRESS value, the better the model's predictive ability.
+
+For models fitted with prior weights, PRESS is the weighted sum of squared
+deleted residuals, \eqn{\sum w_i (e_i / (1 - h_i))^2}. It therefore scales
+with the weights: multiplying every weight by a constant multiplies PRESS by
+the same constant. Unweighted models are the special case where every weight
+equals one.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
@@ -32,9 +38,9 @@ Kutner, MH, Nachtscheim CJ, Neter J and Li W., 2004, Applied Linear Statistical 
 Chicago, IL., McGraw Hill/Irwin.
 }
 \seealso{
-Other influence measures: 
-\code{\link{ols_hadi}()},
-\code{\link{ols_leverage}()},
-\code{\link{ols_pred_rsq}()}
+Other influence measures:
+\code{\link[=ols_hadi]{ols_hadi()}},
+\code{\link[=ols_leverage]{ols_leverage()}},
+\code{\link[=ols_pred_rsq]{ols_pred_rsq()}}
 }
 \concept{influence measures}

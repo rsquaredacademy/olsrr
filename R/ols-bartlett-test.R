@@ -79,8 +79,20 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
 
   groupvars <- droplevels(as.factor(groupvars))
   comp      <- complete.cases(fdata, groupvars)
+  grp       <- droplevels(as.factor(groupvars[comp]))
+  counts    <- table(grp)
 
-  df    <- length(unique(groupvars[comp])) - 1
+  # the same validity rules as stats::bartlett.test(); without them the
+  # statistic is NaN/NA and the printed output looks like a real test result
+  if (length(counts) < 2L) {
+    stop("all observations are in the same group", call. = FALSE)
+  }
+
+  if (any(counts < 2L)) {
+    stop("there must be at least 2 observations in each group", call. = FALSE)
+  }
+
+  df    <- length(counts) - 1
   fstat <- bartlett_fstat(fdata, groupvars)
   pval  <- pchisq(fstat, df, lower.tail = FALSE)
 

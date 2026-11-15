@@ -22,6 +22,16 @@
 #' replicates for at least one of the values of the predictor x. This
 #' test generally only applies to datasets with plenty of replicates.
 #'
+#' The test is not available for weighted models, because the regression sum of
+#' squares would come from the weighted model while the lack of fit and pure
+#' error sums of squares are computed from unweighted residuals.
+#'
+#' A fixed offset (an `offset()` term in the formula or the `offset` argument of
+#' `lm()`) is known rather than estimated, so it is removed from the response
+#' before the sums of squares are split. The decomposition then applies to the
+#' offset-adjusted response and the error sum of squares equals
+#' `deviance(model)`; `mpred` holds the adjusted response.
+#'
 #' @return \code{ols_pure_error_anova} returns an object of class
 #' \code{"ols_pure_error_anova"}. An object of class \code{"ols_pure_error_anova"} is a
 #' list containing the following components:
@@ -68,10 +78,22 @@ ols_pure_error_anova.default <- function(model, ...) {
 
   check_model(model)
 
+  check_weights_diagnostic(model, "ols_pure_error_anova")
+
   ln <- length(coefficients(model))
 
   if (ln > 2) {
     stop("Lack of fit F test is available only for simple linear regression.", call. = FALSE)
+  }
+
+  # a constant or fully aliased predictor (and an intercept-only model) leaves
+  # no estimated direction beyond the intercept, so there is no regression sum
+  # of squares or regression F statistic to test
+  if (model$rank <= attr(model$terms, "intercept")) {
+    stop(paste0("ols_pure_error_anova(): the model has no tested direction beyond",
+                " the intercept, so the regression F test is undefined. The",
+                " predictor is constant or fully aliased with the intercept."),
+         call. = FALSE)
   }
 
   k <- peanova(model)
@@ -107,21 +129,31 @@ peanova <- function(model) {
   
   random_error <- sum(final$rerror)
 
-  rss      <- rss_model(model)
   ess      <- sum(lackoffit, random_error)
+  int      <- attr(model$terms, "intercept")
+  y        <- pea_frame(model)[[1]]
+
+  # the regression sum of squares is what the total leaves after the residual
+  # sum of squares. It cannot be read from row 1 of anova(): a no-intercept or
+  # fully aliased fit may have no regression row there.
+  rss      <- if (int) sum((y - mean(y)) ^ 2) - ess else sum(y ^ 2) - ess
   total    <- sum(ess, rss)
-  df_rss   <- 1
-  df_lof   <- nd - 2
+  df_rss   <- model$rank - int
+  df_ess   <- df.residual(model)
   df_error <- n - nd
-  df_ess   <- sum(df_lof, df_error)
+  df_lof   <- df_ess - df_error
   rms      <- rss / df_rss
   ems      <- ess / df_ess
-  lms      <- lackoffit / df_lof
+  lms      <- if (df_lof > 0) lackoffit / df_lof else NA_real_
   pms      <- if (df_error > 0) random_error / df_error else NA_real_
   rf       <- rms / ems
   lf       <- lms / pms
   pr       <- pf(rf, df_rss, df_ess, lower.tail = F)
-  pl       <- pf(lf, df_lof, df_error, lower.tail = F)
+  pl       <- if (df_lof > 0 && df_error > 0) {
+    pf(lf, df_lof, df_error, lower.tail = F)
+  } else {
+    NA_real_
+  }
 
   list(
     lackoffit = lackoffit, pure_error = random_error, rss = rss, ess = ess,
@@ -135,7 +167,7 @@ peanova <- function(model) {
 
 pea_data <- function(model) {
 
-  data      <- model.frame(model)
+  data      <- pea_frame(model)
   pred_name <- names(data)[2]
   resp      <- names(data)[1]
   pred_u    <- pred_table(model)
@@ -150,8 +182,28 @@ pea_data <- function(model) {
 
 }
 
+# model frame without the synthetic columns (weights and offsets) so that the
+# response and predictor are the first two columns. A fixed offset is known, so
+# it is removed from the response before the sums of squares are split: the
+# decomposition then holds for the adjusted response (and `ess` equals
+# `deviance(model)`), which it does not for the raw response because the offset
+# varies within replicated predictor values.
+pea_frame <- function(model) {
+
+  data <- model.frame(model)
+  data <- data[, setdiff(names(data), synthetic_model_columns(model)), drop = FALSE]
+  off  <- model$offset
+
+  if (!is.null(off) && length(off) == nrow(data)) {
+    data[[1]] <- data[[1]] - off
+  }
+
+  data
+
+}
+
 pred_table <- function(model) {
-  table(model.frame(model)[[2]])
+  table(pea_frame(model)[[2]])
 }
 
 pred_table_length <- function(model) {
@@ -166,11 +218,6 @@ predictor_mean <- function(data, pred_name, resp) {
 
 }
 
-rss_model <- function(model) {
-  anova(model)[1, 2]
-}
-
-
 replicate_mean <- function(mean_pred, pred_u) {
 
   out <- as.data.frame(rep(mean_pred[[2]], times = pred_u))
@@ -182,7 +229,17 @@ replicate_mean <- function(mean_pred, pred_u) {
 
 pea_data_comp <- function(data, model, mean_rep) {
 
-  data$yhat      <- fitted(model)
+  # fitted values of the rows used in the fit; fitted() pads na.exclude fits.
+  # The fixed offset is removed so that the response and the fitted values are
+  # on the same (offset-adjusted) scale.
+  yhat <- model_fitted_used(model)
+  off  <- model$offset
+
+  if (!is.null(off) && length(off) == length(yhat)) {
+    yhat <- yhat - off
+  }
+
+  data$yhat      <- yhat
   colnames(data) <- c("y", "pred", "yhat")
   data           <- data[order(data$pred), ]
   data           <- cbind(data, mean_rep)

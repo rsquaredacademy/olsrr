@@ -58,3 +58,175 @@ test_that("forward selection refits transformed responses safely (audit F1)", {
   expect_equal(coef(k$model), coef(lm(formula(k$model), data = mtcars)))
   expect_equal(k$model$df.residual, lm(formula(k$model), data = mtcars)$df.residual)
 })
+
+test_that("printing stepwise results with transformed terms works (audit F1)", {
+  # the printed Beta of `term` in the final model output table
+  beta_from_print <- function(out, term) {
+    lines <- trimws(out)
+    line  <- lines[startsWith(lines, term)][1]
+    rest  <- substring(line, nchar(term) + 1)
+    as.numeric(regmatches(rest, regexpr("-?[0-9]+\\.[0-9]+", rest)))
+  }
+
+  # the transformed term ends up in the final model of every procedure
+  models <- list(
+    "log"    = log(mpg) ~ disp + hp + wt + qsec,
+    "factor" = mpg ~ factor(cyl) + hp + wt + qsec,
+    "poly"   = mpg ~ poly(disp, 2) + hp + wt + qsec,
+    "I"      = mpg ~ I(disp/100) + hp + qsec
+  )
+
+  procedures <- c(
+    "ols_step_forward_p", "ols_step_backward_p", "ols_step_both_p",
+    "ols_step_forward_aic", "ols_step_backward_aic", "ols_step_both_aic",
+    "ols_step_forward_sbc", "ols_step_backward_sbc", "ols_step_both_sbc",
+    "ols_step_forward_sbic", "ols_step_backward_sbic", "ols_step_both_sbic",
+    "ols_step_forward_r2", "ols_step_backward_r2", "ols_step_both_r2",
+    "ols_step_forward_adj_r2", "ols_step_backward_adj_r2", "ols_step_both_adj_r2"
+  )
+
+  for (term in names(models)) {
+    model <- lm(models[[term]], data = mtcars)
+
+    for (procedure in procedures) {
+      k <- do.call(procedure, list(model))
+      expect_no_error(capture.output(print(k)))
+    }
+  }
+
+  # the printed coefficients are the estimates of the final model
+  k        <- ols_step_forward_p(lm(models[["log"]], data = mtcars))
+  out      <- capture.output(print(k))
+  ref      <- lm(formula(k$model), data = mtcars)
+  coefname <- names(coef(ref))[2]
+
+  expect_equal(
+    beta_from_print(out, coefname),
+    unname(round(coef(ref)[coefname], 3)),
+    tolerance = 1e-6
+  )
+})
+
+test_that("plot() of a 0-step forward_p result succeeds without error (#234)", {
+  d <- mtcars[1:5, ]
+  d$y <- 2 * d$disp + 3 * d$hp
+  m <- lm(y ~ disp + hp, data = d)
+
+  kf <- ols_step_forward_p(m)
+  expect_equal(nrow(kf$metrics), 0)
+  expect_no_error(plot(kf, print_plot = FALSE))
+
+  khf <- ols_step_forward_p(m, hierarchical = TRUE)
+  expect_equal(nrow(khf$metrics), 0)
+  expect_no_error(plot(khf, print_plot = FALSE))
+})
+
+test_that("ols_regress() and predict() work on stepwise final model with transformed terms (#246)", {
+  m <- lm(log(mpg) ~ disp + hp + wt, data = mtcars)
+  k <- ols_step_forward_p(m)
+
+  res <- ols_regress(k$model)
+  expect_equal(res$betas, coef(k$model))
+
+  out <- capture.output(print(res))
+  expect_true(any(grepl("Model Summary", out, fixed = TRUE)))
+  expect_true(any(grepl("Parameter Estimates", out, fixed = TRUE)))
+
+  expect_length(predict(k$model), 32)
+  expect_length(predict(k$model, newdata = data.frame(disp = 200, hp = 100, wt = 3)), 1)
+})
+
+test_that("stepwise routines give a clear error for non-model input", {
+  expect_error(
+    ols_step_forward_p(1),
+    "`model` must be an object of class `lm`",
+    fixed = TRUE
+  )
+})
+
+test_that("selection preserves the intercept and model offsets (H7)", {
+  # no-intercept model: the include-all result is the input fit
+  m <- lm(mpg ~ 0 + wt + hp, mtcars)
+  k <- ols_step_forward_aic(m, include = c("wt", "hp"))
+
+  expect_equal(attr(terms(k$model), "intercept"), 0)
+  expect_equal(coef(k$model), coef(m))
+
+  # no-intercept selection with candidates left explores no-intercept fits
+  m2 <- lm(mpg ~ 0 + wt + hp + disp, mtcars)
+  k2 <- ols_step_forward_aic(m2)
+  expect_equal(attr(terms(k2$model), "intercept"), 0)
+  sel <- attr(k2$model$terms, "term.labels")
+  expect_equal(coef(k2$model),
+               coef(lm(paste("mpg ~ 0 +", paste(sel, collapse = " + ")), mtcars)))
+
+  # inline offset: candidate fits and the final model keep the offset
+  mo <- lm(mpg ~ wt + hp + offset(qsec), mtcars)
+  ko <- ols_step_forward_aic(mo, include = c("wt", "hp"))
+
+  expect_equal(length(ko$model$offset), 32L)
+  expect_equal(coef(ko$model), coef(mo))
+  expect_equal(ko$model$offset, mo$offset)
+
+  # offset supplied to the model call behaves the same
+  mc <- lm(mpg ~ wt + hp, mtcars, offset = qsec)
+  kc <- ols_step_forward_aic(mc, include = c("wt", "hp"))
+
+  expect_equal(length(kc$model$offset), 32L)
+  expect_equal(coef(kc$model), coef(mc))
+  expect_equal(predict(kc$model), predict(mc))
+})
+
+test_that("selection keeps the model's contrast coding (H5)", {
+  m <- lm(mpg ~ factor(cyl) + hp, mtcars,
+          contrasts = list("factor(cyl)" = contr.sum))
+
+  k <- ols_step_forward_aic(m, include = c("factor(cyl)", "hp"))
+  expect_equal(names(coef(k$model)), names(coef(m)))
+  expect_equal(coef(k$model), coef(m))
+  expect_equal(predict(k$model), predict(m))
+
+  # a candidate fit also uses the contrasts, rather than dropping the factor
+  k2  <- ols_step_forward_aic(m)
+  sel <- attr(k2$model$terms, "term.labels")
+  ref <- lm(paste("mpg ~", paste(sel, collapse = " + ")), mtcars,
+            contrasts = list("factor(cyl)" = contr.sum))
+  expect_equal(coef(k2$model), coef(ref))
+})
+
+test_that("selection keeps mixed formula and call offsets (H6)", {
+  m  <- lm(mpg ~ wt * hp + offset(qsec), mtcars, offset = drat)
+  eq <- lm(mpg ~ wt * hp, mtcars, offset = qsec + drat)
+
+  # candidate metrics come from the same model, so both offset styles select
+  # the same terms with the same criteria at every step
+  k1 <- ols_step_forward_aic(m)
+  k2 <- ols_step_forward_aic(eq)
+  expect_equal(k1$metrics, k2$metrics)
+  expect_equal(coef(k1$model), coef(k2$model))
+
+  # include-all returns the input fit
+  k <- ols_step_forward_aic(m, include = c("wt", "hp", "wt:hp"))
+  expect_equal(coef(k$model), coef(m))
+  expect_equal(k$model$offset, m$offset)
+  expect_equal(predict(k$model), predict(m))
+  expect_equal(ols_aic(k$model), ols_aic(m))
+})
+
+test_that("selection keeps the formula environment of the input model (M1)", {
+  res <- local({
+    kk <- function(x) log(x)
+    mm <- lm(mpg ~ kk(wt) + hp, data = mtcars)
+    coef(ols_step_forward_aic(mm)$model)
+  })
+
+  expect_equal(unname(res), unname(coef(lm(mpg ~ log(wt) + hp, mtcars))))
+
+  # an external predictor vector also resolves in the formula environment
+  res2 <- local({
+    zz <- mtcars$disp
+    mm <- lm(mpg ~ wt + zz, data = mtcars)
+    coef(ols_step_forward_aic(mm)$model)
+  })
+  expect_equal(unname(res2), unname(coef(lm(mpg ~ wt + disp, mtcars))))
+})

@@ -43,6 +43,10 @@ coefficient when \strong{Y} is regressed on all variables including \strong{X}.
 A strong linear relationship in the added variable plot indicates the increased
 importance of the contribution of \strong{X} to the model already containing the
 other predictors.
+
+The plot is not available for weighted models, because the partial
+residuals are computed from auxiliary regressions that would ignore the
+weights.
 }
 \examples{
 model <- lm(mpg ~ disp + hp + wt, data = mtcars)

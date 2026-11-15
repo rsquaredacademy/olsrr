@@ -8,6 +8,8 @@
 #' @param model An object of class \code{lm}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
+#' @details The plot is not available for weighted models.
+#'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
@@ -25,6 +27,7 @@
 ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_plot_comp_plus_resid")
 
   pl      <- cpout(model)
   myplots <- list()

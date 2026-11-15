@@ -5,6 +5,8 @@
 #' entering predictors based on p values, in a stepwise manner until there is
 #' no variable left to enter any more.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
 #' @param p_val p value; variables with p value less than \code{p_val} will
@@ -87,6 +89,8 @@ ols_step_forward_p <- function(model, ...) UseMethod("ols_step_forward_p")
 #'
 ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclude = NULL, hierarchical = FALSE, progress = FALSE, details = FALSE, steps = NULL, ...) {
 
+  check_weights(model, "ols_step_forward_p")
+
   if (details) {
     progress <- FALSE
   }
@@ -139,6 +143,27 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     all_pred <- nam
     mlen_p   <- length(all_pred)
 
+    base_model <- ols_base_model(include, response, l, model)
+
+    if (mlen_p == 0) {
+      message("No candidate predictors left to enter.")
+      final_model <- ols_step_final_model(model, response, include, l)
+      out <- list(metrics = data.frame(step       = integer(0),
+                                        variable   = character(0),
+                                        r2         = numeric(0),
+                                        adj_r2     = numeric(0),
+                                        aic        = numeric(0),
+                                        sbc        = numeric(0),
+                                        sbic       = numeric(0),
+                                        mallows_cp = numeric(0),
+                                        rmse       = numeric(0)),
+                  model   = final_model,
+                  others  = list(base_model = base_model,
+                                 full_model = model))
+      class(out) <- "ols_step_forward_p"
+      return(out)
+    }
+
     step     <- 0
     ppos     <- step + 1 + length(include)
     preds    <- include
@@ -155,7 +180,6 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     sbc      <- c()
     rmse     <- c()
 
-    base_model <- ols_base_model(include, response, l)
     rsq_base   <- summary(base_model)$r.squared
 
     if (details) {
@@ -164,7 +188,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
     for (i in seq_len(mlen_p)) {
       predictors  <- unique(c(include, all_pred[i]))
-      m           <- lm(ols_step_formula(response, predictors), data = l)
+      m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
       m_sum       <- Anova(m)
       fvals[i]    <- m_sum$`F value`[ppos]
       pvals[i]    <- m_sum$`Pr(>F)`[ppos]
@@ -180,15 +204,9 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       ols_stepwise_table(d, all_pred, pvals, rsqvals, arsqvals, aicvals)
     }
 
-    maxf     <- which(fvals == max(fvals, na.rm = TRUE))
-    minp     <- which(pvals == min(pvals, na.rm = TRUE))
-    len_minp <- length(minp)
+    maxf <- ols_step_p_index(fvals, pvals)
 
-    if (len_minp > 1) {
-      minp <- minp[1]
-    }
-
-    if (pvals[minp] > p_val) {
+    if (is.na(maxf) || pvals[maxf] > p_val) {
       stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
     } else {
       if (progress) {
@@ -205,7 +223,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
         step   <- step + 1
         npreds <- preds[1:i]
-        fr     <- ols_regress(ols_step_formula(response, npreds), data = l)
+        fr     <- ols_step_fit(response, npreds, l, model)
         rsq    <- c(rsq, fr$rsq)
         adjrsq <- c(adjrsq, fr$adjr)
         aic    <- c(aic, ols_aic(fr$model))
@@ -228,7 +246,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     } else {
 
       step   <- step + 1
-      fr     <- ols_regress(ols_step_formula(response, preds), data = l)
+      fr     <- ols_step_fit(response, preds, l, model)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))
@@ -271,7 +289,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       for (i in seq_len(len_p)) {
 
         predictors  <- unique(c(preds, all_pred[i]))
-        m           <- lm(ols_step_formula(response, predictors), data = l)
+        m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
         m_sum       <- Anova(m)
         fvals[i]    <- m_sum$`F value`[ppos]
         pvals[i]    <- m_sum$`Pr(>F)`[ppos]
@@ -287,21 +305,14 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
         ols_stepwise_table(d, all_pred, pvals, rsqvals, arsqvals, aicvals)
       }
 
-      maxf  <- which(fvals == max(fvals, na.rm = TRUE))
-      minp  <- pvals[maxf]
-      len_minp <- length(minp)
+      maxf <- ols_step_p_index(fvals, pvals)
 
-      if (len_minp > 1) {
-        minp <- minp[1]
-        maxf <- maxf[1]
-      }
-
-      if (minp <= p_val) {
+      if (!is.na(maxf) && pvals[maxf] <= p_val) {
 
         step   <- step + 1
         preds  <- unique(c(preds, all_pred[maxf]))
         lpreds <- length(preds)
-        fr     <- ols_regress(ols_step_formula(response, preds), data = l)
+        fr     <- ols_step_fit(response, preds, l, model)
         rsq    <- c(rsq, fr$rsq)
         adjrsq <- c(adjrsq, fr$adjr)
         aic    <- c(aic, ols_aic(fr$model))
@@ -332,7 +343,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       ols_stepwise_vars(preds, "forward")
     }
 
-    final_model <- lm(ols_step_formula(response, preds), data = l)
+    final_model <- ols_step_final_model(model, response, preds, l)
 
     metrics     <- data.frame(step       = seq_len(step),
                               variable   = preds,
@@ -370,6 +381,11 @@ print.ols_step_forward_p <- function(x, ...) {
 #' @rdname ols_step_forward_p
 #'
 plot.ols_step_forward_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
+
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to the model.")
+    return(invisible(NULL))
+  }
 
   a <- NULL
 

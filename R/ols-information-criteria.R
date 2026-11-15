@@ -621,14 +621,16 @@ spout <- function(model) {
 
 #' Model data rows
 #'
-#' Returns the number of rows in the data used in the model.
+#' Returns the number of observations used in the model. For weighted models
+#' this excludes observations with zero prior weights, which `lm()` drops from
+#' the fit and `logLik()` excludes from the likelihood sample size.
 #'
 #' @param model An object of class \code{lm}.
 #'
 #' @noRd
 #'
 model_rows <- function(model) {
-  nrow(model.frame(model))
+  stats::nobs(model)
 }
 
 #' Model Coefficients
@@ -645,14 +647,16 @@ model_n_coeffs <- function(model) {
 
 #' Residual sum of squares
 #'
-#' Returns the residual sum of squares.
+#' Returns the residual sum of squares of the fitted model: `deviance()` honours
+#' the prior weights and drops observations with zero weights, unlike the raw
+#' (NA padded) residual vector.
 #'
 #' @param model An object of class \code{lm}.
 #'
 #' @noRd
 #'
 model_rss <- function(model) {
-  sum(residuals(model) ^ 2)
+  deviance(model)
 }
 
 #' Coefficients

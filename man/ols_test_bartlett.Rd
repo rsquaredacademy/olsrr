@@ -49,9 +49,9 @@ Snedecor, George W. and Cochran, William G. (1989), Statistical Methods,
 Eighth Edition, Iowa State University Press.
 }
 \seealso{
-Other heteroskedasticity tests: 
-\code{\link{ols_test_breusch_pagan}()},
-\code{\link{ols_test_f}()},
-\code{\link{ols_test_score}()}
+Other heteroskedasticity tests:
+\code{\link[=ols_test_breusch_pagan]{ols_test_breusch_pagan()}},
+\code{\link[=ols_test_f]{ols_test_f()}},
+\code{\link[=ols_test_score]{ols_test_score()}}
 }
 \concept{heteroskedasticity tests}

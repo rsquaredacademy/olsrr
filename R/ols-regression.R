@@ -6,7 +6,35 @@
 #'   that class): a symbolic description of the model to be fitted or class
 #'   \code{lm}.
 #'
+#' @param conf.level Confidence level for the confidence intervals of the
+#'   coefficients.
+#' @param iterm Logical; if \code{TRUE}, the predictors are scaled and centered
+#'   before computing the standardized betas. See \emph{Interaction Terms}
+#'   below.
+#' @param title Character; title of the model, printed as the header of the
+#'   parameter estimates table.
+#'
 #' @param ... Other inputs.
+#'
+#' @details Refits accept explicit contrast matrices or the base contrast names
+#' `contr.treatment`, `contr.sum`, `contr.helmert`, `contr.poly` and `contr.SAS`
+#' (resolved from the stats namespace); models fitted with custom named contrast
+#' functions must be refitted with an explicit matrix, for example
+#' `contrasts = list(g = my_matrix)`. Refits carry the fitted model's frozen total
+#' offset as an argument with all formula `offset()` terms removed for
+#' standardized-beta and selection computations. Returned stepwise models are
+#' fitted from the original call, preserving formula and argument offsets for
+#' prediction on new data. Their coefficients, fitted values and total offset
+#' must be identical to the frozen-offset selection fit; otherwise selection
+#' stops with an error because prediction with new data is not supported for
+#' that model.
+#'
+#' For non-hierarchical stepwise selection, candidate rankings and criterion
+#' improvement tests use 10 significant digits: values that agree to 10
+#' significant digits are ties, equal criterion values mean no improvement, and
+#' a remaining tie goes to the first candidate in formula order after any F tie
+#' is broken by p value (smaller for entry, larger for removal). P-value entry
+#' and removal cutoffs are compared without rounding.
 #'
 #' @return \code{ols_regress} returns an object of class \code{"ols_regress"}.
 #' An object of class \code{"ols_regress"} is a list containing the following
@@ -31,7 +59,7 @@
 #' \item{tss}{total sum of squares}
 #' \item{rms}{regression mean square}
 #' \item{ems}{error mean square}
-#' \item{f}{f statistis}
+#' \item{f}{f statistics}
 #' \item{p}{p-value for \code{f}}
 #' \item{n}{number of predictors including intercept}
 #' \item{betas}{betas; estimated coefficients}
@@ -49,7 +77,16 @@
 #'
 #' @section Interaction Terms:
 #' If the model includes interaction terms, the standardized betas
-#' are computed after scaling and centering the predictors.
+#' are computed after scaling and centering the predictors (with the model's
+#' prior weights when the model is weighted) and refitting the model.
+#'
+#' @section Weighted Models:
+#' Models fitted with \code{lm(..., weights = ...)} are supported. The reported
+#' estimates, standard errors, test statistics, confidence intervals and
+#' R-squared match \code{summary()}, \code{anova()} and \code{confint()}.
+#' Weights cannot be supplied through the formula interface; fit the model with
+#' \code{lm()} and pass the fitted model instead. Objects of class \code{glm}
+#' are not supported; use \code{lm()} or the formula interface.
 #'
 #' @references https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting%20Standardized%20Coefficients%20Right.pdf
 #'
@@ -71,6 +108,10 @@ ols_regress <- function(object, ...) UseMethod("ols_regress")
 #'
 ols_regress.default <- function(object, data, conf.level = 0.95,
                                 iterm = FALSE, title = "model", ...) {
+  if ("weights" %in% names(match.call(expand.dots = FALSE)$...)) {
+    stop("weights are not supported in ols_regress when using a formula; fit the model with lm() and pass the model instead.", call. = FALSE)
+  }
+
   if (missing(data)) {
     stop("data missing", call. = FALSE)
   }
@@ -109,14 +150,55 @@ ols_regress.default <- function(object, data, conf.level = 0.95,
 #' @rdname ols_regress
 #' @export
 #'
-ols_regress.lm <- function(object, ...) {
+ols_regress.lm <- function(object, conf.level = 0.95, iterm = FALSE,
+                           title = "model", ...) {
 
   check_model(object)
+
+  if (!is.null(object$family)) {
+    stop("ols_regress() supports only lm models; fit the model with lm() or use the formula interface instead.", call. = FALSE)
+  }
+
+  # reg_comp() needs the fit's own model frame and QR. A fit without them is
+  # rejected: refitting the call could use another environment, tolerance or
+  # data and report a different model than the one supplied. A rank-zero fit
+  # has no QR by construction and is accepted.
+  if (is.null(object$model) ||
+      (object$rank > 0L && (is.null(object$qr) || isFALSE(object$qr)))) {
+    stop("ols_regress() needs the model frame and QR of the fit; ",
+         "refit with lm(..., qr = TRUE, model = TRUE).", call. = FALSE)
+  }
 
   formula <- formula(object)
   data    <- ols_model_data(object)
 
-  ols_regress.default(object = formula, data = data)
+  if (!is.numeric(conf.level)) {
+    stop("conf.level must be numeric", call. = FALSE)
+  }
+
+  if ((conf.level < 0) | (conf.level > 1)) {
+    stop("conf.level must be between 0 and 1", call. = FALSE)
+  }
+
+  check_logic(iterm)
+
+  if (!is.character(title)) {
+    stop(paste(title, "is not a string, Please specify a string as title."), call. = FALSE)
+  }
+
+  if (inherits(formula, "formula")) {
+    detect_iterm <- grepl(formula, pattern = "\\*")[3]
+  } else {
+    detect_iterm <- grepl(formula, pattern = "\\*")
+  }
+
+  if (detect_iterm) {
+    iterm <- TRUE
+  }
+
+  result <- reg_comp(formula, data, conf.level, iterm, title, model = object)
+  class(result) <- "ols_regress"
+  return(result)
 
 }
 

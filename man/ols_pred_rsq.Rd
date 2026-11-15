@@ -17,15 +17,21 @@ Use predicted rsquared to determine how well the model predicts responses for
 new observations. Larger values of predicted R2 indicate models of greater
 predictive ability.
 }
+\details{
+Both the PRESS statistic and the total sum of squares use the
+model's prior weights, so predicted R-squared is invariant to a constant
+rescaling of the weights even though PRESS itself is not: PRESS is a weighted
+sum of squared deleted residuals and scales with the weights.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_pred_rsq(model)
 
 }
 \seealso{
-Other influence measures: 
-\code{\link{ols_hadi}()},
-\code{\link{ols_leverage}()},
-\code{\link{ols_press}()}
+Other influence measures:
+\code{\link[=ols_hadi]{ols_hadi()}},
+\code{\link[=ols_leverage]{ols_leverage()}},
+\code{\link[=ols_press]{ols_press()}}
 }
 \concept{influence measures}

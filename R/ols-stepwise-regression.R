@@ -5,6 +5,8 @@
 #' entering and removing predictors based on p values, in a stepwise manner
 #' until there is no variable left to enter or remove any more.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}; the model should include all
 #'   candidate predictor variables.
 #' @param p_enter p value; variables with p value less than \code{p_enter} will enter
@@ -32,7 +34,7 @@
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # stepwise regression
 #' model <- lm(y ~ ., data = surgical)
 #' ols_step_both_p(model)
@@ -78,6 +80,8 @@ ols_step_both_p <- function(model, ...) UseMethod("ols_step_both_p")
 #' @rdname ols_step_both_p
 #'
 ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, include = NULL, exclude = NULL, progress = FALSE, details = FALSE, steps = NULL, ...) {
+
+  check_weights(model, "ols_step_both_p")
 
   if (details) {
     progress <- FALSE
@@ -134,6 +138,27 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   mlen_p   <- length(all_pred)
   tech     <- c("addition", "removal")
 
+  # every term is locked into the model: nothing can enter or leave
+  if (mlen_p == 0) {
+    message("No candidate predictors left to enter.")
+    base_model  <- ols_base_model(include, response, l, model)
+    final_model <- ols_step_final_model(model, response, include, l)
+    out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                     method = character(0), r2 = numeric(0),
+                                     adj_r2 = numeric(0), aic = numeric(0),
+                                     sbc = numeric(0), sbic = numeric(0),
+                                     mallows_cp = numeric(0), rmse = numeric(0)),
+                model   = final_model,
+                others  = list(base_model = base_model,
+                               full_model = model,
+                               beta_pval  = data.frame(model = integer(0),
+                                                       predictor = character(0),
+                                                       beta = numeric(0),
+                                                       pval = numeric(0))))
+    class(out) <- "ols_step_both_p"
+    return(out)
+  }
+
   pvalues <- c()
   lbetas  <- c()
   betas   <- c()
@@ -153,7 +178,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
   fp      <- c()
   method  <- c()
 
-  base_model <- ols_base_model(include, response, l)
+  base_model <- ols_base_model(include, response, l, model)
   rsq_base   <- summary(base_model)$r.squared
 
   if (details) {
@@ -162,29 +187,22 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
 
   for (i in seq_len(mlen_p)) {
     predictors <- c(include, all_pred[i])
-    m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m          <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
     m_sum      <- Anova(m)
     fvals[i]   <- m_sum$`F value`[ppos]
     pvals[i]   <- m_sum$`Pr(>F)`[ppos]
   }
 
-  maxf     <- which(fvals == max(fvals, na.rm = TRUE))
-  minp     <- which(pvals == min(pvals, na.rm = TRUE))
-  len_minp <- length(minp)
+  maxf <- ols_step_p_index(fvals, pvals)
 
-  if (len_minp > 1) {
-    minp <- minp[1]
-    maxf <- maxf[1]
-  }
-
-  if (pvals[minp] > p_enter) {
+  if (is.na(maxf) || pvals[maxf] > p_enter) {
     stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
   }
 
   preds   <- c(preds, all_pred[maxf])
   lpreds  <- length(preds)
   step    <- step + 1
-  fr      <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+  fr      <- ols_step_fit(response, preds, l, model)
   rsq     <- c(rsq, fr$rsq)
   adjrsq  <- c(adjrsq, fr$adjr)
   cp      <- c(cp, ols_mallows_cp(fr$model, model))
@@ -230,22 +248,15 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
     for (i in seq_len(len_p)) {
 
       predictors <- c(preds, all_pred[i])
-      m          <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+      m          <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
       m_sum      <- Anova(m)
       fvals[i]   <- m_sum$`F value`[ppos]
       pvals[i]   <- m_sum$`Pr(>F)`[ppos]
     }
 
-    maxf  <- which(fvals == max(fvals, na.rm = TRUE))
-    minp  <- pvals[maxf]
-    len_minp <- length(minp)
+    maxf <- ols_step_p_index(fvals, pvals)
 
-    if (len_minp > 1) {
-      minp <- minp[1]
-      maxf <- maxf[1]
-    }
-
-    if (minp <= p_enter) {
+    if (!is.na(maxf) && pvals[maxf] <= p_enter) {
 
       preds     <- c(preds, all_pred[maxf])
       var_index <- c(var_index, all_pred[maxf])
@@ -253,7 +264,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       lpreds    <- length(preds)
       all_step  <- all_step + 1
       step      <- step + 1
-      fr        <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+      fr        <- ols_step_fit(response, preds, l, model)
       rsq       <- c(rsq, fr$rsq)
       adjrsq    <- c(adjrsq, fr$adjr)
       aic       <- c(aic, ols_aic(fr$model))
@@ -275,30 +286,23 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
       }
 
       # check p value of predictors previously added in above step
-      m2      <- lm(paste(response, "~", paste(preds, collapse = " + ")), l)
+      m2      <- ols_step_lm(ols_step_formula(response, preds, model), l, model)
       m2_sum  <- Anova(m2)
       len_inc <- length(include) + 1
       fvals_r <- m2_sum$`F value`[len_inc:lpreds]
       pvals_r <- m2_sum$`Pr(>F)`[len_inc:lpreds]
 
-      minf    <- which(fvals_r == min(fvals_r, na.rm = TRUE))
-      maxp    <- pvals_r[minf]
-      len_maxp <- length(maxp)
+      minf <- ols_step_p_index(fvals_r, pvals_r, entry = FALSE)
 
-      if (len_maxp > 1) {
-        maxp <- maxp[1]
-        minf <- minf[1]
-      }
+      if (!is.na(minf) && pvals_r[minf] > p_remove) {
 
-      if (maxp > p_remove) {
-
-        var_index <- c(var_index, preds[minf])
+        var_index <- c(var_index, preds[minf + length(include)])
         lvar      <- length(var_index)
         method    <- c(method, tech[2])
         preds     <- preds[-(minf + length(include))]
         all_step  <- all_step + 1
         ppos      <- ppos - length(minf)
-        fr        <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+        fr        <- ols_step_fit(response, preds, l, model)
         rsq       <- c(rsq, fr$rsq)
         adjrsq    <- c(adjrsq, fr$adjr)
         aic       <- c(aic, ols_aic(fr$model))
@@ -330,7 +334,7 @@ ols_step_both_p.default <- function(model, p_enter = 0.1, p_remove = 0.3, includ
     }
   }
 
-  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+  final_model <- ols_step_final_model(model, response, preds, l)
 
   metrics     <- data.frame(step       = seq_len(all_step),
                             variable   = var_index,
@@ -375,6 +379,11 @@ print.ols_step_both_p <- function(x, ...) {
 #' @rdname ols_step_both_p
 #'
 plot.ols_step_both_p <- function(x, model = NA, print_plot = TRUE, details = TRUE, ...) {
+
+  if (length(x$metrics$step) < 1) {
+    message("No variables have been added to or removed from the model.")
+    return(invisible(NULL))
+  }
 
   p1 <- ols_plot_stepwise(x, "r2", "R-Square", details, "both")
   p2 <- ols_plot_stepwise(x, "adj_r2", "Adj. R-Square", details, "both")

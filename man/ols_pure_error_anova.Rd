@@ -58,6 +58,16 @@ The lack of fit F test works only with simple linear regression.
 Moreover, it is important that the data contains repeat observations i.e.
 replicates for at least one of the values of the predictor x. This
 test generally only applies to datasets with plenty of replicates.
+
+The test is not available for weighted models, because the regression sum of
+squares would come from the weighted model while the lack of fit and pure
+error sums of squares are computed from unweighted residuals.
+
+A fixed offset (an \code{offset()} term in the formula or the \code{offset} argument of
+\code{lm()}) is known rather than estimated, so it is removed from the response
+before the sums of squares are split. The decomposition then applies to the
+offset-adjusted response and the error sum of squares equals
+\code{deviance(model)}; \code{mpred} holds the adjusted response.
 }
 \examples{
 model <- lm(mpg ~ disp, data = mtcars)
