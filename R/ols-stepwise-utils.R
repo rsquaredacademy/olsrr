@@ -838,7 +838,9 @@ ols_step_p_index <- function(fvals, pvals, entry = TRUE) {
   }
   f <- ols_tie_key(fvals[valid])
   f <- if (entry) -f else f
-  valid[order(f, ols_tie_key(pvals[valid]), valid)[1]]
+  p <- ols_tie_key(pvals[valid])
+  p <- if (entry) p else -p
+  valid[order(f, p, valid)[1]]
 }
 
 # always return a single index; candidate order breaks criterion ties

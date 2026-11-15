@@ -144,7 +144,7 @@ test_that("aliased candidates end selection without an empty-index crash (P04)",
 test_that("F ranking uses p then candidate order and ignores missing tests (P03/P04)", {
   expect_identical(ols_step_p_index(c(5, 5, 4), c(.2, .1, .01)), 2L)
   expect_identical(ols_step_p_index(c(5, 5, 4), c(.1, .1, .01)), 1L)
-  expect_identical(ols_step_p_index(c(2, 2, 4), c(.4, .3, .01), FALSE), 2L)
+  expect_identical(ols_step_p_index(c(2, 2, 4), c(.4, .3, .01), FALSE), 1L)
   expect_identical(ols_step_p_index(c(NA, 5), c(NA, .1)), 2L)
   expect_identical(ols_step_p_index(c(NA, NA), c(NA, NA)), NA_integer_)
   expect_identical(ols_step_p_index(c(Inf, 5), c(0, .1)), 1L)
