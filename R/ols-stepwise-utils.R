@@ -822,9 +822,9 @@ ols_zero_rss_stop <- function() {
   message("Residual sum of squares < 1e-10 (near-perfect fit). Variable selection stopped.")
 }
 
-# Compare statistics to 10 significant digits, so values that differ only by
-# floating-point noise (which varies across platforms and BLAS libraries) are
-# treated as ties and resolved by candidate order. Inf stays Inf.
+# Compare selection rankings and criterion improvements to 10 significant
+# digits; smaller differences (including genuine differences) are ties.
+# Ranking ties use candidate order after any F tie is broken by p. Inf stays Inf.
 ols_tie_key <- function(x) {
   signif(x, 10)
 }
@@ -863,9 +863,9 @@ ols_f_criteria <- function(criteria, mat, minc, bmetric) {
   }
 
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    isTRUE(mat[minc] < bmetric)
+    isTRUE(ols_tie_key(mat[minc]) < ols_tie_key(bmetric))
   } else {
-    isTRUE(mat[minc] > bmetric)
+    isTRUE(ols_tie_key(mat[minc]) > ols_tie_key(bmetric))
   }
 }
 
@@ -875,9 +875,9 @@ ols_next_criteria <- function(criteria, mat, minaic, laic, lpreds) {
   }
 
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    isTRUE(mat[minaic] < laic[lpreds])
+    isTRUE(ols_tie_key(mat[minaic]) < ols_tie_key(laic[lpreds]))
   } else {
-    isTRUE(mat[minaic] > laic[lpreds])
+    isTRUE(ols_tie_key(mat[minaic]) > ols_tie_key(laic[lpreds]))
   }
 }
 

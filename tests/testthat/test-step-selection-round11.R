@@ -91,8 +91,8 @@ test_that("tied removals and criterion selectors have one accurate row per step 
   d <- data.frame(y = d$z * 10 + d$e * 3 + (d$x1 + d$x2) / 4, d[1:3])
   m <- lm(y ~ x1 + x2 + z, d)
   f <- car::Anova(m)$`F value`
-  expect_identical(f[1], f[2])
-  expect_identical(ols_aic(lm(y ~ x2 + z, d)), ols_aic(lm(y ~ x1 + z, d)))
+  expect_equal(f[1], f[2], tolerance = 1e-12)
+  expect_equal(ols_aic(lm(y ~ x2 + z, d)), ols_aic(lm(y ~ x1 + z, d)), tolerance = 1e-12)
   k <- ols_step_backward_p(m, p_val = 0.05)
   expect_identical(k$metrics$variable, c("x1", "x2"))
   round11_check_history(k, d, c("x1", "x2", "z"), "backward")

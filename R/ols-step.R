@@ -384,18 +384,9 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
                rsq    = rsq,
                adjrsq = arsq)
 
-  if (grepl("rsq", criteria)) {
-    da3 <- cbind(loc = order(-mat), da2)  
-  } else {
-    da3 <- cbind(loc = order(mat), da2)
-  }
- 
-
   if (details) {
     ols_stepwise_metrics(da2, criteria, da2$predictors, aics, bics, sbics, rsq, arsq, "remove")
   }
-
-  linc <- length(include)
 
   if (progress) {
     ols_progress_init("backward")
@@ -411,17 +402,13 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
       break
     }
 
-    for (i in seq_len(linc)) {
-      lnam <- which(da3$predictors == include[i])
-      da3 <- da3[-lnam, ]
-    }
-
-    minc <- da3$loc[1]
+    eligible <- which(!preds %in% include)
+    minc <- eligible[ols_threshold(mat[eligible], criteria)]
     crit <- ols_f_criteria(criteria, mat, minc, base_metric)
 
     if (crit) {
 
-      drop_var <- da3$predictors[1]
+      drop_var <- preds[minc]
       rpred    <- c(rpred, drop_var)
       preds    <- setdiff(preds, drop_var)
       ilp      <- length(preds)
@@ -475,12 +462,6 @@ ols_step_backward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "ad
                sbic   = sbics,
                rsq    = rsq,
                adjrsq = arsq)
-
-      if (grepl("rsq", criteria)) {
-        da3 <- cbind(loc = order(-mat), da2)  
-      } else {
-        da3 <- cbind(loc = order(mat), da2)
-      }
 
       if (details) {
         ols_stepwise_details(step, rpred, preds, response, base_metric, "removed", criteria)
