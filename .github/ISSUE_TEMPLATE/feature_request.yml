@@ -1,0 +1,34 @@
+name: Feature request
+description: Suggest a new feature or an improvement to olsrr.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem would this feature solve, and who runs into it?
+    validations:
+      required: true
+
+  - type: textarea
+    id: interface
+    attributes:
+      label: Proposed interface
+      description: Show how the new feature would be called.
+      render: r
+      placeholder: |
+        library(olsrr)
+
+        # example call
+        # example output
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What workarounds or other designs have you tried or considered?
+    validations:
+      required: true
