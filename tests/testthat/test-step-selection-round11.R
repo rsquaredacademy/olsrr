@@ -73,8 +73,9 @@ round11_check_history <- function(k, d, initial = character(), direction = "forw
 test_that("forward entry tests one tied candidate at a time (P03)", {
   d <- round11_tie_data()
   m <- lm(y ~ x1 + x2 + x3, data = d)
-  expect_identical(car::Anova(lm(y ~ x1, d))$`F value`[1],
-                   car::Anova(lm(y ~ x2, d))$`F value`[1])
+  # The tie is exact in real arithmetic; platforms may differ in the last bits.
+  expect_equal(car::Anova(lm(y ~ x1, d))$`F value`[1],
+               car::Anova(lm(y ~ x2, d))$`F value`[1], tolerance = 1e-12)
   k <- ols_step_forward_p(m, p_val = 0.001)
   expect_identical(k$metrics$variable, "x1")
   expect_gt(coef(summary(lm(y ~ x1 + x2, d)))["x2", "Pr(>|t|)"], 0.001)

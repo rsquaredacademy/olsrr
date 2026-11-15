@@ -822,6 +822,13 @@ ols_zero_rss_stop <- function() {
   message("Residual sum of squares < 1e-10 (near-perfect fit). Variable selection stopped.")
 }
 
+# Compare statistics to 10 significant digits, so values that differ only by
+# floating-point noise (which varies across platforms and BLAS libraries) are
+# treated as ties and resolved by candidate order. Inf stays Inf.
+ols_tie_key <- function(x) {
+  signif(x, 10)
+}
+
 # Rank estimable terms by F, then p, then their original candidate order.
 # Inf is a valid F statistic (a perfect candidate fit); NA is not.
 ols_step_p_index <- function(fvals, pvals, entry = TRUE) {
@@ -829,8 +836,9 @@ ols_step_p_index <- function(fvals, pvals, entry = TRUE) {
   if (length(valid) == 0) {
     return(NA_integer_)
   }
-  f <- if (entry) -fvals[valid] else fvals[valid]
-  valid[order(f, pvals[valid], valid)[1]]
+  f <- ols_tie_key(fvals[valid])
+  f <- if (entry) -f else f
+  valid[order(f, ols_tie_key(pvals[valid]), valid)[1]]
 }
 
 # always return a single index; candidate order breaks criterion ties
@@ -840,9 +848,9 @@ ols_threshold <- function(data, criteria) {
   }
 
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    which.min(data)
+    which.min(ols_tie_key(data))
   } else {
-    which.max(data)
+    which.max(ols_tie_key(data))
   }
 }
 
