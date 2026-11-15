@@ -29,6 +29,11 @@
 #' stops with an error because prediction with new data is not supported for
 #' that model.
 #'
+#' For non-hierarchical stepwise selection, candidate rankings and criterion
+#' improvement tests use 10 significant digits, with equal criterion keys
+#' indicating no improvement and ranking ties resolved by candidate order after
+#' any F tie is broken by p value (smaller for entry, larger for removal).
+#'
 #' @return \code{ols_regress} returns an object of class \code{"ols_regress"}.
 #' An object of class \code{"ols_regress"} is a list containing the following
 #' components:

@@ -82,6 +82,11 @@ prediction on new data. Their coefficients, fitted values and total offset
 must be identical to the frozen-offset selection fit; otherwise selection
 stops with an error because prediction with new data is not supported for
 that model.
+
+For non-hierarchical stepwise selection, candidate rankings and criterion
+improvement tests use 10 significant digits, with equal criterion keys
+indicating no improvement and ranking ties resolved by candidate order after
+any F tie is broken by p value (smaller for entry, larger for removal).
 }
 \section{Interaction Terms}{
 
