@@ -281,7 +281,7 @@ ols_prep_dsrvf_data <- function(model, threshold = NULL) {
 #'
 ols_prep_rfsplot_fmdata<- function(model) {
 
-  predicted <- fitted(model)
+  predicted <- model_fitted_used(model)
   pred_m    <- mean(predicted)
   y         <- predicted - pred_m
   percenti  <- ecdf(y)
@@ -296,7 +296,7 @@ ols_prep_rfsplot_fmdata<- function(model) {
 #'
 ols_prep_rfsplot_rsdata <- function(model) {
 
-  y         <- residuals(model)
+  y         <- model_residuals_used(model)
   residtile <- ecdf(y)
   x         <- residtile(y)
 

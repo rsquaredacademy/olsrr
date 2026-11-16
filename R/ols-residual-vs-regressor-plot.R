@@ -28,7 +28,7 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
   d     <- ols_prep_rvsrplot_data(model)
   data  <- ols_model_data(model)
   x     <- data[[variable]]
-  y     <- residuals(model)
+  y     <- model_residuals_used(model)
   v     <- variable
   k     <- data.frame(x = x, y = y)
 

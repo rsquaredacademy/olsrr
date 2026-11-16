@@ -161,10 +161,9 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
 
   for (i in seq_len(len_elig)) {
     predictors        <- predicts[[i]]
-    lp                <- length(predictors)
     out               <- ols_step_fit(response, predictors, data, model)
     mcount            <- mcount + 1
-    lpreds[mcount]    <- lp
+    lpreds[mcount]    <- model_estimable_terms(out$model)
     rsq[[mcount]]     <- out$rsq
     adjr[[mcount]]    <- out$adjr
     cp[[mcount]]      <- ols_mallows_cp(out$model, model)

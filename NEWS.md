@@ -2,6 +2,9 @@
 
 ## Bug Fixes
 
+- `ols_plot_resid_regressor()`, `ols_plot_resid_hist()`, `ols_plot_diagnostics()` and `ols_plot_comp_plus_resid()` take the residuals and fitted values of the rows the fit used, so models fitted with `na.action = na.exclude` plot the used observations instead of failing with a differing-row-count error or pairing padded residuals with used rows (M1, L1).
+- `ols_step_all_possible()` and `ols_step_best_subset()` report the number of estimable terms rather than the number of candidate columns, so an exactly collinear predictor is not counted in `n`; the fit statistics are unchanged (L4).
+- `ols_vif_tol()` warns that VIFs may not be sensible for a model without an intercept, as `car::vif()` does; the tolerance and VIF values are unchanged (L3).
 - `ols_test_breusch_pagan()` now computes Holm adjusted p values with `stats::p.adjust(p, "holm")`. Earlier versions sorted the raw p values, multiplied by a reversed rank and mapped them back, which dropped the cumulative maximum: the smallest raw p was returned unchanged, so the first predictor could be rejected at .05 when its Holm p was above the cutoff. The simultaneous test is unchanged; Bonferroni and Sidak were already correct (B1).
 - `ols_plot_comp_plus_resid()` keeps every non-intercept column of the model matrix when it is built, so single-predictor and no-intercept models return one plot per predictor with one point per observation. Earlier versions dropped the only column (`[, -1]`) for a single predictor and the intercept handling silently reduced no-intercept models to one column, giving a one-row plot and losing predictors (B2).
 - `ols_plot_resid_hist()` draws the histogram with the breaks used for the normal curve, so the curve and the bars share one bin width. Earlier versions scaled the curve to the `hist()` bin width while `geom_histogram(bins = 6)` drew different-width bars, so the fitted normal density was drawn at the wrong height (0.54x or 1.03x) (B3).

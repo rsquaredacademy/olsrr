@@ -43,7 +43,7 @@ ols_plot_resid_hist <- function(model, print_plot = TRUE) {
 
 histdata <- function(model) {
 
-  resid <- residuals(model)
+  resid <- model_residuals_used(model)
   minx  <- min(resid) - 1
   maxx  <- max(resid) + 1
   list(resid = resid, minx = minx, maxx = maxx)

@@ -19,8 +19,8 @@ ols_plot_resid_qq <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  resid <- residuals(model)
-  y     <- quantile(resid[!is.na(resid)], c(0.25, 0.75))
+  resid <- model_residuals_used(model)
+  y     <- quantile(resid, c(0.25, 0.75))
   x     <- qnorm(c(0.25, 0.75))
   slope <- diff(y) / diff(x)
   int   <- y[1L] - slope * x[1L]

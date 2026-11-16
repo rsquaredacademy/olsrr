@@ -885,6 +885,25 @@ coeff_names <- function(model) {
   colnames(attr(model$terms, which = "factor"))
 }
 
+# Number of estimable terms in a fitted subset: an aliased term (NA
+# coefficient) is not estimated and is not counted, while a factor whose coding
+# spans several columns is one term. The intercept (assign 0) is not a term.
+model_estimable_terms <- function(model) {
+
+  cf  <- stats::coef(model)
+  asg <- model$assign
+  if (is.null(asg)) {
+    asg <- attr(model$terms, "assign")
+  }
+
+  if (is.null(cf) || is.null(asg) || length(asg) != length(cf)) {
+    return(length(cf))
+  }
+
+  length(unique(asg[!is.na(cf) & asg > 0L]))
+
+}
+
 model_colnames <- function(model) {
   names(model.frame(model))
 }

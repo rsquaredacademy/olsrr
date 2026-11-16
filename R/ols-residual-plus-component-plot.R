@@ -70,7 +70,7 @@ cpdata <- function(data, mc, e, i) {
 
 cpout <- function(model) {
 
-  e      <- residuals(model)
+  e      <- model_residuals_used(model)
   X      <- model.matrix(model)
   keep   <- setdiff(colnames(X), "(Intercept)")
   mc     <- stats::coef(model)[keep]
