@@ -35,7 +35,7 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
     rsq    = "r2",
     adjrsq = "adj_r2")
 
-  if (ols_zero_rss(model)) {
+  if (ols_zero_rss(model) && stats::df.residual(model) > 0) {
     ols_zero_rss_stop()
     out <- list(metrics = data.frame(step = integer(0), variable = character(0),
                                      r2 = numeric(0), adj_r2 = numeric(0),
@@ -47,6 +47,8 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
                                full_model = model))
     return(out)
   }
+
+  zero_rss <- ols_zero_rss(model)
 
   if (mlen_p == 0) {
     message("No candidate predictors left to enter.")
@@ -101,7 +103,17 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
   for (i in seq_len(mlen_p)) {
 
     predictors <- c(include, all_pred[i])
-    k <- ols_step_fit(response, predictors, l, model)
+    k <- tryCatch(ols_step_fit(response, predictors, l, model),
+                  error = function(e) NULL)
+
+    if (is.null(k) || stats::df.residual(k$model) <= 0 || ols_zero_rss(k$model)) {
+      aics[i]  <- NA_real_
+      bics[i]  <- NA_real_
+      sbics[i] <- NA_real_
+      rsq[i]   <- NA_real_
+      arsq[i]  <- NA_real_
+      next
+    }
 
     aics[i]  <- ols_aic(k$model)
     bics[i]  <- ols_sbc(k$model)
@@ -129,6 +141,19 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
 
   minc <- ols_threshold(mat, criteria)
   crit <- ols_f_criteria(criteria, mat, minc, base_metric)
+
+  if (!crit && zero_rss) {
+    ols_zero_rss_stop()
+    out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                     r2 = numeric(0), adj_r2 = numeric(0),
+                                     aic = numeric(0), sbc = numeric(0), sbic = numeric(0)),
+                model   = model,
+                others  = list(base_model = base_model,
+                               criteria   = indicator,
+                               direction  = "forward",
+                               full_model = model))
+    return(out)
+  }
 
   if (crit) {
     add_var  <- all_pred[minc]
@@ -181,16 +206,29 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
       }
     }
 
+    sat <- FALSE
     for (i in seq_len(len_p)) {
 
       predictors <- unique(c(preds, all_pred[i]))
-      k          <- ols_step_fit(response, predictors, l, model)
+      k          <- tryCatch(ols_step_fit(response, predictors, l, model),
+                             error = function(e) NULL)
+
+      if (is.null(k) || stats::df.residual(k$model) <= 0 || ols_zero_rss(k$model)) {
+        aics[i]  <- NA_real_
+        bics[i]  <- NA_real_
+        sbics[i] <- NA_real_
+        rsq[i]   <- NA_real_
+        arsq[i]  <- NA_real_
+        sat      <- TRUE
+        next
+      }
+
       aics[i]    <- ols_aic(k$model)
       bics[i]    <- ols_sbc(k$model)
       sbics[i]   <- ols_sbic(k$model, model)
       rsq[i]     <- k$rsq
       arsq[i]    <- k$adjr
-    l}
+    }
 
     if (details) {
       da  <- data.frame(predictors = all_pred, aics = aics, bics = bics, sbics = sbics, rsq = rsq, arsq = arsq)
@@ -244,6 +282,9 @@ ols_step_forward <- function(model, metric = c("aic", "sbic", "sbc", "rsq", "adj
         }
       }
     } else {
+      if (sat) {
+        ols_zero_rss_stop()
+      }
       if (progress || details) {
         ols_stepwise_break("forward")
         if (interactive()) {

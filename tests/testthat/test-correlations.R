@@ -33,6 +33,13 @@ test_that("single predictor model without an intercept returns zero-order correl
 test_that("multi-predictor model without an intercept gives a clear error", {
   expect_error(
     ols_correlations(lm(mpg ~ 0 + disp + hp, data = mtcars)),
-    "not supported for models without an intercept and more than one predictor"
+    "not supported for models without an intercept and more than one predictor coefficient"
+  )
+})
+
+test_that("the no-intercept message counts predictor coefficients (B9)", {
+  expect_error(
+    ols_correlations(lm(mpg ~ 0 + factor(cyl), data = mtcars)),
+    "more than one predictor coefficient"
   )
 })

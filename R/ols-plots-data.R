@@ -318,9 +318,11 @@ ols_prep_rfsplot_rsdata <- function(model) {
 #'
 ols_prep_rvsrplot_data <- function(model) {
 
-  np     <- length(coefficients(model)) - 1
-  dat    <- model.frame(model)[, -1]
-  pnames <- names(coefficients(model))[-1]
+  X      <- model.matrix(model)
+  keep   <- setdiff(colnames(X), c("(Intercept)", "(weights)", "(offset)"))
+  dat    <- as.data.frame(X[, keep, drop = FALSE])
+  pnames <- keep
+  np     <- length(pnames)
 
   list(np = np, dat = dat, pnames = pnames)
 

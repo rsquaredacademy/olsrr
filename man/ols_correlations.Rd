@@ -36,7 +36,7 @@ variable.
 Partial and part correlations are not defined for models with a single
 predictor and are returned as \code{NA}. The zero-order correlation is
 still available for such models. Models without an intercept are supported
-only with one predictor.
+only with one predictor coefficient.
 
 Part and partial correlations are not available for weighted
 models, because they are computed from auxiliary regressions that would

@@ -39,7 +39,7 @@ ols_outlier_data <- function(model, cut_off) {
   df_resid   <- df.residual(model) - 1
   n          <- length(stud_resid)
   p_val      <- pt(q = abs(stud_resid), df = df_resid, lower.tail = FALSE) * 2
-  p_bon      <- n * p_val
+  p_bon      <- pmin(1, n * p_val)
   data_bon   <- na.omit(data.frame(stud_resid, p_val, p_bon))
   data_bonf  <- data_bon[data_bon$p_bon <= cut_off, ]
   data_co    <- data_bonf[order(data_bonf$p_bon), ]

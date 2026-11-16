@@ -19,7 +19,7 @@
 #' Partial and part correlations are not defined for models with a single
 #' predictor and are returned as \code{NA}. The zero-order correlation is
 #' still available for such models. Models without an intercept are supported
-#' only with one predictor.
+#' only with one predictor coefficient.
 #'
 #' @details Part and partial correlations are not available for weighted
 #' models, because they are computed from auxiliary regressions that would
@@ -75,7 +75,7 @@ corout <- function(model, r2) {
   n2               <- n - 1
 
   if (attr(model$terms, "intercept") == 0 && length(r2) > 0) {
-    stop("ols_correlations() is not supported for models without an intercept and more than one predictor.", call. = FALSE)
+    stop("ols_correlations() is not supported for models without an intercept and more than one predictor coefficient.", call. = FALSE)
   }
 
   if (length(r2) == 0) {

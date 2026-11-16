@@ -21,14 +21,14 @@ ols_plot_resid_hist <- function(model, print_plot = TRUE) {
   check_model(model)
 
   k  <- histdata(model)
-  h  <- hist(k$resid, plot = FALSE)
+  h  <- hist(k$resid, plot = FALSE, breaks = 6)
   l  <- histn(k$resid, h)
   d2 <- data.frame(x = l$xfit, y = l$yfit)
   d  <- data.frame(x = k$resid)
 
   p <-
     ggplot(d, aes(x = x)) +
-    geom_histogram(bins = 6, color = "black", fill = "#ADD8E6") +
+    geom_histogram(breaks = h$breaks, color = "black", fill = "#ADD8E6") +
     geom_line(data = d2, aes(x = x, y = y), color = "#0000A0", linewidth = 1.2) +
     xlab("Residuals") + 
     ggtitle("Residual Histogram")

@@ -427,11 +427,7 @@ bp_case_adj <- function(method, pvals, np, ps) {
 
   } else if (method == "holm") {
 
-    j          <- rev(seq_len(length(pvals)))
-    h          <- order(order(pvals))
-    pvals_sort <- sort(pvals) * j
-    pholms     <- pmin(1, pvals_sort)[h] 
-    p          <- c(pholms, ps)
+    p <- c(stats::p.adjust(pvals, "holm"), ps)
 
   } else {
 
