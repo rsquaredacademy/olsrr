@@ -44,7 +44,7 @@ ols_plot_resid_fit <- function(model, print_plot = TRUE) {
 }
 
 rvspdata <- function(model) {
-  resid     <- residuals(model)
-  predicted <- fitted(model)
+  resid     <- model_residuals_used(model)
+  predicted <- model_fitted_used(model)
   data.frame(predicted = predicted, resid = resid)
 }

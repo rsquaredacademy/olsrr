@@ -119,7 +119,7 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     lockterm <- c(include, exclude)
     cterms   <- setdiff(nam, exclude)
 
-    if (ols_zero_rss(model)) {
+    if (ols_zero_rss(model) && stats::df.residual(model) > 0) {
       ols_zero_rss_stop()
       out <- list(metrics = data.frame(step = integer(0), variable = character(0),
                                        r2 = numeric(0), adj_r2 = numeric(0),
@@ -132,6 +132,10 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       class(out) <- "ols_step_forward_p"
       return(out)
     }
+
+    # a saturated full model (residual df 0) still allows forward selection
+    # from the null model; it stops when the next candidate saturates
+    zero_rss <- ols_zero_rss(model)
 
     if (progress || details) {
       ols_candidate_terms(cterms, "forward")
@@ -189,7 +193,23 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
     for (i in seq_len(mlen_p)) {
       predictors  <- unique(c(include, all_pred[i]))
       m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
-      m_sum       <- Anova(m)
+      if (stats::df.residual(m) <= 0) {
+        fvals[i]    <- NA_real_
+        pvals[i]    <- NA_real_
+        aicvals[i]  <- NA_real_
+        rsqvals[i]  <- NA_real_
+        arsqvals[i] <- NA_real_
+        next
+      }
+      m_sum       <- tryCatch(Anova(m), error = function(e) NULL)
+      if (is.null(m_sum) || ols_zero_rss(m)) {
+        fvals[i]    <- NA_real_
+        pvals[i]    <- NA_real_
+        aicvals[i]  <- NA_real_
+        rsqvals[i]  <- NA_real_
+        arsqvals[i] <- NA_real_
+        next
+      }
       fvals[i]    <- m_sum$`F value`[ppos]
       pvals[i]    <- m_sum$`Pr(>F)`[ppos]
       aicvals[i]  <- ols_aic(m)
@@ -206,7 +226,22 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
 
     maxf <- ols_step_p_index(fvals, pvals)
 
-    if (is.na(maxf) || pvals[maxf] > p_val) {
+    if (is.na(maxf)) {
+      if (zero_rss) {
+        ols_zero_rss_stop()
+        out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                         r2 = numeric(0), adj_r2 = numeric(0),
+                                         aic = numeric(0), sbc = numeric(0),
+                                         sbic = numeric(0), mallows_cp = numeric(0),
+                                         rmse = numeric(0)),
+                    model   = model,
+                    others  = list(base_model = model,
+                                   full_model = model))
+        class(out) <- "ols_step_forward_p"
+        return(out)
+      }
+      stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
+    } else if (pvals[maxf] > p_val) {
       stop("None of the variables satisfy the criteria for entering the model.", call. = FALSE)
     } else {
       if (progress) {
@@ -286,11 +321,30 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
       rsqvals  <- c()
       arsqvals <- c()
 
+      sat <- FALSE
       for (i in seq_len(len_p)) {
 
         predictors  <- unique(c(preds, all_pred[i]))
         m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
-        m_sum       <- Anova(m)
+        if (stats::df.residual(m) <= 0) {
+          fvals[i]   <- NA_real_
+          pvals[i]   <- NA_real_
+          aicvals[i] <- NA_real_
+          rsqvals[i] <- NA_real_
+          arsqvals[i] <- NA_real_
+          sat        <- TRUE
+          next
+        }
+        m_sum      <- tryCatch(Anova(m), error = function(e) NULL)
+        if (is.null(m_sum) || ols_zero_rss(m)) {
+          fvals[i]   <- NA_real_
+          pvals[i]   <- NA_real_
+          aicvals[i] <- NA_real_
+          rsqvals[i] <- NA_real_
+          arsqvals[i] <- NA_real_
+          sat        <- TRUE
+          next
+        }
         fvals[i]    <- m_sum$`F value`[ppos]
         pvals[i]    <- m_sum$`Pr(>F)`[ppos]
         aicvals[i]  <- ols_aic(m)
@@ -330,6 +384,9 @@ ols_step_forward_p.default <- function(model, p_val = 0.3, include = NULL, exclu
           ols_rsquared_selected("r2", step, preds, response, rsq1)
         }
       } else {
+        if (sat) {
+          ols_zero_rss_stop()
+        }
         if (progress || details) {
           ols_stepwise_break(direction = "forward")
         }

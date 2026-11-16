@@ -18,16 +18,16 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  p1  <- ols_plot_resid_fit(model)
-  p2  <- ols_plot_resid_stud_fit(model)
-  p3  <- ols_plot_resid_lev(model)
-  p4  <- ols_plot_resid_qq(model)
-  p5  <- ols_plot_obs_fit(model) 
-  p6  <- ols_plot_cooksd_chart(model)
-  p7  <- ols_plot_fm(model)
-  p8  <- ols_plot_resid_spread(model)
-  p9  <- ols_plot_resid_hist(model)
-  p10 <- ols_plot_resid_box(model)
+  p1  <- ols_plot_resid_fit(model, print_plot = FALSE)
+  p2  <- ols_plot_resid_stud_fit(model, print_plot = FALSE)$plot
+  p3  <- ols_plot_resid_lev(model, print_plot = FALSE)$plot
+  p4  <- ols_plot_resid_qq(model, print_plot = FALSE)
+  p5  <- ols_plot_obs_fit(model, print_plot = FALSE)
+  p6  <- ols_plot_cooksd_chart(model, print_plot = FALSE)$plot
+  p7  <- ols_plot_fm(model, print_plot = FALSE)
+  p8  <- ols_plot_resid_spread(model, print_plot = FALSE)
+  p9  <- ols_plot_resid_hist(model, print_plot = FALSE)
+  p10 <- ols_plot_resid_box(model, print_plot = FALSE)
 
   result <- list(
     plot_1 = p1, plot_2 = p2, plot_3 = p3, plot_4 = p4,
@@ -36,7 +36,9 @@ ols_plot_diagnostics <- function(model, print_plot = TRUE) {
   )
 
   if (print_plot) {
-    marrangeGrob(result, nrow = 2, ncol = 2, top = "Regression Diagnostics")
+    g <- marrangeGrob(result, nrow = 2, ncol = 2, top = "Regression Diagnostics")
+    grid::grid.draw(g)
+    invisible(g)
   } else {
     return(result)
   }

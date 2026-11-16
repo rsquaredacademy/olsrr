@@ -122,6 +122,12 @@ print.ols_coll_diag <- function(x, ...) {
 ols_vif_tol <- function(model) {
 
   check_model(model)
+
+  if (attr(model$terms, "intercept") == 0) {
+    warning("VIFs may not be sensible in a model without an intercept.",
+            call. = FALSE)
+  }
+
   vt <- viftol(model)
   data.frame(Variables = vt$nam, Tolerance = vt$tol, VIF = vt$vifs)
 

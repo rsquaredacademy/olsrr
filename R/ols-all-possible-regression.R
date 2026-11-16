@@ -401,12 +401,11 @@ allpos_helper <- function(model, max_order = NULL) {
     for (j in seq_len(colas[i])) {
 
       predictors <- nam[combs[[i]][, j]]
-      lp         <- length(predictors)
 
       out <- ols_step_fit(response, predictors, pos_data, model)
 
       mcount            <- mcount + 1
-      lpreds[mcount]    <- lp
+      lpreds[mcount]    <- model_estimable_terms(out$model)
       rsq[[mcount]]     <- out$rsq
       adjrsq[[mcount]]  <- out$adjr
       sigma[[mcount]]   <- out$rmse

@@ -26,10 +26,10 @@ ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
   check_weights_diagnostic(model, "ols_plot_resid_regressor")
 
   d     <- ols_prep_rvsrplot_data(model)
-  inter <- eval(model$call$data)[variable]
-  x     <- inter[[1]]
-  y     <- residuals(model)
-  v     <- names(inter)
+  data  <- ols_model_data(model)
+  x     <- data[[variable]]
+  y     <- model_residuals_used(model)
+  v     <- variable
   k     <- data.frame(x = x, y = y)
 
   p <-

@@ -95,7 +95,9 @@ ols_plot_added_variable <- function(model, print_plot = TRUE) {
   }
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Added Variable Plots")
+    g <- marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Added Variable Plots")
+    grid::grid.draw(g)
+    invisible(g)
   } else {
     return(myplots)
   }

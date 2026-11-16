@@ -93,7 +93,7 @@ test_that("when rhs == TRUE, multiple == TRUE and p.adj == 'holm',
   k <- ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = "holm")
 
   expect_equal(round(k$bp, 4), c(0.9237, 0.7652, 0.7749, 0.7751, 1.2903, 2.4890), ignore_attr = TRUE)
-  expect_equal(round(k$p, 4), c(1.0000, 0.3817, 0.7574, 1.0000, 1.0000, 0.7781), ignore_attr = TRUE)
+  expect_equal(round(k$p, 4), c(1.0000, 1.0000, 1.0000, 1.0000, 1.0000, 0.7781), ignore_attr = TRUE)
 
   expect_true(k$fv)
   expect_true(k$rhs)
@@ -227,7 +227,7 @@ test_that("when multiple == TRUE and vars != NA and p.adj == 'holm',
   )
 
   expect_equal(round(k$bp, 4), c(0.9237, 0.7652, 0.9588), ignore_attr = TRUE)
-  expect_equal(round(k$p, 4), c(0.6730, 0.3817, 0.6192), ignore_attr = TRUE)
+  expect_equal(round(k$p, 4), c(0.6730, 0.6730, 0.6192), ignore_attr = TRUE)
 
   expect_false(k$fv)
   expect_false(k$rhs)
@@ -348,4 +348,41 @@ test_that("an auxiliary design with no tested direction is rejected (H8)", {
     ols_test_breusch_pagan(lm(mpg ~ 1, mtcars)),
     "no tested direction"
   )
+})
+
+test_that("Holm adjusted p values equal p.adjust and the printed decision follows (B1)", {
+  # aud2 H1 fixture: raw p = 0.0465, 1.07e-05, 0.0410
+  set.seed(15)
+  n <- 60
+  z <- rnorm(n)
+  d <- data.frame(x1 = z + rnorm(n), x2 = z + rnorm(n), x3 = z + rnorm(n))
+  d$y <- rnorm(n) * exp(.55 * z)
+  m <- lm(y ~ x1 + x2 + x3, d)
+
+  raw <- ols_test_breusch_pagan(m, rhs = TRUE, multiple = TRUE, p.adj = "none")$p[1:3]
+  got <- ols_test_breusch_pagan(m, rhs = TRUE, multiple = TRUE, p.adj = "holm")$p[1:3]
+
+  expect_equal(raw, c(0.04651371, 1.070359e-05, 0.04096142), tolerance = 1e-7)
+  expect_equal(got, stats::p.adjust(raw, "holm"))
+  expect_equal(got, c(0.08192284, 3.211077e-05, 0.08192284), tolerance = 1e-7)
+  # x1 is no longer rejected at .05; x2 is rejected; x3 is not
+  expect_gt(got[1], 0.05)
+  expect_lt(got[2], 0.05)
+  expect_gt(got[3], 0.05)
+
+  out <- capture.output(print(ols_test_breusch_pagan(m, rhs = TRUE, multiple = TRUE,
+                                                    p.adj = "holm")))
+  row <- grep("^\\s*x1\\s", out, value = TRUE)
+  expect_match(row, "8\\.192284e-02")
+  expect_false(any(grepl("\\*\\*\\*", out)))
+})
+
+test_that("Bonferroni and Sidak branches still agree with p.adjust and the Sidak formula (B1)", {
+  m <- lm(mpg ~ wt + hp + disp, mtcars)
+  raw <- ols_test_breusch_pagan(m, rhs = TRUE, multiple = TRUE, p.adj = "none")$p[1:3]
+  bon <- ols_test_breusch_pagan(m, rhs = TRUE, multiple = TRUE, p.adj = "bonferroni")$p[1:3]
+  sid <- ols_test_breusch_pagan(m, rhs = TRUE, multiple = TRUE, p.adj = "sidak")$p[1:3]
+
+  expect_equal(bon, stats::p.adjust(raw, "bonferroni"))
+  expect_equal(sid, 1 - (1 - raw) ^ 3)
 })

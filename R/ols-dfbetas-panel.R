@@ -81,7 +81,9 @@ ols_plot_dfbetas <- function(model, print_plot = TRUE) {
   }
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    g <- marrangeGrob(myplots, nrow = 2, ncol = 2)
+    grid::grid.draw(g)
+    invisible(g)
   } else {
     return(list(plots = myplots, outliers = outliers))
   }

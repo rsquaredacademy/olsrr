@@ -51,7 +51,10 @@ test_that("VIF and tolerance work for one predictor and without an intercept (M4
   expect_equal(v1$VIF, 1)
 
   m2 <- lm(mpg ~ 0 + wt + hp, mtcars)
-  v2 <- ols_vif_tol(m2)
+  expect_warning(
+    v2 <- ols_vif_tol(m2),
+    "VIFs may not be sensible in a model without an intercept"
+  )
 
   expect_equal(v2$Variables, c("wt", "hp"))
   expect_equal(
