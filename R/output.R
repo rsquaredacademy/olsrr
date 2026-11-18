@@ -694,14 +694,14 @@ print_best_subset <- function(data) {
 print_norm_test <- function(data) {
 
   # width
-  w1 <- 18
+  w1 <- 31
   w2 <- 14
   w3 <- 7
   w <- sum(w1, w2, w3, 8)
 
   # vectors
   tests <- c(
-    "Shapiro-Wilk", "Kolmogorov-Smirnov", "Cramer-von Mises",
+    "Shapiro-Wilk", "Kolmogorov-Smirnov (Lilliefors)", "Cramer-von Mises",
     "Anderson-Darling"
   )
   stats <- c(

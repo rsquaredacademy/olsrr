@@ -1,3 +1,10 @@
+# olsrr (development version)
+
+## Bug Fixes
+
+- `ols_test_normality()` uses the Lilliefors-corrected Kolmogorov-Smirnov test (`nortest::lillie.test()`) and labels it "Kolmogorov-Smirnov (Lilliefors)". The test now accounts for the mean and standard deviation being estimated from the same residuals, so its p-value is smaller than the uncorrected `ks.test()` p-value it used to report; the statistic is unchanged. The test is skipped, with a warning, for fewer than 5 observations, the smallest sample `nortest::lillie.test()` supports ([#254](https://github.com/rsquaredacademy/olsrr/issues/254)).
+- `ols_plot_diagnostics()` titles panels 7 and 8 "Fit - Mean" and "Residual" instead of "Residual Fit Spread Plot" for both, matching the two panels of `ols_plot_resid_fit_spread()` ([#253](https://github.com/rsquaredacademy/olsrr/issues/253)).
+
 # olsrr 0.7.1
 
 ## Bug Fixes

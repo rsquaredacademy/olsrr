@@ -7,7 +7,8 @@
 #'
 #' @details
 #' Consists of side-by-side quantile plots of the centered fit and the
-#' residuals. It shows how much variation in the data is explained by the fit
+#' residuals. The panels are titled "Fit - Mean" and "Residual", matching their
+#' y variables. It shows how much variation in the data is explained by the fit
 #' and how much remains in the residuals. For inappropriate models, the spread
 #' of the residuals in such a plot is often greater than the spread of the
 #' centered fit.
@@ -100,7 +101,7 @@ ols_plot_rfs <- function(model, fit_mean = TRUE) {
     geom_point(shape = 1, color = "blue") +
     xlab("Proportion Less") +
     ylab(y_lab) +
-    ggtitle("Residual Fit Spread Plot") +
+    ggtitle(y_lab) +
     xlim(c(-0.2, 1.2)) +
     ylim(c(ymin, ymax))
 

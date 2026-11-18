@@ -42,6 +42,10 @@ model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_test_normality(model)
 ```
 
+The Kolmogorov-Smirnov test is the Lilliefors-corrected test
+(`nortest::lillie.test()`): it accounts for the mean and standard deviation
+being estimated from the same residuals.
+
 Correlation between observed residuals and expected residuals under normality.
 
 ```{r corrtest}
