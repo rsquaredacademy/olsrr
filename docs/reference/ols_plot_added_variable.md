@@ -1,4 +1,11 @@
-# Added variable plots
+# `Added variable plots`
+
+# `Added variable plots`
+
+Source:
+[`R/ols-added-variable-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-added-variable-plot.R)
+
+`ols_plot_added_variable.Rd`
 
 Added variable plot provides information about the marginal importance
 of a predictor variable, given the other predictor variables already in
@@ -51,6 +58,10 @@ regressed on all variables including **X**.
 A strong linear relationship in the added variable plot indicates the
 increased importance of the contribution of **X** to the model already
 containing the other predictors.
+
+The plot is not available for weighted models, because the partial
+residuals are computed from auxiliary regressions that would ignore the
+weights.
 
 ## References
 

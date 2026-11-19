@@ -1,4 +1,11 @@
-# Cooks' D bar plot
+# `Cooks' D bar plot`
+
+# `Cooks' D bar plot`
+
+Source:
+[`R/ols-cooks-d-barplot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-cooks-d-barplot.R)
+
+`ols_plot_cooksd_bar.Rd`
 
 Bar Plot of cook's distance to detect observations that strongly
 influence fitted values of the model.
@@ -53,7 +60,7 @@ Steps to compute Cook's distance:
 
 - Delete observations one at a time.
 
-- Refit the regression model on remaining \\n - 1\\ observations
+- Refit the regression model on remaining \\(n - 1\\) observations
 
 - examine how much all of the fitted values change when the ith
   observation is deleted.

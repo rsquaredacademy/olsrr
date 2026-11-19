@@ -1,4 +1,11 @@
-# Regress y on other predictors
+# `Regress y on other predictors`
+
+# `Regress y on other predictors`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_regress_y.Rd`
 
 Regress y on all the predictors except the ith predictor.
 

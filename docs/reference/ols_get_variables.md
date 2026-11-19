@@ -1,4 +1,11 @@
-# Model variables
+# `Model variables`
+
+# `Model variables`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_variables.Rd`
 
 Return model variables.
 

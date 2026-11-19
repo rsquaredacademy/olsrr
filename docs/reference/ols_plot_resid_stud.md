@@ -1,4 +1,11 @@
-# Studentized residual plot
+# `Studentized residual plot`
+
+# `Studentized residual plot`
+
+Source:
+[`R/ols-studentized-residual-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-studentized-residual-plot.R)
+
+`ols_plot_resid_stud.Rd`
 
 Graph for identifying outliers.
 

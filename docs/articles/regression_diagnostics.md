@@ -1,5 +1,12 @@
 # Collinearity Diagnostics, Model Fit & Variable Contribution
 
+# Collinearity Diagnostics, Model Fit & Variable Contribution
+
+Source:
+[`vignettes/regression_diagnostics.Rmd`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/regression_diagnostics.Rmd)
+
+`regression_diagnostics.Rmd`
+
 ## Collinearity Diagnostics
 
 Collinearity implies two variables are near perfect linear combinations
@@ -30,7 +37,9 @@ Steps to calculate VIF:
 VIF = \frac{1}{1 - {R}^{2}_{k}} = \frac{1}{Tolerance}
 ```
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_vif_tol`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_vif_tol`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)`(``model``)`
 
     ##   Variables Tolerance      VIF
     ## 1      disp 0.1252279 7.985439
@@ -68,7 +77,9 @@ have large proportions of variance (.50 or more) that correspond to
 large condition indices. A rule of thumb is to label as large those
 condition indices in the range of 30 or larger.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_eigen_cindex`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_eigen_cindex`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)`(``model``)`
 
     ##    Eigenvalue Condition Index   intercept        disp          hp           wt
     ## 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094 0.0005253393
@@ -85,7 +96,9 @@ condition indices in the range of 30 or larger.
 
 ### Collinearity Diagnostics
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_coll_diag`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_coll_diag`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)`(``model``)`
 
     ## Tolerance and Variance Inflation Factor
     ## ---------------------------------------
@@ -122,7 +135,9 @@ fit and how much remains in the residuals. For inappropriate models, the
 spread of the residuals in such a plot is often greater than the spread
 of the centered fit.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_resid_fit_spread`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit_spread.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_resid_fit_spread`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit_spread.md)`(``model``)`
 
 ![](regression_diagnostics_files/figure-html/rfsplot-1.png)
 
@@ -150,7 +165,9 @@ How much of the variance in **Y**, which is not estimated by the other
 independent variables in the model, is estimated by the specific
 variable?
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_correlations`](https://olsrr.rsquaredacademy.com/reference/ols_correlations.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_correlations`](https://olsrr.rsquaredacademy.com/reference/ols_correlations.md)`(``model``)`
 
     ##                Correlations                 
     ## -------------------------------------------
@@ -172,7 +189,9 @@ close to this diagonal line. The lower the R Square, the weaker the
 Goodness of fit of your model, the more foggy or dispersed your points
 are from this diagonal line.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_obs_fit`](https://olsrr.rsquaredacademy.com/reference/ols_plot_obs_fit.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_obs_fit`](https://olsrr.rsquaredacademy.com/reference/ols_plot_obs_fit.md)`(``model``)`
 
 ![](regression_diagnostics_files/figure-html/obspred-1.png)
 
@@ -192,7 +211,9 @@ important that the data contains repeat observations i.e. replicates for
 at least one of the values of the predictor x. This test generally only
 applies to datasets with plenty of replicates.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp``, data ``=`` ``mtcars``)`` `[`ols_pure_error_anova`](https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp``, data ``=`` ``mtcars``)`\
+[`ols_pure_error_anova`](https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.md)`(``model``)`
 
     ## Lack of Fit F Test 
     ## -----------------
@@ -203,7 +224,7 @@ applies to datasets with plenty of replicates.
     ## ----------------------------------------------------------------------
     ##                 DF     Sum Sq     Mean Sq     F Value        Pr(>F)    
     ## ----------------------------------------------------------------------
-    ## disp             1    808.8885    808.8885    314.0095    1.934413e-17 
+    ## disp             1    808.8885    808.8885    76.51266    9.380327e-10 
     ## Residual        30    317.1587    10.57196                             
     ##  Lack of fit    25    304.2787    12.17115    4.724824      0.04563623 
     ##  Pure Error      5       12.88       2.576                             
@@ -213,9 +234,11 @@ applies to datasets with plenty of replicates.
 
 Panel of plots for regression diagnostics
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_diagnostics`](https://olsrr.rsquaredacademy.com/reference/ols_plot_diagnostics.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_diagnostics`](https://olsrr.rsquaredacademy.com/reference/ols_plot_diagnostics.md)`(``model``)`
 
-![](regression_diagnostics_files/figure-html/diagpanel-1.png)![](regression_diagnostics_files/figure-html/diagpanel-2.png)![](regression_diagnostics_files/figure-html/diagpanel-3.png)![](regression_diagnostics_files/figure-html/diagpanel-4.png)![](regression_diagnostics_files/figure-html/diagpanel-5.png)![](regression_diagnostics_files/figure-html/diagpanel-6.png)![](regression_diagnostics_files/figure-html/diagpanel-7.png)![](regression_diagnostics_files/figure-html/diagpanel-8.png)![](regression_diagnostics_files/figure-html/diagpanel-9.png)![](regression_diagnostics_files/figure-html/diagpanel-10.png)![](regression_diagnostics_files/figure-html/diagpanel-11.png)![](regression_diagnostics_files/figure-html/diagpanel-12.png)![](regression_diagnostics_files/figure-html/diagpanel-13.png)
+![](regression_diagnostics_files/figure-html/diagpanel-1.png)![](regression_diagnostics_files/figure-html/diagpanel-2.png)![](regression_diagnostics_files/figure-html/diagpanel-3.png)
 
 ## Variable Contributions
 
@@ -226,7 +249,9 @@ already containing other predictors. The residuals from the model is
 regressed on the new predictor and if the plot shows non random pattern,
 you should consider adding the new predictor to the model.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt``, data ``=`` ``mtcars``)`` `[`ols_plot_resid_regressor`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_regressor.md)`(``model``, ``'drat'``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt``, data ``=`` ``mtcars``)`\
+[`ols_plot_resid_regressor`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_regressor.md)`(``model``, ``'drat'``)`
 
 ![](regression_diagnostics_files/figure-html/rvsrplot-1.png)![](regression_diagnostics_files/figure-html/rvsrplot-2.png)
 
@@ -264,7 +289,9 @@ A strong linear relationship in the added variable plot indicates the
 increased importance of the contribution of **X** to the model already
 containing the other predictors.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_added_variable`](https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_added_variable`](https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.md)`(``model``)`
 
     ## `geom_smooth()` using formula = 'y ~ x'
     ## `geom_smooth()` using formula = 'y ~ x'
@@ -290,7 +317,9 @@ The residual plus component plot indicates whether any non-linearity is
 present in the relationship between **Y** and **X** and can suggest
 possible transformations for linearizing the data.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_comp_plus_resid`](https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_comp_plus_resid`](https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.md)`(``model``)`
 
     ## `geom_smooth()` using formula = 'y ~ x'
     ## `geom_smooth()` using formula = 'y ~ x'

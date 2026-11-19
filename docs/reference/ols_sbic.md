@@ -1,4 +1,11 @@
-# Sawa's bayesian information criterion
+# `Sawa's bayesian information criterion`
+
+# `Sawa's bayesian information criterion`
+
+Source:
+[`R/ols-information-criteria.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-information-criteria.R)
+
+`ols_sbic.Rd`
 
 Sawa's bayesian information criterion for model selection.
 
@@ -32,9 +39,9 @@ number of independent variables including the intercept.
 
 \$\$SBIC = n \* ln(SSE / n) + 2(p + 2)q - 2(q^2)\$\$
 
-where \\q = n(\sigma^2)/SSE\\, *n* is the sample size, *p* is the number
-of model parameters including intercept *SSE* is the residual sum of
-squares.
+where \\(q = n(\sigma^2)/SSE\\), *n* is the sample size, *p* is the
+number of model parameters including intercept *SSE* is the residual sum
+of squares.
 
 ## References
 

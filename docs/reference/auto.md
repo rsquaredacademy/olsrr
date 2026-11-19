@@ -1,4 +1,11 @@
-# Test Data Set
+# `Test Data Set`
+
+# `Test Data Set`
+
+Source:
+[`R/ols-data-auto.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-data-auto.R)
+
+`auto.Rd`
 
 Test Data Set
 

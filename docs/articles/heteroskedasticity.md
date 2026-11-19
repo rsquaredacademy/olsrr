@@ -1,5 +1,12 @@
 # Heteroscedasticity
 
+# Heteroscedasticity
+
+Source:
+[`vignettes/heteroskedasticity.Rmd`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/heteroskedasticity.Rmd)
+
+`heteroskedasticity.Rmd`
+
 ## Introduction
 
 One of the assumptions made about residuals/errors in OLS regression is
@@ -37,7 +44,8 @@ and one grouping variable, a formula or a linear model.
 
 ##### Use grouping variable
 
-[`ols_test_bartlett`](https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.md)`(``hsb``, ``'read'``, group_var ``=`` ``'female'``)`
+\
+[`ols_test_bartlett`](https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.md)`(``hsb``, ``'read'``, group_var ``=`` ``'female'``)`
 
     ## 
     ##     Bartlett's Test of Homogenity of Variances    
@@ -48,12 +56,13 @@ and one grouping variable, a formula or a linear model.
     ##         Test Summary         
     ##  ----------------------------
     ##  DF            =    1 
-    ##  Chi2          =    0.1866579 
-    ##  Prob > Chi2   =    0.6657129
+    ##  Chi2          =    0.1866567 
+    ##  Prob > Chi2   =    0.6657139
 
 ##### Using variables
 
-[`ols_test_bartlett`](https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.md)`(``hsb``, ``'read'``, ``'write'``)`
+\
+[`ols_test_bartlett`](https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.md)`(``hsb``, ``'read'``, ``'write'``)`
 
     ## 
     ##     Bartlett's Test of Homogenity of Variances    
@@ -68,8 +77,8 @@ and one grouping variable, a formula or a linear model.
     ##         Test Summary         
     ##  ----------------------------
     ##  DF            =    1 
-    ##  Chi2          =    1.222871 
-    ##  Prob > Chi2   =    0.2687979
+    ##  Chi2          =    1.222863 
+    ##  Prob > Chi2   =    0.2687995
 
 ### Breusch Pagan Test
 
@@ -87,7 +96,9 @@ method.
 
 ##### Use fitted values of the model
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`\
+[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``)`
 
     ## 
     ##  Breusch Pagan Test for Heteroskedasticity
@@ -108,7 +119,9 @@ method.
 
 ##### Use independent variables of the model
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`\
+[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``)`
 
     ## 
     ##  Breusch Pagan Test for Heteroskedasticity
@@ -129,7 +142,9 @@ method.
 
 ##### Use independent variables of the model and perform multiple tests
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``, multiple ``=`` ``TRUE``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`\
+[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``, multiple ``=`` ``TRUE``)`
 
     ## 
     ##  Breusch Pagan Test for Heteroskedasticity
@@ -156,7 +171,9 @@ method.
 
 ##### Bonferroni p value Adjustment
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``, multiple ``=`` ``TRUE``, p.adj ``=`` ``'bonferroni'``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`\
+[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``, multiple ``=`` ``TRUE``, p.adj ``=`` ``'bonferroni'``)`
 
     ## 
     ##  Breusch Pagan Test for Heteroskedasticity
@@ -183,7 +200,9 @@ method.
 
 ##### Sidak p value Adjustment
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``, multiple ``=`` ``TRUE``, p.adj ``=`` ``'sidak'``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`\
+[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``, multiple ``=`` ``TRUE``, p.adj ``=`` ``'sidak'``)`
 
     ## 
     ##  Breusch Pagan Test for Heteroskedasticity
@@ -210,7 +229,9 @@ method.
 
 ##### Holm’s p value Adjustment
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``, multiple ``=`` ``TRUE``, p.adj ``=`` ``'holm'``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`\
+[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``, rhs ``=`` ``TRUE``, multiple ``=`` ``TRUE``, p.adj ``=`` ``'holm'``)`
 
     ## 
     ##  Breusch Pagan Test for Heteroskedasticity
@@ -227,10 +248,10 @@ method.
     ##  ----------------------------------------------
     ##   Variable           chi2       df        p     
     ##  ----------------------------------------------
-    ##   disp             1.2355345     1    0.7990002 
-    ##   hp               0.9209878     1    0.3372157 
+    ##   disp             1.2355345     1    1.0000000 
+    ##   hp               0.9209878     1    1.0000000 
     ##   wt               1.2529988     1    1.0000000 
-    ##   drat             1.1668486     1    0.5600994 
+    ##   drat             1.1668486     1    1.0000000 
     ##  ----------------------------------------------
     ##   simultaneous     1.5138083     4    0.8241927 
     ##  ----------------------------------------------
@@ -244,7 +265,9 @@ and a subset of the independent variables.
 
 ##### Use fitted values of the model
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_test_score`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_test_score`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)`(``model``)`
 
     ## 
     ##  Score Test for Heteroskedasticity
@@ -262,7 +285,9 @@ and a subset of the independent variables.
 
 ##### Use independent variables of the model
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_test_score`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)`(``model``, rhs ``=`` ``TRUE``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_test_score`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)`(``model``, rhs ``=`` ``TRUE``)`
 
     ## 
     ##  Score Test for Heteroskedasticity
@@ -280,7 +305,9 @@ and a subset of the independent variables.
 
 ##### Specify variables
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_test_score`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)`(``model``, vars ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``'disp'``, ``'hp'``)``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_test_score`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)`(``model``, vars ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``'disp'``, ``'hp'``)``)`
 
     ## 
     ##  Score Test for Heteroskedasticity
@@ -305,7 +332,9 @@ and a subset of the independent variables.
 
 ##### Use fitted values of the model
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_test_f`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_test_f`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md)`(``model``)`
 
     ## 
     ##  F Test for Heteroskedasticity
@@ -324,7 +353,9 @@ and a subset of the independent variables.
 
 ##### Use independent variables of the model
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_test_f`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md)`(``model``, rhs ``=`` ``TRUE``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_test_f`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md)`(``model``, rhs ``=`` ``TRUE``)`
 
     ## 
     ##  F Test for Heteroskedasticity
@@ -343,7 +374,9 @@ and a subset of the independent variables.
 
 ##### Specify variables
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_test_f`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md)`(``model``, vars ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``'disp'``, ``'hp'``)``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_test_f`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md)`(``model``, vars ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``'disp'``, ``'hp'``)``)`
 
     ## 
     ##  F Test for Heteroskedasticity

@@ -1,4 +1,11 @@
-# Mallow's Cp
+# `Mallow's Cp`
+
+# `Mallow's Cp`
+
+Source:
+[`R/ols-information-criteria.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-information-criteria.R)
+
+`ols_mallows_cp.Rd`
 
 Mallow's Cp.
 

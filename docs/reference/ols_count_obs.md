@@ -1,4 +1,11 @@
-# Observations
+# `Observations`
+
+# `Observations`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_count_obs.Rd`
 
 Returns the number of observation from a model.
 

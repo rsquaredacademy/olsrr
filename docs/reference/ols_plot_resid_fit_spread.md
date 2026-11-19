@@ -1,4 +1,11 @@
-# Residual fit spread plot
+# `Residual fit spread plot`
+
+# `Residual fit spread plot`
+
+Source:
+[`R/ols-residual-fit-spread-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-residual-fit-spread-plot.R)
+
+`ols_plot_resid_fit_spread.Rd`
 
 Plot to detect non-linearity, influential observations and outliers.
 

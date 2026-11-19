@@ -1,4 +1,11 @@
-# Model formula
+# `Model formula`
+
+# `Model formula`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_formula.Rd`
 
 Returns the model formula.
 
@@ -25,5 +32,5 @@ An object of class `formula`.
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_get_formula(model)
 #> mpg ~ disp + hp + wt + qsec
-#> <environment: 0x0000025d84b84d18>
+#> <environment: 0x000001e2563b0a18>
 ```

@@ -1,4 +1,11 @@
-# Potential residual plot
+# `Potential residual plot`
+
+# `Potential residual plot`
+
+Source:
+[`R/ols-potential-residual-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-potential-residual-plot.R)
+
+`ols_plot_resid_pot.Rd`
 
 Plot to aid in classifying unusual observations as high-leverage points,
 outliers, or a combination of both.

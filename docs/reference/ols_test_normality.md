@@ -1,4 +1,11 @@
-# Test for normality
+# `Test for normality`
+
+# `Test for normality`
+
+Source:
+[`R/ols-normality-tests.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-normality-tests.R)
+
+`ols_test_normality.Rd`
 
 Test for detecting violation of normality assumption.
 
@@ -43,6 +50,36 @@ following components:
 
   anderson darling statistic
 
+## Details
+
+The tests differ in the sample sizes they support.
+[`shapiro.test()`](https://rdrr.io/r/stats/shapiro.test.html) requires
+between 3 and 5000 observations, and
+[`nortest::ad.test()`](https://rdrr.io/pkg/nortest/man/ad.test.html) and
+[`nortest::cvm.test()`](https://rdrr.io/pkg/nortest/man/cvm.test.html)
+require at least 8. [`ks.test()`](https://rdrr.io/r/stats/ks.test.html)
+does not document a sample-size limit of its own, but a minimum of 3
+observations is required here so that the test is meaningful. Tests
+whose sample-size requirement is not met are skipped: their statistic
+and p-value are returned as `NA` and a single warning lists the skipped
+tests and the reason. If the sample is too small for every test, the
+function stops with an error.
+
+The Cramér–von Mises test is
+[`nortest::cvm.test()`](https://rdrr.io/pkg/nortest/man/cvm.test.html),
+the test of composite normality, which compares the data with a normal
+distribution whose mean and standard deviation are estimated from the
+data. It is deterministic. For very small p-values the test reports
+`7.37e-10` with a warning instead of a more precise value.
+
+## References
+
+Stephens, M. A. (1986). Tests based on EDF statistics. In R. B.
+D'Agostino and M. A. Stephens (Eds.), *Goodness-of-Fit Techniques* (pp.
+97–193). New York: Marcel Dekker.
+
+Thode, H. C. (2002). *Testing for Normality*. New York: Marcel Dekker.
+
 ## See also
 
 Other residual diagnostics:
@@ -62,7 +99,7 @@ ols_test_normality(model)
 #> -----------------------------------------------
 #> Shapiro-Wilk              0.9366         0.0600 
 #> Kolmogorov-Smirnov        0.1152         0.7464 
-#> Cramer-von Mises          2.8122         0.0000 
+#> Cramer-von Mises          0.0764         0.2230 
 #> Anderson-Darling          0.5859         0.1188 
 #> -----------------------------------------------
 ```

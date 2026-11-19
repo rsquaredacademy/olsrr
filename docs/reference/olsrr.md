@@ -1,4 +1,11 @@
-# `olsrr` package
+# `olsrr`` package`
+
+# `olsrr`` package`
+
+Source:
+[`R/olsrr.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/olsrr.R)
+
+`olsrr.Rd`
 
 Tools for teaching and learning OLS regression
 
@@ -18,4 +25,8 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Aravind Hebbali <hebbali.aravind@gmail.com>
+**Maintainer**: Aravind Hebbali <aravindhebbali@rsquaredacademy.com>
+
+Authors:
+
+- Aravind Hebbali <aravindhebbali@rsquaredacademy.com>

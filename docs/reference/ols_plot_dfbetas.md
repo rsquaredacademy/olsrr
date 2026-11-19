@@ -1,4 +1,11 @@
-# DFBETAs panel
+# `DFBETAs panel`
+
+# `DFBETAs panel`
+
+Source:
+[`R/ols-dfbetas-panel.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-dfbetas-panel.R)
+
+`ols_plot_dfbetas.Rd`
 
 Panel of plots to detect influential observations using DFBETAs.
 
@@ -29,11 +36,11 @@ an outlier/influential observation.
 
 DFBETA measures the difference in each parameter estimate with and
 without the influential point. There is a DFBETA for each data point i.e
-if there are n observations and k variables, there will be \\n \* k\\
+if there are n observations and k variables, there will be \\(n \* k\\)
 DFBETAs. In general, large values of DFBETAS indicate observations that
 are influential in estimating a given parameter. Belsley, Kuh, and
 Welsch recommend 2 as a general cutoff value to indicate influential
-observations and \\2/\sqrt(n)\\ as a size-adjusted cutoff.
+observations and \\(2/\sqrt(n)\\) as a size-adjusted cutoff.
 
 ## References
 

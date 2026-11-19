@@ -1,4 +1,11 @@
-# Residual fit spread plot data
+# `Residual fit spread plot data`
+
+# `Residual fit spread plot data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_rfsplot_fmdata.Rd`
 
 Data for generating residual fit spread plot.
 

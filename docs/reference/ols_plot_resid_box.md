@@ -1,4 +1,11 @@
-# Residual box plot
+# `Residual box plot`
+
+# `Residual box plot`
+
+Source:
+[`R/ols-residual-boxplot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-residual-boxplot.R)
+
+`ols_plot_resid_box.Rd`
 
 Box plot of residuals to examine if residuals are normally distributed.
 

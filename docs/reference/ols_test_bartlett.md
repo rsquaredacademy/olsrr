@@ -1,4 +1,11 @@
-# Bartlett test
+# `Bartlett test`
+
+# `Bartlett test`
+
+Source:
+[`R/ols-bartlett-test.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-bartlett-test.R)
+
+`ols_test_bartlett.Rd`
 
 Test if k samples are from populations with equal variances.
 
@@ -70,7 +77,7 @@ if (require("descriptr")) {
   ols_test_bartlett(mtcarz, 'mpg', group_var = 'cyl')
 }
 #> Loading required package: descriptr
-#> Warning: package 'descriptr' was built under R version 4.5.3
+#> Warning: package 'descriptr' was built under R version 4.6.2
 #> 
 #> Attaching package: 'descriptr'
 #> The following object is masked from 'package:olsrr':
@@ -85,8 +92,8 @@ if (require("descriptr")) {
 #>         Test Summary          
 #>  -----------------------------
 #>  DF            =    2 
-#>  Chi2          =    8.39345 
-#>  Prob > Chi2   =    0.01504477 
+#>  Chi2          =    8.393396 
+#>  Prob > Chi2   =    0.01504518 
 
 # using variables
 ols_test_bartlett(hsb, 'read', 'write')
@@ -103,6 +110,6 @@ ols_test_bartlett(hsb, 'read', 'write')
 #>         Test Summary         
 #>  ----------------------------
 #>  DF            =    1 
-#>  Chi2          =    1.222871 
-#>  Prob > Chi2   =    0.2687979 
+#>  Chi2          =    1.222863 
+#>  Prob > Chi2   =    0.2687995 
 ```

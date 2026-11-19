@@ -1,5 +1,12 @@
 # Variable Selection Methods
 
+# Variable Selection Methods
+
+Source:
+[`vignettes/variable_selection.Rmd`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/variable_selection.Rmd)
+
+`variable_selection.Rmd`
+
 ## Introduction
 
 Variable selection refers to the process of choosing the most relevant
@@ -22,7 +29,9 @@ variables, the number of subsets to be tested is $`2^{10}`$, which is
 1024, and if you have 20 candidate variables, the number is $`2^{20}`$,
 which is more than one million.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_step_all_possible`](https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_step_all_possible`](https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.md)`(``model``)`
 
     ##    Index N      Predictors  R-Square Adj. R-Square Mallow's Cp
     ## 3      1 1              wt 0.7528328     0.7445939   12.480939
@@ -47,7 +56,9 @@ Select the subset of predictors that do the best at meeting some
 well-defined objective criterion, such as having the largest R2 value or
 the smallest MSE, Mallow’s Cp or AIC.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_step_best_subset`](https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_step_best_subset`](https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.md)`(``model``)`
 
     ##    Best Subsets Regression    
     ## ------------------------------
@@ -59,16 +70,16 @@ the smallest MSE, Mallow’s Cp or AIC.
     ##      4         disp hp wt qsec 
     ## ------------------------------
     ## 
-    ##                                                    Subsets Regression Summary                                                    
-    ## ---------------------------------------------------------------------------------------------------------------------------------
-    ##                        Adj.        Pred                                                                                           
-    ## Model    R-Square    R-Square    R-Square     C(p)        AIC        SBIC        SBC         MSEP       FPE       HSP       APC  
-    ## ---------------------------------------------------------------------------------------------------------------------------------
-    ##   1        0.7528      0.7446      0.7087    12.4809    166.0294    74.2916    170.4266    296.9167    9.8572    0.3199    0.2801 
-    ##   2        0.8268      0.8148      0.7811     2.3690    156.6523    66.5755    162.5153    215.5104    7.3563    0.2402    0.2091 
-    ##   3        0.8348      0.8171       0.782     3.0617    157.1426    67.7238    164.4713    213.1929    7.4756    0.2461    0.2124 
-    ##   4        0.8351      0.8107       0.771     5.0000    159.0696    70.0408    167.8640    220.8882    7.9497    0.2644    0.2259 
-    ## ---------------------------------------------------------------------------------------------------------------------------------
+    ##                                                   Subsets Regression Summary                                                   
+    ## -------------------------------------------------------------------------------------------------------------------------------
+    ##                        Adj.        Pred                                                                                         
+    ## Model    R-Square    R-Square    R-Square     C(p)        AIC        SBIC        SBC        MSEP      FPE       HSP       APC  
+    ## -------------------------------------------------------------------------------------------------------------------------------
+    ##   1        0.7528      0.7446      0.7087    12.4809    166.0294    74.2916    170.4266    9.8972    9.8572    0.3199    0.2801 
+    ##   2        0.8268      0.8148      0.7811     2.3690    156.6523    66.5755    162.5153    7.4314    7.3563    0.2402    0.2091 
+    ##   3        0.8348      0.8171       0.782     3.0617    157.1426    67.7238    164.4713    7.6140    7.4756    0.2461    0.2124 
+    ##   4        0.8351      0.8107       0.771     5.0000    159.0696    70.0408    167.8640    8.1810    7.9497    0.2644    0.2259 
+    ## -------------------------------------------------------------------------------------------------------------------------------
     ## AIC: Akaike Information Criteria 
     ##  SBIC: Sawa's Bayesian Information Criteria 
     ##  SBC: Schwarz Bayesian Criteria 
@@ -94,7 +105,9 @@ We will use the below model throughout this article except in the case
 of hierarchical selection. You can learn more about the data
 [here](https://olsrr.rsquaredacademy.com/reference/surgical).
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`` `[`summary`](https://rdrr.io/r/base/summary.html)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`\
+[`summary`](https://rdrr.io/r/base/summary.html)`(``model``)`
 
     ## 
     ## Call:
@@ -131,7 +144,9 @@ the model specified.
 
 ##### Forward selection
 
-`# stepwise forward regression`` `[`ols_step_forward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md)`(``model``)`
+\
+`# stepwise forward regression`\
+[`ols_step_forward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md)`(``model``)`
 
     ## 
     ## 
@@ -152,8 +167,8 @@ the model specified.
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.884       RMSE                 184.276 
-    ## R-Squared                 0.781       MSE                33957.712 
+    ## R                         0.884       RMSE                 195.454 
+    ## R-Squared                 0.781       MSE                38202.426 
     ## Adj. R-Squared            0.758       Coef. Var             27.839 
     ## Pred R-Squared            0.700       AIC                  730.620 
     ## MAE                     137.656       SBC                  744.543 
@@ -188,7 +203,9 @@ the model specified.
 
 ##### Backward elimination
 
-`# stepwise backward regression`` `[`ols_step_backward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_backward_p.md)`(``model``)`
+\
+`# stepwise backward regression`\
+[`ols_step_backward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_backward_p.md)`(``model``)`
 
     ## 
     ## 
@@ -207,8 +224,8 @@ the model specified.
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.884       RMSE                 184.276 
-    ## R-Squared                 0.781       MSE                33957.712 
+    ## R                         0.884       RMSE                 195.454 
+    ## R-Squared                 0.781       MSE                38202.426 
     ## Adj. R-Squared            0.758       Coef. Var             27.839 
     ## Pred R-Squared            0.700       AIC                  730.620 
     ## MAE                     137.656       SBC                  744.543 
@@ -260,7 +277,8 @@ name or position in the model specified.
 
 ##### By name
 
-[`ols_step_forward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md)`(``model``, include ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"age"``, ``"alc_mod"``)``)`
+\
+[`ols_step_forward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md)`(``model``, include ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"age"``, ``"alc_mod"``)``)`
 
     ## 
     ## 
@@ -282,8 +300,8 @@ name or position in the model specified.
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.866       RMSE                 196.724 
-    ## R-Squared                 0.750       MSE                38700.429 
+    ## R                         0.866       RMSE                 210.866 
+    ## R-Squared                 0.750       MSE                44464.323 
     ## Adj. R-Squared            0.718       Coef. Var             30.034 
     ## Pred R-Squared            0.649       AIC                  739.680 
     ## MAE                     146.418       SBC                  755.592 
@@ -319,7 +337,8 @@ name or position in the model specified.
 
 ##### By index
 
-[`ols_step_forward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md)`(``model``, include ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``5``, ``7``)``)`
+\
+[`ols_step_forward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md)`(``model``, include ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``5``, ``7``)``)`
 
     ## 
     ## 
@@ -341,8 +360,8 @@ name or position in the model specified.
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.866       RMSE                 196.724 
-    ## R-Squared                 0.750       MSE                38700.429 
+    ## R                         0.866       RMSE                 210.866 
+    ## R-Squared                 0.750       MSE                44464.323 
     ## Adj. R-Squared            0.718       Coef. Var             30.034 
     ## Pred R-Squared            0.649       AIC                  739.680 
     ## MAE                     146.418       SBC                  755.592 
@@ -385,7 +404,9 @@ All stepwise selection methods display standard output which includes:
 - ANOVA
 - parameter estimates
 
-`# adjusted r-square `` `[`ols_step_forward_adj_r2`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.md)`(``model``)`
+\
+`# adjusted r-square `\
+[`ols_step_forward_adj_r2`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.md)`(``model``)`
 
     ## 
     ## 
@@ -406,8 +427,8 @@ All stepwise selection methods display standard output which includes:
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.884       RMSE                 184.276 
-    ## R-Squared                 0.781       MSE                33957.712 
+    ## R                         0.884       RMSE                 195.454 
+    ## R-Squared                 0.781       MSE                38202.426 
     ## Adj. R-Squared            0.758       Coef. Var             27.839 
     ## Pred R-Squared            0.700       AIC                  730.620 
     ## MAE                     137.656       SBC                  744.543 
@@ -447,7 +468,10 @@ to visualize variable selection. It will display how the variable
 selection criteria changes at each step of the selection process along
 with the variable selected.
 
-`# adjusted r-square `` ``k`` ``<-`` `[`ols_step_forward_adj_r2`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.md)`(``model``)`` `[`plot`](https://rdrr.io/r/graphics/plot.default.html)`(``k``)`
+\
+`# adjusted r-square `\
+`k`` ``<-`` `[`ols_step_forward_adj_r2`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.md)`(``model``)`\
+[`plot`](https://rdrr.io/r/graphics/plot.default.html)`(``k``)`
 
 ![](variable_selection_files/figure-html/visualize-1.png)
 
@@ -462,7 +486,9 @@ following information at each step:
 - model
 - value of the criteria at that stage
 
-`# adjusted r-square `` `[`ols_step_forward_adj_r2`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.md)`(``model``, details ``=`` ``TRUE``)`
+\
+`# adjusted r-square `\
+[`ols_step_forward_adj_r2`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.md)`(``model``, details ``=`` ``TRUE``)`
 
     ## Forward Selection Method 
     ## ------------------------
@@ -609,8 +635,8 @@ following information at each step:
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.884       RMSE                 184.276 
-    ## R-Squared                 0.781       MSE                33957.712 
+    ## R                         0.884       RMSE                 195.454 
+    ## R-Squared                 0.781       MSE                38202.426 
     ## Adj. R-Squared            0.758       Coef. Var             27.839 
     ## Pred R-Squared            0.700       AIC                  730.620 
     ## MAE                     137.656       SBC                  744.543 
@@ -649,7 +675,9 @@ To view the progress in the variable selection procedure, set `progress`
 to `TRUE`. It will display the variable being selected/eliminated at
 each step until there are no more candidate variables left.
 
-`# adjusted r-square `` `[`ols_step_forward_adj_r2`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.md)`(``model``, progress ``=`` ``TRUE``)`
+\
+`# adjusted r-square `\
+[`ols_step_forward_adj_r2`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_adj_r2.md)`(``model``, progress ``=`` ``TRUE``)`
 
     ## Forward Selection Method 
     ## ------------------------
@@ -695,8 +723,8 @@ each step until there are no more candidate variables left.
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.884       RMSE                 184.276 
-    ## R-Squared                 0.781       MSE                33957.712 
+    ## R                         0.884       RMSE                 195.454 
+    ## R-Squared                 0.781       MSE                38202.426 
     ## Adj. R-Squared            0.758       Coef. Var             27.839 
     ## Pred R-Squared            0.700       AIC                  730.620 
     ## MAE                     137.656       SBC                  744.543 
@@ -741,7 +769,10 @@ soon as it comes across a variable that does not meet the selection
 threshold. You can learn more about hierachichal selection
 [here](https://www.stata.com/manuals/rstepwise.pdf).
 
-`# hierarchical selection`` ``m`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``bcs`` ``+`` ``alc_heavy`` ``+`` ``pindex`` ``+`` ``enzyme_test`` ``+`` ``liver_test`` ``+`` ``age`` ``+`` ``gender`` ``+`` ``alc_mod``, data ``=`` ``surgical``)`` `[`ols_step_forward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md)`(``m``, ``0.1``, hierarchical ``=`` ``TRUE``)`
+\
+`# hierarchical selection`\
+`m`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``bcs`` ``+`` ``alc_heavy`` ``+`` ``pindex`` ``+`` ``enzyme_test`` ``+`` ``liver_test`` ``+`` ``age`` ``+`` ``gender`` ``+`` ``alc_mod``, data ``=`` ``surgical``)`\
+[`ols_step_forward_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md)`(``m``, ``0.1``, hierarchical ``=`` ``TRUE``)`
 
     ## 
     ## 
@@ -761,8 +792,8 @@ threshold. You can learn more about hierachichal selection
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.878       RMSE                 188.249 
-    ## R-Squared                 0.771       MSE                35437.709 
+    ## R                         0.878       RMSE                 197.620 
+    ## R-Squared                 0.771       MSE                39053.801 
     ## Adj. R-Squared            0.753       Coef. Var             28.147 
     ## Pred R-Squared            0.695       AIC                  730.924 
     ## MAE                     140.619       SBC                  742.858 

@@ -1,4 +1,11 @@
-# Hadi plot
+# `Hadi plot`
+
+# `Hadi plot`
+
+Source:
+[`R/ols-hadi-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-hadi-plot.R)
+
+`ols_plot_hadi.Rd`
 
 Hadi's measure of influence based on the fact that influential
 observations can be present in either the response variable or in the

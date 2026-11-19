@@ -1,4 +1,11 @@
-# Regress predictor on other predictors
+# `Regress predictor on other predictors`
+
+# `Regress predictor on other predictors`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_regress_x.Rd`
 
 Regress a predictor in the model on all the other predictors.
 

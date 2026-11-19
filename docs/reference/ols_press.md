@@ -1,4 +1,11 @@
-# PRESS
+# `PRESS`
+
+# `PRESS`
+
+Source:
+[`R/ols-influence-measures.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-influence-measures.R)
+
+`ols_press.Rd`
 
 PRESS (prediction sum of squares) tells you how well the model will
 predict new data.
@@ -26,6 +33,12 @@ prediction error. Each fitted to obtain the predicted value for the ith
 observation. Use PRESS to assess your model's predictive ability.
 Usually, the smaller the PRESS value, the better the model's predictive
 ability.
+
+For models fitted with prior weights, PRESS is the weighted sum of
+squared deleted residuals, \\(\sum w_i (e_i / (1 - h_i))^2\\). It
+therefore scales with the weights: multiplying every weight by a
+constant multiplies PRESS by the same constant. Unweighted models are
+the special case where every weight equals one.
 
 ## References
 

@@ -1,6 +1,642 @@
 # Changelog
 
-## olsrr (development version)
+## olsrr 0.7.1
+
+CRAN release: 2026-11-18
+
+### Bug Fixes
+
+- [`ols_plot_resid_regressor()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_regressor.md),
+  [`ols_plot_resid_hist()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_hist.md),
+  [`ols_plot_diagnostics()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_diagnostics.md)
+  and
+  [`ols_plot_comp_plus_resid()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.md)
+  take the residuals and fitted values of the rows the fit used, so
+  models fitted with `na.action = na.exclude` plot the used observations
+  instead of failing with a differing-row-count error or pairing padded
+  residuals with used rows (M1, L1).
+
+- [`ols_step_all_possible()`](https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.md)
+  and
+  [`ols_step_best_subset()`](https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.md)
+  report the number of estimable terms rather than the number of
+  candidate columns, so an exactly collinear predictor is not counted in
+  `n`; the fit statistics are unchanged (L4).
+
+- [`ols_vif_tol()`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)
+  warns that VIFs may not be sensible for a model without an intercept,
+  as [`car::vif()`](https://rdrr.io/pkg/car/man/vif.html) does (also
+  through
+  [`ols_coll_diag()`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md),
+  which calls it); the tolerance and VIF values are unchanged (L3).
+
+- [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)
+  now computes Holm adjusted p values with `stats::p.adjust(p, "holm")`.
+  Earlier versions sorted the raw p values, multiplied by a reversed
+  rank and mapped them back, which dropped the cumulative maximum: the
+  smallest raw p was returned unchanged, so the first predictor could be
+  rejected at .05 when its Holm p was above the cutoff. The simultaneous
+  test is unchanged; Bonferroni and Sidak were already correct (B1).
+
+- [`ols_plot_comp_plus_resid()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.md)
+  keeps every non-intercept column of the model matrix when it is built,
+  so single-predictor and no-intercept models return one plot per
+  predictor with one point per observation. Earlier versions dropped the
+  only column (`[, -1]`) for a single predictor and the intercept
+  handling silently reduced no-intercept models to one column, giving a
+  one-row plot and losing predictors (B2).
+
+- [`ols_plot_resid_hist()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_hist.md)
+  draws the histogram with the breaks used for the normal curve, so the
+  curve and the bars share one bin width. Earlier versions scaled the
+  curve to the [`hist()`](https://rdrr.io/r/graphics/hist.html) bin
+  width while `geom_histogram(bins = 6)` drew different-width bars, so
+  the fitted normal density was drawn at the wrong height (0.54x or
+  1.03x) (B3).
+
+- [`ols_plot_resid_regressor()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_regressor.md)
+  and
+  [`rvsr_plot_shiny()`](https://olsrr.rsquaredacademy.com/reference/rvsr_plot_shiny.md)
+  align the regressor with the rows the fit used, so a model fitted with
+  an omitted `NA` row plots instead of failing with a
+  differing-row-count error (B4).
+
+- `ols_plot_diagnostics(print_plot = FALSE)` no longer draws the ten
+  sub-plots before returning them; each sub-plot is built with
+  `print_plot = FALSE` (B5).
+
+- [`ols_prep_rvsrplot_data()`](https://olsrr.rsquaredacademy.com/reference/ols_prep_rvsrplot_data.md)
+  reports every non-intercept model-matrix column, so no-intercept and
+  weighted models lose no predictor names and a single predictor returns
+  a one-column data frame instead of a bare vector (B6).
+
+- [`ols_test_outlier()`](https://olsrr.rsquaredacademy.com/reference/ols_test_outlier.md)
+  caps the Bonferroni p values at 1, so they remain probabilities
+  (earlier versions could report values above 1 for large samples) (B7).
+
+- The grob-returning plots
+  ([`ols_plot_added_variable()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.md),
+  [`ols_plot_comp_plus_resid()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.md),
+  [`ols_plot_dfbetas()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_dfbetas.md)
+  and
+  [`ols_plot_diagnostics()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_diagnostics.md))
+  draw the grob and return it invisibly when `print_plot = TRUE`, so
+  they print in scripts, functions and loops instead of only at top
+  level ([\#161](https://github.com/rsquaredacademy/olsrr/issues/161))
+  (B8).
+
+- [`ols_correlations()`](https://olsrr.rsquaredacademy.com/reference/ols_correlations.md)
+  reports that models without an intercept are not supported with “more
+  than one predictor coefficient”, matching the guard that counts
+  coefficients rather than term labels
+  ([\#232](https://github.com/rsquaredacademy/olsrr/issues/232)) (B9).
+
+- Forward selection on a saturated model (`n <= p`, residual degrees of
+  freedom 0) now starts from the null model and records the predictors
+  selected before the next candidate saturates, instead of returning an
+  empty result and losing the selection
+  ([\#199](https://github.com/rsquaredacademy/olsrr/issues/199)) (B10).
+
+- Stepwise selection plots no longer cut off the highest value when the
+  plotted metric (e.g. AIC) has both negative and positive values (F13).
+
+- Stepwise offset identity checks compare exact numeric values, allowing
+  labelled or attributed responses without weakening the rejection of a
+  different fit (P02).
+
+- Stepwise selectors choose one term per step. Selection rankings and
+  criterion improvement tests use 10 significant digits: differences
+  below that precision are treated as ties, equal criterion keys mean no
+  improvement, and any remaining tie goes to the first candidate in
+  formula order, after F ties are broken by p value (smaller for entry,
+  larger for removal). P-value entry/removal cutoffs are compared
+  without rounding. Histories identify the term actually removed with
+  forced predictors and report SBIC against the original full model
+  (P03, M1-M4, L1-L2).
+
+- P-value selection ignores candidates with missing F tests and ends
+  cleanly when none remain; an initial search with no eligible candidate
+  gives the existing entry-criteria error (P04).
+
+- Stepwise selectors return offset models fitted from the original call,
+  preserving offset expressions for correct predictions on new data and
+  a compact printed call (P01). If that fit cannot exactly reproduce the
+  frozen-offset selection fit, selection stops with an error.
+
+- [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  and selection refits reject custom named contrast functions; fit with
+  an explicit contrast matrix instead. Base contrast names are resolved
+  from the stats namespace and refits use matrices, so changes to
+  search-path functions or contrast options cannot change the fitted
+  coding.
+
+- Standardized-beta and selection refits carry the fit’s frozen total
+  offset with formula offset terms removed, preserving cancelling
+  formula and call offsets exactly instead of recovering a contribution
+  by subtraction.
+
+- [`ols_step_both_p()`](https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.md)
+  with every term in `include` returns the included model with empty
+  step metrics instead of failing.
+
+- The deleted-studentized-residual, standardized-residual,
+  studentized-residual, Cook’s D, DFFITS and DFBETAS plot data/plot
+  functions now compute their influence measure on the positive-weight
+  fit rows and map the original observation IDs back. Fits that combine
+  zero prior weights with `na.action = na.exclude` no longer fail with a
+  differing-row-count error, and their values and observation IDs agree
+  with the same model fitted after removing the unused rows.
+
+- [`ols_prep_rstudlev_data()`](https://olsrr.rsquaredacademy.com/reference/ols_prep_rstudlev_data.md)
+  and
+  [`ols_plot_resid_lev()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_lev.md)
+  compute the leverage threshold from the model rank rather than the
+  number of coefficient slots, so adding an aliased predictor no longer
+  raises the threshold and reclassifies genuine leverage points as
+  “normal”.
+
+- [`ols_press()`](https://olsrr.rsquaredacademy.com/reference/ols_press.md),
+  [`ols_pred_rsq()`](https://olsrr.rsquaredacademy.com/reference/ols_pred_rsq.md)
+  and the other leverage-based diagnostics stop with an error (“refit
+  with qr = TRUE”) for a model fitted with `qr = FALSE`, instead of
+  rebuilding the projection from the design matrix. The fitted tolerance
+  and pivot cannot be recovered from the call, and a rebuilt
+  decomposition can span different columns than the fit and give a wrong
+  PRESS; only the fit’s own QR is used.
+
+- Standardized betas and every stepwise selection routine now rebuild
+  the fit from the data found through the model call with
+  [`model.frame()`](https://rdrr.io/r/stats/model.frame.html) and
+  [`model.matrix()`](https://rdrr.io/r/stats/model.matrix.html) (the
+  call’s subset, weights, offset, na.action and the fit’s contrasts) and
+  require the response, model matrix (values and column names, so factor
+  coding), weights and offset to be identical to the fit’s. If the data
+  have changed since fitting, a factor was releveled, or the call symbol
+  is bound to different data, they stop with “the data used to fit this
+  model has changed or cannot be found; refit the model”. When the call
+  data cannot be found, the stored model frame is used only for formulas
+  made of plain variables; transformed terms and offsets require the
+  data. Unchanged fits with NULL weights/offset symbols, subsets,
+  `na.exclude`,
+  [`poly()`](https://rdrr.io/r/stats/poly.html)/[`scale()`](https://rdrr.io/r/base/scale.html)
+  terms and multiple offsets are accepted.
+
+- [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  no longer silently refits a model fitted with `qr = FALSE` or
+  `model = FALSE`: re-evaluating the call could use another environment,
+  tolerance or data and report a different model than the one supplied.
+  It stops with “refit with lm(…, qr = TRUE, model = TRUE)”.
+
+- [`ols_press()`](https://olsrr.rsquaredacademy.com/reference/ols_press.md)
+  and
+  [`ols_pred_rsq()`](https://olsrr.rsquaredacademy.com/reference/ols_pred_rsq.md)
+  return `NA` with a warning naming the observations when a used row has
+  leverage 1 (for example a singleton factor level or an isolated
+  indicator), because its deleted residual cannot be estimated;
+  previously rounding error gave a finite value.
+  [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  and
+  [`ols_model_performance()`](https://olsrr.rsquaredacademy.com/reference/ols_model_performance.md)
+  show `NA` for predicted R-squared in that case.
+
+- Cook’s D (types 2 and 4) and DFFITS thresholds use the model rank and
+  residual degrees of freedom rather than the number of coefficient
+  slots, so an aliased predictor no longer changes the cutoff or hides
+  influential observations.
+
+- Observations with leverage 1 (for example the only member of a factor
+  level) keep undefined (`NaN`) standardized/studentized residuals,
+  Cook’s D and DFFITS in the plot data and plots, as in base R, and a
+  DFBETAS of 0, instead of arbitrary finite values flagged as normal.
+  Plot ranges ignore the undefined values.
+
+- [`ols_prep_rstudlev_data()`](https://olsrr.rsquaredacademy.com/reference/ols_prep_rstudlev_data.md)
+  computes leverages and studentized residuals for the positive-weight
+  fit rows and maps the original observation IDs back, instead of
+  calling the NA-padded
+  [`hatvalues()`](https://rdrr.io/r/stats/influence.measures.html)/[`rstudent()`](https://rdrr.io/r/stats/influence.measures.html)
+  path. Fits that combine zero prior weights with
+  `na.action = na.exclude`, or that omit rows at the end of the data, no
+  longer fail with a differing-row-count error; the returned leverages,
+  studentized residuals and IDs agree with the same model fitted after
+  removing the unused rows.
+
+- Standardised betas keep the original coefficient names when a factor
+  level contains text that looks like one of the internal placeholder
+  names. The placeholder is now chosen so that it does not occur
+  anywhere in the data names, factor levels or model-matrix columns, so
+  translating the refitted names back no longer rewrites the factor
+  level itself. The affected Std. Beta cells are printed against their
+  own coefficient rows again.
+
+- Standardised betas standardise a predictor even when it is a raw
+  variable that also appears inside a transformed response, such as `wt`
+  in `I(mpg / wt) ~ wt * hp` or `mpg` in `log(mpg) ~ mpg * hp`. The
+  response itself is still carried through unchanged, but its separate
+  predictor occurrence now uses its own scale instead of being left
+  unstandardised.
+
+- [`ols_pure_error_anova()`](https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.md)
+  derives the regression, error and lack-of-fit degrees of freedom from
+  the model rank and the number of distinct predictor values, and
+  obtains the regression sum of squares as the part of the total not
+  explained by the residual sum of squares. No-intercept fits now report
+  the same error degrees of freedom, overall F and nested lack-of-fit F
+  as [`summary()`](https://rdrr.io/r/base/summary.html) and
+  [`anova()`](https://rdrr.io/r/stats/anova.html). A model with no
+  estimated direction beyond the intercept — an intercept-only fit or a
+  constant/fully aliased predictor — is rejected instead of reporting a
+  significant regression for an intercept-only fit.
+
+- PRESS, predicted R-squared and the internal leverage calculation use
+  only the first `rank` columns of the fit QR decomposition.
+  Rank-deficient models (for example a predictor that is an exact
+  multiple of another) previously included the non-estimable orthonormal
+  directions, so
+  [`ols_press()`](https://olsrr.rsquaredacademy.com/reference/ols_press.md)
+  and the predicted R-squared printed by
+  [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  disagreed with the equivalent estimable fit.
+
+- [`ols_press()`](https://olsrr.rsquaredacademy.com/reference/ols_press.md),
+  [`ols_pred_rsq()`](https://olsrr.rsquaredacademy.com/reference/ols_pred_rsq.md)
+  and
+  [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  take the leverage of each observation from the fit itself by row
+  position in the model frame instead of matching row names. Fits that
+  combine zero prior weights with `na.action = na.exclude` no longer
+  pair residuals with another observation’s leverage, and no longer fail
+  when the omitted rows are at the end of the data.
+
+- [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)
+  and
+  [`ols_test_score()`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)
+  stop with an informative error when the auxiliary regression has no
+  direction beyond the intercept — a constant or fully aliased
+  regressor, or an intercept-only model — instead of reporting a
+  statistic with zero degrees of freedom, which gave a false `p = 0`
+  rejection for
+  [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)
+  and a degenerate `p = 1` for
+  [`ols_test_score()`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md).
+
+- [`ols_pure_error_anova()`](https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.md)
+  removes a fixed offset from the response before splitting the sums of
+  squares, so the decomposition adds up for offset models: the error sum
+  of squares equals `deviance(model)` and the overall regression F
+  equals [`summary()`](https://rdrr.io/r/base/summary.html). It
+  previously grouped the raw response and reported an error sum of
+  squares larger than the model’s.
+
+- [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  standardised betas and the selection routines carry both offset
+  contributions of a model that has
+  [`offset()`](https://rdrr.io/r/stats/offset.html) terms in its formula
+  *and* an `offset` argument to
+  [`lm()`](https://rdrr.io/r/stats/lm.html), instead of silently
+  dropping the argument offset and standardising or selecting on a
+  different model.
+
+- Standardised betas read the term structure from the model terms rather
+  than splitting deparsed term text, so a predictor whose name contains
+  a colon is standardised correctly, and a term that cannot be evaluated
+  in the model data raises an error instead of leaving that predictor
+  unscaled.
+
+- Standardised betas keep the model’s contrast coding, so the names of a
+  fit made with `contrasts = list(...)` match
+  [`coef()`](https://rdrr.io/r/stats/coef.html) and its values come from
+  the same parameterisation. Selection refits keep the contrasts too, so
+  an include-all selection returns the input fit instead of
+  re-parameterising its factors.
+
+- A predictor that is also used as an offset is standardised on its own
+  scale; the offset itself stays a fixed, unstandardised vector.
+
+- [`ols_step_all_possible_betas()`](https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible_betas.md)
+  stops with a clear error for weighted models instead of returning the
+  unweighted coefficients of every subset. It now also documents that it
+  requires a model with an intercept, and counts predictor terms rather
+  than coefficients when checking the model size.
+
+- [`ols_step_all_possible()`](https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.md)
+  and
+  [`ols_step_best_subset()`](https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.md)
+  enumerate only the requested subset orders, so a bounded search with
+  many predictors no longer builds the combination matrices for every
+  order up to the number of predictors. A `max_order` larger than the
+  model is rejected before any allocation.
+
+- Predicted R-squared and PRESS now use the model weights for weighted
+  models. PRESS is the weighted sum of squared deleted residuals, so it
+  scales with the weights instead of moving towards one as the weights
+  grow; predicted R-squared, the ratio of PRESS to the weighted total
+  sum of squares, is invariant to a constant rescaling of the weights.
+
+- Observations with zero prior weights are excluded consistently from
+  PRESS, predicted R-squared, MAE and the information criteria, which
+  now use the effective sample size and the fitted model’s deviance.
+  Zero-weight fits now agree with the same model fitted after removing
+  those rows, and `na.exclude` and `na.omit` fits agree with each other.
+
+- [`ols_aic()`](https://olsrr.rsquaredacademy.com/reference/ols_aic.md)
+  and
+  [`ols_sbc()`](https://olsrr.rsquaredacademy.com/reference/ols_sbc.md)
+  with `method = "SAS"` now use the model’s residual sum of squares
+  (honouring weights and `na.exclude`) instead of the unweighted,
+  NA-padded residuals, so the criteria no longer depend on the
+  missing-value action.
+
+- [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  aligns the coefficient table by name when the model has aliased
+  coefficients, so standard errors, t statistics, p values and
+  confidence limits stay with their own terms instead of shifting onto
+  the next one; standardized betas are computed only for estimable
+  coefficients.
+
+- Standardized betas of interaction models now standardize transformed
+  predictors after the transformation (`log(wt)`, `I(x^2)`), keep the
+  levels and names of categorical terms, and preserve model offsets,
+  both calling styles giving the same values. Matrix-valued terms such
+  as [`poly()`](https://rdrr.io/r/stats/poly.html) inside an interaction
+  now give a clear error instead of a value from a different model.
+
+- [`ols_pure_error_anova()`](https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.md)
+  gives the same lack-of-fit and overall regression statistics for a
+  unit-weight model as for the unweighted model, and works for
+  `na.exclude` fits.
+
+- Stepwise and variable selection routines preserve the intercept and
+  any fixed offset of the input model, so selecting with `include` set
+  to every predictor returns the input fit, and models without an
+  intercept are not refitted with one.
+
+- Selection routines keep the formula environment of the input model for
+  every candidate and final fit, so locally defined transformations and
+  predictors outside the data frame work.
+
+- [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)
+  and
+  [`ols_test_score()`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)
+  report the rank of the auxiliary regression (independent tested
+  directions) as degrees of freedom, so aliased predictors no longer
+  inflate the degrees of freedom and p values. Overlapping or duplicated
+  `vars` selections are de-duplicated.
+
+- [`ols_test_f()`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md),
+  [`ols_test_score()`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)
+  and
+  [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)
+  work for models fitted with `na.action = na.exclude`, giving the same
+  results as the `na.omit` fit.
+
+- [`ols_vif_tol()`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)
+  works for single-predictor models and for models without an intercept,
+  returning tolerance and VIF for every model-matrix column instead of
+  failing.
+
+- [`ols_test_bartlett()`](https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.md)
+  stops with the same informative errors as
+  [`stats::bartlett.test()`](https://rdrr.io/r/stats/bartlett.test.html)
+  when all observations are in one group or a group has fewer than two
+  observations, instead of printing a result with `NaN` or `NA`
+  statistics.
+
+- [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  now supports weighted linear models (`lm(..., weights = ...)`),
+  matching [`summary()`](https://rdrr.io/r/base/summary.html),
+  [`anova()`](https://rdrr.io/r/stats/anova.html), and
+  [`confint()`](https://rdrr.io/r/stats/confint.html) for coefficient
+  estimates, standard errors, test statistics, confidence intervals,
+  R-squared, residual standard error, and the ANOVA decomposition,
+  including models with interaction terms, whose standardised betas come
+  from a weighted refit of the standardised predictors. Passing
+  `weights` through the formula interface and passing a `glm` object now
+  give clear errors, and stepwise and variable selection routines stop
+  with a clear error message when passed a weighted model instead of
+  selecting on unweighted refits
+  ([\#236](https://github.com/rsquaredacademy/olsrr/issues/236)).
+
+- Diagnostics that mix weighted and unweighted sums of squares or refit
+  auxiliary regressions without the model weights now stop with a clear
+  error for weighted models:
+  [`ols_pure_error_anova()`](https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.md),
+  [`ols_plot_added_variable()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.md),
+  [`ols_plot_comp_plus_resid()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_comp_plus_resid.md),
+  [`ols_plot_resid_regressor()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_regressor.md),
+  [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md),
+  [`ols_test_score()`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md),
+  [`ols_test_f()`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md),
+  [`ols_correlations()`](https://olsrr.rsquaredacademy.com/reference/ols_correlations.md),
+  [`ols_test_correlation()`](https://olsrr.rsquaredacademy.com/reference/ols_test_correlation.md)
+  and
+  [`ols_prep_avplot_data()`](https://olsrr.rsquaredacademy.com/reference/ols_prep_avplot_data.md).
+  Collinearity diagnostics
+  ([`ols_vif_tol()`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md),
+  [`ols_eigen_cindex()`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md),
+  [`ols_coll_diag()`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md))
+  remain available because they are computed from the design matrix
+  ([\#236](https://github.com/rsquaredacademy/olsrr/issues/236)).
+
+- [`plot()`](https://rdrr.io/r/graphics/plot.default.html) on a 0-step
+  stepwise selection result (such as models with near-perfect fit)
+  returns invisibly with an informative message instead of failing with
+  a differing row count error
+  ([\#234](https://github.com/rsquaredacademy/olsrr/issues/234)).
+
+- [`ols_step_forward_aic()`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_aic.md)
+  (and related forward selection routines) handles models where all
+  candidate predictors are forced in `include`, returning a valid result
+  object with the included predictors that can be printed and plotted
+  alongside an informative message that no candidate predictors were
+  left ([\#235](https://github.com/rsquaredacademy/olsrr/issues/235)).
+
+- Stepwise and selection routines now preserve the model formula
+  environment and call so the returned `$model` can be used directly
+  with
+  [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  and [`predict()`](https://rdrr.io/r/stats/predict.html) when
+  transformed terms ([`log()`](https://rdrr.io/r/base/Log.html),
+  [`poly()`](https://rdrr.io/r/stats/poly.html),
+  [`factor()`](https://rdrr.io/r/base/factor.html),
+  [`I()`](https://rdrr.io/r/base/AsIs.html)) are present
+  ([\#246](https://github.com/rsquaredacademy/olsrr/issues/246)).
+
+- [`ols_test_normality()`](https://olsrr.rsquaredacademy.com/reference/ols_test_normality.md)’s
+  Cramér–von Mises test now compares the data with a normal distribution
+  whose mean and standard deviation are estimated from the data
+  ([`nortest::cvm.test()`](https://rdrr.io/pkg/nortest/man/cvm.test.html));
+  it previously compared with the uniform distribution and rejected
+  normality for almost any data.
+
+- [`ols_test_normality()`](https://olsrr.rsquaredacademy.com/reference/ols_test_normality.md)
+  no longer fails for samples larger than 5000 or smaller than 8; tests
+  outside their sample-size range are skipped with a warning.
+
+- The package no longer accesses the network or offers to update itself
+  when attached, and `xplorerr` is now a suggested package;
+  [`ols_launch_app()`](https://olsrr.rsquaredacademy.com/reference/ols_launch_app.md)
+  explains how to install it when it is missing.
+
+- [`ols_step_all_possible()`](https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.md)
+  now counts the models it will actually fit when warning about a large
+  search or refusing one without `force = TRUE`, taking `max_order` into
+  account instead of the number of predictors. It warns above `2^15 - 1`
+  models and refuses more than `2^20 - 1` models unless `force = TRUE`.
+
+- [`ols_test_f()`](https://olsrr.rsquaredacademy.com/reference/ols_test_f.md),
+  [`ols_test_score()`](https://olsrr.rsquaredacademy.com/reference/ols_test_score.md)
+  and
+  [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)
+  accept factor terms in `vars`.
+  [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)
+  prints the degrees of freedom of the tested term(s) instead of the
+  number of `vars`, and rejects factor terms with `multiple = TRUE` with
+  an informative error instead of failing with `object 'cyl' not found`.
+  `vars` are now validated against the model matrix, so model-matrix
+  column names keep working and components of interaction terms that are
+  not in the model get the standard model-variable error.
+
+- Stepwise selection is hardened against edge cases: the step counter is
+  always initialized, backward elimination falls back to an
+  intercept-only model when every predictor is dropped
+  ([\#186](https://github.com/rsquaredacademy/olsrr/issues/186)),
+  selection stops with an informative message when the residual sum of
+  squares is below `1e-10`
+  ([\#199](https://github.com/rsquaredacademy/olsrr/issues/199)), tied
+  criteria are broken deterministically
+  ([\#206](https://github.com/rsquaredacademy/olsrr/issues/206)), and
+  forced `include` variables are no longer duplicated or removed by
+  position
+  ([\#172](https://github.com/rsquaredacademy/olsrr/issues/172)).
+  [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  also handles intercept-only models.
+
+- [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md),
+  [`ols_step_forward_p()`](https://olsrr.rsquaredacademy.com/reference/ols_step_forward_p.md),
+  [`ols_step_backward_p()`](https://olsrr.rsquaredacademy.com/reference/ols_step_backward_p.md),
+  [`ols_step_best_subset()`](https://olsrr.rsquaredacademy.com/reference/ols_step_best_subset.md),
+  [`ols_step_all_possible()`](https://olsrr.rsquaredacademy.com/reference/ols_step_all_possible.md)
+  and the AIC, SBC, R2 and adjusted R2 stepwise routines now refit
+  models that contain transformed terms
+  ([`log()`](https://rdrr.io/r/base/Log.html),
+  [`factor()`](https://rdrr.io/r/base/factor.html),
+  [`poly()`](https://rdrr.io/r/stats/poly.html),
+  [`I()`](https://rdrr.io/r/base/AsIs.html)) correctly, returning the
+  same estimates as the original
+  [`lm()`](https://rdrr.io/r/stats/lm.html) fit, and printing a stepwise
+  result no longer fails in the final model output for such terms
+  ([\#244](https://github.com/rsquaredacademy/olsrr/issues/244)).
+
+- The final model from
+  [`ols_step_backward_p()`](https://olsrr.rsquaredacademy.com/reference/ols_step_backward_p.md)
+  no longer repeats variables passed through `include`.
+
+- Refits in
+  [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  and the selection routines now take the model’s observations by row
+  name, so models fitted on filtered data use the right rows and report
+  the correct number of observations instead of shifted rows and a
+  reduced sample size.
+
+- Standardised betas of models with interaction terms no longer
+  standardise the response variable, so interaction models with a
+  transformed response ([`log()`](https://rdrr.io/r/base/Log.html),
+  [`sqrt()`](https://rdrr.io/r/base/MathFun.html)) return the correct
+  values instead of a `NaN` warning and estimates from a subset of the
+  data.
+
+- [`ols_step_both_p()`](https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.md)
+  and the hierarchical selection routines stop with the near-perfect fit
+  message instead of failing inside `Anova()`, and
+  [`ols_step_both_p()`](https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.md)
+  ignores duplicated `include`/`exclude` variables.
+
+- [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  and
+  [`ols_model_performance()`](https://olsrr.rsquaredacademy.com/reference/ols_model_performance.md)
+  now compute residual Mean Square Error (MSE) as
+  `deviance(model) / model$df.residual`, aligning with the ANOVA
+  residual mean square, and Root Mean Square Error (RMSE) as `sqrt(mse)`
+  rather than using the sample variance denominator `mean(residuals^2)`
+  ([\#221](https://github.com/rsquaredacademy/olsrr/issues/221)).
+
+- Information criteria
+  ([`ols_msep()`](https://olsrr.rsquaredacademy.com/reference/ols_msep.md),
+  [`ols_fpe()`](https://olsrr.rsquaredacademy.com/reference/ols_fpe.md),
+  [`ols_apc()`](https://olsrr.rsquaredacademy.com/reference/ols_apc.md),
+  [`ols_hsp()`](https://olsrr.rsquaredacademy.com/reference/ols_hsp.md),
+  [`ols_mallows_cp()`](https://olsrr.rsquaredacademy.com/reference/ols_mallows_cp.md),
+  [`ols_sbic()`](https://olsrr.rsquaredacademy.com/reference/ols_sbic.md),
+  [`ols_aic()`](https://olsrr.rsquaredacademy.com/reference/ols_aic.md),
+  [`ols_sbc()`](https://olsrr.rsquaredacademy.com/reference/ols_sbc.md))
+  now evaluate model complexity using `model$rank`, fixing parameter
+  counting for factor variables and rank-deficient models;
+  [`ols_msep()`](https://olsrr.rsquaredacademy.com/reference/ols_msep.md)
+  now uses the residual mean square error rather than sum of squares;
+  `ols_aic(corrected = TRUE)` now implements the Hurvich-Tsai correction
+  for R and STATA methods; and
+  [`ols_sbic()`](https://olsrr.rsquaredacademy.com/reference/ols_sbic.md)
+  and
+  [`ols_aic()`](https://olsrr.rsquaredacademy.com/reference/ols_aic.md)
+  include guards returning NA with warnings on boundary conditions
+  ([\#224](https://github.com/rsquaredacademy/olsrr/issues/224)).
+
+- [`ols_test_bartlett()`](https://olsrr.rsquaredacademy.com/reference/ols_test_bartlett.md)
+  coerces `group_var` to a factor, so numeric grouping variables return
+  the correct degrees of freedom, statistic and p-value (audit F4).
+
+- [`ols_pure_error_anova()`](https://olsrr.rsquaredacademy.com/reference/ols_pure_error_anova.md)
+  reports the overall regression F using the error mean square, matching
+  [`summary.lm()`](https://rdrr.io/r/stats/summary.lm.html), and returns
+  `NA` for the lack of fit statistics when the model has no replicates
+  (audit F5).
+
+- [`ols_prep_avplot_data()`](https://olsrr.rsquaredacademy.com/reference/ols_prep_avplot_data.md)
+  drops the intercept only for models that have one, preserves
+  `drop = FALSE`, and keeps the real predictor names (audit F7).
+
+- [`ols_correlations()`](https://olsrr.rsquaredacademy.com/reference/ols_correlations.md)
+  works for single-predictor models, returning the zero-order
+  correlation with `NA` partial and part correlations, and gives a clear
+  error for multi-predictor models without an intercept (audit F8).
+
+- [`ols_test_outlier()`](https://olsrr.rsquaredacademy.com/reference/ols_test_outlier.md)
+  reports the most extreme significant outliers when `n_max` truncates
+  the result (audit F11).
+
+- [`ols_get_predictors()`](https://olsrr.rsquaredacademy.com/reference/ols_get_predictors.md)
+  always returns a `data.frame`, including for single-predictor models
+  (audit F14).
+
+- [`ols_test_breusch_pagan()`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)
+  accepts `vars = NULL` and falls back to the fitted values test;
+  calling with `fitted.values = FALSE` without `vars` or `rhs` now
+  errors (audit F15).
+
+- [`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)
+  forwards `conf.level`, `iterm` and `title` to the formula method when
+  it is called with a model, so `conf_lm` uses the requested confidence
+  level instead of always 95% and the title is printed in the parameter
+  estimates table (audit F2,
+  [\#244](https://github.com/rsquaredacademy/olsrr/issues/244)).
+
+- Standardised betas of models without an intercept now include every
+  coefficient and are aligned with the coefficients by name, instead of
+  dropping the first predictor and shifting the printed `Std. Beta`
+  column (audit F3,
+  [\#244](https://github.com/rsquaredacademy/olsrr/issues/244)).
+
+- [`ols_plot_added_variable()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_added_variable.md)
+  stops with a clear message when the model has fewer than two
+  predictors, instead of failing while preparing the plot data (audit
+  F10, [\#244](https://github.com/rsquaredacademy/olsrr/issues/244)).
+
+### Other changes
+
+- `goftest` is no longer a dependency: the Cramér–von Mises test for
+  normality is now
+  [`nortest::cvm.test()`](https://rdrr.io/pkg/nortest/man/cvm.test.html).
 
 ## olsrr 0.7.0
 

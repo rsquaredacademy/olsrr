@@ -1,4 +1,11 @@
-# Response variable data
+# `Response variable data`
+
+# `Response variable data`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_response.Rd`
 
 Returns the values of the response variable of a model.
 

@@ -1,4 +1,11 @@
-# Interaction terms
+# `Interaction terms`
+
+# `Interaction terms`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_interaction_terms.Rd`
 
 Returns interaction terms present in the model.
 

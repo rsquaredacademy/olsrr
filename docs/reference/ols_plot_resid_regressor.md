@@ -1,4 +1,11 @@
-# Residual vs regressor plot
+# `Residual vs regressor plot`
+
+# `Residual vs regressor plot`
+
+Source:
+[`R/ols-residual-vs-regressor-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-residual-vs-regressor-plot.R)
+
+`ols_plot_resid_regressor.Rd`
 
 Graph to determine whether we should add a new predictor to the model
 already containing other predictors. The residuals from the model is
@@ -24,6 +31,10 @@ ols_plot_resid_regressor(model, variable, print_plot = TRUE)
 - print_plot:
 
   logical; if `TRUE`, prints the plot else returns a plot object.
+
+## Details
+
+The plot is not available for weighted models.
 
 ## See also
 

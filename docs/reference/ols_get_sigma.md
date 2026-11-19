@@ -1,4 +1,11 @@
-# Sigma
+# `Sigma`
+
+# `Sigma`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_sigma.Rd`
 
 Returns the residual standard deviation.
 

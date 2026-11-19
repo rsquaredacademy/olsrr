@@ -1,4 +1,11 @@
-# Model intercept check
+# `Model intercept check`
+
+# `Model intercept check`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_has_intercept.Rd`
 
 Checks if model has an intercept.
 

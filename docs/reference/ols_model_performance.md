@@ -1,4 +1,11 @@
-# Model Performance
+# `Model Performance`
+
+# `Model Performance`
+
+Source:
+[`R/ols-model-performance.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-performance.R)
+
+`ols_model_performance.Rd`
 
 Evaluate performance of regression models.
 
@@ -57,6 +64,11 @@ containing the following components:
 
   root mean squared error
 
+## References
+
+Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). *Applied
+Linear Statistical Models*, 5th ed. New York: McGraw-Hill/Irwin.
+
 ## Examples
 
 ``` r
@@ -70,7 +82,7 @@ ols_model_performance(model)
 #> R                 0.909       AIC     158.643 
 #> R-Squared         0.827       SBC     165.972 
 #> Adj. R-Squared    0.808       SBIC     68.933 
-#> Pred R-Squared    0.768       RMSE      2.468 
+#> Pred R-Squared    0.768       RMSE      2.639 
 #> ---------------------------------------------
 #>   AIC: Akaike Information Criteria 
 #>   SBC: Schwarz Bayesian Criteria 

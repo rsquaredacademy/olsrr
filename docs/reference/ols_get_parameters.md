@@ -1,4 +1,11 @@
-# Model parameters
+# `Model parameters`
+
+# `Model parameters`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_parameters.Rd`
 
 Returns the coefficients.
 

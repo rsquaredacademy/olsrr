@@ -1,4 +1,11 @@
-# Cooks' D plot data
+# `Cooks' D plot data`
+
+# `Cooks' D plot data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_cdplot_data.Rd`
 
 Prepare data for cook's d bar plot.
 

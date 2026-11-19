@@ -1,4 +1,11 @@
-# Surgical Unit Data Set
+# `Surgical Unit Data Set`
+
+# `Surgical Unit Data Set`
+
+Source:
+[`R/ols-data-surgical.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-data-surgical.R)
+
+`surgical.Rd`
 
 A dataset containing data about survival of patients undergoing liver
 operation.

@@ -1,4 +1,11 @@
-# Standardized residual chart
+# `Standardized residual chart`
+
+# `Standardized residual chart`
+
+Source:
+[`R/ols-standardized-residual-chart.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-standardized-residual-chart.R)
+
+`ols_plot_resid_stand.Rd`
 
 Chart for identifying outliers.
 

@@ -1,5 +1,12 @@
 # Media
 
+# Media
+
+Source:
+[`vignettes/reference-media.Rmd`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/reference-media.Rmd)
+
+`reference-media.Rmd`
+
 ## Shiny App Demo
 
 - [YouTube

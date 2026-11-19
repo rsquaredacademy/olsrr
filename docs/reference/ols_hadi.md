@@ -1,4 +1,11 @@
-# Hadi's influence measure
+# `Hadi's influence measure`
+
+# `Hadi's influence measure`
+
+Source:
+[`R/ols-influence-measures.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-influence-measures.R)
+
+`ols_hadi.Rd`
 
 Measure of influence based on the fact that influential observations in
 either the response variable or in the predictors or both.

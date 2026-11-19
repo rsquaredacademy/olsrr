@@ -1,6 +1,13 @@
-# Studentized residual vs leverage plot data
+# `Studentized residual vs leverage plot data`
 
-Generates data for studentized resiudual vs leverage plot.
+# `Studentized residual vs leverage plot data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_rstudlev_data.Rd`
+
+Generates data for studentized residual vs leverage plot.
 
 ## Usage
 

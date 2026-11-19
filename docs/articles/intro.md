@@ -1,5 +1,12 @@
 # Introduction to olsrr
 
+# Introduction to olsrr
+
+Source:
+[`vignettes/intro.Rmd`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/intro.Rmd)
+
+`intro.Rmd`
+
 ## Introduction
 
 The olsrr package provides following tools for teaching and learning OLS
@@ -36,12 +43,13 @@ Other vignettes provide more details on specific topics:
 
 ## Regression
 
-[`ols_regress`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`
+\
+[`ols_regress`](https://olsrr.rsquaredacademy.com/reference/ols_regress.md)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`
 
     ##                          Model Summary                          
     ## ---------------------------------------------------------------
-    ## R                       0.914       RMSE                 2.409 
-    ## R-Squared               0.835       MSE                  5.801 
+    ## R                       0.914       RMSE                 2.622 
+    ## R-Squared               0.835       MSE                  6.875 
     ## Adj. R-Squared          0.811       Coef. Var           13.051 
     ## Pred R-Squared          0.771       AIC                159.070 
     ## MAE                     1.858       SBC                167.864 
@@ -84,7 +92,9 @@ indicate the presence of interaction terms by setting `iterm` to `TRUE`.
 
 Plot to detect non-linearity, unequal error variances, and outliers.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_resid_fit`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_resid_fit`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit.md)`(``model``)`
 
 ![](intro_files/figure-html/rvsfplot-1.png)
 
@@ -94,7 +104,9 @@ DFBETAs measure the difference in each parameter estimate with and
 without the influential observation. `dfbetas_panel` creates plots to
 detect influential observations using DFBETAs.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt``, data ``=`` ``mtcars``)`` `[`ols_plot_dfbetas`](https://olsrr.rsquaredacademy.com/reference/ols_plot_dfbetas.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt``, data ``=`` ``mtcars``)`\
+[`ols_plot_dfbetas`](https://olsrr.rsquaredacademy.com/reference/ols_plot_dfbetas.md)`(``model``)`
 
 ![](intro_files/figure-html/dfbpanel-1.png)
 
@@ -102,7 +114,9 @@ detect influential observations using DFBETAs.
 
 Plot to detect non-linearity, influential observations and outliers.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_resid_fit_spread`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit_spread.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_resid_fit_spread`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit_spread.md)`(``model``)`
 
 ![](intro_files/figure-html/rfsplot-1.png)
 
@@ -113,7 +127,9 @@ error variance). It tests whether the variance of the errors from a
 regression is dependent on the values of the independent variables. It
 is a $`\chi^{2}`$ test.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``drat``, data ``=`` ``mtcars``)`\
+[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.md)`(``model``)`
 
     ## 
     ##  Breusch Pagan Test for Heteroskedasticity
@@ -134,7 +150,9 @@ is a $`\chi^{2}`$ test.
 
 ## Collinearity Diagnostics
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_coll_diag`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_coll_diag`](https://olsrr.rsquaredacademy.com/reference/ols_coll_diag.md)`(``model``)`
 
     ## Tolerance and Variance Inflation Factor
     ## ---------------------------------------
@@ -168,7 +186,10 @@ until there is no variable left to enter or remove any more.
 
 ### Variable Selection
 
-`# stepwise regression`` ``model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`` `[`ols_step_both_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.md)`(``model``)`
+\
+`# stepwise regression`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`\
+[`ols_step_both_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.md)`(``model``)`
 
     ## 
     ## 
@@ -189,8 +210,8 @@ until there is no variable left to enter or remove any more.
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.884       RMSE                 184.276 
-    ## R-Squared                 0.781       MSE                33957.712 
+    ## R                         0.884       RMSE                 195.454 
+    ## R-Squared                 0.781       MSE                38202.426 
     ## Adj. R-Squared            0.758       Coef. Var             27.839 
     ## Pred R-Squared            0.700       AIC                  730.620 
     ## MAE                     137.656       SBC                  744.543 
@@ -225,7 +246,10 @@ until there is no variable left to enter or remove any more.
 
 ### Plot
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`` ``k`` ``<-`` `[`ols_step_both_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.md)`(``model``)`` `[`plot`](https://rdrr.io/r/graphics/plot.default.html)`(``k``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`\
+`k`` ``<-`` `[`ols_step_both_p`](https://olsrr.rsquaredacademy.com/reference/ols_step_both_p.md)`(``model``)`\
+[`plot`](https://rdrr.io/r/graphics/plot.default.html)`(``k``)`
 
 ![](intro_files/figure-html/stepwise2-1.png)
 
@@ -237,7 +261,11 @@ manner until there is no variable left to remove any more.
 
 ### Variable Selection
 
-`# stepwise aic backward regression`` ``model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`` ``k`` ``<-`` `[`ols_step_backward_aic`](https://olsrr.rsquaredacademy.com/reference/ols_step_backward_aic.md)`(``model``)`` ``k`
+\
+`# stepwise aic backward regression`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`\
+`k`` ``<-`` `[`ols_step_backward_aic`](https://olsrr.rsquaredacademy.com/reference/ols_step_backward_aic.md)`(``model``)`\
+`k`
 
     ## 
     ## 
@@ -246,9 +274,9 @@ manner until there is no variable left to remove any more.
     ## Step    Variable        AIC        SBC       SBIC        R2       Adj. R2 
     ## -------------------------------------------------------------------------
     ##  0      Full Model    736.390    756.280    586.665    0.78184    0.74305 
-    ##  1      alc_mod       734.407    752.308    583.884    0.78177    0.74856 
-    ##  2      gender        732.494    748.406    581.290    0.78142    0.75351 
-    ##  3      age           730.620    744.543    578.844    0.78091    0.75808 
+    ##  1      alc_mod       734.407    752.308    584.276    0.78177    0.74856 
+    ##  2      gender        732.494    748.406    581.938    0.78142    0.75351 
+    ##  3      age           730.620    744.543    579.638    0.78091    0.75808 
     ## -------------------------------------------------------------------------
     ## 
     ## Final Model Output 
@@ -256,8 +284,8 @@ manner until there is no variable left to remove any more.
     ## 
     ##                            Model Summary                            
     ## -------------------------------------------------------------------
-    ## R                         0.884       RMSE                 184.276 
-    ## R-Squared                 0.781       MSE                33957.712 
+    ## R                         0.884       RMSE                 195.454 
+    ## R-Squared                 0.781       MSE                38202.426 
     ## Adj. R-Squared            0.758       Coef. Var             27.839 
     ## Pred R-Squared            0.700       AIC                  730.620 
     ## MAE                     137.656       SBC                  744.543 
@@ -292,6 +320,9 @@ manner until there is no variable left to remove any more.
 
 ### Plot
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`` ``k`` ``<-`` `[`ols_step_backward_aic`](https://olsrr.rsquaredacademy.com/reference/ols_step_backward_aic.md)`(``model``)`` `[`plot`](https://rdrr.io/r/graphics/plot.default.html)`(``k``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y`` ``~`` ``.``, data ``=`` ``surgical``)`\
+`k`` ``<-`` `[`ols_step_backward_aic`](https://olsrr.rsquaredacademy.com/reference/ols_step_backward_aic.md)`(``model``)`\
+[`plot`](https://rdrr.io/r/graphics/plot.default.html)`(``k``)`
 
 ![](intro_files/figure-html/stepaicb2-1.png)

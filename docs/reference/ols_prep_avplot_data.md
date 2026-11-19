@@ -1,4 +1,11 @@
-# Added variable plot data
+# `Added variable plot data`
+
+# `Added variable plot data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_avplot_data.Rd`
 
 Data for generating the added variable plots.
 
@@ -13,6 +20,11 @@ ols_prep_avplot_data(model)
 - model:
 
   An object of class `lm`.
+
+## Details
+
+The data are used by diagnostics that refit auxiliary models without
+weights and are therefore not available for weighted models.
 
 ## Examples
 

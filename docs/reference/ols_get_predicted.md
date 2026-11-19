@@ -1,4 +1,11 @@
-# Fitted values
+# `Fitted values`
+
+# `Fitted values`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_predicted.Rd`
 
 Returns the fitted values.
 

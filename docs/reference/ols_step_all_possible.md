@@ -1,4 +1,11 @@
-# All possible regression
+# `All possible regression`
+
+# `All possible regression`
+
+Source:
+[`R/ols-all-possible-regression.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-all-possible-regression.R)
+
+`ols_step_all_possible.Rd`
 
 Fits all regressions involving one regressor, two regressors, three
 regressors, and so on. It tests all possible subsets of the set of
@@ -10,7 +17,7 @@ potential independent variables.
 ols_step_all_possible(model, ...)
 
 # Default S3 method
-ols_step_all_possible(model, max_order = NULL, ...)
+ols_step_all_possible(model, max_order = NULL, force = FALSE, ...)
 
 # S3 method for class 'ols_step_all_possible'
 plot(x, model = NA, print_plot = TRUE, ...)
@@ -29,6 +36,11 @@ plot(x, model = NA, print_plot = TRUE, ...)
 - max_order:
 
   Maximum subset order.
+
+- force:
+
+  logical; if `TRUE`, allows the combinatorial subset search to proceed
+  when more than `2^20 - 1` models would be fitted.
 
 - x:
 
@@ -103,6 +115,30 @@ is a data frame containing the following components:
 - hsp:
 
   hocking's Sp
+
+## Details
+
+Refits accept explicit contrast matrices or the base contrast names
+`contr.treatment`, `contr.sum`, `contr.helmert`, `contr.poly` and
+`contr.SAS` (resolved from the stats namespace); models fitted with
+custom named contrast functions must be refitted with an explicit
+matrix, for example `contrasts = list(g = my_matrix)`. Refits carry the
+fitted model's frozen total offset as an argument with all formula
+[`offset()`](https://rdrr.io/r/stats/offset.html) terms removed for
+standardized-beta and selection computations. Returned stepwise models
+are fitted from the original call, preserving formula and argument
+offsets for prediction on new data. Their coefficients, fitted values
+and total offset must be identical to the frozen-offset selection fit;
+otherwise selection stops with an error because prediction with new data
+is not supported for that model.
+
+For non-hierarchical stepwise selection, candidate rankings and
+criterion improvement tests use 10 significant digits: values that agree
+to 10 significant digits are ties, equal criterion values mean no
+improvement, and a remaining tie goes to the first candidate in formula
+order after any F tie is broken by p value (smaller for entry, larger
+for removal). P-value entry and removal cutoffs are compared without
+rounding.
 
 ## References
 

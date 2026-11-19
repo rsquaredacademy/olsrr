@@ -1,4 +1,11 @@
-# Diagnostics panel
+# `Diagnostics panel`
+
+# `Diagnostics panel`
+
+Source:
+[`R/ols-diagnostics-panel.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-diagnostics-panel.R)
+
+`ols_plot_diagnostics.Rd`
 
 Panel of plots for regression diagnostics.
 
@@ -23,16 +30,6 @@ ols_plot_diagnostics(model, print_plot = TRUE)
 ``` r
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_diagnostics(model)
-
-
-
-
-
-
-
-
-
-
 
 
 

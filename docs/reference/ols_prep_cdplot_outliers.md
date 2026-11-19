@@ -1,4 +1,11 @@
-# Cooks' d outlier data
+# `Cooks' d outlier data`
+
+# `Cooks' d outlier data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_cdplot_outliers.Rd`
 
 Outlier data for cook's d bar plot.
 

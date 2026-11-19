@@ -1,4 +1,11 @@
-# Part and partial correlations
+# `Part and partial correlations`
+
+# `Part and partial correlations`
+
+Source:
+[`R/ols-correlations.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-correlations.R)
+
+`ols_correlations.Rd`
 
 Zero-order, part and partial correlations.
 
@@ -44,6 +51,15 @@ decrease if that variable is removed from the model and partial
 correlations indicates amount of variance in response variable, which is
 not estimated by the other independent variables in the model, but is
 estimated by the specific variable.
+
+Partial and part correlations are not defined for models with a single
+predictor and are returned as `NA`. The zero-order correlation is still
+available for such models. Models without an intercept are supported
+only with one predictor coefficient.
+
+Part and partial correlations are not available for weighted models,
+because they are computed from auxiliary regressions that would ignore
+the model weights.
 
 ## References
 
