@@ -227,7 +227,7 @@ ols_stepwise_metrics <- function(df, metric = c("aic", "sbc", "sbic", "rsq", "ad
 ols_stepwise_table <- function(df, predictors, p_val, rsq, arsq, aics) {
 
   w1 <- max(nchar("Predictor"), nchar(predictors))
-  w2 <- max(nchar("Pr(>|t|)"), nchar(format(round(p_val, 5), nsmall = 5)))
+  w2 <- max(nchar("Pr(>|t|)"), nchar(format_pvalue(p_val)))
   w3 <- max(nchar("R-Squared"), nchar(format(round(rsq, 3), nsmall = 3)))
   w4 <- max(nchar("Adj. R-Squared"), nchar(format(round(arsq, 3), nsmall = 3)))
   w5 <- max(nchar("AIC"), nchar(format(round(aics, 3), nsmall = 3)))
@@ -250,7 +250,7 @@ ols_stepwise_table <- function(df, predictors, p_val, rsq, arsq, aics) {
   for (i in seq_len(ln)) {
     cat(
       fl(df[i, 1], w1), fs(),
-      fg(format(round(df[i, 2], 5), nsmall = 5), w2), fs(),
+      fg(format_pvalue(df[i, 2]), w2), fs(),
       fg(format(round(df[i, 3], 3), nsmall = 3), w3), fs(),
       fg(format(round(df[i, 4], 3), nsmall = 3), w4), fs(),
       fg(format(round(df[i, 5], 3), nsmall = 3), w5), "\n")
@@ -263,7 +263,7 @@ ols_stepwise_table <- function(df, predictors, p_val, rsq, arsq, aics) {
 ols_stepwise_table_p <- function(df, predictors, p_val) {
 
   w1 <- max(nchar("Predictor"), nchar(predictors))
-  w2 <- max(nchar("Pr(>|t|)"), nchar(format(round(p_val, 5), nsmall = 5)))
+  w2 <- max(nchar("Pr(>|t|)"), nchar(format_pvalue(p_val)))
   w  <- sum(w1, w2, 4)
   ln <- length(predictors)
 
@@ -280,7 +280,7 @@ ols_stepwise_table_p <- function(df, predictors, p_val) {
   for (i in seq_len(ln)) {
     cat(
       fl(df[i, 1], w1), fs(),
-      fg(format(round(df[i, 2], 5), nsmall = 5), w2), "\n")
+      fg(format_pvalue(df[i, 2]), w2), "\n")
   }
 
   cat(rep("-", w), sep = "", "\n\n")
