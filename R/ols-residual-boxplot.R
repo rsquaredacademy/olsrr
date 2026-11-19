@@ -20,7 +20,7 @@ ols_plot_resid_box <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  resid <- residuals(model)
+  resid <- model_residuals_used(model)
   d     <- data.frame(resid = resid)
 
   p <-

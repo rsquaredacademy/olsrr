@@ -25,7 +25,6 @@ library(olsrr)
 library(ggplot2)
 library(gridExtra)
 library(nortest)
-library(goftest)
 ```
 
 This document is a quickstart guide to the tools offered by **olsrr**. Other vignettes provide more details on specific topics:

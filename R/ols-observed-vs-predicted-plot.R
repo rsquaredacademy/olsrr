@@ -52,8 +52,9 @@ ols_plot_obs_fit <- function(model, print_plot = TRUE) {
 
 obspred <- function(model) {
 
-  y <- fitted(model)
-  x <- model.frame(model)[[1]]
+  used <- model_used_rows(model)
+  y    <- model_fitted_used(model)
+  x    <- model.frame(model)[[1]][used]
   data.frame(x, y)
 
 }

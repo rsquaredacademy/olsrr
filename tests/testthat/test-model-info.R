@@ -125,6 +125,15 @@ test_that("predictor data is returned", {
   expect_equal(want, got)
 })
 
+test_that("predictor data is a data.frame for a single predictor model", {
+  model <- lm(mpg ~ disp, data = mtcars)
+  got   <- ols_get_predictors(model)
+
+  expect_s3_class(got, "data.frame")
+  expect_equal(names(got), "disp")
+  expect_equal(got$disp, mtcars$disp, ignore_attr = TRUE)
+})
+
 test_that("response data is returned", {
   model <- lm(mpg ~ disp + hp + wt, data = mtcars)
   want  <- c(21.0, 21.0, 22.8, 21.4, 18.7, 18.1)
@@ -172,4 +181,19 @@ test_that("model info is correct", {
   expect_true(got$has_intercept)
   expect_null(got$interaction_terms)
   expect_equal(got$obs, 32)
+})
+
+test_that("getters exclude synthetic model-frame columns (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m_wt <- lm(mpg ~ disp + hp + wt, data = d, weights = w)
+
+  expect_equal(ols_get_variables(m_wt)$predictors, c("disp", "hp", "wt"))
+  expect_equal(names(ols_get_predictors(m_wt)), c("disp", "hp", "wt"))
+  expect_equal(nrow(ols_get_predictors(m_wt)), 32)
+
+  m_off <- lm(mpg ~ disp + hp + offset(wt), data = mtcars)
+  expect_equal(ols_get_variables(m_off)$predictors, c("disp", "hp"))
+  expect_equal(names(ols_get_predictors(m_off)), c("disp", "hp"))
 })

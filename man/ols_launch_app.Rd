@@ -10,7 +10,7 @@ ols_launch_app()
 Launches shiny app for interactive model building.
 }
 \examples{
-\dontrun{
-ols_launch_app()
+if (interactive()) {
+  ols_launch_app()
 }
 }

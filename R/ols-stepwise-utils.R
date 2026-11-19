@@ -1,6 +1,7 @@
-check_inputs <- function(model, include, exclude, progress, details) {
+check_inputs <- function(model, include, exclude, progress, details, fn = as.character(sys.call(-1)[[1]])) {
 
   check_model(model)
+  check_weights(model, fn)
   check_npredictors(model, 2)
 
   indterms <- coeff_names(model)
@@ -41,12 +42,8 @@ check_terms <- function(clude, indterms, include = TRUE) {
 
 }
 
-ols_base_model <- function(include, response, data) {
-  if (is.null(include)) {
-    lm(paste(response, "~", 1), data = data)
-  } else {
-    lm(paste(response, "~", paste(include, collapse = " + ")), data = data)
-  }
+ols_base_model <- function(include, response, data, model = NULL) {
+  ols_step_lm(ols_step_formula(response, include, model), data, model)
 }
 
 ols_candidate_terms <- function(cterms = NULL, direction = c("forward", "backward", "both")) {
@@ -346,13 +343,10 @@ ols_stepwise_plot_data <- function(x, pred, metric = "r2") {
   aic  <- x$metrics[[metric]]
   xmin <- 0
   xmax <- max(step) + 1
-  if (min(aic) < 0) {
-    ymin <- min(aic) + (min(aic) * 0.05)
-    ymax <- max(aic) - (max(aic) * 0.05)
-  } else {
-    ymin <- min(aic) - (min(aic) * 0.05)
-    ymax <- max(aic) + (max(aic) * 0.05)
-  }
+  # pad each end outward by 5% of its own magnitude; values that cross zero
+  # (e.g. AIC from -10 to 100) previously clipped the upper end (audit F13)
+  ymin <- min(aic) - abs(min(aic)) * 0.05
+  ymax <- max(aic) + abs(max(aic)) * 0.05
   d2   <- data.frame(x = step, y = aic, tx = pred)
   d    <- data.frame(a = step, b = aic)
 
@@ -363,6 +357,10 @@ ols_stepwise_plot_data <- function(x, pred, metric = "r2") {
 ols_step_plot_text <- function(x, direction = c("forward", "backward", "both"), details = TRUE, metric = "r2", digits = 3) {
 
   method <- match.arg(direction)
+
+  if (length(x$metrics$step) < 1) {
+    return(character(0))
+  }
 
   if (method == "forward" || method == "backward") {
     if (details) {
@@ -481,7 +479,6 @@ ols_plot_stepwise <- function(x, metric = "r2", y_lab = "R-Square", details = TR
 
 }
 
-#' @importFrom ggplot2 aes_string
 ols_step_ggplot <- function(d, d2, xmin, xmax, ymin, ymax, y_lab, title, v_just, h_just, nudge = 0.05, ann_x, metric_info) {
 
   ggplot(d, aes(x = a, y = b)) +
@@ -503,8 +500,19 @@ ols_print_final_model <- function(data) {
   cat("\n\n")
   cat("Final Model Output", "\n")
   cat(rep("-", 18), sep = "", "\n\n")
-  print(ols_regress(data$model))
+  print(ols_final_regress(data))
   cat("\n")
+}
+
+# regress the final model of a stepwise selection procedure
+#
+# the final model is fitted on an internal copy of the data, so re-evaluating
+# its own call fails for terms such as log(mpg) or factor(cyl) (the model frame
+# stores term labels as column names). ols_step_final_model() rebuilds the final
+# model with a call, data and formula environment that can be evaluated, so
+# ols_regress() can reuse the model itself.
+ols_final_regress <- function(data) {
+  ols_regress(data$model)
 }
 
 
@@ -702,32 +710,198 @@ ols_sort_metrics <- function(data, criteria) {
   }
 }
 
-ols_threshold <- function(data, criteria) {
-  if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    which(data == min(data))
+# build a model formula from a response and candidate term labels, preserving
+# the intercept and formula environment of the original model. Offsets are
+# carried as the frozen total in ols_step_lm(), never re-evaluated in the formula.
+ols_step_formula <- function(response, predictors, model = NULL) {
+
+  predictors <- unique(predictors)
+  int        <- 1L
+
+  if (!is.null(model)) {
+    int <- attr(model$terms, "intercept")
+  }
+
+  rhs <- c(if (int == 0) "0", predictors)
+  rhs <- if (length(rhs) > 0) paste(rhs, collapse = " + ") else "1"
+
+  form <- as.formula(paste(response, "~", rhs))
+
+  if (!is.null(model)) {
+    env <- environment(formula(model))
+    if (!is.null(env)) {
+      environment(form) <- env
+    }
+  }
+
+  form
+
+}
+
+# fit a candidate model, carrying any offset of the original model on the rows
+# used by it. The candidate formula has no offset() terms: the frozen total
+# is supplied separately, without subtracting and recovering contributions.
+ols_step_lm <- function(form, data, model = NULL) {
+
+  args <- list(formula = form, data = data)
+
+  if (!is.null(model)) {
+    off <- stats::model.offset(model$model)
+
+    if (!is.null(off)) {
+      if (length(off) != nrow(as.data.frame(data))) {
+        stop("the model offset cannot be carried unchanged; refit the model.", call. = FALSE)
+      }
+      args$offset <- off
+    }
+
+    # candidate formulas keep the original term names, so the input model's
+    # contrast coding applies to them unchanged
+    con <- model_contrasts(model, form)
+
+    if (!is.null(con)) {
+      args$contrasts <- con
+    }
+  }
+
+  do.call(stats::lm, args)
+
+}
+
+# fit and summarise a candidate model for stepwise selection
+ols_step_fit <- function(response, predictors, data, model) {
+  ols_regress(ols_step_lm(ols_step_formula(response, predictors, model), data, model))
+}
+
+# construct and fit final model for stepwise selection routines
+ols_step_final_model <- function(model, response, predictors, data) {
+  form <- ols_step_formula(response, predictors, model)
+  final_model <- ols_step_lm(form, data, model)
+  off <- stats::model.offset(model$model)
+  if (!is.null(off)) {
+    # Selection uses frozen offsets, but prediction needs the original
+    # expressions. Keep formula offsets in their original addition order.
+    variables <- as.list(attr(model$terms, "variables"))[-1]
+    for (term in variables[attr(model$terms, "offset")]) {
+      form[[3]] <- call("+", form[[3]], term)
+    }
+    cl <- model$call
+    cl[[1]] <- quote(stats::lm)
+    cl$formula <- form
+    cl$contrasts <- model_contrasts(model, form)
+    refit <- eval(cl, envir = environment(form))
+    if (!identical(unname(as.numeric(stats::coef(refit))),
+                   unname(as.numeric(stats::coef(final_model)))) ||
+        !identical(unname(as.numeric(refit$fitted.values)),
+                   unname(as.numeric(final_model$fitted.values))) ||
+        !identical(unname(as.numeric(stats::model.offset(refit$model))),
+                   unname(as.numeric(off)))) {
+      stop("the final model cannot reproduce the frozen-offset selection fit exactly; ",
+           "prediction with newdata is not supported for this model.", call. = FALSE)
+    }
+    final_model <- refit
   } else {
-    which(data == max(data))
+    final_model$call$formula <- form
+    final_model$call$offset <- model$call$offset
+    if (!is.null(model$call$data)) {
+      final_model$call$data <- model$call$data
+    }
+    if (!is.null(model$call$subset)) {
+      final_model$call$subset <- model$call$subset
+    }
+  }
+  final_model
+}
+
+# near-perfect fit / zero residual sum of squares guard
+ols_zero_rss <- function(model) {
+  isTRUE(deviance(model) < 1e-10)
+}
+
+ols_zero_rss_stop <- function() {
+  message("Residual sum of squares < 1e-10 (near-perfect fit). Variable selection stopped.")
+}
+
+# Compare selection rankings and criterion improvements to 10 significant
+# digits; smaller differences (including genuine differences) are ties.
+# Ranking ties use candidate order after any F tie is broken by p. Inf stays Inf.
+ols_tie_key <- function(x) {
+  signif(x, 10)
+}
+
+# Rank estimable terms by F, then p, then their original candidate order.
+# Inf is a valid F statistic (a perfect candidate fit); NA is not.
+ols_step_p_index <- function(fvals, pvals, entry = TRUE) {
+  valid <- which(!is.na(fvals) & !is.na(pvals))
+  if (length(valid) == 0) {
+    return(NA_integer_)
+  }
+  f <- ols_tie_key(fvals[valid])
+  f <- if (entry) -f else f
+  p <- ols_tie_key(pvals[valid])
+  p <- if (entry) p else -p
+  valid[order(f, p, valid)[1]]
+}
+
+# always return a single index; candidate order breaks criterion ties
+ols_threshold <- function(data, criteria) {
+  if (length(data) < 1 || all(is.na(data))) {
+    return(NA_integer_)
+  }
+
+  if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
+    which.min(ols_tie_key(data))
+  } else {
+    which.max(ols_tie_key(data))
   }
 }
 
+# always return a single logical value, even for empty or missing input
 ols_f_criteria <- function(criteria, mat, minc, bmetric) {
+  if (length(minc) != 1 || is.na(minc)) {
+    return(FALSE)
+  }
+
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    mat[minc] < bmetric
+    isTRUE(ols_tie_key(mat[minc]) < ols_tie_key(bmetric))
   } else {
-    mat[minc] > bmetric
+    isTRUE(ols_tie_key(mat[minc]) > ols_tie_key(bmetric))
   }
 }
 
 ols_next_criteria <- function(criteria, mat, minaic, laic, lpreds) {
+  if (length(minaic) != 1 || is.na(minaic) || lpreds < 1 || length(laic) < lpreds) {
+    return(FALSE)
+  }
+
   if (criteria == "aic" || criteria == "sbc" || criteria == "sbic") {
-    mat[minaic] < laic[lpreds]
+    isTRUE(ols_tie_key(mat[minaic]) < ols_tie_key(laic[lpreds]))
   } else {
-    mat[minaic] > laic[lpreds]
+    isTRUE(ols_tie_key(mat[minaic]) > ols_tie_key(laic[lpreds]))
   }
 }
 
 coeff_names <- function(model) {
   colnames(attr(model$terms, which = "factor"))
+}
+
+# Number of estimable terms in a fitted subset: an aliased term (NA
+# coefficient) is not estimated and is not counted, while a factor whose coding
+# spans several columns is one term. The intercept (assign 0) is not a term.
+model_estimable_terms <- function(model) {
+
+  cf  <- stats::coef(model)
+  asg <- model$assign
+  if (is.null(asg)) {
+    asg <- attr(model$terms, "assign")
+  }
+
+  if (is.null(cf) || is.null(asg) || length(asg) != length(cf)) {
+    return(length(cf))
+  }
+
+  length(unique(asg[!is.na(cf) & asg > 0L]))
+
 }
 
 model_colnames <- function(model) {

@@ -91,9 +91,11 @@ ols_plot_dffits <- function(model, size_adj_threshold = TRUE, print_plot = TRUE)
 
 ols_prep_dffits_plot_data <- function(model, size_adj_threshold = TRUE) {
 
-  dffitsm    <- unlist(dffits(model))
-  k          <- model_n_coeffs(model)
-  n          <- model_rows(model)
+  used     <- model_used_rows(model)
+  obs      <- model_obs_ids(model)[used]
+  dffitsm  <- model_dffits_used(model)
+  k        <- model$rank
+  n        <- model_rows(model)
   
   # threshold
   normal_t   <- 2 * sqrt((k + 1) / (n - k - 1))
@@ -101,7 +103,7 @@ ols_prep_dffits_plot_data <- function(model, size_adj_threshold = TRUE) {
   dffits_t   <- ifelse(size_adj_threshold, adj_t, normal_t)
 
   title      <- names(model.frame(model))[1]
-  dfits_data <- data.frame(obs = seq_len(n), dbetas = dffitsm)
+  dfits_data <- data.frame(obs = obs, dbetas = dffitsm)
   d          <- ols_prep_dfbeta_data(dfits_data, dffits_t)
   f          <- ols_prep_dfbeta_outliers(d)
   colnames(f) <- c("observation", "dffits")

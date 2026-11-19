@@ -56,3 +56,20 @@ test_that("output from ols_test_outlier is as expected", {
   expect_equal(round(act$unadjusted_p_val, 2), 0)
   expect_equal(round(act$bonferroni_p_val, 2), 0.3)
 })
+
+test_that("ols_test_outlier reports the most extreme significant outliers", {
+  d <- data.frame(x = 1:30)
+  d$y <- 2 + 0.5 * d$x
+  d$y[c(9, 10, 11)] <- d$y[c(9, 10, 11)] + c(50, -50, 50)
+  model <- lm(y ~ x, data = d)
+
+  n     <- length(rstudent(model))
+  p_bon <- n * 2 * pt(abs(rstudent(model)), df.residual(model) - 1, lower.tail = FALSE)
+  sig   <- which(!is.na(p_bon) & p_bon <= 0.05)
+
+  expected <- sort(abs(rstudent(model)[sig]), decreasing = TRUE)[1:2]
+  actual   <- ols_test_outlier(model, n_max = 2)
+
+  expect_equal(abs(actual$studentized_residual), expected, ignore_attr = TRUE)
+  expect_equal(actual$bonferroni_p_val, sort(p_bon[sig])[1:2], ignore_attr = TRUE)
+})

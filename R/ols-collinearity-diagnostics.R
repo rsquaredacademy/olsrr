@@ -52,6 +52,14 @@
 #' more variables that have large proportions of variance (.50 or more) that correspond to large condition
 #' indices. A rule of thumb is to label as large those condition indices in the range of 30 or larger.
 #'
+#' For models without an intercept, every column of the model matrix is treated
+#' as a predictor and regressed on the remaining columns (with an intercept); no
+#' intercept column is removed from the design matrix.
+#'
+#' Tolerance, variance inflation factors, eigenvalues and condition indices are
+#' computed from the design (model) matrix and do not use the model weights, so
+#' they remain available for weighted models.
+#'
 #'
 #' @return \code{ols_coll_diag} returns an object of class \code{"ols_coll_diag"}.
 #' An object of class \code{"ols_coll_diag"} is a list containing the
@@ -114,6 +122,12 @@ print.ols_coll_diag <- function(x, ...) {
 ols_vif_tol <- function(model) {
 
   check_model(model)
+
+  if (attr(model$terms, "intercept") == 0) {
+    warning("VIFs may not be sensible in a model without an intercept.",
+            call. = FALSE)
+  }
+
   vt <- viftol(model)
   data.frame(Variables = vt$nam, Tolerance = vt$tol, VIF = vt$vifs)
 
@@ -186,16 +200,26 @@ fmrsq <- function(nam, data, i) {
 #'
 viftol <- function(model) {
 
-  m   <- as.data.frame(model.matrix(model))[, -1]
-  nam <- names(m)
-  p   <- length(model$coefficients) - 1
-  tol <- c()
+  mm  <- model.matrix(model)
+  int <- attr(model$terms, "intercept")
 
-  for (i in seq_len(p)) {
-    tol[i] <- fmrsq(nam, m, i)
+  # without an intercept every model-matrix column is a predictor
+  if (int == 1) {
+    mm <- mm[, colnames(mm) != "(Intercept)", drop = FALSE]
+  }
+
+  m   <- as.data.frame(mm)
+  nam <- names(m)
+  p   <- length(nam)
+  tol <- rep(1, p)
+
+  if (p > 1) {
+    for (i in seq_len(p)) {
+      tol[i] <- fmrsq(nam, m, i)
+    }
   }
 
   vifs <- 1 / tol
-  list(nam = names(m), tol = tol, vifs = vifs)
+  list(nam = nam, tol = tol, vifs = vifs)
 
 }

@@ -10,6 +10,8 @@
 #' @param variable New predictor to be added to the \code{model}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
+#' @details The plot is not available for weighted models.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_plot_resid_regressor(model, 'drat')
@@ -21,12 +23,13 @@
 ols_plot_resid_regressor <- function(model, variable, print_plot = TRUE) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_plot_resid_regressor")
 
   d     <- ols_prep_rvsrplot_data(model)
-  inter <- eval(model$call$data)[variable]
-  x     <- inter[[1]]
-  y     <- residuals(model)
-  v     <- names(inter)
+  data  <- ols_model_data(model)
+  x     <- data[[variable]]
+  y     <- model_residuals_used(model)
+  v     <- variable
   k     <- data.frame(x = x, y = y)
 
   p <-

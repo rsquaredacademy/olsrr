@@ -27,17 +27,38 @@ following components:
 \description{
 Test for detecting violation of normality assumption.
 }
+\details{
+The tests differ in the sample sizes they support. \code{shapiro.test()}
+requires between 3 and 5000 observations, and \code{nortest::ad.test()} and
+\code{nortest::cvm.test()} require at least 8. \code{ks.test()} does not
+document a sample-size limit of its own, but a minimum of 3 observations is
+required here so that the test is meaningful. Tests whose sample-size
+requirement is not met are skipped: their statistic and p-value are returned
+as \code{NA} and a single warning lists the skipped tests and the reason. If
+the sample is too small for every test, the function stops with an error.
+
+The Cramér–von Mises test is \code{nortest::cvm.test()}, the test of
+composite normality, which compares the data with a normal distribution
+whose mean and standard deviation are estimated from the data. It is
+deterministic. For very small p-values the test reports \code{7.37e-10}
+with a warning instead of a more precise value.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_test_normality(model)
 
 }
+\references{
+Stephens, M. A. (1986). Tests based on EDF statistics. In R. B. D'Agostino and M. A. Stephens (Eds.), \emph{Goodness-of-Fit Techniques} (pp. 97--193). New York: Marcel Dekker.
+
+Thode, H. C. (2002). \emph{Testing for Normality}. New York: Marcel Dekker.
+}
 \seealso{
-Other residual diagnostics: 
-\code{\link{ols_plot_resid_box}()},
-\code{\link{ols_plot_resid_fit}()},
-\code{\link{ols_plot_resid_hist}()},
-\code{\link{ols_plot_resid_qq}()},
-\code{\link{ols_test_correlation}()}
+Other residual diagnostics:
+\code{\link[=ols_plot_resid_box]{ols_plot_resid_box()}},
+\code{\link[=ols_plot_resid_fit]{ols_plot_resid_fit()}},
+\code{\link[=ols_plot_resid_hist]{ols_plot_resid_hist()}},
+\code{\link[=ols_plot_resid_qq]{ols_plot_resid_qq()}},
+\code{\link[=ols_test_correlation]{ols_test_correlation()}}
 }
 \concept{residual diagnostics}

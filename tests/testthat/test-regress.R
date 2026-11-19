@@ -14,7 +14,8 @@ test_that("regress returns all the model validation metrics", {
   expect_equal(model$conf_lm[, 2], lm2)
 })
 
-test_that("If model includes interaction terms, ols_regress scales and centers\n          predictors before computing standardized betas", {
+test_that("If model includes interaction terms, ols_regress scales and centers
+          predictors before computing standardized betas", {
   model_inter <- ols_regress(price ~ weight * displacement, data = auto, iterm = TRUE)
   actual   <- round(model_inter$sbetas, 2)
   expected <- c(weight = 0.57, displacement = -0.15, `weight:displacement` = 0.38)
@@ -28,3 +29,798 @@ test_that("ols_regress returns error messages", {
   expect_error(ols_regress(mpg ~ disp + hp + wt, data = mtcars, title = 1), "1 is not a string, Please specify a string as title.")
 })
 
+test_that("MSE and RMSE use the ANOVA residual mean square (#221)", {
+  # 1. Verification on mtcars simple regression
+  m_mtcars_simple <- lm(mpg ~ disp, data = mtcars)
+  res_simple <- ols_regress(m_mtcars_simple)
+  expect_equal(res_simple$mse, 10.57196, tolerance = 1e-4)
+  expect_equal(res_simple$rmse, 3.251454, tolerance = 1e-4)
+  expect_equal(res_simple$mse, anova(m_mtcars_simple)["Residuals", "Mean Sq"])
+  expect_equal(res_simple$rmse, sqrt(deviance(m_mtcars_simple) / m_mtcars_simple$df.residual))
+
+  # 2. Verification on surgical data (multiple regression)
+  m_surgical <- lm(y ~ bcs + pindex + enzyme_test + liver_test, data = surgical)
+  res_surgical <- ols_regress(m_surgical)
+  expected_mse_surg <- deviance(m_surgical) / m_surgical$df.residual
+  expect_equal(res_surgical$mse, expected_mse_surg)
+  expect_equal(res_surgical$rmse, sqrt(expected_mse_surg))
+  expect_equal(res_surgical$mse, anova(m_surgical)["Residuals", "Mean Sq"])
+
+  # 3. Verification on cement data
+  m_cement <- lm(y ~ x1 + x2 + x3 + x4, data = cement)
+  res_cement <- ols_regress(m_cement)
+  expected_mse_cement <- deviance(m_cement) / m_cement$df.residual
+  expect_equal(res_cement$mse, expected_mse_cement)
+  expect_equal(res_cement$rmse, sqrt(expected_mse_cement))
+  expect_equal(res_cement$mse, anova(m_cement)["Residuals", "Mean Sq"])
+
+  # 4. Verification on factor model (auto)
+  d_auto <- na.omit(auto)
+  d_auto$rep78 <- as.factor(d_auto$rep78)
+  m_auto <- lm(price ~ mpg + weight + rep78, data = d_auto)
+  res_auto <- ols_regress(m_auto)
+  expected_mse_auto <- deviance(m_auto) / m_auto$df.residual
+  expect_equal(res_auto$mse, expected_mse_auto)
+  expect_equal(res_auto$rmse, sqrt(expected_mse_auto))
+  expect_equal(res_auto$mse, anova(m_auto)["Residuals", "Mean Sq"])
+})
+
+test_that("ols_regress refits transformed and factor terms safely (audit F1)", {
+  models <- list(
+    log(mpg) ~ disp + hp,
+    mpg ~ factor(cyl) + hp,
+    mpg ~ poly(disp, 2) + hp,
+    mpg ~ I(disp^2) + hp
+  )
+
+  for (f in models) {
+    m   <- lm(f, data = mtcars)
+    got <- ols_regress(m)
+    ref <- lm(f, data = mtcars)
+
+    expect_equal(coef(got$model), coef(ref))
+    expect_equal(got$rsq, summary(ref)$r.squared)
+    expect_equal(got$aic, ols_aic(ref))
+    expect_equal(got$rmse, sqrt(deviance(ref) / ref$df.residual))
+  }
+})
+
+test_that("refits use the model's rows, matched by name (audit F1)", {
+  d <- mtcars
+  rownames(d) <- NULL
+  d <- d[-c(1, 2), ]
+  d$mpg[29:30] <- NA
+  m <- lm(log(mpg) ~ disp + hp, data = d)
+
+  expect_equal(unname(ols_regress(m)$betas), unname(coef(m)))
+  expect_equal(nobs(ols_step_backward_aic(lm(mpg ~ disp + hp, data = d))$model), 28L)
+})
+
+test_that("standardised betas of interaction models keep the response untransformed", {
+  m <- lm(log(mpg) ~ disp * hp, data = mtcars)
+
+  expect_silent(got <- ols_regress(m)$sbetas)
+
+  ref <- lm(log(mpg) ~ scale(disp) * scale(hp), data = mtcars)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) / sd(log(mtcars$mpg))
+
+  expect_equal(unname(got), unname(expected))
+})
+
+test_that("a response component used as a predictor is still standardised (G03)", {
+  m  <- lm(I(mpg / wt) ~ wt * hp, mtcars)
+  ds <- transform(mtcars,
+                  y  = mpg / wt,
+                  wt = as.numeric(scale(wt)),
+                  hp = as.numeric(scale(hp)))
+  ref <- lm(y ~ wt * hp, ds)
+  expected <- coef(ref)[-1] *
+    apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg / mtcars$wt)
+
+  got <- ols_regress(m)$sbetas
+
+  expect_equal(names(got), names(coef(m))[-1])
+  expect_equal(unname(got), unname(expected))
+  expect_equal(unname(got), c(-0.8195021, -0.1546689, 0.4008095),
+               tolerance = 1e-6)
+
+  # the same for a raw response variable that also appears in the predictors
+  m2  <- lm(log(mpg) ~ mpg * hp, mtcars)
+  ds2 <- transform(mtcars,
+                   y  = log(mpg),
+                   mpg = as.numeric(scale(mpg)),
+                   hp  = as.numeric(scale(hp)))
+  ref2 <- lm(y ~ mpg * hp, ds2)
+  expected2 <- coef(ref2)[-1] *
+    apply(model.matrix(ref2)[, -1, drop = FALSE], 2, sd) /
+    sd(log(mtcars$mpg))
+
+  got2 <- ols_regress(m2)$sbetas
+
+  expect_equal(names(got2), names(coef(m2))[-1])
+  expect_equal(unname(got2), unname(expected2))
+  expect_equal(unname(got2[["hp"]]), 0.1079692, tolerance = 1e-6)
+})
+
+test_that("ols_regress.lm() forwards conf.level, iterm and title (audit F2)", {
+  m <- lm(mpg ~ disp + hp, data = mtcars)
+
+  expect_equal(ols_regress(m, conf.level = 0.90)$conf_lm, confint(m, level = 0.90))
+  expect_equal(
+    ols_regress(m, conf.level = 0.90)$conf_lm["disp", 1],
+    confint(m, level = 0.90)["disp", 1]
+  )
+
+  out <- capture.output(print(ols_regress(m, title = "my model")))
+  expect_true(any(grepl("my model", out, fixed = TRUE)))
+
+  m_inter <- lm(mpg ~ disp * wt, data = mtcars)
+  expect_equal(
+    ols_regress(m_inter, iterm = TRUE)$sbetas,
+    ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)$sbetas
+  )
+  expect_error(ols_regress(m_inter, iterm = "yes"), "must be a flag")
+})
+
+test_that("standardised betas keep every coefficient of no-intercept models (audit F3)", {
+  m        <- lm(mpg ~ 0 + disp + hp, data = mtcars)
+  res      <- ols_regress(m)
+  expected <- coef(m) * c(sd(mtcars$disp), sd(mtcars$hp)) / sd(mtcars$mpg)
+
+  expect_length(res$betas, 2)
+  expect_length(res$sbetas, 2)
+  expect_equal(names(res$sbetas), names(coef(m)))
+  expect_equal(unname(res$sbetas), unname(expected))
+
+  m1 <- lm(mpg ~ 0 + disp, data = mtcars)
+  expect_length(ols_regress(m1)$sbetas, 1)
+  expect_equal(
+    unname(ols_regress(m1)$sbetas),
+    unname(coef(m1) * sd(mtcars$disp) / sd(mtcars$mpg))
+  )
+
+  # the printed Std. Beta column is aligned with the coefficients by name
+  out <- capture.output(print(res))
+  std_beta <- function(term) {
+    row <- Filter(function(r) identical(r[1], term), lapply(out, function(l) {
+      strsplit(trimws(l), "[[:space:]]+")[[1]]
+    }))
+    as.numeric(row[[1]][4])
+  }
+  expect_equal(std_beta("disp"), unname(round(expected[["disp"]], 3)))
+  expect_equal(std_beta("hp"), unname(round(expected[["hp"]], 3)))
+})
+
+test_that("weighted ols_regress matches summary, anova, confint (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  res <- ols_regress(m)
+  s   <- summary(m)
+  a   <- anova(m)
+  ci  <- confint(m)
+
+  expect_equal(unname(res$betas), unname(coef(m)), tolerance = 1e-6)
+  expect_equal(unname(res$std_errors), unname(s$coefficients[, 2]), tolerance = 1e-6)
+  expect_equal(unname(res$tvalues), unname(s$coefficients[, 3]), tolerance = 1e-6)
+  expect_equal(unname(res$pvalues), unname(s$coefficients[, 4]), tolerance = 1e-6)
+  expect_equal(res$conf_lm, ci, tolerance = 1e-6)
+  expect_equal(res$rsq, s$r.squared, tolerance = 1e-6)
+  expect_equal(res$adjr, s$adj.r.squared, tolerance = 1e-6)
+  expect_equal(res$rmse, s$sigma, tolerance = 1e-6)
+
+  expect_equal(res$rss, sum(a$`Sum Sq`[1:2]), tolerance = 1e-6)
+  expect_equal(res$ess, a$`Sum Sq`[3], tolerance = 1e-6)
+  expect_equal(res$tss, sum(a$`Sum Sq`), tolerance = 1e-6)
+  expect_equal(res$model_df, sum(a$Df[1:2]))
+  expect_equal(res$error_df, a$Df[3])
+  expect_equal(res$total_df, sum(a$Df))
+  expect_equal(unname(res$f), unname(s$fstatistic[1]), tolerance = 1e-6)
+  expect_equal(res$p, pf(res$f, res$model_df, res$error_df, lower.tail = FALSE), tolerance = 1e-6)
+
+  expect_error(ols_regress(mpg ~ disp + hp, data = d, weights = d$w), "weights")
+  expect_error(ols_regress(mpg ~ disp + hp, data = d, weights = w), "weights")
+})
+
+test_that("weighted interaction models work in ols_regress() (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  wts <- d$w
+
+  models <- list(
+    lm(mpg ~ disp * hp, data = d, weights = w),
+    lm(log(mpg) ~ disp * hp, data = d, weights = w),
+    lm(mpg ~ disp * hp, data = mtcars, weights = wts),
+    lm(log(mpg) ~ disp * hp, data = mtcars, weights = wts)
+  )
+
+  for (m in models) {
+    res <- ols_regress(m)
+    s   <- summary(m)
+    a   <- anova(m)
+
+    expect_equal(unname(res$betas), unname(coef(m)), tolerance = 1e-8)
+    expect_equal(unname(res$std_errors), unname(s$coefficients[, 2]), tolerance = 1e-8)
+    expect_equal(unname(res$tvalues), unname(s$coefficients[, 3]), tolerance = 1e-8)
+    expect_equal(unname(res$pvalues), unname(s$coefficients[, 4]), tolerance = 1e-8)
+    expect_equal(res$conf_lm, confint(m), tolerance = 1e-8)
+    expect_equal(res$rsq, s$r.squared, tolerance = 1e-8)
+    expect_equal(res$adjr, s$adj.r.squared, tolerance = 1e-8)
+    expect_equal(res$rmse, s$sigma, tolerance = 1e-8)
+    expect_equal(res$rss, sum(a$`Sum Sq`[-nrow(a)]), tolerance = 1e-8)
+    expect_equal(res$ess, a$`Sum Sq`[nrow(a)], tolerance = 1e-8)
+    expect_equal(res$tss, sum(a$`Sum Sq`), tolerance = 1e-8)
+    expect_equal(unname(res$f), unname(s$fstatistic[1]), tolerance = 1e-8)
+    expect_equal(names(res$sbetas), names(coef(m))[-1])
+    expect_true(all(is.finite(res$sbetas)))
+    expect_equal(length(res$sbetas), length(attr(m$terms, "term.labels")))
+  }
+})
+
+test_that("standardised betas of weighted interaction models use a weighted fit on scaled predictors", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+
+  for (f in list(mpg ~ disp * hp, log(mpg) ~ disp * hp)) {
+    m   <- lm(f, data = d, weights = w)
+    got <- ols_regress(m)$sbetas
+
+    # definition: refit the model with every predictor standardised and the
+    # model's prior weights, then multiply each coefficient by the standard
+    # deviation of its (scaled-model) model-matrix column and divide by the
+    # standard deviation of the untransformed model response
+    scaled      <- d
+    scaled$disp <- as.numeric(scale(scaled$disp))
+    scaled$hp   <- as.numeric(scale(scaled$hp))
+    ref         <- lm(f, data = scaled, weights = w)
+    expected    <- coef(ref)[-1] *
+      apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+      sd(model.response(model.frame(m)))
+
+    expect_equal(unname(got), unname(expected), tolerance = 1e-8)
+  }
+})
+
+test_that("ols_regress() rejects glm objects with a clear message (#236)", {
+  g <- glm(am ~ disp + hp, data = mtcars, family = binomial)
+
+  expect_error(ols_regress(g), "supports only lm models")
+  expect_error(ols_regress(g), "formula interface")
+})
+
+test_that("stepwise selection routines reject weighted models (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m_wt <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  routines <- list(
+    forward_p       = function(m) ols_step_forward_p(m),
+    backward_p      = function(m) ols_step_backward_p(m),
+    both_p          = function(m) ols_step_both_p(m),
+    forward_aic     = function(m) ols_step_forward_aic(m),
+    backward_aic    = function(m) ols_step_backward_aic(m),
+    both_aic        = function(m) ols_step_both_aic(m),
+    forward_sbc     = function(m) ols_step_forward_sbc(m),
+    backward_sbc    = function(m) ols_step_backward_sbc(m),
+    both_sbc        = function(m) ols_step_both_sbc(m),
+    forward_sbic    = function(m) ols_step_forward_sbic(m),
+    backward_sbic   = function(m) ols_step_backward_sbic(m),
+    both_sbic       = function(m) ols_step_both_sbic(m),
+    forward_r2      = function(m) ols_step_forward_r2(m),
+    backward_r2     = function(m) ols_step_backward_r2(m),
+    both_r2         = function(m) ols_step_both_r2(m),
+    forward_adj_r2  = function(m) ols_step_forward_adj_r2(m),
+    backward_adj_r2 = function(m) ols_step_backward_adj_r2(m),
+    both_adj_r2     = function(m) ols_step_both_adj_r2(m),
+    best_subset     = function(m) ols_step_best_subset(m),
+    all_possible    = function(m) ols_step_all_possible(m),
+    hierarchical    = function(m) ols_step_hierarchical(m)
+  )
+
+  for (nm in names(routines)) {
+    expect_error(routines[[nm]](m_wt), "weighted")
+  }
+
+  # unit weights are allowed
+  m_unit <- lm(mpg ~ disp + hp, data = mtcars, weights = rep(1, 32))
+  expect_no_error(ols_step_forward_p(m_unit))
+})
+
+test_that("weighted models do not report synthetic model-frame columns as predictors (#236)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+
+  m_unwt <- lm(mpg ~ disp + hp, data = d)
+  m_wt   <- lm(mpg ~ disp + hp, data = d, weights = w)
+
+  res_wt   <- ols_regress(m_wt)
+  res_unwt <- ols_regress(m_unwt)
+
+  expect_equal(res_wt$predictors, res_unwt$predictors)
+  expect_equal(res_wt$predictors, c("disp", "hp"))
+  expect_equal(res_wt$dependent, "mpg")
+
+  # offsets are not predictors either, for models and formulas
+  expect_equal(
+    ols_regress(lm(mpg ~ disp + hp + offset(wt), data = d))$predictors,
+    c("disp", "hp")
+  )
+  expect_equal(
+    ols_regress(mpg ~ disp + hp + offset(wt), data = d)$predictors,
+    c("disp", "hp")
+  )
+})
+
+test_that("ols_regress() rejects fits without a model frame or QR instead of refitting (L01)", {
+  msg <- "qr = TRUE, model = TRUE"
+
+  expect_error(ols_regress(lm(mpg ~ disp + hp, mtcars, model = FALSE)), msg, fixed = TRUE)
+  expect_error(ols_regress(lm(mpg ~ disp + hp, mtcars, qr = FALSE)), msg, fixed = TRUE)
+
+  # audit case: formula and fitting environments differ
+  d <- transform(mtcars, z = wt + .001 * hp + .001 * sin(1:32))
+  tv <- .1
+  f <- mpg ~ wt + z + hp
+  mods <- local({
+    tv <- .01
+    list(lm(f, d, tol = tv), lm(f, d, tol = tv, qr = FALSE))
+  })
+  expect_error(ols_regress(mods[[2]]), msg, fixed = TRUE)
+  r <- ols_regress(mods[[1]])
+  expect_equal(r$betas, coef(mods[[1]]))
+  expect_equal(r$prsq, 0.781219577042816, tolerance = 1e-8)
+  expect_equal(r$rsq, 0.827030132715933, tolerance = 1e-8)
+  expect_equal(r$mse, 6.71628388198179, tolerance = 1e-8)
+
+  # changed call data must never leak into the result
+  dd <- mtcars
+  m  <- lm(mpg ~ wt + hp, dd, qr = FALSE)
+  dd$mpg <- 2 * dd$mpg
+  expect_error(ols_regress(m), msg, fixed = TRUE)
+})
+
+test_that("ordinary ols_regress() fits are unchanged (L01)", {
+  set.seed(1)
+  d <- mtcars
+  d$w <- runif(32, 0.5, 2)
+  m <- lm(mpg ~ disp + hp, data = d, weights = w)
+  r <- ols_regress(m)
+  s <- summary(m)
+
+  expect_equal(r$betas, coef(m))
+  expect_equal(r$std_errors, s$coefficients[, 2])
+  expect_equal(r$rsq, s$r.squared)
+  expect_equal(r$mse, deviance(m) / m$df.residual)
+  expect_equal(r$prsq, ols_pred_rsq(m))
+})
+
+test_that("aliased coefficients are aligned by name (H3)", {
+  m <- lm(mpg ~ wt + I(2 * wt) + hp, mtcars)
+  r <- ols_regress(m)
+  cf <- summary(m)$coefficients
+
+  expect_equal(r$betas, coef(m))
+  expect_equal(r$std_errors[rownames(cf)], cf[, 2])
+  expect_equal(r$tvalues[rownames(cf)], cf[, 3])
+  expect_equal(r$pvalues[rownames(cf)], cf[, 4])
+  expect_true(is.na(r$std_errors[["I(2 * wt)"]]))
+  expect_true(is.na(r$tvalues[["I(2 * wt)"]]))
+  expect_true(is.na(r$pvalues[["I(2 * wt)"]]))
+  expect_true(all(is.na(r$conf_lm["I(2 * wt)", ])))
+  expect_equal(r$conf_lm[rownames(cf), ], confint(m)[rownames(cf), ])
+
+  # standardised betas only for estimable coefficients, named by coefficient
+  expected <- c(
+    wt = unname(coef(m)["wt"] * sd(mtcars$wt) / sd(mtcars$mpg)),
+    hp = unname(coef(m)["hp"] * sd(mtcars$hp) / sd(mtcars$mpg))
+  )
+  expect_equal(r$sbetas, expected)
+
+  # printed rows keep their own inference and leave the alias blank
+  out <- capture.output(print(r))
+  row <- function(term) {
+    Filter(function(x) identical(x[1], term),
+           lapply(out, function(l) strsplit(trimws(l), "[[:space:]]+")[[1]]))[[1]]
+  }
+  expect_equal(as.numeric(row("wt")[4]), unname(round(expected[["wt"]], 3)))
+  expect_equal(as.numeric(row("hp")[4]), unname(round(expected[["hp"]], 3)))
+  expect_equal(as.numeric(row("hp")[5]), unname(round(cf["hp", 3], 3)))
+  alias_row <- grep("I(2 * wt)", out, value = TRUE, fixed = TRUE)
+  expect_length(alias_row, 1)
+  expect_false(grepl("[0-9]", sub("I(2 * wt)", "", alias_row, fixed = TRUE)))
+
+  # a zero-variance predictor is aliased too
+  m0 <- lm(mpg ~ wt + I(0 * wt) + hp, mtcars)
+  r0 <- ols_regress(m0)
+  expect_equal(r0$betas, coef(m0))
+  expect_true(is.na(r0$std_errors[["I(0 * wt)"]]))
+  expect_false("I(0 * wt)" %in% names(r0$sbetas))
+
+  # an aliased interaction between two estimable terms
+  mi <- lm(mpg ~ wt * hp + I(2 * wt):hp, mtcars)
+  ri <- ols_regress(mi)
+  cfi <- summary(mi)$coefficients
+  expect_equal(ri$betas, coef(mi))
+  expect_equal(ri$std_errors[rownames(cfi)], cfi[, 2])
+  expect_true(is.na(ri$std_errors[["hp:I(2 * wt)"]]))
+})
+
+test_that("standardised betas respect transformed terms in interactions (H5)", {
+  m <- lm(mpg ~ log(wt) * hp, mtcars)
+  expect_silent(got <- ols_regress(m)$sbetas)
+
+  d   <- transform(mtcars,
+                   logwt = as.numeric(scale(log(wt))),
+                   hp    = as.numeric(scale(hp)))
+  ref <- lm(mpg ~ logwt * hp, d)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  expect_equal(unname(got), unname(expected))
+  expect_equal(names(got), c("log(wt)", "hp", "log(wt):hp"))
+
+  # categorical terms keep their levels, names and printed cells
+  mf  <- lm(mpg ~ factor(cyl) * hp, mtcars)
+  res <- ols_regress(mf)
+
+  expect_equal(names(res$sbetas), names(coef(mf))[-1])
+  expect_equal(
+    res$sbetas[["hp"]],
+    unname(coef(mf)["hp"] * sd(mtcars$hp) / sd(mtcars$mpg)),
+    tolerance = 1e-6
+  )
+
+  out   <- capture.output(print(res))
+  hprow <- Filter(function(x) identical(x[1], "hp"),
+                  lapply(out, function(l) strsplit(trimws(l), "[[:space:]]+")[[1]]))[[1]]
+  expect_equal(as.numeric(hprow[4]), unname(round(res$sbetas[["hp"]], 3)))
+
+  # matrix-valued terms cannot be standardised component-wise
+  expect_error(
+    ols_regress(lm(mpg ~ poly(disp, 2) * hp, mtcars)),
+    "matrix terms"
+  )
+})
+
+test_that("standardised betas carry model offsets through the refit (H6)", {
+  ds     <- mtcars
+  ds$wt  <- as.numeric(scale(ds$wt))
+  ds$hp  <- as.numeric(scale(ds$hp))
+  ref    <- lm(mpg ~ wt * hp, ds, offset = qsec)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  m  <- lm(mpg ~ wt * hp, mtcars, offset = qsec)
+  mf <- lm(mpg ~ wt * hp + offset(qsec), mtcars)
+
+  expect_equal(ols_regress(m)$sbetas, expected)
+  expect_equal(ols_regress(mf)$sbetas, expected)
+
+  # weights are carried along with the offset
+  set.seed(1)
+  d     <- mtcars
+  d$w   <- runif(32, 0.5, 2)
+  ds$w  <- d$w
+  mw    <- lm(mpg ~ wt * hp, d, weights = w, offset = qsec)
+  mfw   <- lm(mpg ~ wt * hp + offset(qsec), d, weights = w)
+  refw  <- lm(mpg ~ wt * hp, ds, weights = w, offset = qsec)
+  expected_w <- coef(refw)[-1] * apply(model.matrix(refw)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  expect_equal(ols_regress(mw)$sbetas, expected_w)
+  expect_equal(ols_regress(mfw)$sbetas, expected_w)
+
+  # missing rows: both forms give the same fit and the same betas
+  dm <- mtcars
+  dm$mpg[1] <- NA
+  me  <- lm(mpg ~ wt * hp, dm, offset = qsec, na.action = na.exclude)
+  mfe <- lm(mpg ~ wt * hp + offset(qsec), dm, na.action = na.exclude)
+  expect_equal(ols_regress(me)$sbetas, ols_regress(mfe)$sbetas)
+  expect_equal(nobs(ols_regress(me)$model), 31L)
+})
+
+test_that("mixed formula and call offsets are carried through the refit (H6)", {
+  m  <- lm(mpg ~ wt * hp + offset(qsec), mtcars, offset = drat)
+  eq <- lm(mpg ~ wt * hp, mtcars, offset = qsec + drat)
+
+  ds  <- mtcars
+  ds$wt <- as.numeric(scale(ds$wt))
+  ds$hp <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ wt * hp, ds, offset = qsec + drat)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  expect_equal(ols_regress(m)$sbetas, expected)
+  expect_equal(ols_regress(m)$sbetas, ols_regress(eq)$sbetas)
+
+  # the reported estimates are still the input model's
+  expect_equal(ols_regress(m)$betas, coef(m))
+
+  # the all-possible beta table carries both offset contributions
+  b    <- ols_step_all_possible_betas(m)
+  full <- b[b$model == max(b$model), ]
+  expect_equal(full$predictor, names(coef(m)), ignore_attr = TRUE)
+  expect_equal(full$beta, unname(coef(m)), ignore_attr = TRUE)
+})
+
+test_that("an offset variable is still standardised as a predictor (H6)", {
+  inline <- lm(mpg ~ wt * hp + offset(wt), mtcars)
+  call   <- lm(mpg ~ wt * hp, mtcars, offset = wt)
+
+  ds <- mtcars
+  ds$wt <- as.numeric(scale(ds$wt))
+  ds$hp <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ wt * hp, ds, offset = mtcars$wt)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  expect_equal(ols_regress(inline)$sbetas, expected)
+  expect_equal(ols_regress(inline)$sbetas, ols_regress(call)$sbetas)
+  expect_equal(unname(ols_regress(inline)$sbetas[2]), -0.3470564, tolerance = 1e-6)
+  expect_equal(unname(ols_regress(inline)$sbetas[3]), 0.2431090, tolerance = 1e-6)
+
+  # the same for a transformed occurrence of the offset variable and with
+  # prior weights
+  d <- mtcars
+  d$w <- seq_len(nrow(d)) / 16
+  inline2 <- lm(mpg ~ log(wt) * hp + offset(log(wt)), d, weights = w)
+  call2   <- lm(mpg ~ log(wt) * hp, d, weights = w, offset = log(wt))
+
+  ds2 <- d
+  ds2$logwt <- as.numeric(scale(log(ds2$wt)))
+  ds2$hp    <- as.numeric(scale(ds2$hp))
+  ref2 <- lm(mpg ~ logwt * hp, ds2, weights = w, offset = log(d$wt))
+  expected2 <- coef(ref2)[-1] * apply(model.matrix(ref2)[, -1, drop = FALSE], 2, sd) /
+    sd(d$mpg)
+
+  expect_equal(ols_regress(inline2)$sbetas, ols_regress(call2)$sbetas)
+  expect_equal(unname(ols_regress(inline2)$sbetas), unname(expected2))
+  expect_equal(names(ols_regress(inline2)$sbetas), c("log(wt)", "hp", "log(wt):hp"))
+})
+
+test_that("standardised betas keep the model's contrast coding (H5)", {
+  m <- lm(mpg ~ factor(cyl) * hp, mtcars,
+          contrasts = list("factor(cyl)" = contr.sum))
+
+  ds <- mtcars
+  ds$hp <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ factor(cyl) * hp, ds, contrasts = list("factor(cyl)" = contr.sum))
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(mtcars$mpg)
+
+  res <- ols_regress(m)
+
+  expect_equal(names(res$sbetas), names(coef(m))[-1])
+  expect_equal(unname(res$sbetas), unname(expected))
+  expect_equal(unname(res$sbetas),
+               c(0.1645928, 0.1614386, -0.5105317, -0.4957139, 0.2765400),
+               tolerance = 1e-6)
+
+  # factor columns are still not standardised, and the treatment-contrast
+  # neighbour keeps its own parameterisation
+  mt <- lm(mpg ~ factor(cyl) * hp, mtcars)
+  expect_equal(names(ols_regress(mt)$sbetas), names(coef(mt))[-1])
+  expect_equal(ols_regress(mt)$sbetas[["hp"]],
+               unname(coef(mt)["hp"] * sd(mtcars$hp) / sd(mtcars$mpg)),
+               tolerance = 1e-6)
+})
+
+test_that("factor levels that look like placeholders keep their names (G04)", {
+  d <- mtcars
+  d$g <- factor(ifelse(d$cyl == 4, "small", ".ols_sb_0001"),
+                levels = c("small", ".ols_sb_0001"))
+  m <- lm(mpg ~ hp * g, d)
+
+  expect_equal(names(coef(m))[-1],
+               c("hp", "g.ols_sb_0001", "hp:g.ols_sb_0001"))
+
+  ds <- d
+  ds$hp <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ hp * g, ds)
+  expected <- coef(ref)[-1] *
+    apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) / sd(d$mpg)
+
+  res <- ols_regress(m)
+
+  expect_equal(names(res$sbetas), names(coef(m))[-1])
+  expect_equal(unname(res$sbetas), unname(expected))
+  expect_equal(unname(res$sbetas), c(-1.2829443, -0.1350772, 0.6757784),
+               tolerance = 1e-6)
+
+  # every standardised beta is printed against its own coefficient row
+  out <- capture.output(print(res))
+  for (nm in names(res$sbetas)) {
+    line <- out[startsWith(trimws(out), paste0(nm, " "))]
+    expect_length(line, 1)
+    cell <- format(round(res$sbetas[[nm]], 3), nsmall = 3)
+    expect_true(grepl(cell, line, fixed = TRUE))
+  }
+})
+
+test_that("term structure comes from the terms object, not from splitting on colons (H5)", {
+  d <- mtcars
+  d[["a:b"]] <- d$wt
+  m <- lm(mpg ~ `a:b` * hp, d)
+
+  ds <- d
+  ds[["a:b"]] <- as.numeric(scale(ds[["a:b"]]))
+  ds$hp       <- as.numeric(scale(ds$hp))
+  ref <- lm(mpg ~ `a:b` * hp, ds)
+  expected <- coef(ref)[-1] * apply(model.matrix(ref)[, -1, drop = FALSE], 2, sd) /
+    sd(d$mpg)
+
+  res <- ols_regress(m)
+
+  expect_equal(names(res$sbetas), c("`a:b`", "hp", "`a:b`:hp"))
+  expect_equal(unname(res$sbetas), unname(expected))
+  expect_equal(unname(res$sbetas),
+               c(-0.6707612, -0.3470564, 0.2431090),
+               tolerance = 1e-6)
+
+  # a term that cannot be evaluated is reported instead of being left unscaled
+  dead <- local({
+    dd  <- mtcars
+    fit <- lm(mpg ~ log(wt) * hp, data = dd)
+    rm(dd)
+    fit
+  })
+  expect_error(ols_regress(dead), "has changed or cannot be found")
+})
+
+test_that("ols_regress() and PRESS ignore na.exclude padding (#236)", {  d <- mtcars
+  d$mpg[1] <- NA
+
+  m_exclude <- lm(mpg ~ disp + hp, data = d, na.action = na.exclude)
+  m_omit    <- lm(mpg ~ disp + hp, data = d, na.action = na.omit)
+
+  res_exclude <- ols_regress(m_exclude)
+  res_omit    <- ols_regress(m_omit)
+
+  expect_equal(res_exclude$mae, res_omit$mae)
+  expect_equal(res_exclude$prsq, res_omit$prsq)
+  expect_equal(res_exclude$mae, 2.524405, tolerance = 1e-6)
+  expect_equal(res_exclude$prsq, 0.6982694, tolerance = 1e-6)
+
+  expect_equal(ols_press(m_exclude), ols_press(m_omit))
+  expect_equal(ols_pred_rsq(m_exclude), ols_pred_rsq(m_omit))
+})
+
+test_that("auxiliary refits reject call data that differs from the fit (M01)", {
+  msg <- "has changed or cannot be found"
+
+  # audit case: the call symbol is bound to a different data frame
+  d <- mtcars
+  f <- mpg ~ wt * hp
+  m <- local({
+    d <- transform(mtcars, mpg = 2 * mpg)
+    lm(f, d)
+  })
+  expect_error(ols_regress(m), msg)
+
+  # changed after fitting
+  d  <- mtcars
+  m2 <- lm(mpg ~ wt * hp, d)
+  ref <- ols_regress(m2)$sbetas
+  d$mpg <- 2 * d$mpg
+  expect_error(ols_regress(m2), msg)
+
+  d  <- mtcars
+  m3 <- lm(mpg ~ wt * hp, d)
+  d$hp <- rev(d$hp)
+  expect_error(ols_regress(m3), msg)
+
+  # unchanged data: values equal the hand computation from the stored frame
+  mf <- model.frame(m2)
+  ds <- mf
+  ds$wt <- as.numeric(scale(ds$wt))
+  ds$hp <- as.numeric(scale(ds$hp))
+  rf <- lm(mpg ~ wt * hp, ds)
+  expected <- coef(rf)[-1] * apply(model.matrix(rf)[, -1, drop = FALSE], 2, sd) / sd(mf$mpg)
+  expect_equal(unname(ref), unname(expected))
+  expect_equal(unname(ref), c(-0.6707611747757308, -0.3470564211217647, 0.2431089991525895))
+
+  # selection functions use the same guard
+  fns <- list(ols_step_forward_aic, ols_step_forward_p, ols_step_backward_aic,
+              ols_step_backward_p, ols_step_both_aic, ols_step_both_p)
+  d  <- mtcars
+  f3 <- mpg ~ wt + hp + qsec
+  mm <- local({
+    d <- transform(mtcars, mpg = 2 * mpg)
+    lm(f3, d)
+  })
+  for (fn in fns) {
+    expect_error(suppressMessages(fn(mm, progress = FALSE)), msg)
+  }
+
+  ok <- lm(mpg ~ wt + hp + qsec, mtcars)
+  expect_no_error(suppressMessages(ols_step_forward_aic(ok)))
+  expect_equal(coef(ols_step_forward_aic(ok, include = c("wt", "hp", "qsec"))$model),
+               coef(ok))
+})
+
+test_that("the data guard accepts ordinary unchanged fits (N03)", {
+  d <- mtcars
+  sb <- function(m) unname(ols_regress(m)$sbetas)
+  base3 <- c(-0.670761174775731, -0.347056421121765, 0.243108999152590)
+
+  w0 <- NULL
+  expect_equal(sb(lm(mpg ~ wt * hp, d, weights = w0)), base3)
+  o0 <- NULL
+  expect_equal(sb(lm(mpg ~ wt * hp, d, offset = o0)), base3)
+
+  ww <- rep(1, 32)
+  expect_equal(sb(lm(mpg ~ wt * hp, d, weights = ww, subset = hp > 100)),
+               c(-0.763562939581003, -0.202260379881657, 0.290113662908236))
+  oo <- d$qsec
+  expect_equal(sb(lm(mpg ~ wt * hp, d, offset = oo, subset = hp > 100)),
+               c(-0.965426646484783, 0.128670365030811, 0.310437093410121))
+  expect_equal(sb(lm(mpg ~ poly(wt, 2) + hp, d, subset = hp > 100)),
+               c(-0.841664658198665, 0.292051567550873, -0.264122102509875))
+  expect_equal(sb(lm(mpg ~ scale(wt) + hp, d, subset = hp > 100)),
+               c(-0.709907637360417, -0.296899313473184))
+
+  dn <- d
+  dn$mpg[c(2, 32)] <- NA
+  expect_no_error(ols_regress(lm(mpg ~ poly(wt, 2) + hp, dn, na.action = na.exclude)))
+  expect_no_error(ols_regress(lm(mpg ~ scale(wt) + hp, dn, na.action = na.exclude)))
+
+  dd <- transform(mtcars, a = sin(1:32) * 1e-5, b = cos(1:32) * 1e-5, c = 1:32 * 1e-5)
+  m <- lm(mpg ~ wt * hp + offset(a) + offset(b) + offset(c), dd, offset = qsec)
+  expect_equal(sb(m), c(-0.823439068414872, -0.036448913550227, 0.242119031118026))
+
+  # factors and transformed terms
+  df <- transform(mtcars, g = factor(cyl))
+  expect_no_error(ols_regress(lm(mpg ~ g * hp, df)))
+  expect_no_error(ols_regress(lm(log(mpg) ~ log(wt) * hp + I(qsec^2), df)))
+  expect_no_error(suppressMessages(ols_step_forward_aic(lm(mpg ~ poly(wt, 2) + hp + qsec, d, subset = hp > 100))))
+})
+
+test_that("changed data, levels and unrelated bindings are rejected (N01, N02)", {
+  msg <- "has changed or cannot be found"
+
+  d <- transform(mtcars, g = factor(cyl))
+  m <- lm(mpg ~ g * hp, d)
+  expected <- ols_regress(m)$sbetas
+  expect_equal(unname(expected),
+               c(0.008144386521190, -0.288477791207574, -1.282944252796579,
+                 0.258194497698283, 0.746130640996481), tolerance = 1e-8)
+  d$g <- relevel(d$g, "8")
+  expect_error(ols_regress(m), msg)
+  expect_error(suppressMessages(ols_step_both_p(m, include = c("g", "hp"))), msg)
+
+  # call data missing and an unrelated binding of the raw variable
+  r <- local({
+    dl <- mtcars
+    ml <- lm(log(mpg) ~ wt * hp, dl)
+    rm(dl)
+    mpg <- mtcars$mpg^2
+    list(ml, tryCatch(ols_regress(ml), error = function(e) conditionMessage(e)))
+  })
+  expect_match(r[[2]], msg)
+
+  # plain-variable fits keep working when the data object is gone
+  p <- local({
+    dl <- mtcars
+    mp <- lm(mpg ~ wt * hp, dl)
+    ref <- ols_regress(mp)$sbetas
+    rm(dl)
+    list(ref, ols_regress(mp)$sbetas)
+  })
+  expect_equal(p[[1]], p[[2]])
+})
+
+test_that("both-p selection with every term included returns the model (N04)", {
+  m <- lm(mpg ~ wt + hp, mtcars)
+  k <- suppressMessages(ols_step_both_p(m, include = c("wt", "hp")))
+  expect_s3_class(k, "ols_step_both_p")
+  expect_equal(nrow(k$metrics), 0)
+  expect_equal(coef(k$model), coef(m))
+  expect_equal(model.response(model.frame(k$model)), model.response(model.frame(m)))
+})

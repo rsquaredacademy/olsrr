@@ -12,7 +12,6 @@ library(olsrr)
 library(ggplot2)
 library(gridExtra)
 library(nortest)
-library(goftest)
 ```
 
 ## Collinearity Diagnostics

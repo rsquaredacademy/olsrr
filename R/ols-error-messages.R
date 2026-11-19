@@ -1,7 +1,26 @@
 check_model <- function(model) {
-  if (!any(class(model) == "lm")) {
+  if (!inherits(model, "lm")) {
     model_name <- deparse(substitute(model))
     stop(paste0("`", model_name, "` must be an object of class `lm`."), call. = FALSE)
+  }
+}
+
+check_weights <- function(model, fn = as.character(sys.call(-1)[[1]])) {
+  check_model(model)
+  if (!is.null(model$weights) && any(model$weights != 1)) {
+    fn_name <- if (is.character(fn)) fn else deparse(fn)
+    fn_name <- sub(".*::", "", fn_name)
+    fn_name <- sub("\\(.*", "", fn_name)
+    stop(paste0("weighted models are not supported by ", fn_name, "; fit without weights or use step()"), call. = FALSE)
+  }
+}
+
+# Diagnostics that refit auxiliary models from the model matrix are only valid
+# for the model they were fitted with; without the weights those refits are
+# silently unweighted.
+check_weights_diagnostic <- function(model, fn) {
+  if (!is.null(model$weights) && any(model$weights != 1)) {
+    stop(paste0(fn, "() is not available for weighted models."), call. = FALSE)
   }
 }
 
@@ -9,6 +28,22 @@ check_order <- function(n, max_order) {
   if (max_order > n) {
     stop("Maximum subset order should be less than or equal to the number of predictors in the specified model.", call. = FALSE)
   }
+}
+
+# Heteroskedasticity tests need at least one direction in the auxiliary
+# regression beyond the intercept. A constant or fully aliased regressor leaves
+# none: the statistic then has zero degrees of freedom, and a zero-degrees-of-
+# freedom chi-squared tail reports p = 0 (or p = 1) for a statistic that the
+# data do not define.
+check_aux_rank <- function(rank, fn) {
+
+  if (rank < 2L) {
+    stop(paste0(fn, "(): the auxiliary regression has no tested direction beyond",
+                " the intercept, so the test statistic is undefined. The selected",
+                " predictor(s) are constant or fully aliased with the intercept."),
+         call. = FALSE)
+  }
+
 }
 
 check_logic <- function(logic) {
@@ -76,7 +111,9 @@ check_lfit <- function(model) {
 check_modelvars <- function(model, vars) {
 
   fmla  <- deparse(formula(model))
-  k     <- vars %in% names(model$coefficients)
+  valid <- unique(c(attr(model$terms, "term.labels"),
+                    setdiff(colnames(model.matrix(model)), "(Intercept)")))
+  k     <- vars %in% valid
   wvars <- vars[!k]
   nvars <- length(wvars)
 
@@ -84,5 +121,27 @@ check_modelvars <- function(model, vars) {
     err_message <- paste0("Model `(", fmla, ")` should include the predictor(s) `", paste0(wvars, collapse = ", "), "`.")
     stop(err_message, call. = FALSE)
   }
+
+}
+
+# Map predictor terms to the columns of the model matrix. Factor terms expand
+# to one column per dummy; numeric terms map to themselves.
+vars_columns <- function(model, vars) {
+
+  terms  <- attr(model$terms, "term.labels")
+  assign <- attr(model.matrix(model), "assign")
+  mm     <- colnames(model.matrix(model))
+  out    <- character(0)
+
+  for (v in unique(vars)) {
+    i <- match(v, terms)
+    if (!is.na(i)) {
+      out <- c(out, mm[assign == i])
+    } else if (v %in% mm) {
+      out <- c(out, v)
+    }
+  }
+
+  unique(out)
 
 }

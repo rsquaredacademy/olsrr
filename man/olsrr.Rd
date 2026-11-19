@@ -22,7 +22,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Aravind Hebbali \email{hebbali.aravind@gmail.com}
+\strong{Maintainer}: Aravind Hebbali \email{aravindhebbali@rsquaredacademy.com}
+
+Authors:
+\itemize{
+  \item Aravind Hebbali \email{aravindhebbali@rsquaredacademy.com}
+}
 
 }
 \keyword{internal}

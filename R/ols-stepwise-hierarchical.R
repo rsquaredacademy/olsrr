@@ -34,6 +34,8 @@
 #'
 ols_step_hierarchical <- function(model, p_value = 0.1, forward = TRUE, progress = FALSE, details = FALSE, steps = NULL) {
 
+  check_weights(model, "ols_step_hierarchical")
+
   if (forward) {
     ols_step_hierarchical_forward(model, p_value, progress, details, steps)
   } else {
@@ -44,11 +46,13 @@ ols_step_hierarchical <- function(model, p_value = 0.1, forward = TRUE, progress
 
 ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE, steps = NULL) {
 
+  check_weights(model, "ols_step_hierarchical")
+
   if (details) {
     progress <- FALSE
   }
 
-  l        <- model$model
+  l        <- ols_model_data(model)
   nam      <- colnames(attr(model$terms, "factors"))
   n        <- ncol(l)
   response <- names(model$model)[1]
@@ -61,6 +65,20 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   p_val    <- c()
   all_pred <- nam
   cterms   <- all_pred
+
+  if (ols_zero_rss(model)) {
+    ols_zero_rss_stop()
+    out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                     r2 = numeric(0), adj_r2 = numeric(0),
+                                     aic = numeric(0), sbc = numeric(0),
+                                     sbic = numeric(0), mallows_cp = numeric(0),
+                                     rmse = numeric(0)),
+                model   = model,
+                others  = list(base_model = model,
+                               full_model = model))
+    class(out) <- "ols_step_forward_p"
+    return(out)
+  }
 
   if (progress || details) {
     ols_candidate_terms(nam, "forward")
@@ -75,7 +93,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
   sbc      <- c()
   rmse     <- c()
 
-  base_model <- lm(paste(response, "~", 1), data = l)
+  base_model <- ols_base_model(NULL, response, l, model)
   rsq_base   <- summary(base_model)$r.squared
 
   if (details) {
@@ -92,7 +110,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 
   for (i in seq_len(mlen_p)) {
     predictors  <- c(preds, all_pred[i])
-    m           <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
     m_sum       <- Anova(m)
     pvals       <- c(pvals, m_sum$`Pr(>F)`[i])
     aicvals[i]  <- ols_aic(m)
@@ -106,11 +124,11 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
       ols_stepwise_table(d, predictors, pvals, rsqvals, arsqvals, aicvals)
     }
 
-    if (pvals[i] <= p_value) {
+    if (isTRUE(pvals[i] <= p_value)) {
       preds  <- c(preds, cterms[i])
       p_val  <- c(p_val, pvals[i])
       step   <- step + 1
-      fr     <- ols_regress(paste(response, "~", paste(preds, collapse = " + ")), l)
+      fr     <- ols_step_fit(response, preds, l, model)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))
@@ -141,7 +159,7 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
     ols_stepwise_vars(preds, "forward")
   }
 
-  final_model <- lm(paste(response, "~", paste(preds, collapse = " + ")), data = l)
+  final_model <- ols_step_final_model(model, response, preds, l)
 
   metrics <- data.frame(step       = seq_len(step),
                         variable   = preds,
@@ -166,17 +184,32 @@ ols_step_hierarchical_forward <- function(model, p_value = 0.1, progress = FALSE
 
 ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALSE, details = FALSE, steps = NULL) {
 
+  check_weights(model, "ols_step_hierarchical")
+
   if (details) {
     progress <- FALSE
   }
 
-  l        <- model$model
+  l        <- ols_model_data(model)
   nam      <- colnames(attr(model$terms, "factors"))
   n        <- ncol(l)
   response <- names(model$model)[1]
   mlen_p   <- length(nam)
   preds    <- c()
   cterms   <- nam
+
+  if (ols_zero_rss(model)) {
+    ols_zero_rss_stop()
+    out <- list(metrics = data.frame(step = integer(0), variable = character(0),
+                                     r2 = numeric(0), adj_r2 = numeric(0),
+                                     aic = numeric(0), sbc = numeric(0),
+                                     sbic = numeric(0), mallows_cp = numeric(0),
+                                     rmse = numeric(0)),
+                model   = model,
+                others  = list(full_model = model))
+    class(out) <- "ols_step_backward_p"
+    return(out)
+  }
 
   if (progress || details) {
     ols_candidate_terms(nam, "backward")
@@ -203,7 +236,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
 
   for (i in rev(seq_len(mlen_p))) {
     predictors  <- cterms[1:i]
-    m           <- lm(paste(response, "~", paste(predictors, collapse = " + ")), l)
+    m           <- ols_step_lm(ols_step_formula(response, predictors, model), l, model)
     m_sum       <- Anova(m)
     pvals       <- m_sum$`Pr(>F)`[1:i]
     p_vals      <- pvals[i]
@@ -213,11 +246,11 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
       ols_stepwise_table_p(d, predictors, pvals)
     }
 
-    if (p_vals >= p_value) {
+    if (isTRUE(p_vals >= p_value)) {
       preds  <- c(preds, cterms[i])
       step   <- step + 1
       rpred  <- setdiff(cterms, preds)
-      fr     <- ols_regress(paste(response, "~", paste(rpred, collapse = " + ")), l)
+      fr     <- ols_step_fit(response, rpred, l, model)
       rsq    <- c(rsq, fr$rsq)
       adjrsq <- c(adjrsq, fr$adjr)
       aic    <- c(aic, ols_aic(fr$model))
@@ -258,7 +291,7 @@ ols_step_hierarchical_backward <- function(model, p_value = 0.1, progress = FALS
     ols_stepwise_vars(preds, "backward")
   }
 
-  final_model <- lm(paste(response, "~", paste(pterms, collapse = " + ")), data = l)
+  final_model <- ols_step_final_model(model, response, pterms, l)
 
   metrics <- data.frame(step       = seq_len(step),
                         variable   = preds,

@@ -16,6 +16,9 @@ The residual plus component plot indicates whether any non-linearity is
 present in the relationship between response and predictor variables and can
 suggest possible transformations for linearizing the data.
 }
+\details{
+The plot is not available for weighted models.
+}
 \examples{
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_plot_comp_plus_resid(model)

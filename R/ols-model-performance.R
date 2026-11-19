@@ -19,6 +19,9 @@
 #' \item{sbic}{sawa bayesian information criteria}
 #' \item{rmse}{root mean squared error}
 #'
+#' @references
+#' Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). \emph{Applied Linear Statistical Models}, 5th ed. New York: McGraw-Hill/Irwin.
+#'
 #' @examples
 #' # model
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
@@ -36,7 +39,8 @@ ols_model_performance.default <- function(model, ...) {
   rsq  <- summary(model)$r.squared
   r    <- sqrt(rsq)
   adjr <- summary(model)$adj.r.squared
-  rmse <- sqrt(mean(model$residuals ^ 2))
+  ems  <- deviance(model) / model$df.residual
+  rmse <- sqrt(ems)
   aic  <- ols_aic(model)
   sbc  <- ols_sbc(model)
   sbic <- ols_sbic(model, model)
@@ -114,4 +118,3 @@ ols_compare_model_performance.lm <- function(...) {
 
   return(result)
 }
-

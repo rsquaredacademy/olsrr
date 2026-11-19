@@ -8,6 +8,8 @@
 #' @param model An object of class \code{lm}.
 #' @param print_plot logical; if \code{TRUE}, prints the plot else returns a plot object.
 #'
+#' @details The plot is not available for weighted models.
+#'
 #' @references
 #' Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th ed. N.p.: John Wiley & Sons, 2012. Print.
 #'
@@ -25,6 +27,7 @@
 ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_plot_comp_plus_resid")
 
   pl      <- cpout(model)
   myplots <- list()
@@ -47,7 +50,9 @@ ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
   }
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Residual Plus Component Plot")
+    g <- marrangeGrob(myplots, nrow = 2, ncol = 2, top = "Residual Plus Component Plot")
+    grid::grid.draw(g)
+    invisible(g)
   } else {
     return(myplots)
   }
@@ -58,18 +63,20 @@ ols_plot_comp_plus_resid <- function(model, print_plot = TRUE) {
 cpdata <- function(data, mc, e, i) {
 
   x <- data[[i]]
-  y <- ((mc[i] * data[i]) + e)[[1]]
+  y <- (mc[i] * data[[i]]) + e
   data.frame(x = x, y = y)
 
 }
 
 cpout <- function(model) {
 
-  e      <- residuals(model)
-  mc     <- coefficients(model)[-1]
-  data   <- as.data.frame(model.matrix(model))[, -1]
+  e      <- model_residuals_used(model)
+  X      <- model.matrix(model)
+  keep   <- setdiff(colnames(X), "(Intercept)")
+  mc     <- stats::coef(model)[keep]
+  data   <- as.data.frame(X[, keep, drop = FALSE])
   lmc    <- length(mc)
-  nam    <- names(data)
+  nam    <- keep
   indvar <- names(model.frame(model))[1]
 
   list(e = e, mc = mc, data = data, lmc = lmc, nam = nam, indvar = indvar)

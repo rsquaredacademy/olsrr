@@ -7,7 +7,7 @@
 \usage{
 ols_regress(object, ...)
 
-\method{ols_regress}{lm}(object, ...)
+\method{ols_regress}{lm}(object, conf.level = 0.95, iterm = FALSE, title = "model", ...)
 }
 \arguments{
 \item{object}{An object of class "formula" (or one that can be coerced to
@@ -15,6 +15,16 @@ that class): a symbolic description of the model to be fitted or class
 \code{lm}.}
 
 \item{...}{Other inputs.}
+
+\item{conf.level}{Confidence level for the confidence intervals of the
+coefficients.}
+
+\item{iterm}{Logical; if \code{TRUE}, the predictors are scaled and centered
+before computing the standardized betas. See \emph{Interaction Terms}
+below.}
+
+\item{title}{Character; title of the model, printed as the header of the
+parameter estimates table.}
 }
 \value{
 \code{ols_regress} returns an object of class \code{"ols_regress"}.
@@ -40,7 +50,7 @@ components:
 \item{tss}{total sum of squares}
 \item{rms}{regression mean square}
 \item{ems}{error mean square}
-\item{f}{f statistis}
+\item{f}{f statistics}
 \item{p}{p-value for \code{f}}
 \item{n}{number of predictors including intercept}
 \item{betas}{betas; estimated coefficients}
@@ -59,10 +69,42 @@ components:
 \description{
 Ordinary least squares regression.
 }
+\details{
+Refits accept explicit contrast matrices or the base contrast names
+\code{contr.treatment}, \code{contr.sum}, \code{contr.helmert}, \code{contr.poly} and \code{contr.SAS}
+(resolved from the stats namespace); models fitted with custom named contrast
+functions must be refitted with an explicit matrix, for example
+\code{contrasts = list(g = my_matrix)}. Refits carry the fitted model's frozen total
+offset as an argument with all formula \code{offset()} terms removed for
+standardized-beta and selection computations. Returned stepwise models are
+fitted from the original call, preserving formula and argument offsets for
+prediction on new data. Their coefficients, fitted values and total offset
+must be identical to the frozen-offset selection fit; otherwise selection
+stops with an error because prediction with new data is not supported for
+that model.
+
+For non-hierarchical stepwise selection, candidate rankings and criterion
+improvement tests use 10 significant digits: values that agree to 10
+significant digits are ties, equal criterion values mean no improvement, and
+a remaining tie goes to the first candidate in formula order after any F tie
+is broken by p value (smaller for entry, larger for removal). P-value entry
+and removal cutoffs are compared without rounding.
+}
 \section{Interaction Terms}{
 
 If the model includes interaction terms, the standardized betas
-are computed after scaling and centering the predictors.
+are computed after scaling and centering the predictors (with the model's
+prior weights when the model is weighted) and refitting the model.
+}
+
+\section{Weighted Models}{
+
+Models fitted with \code{lm(..., weights = ...)} are supported. The reported
+estimates, standard errors, test statistics, confidence intervals and
+R-squared match \code{summary()}, \code{anova()} and \code{confint()}.
+Weights cannot be supplied through the formula interface; fit the model with
+\code{lm()} and pass the fitted model instead. Objects of class \code{glm}
+are not supported; use \code{lm()} or the formula interface.
 }
 
 \examples{
@@ -74,4 +116,8 @@ ols_regress(mpg ~ disp * wt, data = mtcars, iterm = TRUE)
 }
 \references{
 https://www.ssc.wisc.edu/~hemken/Stataworkshops/stdBeta/Getting\%20Standardized\%20Coefficients\%20Right.pdf
+
+Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). \emph{Applied Linear Statistical Models}, 5th ed. New York: McGraw-Hill/Irwin.
+
+Aiken, L. S. and West, S. G. (1991). \emph{Multiple Regression: Testing and Interpreting Interactions}. Newbury Park, CA: Sage.
 }

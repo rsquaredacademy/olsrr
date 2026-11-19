@@ -6,12 +6,12 @@
 ^\.travis\.yml$
 ^codecov\.yml$
 ^appveyor\.yml$
-^CONTRIBUTING\.MD$
 ^ISSUE_TEMPLATE\.md$
 ^SUPPORT\.md$
 ^olsrr\.jpg$
 ^_pkgdown\.yml$
 ^docs$
+^pkgdown$
 ^hex_olsrr\.png$
 ^debug\.log$
 ^\.github$
@@ -22,3 +22,8 @@
 TODO.md
 ^\.positai$
 ^\.claude$
+^roadmap$
+^AGENTS\.md$
+^tests/testthat/Rplots\.pdf$
+^\.git$
+^docs-dev$

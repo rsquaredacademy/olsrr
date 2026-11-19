@@ -77,7 +77,22 @@ ols_test_bartlett.default <- function(data, ..., group_var = NULL) {
     }
   }
 
-  df    <- nlevels(groupvars) - 1
+  groupvars <- droplevels(as.factor(groupvars))
+  comp      <- complete.cases(fdata, groupvars)
+  grp       <- droplevels(as.factor(groupvars[comp]))
+  counts    <- table(grp)
+
+  # the same validity rules as stats::bartlett.test(); without them the
+  # statistic is NaN/NA and the printed output looks like a real test result
+  if (length(counts) < 2L) {
+    stop("all observations are in the same group", call. = FALSE)
+  }
+
+  if (any(counts < 2L)) {
+    stop("there must be at least 2 observations in each group", call. = FALSE)
+  }
+
+  df    <- length(counts) - 1
   fstat <- bartlett_fstat(fdata, groupvars)
   pval  <- pchisq(fstat, df, lower.tail = FALSE)
 
@@ -110,19 +125,21 @@ print.ols_test_bartlett <- function(x, ...) {
 #'
 bartlett_fstat <- function(variable, grp_var) {
 
-  n     <- length(variable)
+  comp     <- complete.cases(variable, grp_var)
+  variable <- variable[comp]
+  grp_var  <- droplevels(as.factor(grp_var[comp]))
+
   k     <- nlevels(grp_var)
-  comp  <- complete.cases(variable, grp_var)
-  vars  <- tapply(variable[comp], grp_var[comp], var)
-  lens  <- tapply(variable[comp], grp_var[comp], length)
+  vars  <- tapply(variable, grp_var, var)
+  lens  <- tapply(variable, grp_var, length)
+  n     <- sum(lens)
   v     <- lens - 1
   sumv  <- sum(v)
   isumv <- sum(1 / v)
   c     <- 1 + (1 / (3 * (k - 1))) * (isumv - (1 / sumv))
-  n2    <- sum(v * log10(vars))
-  l     <- length(vars)
+  n2    <- sum(v * log(vars))
   ps    <- ((lens - 1) * vars) / (n - k)
   pvar  <- sum(ps)
-  ((1 / c) * (sumv * log10(pvar) - n2)) * 2.3026
+  ((1 / c) * (sumv * log(pvar) - n2))
 
 }

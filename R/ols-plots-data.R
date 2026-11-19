@@ -4,6 +4,9 @@
 #'
 #' @param model An object of class \code{lm}.
 #'
+#' @details The data are used by diagnostics that refit auxiliary models
+#' without weights and are therefore not available for weighted models.
+#'
 #' @examples
 #' model <- lm(mpg ~ disp + hp + wt, data = mtcars)
 #' ols_prep_avplot_data(model)
@@ -14,8 +17,17 @@
 #'
 ols_prep_avplot_data <- function(model) {
 
+  check_model(model)
+  check_weights_diagnostic(model, "ols_prep_avplot_data")
+
   m1 <- as.data.frame(model.frame(model))[1]
-  m2 <- as.data.frame(model.matrix(model))[, -1]
+  mm <- model.matrix(model)
+
+  if (attr(model$terms, "intercept") == 1) {
+    mm <- mm[, -1, drop = FALSE]
+  }
+
+  m2 <- as.data.frame(mm)
   as.data.frame(cbind(m1, m2))
 
 }
@@ -82,12 +94,13 @@ ols_prep_regress_y <- function(data, i) {
 #'
 ols_prep_cdplot_data <- function(model, type = 1) {
 
-  cooksd    <- cooks.distance(model)
-  n         <- length(cooksd)
-  obs       <- seq_len(n)
-  ckd       <- data.frame(obs = obs, cd = cooksd)
-  ts        <- ols_cooks_ts(model, type)
-  cooks_max <- max(cooksd)
+  used     <- model_used_rows(model)
+  obs      <- model_obs_ids(model)[used]
+  cooksd   <- model_cooksd_used(model)
+  n        <- length(cooksd)
+  ckd      <- data.frame(obs = obs, cd = cooksd)
+  ts       <- ols_cooks_ts(model, type)
+  cooks_max <- max(cooksd, na.rm = TRUE)
 
   ckd$color     <- ifelse(ckd$cd >= ts, "outlier", "normal")
   ckd$fct_color <- ordered(factor(ckd$color), levels = c("normal", "outlier"))
@@ -99,9 +112,9 @@ ols_prep_cdplot_data <- function(model, type = 1) {
 
 ols_cooks_ts <- function(model, type = 1) {
 
-  cooksd <- cooks.distance(model)
+  cooksd <- model_cooksd_used(model)
   n      <- length(cooksd)
-  k      <- length(model$coefficients) - 1
+  k      <- model$rank - 1
 
   switch(type,
          `1` = (4 / n),
@@ -223,10 +236,12 @@ ols_prep_dfbeta_outliers <- function(d) {
 #'
 ols_prep_dsrvf_data <- function(model, threshold = NULL) {
 
-  pred    <- fitted(model)
-  dsresid <- unname(rstudent(model))
-  n       <- length(dsresid)
-  ds      <- data.frame(obs = seq_len(n), dsr = dsresid)
+  used     <- model_used_rows(model)
+  obs      <- model_obs_ids(model)[used]
+  pred     <- model_fitted_used(model)
+  dsresid  <- model_rstudent_used(model)
+  n        <- length(dsresid)
+  ds       <- data.frame(obs = obs, dsr = dsresid)
 
   if (is.null(threshold)) {
     threshold <- 2
@@ -235,14 +250,14 @@ ols_prep_dsrvf_data <- function(model, threshold = NULL) {
   ds$color     <- ifelse((abs(ds$dsr) >= threshold), "outlier", "normal")
   ds$fct_color <- ordered(factor(ds$color), levels = c("normal", "outlier"))
 
-  ds2 <- data.frame(obs       = seq_len(n),
+  ds2 <- data.frame(obs       = obs,
                     pred      = pred,
                     dsr       = ds$dsr,
                     color     = ds$color,
                     fct_color = ds$fct_color)
 
-  minx  <- min(ds2$dsr) - 1
-  maxx  <- max(ds2$dsr) + 1
+  minx  <- min(ds2$dsr, na.rm = TRUE) - 1
+  maxx  <- max(ds2$dsr, na.rm = TRUE) + 1
   cminx <- ifelse(minx < -threshold, minx, (-threshold - 0.5))
   cmaxx <- ifelse(maxx > threshold, maxx, (threshold + 0.5))
 
@@ -266,7 +281,7 @@ ols_prep_dsrvf_data <- function(model, threshold = NULL) {
 #'
 ols_prep_rfsplot_fmdata<- function(model) {
 
-  predicted <- fitted(model)
+  predicted <- model_fitted_used(model)
   pred_m    <- mean(predicted)
   y         <- predicted - pred_m
   percenti  <- ecdf(y)
@@ -281,7 +296,7 @@ ols_prep_rfsplot_fmdata<- function(model) {
 #'
 ols_prep_rfsplot_rsdata <- function(model) {
 
-  y         <- residuals(model)
+  y         <- model_residuals_used(model)
   residtile <- ecdf(y)
   x         <- residtile(y)
 
@@ -303,9 +318,11 @@ ols_prep_rfsplot_rsdata <- function(model) {
 #'
 ols_prep_rvsrplot_data <- function(model) {
 
-  np     <- length(coefficients(model)) - 1
-  dat    <- model.frame(model)[, -1]
-  pnames <- names(coefficients(model))[-1]
+  X      <- model.matrix(model)
+  keep   <- setdiff(colnames(X), c("(Intercept)", "(weights)", "(offset)"))
+  dat    <- as.data.frame(X[, keep, drop = FALSE])
+  pnames <- keep
+  np     <- length(pnames)
 
   list(np = np, dat = dat, pnames = pnames)
 
@@ -313,7 +330,7 @@ ols_prep_rvsrplot_data <- function(model) {
 
 #' Studentized residual vs leverage plot data
 #'
-#' Generates data for studentized resiudual vs leverage plot.
+#' Generates data for studentized residual vs leverage plot.
 #'
 #' @param model An object of class \code{lm}.
 #' @param threshold Threshold for detecting outliers. Default is 2.
@@ -332,17 +349,28 @@ ols_prep_rstudlev_data <- function(model, threshold = NULL) {
     threshold <- 2
   }
 
-  leverage  <- unname(hatvalues(model))
-  rstudent  <- unname(rstudent(model))
-  k         <- length(coefficients(model))
-  n         <- nrow(model.frame(model))
+  # leverage and studentized residuals in positive-weight fit-row order. Base
+  # hatvalues()/rstudent() pad to the original rows, which both misaligns them
+  # with the model frame and fails when zero weights and na.exclude omissions
+  # occur together; the observation IDs are mapped back deliberately instead.
+  used      <- model_used_rows(model)
+  lev_all   <- model_hatvalues_frame(model)
+  rst_all   <- rep(NA_real_, length(used))
+  rst_all[used] <- model_rstudent_used(model)
+  obs_all   <- model_obs_ids(model)
+
+  leverage  <- lev_all[used]
+  rstudent  <- rst_all[used]
+  obs       <- obs_all[used]
+  k         <- model$rank
+  n         <- length(obs)
   lev_thrsh <- (2 * k) / n
   rst_thrsh <- threshold
-  miny      <- min(rstudent) - 3
-  maxy      <- max(rstudent) + 3
+  miny      <- min(rstudent, na.rm = TRUE) - 3
+  maxy      <- max(rstudent, na.rm = TRUE) + 3
   minx      <- min(leverage)
   maxx      <- ifelse((max(leverage) > lev_thrsh), max(leverage), (lev_thrsh + 0.05))
-  levrstud  <- data.frame(obs = seq_len(n), leverage, rstudent)
+  levrstud  <- data.frame(obs = obs, leverage, rstudent)
 
   levrstud$color1 <- ifelse((levrstud$leverage < lev_thrsh & abs(levrstud$rstudent) < rst_thrsh), "normal", NA)
   levrstud$color2 <- ifelse((levrstud$leverage > lev_thrsh & abs(levrstud$rstudent) < rst_thrsh), "leverage", NA)
@@ -392,14 +420,14 @@ ols_prep_srplot_data<- function(model, threshold = NULL) {
     threshold <- 3
   }
 
-  dstud <- unname(rstudent(model))
-  obs   <- seq_len(length(dstud))
+  dstud <- model_rstudent_used(model)
+  obs   <- model_obs_ids(model)[model_used_rows(model)]
   dsr   <- data.frame(obs = obs, dsr = dstud)
   dsr$color     <- ifelse((abs(dsr$dsr) >= threshold), "outlier", "normal")
   dsr$fct_color <- ordered(factor(dsr$color), levels = c("normal", "outlier"))
 
-  cminxx <- floor(min(dsr$dsr) - 1)
-  cmaxxx <- ceiling(max(dsr$dsr) + 1)
+  cminxx <- floor(min(dsr$dsr, na.rm = TRUE) - 1)
+  cmaxxx <- ceiling(max(dsr$dsr, na.rm = TRUE) + 1)
   cminx  <- ifelse(cminxx > -threshold, -threshold, cminxx)
   cmaxx  <- ifelse(cmaxxx < threshold, threshold, cmaxxx)
   nseq   <- seq_len(abs(cminx + 1)) * -1
@@ -433,10 +461,10 @@ ols_prep_srchart_data <- function(model, threshold = NULL) {
     threshold <- 2
   }
 
-  sdres         <- rstandard(model)
+  sdres         <- model_rstandard_used(model)
   sdres_out     <- abs(sdres) > threshold
   outlier       <- sdres[sdres_out]
-  obs           <- seq_len(length(sdres))
+  obs           <- model_obs_ids(model)[model_used_rows(model)]
 
   out           <- data.frame(obs = obs, sdres = sdres)
   out$color     <- ifelse(((out$sdres >= threshold) | (out$sdres <= -threshold)), c("outlier"), c("normal"))

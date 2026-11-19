@@ -35,11 +35,21 @@
 #' 				 \eqn{R^2} is the coefficient of determination from the regression in step 2.
 #' }
 #'
+#' The test is not available for weighted models, because the auxiliary
+#' regression in step 2 would ignore the model weights.
+#'
+#' A constant or fully aliased regressor (for example a column that is always
+#' 1) supplies no direction to test beyond the auxiliary intercept. In that case
+#' the statistic has zero degrees of freedom and is undefined, so the function
+#' stops with an informative error rather than reporting a p value of 0 or 1
+#' from a degenerate chi-squared tail.
+#'
 #' @return \code{ols_test_breusch_pagan} returns an object of class \code{"ols_test_breusch_pagan"}.
 #' An object of class \code{"ols_test_breusch_pagan"} is a list containing the
 #' following components:
 #'
 #' \item{bp}{breusch pagan statistic}
+#' \item{df}{degrees of freedom of \code{bp} (\code{NA} when several tests are performed)}
 #' \item{p}{p-value of \code{bp}}
 #' \item{fv}{fitted values of the regression model}
 #' \item{rhs}{names of explanatory variables of fitted regression model}
@@ -92,16 +102,22 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
                                 p.adj = c("none", "bonferroni", "sidak", "holm"), vars = NA) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_test_breusch_pagan")
   check_logic(fitted.values)
   check_logic(rhs)
   check_logic(multiple)
 
   suppressWarnings(
-    if (!is.na(vars[1])) {
+    if (!is.null(vars) && length(vars) > 0 && !all(is.na(vars))) {
       check_modelvars(model, vars)
+      vars          <- unique(vars)
       fitted.values <- FALSE
     }
   )
+
+  if (!fitted.values && !rhs && (is.null(vars) || length(vars) == 0 || all(is.na(vars)))) {
+    stop("Specify `vars`, or set `fitted.values = TRUE` or `rhs = TRUE`.", call. = FALSE)
+  }
 
   method <- match.arg(p.adj)
   p.adj  <- match.arg(p.adj)
@@ -113,6 +129,9 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
   response   <- names(l)[1]
   predictors <- names(l)[-1]
 
+  df    <- NA_integer_
+  simdf <- NA_integer_
+
   if (fitted.values) {
     vars <- NA
 
@@ -123,15 +142,18 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
         loops <- bp_case_loop(start$np, start$nam, start$l)
         inter <- bp_case_inter(start$l, start$np, loops$tstat)
         bp    <- inter$bp
+        simdf <- inter$simdf
         p     <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
 
       } else {
         result <- bp_case_2(l, model)
         bp     <- result$bp
+        df     <- result$df
         p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       }
     } else {
       bp <- bp_case_3(model)
+      df <- 1
       p  <- pchisq(bp, df = 1, lower.tail = FALSE)
     }
   } else {
@@ -141,21 +163,32 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
         loops <- bp_case_loop(start$np, start$nam, start$l)
         inter <- bp_case_inter(start$l, start$np, loops$tstat)
         bp    <- inter$bp
+        simdf <- inter$simdf
         p     <- bp_case_adj(method, loops$pvals, start$np, inter$ps)
 
       } else {
         len_vars <- length(vars)
 
         if (len_vars > 1) {
+          # bp_case_loop() and bp_case_5_inter() treat each element of `vars`
+          # as a single column of the model matrix, so multi-column terms
+          # (e.g. factors) cannot be looped over
+          cols <- vars_columns(model, vars)
+          if (length(cols) != length(vars)) {
+            stop("`multiple = TRUE` does not support factor terms in `vars`.", call. = FALSE)
+          }
+
           start   <- bp_case_one(l, model)
           len_var <- length(vars)
           loops   <- bp_case_loop(len_var, vars, start$l)
           inter   <- bp_case_5_inter(l, model, vars, loops$tstat)
           bp      <- inter$bp
+          simdf   <- inter$simdf
           p       <- bp_case_adj(method, loops$pvals, inter$np, inter$ps)
         } else {
           result  <- bp_case_7(l, model, vars)
           bp      <- result$bp
+          df      <- result$df
           p       <- pchisq(bp, df = result$df, lower.tail = FALSE)
         }
       }
@@ -163,16 +196,19 @@ ols_test_breusch_pagan.default <- function(model, fitted.values = TRUE, rhs = FA
       if (rhs) {
         result <- bp_case_6(l, model)
         bp     <- result$bp
+        df     <- result$df
         p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       } else {
         result <- bp_case_7(l, model, vars)
         bp     <- result$bp
+        df     <- result$df
         p      <- pchisq(bp, df = result$df, lower.tail = FALSE)
       }
     }
   }
 
-  out <- list(bp = bp, fv = fitted.values, multiple = multiple, p = p,
+  out <- list(bp = bp, df = df, simdf = simdf, fv = fitted.values,
+              multiple = multiple, p = p,
               padj = method, preds = predictors, resp = response,
               rhs = rhs, vars = vars)
 
@@ -203,11 +239,10 @@ bp_case_2 <- function(l, model) {
   n         <- model_rows(model)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  df        <- ncol(l[, -1])
   l         <- cbind(l[, -1], ind)
-  bp        <- bp_model(l)
+  aux       <- bp_model(l)
 
-  list(bp = bp, df = df)
+  list(bp = aux$bp, df = aux$df)
 
 }
 
@@ -223,10 +258,15 @@ bp_case_2 <- function(l, model) {
 bp_case_3 <- function(model) {
 
   `Sum Sq`     <- NULL
-  pred         <- fitted(model)
+  pred         <- model_fitted_used(model)
   scaled_resid <- resid_scaled(model, pred)
+  fit          <- lm(scaled_resid ~ pred)
 
-  (anova(lm(scaled_resid ~ pred))$`Sum Sq`[1]) / 2
+  # a constant `pred` (for example an intercept-only model) is aliased with the
+  # auxiliary intercept and leaves no tested direction
+  check_aux_rank(fit$rank, "ols_test_breusch_pagan")
+
+  (anova(fit)$`Sum Sq`[1]) / 2
 
 }
 
@@ -246,10 +286,9 @@ bp_case_6 <- function(l, model) {
   n         <- nrow(l)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  np        <- length(names(l)[-1])
-  bp        <- bp_model(cbind(l, ind)[, -1])
-  
-  list(bp = bp, df = np)
+  aux       <- bp_model(cbind(l, ind)[, -1])
+
+  list(bp = aux$bp, df = aux$df)
 
 }
 
@@ -270,11 +309,10 @@ bp_case_7 <- function(l, model, vars) {
   n         <- nrow(l)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  l         <- cbind(l[, vars], ind)
-  bp        <- bp_model(l)
-  nd        <- ncol(l) - 1
+  l         <- cbind(l[, vars_columns(model, vars), drop = FALSE], ind)
+  aux       <- bp_model(l)
 
-  list(bp = bp, df = nd)
+  list(bp = aux$bp, df = aux$df)
 
 }
 
@@ -285,7 +323,15 @@ bp_case_7 <- function(l, model, vars) {
 #' @noRd
 #'
 bp_model <- function(l) {
-  bp_fit(lm(ind ~ ., data = l))
+
+  fit <- lm(ind ~ ., data = l)
+
+  # tested directions: columns of the auxiliary fit that are independent of the
+  # intercept, so that aliased predictors do not inflate the degrees of freedom
+  check_aux_rank(fit$rank, "ols_test_breusch_pagan")
+
+  list(bp = bp_fit(fit), df = fit$rank - 1L)
+
 }
 
 bp_fit <- function(l) {
@@ -293,7 +339,7 @@ bp_fit <- function(l) {
 }
 
 ind_bp <- function(model, var_resid) {
-  data.frame(ind = ((residuals(model) ^ 2) / var_resid) - 1)
+  data.frame(ind = ((model_residuals_used(model) ^ 2) / var_resid) - 1)
 }
 
 #' @description
@@ -333,7 +379,13 @@ bp_case_loop <- function(np, nam, l) {
   for (i in seq_len(np)) {
 
     form     <- as.formula(paste("ind ~", nam[i]))
-    tstat[i] <- bp_fit(lm(form, data = l))
+    aux      <- lm(form, data = l)
+
+    # a constant column has no direction of its own; it must not be reported as
+    # a one-degree-of-freedom test
+    check_aux_rank(aux$rank, "ols_test_breusch_pagan")
+
+    tstat[i] <- bp_fit(aux)
     pvals[i] <- pchisq(tstat[i], df = 1, lower.tail = FALSE)
 
   }
@@ -349,11 +401,11 @@ bp_case_loop <- function(np, nam, l) {
 #'
 bp_case_inter <- function(l, np, tstat) {
 
-  comp <- bp_fit(lm(ind ~ ., data = l[, -1])) 
-  ps   <- pchisq(comp, df = np, lower.tail = FALSE)
-  bp   <- c(tstat, comp)
+  aux  <- bp_model(l[, -1])
+  ps   <- pchisq(aux$bp, df = aux$df, lower.tail = FALSE)
+  bp   <- c(tstat, aux$bp)
 
-  list(bp = bp, ps = ps)
+  list(bp = bp, ps = ps, simdf = aux$df)
 
 }
 
@@ -375,11 +427,7 @@ bp_case_adj <- function(method, pvals, np, ps) {
 
   } else if (method == "holm") {
 
-    j          <- rev(seq_len(length(pvals)))
-    h          <- order(order(pvals))
-    pvals_sort <- sort(pvals) * j
-    pholms     <- pmin(1, pvals_sort)[h] 
-    p          <- c(pholms, ps)
+    p <- c(stats::p.adjust(pvals, "holm"), ps)
 
   } else {
 
@@ -403,11 +451,11 @@ bp_case_5_inter <- function(l, model, vars, tstat) {
   n         <- nrow(l)
   var_resid <- residual_var(model, n)
   ind       <- ind_bp(model, var_resid)
-  l         <- cbind(l[, -1][, vars], ind)
-  np        <- ncol(l) - 1
-  ps        <- pchisq(q = bp_model(l), df = np, lower.tail = FALSE)
-  bp        <- c(tstat, bp_model(l))
+  l         <- cbind(l[, -1][, vars, drop = FALSE], ind)
+  aux       <- bp_model(l)
+  ps        <- pchisq(q = aux$bp, df = aux$df, lower.tail = FALSE)
+  bp        <- c(tstat, aux$bp)
 
-  list(bp = bp, ps = ps, np = np)
+  list(bp = bp, ps = ps, np = aux$df, simdf = aux$df)
 
 }

@@ -16,6 +16,15 @@
 #' independent variables in the model, but is estimated by the specific
 #' variable.
 #'
+#' Partial and part correlations are not defined for models with a single
+#' predictor and are returned as \code{NA}. The zero-order correlation is
+#' still available for such models. Models without an intercept are supported
+#' only with one predictor coefficient.
+#'
+#' @details Part and partial correlations are not available for weighted
+#' models, because they are computed from auxiliary regressions that would
+#' ignore the model weights.
+#'
 #' @return \code{ols_correlations} returns an object of class \code{"ols_correlations"}.
 #' An object of class \code{"ols_correlations"} is a data frame containing the
 #' following components:
@@ -42,6 +51,7 @@ ols_correlations <- function(model) UseMethod("ols_correlations")
 ols_correlations.default <- function(model) {
 
   check_model(model)
+  check_weights_diagnostic(model, "ols_correlations")
 
   result <- corout(model, corm2(model))
   class(result) <- c("ols_correlations", "data.frame")
@@ -63,10 +73,25 @@ corout <- function(model, r2) {
   n                <- ncol(mdata)
   ksign            <- corsign(model)
   n2               <- n - 1
-  parts            <- ksign * sqrt(r1 - r2)
-  partials         <- parts / sqrt(1 - r2)
+
+  if (attr(model$terms, "intercept") == 0 && length(r2) > 0) {
+    stop("ols_correlations() is not supported for models without an intercept and more than one predictor coefficient.", call. = FALSE)
+  }
+
+  if (length(r2) == 0) {
+    parts    <- rep(NA_real_, length(cor_mdata))
+    partials <- parts
+  } else {
+    parts    <- ksign * sqrt(r1 - r2)
+    partials <- parts / sqrt(1 - r2)
+  }
+
   result           <- data.frame(cor_mdata, partials, parts)
-  rownames(result) <- names(ksign)
+  cnames <- names(coefficients(model))
+  if (attr(model$terms, "intercept") == 1) {
+    cnames <- cnames[-1]
+  }
+  rownames(result) <- cnames
   colnames(result) <- c("Zero-order", "Partial", "Part")
 
   return(result)
@@ -78,6 +103,10 @@ corm2 <- function(model) {
   mdata <- cordata(model)
   n     <- ncol(mdata)
   r2    <- c()
+
+  if (n < 3) {
+    return(r2)
+  }
 
   for (i in 2:n) {
     out <- rtwo(i, mdata)

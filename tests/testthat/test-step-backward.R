@@ -50,3 +50,43 @@ test_that("step_backward_p returns the appropriate error", {
   expect_error(ols_step_backward_p(model, include = c(5)), "Index of variable to be included should be between 1 and 4.")
   expect_error(ols_step_backward_p(model, exclude = c(5)), "Index of variable to be excluded should be between 1 and 4.")
 })
+test_that("backward selection does not duplicate included variables (audit F12)", {
+  model <- lm(y ~ ., data = surgical)
+  k <- ols_step_backward_p(model, include = c("age", "alc_mod"))
+  tl <- attr(terms(k$model), "term.labels")
+  fm <- paste(deparse(formula(k$model)), collapse = " ")
+  toks <- trimws(strsplit(strsplit(fm, "~")[[1]][2], "\\+")[[1]])
+
+  expect_false(anyDuplicated(tl) > 0)
+  expect_false(anyDuplicated(toks) > 0)
+  expect_true(all(c("age", "alc_mod") %in% tl))
+  expect_equal(coef(k$model), coef(lm(formula(k$model), data = surgical)))
+})
+
+test_that("plot() of a 0-step backward_p result succeeds without error (#234)", {
+  d <- mtcars[1:5, ]
+  d$y <- 2 * d$disp + 3 * d$hp
+  m <- lm(y ~ disp + hp, data = d)
+
+  kb <- ols_step_backward_p(m)
+  expect_equal(nrow(kb$metrics), 0)
+  expect_no_error(plot(kb, print_plot = FALSE))
+
+  khb <- ols_step_backward_p(m, hierarchical = TRUE)
+  expect_equal(nrow(khb$metrics), 0)
+  expect_no_error(plot(khb, print_plot = FALSE))
+})
+
+test_that("backward and both-direction selection preserve intercepts and offsets (H7)", {
+  for (fn in list(ols_step_backward_aic, ols_step_both_aic)) {
+    m <- lm(mpg ~ 0 + wt + hp, mtcars)
+    k <- fn(m)
+    expect_equal(attr(terms(k$model), "intercept"), 0)
+    expect_equal(coef(k$model), coef(lm(formula(k$model), data = mtcars)))
+
+    mo <- lm(mpg ~ wt + hp + offset(qsec), mtcars)
+    ko <- fn(mo)
+    expect_equal(length(ko$model$offset), 32L)
+    expect_equal(coef(ko$model), coef(lm(formula(ko$model), data = mtcars)))
+  }
+})

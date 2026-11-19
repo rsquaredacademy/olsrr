@@ -39,7 +39,9 @@ ols_plot_dfbetas <- function(model, print_plot = TRUE) {
 
   check_model(model)
 
-  dfb       <- dfbetas(model)
+  used      <- model_used_rows(model)
+  obs       <- model_obs_ids(model)[used]
+  dfb       <- model_dfbetas_used(model)
   n         <- nrow(dfb)
   np        <- ncol(dfb)
   threshold <- 2 / sqrt(n)
@@ -50,7 +52,7 @@ ols_plot_dfbetas <- function(model, print_plot = TRUE) {
   for (i in seq_len(np)) {
 
     dbetas  <- dfb[, i]
-    df_data <- data.frame(obs = seq_len(n), dbetas = dbetas)
+    df_data <- data.frame(obs = obs, dbetas = dbetas)
     d       <- ols_prep_dfbeta_data(df_data, threshold)
     f       <- ols_prep_dfbeta_outliers(d)
 
@@ -79,7 +81,9 @@ ols_plot_dfbetas <- function(model, print_plot = TRUE) {
   }
 
   if (print_plot) {
-    marrangeGrob(myplots, nrow = 2, ncol = 2)
+    g <- marrangeGrob(myplots, nrow = 2, ncol = 2)
+    grid::grid.draw(g)
+    invisible(g)
   } else {
     return(list(plots = myplots, outliers = outliers))
   }

@@ -55,13 +55,12 @@ pak::pak("rsquaredacademy/olsrr")
 
 ## Usage
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(olsrr)
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
 library(nortest)
-library(goftest)
 ```
 
 olsrr uses consistent prefix `ols_` for easy tab completion. If you know how to write a `formula` or build models using `lm`, you will find olsrr very useful. Most of the functions use an object of class `lm` as input. So you just need to build a model using `lm` and then pass it onto the functions in olsrr. Below is
@@ -78,8 +77,10 @@ ols_regress(model)
 
 If you encounter a bug, please file a minimal reproducible example using 
 [reprex](https://reprex.tidyverse.org/index.html) on github. For questions and clarifications, 
-use [StackOverflow](https://stackoverflow.com/).
+ask on Stack Overflow with the `r` tag.
 
 ## Code of Conduct
 
 Please note that the olsrr project is released with a [Contributor Code of Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+
+<div data-rsa-signup data-site="olsrr.rsquaredacademy.com" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>

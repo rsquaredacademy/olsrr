@@ -12,7 +12,7 @@ ols_aic(model, method = c("R", "STATA", "SAS"), corrected = FALSE)
 \item{method}{A character vector; specify the method to compute AIC. Valid
 options include R, STATA and SAS.}
 
-\item{corrected}{Logical; if \code{TRUE}, returns corrected akaike information criterion for SAS method.}
+\item{corrected}{Logical; if \code{TRUE}, returns corrected akaike information criterion.}
 }
 \value{
 Akaike information criterion of the model.
@@ -33,6 +33,16 @@ sum of squares. Below is the formula in each case:
 \deqn{AIC = n * ln(SSE / n) + 2p}
 
 \emph{corrected}
+
+\emph{R}
+\deqn{AIC = -2(loglikelihood) + 2k + \frac{2k(k + 1)}{n - k - 1}}
+
+where \emph{k} is \emph{p} + 1.
+
+\emph{STATA}
+\deqn{AIC = -2(loglikelihood) + 2p + \frac{2p(p + 1)}{n - p - 1}}
+
+\emph{SAS}
 \deqn{AIC = n * ln(SSE / n) + ((n * (n + p)) / (n - p - 2))}
 
 where \emph{n} is the sample size and \emph{p} is the number of model parameters including intercept.
@@ -53,6 +63,8 @@ ols_aic(model, method = 'SAS')
 # corrected akaike information criterion
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_aic(model, method = 'SAS', corrected = TRUE)
+ols_aic(model, method = 'R', corrected = TRUE)
+ols_aic(model, method = 'STATA', corrected = TRUE)
 
 }
 \references{
@@ -61,15 +73,19 @@ Mathematics 21:243–247.
 
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The Theory and Practice of Econometrics.
 New York: John Wiley & Sons.
+
+Akaike, H. (1974). A new look at the statistical model identification. \emph{IEEE Transactions on Automatic Control}, 19(6), 716--723.
+
+Hurvich, C. M. and Tsai, C.-L. (1989). Regression and time series model selection in small samples. \emph{Biometrika}, 76(2), 297--307.
 }
 \seealso{
-Other model selection criteria: 
-\code{\link{ols_apc}()},
-\code{\link{ols_fpe}()},
-\code{\link{ols_hsp}()},
-\code{\link{ols_mallows_cp}()},
-\code{\link{ols_msep}()},
-\code{\link{ols_sbc}()},
-\code{\link{ols_sbic}()}
+Other model selection criteria:
+\code{\link[=ols_apc]{ols_apc()}},
+\code{\link[=ols_fpe]{ols_fpe()}},
+\code{\link[=ols_hsp]{ols_hsp()}},
+\code{\link[=ols_mallows_cp]{ols_mallows_cp()}},
+\code{\link[=ols_msep]{ols_msep()}},
+\code{\link[=ols_sbc]{ols_sbc()}},
+\code{\link[=ols_sbic]{ols_sbic()}}
 }
 \concept{model selection criteria}

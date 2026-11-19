@@ -1,0 +1,13 @@
+# Internal contributor/agent instruction files are not part of the public site.
+/AGENTS.html   /404.html   404!
+/AGENTS.md     /404.html   404!
+/agents        /404.html   404!
+/agents.html   /404.html   404!
+/GEMINI.html   /404.html   404!
+/GEMINI.md     /404.html   404!
+/gemini        /404.html   404!
+/gemini.html   /404.html   404!
+/CLAUDE.html   /404.html   404!
+/CLAUDE.md     /404.html   404!
+/claude        /404.html   404!
+/claude.html   /404.html   404!

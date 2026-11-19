@@ -41,3 +41,36 @@ test_that("output from ols_coll_diag is as expected", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   expect_snapshot(ols_coll_diag(model))
 })
+
+test_that("VIF and tolerance work for one predictor and without an intercept (M4)", {
+  m1 <- lm(mpg ~ wt, mtcars)
+  v1 <- ols_vif_tol(m1)
+
+  expect_equal(v1$Variables, "wt")
+  expect_equal(v1$Tolerance, 1)
+  expect_equal(v1$VIF, 1)
+
+  m2 <- lm(mpg ~ 0 + wt + hp, mtcars)
+  expect_warning(
+    v2 <- ols_vif_tol(m2),
+    "VIFs may not be sensible in a model without an intercept"
+  )
+
+  expect_equal(v2$Variables, c("wt", "hp"))
+  expect_equal(
+    v2$Tolerance,
+    c(1 - summary(lm(wt ~ hp, mtcars))$r.squared,
+      1 - summary(lm(hp ~ wt, mtcars))$r.squared)
+  )
+  expect_equal(v2$VIF, 1 / v2$Tolerance)
+
+  # multi-predictor model with an intercept is unchanged
+  m3 <- lm(mpg ~ disp + hp + wt, mtcars)
+  v3 <- ols_vif_tol(m3)
+  expect_equal(
+    v3$VIF,
+    c(1 / (1 - summary(lm(disp ~ hp + wt, mtcars))$r.squared),
+      1 / (1 - summary(lm(hp ~ disp + wt, mtcars))$r.squared),
+      1 / (1 - summary(lm(wt ~ disp + hp, mtcars))$r.squared))
+  )
+})

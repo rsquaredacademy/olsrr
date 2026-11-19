@@ -21,6 +21,12 @@ rvsr_plot_shiny <- function(model, data, variable, print_plot = TRUE) {
   check_model(model)
   d    <- ols_prep_rvsrplot_data(model)
   v    <- l(deparse(substitute(variable)))
+
+  # align the supplied data with the rows the fit actually used
+  if (nrow(data) != length(model$residuals) && !is.null(model$na.action)) {
+    data <- data[-as.integer(model$na.action), , drop = FALSE]
+  }
+
   xvar <- data[variable]
   k    <- data.frame(x = xvar, y = model$residuals)
   

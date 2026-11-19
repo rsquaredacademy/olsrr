@@ -5,6 +5,8 @@
 #' smallest MSE, Mallow's Cp or AIC. The default metric used for selecting the
 #' model is R2 but the user can choose any of the other available metrics.
 #'
+#' @inherit ols_regress details
+#'
 #' @param model An object of class \code{lm}.
 #' @param max_order Maximum subset order.
 #' @param include Character or numeric vector; variables to be included in selection process.
@@ -59,6 +61,7 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
                                          ...) {
 
   check_model(model)
+  check_weights(model, "ols_step_best_subset")
   check_npredictors(model, 2)
 
   indterms <- coeff_names(model)
@@ -97,25 +100,23 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
   nam   <- setdiff(coeff_names(model), exclude)
   nam   <- setdiff(nam, include)
   n     <- length(nam)
-  r     <- seq_len(n)
-  combs <- list()
 
-  for (i in seq_len(n)) {
-    combs[[i]] <- combn(n, r[i])
-  }
-
+  # validate the requested order before allocating anything, and enumerate only
+  # the orders that will actually be fitted
   if (!is.null(max_order)) {
     check_order(n, max_order)
   }
 
-  if (is.null(max_order)) {
-    max_order <- n
+  lc    <- if (is.null(max_order)) n else max_order
+  r     <- seq_len(lc)
+  combs <- vector("list", lc)
+
+  for (i in seq_len(lc)) {
+    combs[[i]] <- combn(n, r[i])
   }
 
-  # lc        <- length(combs)
-  lc        <- max_order
   varnames  <- model_colnames(model)
-  data      <- model$model
+  data      <- ols_model_data(model)
   colas     <- unname(unlist(lapply(combs, ncol)))
   response  <- varnames[1]
   predicts  <- list()
@@ -160,10 +161,9 @@ ols_step_best_subset.default <- function(model, max_order = NULL,
 
   for (i in seq_len(len_elig)) {
     predictors        <- predicts[[i]]
-    lp                <- length(predictors)
-    out               <- ols_regress(paste(response, "~", paste(predictors, collapse = " + ")), data = data)
+    out               <- ols_step_fit(response, predictors, data, model)
     mcount            <- mcount + 1
-    lpreds[mcount]    <- lp
+    lpreds[mcount]    <- model_estimable_terms(out$model)
     rsq[[mcount]]     <- out$rsq
     adjr[[mcount]]    <- out$adjr
     cp[[mcount]]      <- ols_mallows_cp(out$model, model)

@@ -8,7 +8,7 @@
 \usage{
 ols_step_all_possible(model, ...)
 
-\method{ols_step_all_possible}{default}(model, max_order = NULL, ...)
+\method{ols_step_all_possible}{default}(model, max_order = NULL, force = FALSE, ...)
 
 \method{plot}{ols_step_all_possible}(x, model = NA, print_plot = TRUE, ...)
 }
@@ -18,6 +18,9 @@ ols_step_all_possible(model, ...)
 \item{...}{Other arguments.}
 
 \item{max_order}{Maximum subset order.}
+
+\item{force}{logical; if \code{TRUE}, allows the combinatorial subset search to
+proceed when more than \code{2^20 - 1} models would be fitted.}
 
 \item{x}{An object of class \code{ols_step_all_possible}.}
 
@@ -48,6 +51,27 @@ following components:
 Fits all regressions involving one regressor, two regressors, three
 regressors, and so on. It tests all possible subsets of the set of potential
 independent variables.
+}
+\details{
+Refits accept explicit contrast matrices or the base contrast names
+\code{contr.treatment}, \code{contr.sum}, \code{contr.helmert}, \code{contr.poly} and \code{contr.SAS}
+(resolved from the stats namespace); models fitted with custom named contrast
+functions must be refitted with an explicit matrix, for example
+\code{contrasts = list(g = my_matrix)}. Refits carry the fitted model's frozen total
+offset as an argument with all formula \code{offset()} terms removed for
+standardized-beta and selection computations. Returned stepwise models are
+fitted from the original call, preserving formula and argument offsets for
+prediction on new data. Their coefficients, fitted values and total offset
+must be identical to the frozen-offset selection fit; otherwise selection
+stops with an error because prediction with new data is not supported for
+that model.
+
+For non-hierarchical stepwise selection, candidate rankings and criterion
+improvement tests use 10 significant digits: values that agree to 10
+significant digits are ties, equal criterion values mean no improvement, and
+a remaining tie goes to the first candidate in formula order after any F tie
+is broken by p value (smaller for entry, larger for removal). P-value entry
+and removal cutoffs are compared without rounding.
 }
 \examples{
 model <- lm(mpg ~ disp + hp, data = mtcars)

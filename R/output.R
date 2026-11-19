@@ -79,7 +79,18 @@ print_reg <- function(data) {
 
   k <- length(data$mvars)
 
-  sb <- c("", format(round(data$sbetas, 3), nsmall = 3))
+  # align the standardised betas with the coefficients by name; models without
+  # an intercept have a standardised beta for every coefficient
+  sb <- rep("", k)
+  if (length(data$sbetas) > 0) {
+    sbeta_val <- format(round(data$sbetas, 3), nsmall = 3)
+    if (is.null(names(data$sbetas))) {
+      sb[seq_along(sbeta_val)] <- sbeta_val
+    } else {
+      idx <- match(names(data$sbetas), data$mvars)
+      sb[idx[!is.na(idx)]] <- sbeta_val[!is.na(idx)]
+    }
+  }
 
   cat(fc("Parameter Estimates", w21), "\n")
   cat(rep("-", w21), sep = "", "\n")
@@ -234,7 +245,7 @@ print_bp_test <- function(data) {
         cat(
           " ", format("simultaneous", width = w1, justify = "left"), fs(),
           format(bp[ldp2], width = w2, justify = "centre"), fs(),
-          format(ldp, width = w3, justify = "right"), fs(),
+          format(data$simdf, width = w3, justify = "right"), fs(),
           format(p[ldp2], width = w4, justify = "centre"), "\n"
         )
         cat(" ", rep("-", w), sep = "", "\n")
@@ -353,7 +364,7 @@ print_bp_test <- function(data) {
         cat(
           " ", format("simultaneous", width = w1, justify = "left"), fs(),
           format(bp[ldp2], width = w2, justify = "centre"), fs(),
-          format(ldp, width = w3, justify = "right"), fs(),
+          format(data$simdf, width = w3, justify = "right"), fs(),
           format(p[ldp2], width = w4, justify = "centre"), "\n"
         )
         cat(" ", rep("-", w), sep = "", "\n")
@@ -414,7 +425,7 @@ print_bp_test <- function(data) {
           cat(
             " ", format("simultaneous", width = w1, justify = "left"), fs(),
             format(bp[ldp2], width = w2, justify = "centre"), fs(),
-            format(ldp, width = w3, justify = "right"), fs(),
+            format(data$simdf, width = w3, justify = "right"), fs(),
             format(p[ldp2], width = w4, justify = "centre"), "\n"
           )
           cat(" ", rep("-", w), sep = "", "\n")
@@ -442,7 +453,7 @@ print_bp_test <- function(data) {
           cat(format("Test Summary", width = w, justify = "centre"), "\n")
           cat(" ", rep("-", w), sep = "", "\n")
           cat(
-            " DF            =   ", ldp, "\n",
+            " DF            =   ", data$df, "\n",
             "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
             "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
           )
@@ -501,7 +512,7 @@ print_bp_test <- function(data) {
         cat(format("Test Summary", width = w, justify = "centre"), "\n")
         cat(" ", rep("-", w), sep = "", "\n")
         cat(
-          " DF            =   ", lvars, "\n",
+          " DF            =   ", data$df, "\n",
           "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
           "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
         )
@@ -703,17 +714,29 @@ print_norm_test <- function(data) {
   )
   n <- length(stats)
 
+  # skip tests leave NA in the table; then every line must end at the width of
+  # the rule (the legacy output for complete tables has one trailing space)
+  trail <- if (anyNA(c(stats, pvals))) "" else " "
+
   # print
   cat(rep("-", w), sep = "", "\n")
   cat(
-    format("Test", width = w1, justify = "centre"), fs(), format("Statistic", width = w2, justify = "centre"),
-    fs(), format("pvalue", width = 7, justify = "centre"), "\n"
+    paste0(
+      format("Test", width = w1, justify = "centre"), " ", fs(), " ",
+      format("Statistic", width = w2, justify = "centre"), " ", fs(), " ",
+      format("pvalue", width = 7, justify = "centre"), trail
+    ), "\n",
+    sep = ""
   )
   cat(rep("-", w), sep = "", "\n")
   for (i in seq_len(n)) {
     cat(
-      format(tests[i], width = w1), fs(), format(as.character(round(stats[i], 4)), width = w2, justify = "centre"),
-      fs(), format(round(pvals[i], 4), nsmall = 4, width = 7, justify = "centre"), "\n"
+      paste0(
+        format(tests[i], width = w1), " ", fs(), " ",
+        format(as.character(round(stats[i], 4)), width = w2, justify = "centre"), " ", fs(), " ",
+        format(round(pvals[i], 4), nsmall = 4, width = 7, justify = "centre"), trail
+      ), "\n",
+      sep = ""
     )
   }
   cat(rep("-", w), sep = "", "\n")

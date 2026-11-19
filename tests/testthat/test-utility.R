@@ -146,6 +146,77 @@ test_that("output from rstudlev matches the expected result", {
   expect_equal(round(k$maxy, 3), 5.516)
 })
 
+test_that("studentized residual vs leverage data handles zero weights and omissions (G05)", {
+  cases <- list(
+    list(zero = 1, missing = 32),
+    list(zero = c(1, 16), missing = c(2, 31))
+  )
+
+  for (z in cases) {
+    d <- mtcars
+    d$w <- 1
+    d$w[z$zero] <- 0
+    d$mpg[z$missing] <- NA
+    m   <- lm(mpg ~ wt + hp, d, weights = w, na.action = na.exclude)
+    ref <- lm(mpg ~ wt + hp, d[-c(z$zero, z$missing), ])
+
+    got <- ols_prep_rstudlev_data(m)
+
+    expect_equal(got$levrstud$obs, setdiff(seq_len(32), c(z$zero, z$missing)))
+    expect_equal(got$levrstud$leverage, unname(hatvalues(ref)))
+    expect_equal(got$levrstud$rstudent, unname(rstudent(ref)))
+    expect_equal(got$lev_thrsh, (2 * length(coef(m))) / nobs(m))
+  }
+
+  # na.exclude without zero weights also keeps the original observation IDs
+  d <- mtcars
+  d$mpg[32] <- NA
+  m   <- lm(mpg ~ wt + hp, d, na.action = na.exclude)
+  ref <- lm(mpg ~ wt + hp, d[-32, ])
+  got <- ols_prep_rstudlev_data(m)
+
+  expect_equal(got$levrstud$obs, 1:31)
+  expect_equal(got$levrstud$leverage, unname(hatvalues(ref)))
+  expect_equal(got$levrstud$rstudent, unname(rstudent(ref)))
+})
+
+test_that("the leverage threshold counts rank, not coefficient slots (J02)", {
+  m  <- lm(mpg ~ wt + hp, mtcars)
+  ma <- lm(mpg ~ wt + I(2 * wt) + hp, mtcars)
+
+  a <- ols_prep_rstudlev_data(m)
+  b <- ols_prep_rstudlev_data(ma)
+
+  # both fits have rank 3; the aliased column must not raise the threshold
+  expect_equal(b$lev_thrsh, 2 * ma$rank / nobs(ma))
+  expect_equal(b$lev_thrsh, 0.1875)
+  expect_equal(a$lev_thrsh, b$lev_thrsh)
+
+  # identical leverages/studentized residuals imply identical classifications
+  expect_equal(a$levrstud$leverage, b$levrstud$leverage)
+  expect_equal(a$levrstud$rstudent, b$levrstud$rstudent)
+  expect_equal(a$levrstud$color, b$levrstud$color)
+
+  # observations 16 and 29 remain "leverage" (leverage above 2 * rank / n)
+  expect_equal(b$levrstud$color[b$levrstud$obs == 16], "leverage")
+  expect_equal(b$levrstud$color[b$levrstud$obs == 29], "leverage")
+
+  # zero weights plus omissions keep the same alias-invariant threshold
+  d <- mtcars
+  d$w <- 1
+  d$w[1] <- 0
+  d$mpg[32] <- NA
+  me  <- lm(mpg ~ wt + hp, d, weights = w, na.action = na.exclude)
+  mae <- lm(mpg ~ wt + I(2 * wt) + hp, d, weights = w, na.action = na.exclude)
+
+  ae <- ols_prep_rstudlev_data(me)
+  be <- ols_prep_rstudlev_data(mae)
+
+  expect_equal(be$lev_thrsh, 2 * mae$rank / nobs(mae))
+  expect_equal(ae$lev_thrsh, be$lev_thrsh)
+  expect_equal(ae$levrstud$color, be$levrstud$color)
+})
+
 test_that("output from corrout matches the expected result", {
   model <- lm(mpg ~ disp + hp + wt + drat, data = mtcars)
   expect_equal(round(corrout(model), 3), 0.96)
@@ -157,4 +228,21 @@ test_that("output from advarx matches the expected output", {
   expected <- unname(residuals(lm(mpg ~., data = mtcars)))
   
   expect_equal(actual, expected, ignore_attr = TRUE)
+})
+
+test_that("added variable plot data keeps predictor names with one predictor", {
+  model <- lm(mpg ~ disp, data = mtcars)
+  k     <- ols_prep_avplot_data(model)
+
+  expect_equal(names(k), c("mpg", "disp"))
+  expect_equal(k$disp, mtcars$disp, ignore_attr = TRUE)
+})
+
+test_that("added variable plot data keeps all predictors without an intercept", {
+  model <- lm(mpg ~ 0 + disp + hp, data = mtcars)
+  k     <- ols_prep_avplot_data(model)
+
+  expect_equal(names(k), c("mpg", "disp", "hp"))
+  expect_equal(k$disp, mtcars$disp, ignore_attr = TRUE)
+  expect_equal(k$hp, mtcars$hp, ignore_attr = TRUE)
 })

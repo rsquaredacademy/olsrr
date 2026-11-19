@@ -35,6 +35,7 @@ An object of class \code{"ols_test_breusch_pagan"} is a list containing the
 following components:
 
 \item{bp}{breusch pagan statistic}
+\item{df}{degrees of freedom of \code{bp} (\code{NA} when several tests are performed)}
 \item{p}{p-value of \code{bp}}
 \item{fv}{fitted values of the regression model}
 \item{rhs}{names of explanatory variables of fitted regression model}
@@ -68,6 +69,17 @@ Computation
 freedom, where p is the number of independent variables, n is the sample size and
 \eqn{R^2} is the coefficient of determination from the regression in step 2.
 }
+
+The test is not available for weighted models, because the auxiliary
+regression in step 2 would ignore the model weights.
+
+A constant or fully aliased regressor (for example a column that is always
+\enumerate{
+\item supplies no direction to test beyond the auxiliary intercept. In that case
+the statistic has zero degrees of freedom and is undefined, so the function
+stops with an informative error rather than reporting a p value of 0 or 1
+from a degenerate chi-squared tail.
+}
 }
 \examples{
 # model
@@ -99,9 +111,9 @@ Random Coefficient Variation. Econometrica 47, 1287–1294
 Cook, R. D.; Weisberg, S. (1983). "Diagnostics for Heteroskedasticity in Regression". Biometrika. 70 (1): 1–10.
 }
 \seealso{
-Other heteroskedasticity tests: 
-\code{\link{ols_test_bartlett}()},
-\code{\link{ols_test_f}()},
-\code{\link{ols_test_score}()}
+Other heteroskedasticity tests:
+\code{\link[=ols_test_bartlett]{ols_test_bartlett()}},
+\code{\link[=ols_test_f]{ols_test_f()}},
+\code{\link[=ols_test_score]{ols_test_score()}}
 }
 \concept{heteroskedasticity tests}
