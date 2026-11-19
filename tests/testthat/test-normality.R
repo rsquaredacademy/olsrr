@@ -170,6 +170,15 @@ test_that("Cramer-von Mises test for lm uses the residuals and the normal null",
   expect_match(nt$cramer$method, "Cramer-von Mises normality test")
 })
 
+test_that("a constant sample errors with a message naming the input", {
+  # nortest::lillie.test() fails inside its own `if (NA)` on zero variance, so
+  # the input is rejected before any test runs
+  expect_error(ols_test_normality(rep(3, 10)), "y has no variation")
+
+  # a sample that varies, even by one value, still runs every test it can
+  expect_silent(ols_test_normality(c(rep(3, 9), 4)))
+})
+
 test_that("Cramer-von Mises test is deterministic", {
   set.seed(42)
   x <- rnorm(150)

@@ -170,6 +170,19 @@ ols_test_normality.default <- function(y, ...) {
     )
   }
 
+  # a constant sample has no defined normality test, and
+  # nortest::lillie.test() fails inside its own `if (pvalue > 0.1)` on zero
+  # variance, so reject it here with an error that names the input
+  if (n > 0L && all(y == y[[1L]])) {
+    stop(
+      paste0(
+        "y has no variation: all ", n,
+        " non-missing values are identical, so the normality tests are undefined."
+      ),
+      call. = FALSE
+    )
+  }
+
   if (any(skipped)) {
     warning(
       paste0(
