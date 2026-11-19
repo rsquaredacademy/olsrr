@@ -1,4 +1,11 @@
-# Cooks' D outlier observations
+# `Cooks' D outlier observations`
+
+# `Cooks' D outlier observations`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_outlier_obs.Rd`
 
 Identify outliers in cook's d plot.
 

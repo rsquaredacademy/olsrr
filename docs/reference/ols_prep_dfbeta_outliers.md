@@ -1,4 +1,11 @@
-# DFBETAs plot outliers
+# `DFBETAs plot outliers`
+
+# `DFBETAs plot outliers`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_dfbeta_outliers.Rd`
 
 Data for identifying outliers in dfbetas plot.
 

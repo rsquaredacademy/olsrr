@@ -1,18 +1,20 @@
 url: https://olsrr.rsquaredacademy.com
+
 template:
-  bootstrap: 5
+  package: rsatemplate
+  params:
+    site_url: https://olsrr.rsquaredacademy.com
+    hero_description: Tools for building ordinary least squares regression models.
+    course_topic: OLS regression
+    course_url: https://app.rsquaredacademy.com
+    dev_repo: rsquaredacademy/olsrr
 
 authors:
   Aravind Hebbali:
     href: https://www.aravindhebbali.com
 
-templates:
-  params:
-    bootswatch: cerulean
-
 navbar:
   title: 'olsrr'
-  type: inverse
   left:
     - text: 'Home'
       href: index.html

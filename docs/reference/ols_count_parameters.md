@@ -1,4 +1,11 @@
-# Parameters count
+# `Parameters count`
+
+# `Parameters count`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_count_parameters.Rd`
 
 Returns the number of parameters from a model.
 

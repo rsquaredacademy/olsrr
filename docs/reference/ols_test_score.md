@@ -1,4 +1,11 @@
-# Score test
+# `Score test`
+
+# `Score test`
+
+Source:
+[`R/ols-score-test.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-score-test.R)
+
+`ols_test_score.Rd`
 
 Test for heteroskedasticity under the assumption that the errors are
 independent and identically distributed (i.i.d.).
@@ -62,6 +69,16 @@ components:
 - preds:
 
   predictors
+
+## Details
+
+The test is not available for weighted models, because it refits
+auxiliary regressions that would ignore the model weights.
+
+A constant or fully aliased regressor supplies no direction to test
+beyond the auxiliary intercept, so the statistic has zero degrees of
+freedom and is undefined; the function then stops with an informative
+error instead of reporting a degenerate p value.
 
 ## References
 

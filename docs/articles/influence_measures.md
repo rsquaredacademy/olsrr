@@ -1,5 +1,12 @@
 # Measures of Influence
 
+# Measures of Influence
+
+Source:
+[`vignettes/influence_measures.Rmd`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/influence_measures.Rmd)
+
+`influence_measures.Rmd`
+
 ## Introduction
 
 It is possible for a single observation to have a great influence on the
@@ -39,7 +46,9 @@ observation.
 A data point having a large cook’s d indicates that the data point
 strongly influences the fitted values.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_cooksd_bar`](https://olsrr.rsquaredacademy.com/reference/ols_plot_cooksd_bar.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_cooksd_bar`](https://olsrr.rsquaredacademy.com/reference/ols_plot_cooksd_bar.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/ckdbp-1.png)
 
@@ -48,7 +57,9 @@ strongly influences the fitted values.
 Chart of Cook’s distance to detect observations that strongly influence
 fitted values of the model.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_cooksd_chart`](https://olsrr.rsquaredacademy.com/reference/ols_plot_cooksd_chart.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_cooksd_chart`](https://olsrr.rsquaredacademy.com/reference/ols_plot_cooksd_chart.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/ckchart-1.png)
 
@@ -62,7 +73,9 @@ are influential in estimating a given parameter. Belsley, Kuh, and
 Welsch recommend 2 as a general cutoff value to indicate influential
 observations and $`\frac{2}{\sqrt{n}}`$ as a size-adjusted cutoff.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt``, data ``=`` ``mtcars``)`` `[`ols_plot_dfbetas`](https://olsrr.rsquaredacademy.com/reference/ols_plot_dfbetas.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt``, data ``=`` ``mtcars``)`\
+[`ols_plot_dfbetas`](https://olsrr.rsquaredacademy.com/reference/ols_plot_dfbetas.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/dfbpanel-1.png)
 
@@ -100,7 +113,9 @@ including intercept.
 
 olsrr uses the size adjusted cutoff by default.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_dffits`](https://olsrr.rsquaredacademy.com/reference/ols_plot_dffits.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_dffits`](https://olsrr.rsquaredacademy.com/reference/ols_plot_dffits.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/dfitsplot-1.png)
 
@@ -113,7 +128,9 @@ effective for detecting outlying Y observations than standardized
 residuals. If an observation has an externally studentized residual that
 is larger than 3 (in absolute value) we can call it an outlier.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_resid_stud`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stud.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_resid_stud`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stud.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/srplot-1.png)
 
@@ -122,7 +139,9 @@ is larger than 3 (in absolute value) we can call it an outlier.
 Chart for detecting outliers. Standardized residual (internally
 studentized) is the residual divided by estimated standard deviation.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_resid_stand`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stand.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_resid_stand`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stand.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/srchart-1.png)
 
@@ -130,7 +149,9 @@ studentized) is the residual divided by estimated standard deviation.
 
 Graph for detecting influential observations.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``read`` ``~`` ``write`` ``+`` ``math`` ``+`` ``science``, data ``=`` ``hsb``)`` `[`ols_plot_resid_lev`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_lev.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``read`` ``~`` ``write`` ``+`` ``math`` ``+`` ``science``, data ``=`` ``hsb``)`\
+[`ols_plot_resid_lev`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_lev.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/studlev-1.png)
 
@@ -138,7 +159,9 @@ Graph for detecting influential observations.
 
 Graph for detecting outliers.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_resid_stud_fit`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stud_fit.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_resid_stud_fit`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_stud_fit.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/dsrvsp-1.png)
 
@@ -149,7 +172,9 @@ observations can be present in either the response variable or in the
 predictors or both. The plot is used to detect influential observations
 based on Hadi’s measure.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_hadi`](https://olsrr.rsquaredacademy.com/reference/ols_plot_hadi.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_hadi`](https://olsrr.rsquaredacademy.com/reference/ols_plot_hadi.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/hadiplot-1.png)
 
@@ -158,6 +183,8 @@ based on Hadi’s measure.
 Plot to aid in classifying unusual observations as high-leverage points,
 outliers, or a combination of both.
 
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`` `[`ols_plot_resid_pot`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_pot.md)`(``model``)`
+\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+[`ols_plot_resid_pot`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_pot.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/potres-1.png)

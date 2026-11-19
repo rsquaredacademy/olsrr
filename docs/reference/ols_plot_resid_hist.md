@@ -1,4 +1,11 @@
-# Residual histogram
+# `Residual histogram`
+
+# `Residual histogram`
+
+Source:
+[`R/ols-residual-histogram.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-residual-histogram.R)
+
+`ols_plot_resid_hist.Rd`
 
 Histogram of residuals for detecting violation of normality assumption.
 

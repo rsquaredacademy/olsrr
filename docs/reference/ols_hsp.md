@@ -1,4 +1,11 @@
-# Hocking's Sp
+# `Hocking's Sp`
+
+# `Hocking's Sp`
+
+Source:
+[`R/ols-information-criteria.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-information-criteria.R)
+
+`ols_hsp.Rd`
 
 Average prediction mean squared error.
 
@@ -25,8 +32,8 @@ Minimize this criterion.
 
 \$\$MSE / (n - p - 1)\$\$
 
-where \\MSE = SSE / (n - p)\\, n is the sample size and p is the number
-of predictors including the intercept
+where \\(MSE = SSE / (n - p)\\), n is the sample size and p is the
+number of predictors including the intercept
 
 ## References
 

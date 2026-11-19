@@ -1,4 +1,11 @@
-# Residual vs fitted plot
+# `Residual vs fitted plot`
+
+# `Residual vs fitted plot`
+
+Source:
+[`R/ols-residual-vs-predicted-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-residual-vs-predicted-plot.R)
+
+`ols_plot_resid_fit.Rd`
 
 Scatter plot of residuals on the y axis and fitted values on the x axis
 to detect non-linearity, unequal error variances, and outliers.

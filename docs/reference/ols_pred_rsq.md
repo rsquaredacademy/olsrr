@@ -1,4 +1,11 @@
-# Predicted rsquare
+# `Predicted rsquare`
+
+# `Predicted rsquare`
+
+Source:
+[`R/ols-influence-measures.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-influence-measures.R)
+
+`ols_pred_rsq.Rd`
 
 Use predicted rsquared to determine how well the model predicts
 responses for new observations. Larger values of predicted R2 indicate
@@ -19,6 +26,13 @@ ols_pred_rsq(model)
 ## Value
 
 Predicted rsquare of the model.
+
+## Details
+
+Both the PRESS statistic and the total sum of squares use the model's
+prior weights, so predicted R-squared is invariant to a constant
+rescaling of the weights even though PRESS itself is not: PRESS is a
+weighted sum of squared deleted residuals and scales with the weights.
 
 ## See also
 

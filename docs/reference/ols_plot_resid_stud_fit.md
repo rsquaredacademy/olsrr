@@ -1,4 +1,11 @@
-# Deleted studentized residual vs fitted values plot
+# `Deleted studentized residual vs fitted values plot`
+
+# `Deleted studentized residual vs fitted values plot`
+
+Source:
+[`R/ols-dsresid-vs-pred-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-dsresid-vs-pred-plot.R)
+
+`ols_plot_resid_stud_fit.Rd`
 
 Plot for detecting violation of assumptions about residuals such as
 non-linearity, constant variances and outliers. It can also be used to

@@ -1,4 +1,11 @@
-# Residual QQ plot
+# `Residual QQ plot`
+
+# `Residual QQ plot`
+
+Source:
+[`R/ols-residual-qqplot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-residual-qqplot.R)
+
+`ols_plot_resid_qq.Rd`
 
 Graph for detecting violation of normality assumption.
 

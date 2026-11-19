@@ -1,0 +1,66 @@
+/* Rsquared Academy design tokens (from mockups/assets/css/tokens.css).
+   pkgdown's light switch toggles data-bs-theme on <html>. */
+
+:root {
+  --bg: #ffffff;
+  --surface: #f6f8fc;
+  --surface-tint: #eaf1ff;
+  --ink: #0f172a;
+  --ink-muted: #475569;
+  --line: #e2e8f0;
+  --line-strong: #64748b;
+  --brand: #2563eb;
+  --brand-hover: #1d4ed8;
+  --on-brand: #ffffff;
+  --link: #1d4ed8;
+  --signal-bg: #fef3c7;
+  --signal-ink: #92400e;
+  --free-bg: #dcfce7;
+  --free-ink: #166534;
+  --danger: #b91c1c;
+  --code-bg: #0f172a;
+  --code-ink: #e2e8f0;
+  --code-prompt: #93c5fd;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-20: 80px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --content-max: 1160px;
+  --text-max: 720px;
+  --font-display: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+
+[data-bs-theme="dark"] {
+  --bg: #0b1220;
+  --surface: #111a2e;
+  --surface-tint: #13244a;
+  --ink: #e8edf5;
+  --ink-muted: #9aa8bd;
+  --line: #1f2a40;
+  --line-strong: #64748b;
+  --brand: #60a5fa;
+  --brand-hover: #93c5fd;
+  --on-brand: #0b1220;
+  --link: #93c5fd;
+  --signal-bg: #2e2410;
+  --signal-ink: #fcd34d;
+  --free-bg: #0f2a1c;
+  --free-ink: #86efac;
+  --danger: #f87171;
+  --code-bg: #060a14;
+  --code-ink: #e2e8f0;
+  --code-prompt: #93c5fd;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5);
+}

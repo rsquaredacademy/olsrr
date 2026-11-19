@@ -1,4 +1,11 @@
-# Collinearity diagnostics
+# `Collinearity diagnostics`
+
+# `Collinearity diagnostics`
+
+Source:
+[`R/ols-collinearity-diagnostics.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-collinearity-diagnostics.R)
+
+`ols_coll_diag.Rd`
 
 Variance inflation factor, tolerance, eigenvalues and condition indices.
 
@@ -48,20 +55,20 @@ Steps to calculate tolerance:
 
 - Regress the kth predictor on rest of the predictors in the model.
 
-- Compute \\R^2\\ - the coefficient of determination from the regression
-  in the above step.
+- Compute \\(R^2\\) - the coefficient of determination from the
+  regression in the above step.
 
-- \\Tolerance = 1 - R^2\\
+- \\(Tolerance = 1 - R^2\\)
 
 *Variance Inflation Factor*
 
 Variance inflation factors measure the inflation in the variances of the
 parameter estimates due to collinearities that exist among the
 predictors. It is a measure of how much the variance of the estimated
-regression coefficient \\\beta_k\\ is inflated by the existence of
+regression coefficient \\(\beta_k\\) is inflated by the existence of
 correlation among the predictor variables in the model. A VIF of 1 means
 that there is no correlation among the kth predictor and the remaining
-predictor variables, and hence the variance of \\\beta_k\\ is not
+predictor variables, and hence the variance of \\(\beta_k\\) is not
 inflated at all. The general rule of thumb is that VIFs exceeding 4
 warrant further investigation, while VIFs exceeding 10 are signs of
 serious multicollinearity requiring correction.
@@ -70,10 +77,10 @@ Steps to calculate VIF:
 
 - Regress the kth predictor on rest of the predictors in the model.
 
-- Compute \\R^2\\ - the coefficient of determination from the regression
-  in the above step.
+- Compute \\(R^2\\) - the coefficient of determination from the
+  regression in the above step.
 
-- \\Tolerance = 1 / 1 - R^2 = 1 / Tolerance\\
+- \\(Tolerance = 1 / 1 - R^2 = 1 / Tolerance\\)
 
 *Condition Index*
 
@@ -89,6 +96,14 @@ is spotted by finding 2 or more variables that have large proportions of
 variance (.50 or more) that correspond to large condition indices. A
 rule of thumb is to label as large those condition indices in the range
 of 30 or larger.
+
+For models without an intercept, every column of the model matrix is
+treated as a predictor and regressed on the remaining columns (with an
+intercept); no intercept column is removed from the design matrix.
+
+Tolerance, variance inflation factors, eigenvalues and condition indices
+are computed from the design (model) matrix and do not use the model
+weights, so they remain available for weighted models.
 
 ## References
 

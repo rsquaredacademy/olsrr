@@ -1,4 +1,11 @@
-# Deleted studentized residual plot data
+# `Deleted studentized residual plot data`
+
+# `Deleted studentized residual plot data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_dsrvf_data.Rd`
 
 Generates data for deleted studentized residual vs fitted plot.
 

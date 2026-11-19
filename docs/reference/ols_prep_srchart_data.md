@@ -1,4 +1,11 @@
-# Standardized residual chart data
+# `Standardized residual chart data`
+
+# `Standardized residual chart data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_srchart_data.Rd`
 
 Generates data for standardized residual chart.
 

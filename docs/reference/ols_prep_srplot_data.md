@@ -1,4 +1,11 @@
-# Studentized residual plot data
+# `Studentized residual plot data`
+
+# `Studentized residual plot data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_srplot_data.Rd`
 
 Generates data for studentized residual plot.
 

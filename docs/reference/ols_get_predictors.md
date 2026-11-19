@@ -1,4 +1,11 @@
-# Predictor variable data
+# `Predictor variable data`
+
+# `Predictor variable data`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_predictors.Rd`
 
 Returns the data of all model predictors.
 

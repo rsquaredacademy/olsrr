@@ -1,4 +1,11 @@
-# MSEP
+# `MSEP`
+
+# `MSEP`
+
+Source:
+[`R/ols-information-criteria.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-information-criteria.R)
+
+`ols_msep.Rd`
 
 Estimated error of prediction, assuming multivariate normality.
 
@@ -25,8 +32,8 @@ both independent and dependent variables are multivariate normal.
 
 \$\$MSE(n + 1)(n - 2) / n(n - p - 1)\$\$
 
-where \\MSE = SSE / (n - p)\\, n is the sample size and p is the number
-of predictors including the intercept
+where \\(MSE = SSE / (n - p)\\), n is the sample size and p is the
+number of predictors including the intercept
 
 ## References
 
@@ -54,5 +61,5 @@ Other model selection criteria:
 ``` r
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_msep(model)
-#> [1] 220.8882
+#> [1] 8.181044
 ```

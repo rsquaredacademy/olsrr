@@ -1,4 +1,11 @@
-# Variance covariance matrix
+# `Variance covariance matrix`
+
+# `Variance covariance matrix`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_vcov.Rd`
 
 Returns the variance covariance matrix from the model.
 

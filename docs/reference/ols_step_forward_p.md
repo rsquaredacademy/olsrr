@@ -1,4 +1,11 @@
-# Stepwise forward regression
+# `Stepwise forward regression`
+
+# `Stepwise forward regression`
+
+Source:
+[`R/ols-stepwise-forward-regression.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-stepwise-forward-regression.R)
+
+`ols_step_forward_p.Rd`
 
 Build regression model from a set of candidate predictor variables by
 entering predictors based on p values, in a stepwise manner until there
@@ -90,6 +97,30 @@ following components:
 
   selection metrics
 
+## Details
+
+Refits accept explicit contrast matrices or the base contrast names
+`contr.treatment`, `contr.sum`, `contr.helmert`, `contr.poly` and
+`contr.SAS` (resolved from the stats namespace); models fitted with
+custom named contrast functions must be refitted with an explicit
+matrix, for example `contrasts = list(g = my_matrix)`. Refits carry the
+fitted model's frozen total offset as an argument with all formula
+[`offset()`](https://rdrr.io/r/stats/offset.html) terms removed for
+standardized-beta and selection computations. Returned stepwise models
+are fitted from the original call, preserving formula and argument
+offsets for prediction on new data. Their coefficients, fitted values
+and total offset must be identical to the frozen-offset selection fit;
+otherwise selection stops with an error because prediction with new data
+is not supported for that model.
+
+For non-hierarchical stepwise selection, candidate rankings and
+criterion improvement tests use 10 significant digits: values that agree
+to 10 significant digits are ties, equal criterion values mean no
+improvement, and a remaining tie goes to the first candidate in formula
+order after any F tie is broken by p value (smaller for entry, larger
+for removal). P-value entry and removal cutoffs are compared without
+rounding.
+
 ## References
 
 Chatterjee, Samprit and Hadi, Ali. Regression Analysis by Example. 5th
@@ -132,8 +163,8 @@ ols_step_forward_p(model)
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.884       RMSE                 184.276 
-#> R-Squared                 0.781       MSE                33957.712 
+#> R                         0.884       RMSE                 195.454 
+#> R-Squared                 0.781       MSE                38202.426 
 #> Adj. R-Squared            0.758       Coef. Var             27.839 
 #> Pred R-Squared            0.700       AIC                  730.620 
 #> MAE                     137.656       SBC                  744.543 
@@ -182,18 +213,89 @@ k$metrics
 #> 4    4      pindex 0.7501457 0.7297495 735.7146 747.6485 582.9426   7.537284
 #> 5    5         bcs 0.7809054 0.7580831 730.6204 744.5433 579.6377   3.192498
 #>       rmse
-#> 1 290.7604
-#> 2 259.1357
-#> 3 229.8956
-#> 4 196.7872
-#> 5 184.2762
+#> 1 296.2992
+#> 2 266.6484
+#> 3 238.9145
+#> 4 206.5835
+#> 5 195.4544
 
 # final model
 k$model
 #> 
 #> Call:
-#> lm(formula = paste(response, "~", paste(preds, collapse = " + ")), 
-#>     data = l)
+#> (function (formula, data, subset, weights, na.action, method = "qr", 
+#>     model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, 
+#>     contrasts = NULL, offset, ...) 
+#> {
+#>     ret.x <- x
+#>     ret.y <- y
+#>     cl <- match.call()
+#>     mf <- match.call(expand.dots = FALSE)
+#>     m <- match(c("formula", "data", "subset", "weights", "na.action", 
+#>         "offset"), names(mf), 0L)
+#>     mf <- mf[c(1L, m)]
+#>     mf$drop.unused.levels <- TRUE
+#>     mf[[1L]] <- quote(stats::model.frame)
+#>     mf <- eval(mf, parent.frame())
+#>     if (method == "model.frame") 
+#>         return(mf)
+#>     else if (method != "qr") 
+#>         warning(gettextf("method = '%s' is not supported. Using 'qr'", 
+#>             method), domain = NA)
+#>     mt <- attr(mf, "terms")
+#>     y <- model.response(mf, "numeric")
+#>     w <- as.vector(model.weights(mf))
+#>     if (!is.null(w) && !is.numeric(w)) 
+#>         stop("'weights' must be a numeric vector")
+#>     offset <- model.offset(mf)
+#>     mlm <- is.matrix(y)
+#>     ny <- if (mlm) 
+#>         nrow(y)
+#>     else length(y)
+#>     if (!is.null(offset)) {
+#>         if (!mlm) 
+#>             offset <- as.vector(offset)
+#>         if (NROW(offset) != ny) 
+#>             stop(gettextf("number of offsets is %d, should equal %d (number of observations)", 
+#>                 NROW(offset), ny), domain = NA)
+#>     }
+#>     if (is.empty.model(mt)) {
+#>         x <- NULL
+#>         z <- list(coefficients = if (mlm) matrix(NA_real_, 0, 
+#>             ncol(y)) else numeric(), residuals = y, fitted.values = 0 * 
+#>             y, weights = w, rank = 0L, df.residual = if (!is.null(w)) sum(w != 
+#>             0) else ny)
+#>         if (!is.null(offset)) {
+#>             z$fitted.values <- offset
+#>             z$residuals <- y - offset
+#>         }
+#>     }
+#>     else {
+#>         x <- model.matrix(mt, mf, contrasts)
+#>         z <- if (is.null(w)) 
+#>             lm.fit(x, y, offset = offset, singular.ok = singular.ok, 
+#>                 ...)
+#>         else lm.wfit(x, y, w, offset = offset, singular.ok = singular.ok, 
+#>             ...)
+#>     }
+#>     class(z) <- c(if (mlm) "mlm", "lm")
+#>     z$na.action <- attr(mf, "na.action")
+#>     z$offset <- offset
+#>     z$contrasts <- attr(x, "contrasts")
+#>     z$xlevels <- .getXlevels(mt, mf)
+#>     z$call <- cl
+#>     z$terms <- mt
+#>     if (model) 
+#>         z$model <- mf
+#>     if (ret.x) 
+#>         z$x <- x
+#>     if (ret.y) 
+#>         z$y <- y
+#>     if (!qr) 
+#>         z$qr <- NULL
+#>     z
+#> })(formula = y ~ liver_test + alc_heavy + enzyme_test + pindex + 
+#>     bcs, data = surgical)
 #> 
 #> Coefficients:
 #> (Intercept)   liver_test    alc_heavy  enzyme_test       pindex          bcs  
@@ -223,8 +325,8 @@ ols_step_forward_p(model, include = c("age", "alc_mod"))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.866       RMSE                 196.724 
-#> R-Squared                 0.750       MSE                38700.429 
+#> R                         0.866       RMSE                 210.866 
+#> R-Squared                 0.750       MSE                44464.323 
 #> Adj. R-Squared            0.718       Coef. Var             30.034 
 #> Pred R-Squared            0.649       AIC                  739.680 
 #> MAE                     146.418       SBC                  755.592 
@@ -281,8 +383,8 @@ ols_step_forward_p(model, include = c(5, 7))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.866       RMSE                 196.724 
-#> R-Squared                 0.750       MSE                38700.429 
+#> R                         0.866       RMSE                 210.866 
+#> R-Squared                 0.750       MSE                44464.323 
 #> Adj. R-Squared            0.718       Coef. Var             30.034 
 #> Pred R-Squared            0.649       AIC                  739.680 
 #> MAE                     146.418       SBC                  755.592 
@@ -337,8 +439,8 @@ ols_step_forward_p(model, exclude = c("pindex"))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.818       RMSE                 226.248 
-#> R-Squared                 0.670       MSE                51188.335 
+#> R                         0.818       RMSE                 237.511 
+#> R-Squared                 0.670       MSE                56411.635 
 #> Adj. R-Squared            0.643       Coef. Var             33.829 
 #> Pred R-Squared            0.567       AIC                  750.782 
 #> MAE                     171.544       SBC                  762.716 
@@ -391,8 +493,8 @@ ols_step_forward_p(model, exclude = c(2))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.818       RMSE                 226.248 
-#> R-Squared                 0.670       MSE                51188.335 
+#> R                         0.818       RMSE                 237.511 
+#> R-Squared                 0.670       MSE                56411.635 
 #> Adj. R-Squared            0.643       Coef. Var             33.829 
 #> Pred R-Squared            0.567       AIC                  750.782 
 #> MAE                     171.544       SBC                  762.716 
@@ -446,8 +548,8 @@ ols_step_forward_p(model, 0.1, hierarchical = TRUE)
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.878       RMSE                 188.249 
-#> R-Squared                 0.771       MSE                35437.709 
+#> R                         0.878       RMSE                 197.620 
+#> R-Squared                 0.771       MSE                39053.801 
 #> Adj. R-Squared            0.753       Coef. Var             28.147 
 #> Pred R-Squared            0.695       AIC                  730.924 
 #> MAE                     140.619       SBC                  742.858 
@@ -504,8 +606,8 @@ ols_step_forward_p(model, steps = 3)
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.827       RMSE                 221.263 
-#> R-Squared                 0.684       MSE                48957.432 
+#> R                         0.827       RMSE                 229.944 
+#> R-Squared                 0.684       MSE                52874.027 
 #> Adj. R-Squared            0.665       Coef. Var             32.751 
 #> Pred R-Squared            0.598       AIC                  746.376 
 #> MAE                     160.398       SBC                  756.320 

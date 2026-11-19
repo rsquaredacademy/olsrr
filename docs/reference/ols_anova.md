@@ -1,4 +1,11 @@
-# ANOVA
+# `ANOVA`
+
+# `ANOVA`
+
+Source:
+[`R/ols-anova.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-anova.R)
+
+`ols_anova.Rd`
 
 ANOVA for regression model.
 
@@ -57,7 +64,7 @@ ols_anova(model, ...)
 
 - f:
 
-  f statistis
+  f statistics
 
 - p:
 

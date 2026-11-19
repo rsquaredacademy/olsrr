@@ -1,4 +1,11 @@
-# Amemiya's prediction criterion
+# `Amemiya's prediction criterion`
+
+# `Amemiya's prediction criterion`
+
+Source:
+[`R/ols-information-criteria.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-information-criteria.R)
+
+`ols_apc.Rd`
 
 Amemiya's prediction error.
 

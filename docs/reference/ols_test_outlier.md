@@ -1,4 +1,11 @@
-# Bonferroni Outlier Test
+# `Bonferroni Outlier Test`
+
+# `Bonferroni Outlier Test`
+
+Source:
+[`R/ols-outlier-test.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-outlier-test.R)
+
+`ols_test_outlier.Rd`
 
 Detect outliers using Bonferroni p values.
 

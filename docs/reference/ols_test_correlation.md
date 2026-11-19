@@ -1,4 +1,11 @@
-# Correlation test for normality
+# `Correlation test for normality`
+
+# `Correlation test for normality`
+
+Source:
+[`R/ols-normality-tests.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-normality-tests.R)
+
+`ols_test_correlation.Rd`
 
 Correlation between observed residuals and expected residuals under
 normality.

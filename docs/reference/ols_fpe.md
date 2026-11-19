@@ -1,4 +1,11 @@
-# Final prediction error
+# `Final prediction error`
+
+# `Final prediction error`
+
+Source:
+[`R/ols-information-criteria.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-information-criteria.R)
+
+`ols_fpe.Rd`
 
 Estimated mean square error of prediction.
 
@@ -26,8 +33,8 @@ the model is correct.
 
 \$\$MSE((n + p) / n)\$\$
 
-where \\MSE = SSE / (n - p)\\, n is the sample size and p is the number
-of predictors including the intercept
+where \\(MSE = SSE / (n - p)\\), n is the sample size and p is the
+number of predictors including the intercept
 
 ## References
 

@@ -1,4 +1,11 @@
-# Deviance
+# `Deviance`
+
+# `Deviance`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_deviance.Rd`
 
 Returns the model deviance.
 

@@ -1,4 +1,11 @@
-# F test
+# `F test`
+
+# `F test`
+
+Source:
+[`R/ols-f-test.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-f-test.R)
+
+`ols_test_f.Rd`
 
 Test for heteroskedasticity under the assumption that the errors are
 independent and identically distributed (i.i.d.).
@@ -73,6 +80,11 @@ class `"ols_test_f"` is a list containing the following components:
 - preds:
 
   predictors
+
+## Details
+
+The test is not available for weighted models, because it refits
+auxiliary regressions that would ignore the model weights.
 
 ## References
 

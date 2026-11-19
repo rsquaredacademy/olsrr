@@ -1,4 +1,11 @@
-# Model intercept
+# `Model intercept`
+
+# `Model intercept`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_intercept.Rd`
 
 Returns the value of the model intercept.
 

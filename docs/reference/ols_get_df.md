@@ -1,4 +1,11 @@
-# Degrees of freedom
+# `Degrees of freedom`
+
+# `Degrees of freedom`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_df.Rd`
 
 Returns residual degrees of freedom.
 

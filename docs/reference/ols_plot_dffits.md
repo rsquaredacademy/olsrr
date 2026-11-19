@@ -1,4 +1,11 @@
-# DFFITS plot
+# `DFFITS plot`
+
+# `DFFITS plot`
+
+Source:
+[`R/ols-dffits-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-dffits-plot.R)
+
+`ols_plot_dffits.Rd`
 
 Plot for detecting influential observations using DFFITs.
 
@@ -46,7 +53,7 @@ Steps to compute DFFITs:
 
 - Delete observations one at a time.
 
-- Refit the regression model on remaining \\n - 1\\ observations
+- Refit the regression model on remaining \\(n - 1\\) observations
 
 - examine how much all of the fitted values change when the ith
   observation is deleted.

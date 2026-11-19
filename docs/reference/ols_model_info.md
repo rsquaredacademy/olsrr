@@ -1,4 +1,11 @@
-# Model object info
+# `Model object info`
+
+# `Model object info`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_model_info.Rd`
 
 Comprehensive information from model objects.
 
@@ -34,7 +41,7 @@ ols_model_info(model)
 #> 
 #> $formula
 #> mpg ~ wt + cyl * hp * disp + gear * drat
-#> <environment: 0x0000025d8c72fb18>
+#> <environment: 0x000001e262781430>
 #> 
 #> $has_intercept
 #> [1] TRUE

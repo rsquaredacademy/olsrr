@@ -1,4 +1,11 @@
-# Observed vs fitted values plot
+# `Observed vs fitted values plot`
+
+# `Observed vs fitted values plot`
+
+Source:
+[`R/ols-observed-vs-predicted-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-observed-vs-predicted-plot.R)
+
+`ols_plot_obs_fit.Rd`
 
 Plot of observed vs fitted values to assess the fit of the model.
 

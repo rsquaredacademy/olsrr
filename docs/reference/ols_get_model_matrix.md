@@ -1,4 +1,11 @@
-# Model matrix
+# `Model matrix`
+
+# `Model matrix`
+
+Source:
+[`R/ols-model-info.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-model-info.R)
+
+`ols_get_model_matrix.Rd`
 
 Returns the design matrix.
 

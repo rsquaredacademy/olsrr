@@ -1,4 +1,11 @@
-# Residual vs regressors plot for shiny app
+# `Residual vs regressors plot for shiny app`
+
+# `Residual vs regressors plot for shiny app`
+
+Source:
+[`R/ols-resid-vs-regressor-plot-shiny.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-resid-vs-regressor-plot-shiny.R)
+
+`rvsr_plot_shiny.Rd`
 
 Graph to determine whether we should add a new predictor to the model
 already containing other predictors. The residuals from the model is

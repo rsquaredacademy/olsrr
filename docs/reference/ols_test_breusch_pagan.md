@@ -1,4 +1,11 @@
-# Breusch pagan test
+# `Breusch pagan test`
+
+# `Breusch pagan test`
+
+Source:
+[`R/ols-breusch-pagan-test.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-breusch-pagan-test.R)
+
+`ols_test_breusch_pagan.Rd`
 
 Test for constant variance. It assumes that the error terms are normally
 distributed.
@@ -56,6 +63,10 @@ components:
 
   breusch pagan statistic
 
+- df:
+
+  degrees of freedom of `bp` (`NA` when several tests are performed)
+
 - p:
 
   p-value of `bp`
@@ -106,10 +117,22 @@ Computation
 - Regress the squared residuals from the above model on the independent
   variables
 
-- Compute \\nR^2\\. It follows a chi square distribution with p -1
+- Compute \\(nR^2\\). It follows a chi square distribution with p -1
   degrees of freedom, where p is the number of independent variables, n
-  is the sample size and \\R^2\\ is the coefficient of determination
+  is the sample size and \\(R^2\\) is the coefficient of determination
   from the regression in step 2.
+
+The test is not available for weighted models, because the auxiliary
+regression in step 2 would ignore the model weights.
+
+A constant or fully aliased regressor (for example a column that is
+always
+
+1.  supplies no direction to test beyond the auxiliary intercept. In
+    that case the statistic has zero degrees of freedom and is
+    undefined, so the function stops with an informative error rather
+    than reporting a p value of 0 or 1 from a degenerate chi-squared
+    tail.
 
 ## References
 
@@ -262,10 +285,10 @@ ols_test_breusch_pagan(model, rhs = TRUE, multiple = TRUE, p.adj = 'holm')
 #>  ----------------------------------------------
 #>   Variable           chi2       df        p     
 #>  ----------------------------------------------
-#>   disp             1.2355345     1    0.7990002 
-#>   hp               0.9209878     1    0.3372157 
+#>   disp             1.2355345     1    1.0000000 
+#>   hp               0.9209878     1    1.0000000 
 #>   wt               1.2529988     1    1.0000000 
-#>   drat             1.1668486     1    0.5600994 
+#>   drat             1.1668486     1    1.0000000 
 #>  ----------------------------------------------
 #>   simultaneous     1.5138083     4    0.8241927 
 #>  ----------------------------------------------

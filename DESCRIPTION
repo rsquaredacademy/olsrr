@@ -35,3 +35,4 @@ VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.1
+Config/Needs/website: rsquaredacademy/rsatemplate

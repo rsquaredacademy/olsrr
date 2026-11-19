@@ -1,4 +1,11 @@
-# Residual plus component plot
+# `Residual plus component plot`
+
+# `Residual plus component plot`
+
+Source:
+[`R/ols-residual-plus-component-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-residual-plus-component-plot.R)
+
+`ols_plot_comp_plus_resid.Rd`
 
 The residual plus component plot indicates whether any non-linearity is
 present in the relationship between response and predictor variables and
@@ -19,6 +26,10 @@ ols_plot_comp_plus_resid(model, print_plot = TRUE)
 - print_plot:
 
   logical; if `TRUE`, prints the plot else returns a plot object.
+
+## Details
+
+The plot is not available for weighted models.
 
 ## References
 

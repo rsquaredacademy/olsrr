@@ -1,4 +1,11 @@
-# Akaike information criterion
+# `Akaike information criterion`
+
+# `Akaike information criterion`
+
+Source:
+[`R/ols-information-criteria.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-information-criteria.R)
+
+`ols_aic.Rd`
 
 Akaike information criterion for model selection.
 
@@ -21,8 +28,7 @@ ols_aic(model, method = c("R", "STATA", "SAS"), corrected = FALSE)
 
 - corrected:
 
-  Logical; if `TRUE`, returns corrected akaike information criterion for
-  SAS method.
+  Logical; if `TRUE`, returns corrected akaike information criterion.
 
 ## Value
 
@@ -39,8 +45,16 @@ uses residual sum of squares. Below is the formula in each case:
 
 *SAS* \$\$AIC = n \* ln(SSE / n) + 2p\$\$
 
-*corrected* \$\$AIC = n \* ln(SSE / n) + ((n \* (n + p)) / (n - p -
-2))\$\$
+*corrected*
+
+*R* \$\$AIC = -2(loglikelihood) + 2k + \frac{2k(k + 1)}{n - k - 1}\$\$
+
+where *k* is *p* + 1.
+
+*STATA* \$\$AIC = -2(loglikelihood) + 2p + \frac{2p(p + 1)}{n - p -
+1}\$\$
+
+*SAS* \$\$AIC = n \* ln(SSE / n) + ((n \* (n + p)) / (n - p - 2))\$\$
 
 where *n* is the sample size and *p* is the number of model parameters
 including intercept.
@@ -52,6 +66,12 @@ Annals of the Institute of Statistical Mathematics 21:243–247.
 
 Judge, G. G., Griffiths, W. E., Hill, R. C., and Lee, T.-C. (1980). The
 Theory and Practice of Econometrics. New York: John Wiley & Sons.
+
+Akaike, H. (1974). A new look at the statistical model identification.
+*IEEE Transactions on Automatic Control*, 19(6), 716–723.
+
+Hurvich, C. M. and Tsai, C.-L. (1989). Regression and time series model
+selection in small samples. *Biometrika*, 76(2), 297–307.
 
 ## See also
 
@@ -86,4 +106,8 @@ ols_aic(model, method = 'SAS')
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_aic(model, method = 'SAS', corrected = TRUE)
 #> [1] 103.6175
+ols_aic(model, method = 'R', corrected = TRUE)
+#> [1] 162.4296
+ols_aic(model, method = 'STATA', corrected = TRUE)
+#> [1] 159.3773
 ```

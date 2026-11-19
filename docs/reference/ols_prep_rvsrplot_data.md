@@ -1,4 +1,11 @@
-# Residual vs regressor plot data
+# `Residual vs regressor plot data`
+
+# `Residual vs regressor plot data`
+
+Source:
+[`R/ols-plots-data.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-plots-data.R)
+
+`ols_prep_rvsrplot_data.Rd`
 
 Data for generating residual vs regressor plot.
 

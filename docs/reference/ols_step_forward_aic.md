@@ -1,4 +1,11 @@
-# Stepwise AIC forward regression
+# `Stepwise AIC forward regression`
+
+# `Stepwise AIC forward regression`
+
+Source:
+[`R/ols-stepaic-forward-regression.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-stepaic-forward-regression.R)
+
+`ols_step_forward_aic.Rd`
 
 Build regression model from a set of candidate predictor variables by
 entering predictors based on akaike information criterion, in a stepwise
@@ -84,6 +91,30 @@ List containing the following components:
 
   list; info used for plotting and printing
 
+## Details
+
+Refits accept explicit contrast matrices or the base contrast names
+`contr.treatment`, `contr.sum`, `contr.helmert`, `contr.poly` and
+`contr.SAS` (resolved from the stats namespace); models fitted with
+custom named contrast functions must be refitted with an explicit
+matrix, for example `contrasts = list(g = my_matrix)`. Refits carry the
+fitted model's frozen total offset as an argument with all formula
+[`offset()`](https://rdrr.io/r/stats/offset.html) terms removed for
+standardized-beta and selection computations. Returned stepwise models
+are fitted from the original call, preserving formula and argument
+offsets for prediction on new data. Their coefficients, fitted values
+and total offset must be identical to the frozen-offset selection fit;
+otherwise selection stops with an error because prediction with new data
+is not supported for that model.
+
+For non-hierarchical stepwise selection, candidate rankings and
+criterion improvement tests use 10 significant digits: values that agree
+to 10 significant digits are ties, equal criterion values mean no
+improvement, and a remaining tie goes to the first candidate in formula
+order after any F tie is broken by p value (smaller for entry, larger
+for removal). P-value entry and removal cutoffs are compared without
+rounding.
+
 ## References
 
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with
@@ -123,8 +154,8 @@ ols_step_forward_aic(model)
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.884       RMSE                 184.276 
-#> R-Squared                 0.781       MSE                33957.712 
+#> R                         0.884       RMSE                 195.454 
+#> R-Squared                 0.781       MSE                38202.426 
 #> Adj. R-Squared            0.758       Coef. Var             27.839 
 #> Pred R-Squared            0.700       AIC                  730.620 
 #> MAE                     137.656       SBC                  744.543 
@@ -176,8 +207,79 @@ k$metrics
 k$model
 #> 
 #> Call:
-#> lm(formula = paste(response, "~", paste(preds, collapse = " + ")), 
-#>     data = l)
+#> (function (formula, data, subset, weights, na.action, method = "qr", 
+#>     model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, 
+#>     contrasts = NULL, offset, ...) 
+#> {
+#>     ret.x <- x
+#>     ret.y <- y
+#>     cl <- match.call()
+#>     mf <- match.call(expand.dots = FALSE)
+#>     m <- match(c("formula", "data", "subset", "weights", "na.action", 
+#>         "offset"), names(mf), 0L)
+#>     mf <- mf[c(1L, m)]
+#>     mf$drop.unused.levels <- TRUE
+#>     mf[[1L]] <- quote(stats::model.frame)
+#>     mf <- eval(mf, parent.frame())
+#>     if (method == "model.frame") 
+#>         return(mf)
+#>     else if (method != "qr") 
+#>         warning(gettextf("method = '%s' is not supported. Using 'qr'", 
+#>             method), domain = NA)
+#>     mt <- attr(mf, "terms")
+#>     y <- model.response(mf, "numeric")
+#>     w <- as.vector(model.weights(mf))
+#>     if (!is.null(w) && !is.numeric(w)) 
+#>         stop("'weights' must be a numeric vector")
+#>     offset <- model.offset(mf)
+#>     mlm <- is.matrix(y)
+#>     ny <- if (mlm) 
+#>         nrow(y)
+#>     else length(y)
+#>     if (!is.null(offset)) {
+#>         if (!mlm) 
+#>             offset <- as.vector(offset)
+#>         if (NROW(offset) != ny) 
+#>             stop(gettextf("number of offsets is %d, should equal %d (number of observations)", 
+#>                 NROW(offset), ny), domain = NA)
+#>     }
+#>     if (is.empty.model(mt)) {
+#>         x <- NULL
+#>         z <- list(coefficients = if (mlm) matrix(NA_real_, 0, 
+#>             ncol(y)) else numeric(), residuals = y, fitted.values = 0 * 
+#>             y, weights = w, rank = 0L, df.residual = if (!is.null(w)) sum(w != 
+#>             0) else ny)
+#>         if (!is.null(offset)) {
+#>             z$fitted.values <- offset
+#>             z$residuals <- y - offset
+#>         }
+#>     }
+#>     else {
+#>         x <- model.matrix(mt, mf, contrasts)
+#>         z <- if (is.null(w)) 
+#>             lm.fit(x, y, offset = offset, singular.ok = singular.ok, 
+#>                 ...)
+#>         else lm.wfit(x, y, w, offset = offset, singular.ok = singular.ok, 
+#>             ...)
+#>     }
+#>     class(z) <- c(if (mlm) "mlm", "lm")
+#>     z$na.action <- attr(mf, "na.action")
+#>     z$offset <- offset
+#>     z$contrasts <- attr(x, "contrasts")
+#>     z$xlevels <- .getXlevels(mt, mf)
+#>     z$call <- cl
+#>     z$terms <- mt
+#>     if (model) 
+#>         z$model <- mf
+#>     if (ret.x) 
+#>         z$x <- x
+#>     if (ret.y) 
+#>         z$y <- y
+#>     if (!qr) 
+#>         z$qr <- NULL
+#>     z
+#> })(formula = y ~ liver_test + alc_heavy + enzyme_test + pindex + 
+#>     bcs, data = surgical)
 #> 
 #> Coefficients:
 #> (Intercept)   liver_test    alc_heavy  enzyme_test       pindex          bcs  
@@ -206,8 +308,8 @@ ols_step_forward_aic(model, include = c("age"))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.884       RMSE                 184.061 
-#> R-Squared                 0.781       MSE                33878.437 
+#> R                         0.884       RMSE                 197.292 
+#> R-Squared                 0.781       MSE                38924.162 
 #> Adj. R-Squared            0.754       Coef. Var             28.101 
 #> Pred R-Squared            0.692       AIC                  732.494 
 #> MAE                     138.160       SBC                  748.406 
@@ -263,8 +365,8 @@ ols_step_forward_aic(model, include = c(5))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.884       RMSE                 184.061 
-#> R-Squared                 0.781       MSE                33878.437 
+#> R                         0.884       RMSE                 197.292 
+#> R-Squared                 0.781       MSE                38924.162 
 #> Adj. R-Squared            0.754       Coef. Var             28.101 
 #> Pred R-Squared            0.692       AIC                  732.494 
 #> MAE                     138.160       SBC                  748.406 
@@ -319,8 +421,8 @@ ols_step_forward_aic(model, exclude = c("liver_test"))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.878       RMSE                 188.249 
-#> R-Squared                 0.771       MSE                35437.709 
+#> R                         0.878       RMSE                 197.620 
+#> R-Squared                 0.771       MSE                39053.801 
 #> Adj. R-Squared            0.753       Coef. Var             28.147 
 #> Pred R-Squared            0.695       AIC                  730.924 
 #> MAE                     140.619       SBC                  742.858 
@@ -373,8 +475,8 @@ ols_step_forward_aic(model, exclude = c(4))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.878       RMSE                 188.249 
-#> R-Squared                 0.771       MSE                35437.709 
+#> R                         0.878       RMSE                 197.620 
+#> R-Squared                 0.771       MSE                39053.801 
 #> Adj. R-Squared            0.753       Coef. Var             28.147 
 #> Pred R-Squared            0.695       AIC                  730.924 
 #> MAE                     140.619       SBC                  742.858 
@@ -427,8 +529,8 @@ ols_step_forward_aic(model, include = c("age"), exclude = c("liver_test"))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.880       RMSE                 187.233 
-#> R-Squared                 0.774       MSE                35056.145 
+#> R                         0.880       RMSE                 198.590 
+#> R-Squared                 0.774       MSE                39438.163 
 #> Adj. R-Squared            0.750       Coef. Var             28.286 
 #> Pred R-Squared            0.688       AIC                  732.339 
 #> MAE                     140.528       SBC                  746.262 
@@ -482,8 +584,8 @@ ols_step_forward_aic(model, include = c(5), exclude = c(4))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.880       RMSE                 187.233 
-#> R-Squared                 0.774       MSE                35056.145 
+#> R                         0.880       RMSE                 198.590 
+#> R-Squared                 0.774       MSE                39438.163 
 #> Adj. R-Squared            0.750       Coef. Var             28.286 
 #> Pred R-Squared            0.688       AIC                  732.339 
 #> MAE                     140.528       SBC                  746.262 
@@ -535,8 +637,8 @@ ols_step_forward_aic(model, steps = 2)
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.753       RMSE                 259.136 
-#> R-Squared                 0.567       MSE                67151.310 
+#> R                         0.753       RMSE                 266.648 
+#> R-Squared                 0.567       MSE                71101.387 
 #> Adj. R-Squared            0.550       Coef. Var             37.979 
 #> Pred R-Squared            0.487       AIC                  761.439 
 #> MAE                     187.393       SBC                  769.395 

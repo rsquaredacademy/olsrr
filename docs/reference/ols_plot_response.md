@@ -1,4 +1,11 @@
-# Response variable profile
+# `Response variable profile`
+
+# `Response variable profile`
+
+Source:
+[`R/ols-response-profile.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-response-profile.R)
+
+`ols_plot_response.Rd`
 
 Panel of plots to explore and visualize the response variable.
 

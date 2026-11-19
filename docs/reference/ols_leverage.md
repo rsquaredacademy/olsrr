@@ -1,4 +1,11 @@
-# Leverage
+# `Leverage`
+
+# `Leverage`
+
+Source:
+[`R/ols-influence-measures.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-influence-measures.R)
+
+`ols_leverage.Rd`
 
 The leverage of an observation is based on how much the observation's
 value on the predictor variable differs from the mean of the predictor

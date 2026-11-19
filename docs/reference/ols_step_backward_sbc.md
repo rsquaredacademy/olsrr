@@ -1,4 +1,11 @@
-# Stepwise SBC backward regression
+# `Stepwise SBC backward regression`
+
+# `Stepwise SBC backward regression`
+
+Source:
+[`R/ols-stepaic-backward-regression.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-stepaic-backward-regression.R)
+
+`ols_step_backward_sbc.Rd`
 
 Build regression model from a set of candidate predictor variables by
 removing predictors based on schwarz bayesian criterion, in a stepwise
@@ -85,6 +92,30 @@ List containing the following components:
 
   list; info used for plotting and printing
 
+## Details
+
+Refits accept explicit contrast matrices or the base contrast names
+`contr.treatment`, `contr.sum`, `contr.helmert`, `contr.poly` and
+`contr.SAS` (resolved from the stats namespace); models fitted with
+custom named contrast functions must be refitted with an explicit
+matrix, for example `contrasts = list(g = my_matrix)`. Refits carry the
+fitted model's frozen total offset as an argument with all formula
+[`offset()`](https://rdrr.io/r/stats/offset.html) terms removed for
+standardized-beta and selection computations. Returned stepwise models
+are fitted from the original call, preserving formula and argument
+offsets for prediction on new data. Their coefficients, fitted values
+and total offset must be identical to the frozen-offset selection fit;
+otherwise selection stops with an error because prediction with new data
+is not supported for that model.
+
+For non-hierarchical stepwise selection, candidate rankings and
+criterion improvement tests use 10 significant digits: values that agree
+to 10 significant digits are ties, equal criterion values mean no
+improvement, and a remaining tie goes to the first candidate in formula
+order after any F tie is broken by p value (smaller for entry, larger
+for removal). P-value entry and removal cutoffs are compared without
+rounding.
+
 ## References
 
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with
@@ -112,10 +143,10 @@ ols_step_backward_sbc(model)
 #> Step    Variable        AIC        SBC       SBIC        R2       Adj. R2 
 #> -------------------------------------------------------------------------
 #>  0      Full Model    736.390    756.280    586.665    0.78184    0.74305 
-#>  1      alc_mod       734.407    752.308    583.884    0.78177    0.74856 
-#>  2      gender        732.494    748.406    581.290    0.78142    0.75351 
-#>  3      age           730.620    744.543    578.844    0.78091    0.75808 
-#>  4      liver_test    730.924    742.858    578.678    0.77136    0.75269 
+#>  1      alc_mod       734.407    752.308    584.276    0.78177    0.74856 
+#>  2      gender        732.494    748.406    581.938    0.78142    0.75351 
+#>  3      age           730.620    744.543    579.638    0.78091    0.75808 
+#>  4      liver_test    730.924    742.858    579.087    0.77136    0.75269 
 #> -------------------------------------------------------------------------
 #> 
 #> Final Model Output 
@@ -123,8 +154,8 @@ ols_step_backward_sbc(model)
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.878       RMSE                 188.249 
-#> R-Squared                 0.771       MSE                35437.709 
+#> R                         0.878       RMSE                 197.620 
+#> R-Squared                 0.771       MSE                39053.801 
 #> Adj. R-Squared            0.753       Coef. Var             28.147 
 #> Pred R-Squared            0.695       AIC                  730.924 
 #> MAE                     140.619       SBC                  742.858 
@@ -166,17 +197,87 @@ plot(k)
 # selection metrics
 k$metrics
 #>   step   variable        r2    adj_r2      aic      sbc     sbic
-#> 1    1    alc_mod 0.7817703 0.7485615 734.4068 752.3077 583.8836
-#> 2    2     gender 0.7814169 0.7535127 732.4942 748.4061 581.2896
-#> 3    3        age 0.7809054 0.7580831 730.6204 744.5433 578.8438
-#> 4    4 liver_test 0.7713565 0.7526917 730.9241 742.8580 578.6783
+#> 1    1    alc_mod 0.7817703 0.7485615 734.4068 752.3077 584.2757
+#> 2    2     gender 0.7814169 0.7535127 732.4942 748.4061 581.9383
+#> 3    3        age 0.7809054 0.7580831 730.6204 744.5433 579.6377
+#> 4    4 liver_test 0.7713565 0.7526917 730.9241 742.8580 579.0865
 
 # final model
 k$model
 #> 
 #> Call:
-#> lm(formula = paste(response, "~", paste(preds, collapse = " + ")), 
-#>     data = l)
+#> (function (formula, data, subset, weights, na.action, method = "qr", 
+#>     model = TRUE, x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE, 
+#>     contrasts = NULL, offset, ...) 
+#> {
+#>     ret.x <- x
+#>     ret.y <- y
+#>     cl <- match.call()
+#>     mf <- match.call(expand.dots = FALSE)
+#>     m <- match(c("formula", "data", "subset", "weights", "na.action", 
+#>         "offset"), names(mf), 0L)
+#>     mf <- mf[c(1L, m)]
+#>     mf$drop.unused.levels <- TRUE
+#>     mf[[1L]] <- quote(stats::model.frame)
+#>     mf <- eval(mf, parent.frame())
+#>     if (method == "model.frame") 
+#>         return(mf)
+#>     else if (method != "qr") 
+#>         warning(gettextf("method = '%s' is not supported. Using 'qr'", 
+#>             method), domain = NA)
+#>     mt <- attr(mf, "terms")
+#>     y <- model.response(mf, "numeric")
+#>     w <- as.vector(model.weights(mf))
+#>     if (!is.null(w) && !is.numeric(w)) 
+#>         stop("'weights' must be a numeric vector")
+#>     offset <- model.offset(mf)
+#>     mlm <- is.matrix(y)
+#>     ny <- if (mlm) 
+#>         nrow(y)
+#>     else length(y)
+#>     if (!is.null(offset)) {
+#>         if (!mlm) 
+#>             offset <- as.vector(offset)
+#>         if (NROW(offset) != ny) 
+#>             stop(gettextf("number of offsets is %d, should equal %d (number of observations)", 
+#>                 NROW(offset), ny), domain = NA)
+#>     }
+#>     if (is.empty.model(mt)) {
+#>         x <- NULL
+#>         z <- list(coefficients = if (mlm) matrix(NA_real_, 0, 
+#>             ncol(y)) else numeric(), residuals = y, fitted.values = 0 * 
+#>             y, weights = w, rank = 0L, df.residual = if (!is.null(w)) sum(w != 
+#>             0) else ny)
+#>         if (!is.null(offset)) {
+#>             z$fitted.values <- offset
+#>             z$residuals <- y - offset
+#>         }
+#>     }
+#>     else {
+#>         x <- model.matrix(mt, mf, contrasts)
+#>         z <- if (is.null(w)) 
+#>             lm.fit(x, y, offset = offset, singular.ok = singular.ok, 
+#>                 ...)
+#>         else lm.wfit(x, y, w, offset = offset, singular.ok = singular.ok, 
+#>             ...)
+#>     }
+#>     class(z) <- c(if (mlm) "mlm", "lm")
+#>     z$na.action <- attr(mf, "na.action")
+#>     z$offset <- offset
+#>     z$contrasts <- attr(x, "contrasts")
+#>     z$xlevels <- .getXlevels(mt, mf)
+#>     z$call <- cl
+#>     z$terms <- mt
+#>     if (model) 
+#>         z$model <- mf
+#>     if (ret.x) 
+#>         z$x <- x
+#>     if (ret.y) 
+#>         z$y <- y
+#>     if (!qr) 
+#>         z$qr <- NULL
+#>     z
+#> })(formula = y ~ bcs + pindex + enzyme_test + alc_heavy, data = surgical)
 #> 
 #> Coefficients:
 #> (Intercept)          bcs       pindex  enzyme_test    alc_heavy  
@@ -193,8 +294,8 @@ ols_step_backward_sbc(model, include = c("alc_mod", "gender"))
 #> Step    Variable        AIC        SBC       SBIC        R2       Adj. R2 
 #> -------------------------------------------------------------------------
 #>  0      Full Model    736.390    756.280    586.665    0.78184    0.74305 
-#>  1      age           734.544    752.445    584.021    0.78121    0.74792 
-#>  2      liver_test    734.502    750.413    583.297    0.77314    0.74418 
+#>  1      age           734.544    752.445    584.367    0.78121    0.74792 
+#>  2      liver_test    734.502    750.413    583.364    0.77314    0.74418 
 #> -------------------------------------------------------------------------
 #> 
 #> Final Model Output 
@@ -202,8 +303,8 @@ ols_step_backward_sbc(model, include = c("alc_mod", "gender"))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.879       RMSE                 187.514 
-#> R-Squared                 0.773       MSE                35161.506 
+#> R                         0.879       RMSE                 200.993 
+#> R-Squared                 0.773       MSE                40398.325 
 #> Adj. R-Squared            0.744       Coef. Var             28.628 
 #> Pred R-Squared            0.672       AIC                  734.502 
 #> MAE                     138.127       SBC                  750.413 
@@ -247,8 +348,8 @@ ols_step_backward_sbc(model, include = c(7, 6))
 #> Step    Variable        AIC        SBC       SBIC        R2       Adj. R2 
 #> -------------------------------------------------------------------------
 #>  0      Full Model    736.390    756.280    586.665    0.78184    0.74305 
-#>  1      age           734.544    752.445    584.021    0.78121    0.74792 
-#>  2      liver_test    734.502    750.413    583.297    0.77314    0.74418 
+#>  1      age           734.544    752.445    584.367    0.78121    0.74792 
+#>  2      liver_test    734.502    750.413    583.364    0.77314    0.74418 
 #> -------------------------------------------------------------------------
 #> 
 #> Final Model Output 
@@ -256,8 +357,8 @@ ols_step_backward_sbc(model, include = c(7, 6))
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.879       RMSE                 187.514 
-#> R-Squared                 0.773       MSE                35161.506 
+#> R                         0.879       RMSE                 200.993 
+#> R-Squared                 0.773       MSE                40398.325 
 #> Adj. R-Squared            0.744       Coef. Var             28.628 
 #> Pred R-Squared            0.672       AIC                  734.502 
 #> MAE                     138.127       SBC                  750.413 
@@ -309,8 +410,8 @@ ols_step_backward_sbc(model, steps = 2)
 #> Step    Variable        AIC        SBC       SBIC        R2       Adj. R2 
 #> -------------------------------------------------------------------------
 #>  0      Full Model    736.390    756.280    586.665    0.78184    0.74305 
-#>  1      alc_mod       734.407    752.308    583.884    0.78177    0.74856 
-#>  2      gender        732.494    748.406    581.290    0.78142    0.75351 
+#>  1      alc_mod       734.407    752.308    584.276    0.78177    0.74856 
+#>  2      gender        732.494    748.406    581.938    0.78142    0.75351 
 #> -------------------------------------------------------------------------
 #> 
 #> Final Model Output 
@@ -318,8 +419,8 @@ ols_step_backward_sbc(model, steps = 2)
 #> 
 #>                            Model Summary                            
 #> -------------------------------------------------------------------
-#> R                         0.884       RMSE                 184.061 
-#> R-Squared                 0.781       MSE                33878.437 
+#> R                         0.884       RMSE                 197.292 
+#> R-Squared                 0.781       MSE                38924.162 
 #> Adj. R-Squared            0.754       Coef. Var             28.101 
 #> Pred R-Squared            0.692       AIC                  732.494 
 #> MAE                     138.160       SBC                  748.406 

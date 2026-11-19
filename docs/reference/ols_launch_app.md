@@ -1,4 +1,11 @@
-# Launch shiny app
+# `Launch shiny app`
+
+# `Launch shiny app`
+
+Source:
+[`R/ols-launch-app.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-launch-app.R)
+
+`ols_launch_app.Rd`
 
 Launches shiny app for interactive model building.
 
@@ -11,7 +18,7 @@ ols_launch_app()
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-ols_launch_app()
-} # }
+if (interactive()) {
+  ols_launch_app()
+}
 ```

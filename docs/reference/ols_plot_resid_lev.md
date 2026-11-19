@@ -1,4 +1,11 @@
-# Studentized residuals vs leverage plot
+# `Studentized residuals vs leverage plot`
+
+# `Studentized residuals vs leverage plot`
+
+Source:
+[`R/ols-rstud-vs-lev-plot.R`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/R/ols-rstud-vs-lev-plot.R)
+
+`ols_plot_resid_lev.Rd`
 
 Graph for detecting outliers and/or observations with high leverage.
 
