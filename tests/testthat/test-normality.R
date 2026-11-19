@@ -13,13 +13,13 @@ test_that("normality tests skip Shapiro-Wilk for samples larger than 5000", {
   expect_s3_class(nt$shapiro, "htest")
   expect_true(all(c("statistic", "p.value") %in% names(nt$shapiro)))
 
-  r       <- residuals(model)
-  ks_ref  <- ks.test(r, "pnorm", mean(r), sd(r))
-  cvm_ref <- nortest::cvm.test(r)
-  ad_ref  <- nortest::ad.test(r)
+  r          <- residuals(model)
+  lillie_ref <- nortest::lillie.test(r)
+  cvm_ref    <- nortest::cvm.test(r)
+  ad_ref     <- nortest::ad.test(r)
 
-  expect_equal(unname(nt$kolmogorv$statistic), unname(ks_ref$statistic))
-  expect_equal(nt$kolmogorv$p.value, ks_ref$p.value)
+  expect_equal(unname(nt$kolmogorv$statistic), unname(lillie_ref$statistic))
+  expect_equal(nt$kolmogorv$p.value, lillie_ref$p.value)
   # nortest::cvm.test(r)$statistic and $p.value
   expect_equal(unname(nt$cramer$statistic), 0.0543500297504443)
   expect_equal(nt$cramer$p.value, 0.44914910398614)
@@ -33,6 +33,57 @@ test_that("normality tests skip Shapiro-Wilk for samples larger than 5000", {
   rule <- grep("^-+$", out, value = TRUE)
   expect_equal(nchar(out), rep(nchar(rule[1]), length(out)))
   expect_true(any(grepl("^\\s*Shapiro-Wilk\\s+NA\\s+NA\\s*$", out)))
+})
+
+test_that("Kolmogorov-Smirnov p-value uses the Lilliefors correction (#254)", {
+  model <- lm(mpg ~ disp + hp + wt, mtcars)
+  r     <- residuals(model)
+
+  nt  <- ols_test_normality(model)
+  ref <- nortest::lillie.test(r)
+
+  # the statistic is the plain KS distance, so it is unchanged
+  expect_equal(unname(nt$kolmogorv$statistic), unname(ref$statistic))
+  expect_equal(unname(nt$kolmogorv$statistic), 0.108265447892069)
+  # but the p-value comes from the null distribution for estimated parameters
+  expect_equal(nt$kolmogorv$p.value, ref$p.value)
+  expect_equal(nt$kolmogorv$p.value, 0.443473239076533)
+  expect_match(nt$kolmogorv$method, "Lilliefors")
+
+  # the uncorrected ks.test() p-value is larger because the mean and sd are
+  # estimated from the same residuals
+  naive <- ks.test(r, "pnorm", mean(r), sd(r))
+  expect_equal(unname(naive$statistic), unname(ref$statistic))
+  expect_false(isTRUE(all.equal(nt$kolmogorv$p.value, naive$p.value)))
+  expect_lt(nt$kolmogorv$p.value, naive$p.value)
+})
+
+test_that("Kolmogorov-Smirnov test is skipped below 5 observations", {
+  # nortest::lillie.test() requires more than 4 observations
+  expect_error(nortest::lillie.test(c(1, 2, 3, 4)), "greater than 4")
+
+  w <- capture_warnings(nt <- ols_test_normality(c(1, 2, 3, 4)))
+
+  expect_length(w, 1L)
+  expect_match(
+    w,
+    "Kolmogorov-Smirnov \\(Lilliefors\\) test skipped: it requires at least 5 observations \\(n = 4\\)\\."
+  )
+  expect_true(is.na(nt$kolmogorv$statistic))
+  expect_true(is.na(nt$kolmogorv$p.value))
+  expect_false(is.na(nt$shapiro$statistic))
+
+  out <- capture.output(print(nt))
+  expect_true(any(grepl(
+    "^\\s*Kolmogorov-Smirnov \\(Lilliefors\\)\\s+NA\\s+NA\\s*$", out
+  )))
+})
+
+test_that("the normality table labels the Lilliefors test", {
+  out <- capture.output(print(ols_test_normality(lm(mpg ~ disp + hp + wt, mtcars))))
+
+  expect_true(any(grepl("Kolmogorov-Smirnov \\(Lilliefors\\)", out)))
+  expect_false(any(grepl("^\\s*Kolmogorov-Smirnov\\s+[0-9]", out)))
 })
 
 test_that("normality tests skip Anderson-Darling and Cramer-von Mises below 8", {
@@ -54,11 +105,11 @@ test_that("normality tests skip Anderson-Darling and Cramer-von Mises below 8", 
   expect_true(is.na(nt$cramer$statistic))
   expect_true(is.na(nt$cramer$p.value))
 
-  ks_ref  <- ks.test(y, "pnorm", mean(y), sd(y))
-  sw_ref  <- shapiro.test(y)
+  lillie_ref <- nortest::lillie.test(y)
+  sw_ref     <- shapiro.test(y)
 
-  expect_equal(unname(nt$kolmogorv$statistic), unname(ks_ref$statistic))
-  expect_equal(nt$kolmogorv$p.value, ks_ref$p.value)
+  expect_equal(unname(nt$kolmogorv$statistic), unname(lillie_ref$statistic))
+  expect_equal(nt$kolmogorv$p.value, lillie_ref$p.value)
   expect_equal(unname(nt$shapiro$statistic), unname(sw_ref$statistic))
   expect_equal(nt$shapiro$p.value, sw_ref$p.value)
 })
@@ -117,6 +168,15 @@ test_that("Cramer-von Mises test for lm uses the residuals and the normal null",
   expect_equal(unname(nt$cramer$statistic), unname(ref$statistic))
   expect_equal(nt$cramer$p.value, ref$p.value)
   expect_match(nt$cramer$method, "Cramer-von Mises normality test")
+})
+
+test_that("a constant sample errors with a message naming the input", {
+  # nortest::lillie.test() fails inside its own `if (NA)` on zero variance, so
+  # the input is rejected before any test runs
+  expect_error(ols_test_normality(rep(3, 10)), "y has no variation")
+
+  # a sample that varies, even by one value, still runs every test it can
+  expect_silent(ols_test_normality(c(rep(3, 9), 4)))
 })
 
 test_that("Cramer-von Mises test is deterministic", {

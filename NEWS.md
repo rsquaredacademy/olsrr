@@ -1,3 +1,12 @@
+# olsrr (development version)
+
+## Bug Fixes
+
+- Printed p-values use four decimals and show `< 0.0001` below that resolution across regression, ANOVA, normality, heteroskedasticity and stepwise tables; returned numeric values and the documented Cramer-von Mises floor are unchanged (@aravindhebbali, pkg-olsrr-c25-fu2; follow-up to [#254](https://github.com/rsquaredacademy/olsrr/issues/254)).
+- `ols_test_normality()` uses the Lilliefors-corrected Kolmogorov-Smirnov test (`nortest::lillie.test()`) and labels it "Kolmogorov-Smirnov (Lilliefors)". The test now accounts for the mean and standard deviation being estimated from the same residuals, so its p-value is smaller than the uncorrected `ks.test()` p-value it used to report; the statistic is unchanged. The test is skipped, with a warning, for fewer than 5 observations, the smallest sample `nortest::lillie.test()` supports ([#254](https://github.com/rsquaredacademy/olsrr/issues/254)).
+- `ols_plot_fm()`, `ols_plot_resid_spread()`, both panels of `ols_plot_resid_fit_spread()` and panels 7 and 8 of `ols_plot_diagnostics()` now title the fit-mean panel "Fit - Mean" and the residual panel "Residual" instead of "Residual Fit Spread Plot" for both ([#253](https://github.com/rsquaredacademy/olsrr/issues/253)).
+- `ols_test_normality()` stops with "y has no variation" when every non-missing value is identical, instead of failing inside `nortest::lillie.test()`; a constant sample has no defined normality test.
+
 # olsrr 0.7.1
 
 ## Bug Fixes

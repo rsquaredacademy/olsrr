@@ -373,7 +373,10 @@ test_that("Holm adjusted p values equal p.adjust and the printed decision follow
   out <- capture.output(print(ols_test_breusch_pagan(m, rhs = TRUE, multiple = TRUE,
                                                     p.adj = "holm")))
   row <- grep("^\\s*x1\\s", out, value = TRUE)
-  expect_match(row, "8\\.192284e-02")
+  expect_match(row, "0\\.0819")
+  tiny_row <- grep("^\\s*x2\\s", out, value = TRUE)
+  expect_match(tiny_row, "< 0.0001", fixed = TRUE)
+  expect_false(any(grepl("0.0000", out, fixed = TRUE)))
   expect_false(any(grepl("\\*\\*\\*", out)))
 })
 

@@ -235,7 +235,10 @@ importFrom(gridExtra,
   grid.arrange,
   marrangeGrob
 )
-importFrom(nortest,ad.test)
+importFrom(nortest,
+  ad.test,
+  lillie.test
+)
 importFrom(stats,
   anova,
   as.formula,
@@ -254,7 +257,6 @@ importFrom(stats,
   fitted.values,
   formula,
   hatvalues,
-  ks.test,
   lm,
   logLik,
   lsfit,

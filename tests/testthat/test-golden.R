@@ -781,11 +781,13 @@ test_that("golden: ols_test_bartlett() matches stats::bartlett.test()", {
 })
 
 test_that("golden: ols_test_normality() matches the reference tests", {
-  # mtcars residuals: ks.test(y, "pnorm", mean(y), sd(y)); shapiro.test(y);
+  # mtcars residuals: nortest::lillie.test(y); shapiro.test(y);
   # nortest::cvm.test(y); nortest::ad.test(y)
   nt <- ols_test_normality(golden_models$mtcars)
+  # Kolmogorov-Smirnov statistic from nortest::lillie.test(y) (the statistic is
+  # the plain KS distance; the p-value is Lilliefors-corrected)
   expect_equal(unname(nt$kolmogorv$statistic), 0.115238409562, tolerance = tol)
-  expect_equal(nt$kolmogorv$p.value, 0.746376839491, tolerance = tol)
+  expect_equal(nt$kolmogorv$p.value, 0.344566747029, tolerance = tol)
   expect_equal(unname(nt$shapiro$statistic), 0.936613845275, tolerance = tol)
   expect_equal(nt$shapiro$p.value, 0.0600389289932, tolerance = tol)
   # nortest::cvm.test(r)$statistic
@@ -797,8 +799,10 @@ test_that("golden: ols_test_normality() matches the reference tests", {
 
   # cross-check against the reference implementations themselves
   r <- residuals(golden_models$mtcars)
+  lillie_ref <- nortest::lillie.test(r)
   expect_equal(unname(nt$kolmogorv$statistic),
-    unname(ks.test(r, "pnorm", mean(r), sd(r))$statistic), tolerance = tol)
+    unname(lillie_ref$statistic), tolerance = tol)
+  expect_equal(nt$kolmogorv$p.value, lillie_ref$p.value, tolerance = tol)
   expect_equal(nt$shapiro$p.value, shapiro.test(r)$p.value, tolerance = tol)
   cvm_ref <- nortest::cvm.test(r)
   expect_equal(unname(nt$cramer$statistic), unname(cvm_ref$statistic),
@@ -810,6 +814,7 @@ test_that("golden: ols_test_normality() matches the reference tests", {
   # fitness residuals
   nt2 <- ols_test_normality(golden_models$fitness)
   expect_equal(unname(nt2$kolmogorv$statistic), 0.13665783653, tolerance = tol)
+  expect_equal(nt2$kolmogorv$p.value, 0.147787675781, tolerance = tol)
   expect_equal(nt2$shapiro$p.value, 0.460321491288, tolerance = tol)
   # nortest::cvm.test(rf)$statistic
   expect_equal(unname(nt2$cramer$statistic), 0.0999413305082229, tolerance = tol)

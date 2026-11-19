@@ -13,11 +13,11 @@
        ---------------------
        Variables: read write 
       
-              Test Summary         
-       ----------------------------
+             Test Summary         
+       ---------------------------
        DF            =    1 
        Chi2          =    1.222863 
-       Prob > Chi2   =    0.2687995 
+       Prob > Chi2   =    0.2688 
 
 ---
 
@@ -30,9 +30,9 @@
       Ho: Variances are equal across groups
       Ha: Variances are unequal for atleast two groups
       
-              Test Summary         
-       ----------------------------
+             Test Summary         
+       ---------------------------
        DF            =    1 
        Chi2          =    1.584866 
-       Prob > Chi2   =    0.2080612 
+       Prob > Chi2   =    0.2081 
 

@@ -1,3 +1,10 @@
+# Keep p-value display consistent without modifying the numeric results.
+format_pvalue <- function(p) {
+  out <- format(round(p, 4), nsmall = 4, scientific = FALSE, trim = TRUE)
+  out[!is.na(p) & p < 0.0001] <- "< 0.0001"
+  out
+}
+
 print_reg <- function(data) {
 
   # width
@@ -41,10 +48,10 @@ print_reg <- function(data) {
   )
   w10 <- max(nchar("Mean Square"), nchar(format(round(data$rms, 3), nsmall = 3)), nchar(format(round(data$ems, 3), nsmall = 3)))
   w11 <- max(nchar("F"), nchar(format(round(data$f, 3), nsmall = 3)))
-  w12 <- max(nchar("Sig."), nchar(format(round(data$p, 3), nsmall = 4)))
+  w12 <- max(nchar("Sig."), nchar(format_pvalue(data$p)))
   w <- sum(w7, w8, w9, w10, w11, w12, 21)
 
-  p <- format(round(data$p, 4), nsmall = 4)
+  p <- format_pvalue(data$p)
 
   # ANOVA
   cat(fc("ANOVA", w), "\n")
@@ -72,7 +79,7 @@ print_reg <- function(data) {
   w15 <- max(nchar("Std. Error"), nchar(format(round(data$std_errors, 3), nsmall = 3)))
   w16 <- max(nchar("Std. Beta"), nchar(format(round(data$sbetas, 3), nsmall = 3)))
   w17 <- max(nchar("t"), nchar(format(round(data$tvalues, 3), nsmall = 3)))
-  w18 <- max(nchar("Sig."), nchar(format(round(data$pvalues, 3), nsmall = 3)))
+  w18 <- max(nchar("Sig."), nchar(format_pvalue(data$pvalues)))
   w19 <- max(nchar("lower"), nchar(format(round(data$conf_lm[, 1], 3), nsmall = 3)))
   w20 <- max(nchar("upper"), nchar(format(round(data$conf_lm[, 2], 3), nsmall = 3)))
   w21 <- sum(w13, w14, w15, w16, w17, w18, w19, w20, 29)
@@ -104,7 +111,7 @@ print_reg <- function(data) {
       fg(data$mvars[i], w13), fs(), fg(format(round(data$betas[i], 3), nsmall = 3), w14),
       fs(), fg(format(round(data$std_errors[i], 3), nsmall = 3), w15), fs(), fg(sb[i], w16),
       fs(), fg(format(round(data$tvalues[i], 3), nsmall = 3), w17), fs(),
-      fg(format(round(data$pvalues[i], 3), nsmall = 3), w18), fs(),
+      fg(format_pvalue(data$pvalues[i]), w18), fs(),
       fg(as.vector(format(round(data$conf_lm[, 1], 3), nsmall = 3))[i], w19), fs(),
       fg(as.vector(format(round(data$conf_lm[, 2], 3), nsmall = 3))[i], w20), "\n"
     )
@@ -149,7 +156,7 @@ print_ftest <- function(data) {
   w1 <- max(
     nchar(data$numdf), nchar(data$dendf),
     nchar(format(data$f, nsmall = 3)),
-    nchar(format(data$p, nsmall = 3))
+    nchar(format_pvalue(data$p))
   )
 
   w <- w1 + 16
@@ -173,7 +180,7 @@ print_ftest <- function(data) {
     " Num DF     =   ", data$numdf, "\n",
     "Den DF     =   ", data$dendf, "\n",
     "F          =   ", format(data$f, nsmall = 3), "\n",
-    "Prob > F   =   ", format(data$p, nsmall = 3), "\n"
+    "Prob > F   =   ", format_pvalue(data$p), "\n"
   )
 }
 
@@ -193,7 +200,7 @@ print_bp_test <- function(data) {
         w1 <- max(nchar(data$preds), 13)
         w2 <- max(nchar("chi2"), nchar(format(data$bp, nsmall = 4)))
         w3 <- max(nchar(length(data$preds)), nchar("df"))
-        w4 <- max(nchar(format(data$p, nsmall = 4)))
+        w4 <- max(nchar(format_pvalue(data$p)))
         w <- sum(w1, w2, w3, w4, 13)
 
         ldp <- length(data$preds)
@@ -224,7 +231,7 @@ print_bp_test <- function(data) {
         }
 
         bp <- format(data$bp, nsmall = 4)
-        p <- format(data$p, nsmall = 4)
+        p <- format_pvalue(data$p)
 
         cat(
           " ", format("Variable", width = w1, justify = "left"), fs(),
@@ -257,7 +264,7 @@ print_bp_test <- function(data) {
         w3 <- max(
           nchar(ldp),
           nchar(format(data$bp, nsmall = 4)),
-          nchar(format(data$p, nsmall = 4))
+          nchar(format_pvalue(data$p))
         )
 
         w <- w3 + 19
@@ -275,7 +282,7 @@ print_bp_test <- function(data) {
         cat(
           " DF            =   ", ldp, "\n",
           "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
-          "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
+          "Prob > Chi2   =   ", format_pvalue(data$p), "\n"
         )
       }
     } else {
@@ -285,7 +292,7 @@ print_bp_test <- function(data) {
       w3 <- max(
         nchar("1"),
         nchar(format(data$bp, nsmall = 4)),
-        nchar(format(data$p, nsmall = 4))
+        nchar(format_pvalue(data$p))
       )
 
       w <- w3 + 19
@@ -303,7 +310,7 @@ print_bp_test <- function(data) {
       cat(
         " DF            =   ", 1, "\n",
         "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
-        "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
+        "Prob > Chi2   =   ", format_pvalue(data$p), "\n"
       )
     }
   } else {
@@ -312,7 +319,7 @@ print_bp_test <- function(data) {
         w1 <- max(nchar(data$preds), 13)
         w2 <- max(nchar("chi2"), nchar(format(data$bp, nsmall = 4)))
         w3 <- max(nchar(length(data$preds)), nchar("df"))
-        w4 <- max(nchar(format(data$p, nsmall = 4)))
+        w4 <- max(nchar(format_pvalue(data$p)))
         w <- sum(w1, w2, w3, w4, 13)
 
         ldp <- length(data$preds)
@@ -343,7 +350,7 @@ print_bp_test <- function(data) {
         }
 
         bp <- format(data$bp, nsmall = 4)
-        p <- format(data$p, nsmall = 4)
+        p <- format_pvalue(data$p)
 
         cat(
           " ", format("Variable", width = w1, justify = "left"), fs(),
@@ -373,7 +380,7 @@ print_bp_test <- function(data) {
           w1 <- max(nchar(data$vars), 13)
           w2 <- max(nchar("chi2"), nchar(format(data$bp, nsmall = 4)))
           w3 <- max(nchar(length(data$vars)), nchar("df"))
-          w4 <- max(nchar(format(data$p, nsmall = 4)))
+          w4 <- max(nchar(format_pvalue(data$p)))
           w <- sum(w1, w2, w3, w4, 13)
 
           ldp <- length(data$vars)
@@ -404,7 +411,7 @@ print_bp_test <- function(data) {
           }
 
           bp <- format(data$bp, nsmall = 4)
-          p <- format(data$p, nsmall = 4)
+          p <- format_pvalue(data$p)
 
           cat(
             " ", format("Variable", width = w1, justify = "left"), fs(),
@@ -437,7 +444,7 @@ print_bp_test <- function(data) {
           w3 <- max(
             nchar(ldp),
             nchar(format(data$bp, nsmall = 4)),
-            nchar(format(data$p, nsmall = 4))
+            nchar(format_pvalue(data$p))
           )
 
           w <- w3 + 19
@@ -455,7 +462,7 @@ print_bp_test <- function(data) {
           cat(
             " DF            =   ", data$df, "\n",
             "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
-            "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
+            "Prob > Chi2   =   ", format_pvalue(data$p), "\n"
           )
         }
       }
@@ -468,7 +475,7 @@ print_bp_test <- function(data) {
         w3 <- max(
           nchar(ldp),
           nchar(format(data$bp, nsmall = 4)),
-          nchar(format(data$p, nsmall = 4))
+          nchar(format_pvalue(data$p))
         )
 
         w <- w3 + 19
@@ -486,7 +493,7 @@ print_bp_test <- function(data) {
         cat(
           " DF            =   ", ldp, "\n",
           "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
-          "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
+          "Prob > Chi2   =   ", format_pvalue(data$p), "\n"
         )
       } else {
         lvars <- length(data$vars)
@@ -496,7 +503,7 @@ print_bp_test <- function(data) {
         w3 <- max(
           nchar(lvars),
           nchar(format(data$bp, nsmall = 4)),
-          nchar(format(data$p, nsmall = 4))
+          nchar(format_pvalue(data$p))
         )
 
         w <- w3 + 19
@@ -514,7 +521,7 @@ print_bp_test <- function(data) {
         cat(
           " DF            =   ", data$df, "\n",
           "Chi2          =   ", format(data$bp, nsmall = 4), "\n",
-          "Prob > Chi2   =   ", format(data$p, nsmall = 4), "\n"
+          "Prob > Chi2   =   ", format_pvalue(data$p), "\n"
         )
       }
     }
@@ -528,7 +535,7 @@ print_bartlett_test <- function(data) {
   w1 <- max(
     nchar(data$df),
     nchar(format(data$fstat, nsmall = 3)),
-    nchar(format(data$pval, nsmall = 3))
+    nchar(format_pvalue(data$pval))
   )
 
   w <- w1 + 19
@@ -566,7 +573,7 @@ print_bartlett_test <- function(data) {
   cat(
     " DF            =   ", data$df, "\n",
     "Chi2          =   ", format(data$fstat, nsmall = 3), "\n",
-    "Prob > Chi2   =   ", format(data$pval, nsmall = 3), "\n"
+    "Prob > Chi2   =   ", format_pvalue(data$pval), "\n"
   )
 }
 
@@ -577,7 +584,7 @@ print_score_test <- function(data) {
   w1 <- max(
     nchar(data$df),
     nchar(format(data$score, nsmall = 3)),
-    nchar(format(data$p, nsmall = 3))
+    nchar(format_pvalue(data$p))
   )
 
   w <- w1 + 19
@@ -600,7 +607,7 @@ print_score_test <- function(data) {
   cat(
     " DF            =   ", data$df, "\n",
     "Chi2          =   ", format(data$score, nsmall = 3), "\n",
-    "Prob > Chi2   =   ", format(data$p, nsmall = 3), "\n"
+    "Prob > Chi2   =   ", format_pvalue(data$p), "\n"
   )
 }
 
@@ -694,14 +701,12 @@ print_best_subset <- function(data) {
 print_norm_test <- function(data) {
 
   # width
-  w1 <- 18
+  w1 <- 31
   w2 <- 14
-  w3 <- 7
-  w <- sum(w1, w2, w3, 8)
 
   # vectors
   tests <- c(
-    "Shapiro-Wilk", "Kolmogorov-Smirnov", "Cramer-von Mises",
+    "Shapiro-Wilk", "Kolmogorov-Smirnov (Lilliefors)", "Cramer-von Mises",
     "Anderson-Darling"
   )
   stats <- c(
@@ -712,6 +717,8 @@ print_norm_test <- function(data) {
     data$shapiro$p.value, data$kolmogorv$p.value,
     data$cramer$p.value, data$anderson$p.value
   )
+  w3 <- max(7, nchar(format_pvalue(pvals)))
+  w <- sum(w1, w2, w3, 8)
   n <- length(stats)
 
   # skip tests leave NA in the table; then every line must end at the width of
@@ -724,7 +731,7 @@ print_norm_test <- function(data) {
     paste0(
       format("Test", width = w1, justify = "centre"), " ", fs(), " ",
       format("Statistic", width = w2, justify = "centre"), " ", fs(), " ",
-      format("pvalue", width = 7, justify = "centre"), trail
+      format("pvalue", width = w3, justify = "centre"), trail
     ), "\n",
     sep = ""
   )
@@ -734,7 +741,7 @@ print_norm_test <- function(data) {
       paste0(
         format(tests[i], width = w1), " ", fs(), " ",
         format(as.character(round(stats[i], 4)), width = w2, justify = "centre"), " ", fs(), " ",
-        format(round(pvals[i], 4), nsmall = 4, width = 7, justify = "centre"), trail
+        format(format_pvalue(pvals[i]), width = w3, justify = "right"), trail
       ), "\n",
       sep = ""
     )
@@ -764,7 +771,7 @@ print_pure_error_anova <- function(data) {
     nchar(format(data$lms, nsmall = 2)), nchar(format(data$pms, nsmall = 2))
   )
   w5 <- max(nchar("F Value"), nchar(format(data$rf, nsmall = 2)), nchar(format(data$lf, nsmall = 2)))
-  w6 <- max(nchar("Pr(>F)"), nchar(format(data$pr, nsmall = 2)), nchar(format(data$pl, nsmall = 2)))
+  w6 <- max(nchar("Pr(>F)"), nchar(format_pvalue(data$pr)), nchar(format_pvalue(data$pl)))
   w <- sum(w1, w2, w3, w4, w5, w6, 20)
 
   cat(format("Analysis of Variance Table", width = w, justify = "centre"), "\n")
@@ -777,7 +784,7 @@ print_pure_error_anova <- function(data) {
   cat(
     fl(data$preds, w = w1), fs(), fg(data$df_rss, w = w2), fs(), format(data$rss, nsmall = 2, width = w3), fs(),
     format(data$rms, nsmall = 2, width = w4), fs(), format(data$rf, nsmall = 2, width = w5), fs(),
-    format(data$pr, nsmall = 2, width = w6), "\n"
+    format(format_pvalue(data$pr), width = w6, justify = "right"), "\n"
   )
   cat(
     fl("Residual", w = w1), fs(), fg(data$df_ess, w = w2), fs(), format(data$ess, nsmall = 2, width = w3), fs(),
@@ -787,7 +794,7 @@ print_pure_error_anova <- function(data) {
   cat(
     fl(" Lack of fit", w = w1), fs(), fg(data$df_lof, w = w2), fs(), format(data$lackoffit, nsmall = 2, width = w3), fs(),
     format(data$lms, nsmall = 2, width = w4), fs(), format(data$lf, nsmall = 2, width = w5), fs(),
-    format(data$pl, nsmall = 2, width = w6), "\n"
+    format(format_pvalue(data$pl), width = w6, justify = "right"), "\n"
   )
   cat(
     fl(" Pure Error", w = w1), fs(), fg(data$df_error, w = w2), fs(), format(data$pure_error, nsmall = 2, width = w3), fs(),
@@ -869,10 +876,10 @@ print_anova <- function(data) {
   )
 
   w11 <- max(nchar("F"), nchar(format(round(data$f, 3), nsmall = 3)))
-  w12 <- max(nchar("Sig."), nchar(format(round(data$p, 3), nsmall = 4)))
+  w12 <- max(nchar("Sig."), nchar(format_pvalue(data$p)))
   w <- sum(w7, w8, w9, w10, w11, w12, 21)
 
-  p <- format(round(data$p, 4), nsmall = 4)
+  p <- format_pvalue(data$p)
 
   cat(fc("ANOVA", w), "\n")
   cat(rep("-", w), sep = "", "\n")

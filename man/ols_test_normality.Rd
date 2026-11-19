@@ -19,7 +19,7 @@ ols_test_normality(y, ...)
 An object of class \code{"ols_test_normality"} is a list containing the
 following components:
 
-\item{kolmogorv}{kolmogorv smirnov statistic}
+\item{kolmogorv}{Lilliefors (Kolmogorov-Smirnov) statistic}
 \item{shapiro}{shapiro wilk statistic}
 \item{cramer}{cramer von mises statistic}
 \item{anderson}{anderson darling statistic}
@@ -29,13 +29,19 @@ Test for detecting violation of normality assumption.
 }
 \details{
 The tests differ in the sample sizes they support. \code{shapiro.test()}
-requires between 3 and 5000 observations, and \code{nortest::ad.test()} and
-\code{nortest::cvm.test()} require at least 8. \code{ks.test()} does not
-document a sample-size limit of its own, but a minimum of 3 observations is
-required here so that the test is meaningful. Tests whose sample-size
+requires between 3 and 5000 observations, \code{nortest::lillie.test()}
+requires more than 4, and \code{nortest::ad.test()} and
+\code{nortest::cvm.test()} require at least 8. Tests whose sample-size
 requirement is not met are skipped: their statistic and p-value are returned
 as \code{NA} and a single warning lists the skipped tests and the reason. If
 the sample is too small for every test, the function stops with an error.
+
+The Kolmogorov-Smirnov test is the Lilliefors test,
+\code{nortest::lillie.test()}. A plain \code{ks.test()} against a normal
+distribution whose mean and standard deviation are estimated from the same
+data is conservative: the estimation is not accounted for in the null
+distribution, so the p-value is too large. The Lilliefors correction uses
+the null distribution of the statistic with estimated parameters.
 
 The Cramér–von Mises test is \code{nortest::cvm.test()}, the test of
 composite normality, which compares the data with a normal distribution
