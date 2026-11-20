@@ -20,14 +20,16 @@ navbar:
       href: index.html
     - text: 'Guides'
       menu:
-        - text: 'Intro'
-          href: articles/intro.html
+        - text: 'Getting Started'
+          href: articles/getting-started.html
+        - text: 'Regression Output'
+          href: articles/regression-output.html
         - text: 'Residual Diagnostics'
-          href: articles/residual_diagnostics.html
+          href: articles/residual-diagnostics.html
+        - text: 'Variance and Normality Tests'
+          href: articles/variance-normality-tests.html
         - text: 'Measures of Influence'
           href: articles/influence_measures.html
-        - text: 'Heteroskedasticity'
-          href: articles/heteroskedasticity.html
         - text: 'Collinearity Diagnostics'
           href: articles/regression_diagnostics.html
         - text: 'Variable Selection'
@@ -56,6 +58,25 @@ home:
       href: https://ebooks.rsquaredacademy.com
     - text: Online courses
       href: https://www.rsquaredacademy.com
+
+articles:
+  - title: Start here
+    contents:
+      - getting-started
+      - regression-output
+      - residual-diagnostics
+      - variance-normality-tests
+  - title: Further guides
+    contents:
+      - regression_diagnostics
+      - influence_measures
+      - variable_selection
+      - reference-media
+  - title: Previous article addresses
+    contents:
+      - intro
+      - residual_diagnostics
+      - heteroskedasticity
 
 reference:
   - title: Shiny App
