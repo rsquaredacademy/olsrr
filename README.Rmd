@@ -69,7 +69,8 @@ a quick demo:
 #### Regression
 
 ```{r regress}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+# annual spend of 440 wholesale customers (UCI, CC BY 4.0; see ?wholesale_customers)
+model <- lm(milk ~ grocery + detergents_paper, data = wholesale_customers)
 ols_regress(model)
 ```
 
@@ -83,4 +84,3 @@ ask on Stack Overflow with the `r` tag.
 
 Please note that the olsrr project is released with a [Contributor Code of Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 
-<div data-rsa-signup data-site="olsrr.rsquaredacademy.com" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
