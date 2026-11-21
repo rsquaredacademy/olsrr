@@ -2,6 +2,10 @@
 
 ## olsrr (development version)
 
+- New business datasets: wholesale customer spending is used in the
+  vignettes ([@aravindhebbali](https://github.com/aravindhebbali),
+  pkg-olsrr-bizdata-vign).
+
 - Rewrote the getting-started, regression output, residual diagnostics
   and variance/normality vignettes
 

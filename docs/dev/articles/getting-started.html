@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Can weight and horsepower explain fuel economy? • olsrr</title>
+<title>Can product spending explain milk spending? • olsrr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="../css/rsatemplate.css">
 <script defer src="../js/rsatemplate.js"></script><!-- Rsquared Academy site-kit v1.3.0: GA4 + region-based consent + email sign-up. --><link rel="stylesheet" href="../site-kit/rsa-consent.css">
 <script src="../site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script><link rel="stylesheet" href="../site-kit/rsa-signup.css">
-<script src="../site-kit/rsa-signup.js" defer></script><meta property="og:title" content="Can weight and horsepower explain fuel economy?">
+<script src="../site-kit/rsa-signup.js" defer></script><meta property="og:title" content="Can product spending explain milk spending?">
 <meta name="robots" content="noindex">
 <!-- rsatemplate: the exact canonical URL is filled by rsatemplate.js and
      written statically by rsatemplate::fix_site(). --><link rel="canonical" data-rsa-site-url="https://olsrr.rsquaredacademy.com">
@@ -88,7 +88,7 @@
 <div class="row rsa-article-grid">
   <main id="main" class="col-md-9 rsa-article-main"><div class="page-header rsa-page-header">
 
-      <h1>Can weight and horsepower explain fuel economy?</h1>
+      <h1>Can product spending explain milk spending?</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
@@ -97,136 +97,110 @@
 
     
     
-<p>Can we describe fuel economy using a car’s weight and horsepower? We
-will fit one model, read its coefficients and inspect what it misses. In
-these data, heavier cars and cars with more horsepower tend to have
-lower fuel economy, after accounting for the other predictor. The model
-describes about 83% of the observed variation, but several cars still
-have sizable residuals.</p>
+<p>Can grocery and detergent spending help describe milk spending? We
+fit one model, read its coefficients and inspect what it misses. The
+model accounts for about 53% of observed variation, while substantial
+residuals remain.</p>
 <div class="section level2">
 <h2 id="understand-the-data">Understand the data<a class="anchor" aria-label="anchor" href="#understand-the-data"></a>
 </h2>
-<p><strong>Example data: R’s built-in mtcars dataset</strong></p>
-<p>The data contain 32 cars from a motor magazine’s road tests. Fuel
-economy (<code>mpg</code>) is measured in miles per US gallon, weight
-(<code>wt</code>) in thousands of pounds and engine power
-(<code>hp</code>) in gross horsepower. Each row is a car; the row names
-retain its model name. These are observational measurements, so
-associations between the variables do not establish what a weight or
-engine change would cause for a particular car.</p>
+<p>The <code>wholesale_customers</code> data contain annual spending for
+440 wholesale customers. Each row is a customer; spending is in monetary
+units, with currency unspecified. These observational associations do
+not establish the effect of changing a customer’s purchases. See
+<code><a href="../reference/wholesale_customers.html">?wholesale_customers</a></code> for the source and licence.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://olsrr.rsquaredacademy.com/">olsrr</a></span><span class="op">)</span></span>
-<span><span class="va">car_data</span> <span class="op">&lt;-</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html" class="external-link">mtcars</a></span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"wt"</span>, <span class="st">"hp"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">car_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">32L</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">car_data</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">car_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                    mpg    wt  hp</span></span>
-<span><span class="co">#&gt; Mazda RX4         21.0 2.620 110</span></span>
-<span><span class="co">#&gt; Mazda RX4 Wag     21.0 2.875 110</span></span>
-<span><span class="co">#&gt; Datsun 710        22.8 2.320  93</span></span>
-<span><span class="co">#&gt; Hornet 4 Drive    21.4 3.215 110</span></span>
-<span><span class="co">#&gt; Hornet Sportabout 18.7 3.440 175</span></span>
-<span><span class="co">#&gt; Valiant           18.1 3.460 105</span></span></code></pre></div>
-<p>We check the three columns we will actually use. None is missing, so
-every calculation below refers to the same 32 cars. When adapting this
-example, decide how to handle missing measurements before comparing
-results: a change in the rows can also change the apparent fit.</p>
+<span><span class="va">customer_data</span> <span class="op">&lt;-</span> <span class="va">wholesale_customers</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"milk"</span>, <span class="st">"grocery"</span>, <span class="st">"detergents_paper"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">440L</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   milk grocery detergents_paper</span></span>
+<span><span class="co">#&gt; 1 9656    7561             2674</span></span>
+<span><span class="co">#&gt; 2 9810    9568             3293</span></span>
+<span><span class="co">#&gt; 3 8808    7684             3516</span></span>
+<span><span class="co">#&gt; 4 1196    4221              507</span></span>
+<span><span class="co">#&gt; 5 5410    7198             1777</span></span>
+<span><span class="co">#&gt; 6 8259    5126             1795</span></span></code></pre></div>
+<p>All three columns are complete. When adapting the example, decide how
+to handle missing values before comparing models.</p>
 </div>
 <div class="section level2">
 <h2 id="fit-once-and-read-the-result">Fit once and read the result<a class="anchor" aria-label="anchor" href="#fit-once-and-read-the-result"></a>
 </h2>
-<p>Use R’s <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> to specify the response on the left of
-<code>~</code> and the two predictors on the right. Adding
-<code>wt</code> and <code>hp</code> gives each predictor its own
-straight-line contribution; this formula does not include an
-interaction. The fitted object keeps the model and observations together
-for the following steps.</p>
+<p>Use <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> with the response on the left of <code>~</code>
+and predictors on the right. The additive model has no interaction.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fuel_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">car_data</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/ols_regress.html">ols_regress</a></span><span class="op">(</span><span class="va">fuel_model</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                          Model Summary                          </span></span>
-<span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; R                       0.909       RMSE                 2.593 </span></span>
-<span><span class="co">#&gt; R-Squared               0.827       MSE                  6.726 </span></span>
-<span><span class="co">#&gt; Adj. R-Squared          0.815       Coef. Var           12.909 </span></span>
-<span><span class="co">#&gt; Pred R-Squared          0.781       AIC                156.652 </span></span>
-<span><span class="co">#&gt; MAE                     1.901       SBC                162.515 </span></span>
-<span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
+<code class="sourceCode R"><span><span class="va">spending_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span>, data <span class="op">=</span> <span class="va">customer_data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_regress.html">ols_regress</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                              Model Summary                              </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; R                          0.729       RMSE                   5063.711 </span></span>
+<span><span class="co">#&gt; R-Squared                  0.531       MSE                25641169.793 </span></span>
+<span><span class="co">#&gt; Adj. R-Squared             0.529       Coef. Var                87.362 </span></span>
+<span><span class="co">#&gt; Pred R-Squared             0.490       AIC                    8759.928 </span></span>
+<span><span class="co">#&gt; MAE                     2563.777       SBC                    8776.275 </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt;  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">#&gt;  MSE: Mean Square Error </span></span>
 <span><span class="co">#&gt;  MAE: Mean Absolute Error </span></span>
 <span><span class="co">#&gt;  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">#&gt;  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                                 ANOVA                                  </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt;                 Sum of                                                </span></span>
-<span><span class="co">#&gt;                Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Regression     930.999         2        465.500    69.211    &lt; 0.0001 </span></span>
-<span><span class="co">#&gt; Residual       195.048        29          6.726                       </span></span>
-<span><span class="co">#&gt; Total         1126.047        31                                      </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;                                       ANOVA                                        </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;                        Sum of                                                     </span></span>
+<span><span class="co">#&gt;                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Regression    12707124418.370          2    6353562209.185    247.788    &lt; 0.0001 </span></span>
+<span><span class="co">#&gt; Residual      11205191199.519        437      25641169.793                        </span></span>
+<span><span class="co">#&gt; Total         23912315617.889        439                                          </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                                     Parameter Estimates                                     </span></span>
-<span><span class="co">#&gt; -------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt;       model      Beta    Std. Error    Std. Beta      t         Sig        lower     upper </span></span>
-<span><span class="co">#&gt; -------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; (Intercept)    37.227         1.599                 23.285    &lt; 0.0001    33.957    40.497 </span></span>
-<span><span class="co">#&gt;          wt    -3.878         0.633       -0.630    -6.129    &lt; 0.0001    -5.172    -2.584 </span></span>
-<span><span class="co">#&gt;          hp    -0.032         0.009       -0.361    -3.519      0.0015    -0.050    -0.013 </span></span>
-<span><span class="co">#&gt; -------------------------------------------------------------------------------------------</span></span></code></pre></div>
-<p>Read the <strong>Beta</strong> column in the response’s units.
-Holding horsepower fixed, an additional 1,000 pounds is associated with
-about 3.88 fewer miles per gallon. Holding weight fixed, an additional
-horsepower is associated with about 0.032 fewer miles per gallon, or
-0.32 fewer for ten horsepower. These are comparisons within the fitted
-model, rather than two separate regressions or instructions for
-modifying a vehicle.</p>
-<p>The <strong>lower</strong> and <strong>upper</strong> columns give
-95% confidence intervals under the usual model assumptions. For weight
-the interval is about -5.17 to -2.58 mpg per 1,000 pounds. It expresses
-uncertainty about the conditional slope; it is not a range containing
-95% of cars. The intercept describes a car with zero weight and zero
-horsepower, outside this sample’s useful range.</p>
+<span><span class="co">#&gt;                                          Parameter Estimates                                          </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;            model        Beta    Std. Error    Std. Beta      t         Sig         lower       upper </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;      (Intercept)    1198.484       332.724                  3.602      0.0004    544.545    1852.423 </span></span>
+<span><span class="co">#&gt;          grocery       0.623         0.067        0.802     9.333    &lt; 0.0001      0.492       0.754 </span></span>
+<span><span class="co">#&gt; detergents_paper      -0.124         0.133       -0.080    -0.933      0.3515     -0.386       0.137 </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span></code></pre></div>
+<p>Holding detergent spending fixed, one additional monetary unit of
+grocery spending is associated with about 0.623 units more milk
+spending. Holding grocery spending fixed, the detergent slope is -0.124,
+with a 95% confidence interval from -0.386 to 0.137. These conditional
+comparisons do not imply an intervention effect. The intercept refers to
+zero spending on both predictors, so extrapolation needs care.</p>
 </div>
 <div class="section level2">
 <h2 id="inspect-what-remains-unexplained">Inspect what remains unexplained<a class="anchor" aria-label="anchor" href="#inspect-what-remains-unexplained"></a>
 </h2>
-<p>A residual is observed fuel economy minus the model’s fitted fuel
-economy. A positive residual means the car used less fuel per mile than
-the model suggested, because its observed mpg was higher. Plotting
-residuals against fitted values helps reveal patterns hidden by the
-regression table.</p>
+<p>A residual is observed minus fitted milk spending. A positive
+residual identifies a customer spending more on milk than fitted.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">residual_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_plot_resid_fit.html">ols_plot_resid_fit</a></span><span class="op">(</span><span class="va">fuel_model</span>, print_plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">residual_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_plot_resid_fit.html">ols_plot_resid_fit</a></span><span class="op">(</span><span class="va">spending_model</span>, print_plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">residual_plot</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="getting-started_files/figure-html/residual-plot-1.png" class="r-plt" alt="Residual fuel economy against fitted mpg for 32 cars. Several residuals exceed five mpg, and the highest fitted values include large positive residuals above the zero line." width="672"><p class="caption">
-Fuel-economy residuals for the 32 mtcars observations, in miles per US
-gallon.
+<img src="getting-started_files/figure-html/residual-plot-1.png" class="r-plt" alt="Residual milk spending against fitted milk spending, with several large positive and negative residuals." width="672"><p class="caption">
+Milk spending residuals against fitted spending.
 </p>
 </div>
-<p>Several residuals are above five mpg, and the high fitted values
-include large positive residuals. This is reason to investigate the
-shape of the relationship and the individual cars. A high R-squared
-alone does not show that the straight-line mean or the uncertainty
-calculations are adequate. The plot also does not establish independence
-between observations. Here <code>print_plot = FALSE</code> returns a
-ggplot directly, which we then print; other plotting functions can
-return lists, so check their individual help.</p>
+<p>The large residuals warrant investigation of individual customers and
+the mean relationship. R-squared does not establish that the
+straight-line mean or uncertainty calculations are adequate. Here
+<code>print_plot = FALSE</code> returns a ggplot directly; other
+plotting functions can return lists.</p>
 </div>
 <div class="section level2">
 <h2 id="put-the-fit-in-perspective">Put the fit in perspective<a class="anchor" aria-label="anchor" href="#put-the-fit-in-perspective"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">performance</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_model_performance.html">ols_model_performance</a></span><span class="op">(</span><span class="va">fuel_model</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">performance</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_model_performance.html">ols_model_performance</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  Measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R-squared"</span>, <span class="st">"Adjusted R-squared"</span>, <span class="st">"Predicted R-squared"</span>, <span class="st">"RMSE (mpg)"</span><span class="op">)</span>,</span>
+<span>  Measure <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R-squared"</span>, <span class="st">"Adjusted R-squared"</span>, <span class="st">"Predicted R-squared"</span>, <span class="st">"RMSE"</span><span class="op">)</span>,</span>
 <span>  Value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">performance</span><span class="op">$</span><span class="va">rsq</span>, <span class="va">performance</span><span class="op">$</span><span class="va">adjr</span>, <span class="va">performance</span><span class="op">$</span><span class="va">prsq</span>, <span class="va">performance</span><span class="op">$</span><span class="va">rmse</span><span class="op">)</span></span>
-<span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span>, caption <span class="op">=</span> <span class="st">"A compact performance summary for the same fuel-economy model."</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span>, caption <span class="op">=</span> <span class="st">"Performance for the same milk-spending model."</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
-<caption>A compact performance summary for the same fuel-economy
-model.</caption>
+<caption>Performance for the same milk-spending model.</caption>
 <thead><tr class="header">
 <th align="left">Measure</th>
 <th align="right">Value</th>
@@ -234,37 +208,31 @@ model.</caption>
 <tbody>
 <tr class="odd">
 <td align="left">R-squared</td>
-<td align="right">0.827</td>
+<td align="right">0.531</td>
 </tr>
 <tr class="even">
 <td align="left">Adjusted R-squared</td>
-<td align="right">0.815</td>
+<td align="right">0.529</td>
 </tr>
 <tr class="odd">
 <td align="left">Predicted R-squared</td>
-<td align="right">0.781</td>
+<td align="right">0.490</td>
 </tr>
 <tr class="even">
-<td align="left">RMSE (mpg)</td>
-<td align="right">2.593</td>
+<td align="left">RMSE</td>
+<td align="right">5063.711</td>
 </tr>
 </tbody>
 </table>
-<p>R-squared is 0.827: the fit accounts for about 83% of the sample
-variation in mpg around its mean. The residual RMSE is 2.593 mpg, a
-measure of the remaining scatter using the residual degrees of freedom.
-It is not a guaranteed error bound for an individual prediction.
-Predicted R-squared, 0.781, uses leave-one-out prediction errors; it
-gives a less optimistic view than training R-squared, but is not
-independent validation on new cars.</p>
+<p>R-squared is 0.531, and RMSE is 5063.711 monetary units. Predicted
+R-squared is 0.490 and uses leave-one-out prediction errors; it is not
+independent validation on new customers. RMSE describes residual
+scatter, not an error bound for an individual prediction.</p>
 <p>Next, learn to <a href="regression-output.html">read a regression
-table</a>, then work through <a href="residual-diagnostics.html">residual diagnostics</a> to investigate
-shape and spread. The function help for <a href="https://olsrr.rsquaredacademy.com/reference/ols_regress.html"><code>ols_regress()</code></a>,
-<a href="https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit.html"><code>ols_plot_resid_fit()</code></a>
-and <a href="https://olsrr.rsquaredacademy.com/reference/ols_model_performance.html"><code>ols_model_performance()</code></a>
-describes their output and options. Start with that residual
-investigation before using this model to make decisions about cars
-outside the observed sample.</p>
+table</a>, then investigate <a href="residual-diagnostics.html">residual
+diagnostics</a>. See <code><a href="../reference/ols_regress.html">?ols_regress</a></code>,
+<code><a href="../reference/ols_plot_resid_fit.html">?ols_plot_resid_fit</a></code> and <code><a href="../reference/ols_model_performance.html">?ols_model_performance</a></code>
+for their interfaces.</p>
 </div>
 
 
@@ -286,7 +254,14 @@ outside the observed sample.</p>
       </nav>
 </div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>

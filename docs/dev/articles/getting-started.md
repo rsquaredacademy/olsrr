@@ -1,171 +1,142 @@
-# Can weight and horsepower explain fuel economy?
+# Can product spending explain milk spending?
 
-# Can weight and horsepower explain fuel economy?
+# Can product spending explain milk spending?
 
 Source:
 [`vignettes/getting-started.Rmd`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/getting-started.Rmd)
 
 `getting-started.Rmd`
 
-Can we describe fuel economy using a car’s weight and horsepower? We
-will fit one model, read its coefficients and inspect what it misses. In
-these data, heavier cars and cars with more horsepower tend to have
-lower fuel economy, after accounting for the other predictor. The model
-describes about 83% of the observed variation, but several cars still
-have sizable residuals.
+Can grocery and detergent spending help describe milk spending? We fit
+one model, read its coefficients and inspect what it misses. The model
+accounts for about 53% of observed variation, while substantial
+residuals remain.
 
 ## Understand the data
 
-**Example data: R’s built-in mtcars dataset**
-
-The data contain 32 cars from a motor magazine’s road tests. Fuel
-economy (`mpg`) is measured in miles per US gallon, weight (`wt`) in
-thousands of pounds and engine power (`hp`) in gross horsepower. Each
-row is a car; the row names retain its model name. These are
-observational measurements, so associations between the variables do not
-establish what a weight or engine change would cause for a particular
-car.
+The `wholesale_customers` data contain annual spending for 440 wholesale
+customers. Each row is a customer; spending is in monetary units, with
+currency unspecified. These observational associations do not establish
+the effect of changing a customer’s purchases. See
+[`?wholesale_customers`](https://olsrr.rsquaredacademy.com/dev/reference/wholesale_customers.md)
+for the source and licence.
 
 \
 [`library`](https://rdrr.io/r/base/library.html)`(`[`olsrr`](https://olsrr.rsquaredacademy.com/)`)`\
-`car_data`` ``<-`` ``datasets``::`[`mtcars`](https://rdrr.io/r/datasets/mtcars.html)`[`[`c`](https://rdrr.io/r/base/c.html)`(``"mpg"``, ``"wt"``, ``"hp"``)``]`\
-[`stopifnot`](https://rdrr.io/r/base/stopifnot.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``car_data``)`` ``==`` ``32L``, ``!`[`anyNA`](https://rdrr.io/r/base/NA.html)`(``car_data``)``)`\
-[`head`](https://rdrr.io/r/utils/head.html)`(``car_data``)`\
-`#>                    mpg    wt  hp`\
-`#> Mazda RX4         21.0 2.620 110`\
-`#> Mazda RX4 Wag     21.0 2.875 110`\
-`#> Datsun 710        22.8 2.320  93`\
-`#> Hornet 4 Drive    21.4 3.215 110`\
-`#> Hornet Sportabout 18.7 3.440 175`\
-`#> Valiant           18.1 3.460 105`
+`customer_data`` ``<-`` ``wholesale_customers``[`[`c`](https://rdrr.io/r/base/c.html)`(``"milk"``, ``"grocery"``, ``"detergents_paper"``)``]`\
+[`stopifnot`](https://rdrr.io/r/base/stopifnot.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``customer_data``)`` ``==`` ``440L``, ``!`[`anyNA`](https://rdrr.io/r/base/NA.html)`(``customer_data``)``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(``customer_data``)`\
+`#>   milk grocery detergents_paper`\
+`#> 1 9656    7561             2674`\
+`#> 2 9810    9568             3293`\
+`#> 3 8808    7684             3516`\
+`#> 4 1196    4221              507`\
+`#> 5 5410    7198             1777`\
+`#> 6 8259    5126             1795`
 
-We check the three columns we will actually use. None is missing, so
-every calculation below refers to the same 32 cars. When adapting this
-example, decide how to handle missing measurements before comparing
-results: a change in the rows can also change the apparent fit.
+All three columns are complete. When adapting the example, decide how to
+handle missing values before comparing models.
 
 ## Fit once and read the result
 
-Use R’s [`lm()`](https://rdrr.io/r/stats/lm.html) to specify the
-response on the left of `~` and the two predictors on the right. Adding
-`wt` and `hp` gives each predictor its own straight-line contribution;
-this formula does not include an interaction. The fitted object keeps
-the model and observations together for the following steps.
+Use [`lm()`](https://rdrr.io/r/stats/lm.html) with the response on the
+left of `~` and predictors on the right. The additive model has no
+interaction.
 
 \
-`fuel_model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``wt`` ``+`` ``hp``, data ``=`` ``car_data``)`\
-[`ols_regress`](https://olsrr.rsquaredacademy.com/dev/reference/ols_regress.md)`(``fuel_model``)`\
-`#>                          Model Summary                          `\
-`#> ---------------------------------------------------------------`\
-`#> R                       0.909       RMSE                 2.593 `\
-`#> R-Squared               0.827       MSE                  6.726 `\
-`#> Adj. R-Squared          0.815       Coef. Var           12.909 `\
-`#> Pred R-Squared          0.781       AIC                156.652 `\
-`#> MAE                     1.901       SBC                162.515 `\
-`#> ---------------------------------------------------------------`\
+`spending_model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper``, data ``=`` ``customer_data``)`\
+[`ols_regress`](https://olsrr.rsquaredacademy.com/dev/reference/ols_regress.md)`(``spending_model``)`\
+`#>                              Model Summary                              `\
+`#> -----------------------------------------------------------------------`\
+`#> R                          0.729       RMSE                   5063.711 `\
+`#> R-Squared                  0.531       MSE                25641169.793 `\
+`#> Adj. R-Squared             0.529       Coef. Var                87.362 `\
+`#> Pred R-Squared             0.490       AIC                    8759.928 `\
+`#> MAE                     2563.777       SBC                    8776.275 `\
+`#> -----------------------------------------------------------------------`\
 `#>  RMSE: Root Mean Square Error `\
 `#>  MSE: Mean Square Error `\
 `#>  MAE: Mean Absolute Error `\
 `#>  AIC: Akaike Information Criteria `\
 `#>  SBC: Schwarz Bayesian Criteria `\
 `#> `\
-`#>                                 ANOVA                                  `\
-`#> ----------------------------------------------------------------------`\
-`#>                 Sum of                                                `\
-`#>                Squares        DF    Mean Square      F           Sig. `\
-`#> ----------------------------------------------------------------------`\
-`#> Regression     930.999         2        465.500    69.211    < 0.0001 `\
-`#> Residual       195.048        29          6.726                       `\
-`#> Total         1126.047        31                                      `\
-`#> ----------------------------------------------------------------------`\
+`#>                                       ANOVA                                        `\
+`#> ----------------------------------------------------------------------------------`\
+`#>                        Sum of                                                     `\
+`#>                       Squares         DF       Mean Square       F           Sig. `\
+`#> ----------------------------------------------------------------------------------`\
+`#> Regression    12707124418.370          2    6353562209.185    247.788    < 0.0001 `\
+`#> Residual      11205191199.519        437      25641169.793                        `\
+`#> Total         23912315617.889        439                                          `\
+`#> ----------------------------------------------------------------------------------`\
 `#> `\
-`#>                                     Parameter Estimates                                     `\
-`#> -------------------------------------------------------------------------------------------`\
-`#>       model      Beta    Std. Error    Std. Beta      t         Sig        lower     upper `\
-`#> -------------------------------------------------------------------------------------------`\
-`#> (Intercept)    37.227         1.599                 23.285    < 0.0001    33.957    40.497 `\
-`#>          wt    -3.878         0.633       -0.630    -6.129    < 0.0001    -5.172    -2.584 `\
-`#>          hp    -0.032         0.009       -0.361    -3.519      0.0015    -0.050    -0.013 `\
-`#> -------------------------------------------------------------------------------------------`
+`#>                                          Parameter Estimates                                          `\
+`#> -----------------------------------------------------------------------------------------------------`\
+`#>            model        Beta    Std. Error    Std. Beta      t         Sig         lower       upper `\
+`#> -----------------------------------------------------------------------------------------------------`\
+`#>      (Intercept)    1198.484       332.724                  3.602      0.0004    544.545    1852.423 `\
+`#>          grocery       0.623         0.067        0.802     9.333    < 0.0001      0.492       0.754 `\
+`#> detergents_paper      -0.124         0.133       -0.080    -0.933      0.3515     -0.386       0.137 `\
+`#> -----------------------------------------------------------------------------------------------------`
 
-Read the **Beta** column in the response’s units. Holding horsepower
-fixed, an additional 1,000 pounds is associated with about 3.88 fewer
-miles per gallon. Holding weight fixed, an additional horsepower is
-associated with about 0.032 fewer miles per gallon, or 0.32 fewer for
-ten horsepower. These are comparisons within the fitted model, rather
-than two separate regressions or instructions for modifying a vehicle.
-
-The **lower** and **upper** columns give 95% confidence intervals under
-the usual model assumptions. For weight the interval is about -5.17 to
--2.58 mpg per 1,000 pounds. It expresses uncertainty about the
-conditional slope; it is not a range containing 95% of cars. The
-intercept describes a car with zero weight and zero horsepower, outside
-this sample’s useful range.
+Holding detergent spending fixed, one additional monetary unit of
+grocery spending is associated with about 0.623 units more milk
+spending. Holding grocery spending fixed, the detergent slope is -0.124,
+with a 95% confidence interval from -0.386 to 0.137. These conditional
+comparisons do not imply an intervention effect. The intercept refers to
+zero spending on both predictors, so extrapolation needs care.
 
 ## Inspect what remains unexplained
 
-A residual is observed fuel economy minus the model’s fitted fuel
-economy. A positive residual means the car used less fuel per mile than
-the model suggested, because its observed mpg was higher. Plotting
-residuals against fitted values helps reveal patterns hidden by the
-regression table.
+A residual is observed minus fitted milk spending. A positive residual
+identifies a customer spending more on milk than fitted.
 
 \
-`residual_plot`` ``<-`` `[`ols_plot_resid_fit`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_fit.md)`(``fuel_model``, print_plot ``=`` ``FALSE``)`\
+`residual_plot`` ``<-`` `[`ols_plot_resid_fit`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_fit.md)`(``spending_model``, print_plot ``=`` ``FALSE``)`\
 `residual_plot`
 
-![Residual fuel economy against fitted mpg for 32 cars. Several
-residuals exceed five mpg, and the highest fitted values include large
-positive residuals above the zero
-line.](getting-started_files/figure-html/residual-plot-1.png)
+![Residual milk spending against fitted milk spending, with several
+large positive and negative
+residuals.](getting-started_files/figure-html/residual-plot-1.png)
 
-Fuel-economy residuals for the 32 mtcars observations, in miles per US
-gallon.
+Milk spending residuals against fitted spending.
 
-Several residuals are above five mpg, and the high fitted values include
-large positive residuals. This is reason to investigate the shape of the
-relationship and the individual cars. A high R-squared alone does not
-show that the straight-line mean or the uncertainty calculations are
-adequate. The plot also does not establish independence between
-observations. Here `print_plot = FALSE` returns a ggplot directly, which
-we then print; other plotting functions can return lists, so check their
-individual help.
+The large residuals warrant investigation of individual customers and
+the mean relationship. R-squared does not establish that the
+straight-line mean or uncertainty calculations are adequate. Here
+`print_plot = FALSE` returns a ggplot directly; other plotting functions
+can return lists.
 
 ## Put the fit in perspective
 
 \
-`performance`` ``<-`` `[`ols_model_performance`](https://olsrr.rsquaredacademy.com/dev/reference/ols_model_performance.md)`(``fuel_model``)`\
+`performance`` ``<-`` `[`ols_model_performance`](https://olsrr.rsquaredacademy.com/dev/reference/ols_model_performance.md)`(``spending_model``)`\
 `knitr``::`[`kable`](https://rdrr.io/pkg/knitr/man/kable.html)`(`[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
-`  Measure ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"R-squared"``, ``"Adjusted R-squared"``, ``"Predicted R-squared"``, ``"RMSE (mpg)"``)``,`\
+`  Measure ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"R-squared"``, ``"Adjusted R-squared"``, ``"Predicted R-squared"``, ``"RMSE"``)``,`\
 `  Value ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``performance``$``rsq``, ``performance``$``adjr``, ``performance``$``prsq``, ``performance``$``rmse``)`\
-`)``, digits ``=`` ``3``, caption ``=`` ``"A compact performance summary for the same fuel-economy model."``)`
+`)``, digits ``=`` ``3``, caption ``=`` ``"Performance for the same milk-spending model."``)`
 
-| Measure             | Value |
-|:--------------------|------:|
-| R-squared           | 0.827 |
-| Adjusted R-squared  | 0.815 |
-| Predicted R-squared | 0.781 |
-| RMSE (mpg)          | 2.593 |
+| Measure             |    Value |
+|:--------------------|---------:|
+| R-squared           |    0.531 |
+| Adjusted R-squared  |    0.529 |
+| Predicted R-squared |    0.490 |
+| RMSE                | 5063.711 |
 
-A compact performance summary for the same fuel-economy model. {.table}
+Performance for the same milk-spending model. {.table}
 
-R-squared is 0.827: the fit accounts for about 83% of the sample
-variation in mpg around its mean. The residual RMSE is 2.593 mpg, a
-measure of the remaining scatter using the residual degrees of freedom.
-It is not a guaranteed error bound for an individual prediction.
-Predicted R-squared, 0.781, uses leave-one-out prediction errors; it
-gives a less optimistic view than training R-squared, but is not
-independent validation on new cars.
+R-squared is 0.531, and RMSE is 5063.711 monetary units. Predicted
+R-squared is 0.490 and uses leave-one-out prediction errors; it is not
+independent validation on new customers. RMSE describes residual
+scatter, not an error bound for an individual prediction.
 
 Next, learn to [read a regression
 table](https://olsrr.rsquaredacademy.com/dev/articles/regression-output.md),
-then work through [residual
-diagnostics](https://olsrr.rsquaredacademy.com/dev/articles/residual-diagnostics.md)
-to investigate shape and spread. The function help for
-[`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.html),
-[`ols_plot_resid_fit()`](https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_fit.html)
+then investigate [residual
+diagnostics](https://olsrr.rsquaredacademy.com/dev/articles/residual-diagnostics.md).
+See
+[`?ols_regress`](https://olsrr.rsquaredacademy.com/dev/reference/ols_regress.md),
+[`?ols_plot_resid_fit`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_fit.md)
 and
-[`ols_model_performance()`](https://olsrr.rsquaredacademy.com/reference/ols_model_performance.html)
-describes their output and options. Start with that residual
-investigation before using this model to make decisions about cars
-outside the observed sample.
+[`?ols_model_performance`](https://olsrr.rsquaredacademy.com/dev/reference/ols_model_performance.md)
+for their interfaces.

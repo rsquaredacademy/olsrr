@@ -7,6 +7,12 @@ Source:
 
 `influence_measures.Rmd`
 
+The examples use annual spending by 440 wholesale customers. They ask
+how milk spending relates to spending in other product categories; these
+are observational associations. See
+[`?wholesale_customers`](https://olsrr.rsquaredacademy.com/dev/reference/wholesale_customers.md)
+for source and units.
+
 ## Introduction
 
 It is possible for a single observation to have a great influence on the
@@ -47,7 +53,7 @@ A data point having a large cook’s d indicates that the data point
 strongly influences the fitted values.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_cooksd_bar`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_cooksd_bar.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/ckdbp-1.png)
@@ -58,7 +64,7 @@ Chart of Cook’s distance to detect observations that strongly influence
 fitted values of the model.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_cooksd_chart`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_cooksd_chart.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/ckchart-1.png)
@@ -74,7 +80,7 @@ Welsch recommend 2 as a general cutoff value to indicate influential
 observations and $`\frac{2}{\sqrt{n}}`$ as a size-adjusted cutoff.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_dfbetas`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_dfbetas.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/dfbpanel-1.png)
@@ -114,7 +120,7 @@ including intercept.
 olsrr uses the size adjusted cutoff by default.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_dffits`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_dffits.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/dfitsplot-1.png)
@@ -129,7 +135,7 @@ residuals. If an observation has an externally studentized residual that
 is larger than 3 (in absolute value) we can call it an outlier.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_resid_stud`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_stud.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/srplot-1.png)
@@ -140,17 +146,19 @@ Chart for detecting outliers. Standardized residual (internally
 studentized) is the residual divided by estimated standard deviation.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_resid_stand`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_stand.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/srchart-1.png)
 
 ### Studentized Residuals vs Leverage Plot
 
-Graph for detecting influential observations.
+Graph for detecting influential observations. The wholesale data include
+customers with unusual spending combinations; inspect them rather than
+deleting them automatically.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``read`` ``~`` ``write`` ``+`` ``math`` ``+`` ``science``, data ``=`` ``hsb``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_resid_lev`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_lev.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/studlev-1.png)
@@ -160,7 +168,7 @@ Graph for detecting influential observations.
 Graph for detecting outliers.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_resid_stud_fit`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_stud_fit.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/dsrvsp-1.png)
@@ -173,7 +181,7 @@ predictors or both. The plot is used to detect influential observations
 based on Hadi’s measure.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_hadi`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_hadi.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/hadiplot-1.png)
@@ -184,7 +192,7 @@ Plot to aid in classifying unusual observations as high-leverage points,
 outliers, or a combination of both.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_resid_pot`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_pot.md)`(``model``)`
 
 ![](influence_measures_files/figure-html/potres-1.png)

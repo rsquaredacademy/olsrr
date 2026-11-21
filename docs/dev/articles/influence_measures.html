@@ -97,6 +97,10 @@
 
     
     
+<p>The examples use annual spending by 440 wholesale customers. They ask
+how milk spending relates to spending in other product categories; these
+are observational associations. See <code><a href="../reference/wholesale_customers.html">?wholesale_customers</a></code>
+for source and units.</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -139,7 +143,7 @@ observation is deleted.</li>
 <p>A data point having a large cook’s d indicates that the data point
 strongly influences the fitted values.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_cooksd_bar.html">ols_plot_cooksd_bar</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/ckdbp-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
@@ -149,7 +153,7 @@ strongly influences the fitted values.</p>
 <p>Chart of Cook’s distance to detect observations that strongly
 influence fitted values of the model.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_cooksd_chart.html">ols_plot_cooksd_chart</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/ckchart-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -167,7 +171,7 @@ observations and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>2</mn><msqrt><mi>n</mi></msqrt></mfrac><annotation encoding="application/x-tex">\frac{2}{\sqrt{n}}</annotation></semantics></math>
 as a size-adjusted cutoff.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_dfbetas.html">ols_plot_dfbetas</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/dfbpanel-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
@@ -200,7 +204,7 @@ DFFITS value is greater than:</p>
 predictors including intercept.</p>
 <p>olsrr uses the size adjusted cutoff by default.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_dffits.html">ols_plot_dffits</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/dfitsplot-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -214,7 +218,7 @@ effective for detecting outlying Y observations than standardized
 residuals. If an observation has an externally studentized residual that
 is larger than 3 (in absolute value) we can call it an outlier.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_stud.html">ols_plot_resid_stud</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/srplot-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -225,16 +229,18 @@ is larger than 3 (in absolute value) we can call it an outlier.</p>
 studentized) is the residual divided by estimated standard
 deviation.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_stand.html">ols_plot_resid_stand</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/srchart-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="studentized-residuals-vs-leverage-plot">Studentized Residuals vs Leverage Plot<a class="anchor" aria-label="anchor" href="#studentized-residuals-vs-leverage-plot"></a>
 </h3>
-<p>Graph for detecting influential observations.</p>
+<p>Graph for detecting influential observations. The wholesale data
+include customers with unusual spending combinations; inspect them
+rather than deleting them automatically.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">read</span> <span class="op">~</span> <span class="va">write</span> <span class="op">+</span> <span class="va">math</span> <span class="op">+</span> <span class="va">science</span>, data <span class="op">=</span> <span class="va">hsb</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_lev.html">ols_plot_resid_lev</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/studlev-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
@@ -243,7 +249,7 @@ deviation.</p>
 </h3>
 <p>Graph for detecting outliers.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_stud_fit.html">ols_plot_resid_stud_fit</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/dsrvsp-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
@@ -255,7 +261,7 @@ observations can be present in either the response variable or in the
 predictors or both. The plot is used to detect influential observations
 based on Hadi’s measure.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_hadi.html">ols_plot_hadi</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/hadiplot-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -265,7 +271,7 @@ based on Hadi’s measure.</p>
 <p>Plot to aid in classifying unusual observations as high-leverage
 points, outliers, or a combination of both.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_pot.html">ols_plot_resid_pot</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="influence_measures_files/figure-html/potres-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -290,7 +296,14 @@ points, outliers, or a combination of both.</p>
       </nav>
 </div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>

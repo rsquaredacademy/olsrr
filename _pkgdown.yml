@@ -270,6 +270,7 @@ reference:
     contents:
       - surgical
       - stepdata
+      - wholesale_customers
 
 footer:
   structure:

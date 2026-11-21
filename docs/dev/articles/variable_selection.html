@@ -97,6 +97,10 @@
 
     
     
+<p>The examples use annual spending by 440 wholesale customers. They ask
+how milk spending relates to spending in other product categories; these
+are observational associations. See <code><a href="../reference/wholesale_customers.html">?wholesale_customers</a></code>
+for source and units.</p>
 <style type="text/css">
 #best-subset-regression pre { /* Code block */
   font-size: 10px
@@ -127,24 +131,40 @@ which is 1024, and if you have 20 candidate variables, the number is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>20</mn></msup><annotation encoding="application/x-tex">2^{20}</annotation></semantics></math>,
 which is more than one million.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_step_all_possible.html">ols_step_all_possible</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##    Index N      Predictors  R-Square Adj. R-Square Mallow's Cp</span></span>
-<span><span class="co">## 3      1 1              wt 0.7528328     0.7445939   12.480939</span></span>
-<span><span class="co">## 1      2 1            disp 0.7183433     0.7089548   18.129607</span></span>
-<span><span class="co">## 2      3 1              hp 0.6024373     0.5891853   37.112642</span></span>
-<span><span class="co">## 4      4 1            qsec 0.1752963     0.1478062  107.069616</span></span>
-<span><span class="co">## 8      5 2           hp wt 0.8267855     0.8148396    2.369005</span></span>
-<span><span class="co">## 10     6 2         wt qsec 0.8264161     0.8144448    2.429492</span></span>
-<span><span class="co">## 6      7 2         disp wt 0.7809306     0.7658223    9.879096</span></span>
-<span><span class="co">## 5      8 2         disp hp 0.7482402     0.7308774   15.233115</span></span>
-<span><span class="co">## 7      9 2       disp qsec 0.7215598     0.7023571   19.602810</span></span>
-<span><span class="co">## 9     10 2         hp qsec 0.6368769     0.6118339   33.472150</span></span>
-<span><span class="co">## 14    11 3      hp wt qsec 0.8347678     0.8170643    3.061665</span></span>
-<span><span class="co">## 11    12 3      disp hp wt 0.8268361     0.8082829    4.360702</span></span>
-<span><span class="co">## 13    13 3    disp wt qsec 0.8264170     0.8078189    4.429343</span></span>
-<span><span class="co">## 12    14 3    disp hp qsec 0.7541953     0.7278591   16.257790</span></span>
-<span><span class="co">## 15    15 4 disp hp wt qsec 0.8351443     0.8107212    5.000000</span></span></code></pre>
+<pre><code><span><span class="co">##    Index N                            Predictors   R-Square Adj. R-Square</span></span>
+<span><span class="co">## 1      1 1                               grocery 0.53047204   0.529400063</span></span>
+<span><span class="co">## 2      2 1                      detergents_paper 0.43799999   0.436716888</span></span>
+<span><span class="co">## 4      3 1                                frozen 0.01537445   0.013126449</span></span>
+<span><span class="co">## 3      4 1                                 fresh 0.01010221   0.007842173</span></span>
+<span><span class="co">## 7      5 2                        grocery frozen 0.55400099   0.551959808</span></span>
+<span><span class="co">## 6      6 2                         grocery fresh 0.54238599   0.540291649</span></span>
+<span><span class="co">## 5      7 2              grocery detergents_paper 0.53140501   0.529260415</span></span>
+<span><span class="co">## 9      8 2               detergents_paper frozen 0.48332146   0.480956800</span></span>
+<span><span class="co">## 8      9 2                detergents_paper fresh 0.46651495   0.464073374</span></span>
+<span><span class="co">## 10    10 2                          fresh frozen 0.01914603   0.014656994</span></span>
+<span><span class="co">## 13    11 3                  grocery fresh frozen 0.55757823   0.554534048</span></span>
+<span><span class="co">## 12    12 3       grocery detergents_paper frozen 0.55406080   0.550992413</span></span>
+<span><span class="co">## 11    13 3        grocery detergents_paper fresh 0.54240712   0.539258549</span></span>
+<span><span class="co">## 14    14 3         detergents_paper fresh frozen 0.49395680   0.490474852</span></span>
+<span><span class="co">## 15    15 4 grocery detergents_paper fresh frozen 0.55790487   0.553839626</span></span>
+<span><span class="co">##    Mallow's Cp</span></span>
+<span><span class="co">## 1    25.992559</span></span>
+<span><span class="co">## 2   116.980537</span></span>
+<span><span class="co">## 4   532.823412</span></span>
+<span><span class="co">## 3   538.011037</span></span>
+<span><span class="co">## 7     4.841223</span></span>
+<span><span class="co">## 6    16.269817</span></span>
+<span><span class="co">## 5    27.074562</span></span>
+<span><span class="co">## 9    74.386427</span></span>
+<span><span class="co">## 8    90.923210</span></span>
+<span><span class="co">## 10  531.112366</span></span>
+<span><span class="co">## 13    3.321393</span></span>
+<span><span class="co">## 12    6.782374</span></span>
+<span><span class="co">## 11   18.249024</span></span>
+<span><span class="co">## 14   65.921774</span></span>
+<span><span class="co">## 15    5.000000</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="best-subset-regression">Best Subset Regression<a class="anchor" aria-label="anchor" href="#best-subset-regression"></a>
@@ -153,28 +173,28 @@ which is more than one million.</p>
 well-defined objective criterion, such as having the largest R2 value or
 the smallest MSE, Mallow’s Cp or AIC.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_step_best_subset.html">ols_step_best_subset</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##    Best Subsets Regression    </span></span>
-<span><span class="co">## ------------------------------</span></span>
+<pre><code><span><span class="co">##               Best Subsets Regression               </span></span>
+<span><span class="co">## ----------------------------------------------------</span></span>
 <span><span class="co">## Model Index    Predictors</span></span>
-<span><span class="co">## ------------------------------</span></span>
-<span><span class="co">##      1         wt              </span></span>
-<span><span class="co">##      2         hp wt           </span></span>
-<span><span class="co">##      3         hp wt qsec      </span></span>
-<span><span class="co">##      4         disp hp wt qsec </span></span>
-<span><span class="co">## ------------------------------</span></span>
+<span><span class="co">## ----------------------------------------------------</span></span>
+<span><span class="co">##      1         grocery                               </span></span>
+<span><span class="co">##      2         grocery frozen                        </span></span>
+<span><span class="co">##      3         grocery fresh frozen                  </span></span>
+<span><span class="co">##      4         grocery detergents_paper fresh frozen </span></span>
+<span><span class="co">## ----------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                                   Subsets Regression Summary                                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##                        Adj.        Pred                                                                                         </span></span>
-<span><span class="co">## Model    R-Square    R-Square    R-Square     C(p)        AIC        SBIC        SBC        MSEP      FPE       HSP       APC  </span></span>
-<span><span class="co">## -------------------------------------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##   1        0.7528      0.7446      0.7087    12.4809    166.0294    74.2916    170.4266    9.8972    9.8572    0.3199    0.2801 </span></span>
-<span><span class="co">##   2        0.8268      0.8148      0.7811     2.3690    156.6523    66.5755    162.5153    7.4314    7.3563    0.2402    0.2091 </span></span>
-<span><span class="co">##   3        0.8348      0.8171       0.782     3.0617    157.1426    67.7238    164.4713    7.6140    7.4756    0.2461    0.2124 </span></span>
-<span><span class="co">##   4        0.8351      0.8107       0.771     5.0000    159.0696    70.0408    167.8640    8.1810    7.9497    0.2644    0.2259 </span></span>
-<span><span class="co">## -------------------------------------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                                              Subsets Regression Summary                                                              </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Adj.        Pred                                                                                                               </span></span>
+<span><span class="co">## Model    R-Square    R-Square    R-Square     C(p)         AIC         SBIC          SBC           MSEP              FPE            HSP         APC  </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">##   1        0.5305      0.5294      0.5088    25.9926    8758.8031    7509.9423    8771.0634    25750612.6184    25750079.3635    58658.0393    0.4738 </span></span>
+<span><span class="co">##   2        0.5540      0.5520      0.5237     4.8412    8738.1822    7489.5321    8754.5293    24572402.6404    24571130.5004    55974.1619    0.4521 </span></span>
+<span><span class="co">##   3        0.5576      0.5545      0.5239     3.3214    8736.6389    7488.0587    8757.0727    24487384.2572    24485102.3278    55780.4961    0.4505 </span></span>
+<span><span class="co">##   4        0.5579      0.5538       0.505     5.0000    8738.3139    7489.7627    8762.8346    24582067.2939    24578503.9008    55996.1773    0.4523 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------------------------------------------------------------</span></span>
 <span><span class="co">## AIC: Akaike Information Criteria </span></span>
 <span><span class="co">##  SBIC: Sawa's Bayesian Information Criteria </span></span>
 <span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
@@ -199,35 +219,35 @@ statistically significant variables one at a time.</p>
 <h3 id="model">Model<a class="anchor" aria-label="anchor" href="#model"></a>
 </h3>
 <p>We will use the below model throughout this article except in the
-case of hierarchical selection. You can learn more about the data <a href="https://olsrr.rsquaredacademy.com/reference/surgical">here</a>.</p>
+case of hierarchical selection. The wholesale customer data record
+annual spending by product category. Can spending in the other
+categories help explain milk spending?</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">surgical</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span> <span class="op">+</span> <span class="va">delicassen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Call:</span></span>
-<span><span class="co">## lm(formula = y ~ ., data = surgical)</span></span>
+<span><span class="co">## lm(formula = milk ~ grocery + detergents_paper + fresh + frozen + </span></span>
+<span><span class="co">##     delicassen, data = wholesale_customers)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Residuals:</span></span>
-<span><span class="co">##     Min      1Q  Median      3Q     Max </span></span>
-<span><span class="co">## -285.36 -132.75  -10.00   89.48  790.12 </span></span>
+<span><span class="co">##    Min     1Q Median     3Q    Max </span></span>
+<span><span class="co">## -33874  -1543   -527    865  53454 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Coefficients:</span></span>
-<span><span class="co">##              Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">## (Intercept) -1148.823    242.328  -4.741 2.17e-05 ***</span></span>
-<span><span class="co">## bcs            62.390     24.470   2.550 0.014258 *  </span></span>
-<span><span class="co">## pindex          8.973      1.874   4.788 1.86e-05 ***</span></span>
-<span><span class="co">## enzyme_test     9.888      1.742   5.677 9.39e-07 ***</span></span>
-<span><span class="co">## liver_test     50.413     44.959   1.121 0.268109    </span></span>
-<span><span class="co">## age            -0.951      2.649  -0.359 0.721231    </span></span>
-<span><span class="co">## gender         15.874     58.475   0.271 0.787269    </span></span>
-<span><span class="co">## alc_mod         7.713     64.956   0.119 0.906007    </span></span>
-<span><span class="co">## alc_heavy     320.697     85.070   3.770 0.000474 ***</span></span>
+<span><span class="co">##                   Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">## (Intercept)      262.75163  369.34483   0.711   0.4772    </span></span>
+<span><span class="co">## grocery            0.38395    0.06674   5.753 1.66e-08 ***</span></span>
+<span><span class="co">## detergents_paper   0.30689    0.13166   2.331   0.0202 *  </span></span>
+<span><span class="co">## fresh              0.02613    0.01905   1.372   0.1709    </span></span>
+<span><span class="co">## frozen             0.08068    0.05233   1.542   0.1239    </span></span>
+<span><span class="co">## delicassen         0.67869    0.09138   7.427 5.94e-13 ***</span></span>
 <span><span class="co">## ---</span></span>
 <span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Residual standard error: 201.4 on 45 degrees of freedom</span></span>
-<span><span class="co">## Multiple R-squared:  0.7818, Adjusted R-squared:  0.7431 </span></span>
-<span><span class="co">## F-statistic: 20.16 on 8 and 45 DF,  p-value: 1.607e-12</span></span></code></pre>
+<span><span class="co">## Residual standard error: 4649 on 434 degrees of freedom</span></span>
+<span><span class="co">## Multiple R-squared:  0.6078, Adjusted R-squared:  0.6032 </span></span>
+<span><span class="co">## F-statistic: 134.5 on 5 and 434 DF,  p-value: &lt; 2.2e-16</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="model-specification">Model specification<a class="anchor" aria-label="anchor" href="#model-specification"></a>
@@ -244,55 +264,55 @@ selection/elimination from the model specified.</p>
 <span><span class="fu"><a href="../reference/ols_step_forward_p.html">ols_step_forward_p</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                               Stepwise Summary                              </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">## Step    Variable         AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">##  0      Base Model     802.606    806.584    646.794    0.00000    0.00000 </span></span>
-<span><span class="co">##  1      liver_test     771.875    777.842    616.009    0.45454    0.44405 </span></span>
-<span><span class="co">##  2      alc_heavy      761.439    769.395    605.506    0.56674    0.54975 </span></span>
-<span><span class="co">##  3      enzyme_test    750.509    760.454    595.297    0.65900    0.63854 </span></span>
-<span><span class="co">##  4      pindex         735.715    747.649    582.943    0.75015    0.72975 </span></span>
-<span><span class="co">##  5      bcs            730.620    744.543    579.638    0.78091    0.75808 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                   Stepwise Summary                                  </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Step    Variable              AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##  0      Base Model          9089.455    9097.629    7838.859    0.00000    0.00000 </span></span>
+<span><span class="co">##  1      grocery             8758.803    8771.063    7509.478    0.53047    0.52940 </span></span>
+<span><span class="co">##  2      delicassen          8691.088    8707.435    7442.376    0.59927    0.59744 </span></span>
+<span><span class="co">##  3      detergents_paper    8689.441    8709.875    7440.780    0.60258    0.59984 </span></span>
+<span><span class="co">##  4      frozen              8687.574    8712.095    7439.003    0.60606    0.60243 </span></span>
+<span><span class="co">##  5      fresh               8687.671    8716.279    7439.171    0.60776    0.60324 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Final Model Output </span></span>
 <span><span class="co">## ------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                            Model Summary                            </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">## R                         0.884       RMSE                 195.454 </span></span>
-<span><span class="co">## R-Squared                 0.781       MSE                38202.426 </span></span>
-<span><span class="co">## Adj. R-Squared            0.758       Coef. Var             27.839 </span></span>
-<span><span class="co">## Pred R-Squared            0.700       AIC                  730.620 </span></span>
-<span><span class="co">## MAE                     137.656       SBC                  744.543 </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
+<span><span class="co">##                              Model Summary                              </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
+<span><span class="co">## R                          0.780       RMSE                   4648.832 </span></span>
+<span><span class="co">## R-Squared                  0.608       MSE                21611643.326 </span></span>
+<span><span class="co">## Adj. R-Squared             0.603       Coef. Var                80.204 </span></span>
+<span><span class="co">## Pred R-Squared             0.563       AIC                    8687.671 </span></span>
+<span><span class="co">## MAE                     2395.939       SBC                    8716.279 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
 <span><span class="co">##  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">##  MSE: Mean Square Error </span></span>
 <span><span class="co">##  MAE: Mean Absolute Error </span></span>
 <span><span class="co">##  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                   ANOVA                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                                </span></span>
-<span><span class="co">##                   Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Regression    6535804.090         5    1307160.818    34.217    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual      1833716.447        48      38202.426                       </span></span>
-<span><span class="co">## Total         8369520.537        53                                      </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                       ANOVA                                        </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Sum of                                                     </span></span>
+<span><span class="co">##                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Regression    14532862414.278          5    2906572482.856    134.491    &lt; 0.0001 </span></span>
+<span><span class="co">## Residual       9379453203.611        434      21611643.326                        </span></span>
+<span><span class="co">## Total         23912315617.889        439                                          </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##                                         Parameter Estimates                                         </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##       model         Beta    Std. Error    Std. Beta      t         Sig           lower       upper </span></span>
+<span><span class="co">##            model       Beta    Std. Error    Std. Beta      t        Sig          lower      upper </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">## (Intercept)    -1178.330       208.682                 -5.647    &lt; 0.0001    -1597.914    -758.746 </span></span>
-<span><span class="co">##  liver_test       58.064        40.144        0.156     1.446      0.1546      -22.652     138.779 </span></span>
-<span><span class="co">##   alc_heavy      317.848        71.634        0.314     4.437    &lt; 0.0001      173.818     461.878 </span></span>
-<span><span class="co">## enzyme_test        9.748         1.656        0.521     5.887    &lt; 0.0001        6.419      13.077 </span></span>
-<span><span class="co">##      pindex        8.924         1.808        0.380     4.935    &lt; 0.0001        5.288      12.559 </span></span>
-<span><span class="co">##         bcs       59.864        23.060        0.241     2.596      0.0125       13.498     106.230 </span></span>
+<span><span class="co">##      (Intercept)    262.752       369.345                 0.711      0.4772    -463.175    988.679 </span></span>
+<span><span class="co">##          grocery      0.384         0.067        0.494    5.753    &lt; 0.0001       0.253      0.515 </span></span>
+<span><span class="co">##       delicassen      0.679         0.091        0.259    7.427    &lt; 0.0001       0.499      0.858 </span></span>
+<span><span class="co">## detergents_paper      0.307         0.132        0.198    2.331      0.0202       0.048      0.566 </span></span>
+<span><span class="co">##           frozen      0.081         0.052        0.053    1.542      0.1239      -0.022      0.184 </span></span>
+<span><span class="co">##            fresh      0.026         0.019        0.045    1.372      0.1709      -0.011      0.064 </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level5">
@@ -301,56 +321,7 @@ selection/elimination from the model specified.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># stepwise backward regression</span></span>
 <span><span class="fu"><a href="../reference/ols_step_backward_p.html">ols_step_backward_p</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##                              Stepwise Summary                              </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Step    Variable        AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##  0      Full Model    736.390    756.280    586.665    0.78184    0.74305 </span></span>
-<span><span class="co">##  1      alc_mod       734.407    752.308    584.276    0.78177    0.74856 </span></span>
-<span><span class="co">##  2      gender        732.494    748.406    581.938    0.78142    0.75351 </span></span>
-<span><span class="co">##  3      age           730.620    744.543    579.638    0.78091    0.75808 </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Final Model Output </span></span>
-<span><span class="co">## ------------------</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##                            Model Summary                            </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">## R                         0.884       RMSE                 195.454 </span></span>
-<span><span class="co">## R-Squared                 0.781       MSE                38202.426 </span></span>
-<span><span class="co">## Adj. R-Squared            0.758       Coef. Var             27.839 </span></span>
-<span><span class="co">## Pred R-Squared            0.700       AIC                  730.620 </span></span>
-<span><span class="co">## MAE                     137.656       SBC                  744.543 </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">##  RMSE: Root Mean Square Error </span></span>
-<span><span class="co">##  MSE: Mean Square Error </span></span>
-<span><span class="co">##  MAE: Mean Absolute Error </span></span>
-<span><span class="co">##  AIC: Akaike Information Criteria </span></span>
-<span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##                                   ANOVA                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                                </span></span>
-<span><span class="co">##                   Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Regression    6535804.090         5    1307160.818    34.217    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual      1833716.447        48      38202.426                       </span></span>
-<span><span class="co">## Total         8369520.537        53                                      </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##                                         Parameter Estimates                                         </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##       model         Beta    Std. Error    Std. Beta      t         Sig           lower       upper </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">## (Intercept)    -1178.330       208.682                 -5.647    &lt; 0.0001    -1597.914    -758.746 </span></span>
-<span><span class="co">##         bcs       59.864        23.060        0.241     2.596      0.0125       13.498     106.230 </span></span>
-<span><span class="co">##      pindex        8.924         1.808        0.380     4.935    &lt; 0.0001        5.288      12.559 </span></span>
-<span><span class="co">## enzyme_test        9.748         1.656        0.521     5.887    &lt; 0.0001        6.419      13.077 </span></span>
-<span><span class="co">##  liver_test       58.064        40.144        0.156     1.446      0.1546      -22.652     138.779 </span></span>
-<span><span class="co">##   alc_heavy      317.848        71.634        0.314     4.437    &lt; 0.0001      173.818     461.878 </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "No variables have been removed from the model."</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -376,121 +347,109 @@ by name or position in the model specified.</p>
 <h5 id="by-name">By name<a class="anchor" aria-label="anchor" href="#by-name"></a>
 </h5>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_step_forward_p.html">ols_step_forward_p</a></span><span class="op">(</span><span class="va">model</span>, include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"alc_mod"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_step_forward_p.html">ols_step_forward_p</a></span><span class="op">(</span><span class="va">model</span>, include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grocery"</span>, <span class="st">"fresh"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                               Stepwise Summary                               </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------</span></span>
-<span><span class="co">## Step    Variable         AIC        SBC       SBIC        R2       Adj. R2  </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------</span></span>
-<span><span class="co">##  0      Base Model     804.340    812.295    645.675    0.04110     0.00350 </span></span>
-<span><span class="co">##  1      age            803.834    809.801    646.572    0.01420    -0.00476 </span></span>
-<span><span class="co">##  2      alc_mod        804.340    812.295    645.675    0.04110     0.00350 </span></span>
-<span><span class="co">##  3      liver_test     772.922    782.867    615.246    0.48357     0.45258 </span></span>
-<span><span class="co">##  4      enzyme_test    763.665    775.599    606.382    0.58074     0.54652 </span></span>
-<span><span class="co">##  5      alc_heavy      754.332    768.255    598.224    0.66012     0.62471 </span></span>
-<span><span class="co">##  6      pindex         739.680    755.592    587.108    0.75031     0.71843 </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                Stepwise Summary                               </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
+<span><span class="co">## Step    Variable        AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
+<span><span class="co">##  0      Base Model    8749.494    8765.841    7500.008    0.54239    0.54029 </span></span>
+<span><span class="co">##  1      grocery       8758.803    8771.063    7509.478    0.53047    0.52940 </span></span>
+<span><span class="co">##  2      fresh         8749.494    8765.841    7500.008    0.54239    0.54029 </span></span>
+<span><span class="co">##  3      delicassen    8690.923    8711.357    7442.235    0.60124    0.59849 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Final Model Output </span></span>
 <span><span class="co">## ------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                            Model Summary                            </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">## R                         0.866       RMSE                 210.866 </span></span>
-<span><span class="co">## R-Squared                 0.750       MSE                44464.323 </span></span>
-<span><span class="co">## Adj. R-Squared            0.718       Coef. Var             30.034 </span></span>
-<span><span class="co">## Pred R-Squared            0.649       AIC                  739.680 </span></span>
-<span><span class="co">## MAE                     146.418       SBC                  755.592 </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
+<span><span class="co">##                              Model Summary                              </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
+<span><span class="co">## R                          0.775       RMSE                   4676.537 </span></span>
+<span><span class="co">## R-Squared                  0.601       MSE                21869998.439 </span></span>
+<span><span class="co">## Adj. R-Squared             0.598       Coef. Var                80.682 </span></span>
+<span><span class="co">## Pred R-Squared             0.574       AIC                    8690.923 </span></span>
+<span><span class="co">## MAE                     2407.196       SBC                    8711.357 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
 <span><span class="co">##  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">##  MSE: Mean Square Error </span></span>
 <span><span class="co">##  MAE: Mean Absolute Error </span></span>
 <span><span class="co">##  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                   ANOVA                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                                </span></span>
-<span><span class="co">##                   Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Regression    6279697.346         6    1046616.224    23.538    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual      2089823.191        47      44464.323                       </span></span>
-<span><span class="co">## Total         8369520.537        53                                      </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                       ANOVA                                        </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Sum of                                                     </span></span>
+<span><span class="co">##                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Regression         1.4377e+10          3    4792332099.564    219.128    &lt; 0.0001 </span></span>
+<span><span class="co">## Residual       9535319319.196        436      21869998.439                        </span></span>
+<span><span class="co">## Total         23912315617.889        439                                          </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                        Parameter Estimates                                         </span></span>
-<span><span class="co">## --------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##       model        Beta    Std. Error    Std. Beta      t         Sig           lower       upper </span></span>
-<span><span class="co">## --------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">## (Intercept)    -814.092       213.222                 -3.818      0.0004    -1243.041    -385.144 </span></span>
-<span><span class="co">##         age       0.458         2.706        0.013     0.169      0.8662       -4.985       5.902 </span></span>
-<span><span class="co">##     alc_mod       1.088        67.941        0.001     0.016      0.9873     -135.591     137.768 </span></span>
-<span><span class="co">##  liver_test     126.675        33.832        0.341     3.744      0.0005       58.613     194.737 </span></span>
-<span><span class="co">## enzyme_test       7.523         1.543        0.402     4.874    &lt; 0.0001        4.418      10.628 </span></span>
-<span><span class="co">##   alc_heavy     361.751        87.140        0.357     4.151      0.0001      186.448     537.053 </span></span>
-<span><span class="co">##      pindex       7.862         1.908        0.334     4.120      0.0002        4.023      11.700 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------------------------------</span></span></code></pre>
+<span><span class="co">##                                       Parameter Estimates                                       </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">##       model       Beta    Std. Error    Std. Beta      t         Sig          lower      upper </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">## (Intercept)    277.064       362.416                  0.764      0.4450    -435.235    989.363 </span></span>
+<span><span class="co">##     grocery      0.525         0.024        0.676    21.836    &lt; 0.0001       0.478      0.572 </span></span>
+<span><span class="co">##       fresh      0.027         0.018        0.046     1.466      0.1432      -0.009      0.063 </span></span>
+<span><span class="co">##  delicassen      0.670         0.084        0.256     8.022    &lt; 0.0001       0.506      0.835 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level5">
 <h5 id="by-index">By index<a class="anchor" aria-label="anchor" href="#by-index"></a>
 </h5>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_step_forward_p.html">ols_step_forward_p</a></span><span class="op">(</span><span class="va">model</span>, include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_step_forward_p.html">ols_step_forward_p</a></span><span class="op">(</span><span class="va">model</span>, include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                               Stepwise Summary                               </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------</span></span>
-<span><span class="co">## Step    Variable         AIC        SBC       SBIC        R2       Adj. R2  </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------</span></span>
-<span><span class="co">##  0      Base Model     804.340    812.295    645.675    0.04110     0.00350 </span></span>
-<span><span class="co">##  1      age            803.834    809.801    646.572    0.01420    -0.00476 </span></span>
-<span><span class="co">##  2      alc_mod        804.340    812.295    645.675    0.04110     0.00350 </span></span>
-<span><span class="co">##  3      liver_test     772.922    782.867    615.246    0.48357     0.45258 </span></span>
-<span><span class="co">##  4      enzyme_test    763.665    775.599    606.382    0.58074     0.54652 </span></span>
-<span><span class="co">##  5      alc_heavy      754.332    768.255    598.224    0.66012     0.62471 </span></span>
-<span><span class="co">##  6      pindex         739.680    755.592    587.108    0.75031     0.71843 </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                   Stepwise Summary                                  </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Step    Variable              AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##  0      Base Model          8802.908    8819.255    7552.754    0.48332    0.48096 </span></span>
+<span><span class="co">##  1      detergents_paper    8837.904    8850.164    7587.897    0.43800    0.43672 </span></span>
+<span><span class="co">##  2      frozen              8802.908    8819.255    7552.754    0.48332    0.48096 </span></span>
+<span><span class="co">##  3      delicassen          8720.085    8740.519    7470.877    0.57391    0.57098 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Final Model Output </span></span>
 <span><span class="co">## ------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                            Model Summary                            </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">## R                         0.866       RMSE                 210.866 </span></span>
-<span><span class="co">## R-Squared                 0.750       MSE                44464.323 </span></span>
-<span><span class="co">## Adj. R-Squared            0.718       Coef. Var             30.034 </span></span>
-<span><span class="co">## Pred R-Squared            0.649       AIC                  739.680 </span></span>
-<span><span class="co">## MAE                     146.418       SBC                  755.592 </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
+<span><span class="co">##                              Model Summary                              </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
+<span><span class="co">## R                          0.758       RMSE                   4834.109 </span></span>
+<span><span class="co">## R-Squared                  0.574       MSE                23368610.896 </span></span>
+<span><span class="co">## Adj. R-Squared             0.571       Coef. Var                83.400 </span></span>
+<span><span class="co">## Pred R-Squared             0.536       AIC                    8720.085 </span></span>
+<span><span class="co">## MAE                     2610.090       SBC                    8740.519 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
 <span><span class="co">##  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">##  MSE: Mean Square Error </span></span>
 <span><span class="co">##  MAE: Mean Absolute Error </span></span>
 <span><span class="co">##  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                   ANOVA                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                                </span></span>
-<span><span class="co">##                   Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Regression    6279697.346         6    1046616.224    23.538    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual      2089823.191        47      44464.323                       </span></span>
-<span><span class="co">## Total         8369520.537        53                                      </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                       ANOVA                                        </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Sum of                                                     </span></span>
+<span><span class="co">##                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Regression    13723601267.393          3    4574533755.798    195.755    &lt; 0.0001 </span></span>
+<span><span class="co">## Residual      10188714350.496        436      23368610.896                        </span></span>
+<span><span class="co">## Total         23912315617.889        439                                          </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                        Parameter Estimates                                         </span></span>
-<span><span class="co">## --------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##       model        Beta    Std. Error    Std. Beta      t         Sig           lower       upper </span></span>
-<span><span class="co">## --------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">## (Intercept)    -814.092       213.222                 -3.818      0.0004    -1243.041    -385.144 </span></span>
-<span><span class="co">##         age       0.458         2.706        0.013     0.169      0.8662       -4.985       5.902 </span></span>
-<span><span class="co">##     alc_mod       1.088        67.941        0.001     0.016      0.9873     -135.591     137.768 </span></span>
-<span><span class="co">##  liver_test     126.675        33.832        0.341     3.744      0.0005       58.613     194.737 </span></span>
-<span><span class="co">## enzyme_test       7.523         1.543        0.402     4.874    &lt; 0.0001        4.418      10.628 </span></span>
-<span><span class="co">##   alc_heavy     361.751        87.140        0.357     4.151      0.0001      186.448     537.053 </span></span>
-<span><span class="co">##      pindex       7.862         1.908        0.334     4.120      0.0002        4.023      11.700 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------------------------------</span></span></code></pre>
+<span><span class="co">##                                          Parameter Estimates                                          </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">##            model        Beta    Std. Error    Std. Beta      t         Sig         lower       upper </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">##      (Intercept)    1206.817       320.662                  3.764      0.0002    576.581    1837.053 </span></span>
+<span><span class="co">## detergents_paper       1.005         0.049        0.650    20.416    &lt; 0.0001      0.909       1.102 </span></span>
+<span><span class="co">##           frozen       0.122         0.052        0.080     2.333      0.0201      0.019       0.225 </span></span>
+<span><span class="co">##       delicassen       0.863         0.090        0.330     9.628    &lt; 0.0001      0.687       1.040 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------------------------</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -509,55 +468,55 @@ includes:</p>
 <span><span class="fu"><a href="../reference/ols_step_forward_adj_r2.html">ols_step_forward_adj_r2</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                               Stepwise Summary                              </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">## Step    Variable         AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">##  0      Base Model     802.606    806.584    646.794    0.00000    0.00000 </span></span>
-<span><span class="co">##  1      liver_test     771.875    777.842    616.009    0.45454    0.44405 </span></span>
-<span><span class="co">##  2      alc_heavy      761.439    769.395    605.506    0.56674    0.54975 </span></span>
-<span><span class="co">##  3      enzyme_test    750.509    760.454    595.297    0.65900    0.63854 </span></span>
-<span><span class="co">##  4      pindex         735.715    747.649    582.943    0.75015    0.72975 </span></span>
-<span><span class="co">##  5      bcs            730.620    744.543    579.638    0.78091    0.75808 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                   Stepwise Summary                                  </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Step    Variable              AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##  0      Base Model          9089.455    9097.629    7838.859    0.00000    0.00000 </span></span>
+<span><span class="co">##  1      grocery             8758.803    8771.063    7509.478    0.53047    0.52940 </span></span>
+<span><span class="co">##  2      delicassen          8691.088    8707.435    7442.376    0.59927    0.59744 </span></span>
+<span><span class="co">##  3      detergents_paper    8689.441    8709.875    7440.780    0.60258    0.59984 </span></span>
+<span><span class="co">##  4      frozen              8687.574    8712.095    7439.003    0.60606    0.60243 </span></span>
+<span><span class="co">##  5      fresh               8687.671    8716.279    7439.171    0.60776    0.60324 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Final Model Output </span></span>
 <span><span class="co">## ------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                            Model Summary                            </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">## R                         0.884       RMSE                 195.454 </span></span>
-<span><span class="co">## R-Squared                 0.781       MSE                38202.426 </span></span>
-<span><span class="co">## Adj. R-Squared            0.758       Coef. Var             27.839 </span></span>
-<span><span class="co">## Pred R-Squared            0.700       AIC                  730.620 </span></span>
-<span><span class="co">## MAE                     137.656       SBC                  744.543 </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
+<span><span class="co">##                              Model Summary                              </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
+<span><span class="co">## R                          0.780       RMSE                   4648.832 </span></span>
+<span><span class="co">## R-Squared                  0.608       MSE                21611643.326 </span></span>
+<span><span class="co">## Adj. R-Squared             0.603       Coef. Var                80.204 </span></span>
+<span><span class="co">## Pred R-Squared             0.563       AIC                    8687.671 </span></span>
+<span><span class="co">## MAE                     2395.939       SBC                    8716.279 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
 <span><span class="co">##  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">##  MSE: Mean Square Error </span></span>
 <span><span class="co">##  MAE: Mean Absolute Error </span></span>
 <span><span class="co">##  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                   ANOVA                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                                </span></span>
-<span><span class="co">##                   Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Regression    6535804.090         5    1307160.818    34.217    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual      1833716.447        48      38202.426                       </span></span>
-<span><span class="co">## Total         8369520.537        53                                      </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                       ANOVA                                        </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Sum of                                                     </span></span>
+<span><span class="co">##                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Regression    14532862414.278          5    2906572482.856    134.491    &lt; 0.0001 </span></span>
+<span><span class="co">## Residual       9379453203.611        434      21611643.326                        </span></span>
+<span><span class="co">## Total         23912315617.889        439                                          </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##                                         Parameter Estimates                                         </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##       model         Beta    Std. Error    Std. Beta      t         Sig           lower       upper </span></span>
+<span><span class="co">##            model       Beta    Std. Error    Std. Beta      t        Sig          lower      upper </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">## (Intercept)    -1178.330       208.682                 -5.647    &lt; 0.0001    -1597.914    -758.746 </span></span>
-<span><span class="co">##  liver_test       58.064        40.144        0.156     1.446      0.1546      -22.652     138.779 </span></span>
-<span><span class="co">##   alc_heavy      317.848        71.634        0.314     4.437    &lt; 0.0001      173.818     461.878 </span></span>
-<span><span class="co">## enzyme_test        9.748         1.656        0.521     5.887    &lt; 0.0001        6.419      13.077 </span></span>
-<span><span class="co">##      pindex        8.924         1.808        0.380     4.935    &lt; 0.0001        5.288      12.559 </span></span>
-<span><span class="co">##         bcs       59.864        23.060        0.241     2.596      0.0125       13.498     106.230 </span></span>
+<span><span class="co">##      (Intercept)    262.752       369.345                 0.711      0.4772    -463.175    988.679 </span></span>
+<span><span class="co">##          grocery      0.384         0.067        0.494    5.753    &lt; 0.0001       0.253      0.515 </span></span>
+<span><span class="co">##       delicassen      0.679         0.091        0.259    7.427    &lt; 0.0001       0.499      0.858 </span></span>
+<span><span class="co">## detergents_paper      0.307         0.132        0.198    2.331      0.0202       0.048      0.566 </span></span>
+<span><span class="co">##           frozen      0.081         0.052        0.053    1.542      0.1239      -0.022      0.184 </span></span>
+<span><span class="co">##            fresh      0.026         0.019        0.045    1.372      0.1709      -0.011      0.064 </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -592,177 +551,143 @@ will display the following information at each step:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Candidate Terms: </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## 1. bcs </span></span>
-<span><span class="co">## 2. pindex </span></span>
-<span><span class="co">## 3. enzyme_test </span></span>
-<span><span class="co">## 4. liver_test </span></span>
-<span><span class="co">## 5. age </span></span>
-<span><span class="co">## 6. gender </span></span>
-<span><span class="co">## 7. alc_mod </span></span>
-<span><span class="co">## 8. alc_heavy </span></span>
+<span><span class="co">## 1. grocery </span></span>
+<span><span class="co">## 2. detergents_paper </span></span>
+<span><span class="co">## 3. fresh </span></span>
+<span><span class="co">## 4. frozen </span></span>
+<span><span class="co">## 5. delicassen </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Step     =&gt; 0 </span></span>
-<span><span class="co">## Model    =&gt; y ~ 1 </span></span>
+<span><span class="co">## Model    =&gt; milk ~ 1 </span></span>
 <span><span class="co">## Adj. R2  =&gt; 0 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Initiating stepwise selection... </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                        Table: Adding New Variables                        </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Predictor      DF      AIC        SBC       SBIC        R2       Adj. R2  </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## liver_test      1    771.875    777.842    616.009    0.45454     0.44405 </span></span>
-<span><span class="co">## enzyme_test     1    782.629    788.596    626.220    0.33435     0.32154 </span></span>
-<span><span class="co">## pindex          1    794.100    800.067    637.196    0.17680     0.16097 </span></span>
-<span><span class="co">## alc_heavy       1    794.301    800.268    637.389    0.17373     0.15784 </span></span>
-<span><span class="co">## bcs             1    797.697    803.664    640.655    0.12010     0.10318 </span></span>
-<span><span class="co">## alc_mod         1    802.828    808.795    645.601    0.03239     0.01378 </span></span>
-<span><span class="co">## gender          1    802.956    808.923    645.725    0.03009     0.01143 </span></span>
-<span><span class="co">## age             1    803.834    809.801    646.572    0.01420    -0.00476 </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">##                           Table: Adding New Variables                            </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Predictor           DF      AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
+<span><span class="co">## grocery              1    8758.803    8771.063    7509.478    0.53047    0.52940 </span></span>
+<span><span class="co">## detergents_paper     1    8837.904    8850.164    7587.897    0.43800    0.43672 </span></span>
+<span><span class="co">## delicassen           1    9012.042    9024.302    7760.732    0.16514    0.16323 </span></span>
+<span><span class="co">## frozen               1    9084.638    9096.898    7832.877    0.01537    0.01313 </span></span>
+<span><span class="co">## fresh                1    9086.988    9099.248    7835.213    0.01010    0.00784 </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Step     =&gt; 1 </span></span>
-<span><span class="co">## Added    =&gt; liver_test </span></span>
-<span><span class="co">## Model    =&gt; y ~ liver_test </span></span>
-<span><span class="co">## Adj. R2  =&gt; 0.44405 </span></span>
+<span><span class="co">## Added    =&gt; grocery </span></span>
+<span><span class="co">## Model    =&gt; milk ~ grocery </span></span>
+<span><span class="co">## Adj. R2  =&gt; 0.5294 </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                       Table: Adding New Variables                        </span></span>
-<span><span class="co">## ------------------------------------------------------------------------</span></span>
-<span><span class="co">## Predictor      DF      AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## ------------------------------------------------------------------------</span></span>
-<span><span class="co">## alc_heavy       1    761.439    769.395    605.506    0.56674    0.54975 </span></span>
-<span><span class="co">## enzyme_test     1    762.077    770.033    606.090    0.56159    0.54440 </span></span>
-<span><span class="co">## pindex          1    770.387    778.343    613.737    0.48866    0.46861 </span></span>
-<span><span class="co">## alc_mod         1    771.141    779.097    614.435    0.48147    0.46113 </span></span>
-<span><span class="co">## gender          1    773.802    781.758    616.901    0.45528    0.43391 </span></span>
-<span><span class="co">## age             1    773.831    781.787    616.928    0.45498    0.43361 </span></span>
-<span><span class="co">## bcs             1    773.867    781.823    616.961    0.45462    0.43323 </span></span>
-<span><span class="co">## ------------------------------------------------------------------------</span></span>
+<span><span class="co">##                           Table: Adding New Variables                            </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Predictor           DF      AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
+<span><span class="co">## delicassen           1    8691.088    8707.435    7442.376    0.59927    0.59744 </span></span>
+<span><span class="co">## frozen               1    8738.182    8754.529    7488.843    0.55400    0.55196 </span></span>
+<span><span class="co">## fresh                1    8749.494    8765.841    7500.008    0.54239    0.54029 </span></span>
+<span><span class="co">## detergents_paper     1    8759.928    8776.275    7510.308    0.53141    0.52926 </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Step     =&gt; 2 </span></span>
-<span><span class="co">## Added    =&gt; alc_heavy </span></span>
-<span><span class="co">## Model    =&gt; y ~ liver_test + alc_heavy </span></span>
-<span><span class="co">## Adj. R2  =&gt; 0.54975 </span></span>
+<span><span class="co">## Added    =&gt; delicassen </span></span>
+<span><span class="co">## Model    =&gt; milk ~ grocery + delicassen </span></span>
+<span><span class="co">## Adj. R2  =&gt; 0.59744 </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                       Table: Adding New Variables                        </span></span>
-<span><span class="co">## ------------------------------------------------------------------------</span></span>
-<span><span class="co">## Predictor      DF      AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## ------------------------------------------------------------------------</span></span>
-<span><span class="co">## enzyme_test     1    750.509    760.454    595.297    0.65900    0.63854 </span></span>
-<span><span class="co">## pindex          1    756.125    766.070    600.225    0.62163    0.59892 </span></span>
-<span><span class="co">## bcs             1    763.063    773.008    606.379    0.56975    0.54394 </span></span>
-<span><span class="co">## age             1    763.110    773.055    606.421    0.56938    0.54354 </span></span>
-<span><span class="co">## alc_mod         1    763.428    773.373    606.704    0.56683    0.54084 </span></span>
-<span><span class="co">## gender          1    763.433    773.378    606.709    0.56679    0.54080 </span></span>
-<span><span class="co">## ------------------------------------------------------------------------</span></span>
+<span><span class="co">##                           Table: Adding New Variables                            </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Predictor           DF      AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
+<span><span class="co">## detergents_paper     1    8689.441    8709.875    7440.780    0.60258    0.59984 </span></span>
+<span><span class="co">## frozen               1    8690.253    8710.687    7441.577    0.60184    0.59911 </span></span>
+<span><span class="co">## fresh                1    8690.923    8711.357    7442.235    0.60124    0.59849 </span></span>
+<span><span class="co">## --------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Step     =&gt; 3 </span></span>
-<span><span class="co">## Added    =&gt; enzyme_test </span></span>
-<span><span class="co">## Model    =&gt; y ~ liver_test + alc_heavy + enzyme_test </span></span>
-<span><span class="co">## Adj. R2  =&gt; 0.63854 </span></span>
+<span><span class="co">## Added    =&gt; detergents_paper </span></span>
+<span><span class="co">## Model    =&gt; milk ~ grocery + delicassen + detergents_paper </span></span>
+<span><span class="co">## Adj. R2  =&gt; 0.59984 </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                      Table: Adding New Variables                       </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">## Predictor    DF      AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">## pindex        1    735.715    747.649    582.943    0.75015    0.72975 </span></span>
-<span><span class="co">## bcs           1    750.782    762.716    595.377    0.66973    0.64277 </span></span>
-<span><span class="co">## alc_mod       1    752.403    764.337    596.743    0.65967    0.63189 </span></span>
-<span><span class="co">## age           1    752.416    764.350    596.755    0.65959    0.63180 </span></span>
-<span><span class="co">## gender        1    752.509    764.443    596.833    0.65900    0.63116 </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Table: Adding New Variables                        </span></span>
+<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">## Predictor    DF      AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">## frozen        1    8687.574    8712.095    7439.003    0.60606    0.60243 </span></span>
+<span><span class="co">## fresh         1    8688.075    8712.595    7439.492    0.60561    0.60198 </span></span>
+<span><span class="co">## -------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Step     =&gt; 4 </span></span>
-<span><span class="co">## Added    =&gt; pindex </span></span>
-<span><span class="co">## Model    =&gt; y ~ liver_test + alc_heavy + enzyme_test + pindex </span></span>
-<span><span class="co">## Adj. R2  =&gt; 0.72975 </span></span>
+<span><span class="co">## Added    =&gt; frozen </span></span>
+<span><span class="co">## Model    =&gt; milk ~ grocery + delicassen + detergents_paper + frozen </span></span>
+<span><span class="co">## Adj. R2  =&gt; 0.60243 </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                      Table: Adding New Variables                       </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">## Predictor    DF      AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">## bcs           1    730.620    744.543    579.638    0.78091    0.75808 </span></span>
-<span><span class="co">## age           1    737.680    751.603    585.012    0.75030    0.72429 </span></span>
-<span><span class="co">## gender        1    737.712    751.635    585.036    0.75016    0.72413 </span></span>
-<span><span class="co">## alc_mod       1    737.713    751.636    585.037    0.75015    0.72413 </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Table: Adding New Variables                        </span></span>
+<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">## Predictor    DF      AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">## fresh         1    8687.671    8716.279    7439.171    0.60776    0.60324 </span></span>
+<span><span class="co">## -------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Step     =&gt; 5 </span></span>
-<span><span class="co">## Added    =&gt; bcs </span></span>
-<span><span class="co">## Model    =&gt; y ~ liver_test + alc_heavy + enzyme_test + pindex + bcs </span></span>
-<span><span class="co">## Adj. R2  =&gt; 0.75808 </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##                      Table: Adding New Variables                       </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">## Predictor    DF      AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">## age           1    732.494    748.406    581.938    0.78142    0.75351 </span></span>
-<span><span class="co">## gender        1    732.551    748.463    581.978    0.78119    0.75325 </span></span>
-<span><span class="co">## alc_mod       1    732.614    748.526    582.023    0.78093    0.75297 </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## No more variables to be added.</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Variables Selected: </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## =&gt; liver_test </span></span>
-<span><span class="co">## =&gt; alc_heavy </span></span>
-<span><span class="co">## =&gt; enzyme_test </span></span>
-<span><span class="co">## =&gt; pindex </span></span>
-<span><span class="co">## =&gt; bcs</span></span></code></pre>
+<span><span class="co">## =&gt; grocery </span></span>
+<span><span class="co">## =&gt; delicassen </span></span>
+<span><span class="co">## =&gt; detergents_paper </span></span>
+<span><span class="co">## =&gt; frozen </span></span>
+<span><span class="co">## =&gt; fresh</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                               Stepwise Summary                              </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">## Step    Variable         AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">##  0      Base Model     802.606    806.584    646.794    0.00000    0.00000 </span></span>
-<span><span class="co">##  1      liver_test     771.875    777.842    616.009    0.45454    0.44405 </span></span>
-<span><span class="co">##  2      alc_heavy      761.439    769.395    605.506    0.56674    0.54975 </span></span>
-<span><span class="co">##  3      enzyme_test    750.509    760.454    595.297    0.65900    0.63854 </span></span>
-<span><span class="co">##  4      pindex         735.715    747.649    582.943    0.75015    0.72975 </span></span>
-<span><span class="co">##  5      bcs            730.620    744.543    579.638    0.78091    0.75808 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                   Stepwise Summary                                  </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Step    Variable              AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##  0      Base Model          9089.455    9097.629    7838.859    0.00000    0.00000 </span></span>
+<span><span class="co">##  1      grocery             8758.803    8771.063    7509.478    0.53047    0.52940 </span></span>
+<span><span class="co">##  2      delicassen          8691.088    8707.435    7442.376    0.59927    0.59744 </span></span>
+<span><span class="co">##  3      detergents_paper    8689.441    8709.875    7440.780    0.60258    0.59984 </span></span>
+<span><span class="co">##  4      frozen              8687.574    8712.095    7439.003    0.60606    0.60243 </span></span>
+<span><span class="co">##  5      fresh               8687.671    8716.279    7439.171    0.60776    0.60324 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Final Model Output </span></span>
 <span><span class="co">## ------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                            Model Summary                            </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">## R                         0.884       RMSE                 195.454 </span></span>
-<span><span class="co">## R-Squared                 0.781       MSE                38202.426 </span></span>
-<span><span class="co">## Adj. R-Squared            0.758       Coef. Var             27.839 </span></span>
-<span><span class="co">## Pred R-Squared            0.700       AIC                  730.620 </span></span>
-<span><span class="co">## MAE                     137.656       SBC                  744.543 </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
+<span><span class="co">##                              Model Summary                              </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
+<span><span class="co">## R                          0.780       RMSE                   4648.832 </span></span>
+<span><span class="co">## R-Squared                  0.608       MSE                21611643.326 </span></span>
+<span><span class="co">## Adj. R-Squared             0.603       Coef. Var                80.204 </span></span>
+<span><span class="co">## Pred R-Squared             0.563       AIC                    8687.671 </span></span>
+<span><span class="co">## MAE                     2395.939       SBC                    8716.279 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
 <span><span class="co">##  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">##  MSE: Mean Square Error </span></span>
 <span><span class="co">##  MAE: Mean Absolute Error </span></span>
 <span><span class="co">##  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                   ANOVA                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                                </span></span>
-<span><span class="co">##                   Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Regression    6535804.090         5    1307160.818    34.217    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual      1833716.447        48      38202.426                       </span></span>
-<span><span class="co">## Total         8369520.537        53                                      </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                       ANOVA                                        </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Sum of                                                     </span></span>
+<span><span class="co">##                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Regression    14532862414.278          5    2906572482.856    134.491    &lt; 0.0001 </span></span>
+<span><span class="co">## Residual       9379453203.611        434      21611643.326                        </span></span>
+<span><span class="co">## Total         23912315617.889        439                                          </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##                                         Parameter Estimates                                         </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##       model         Beta    Std. Error    Std. Beta      t         Sig           lower       upper </span></span>
+<span><span class="co">##            model       Beta    Std. Error    Std. Beta      t        Sig          lower      upper </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">## (Intercept)    -1178.330       208.682                 -5.647    &lt; 0.0001    -1597.914    -758.746 </span></span>
-<span><span class="co">##  liver_test       58.064        40.144        0.156     1.446      0.1546      -22.652     138.779 </span></span>
-<span><span class="co">##   alc_heavy      317.848        71.634        0.314     4.437    &lt; 0.0001      173.818     461.878 </span></span>
-<span><span class="co">## enzyme_test        9.748         1.656        0.521     5.887    &lt; 0.0001        6.419      13.077 </span></span>
-<span><span class="co">##      pindex        8.924         1.808        0.380     4.935    &lt; 0.0001        5.288      12.559 </span></span>
-<span><span class="co">##         bcs       59.864        23.060        0.241     2.596      0.0125       13.498     106.230 </span></span>
+<span><span class="co">##      (Intercept)    262.752       369.345                 0.711      0.4772    -463.175    988.679 </span></span>
+<span><span class="co">##          grocery      0.384         0.067        0.494    5.753    &lt; 0.0001       0.253      0.515 </span></span>
+<span><span class="co">##       delicassen      0.679         0.091        0.259    7.427    &lt; 0.0001       0.499      0.858 </span></span>
+<span><span class="co">## detergents_paper      0.307         0.132        0.198    2.331      0.0202       0.048      0.566 </span></span>
+<span><span class="co">##           frozen      0.081         0.052        0.053    1.542      0.1239      -0.022      0.184 </span></span>
+<span><span class="co">##            fresh      0.026         0.019        0.045    1.372      0.1709      -0.011      0.064 </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -780,76 +705,71 @@ variables left.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Candidate Terms: </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## 1. bcs </span></span>
-<span><span class="co">## 2. pindex </span></span>
-<span><span class="co">## 3. enzyme_test </span></span>
-<span><span class="co">## 4. liver_test </span></span>
-<span><span class="co">## 5. age </span></span>
-<span><span class="co">## 6. gender </span></span>
-<span><span class="co">## 7. alc_mod </span></span>
-<span><span class="co">## 8. alc_heavy </span></span>
+<span><span class="co">## 1. grocery </span></span>
+<span><span class="co">## 2. detergents_paper </span></span>
+<span><span class="co">## 3. fresh </span></span>
+<span><span class="co">## 4. frozen </span></span>
+<span><span class="co">## 5. delicassen </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Variables Entered: </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## =&gt; liver_test </span></span>
-<span><span class="co">## =&gt; alc_heavy </span></span>
-<span><span class="co">## =&gt; enzyme_test </span></span>
-<span><span class="co">## =&gt; pindex </span></span>
-<span><span class="co">## =&gt; bcs </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## No more variables to be added.</span></span></code></pre>
+<span><span class="co">## =&gt; grocery </span></span>
+<span><span class="co">## =&gt; delicassen </span></span>
+<span><span class="co">## =&gt; detergents_paper </span></span>
+<span><span class="co">## =&gt; frozen </span></span>
+<span><span class="co">## =&gt; fresh</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                               Stepwise Summary                              </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">## Step    Variable         AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">##  0      Base Model     802.606    806.584    646.794    0.00000    0.00000 </span></span>
-<span><span class="co">##  1      liver_test     771.875    777.842    616.009    0.45454    0.44405 </span></span>
-<span><span class="co">##  2      alc_heavy      761.439    769.395    605.506    0.56674    0.54975 </span></span>
-<span><span class="co">##  3      enzyme_test    750.509    760.454    595.297    0.65900    0.63854 </span></span>
-<span><span class="co">##  4      pindex         735.715    747.649    582.943    0.75015    0.72975 </span></span>
-<span><span class="co">##  5      bcs            730.620    744.543    579.638    0.78091    0.75808 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                   Stepwise Summary                                  </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Step    Variable              AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##  0      Base Model          9089.455    9097.629    7838.859    0.00000    0.00000 </span></span>
+<span><span class="co">##  1      grocery             8758.803    8771.063    7509.478    0.53047    0.52940 </span></span>
+<span><span class="co">##  2      delicassen          8691.088    8707.435    7442.376    0.59927    0.59744 </span></span>
+<span><span class="co">##  3      detergents_paper    8689.441    8709.875    7440.780    0.60258    0.59984 </span></span>
+<span><span class="co">##  4      frozen              8687.574    8712.095    7439.003    0.60606    0.60243 </span></span>
+<span><span class="co">##  5      fresh               8687.671    8716.279    7439.171    0.60776    0.60324 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Final Model Output </span></span>
 <span><span class="co">## ------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                            Model Summary                            </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">## R                         0.884       RMSE                 195.454 </span></span>
-<span><span class="co">## R-Squared                 0.781       MSE                38202.426 </span></span>
-<span><span class="co">## Adj. R-Squared            0.758       Coef. Var             27.839 </span></span>
-<span><span class="co">## Pred R-Squared            0.700       AIC                  730.620 </span></span>
-<span><span class="co">## MAE                     137.656       SBC                  744.543 </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
+<span><span class="co">##                              Model Summary                              </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
+<span><span class="co">## R                          0.780       RMSE                   4648.832 </span></span>
+<span><span class="co">## R-Squared                  0.608       MSE                21611643.326 </span></span>
+<span><span class="co">## Adj. R-Squared             0.603       Coef. Var                80.204 </span></span>
+<span><span class="co">## Pred R-Squared             0.563       AIC                    8687.671 </span></span>
+<span><span class="co">## MAE                     2395.939       SBC                    8716.279 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
 <span><span class="co">##  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">##  MSE: Mean Square Error </span></span>
 <span><span class="co">##  MAE: Mean Absolute Error </span></span>
 <span><span class="co">##  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                   ANOVA                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                                </span></span>
-<span><span class="co">##                   Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Regression    6535804.090         5    1307160.818    34.217    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual      1833716.447        48      38202.426                       </span></span>
-<span><span class="co">## Total         8369520.537        53                                      </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                       ANOVA                                        </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Sum of                                                     </span></span>
+<span><span class="co">##                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Regression    14532862414.278          5    2906572482.856    134.491    &lt; 0.0001 </span></span>
+<span><span class="co">## Residual       9379453203.611        434      21611643.326                        </span></span>
+<span><span class="co">## Total         23912315617.889        439                                          </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##                                         Parameter Estimates                                         </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##       model         Beta    Std. Error    Std. Beta      t         Sig           lower       upper </span></span>
+<span><span class="co">##            model       Beta    Std. Error    Std. Beta      t        Sig          lower      upper </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">## (Intercept)    -1178.330       208.682                 -5.647    &lt; 0.0001    -1597.914    -758.746 </span></span>
-<span><span class="co">##  liver_test       58.064        40.144        0.156     1.446      0.1546      -22.652     138.779 </span></span>
-<span><span class="co">##   alc_heavy      317.848        71.634        0.314     4.437    &lt; 0.0001      173.818     461.878 </span></span>
-<span><span class="co">## enzyme_test        9.748         1.656        0.521     5.887    &lt; 0.0001        6.419      13.077 </span></span>
-<span><span class="co">##      pindex        8.924         1.808        0.380     4.935    &lt; 0.0001        5.288      12.559 </span></span>
-<span><span class="co">##         bcs       59.864        23.060        0.241     2.596      0.0125       13.498     106.230 </span></span>
+<span><span class="co">##      (Intercept)    262.752       369.345                 0.711      0.4772    -463.175    988.679 </span></span>
+<span><span class="co">##          grocery      0.384         0.067        0.494    5.753    &lt; 0.0001       0.253      0.515 </span></span>
+<span><span class="co">##       delicassen      0.679         0.091        0.259    7.427    &lt; 0.0001       0.499      0.858 </span></span>
+<span><span class="co">## detergents_paper      0.307         0.132        0.198    2.331      0.0202       0.048      0.566 </span></span>
+<span><span class="co">##           frozen      0.081         0.052        0.053    1.542      0.1239      -0.022      0.184 </span></span>
+<span><span class="co">##            fresh      0.026         0.019        0.045    1.372      0.1709      -0.011      0.064 </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -858,66 +778,58 @@ variables left.</p>
 <p>When using <code>p</code> values as the criterion for
 selecting/eliminating variables, we can enable hierarchical selection.
 In this method, the search for the most significant variable is
-restricted to the next available variable. In the below example, as
-<code>liver_test</code> does not meet the threshold for selection, none
-of the variables after <code>liver_test</code> are considered for
-further selection i.e. the stepwise selection ends as soon as it comes
-across a variable that does not meet the selection threshold. You can
-learn more about hierachichal selection <a href="https://www.stata.com/manuals/rstepwise.pdf" class="external-link">here</a>.</p>
+restricted to the next available variable. In the example below,
+selection stops at the first spending category that does not meet the
+threshold; later categories are not considered. You can learn more about
+hierachichal selection <a href="https://www.stata.com/manuals/rstepwise.pdf" class="external-link">here</a>.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># hierarchical selection</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">bcs</span> <span class="op">+</span> <span class="va">alc_heavy</span> <span class="op">+</span> <span class="va">pindex</span> <span class="op">+</span> <span class="va">enzyme_test</span> <span class="op">+</span> <span class="va">liver_test</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">gender</span> <span class="op">+</span> <span class="va">alc_mod</span>, data <span class="op">=</span> <span class="va">surgical</span><span class="op">)</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span> <span class="op">+</span> <span class="va">delicassen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_step_forward_p.html">ols_step_forward_p</a></span><span class="op">(</span><span class="va">m</span>, <span class="fl">0.1</span>, hierarchical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                               Stepwise Summary                              </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">## Step    Variable         AIC        SBC       SBIC        R2       Adj. R2 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
-<span><span class="co">##  0      Base Model     802.606    806.584    646.794    0.00000    0.00000 </span></span>
-<span><span class="co">##  1      bcs            797.697    803.664    640.655    0.12010    0.10318 </span></span>
-<span><span class="co">##  2      alc_heavy      791.701    799.657    633.668    0.24119    0.21144 </span></span>
-<span><span class="co">##  3      pindex         778.574    788.519    620.390    0.42659    0.39218 </span></span>
-<span><span class="co">##  4      enzyme_test    730.924    742.858    579.087    0.77136    0.75269 </span></span>
-<span><span class="co">## --------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                Stepwise Summary                               </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
+<span><span class="co">## Step    Variable        AIC         SBC         SBIC        R2       Adj. R2 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
+<span><span class="co">##  0      Base Model    9089.455    9097.629    7838.859    0.00000    0.00000 </span></span>
+<span><span class="co">##  1      grocery       8758.803    8771.063    7509.478    0.53047    0.52940 </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Final Model Output </span></span>
 <span><span class="co">## ------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                            Model Summary                            </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
-<span><span class="co">## R                         0.878       RMSE                 197.620 </span></span>
-<span><span class="co">## R-Squared                 0.771       MSE                39053.801 </span></span>
-<span><span class="co">## Adj. R-Squared            0.753       Coef. Var             28.147 </span></span>
-<span><span class="co">## Pred R-Squared            0.695       AIC                  730.924 </span></span>
-<span><span class="co">## MAE                     140.619       SBC                  742.858 </span></span>
-<span><span class="co">## -------------------------------------------------------------------</span></span>
+<span><span class="co">##                              Model Summary                              </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
+<span><span class="co">## R                          0.728       RMSE                   5062.960 </span></span>
+<span><span class="co">## R-Squared                  0.530       MSE                25633563.167 </span></span>
+<span><span class="co">## Adj. R-Squared             0.529       Coef. Var                87.349 </span></span>
+<span><span class="co">## Pred R-Squared             0.509       AIC                    8758.803 </span></span>
+<span><span class="co">## MAE                     2557.458       SBC                    8771.063 </span></span>
+<span><span class="co">## -----------------------------------------------------------------------</span></span>
 <span><span class="co">##  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">##  MSE: Mean Square Error </span></span>
 <span><span class="co">##  MAE: Mean Absolute Error </span></span>
 <span><span class="co">##  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">##  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                   ANOVA                                   </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                                </span></span>
-<span><span class="co">##                   Squares        DF    Mean Square      F           Sig. </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Regression    6455884.265         4    1613971.066    41.327    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual      1913636.272        49      39053.801                       </span></span>
-<span><span class="co">## Total         8369520.537        53                                      </span></span>
-<span><span class="co">## -------------------------------------------------------------------------</span></span>
+<span><span class="co">##                                        ANOVA                                        </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                        Sum of                                                      </span></span>
+<span><span class="co">##                       Squares         DF        Mean Square       F           Sig. </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------</span></span>
+<span><span class="co">## Regression    12684814950.626          1    12684814950.626    494.852    &lt; 0.0001 </span></span>
+<span><span class="co">## Residual      11227500667.262        438       25633563.167                        </span></span>
+<span><span class="co">## Total         23912315617.889        439                                           </span></span>
+<span><span class="co">## -----------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                         Parameter Estimates                                         </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">##       model         Beta    Std. Error    Std. Beta      t         Sig           lower       upper </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">## (Intercept)    -1334.424       180.589                 -7.389    &lt; 0.0001    -1697.332    -971.516 </span></span>
-<span><span class="co">##         bcs       81.439        17.781        0.329     4.580    &lt; 0.0001       45.706     117.171 </span></span>
-<span><span class="co">##   alc_heavy      312.777        72.341        0.309     4.324    &lt; 0.0001      167.402     458.152 </span></span>
-<span><span class="co">##      pindex       10.131         1.622        0.431     6.246    &lt; 0.0001        6.871      13.390 </span></span>
-<span><span class="co">## enzyme_test       11.243         1.308        0.601     8.596    &lt; 0.0001        8.614      13.871 </span></span>
-<span><span class="co">## ---------------------------------------------------------------------------------------------------</span></span></code></pre>
+<span><span class="co">##                                       Parameter Estimates                                        </span></span>
+<span><span class="co">## ------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">##       model        Beta    Std. Error    Std. Beta      t         Sig         lower       upper </span></span>
+<span><span class="co">## ------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">## (Intercept)    1298.690       314.858                  4.125    &lt; 0.0001    679.870    1917.509 </span></span>
+<span><span class="co">##     grocery       0.566         0.025        0.728    22.245    &lt; 0.0001      0.516       0.616 </span></span>
+<span><span class="co">## ------------------------------------------------------------------------------------------------</span></span></code></pre>
 </div>
 </div>
 
@@ -940,7 +852,14 @@ learn more about hierachichal selection <a href="https://www.stata.com/manuals/r
       </nav>
 </div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>

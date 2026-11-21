@@ -32,5 +32,5 @@ An object of class `formula`.
 model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
 ols_get_formula(model)
 #> mpg ~ disp + hp + wt + qsec
-#> <environment: 0x0000024ab90acdd0>
+#> <environment: 0x0000015bf1db0190>
 ```

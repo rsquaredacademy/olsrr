@@ -97,6 +97,10 @@
 
     
     
+<p>The examples use annual spending by 440 wholesale customers. They ask
+how milk spending relates to spending in other product categories; these
+are observational associations. See <code><a href="../reference/wholesale_customers.html">?wholesale_customers</a></code>
+for source and units.</p>
 <div class="section level2">
 <h2 id="collinearity-diagnostics">Collinearity Diagnostics<a class="anchor" aria-label="anchor" href="#collinearity-diagnostics"></a>
 </h2>
@@ -131,13 +135,13 @@ predictor on rest of the predictors in the model.</li>
 </ul>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>I</mi><mi>F</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><msubsup><mi>R</mi><mi>k</mi><mn>2</mn></msubsup></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mrow><mi>T</mi><mi>o</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">VIF = \frac{1}{1 - {R}^{2}_{k}} = \frac{1}{Tolerance}</annotation></semantics></math></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_coll_diag.html">ols_vif_tol</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   Variables Tolerance      VIF</span></span>
-<span><span class="co">## 1      disp 0.1252279 7.985439</span></span>
-<span><span class="co">## 2        hp 0.1935450 5.166758</span></span>
-<span><span class="co">## 3        wt 0.1445726 6.916942</span></span>
-<span><span class="co">## 4      qsec 0.3191708 3.133119</span></span></code></pre>
+<pre><code><span><span class="co">##          Variables Tolerance      VIF</span></span>
+<span><span class="co">## 1          grocery 0.1348612 7.415033</span></span>
+<span><span class="co">## 2 detergents_paper 0.1322542 7.561198</span></span>
+<span><span class="co">## 3            fresh 0.8553521 1.169109</span></span>
+<span><span class="co">## 4           frozen 0.8501081 1.176321</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="tolerance">Tolerance<a class="anchor" aria-label="anchor" href="#tolerance"></a>
@@ -171,50 +175,50 @@ have large proportions of variance (.50 or more) that correspond to
 large condition indices. A rule of thumb is to label as large those
 condition indices in the range of 30 or larger.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_coll_diag.html">ols_eigen_cindex</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##    Eigenvalue Condition Index   intercept        disp          hp           wt</span></span>
-<span><span class="co">## 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094 0.0005253393</span></span>
-<span><span class="co">## 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289 0.0002096014</span></span>
-<span><span class="co">## 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164 0.0377028008</span></span>
-<span><span class="co">## 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623 0.7017528428</span></span>
-<span><span class="co">## 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831 0.2598094157</span></span>
-<span><span class="co">##           qsec</span></span>
-<span><span class="co">## 1 0.0001277169</span></span>
-<span><span class="co">## 2 0.0046789491</span></span>
-<span><span class="co">## 3 0.0001952599</span></span>
-<span><span class="co">## 4 0.0024577686</span></span>
-<span><span class="co">## 5 0.9925403056</span></span></code></pre>
+<pre><code><span><span class="co">##   Eigenvalue Condition Index   intercept     grocery detergents_paper</span></span>
+<span><span class="co">## 1 3.08390879        1.000000 0.028794166 0.006312157      0.006041615</span></span>
+<span><span class="co">## 2 1.16799690        1.624912 0.006925816 0.012139420      0.026175969</span></span>
+<span><span class="co">## 3 0.43623383        2.658833 0.094496708 0.002336154      0.005299550</span></span>
+<span><span class="co">## 4 0.26717906        3.397422 0.823205357 0.003758104      0.010295133</span></span>
+<span><span class="co">## 5 0.04468142        8.307824 0.046577952 0.975454164      0.952187733</span></span>
+<span><span class="co">##        fresh       frozen</span></span>
+<span><span class="co">## 1 0.02696372 0.0256552880</span></span>
+<span><span class="co">## 2 0.07049102 0.1556714255</span></span>
+<span><span class="co">## 3 0.28987276 0.7892768496</span></span>
+<span><span class="co">## 4 0.58569189 0.0003723044</span></span>
+<span><span class="co">## 5 0.02698060 0.0290241326</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="collinearity-diagnostics-1">Collinearity Diagnostics<a class="anchor" aria-label="anchor" href="#collinearity-diagnostics-1"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_coll_diag.html">ols_coll_diag</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Tolerance and Variance Inflation Factor</span></span>
 <span><span class="co">## ---------------------------------------</span></span>
-<span><span class="co">##   Variables Tolerance      VIF</span></span>
-<span><span class="co">## 1      disp 0.1252279 7.985439</span></span>
-<span><span class="co">## 2        hp 0.1935450 5.166758</span></span>
-<span><span class="co">## 3        wt 0.1445726 6.916942</span></span>
-<span><span class="co">## 4      qsec 0.3191708 3.133119</span></span>
+<span><span class="co">##          Variables Tolerance      VIF</span></span>
+<span><span class="co">## 1          grocery 0.1348612 7.415033</span></span>
+<span><span class="co">## 2 detergents_paper 0.1322542 7.561198</span></span>
+<span><span class="co">## 3            fresh 0.8553521 1.169109</span></span>
+<span><span class="co">## 4           frozen 0.8501081 1.176321</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Eigenvalue and Condition Index</span></span>
 <span><span class="co">## ------------------------------</span></span>
-<span><span class="co">##    Eigenvalue Condition Index   intercept        disp          hp           wt</span></span>
-<span><span class="co">## 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094 0.0005253393</span></span>
-<span><span class="co">## 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289 0.0002096014</span></span>
-<span><span class="co">## 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164 0.0377028008</span></span>
-<span><span class="co">## 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623 0.7017528428</span></span>
-<span><span class="co">## 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831 0.2598094157</span></span>
-<span><span class="co">##           qsec</span></span>
-<span><span class="co">## 1 0.0001277169</span></span>
-<span><span class="co">## 2 0.0046789491</span></span>
-<span><span class="co">## 3 0.0001952599</span></span>
-<span><span class="co">## 4 0.0024577686</span></span>
-<span><span class="co">## 5 0.9925403056</span></span></code></pre>
+<span><span class="co">##   Eigenvalue Condition Index   intercept     grocery detergents_paper</span></span>
+<span><span class="co">## 1 3.08390879        1.000000 0.028794166 0.006312157      0.006041615</span></span>
+<span><span class="co">## 2 1.16799690        1.624912 0.006925816 0.012139420      0.026175969</span></span>
+<span><span class="co">## 3 0.43623383        2.658833 0.094496708 0.002336154      0.005299550</span></span>
+<span><span class="co">## 4 0.26717906        3.397422 0.823205357 0.003758104      0.010295133</span></span>
+<span><span class="co">## 5 0.04468142        8.307824 0.046577952 0.975454164      0.952187733</span></span>
+<span><span class="co">##        fresh       frozen</span></span>
+<span><span class="co">## 1 0.02696372 0.0256552880</span></span>
+<span><span class="co">## 2 0.07049102 0.1556714255</span></span>
+<span><span class="co">## 3 0.28987276 0.7892768496</span></span>
+<span><span class="co">## 4 0.58569189 0.0003723044</span></span>
+<span><span class="co">## 5 0.02698060 0.0290241326</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -230,7 +234,7 @@ fit and how much remains in the residuals. For inappropriate models, the
 spread of the residuals in such a plot is often greater than the spread
 of the centered fit.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_resid_fit_spread.html">ols_plot_resid_fit_spread</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/rfsplot-1.png" class="r-plt" alt="" width="960" style="display: block; margin: auto;"></p>
 </div>
@@ -265,17 +269,17 @@ will decrease if that variable is removed from the model?</p>
 estimated by the other independent variables in the model, is estimated
 by the specific variable?</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_correlations.html">ols_correlations</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                Correlations                 </span></span>
-<span><span class="co">## -------------------------------------------</span></span>
-<span><span class="co">## Variable    Zero Order    Partial     Part  </span></span>
-<span><span class="co">## -------------------------------------------</span></span>
-<span><span class="co">## disp            -0.848      0.048     0.019 </span></span>
-<span><span class="co">## hp              -0.776     -0.224    -0.093 </span></span>
-<span><span class="co">## wt              -0.868     -0.574    -0.285 </span></span>
-<span><span class="co">## qsec             0.419      0.219     0.091 </span></span>
-<span><span class="co">## -------------------------------------------</span></span></code></pre>
+<pre><code><span><span class="co">##                    Correlations                    </span></span>
+<span><span class="co">## --------------------------------------------------</span></span>
+<span><span class="co">## Variable            Zero Order    Partial    Part  </span></span>
+<span><span class="co">## --------------------------------------------------</span></span>
+<span><span class="co">## grocery                  0.728      0.355    0.253 </span></span>
+<span><span class="co">## detergents_paper         0.662      0.027    0.018 </span></span>
+<span><span class="co">## fresh                    0.101      0.093    0.062 </span></span>
+<span><span class="co">## frozen                   0.124      0.184    0.124 </span></span>
+<span><span class="co">## --------------------------------------------------</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -290,7 +294,7 @@ close to this diagonal line. The lower the R Square, the weaker the
 Goodness of fit of your model, the more foggy or dispersed your points
 are from this diagonal line.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_obs_fit.html">ols_plot_obs_fit</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/obspred-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
@@ -311,29 +315,29 @@ important that the data contains repeat observations i.e. replicates for
 at least one of the values of the predictor x. This test generally only
 applies to datasets with plenty of replicates.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_pure_error_anova.html">ols_pure_error_anova</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Lack of Fit F Test </span></span>
-<span><span class="co">## -----------------</span></span>
-<span><span class="co">## Response :   mpg </span></span>
-<span><span class="co">## Predictor:   disp </span></span>
+<pre><code><span><span class="co">##  Lack of Fit F Test  </span></span>
+<span><span class="co">## --------------------</span></span>
+<span><span class="co">## Response :   milk </span></span>
+<span><span class="co">## Predictor:   grocery </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                     Analysis of Variance Table                     </span></span>
-<span><span class="co">## ------------------------------------------------------------------</span></span>
-<span><span class="co">##                 DF     Sum Sq     Mean Sq     F Value      Pr(&gt;F)  </span></span>
-<span><span class="co">## ------------------------------------------------------------------</span></span>
-<span><span class="co">## disp             1    808.8885    808.8885    76.51266    &lt; 0.0001 </span></span>
-<span><span class="co">## Residual        30    317.1587    10.57196                         </span></span>
-<span><span class="co">##  Lack of fit    25    304.2787    12.17115    4.724824      0.0456 </span></span>
-<span><span class="co">##  Pure Error      5       12.88       2.576                         </span></span>
-<span><span class="co">## ------------------------------------------------------------------</span></span></code></pre>
+<span><span class="co">##                           Analysis of Variance Table                            </span></span>
+<span><span class="co">## -------------------------------------------------------------------------------</span></span>
+<span><span class="co">##                 DF         Sum Sq           Mean Sq        F Value      Pr(&gt;F)  </span></span>
+<span><span class="co">## -------------------------------------------------------------------------------</span></span>
+<span><span class="co">## grocery           1    12684814950.63    12684814950.63    494.8518    &lt; 0.0001 </span></span>
+<span><span class="co">## Residual        438    11227500667.26       25633563.17                         </span></span>
+<span><span class="co">##  Lack of fit    428    11202684708.26       26174496.98    10.54745      0.0001 </span></span>
+<span><span class="co">##  Pure Error      10       24815959.00        2481595.90                         </span></span>
+<span><span class="co">## -------------------------------------------------------------------------------</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="diagnostics-panel">Diagnostics Panel<a class="anchor" aria-label="anchor" href="#diagnostics-panel"></a>
 </h3>
 <p>Panel of plots for regression diagnostics</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_diagnostics.html">ols_plot_diagnostics</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/diagpanel-1.png" class="r-plt" alt="" width="960" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/diagpanel-2.png" class="r-plt" alt="" width="960" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/diagpanel-3.png" class="r-plt" alt="" width="960" style="display: block; margin: auto;"></p>
 </div>
@@ -349,8 +353,8 @@ already containing other predictors. The residuals from the model is
 regressed on the new predictor and if the plot shows non random pattern,
 you should consider adding the new predictor to the model.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/ols_plot_resid_regressor.html">ols_plot_resid_regressor</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">'drat'</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/ols_plot_resid_regressor.html">ols_plot_resid_regressor</a></span><span class="op">(</span><span class="va">model</span>, <span class="st">'frozen'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="regression_diagnostics_files/figure-html/rvsrplot-1.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"><img src="regression_diagnostics_files/figure-html/rvsrplot-2.png" class="r-plt" alt="" width="480" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
@@ -390,7 +394,7 @@ variable plot is equal to the regression coefficient when
 increased importance of the contribution of <strong>X</strong> to the
 model already containing the other predictors.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_added_variable.html">ols_plot_added_variable</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span>
 <span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span>
@@ -419,7 +423,7 @@ is present in the relationship between <strong>Y</strong> and
 <strong>X</strong> and can suggest possible transformations for
 linearizing the data.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span> <span class="op">+</span> <span class="va">fresh</span> <span class="op">+</span> <span class="va">frozen</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ols_plot_comp_plus_resid.html">ols_plot_comp_plus_resid</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span>
 <span><span class="co">## `geom_smooth()` using formula = 'y ~ x'</span></span>
@@ -448,7 +452,14 @@ linearizing the data.</p>
       </nav>
 </div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>

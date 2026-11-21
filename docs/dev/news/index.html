@@ -55,7 +55,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="olsrr-development-version">olsrr (development version)<a class="anchor" aria-label="anchor" href="#olsrr-development-version"></a></h2>
-<ul><li>Rewrote the getting-started, regression output, residual diagnostics and variance/normality vignettes</li>
+<ul><li><p>New business datasets: wholesale customer spending is used in the vignettes (<a href="https://github.com/aravindhebbali" class="external-link">@aravindhebbali</a>, pkg-olsrr-bizdata-vign).</p></li>
+<li><p>Rewrote the getting-started, regression output, residual diagnostics and variance/normality vignettes</p></li>
 </ul><div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li>Printed p-values use four decimals and show <code>&lt; 0.0001</code> below that resolution across regression, ANOVA, normality, heteroskedasticity and stepwise tables; returned numeric values and the documented Cramer-von Mises floor are unchanged (<a href="https://github.com/aravindhebbali" class="external-link">@aravindhebbali</a>, pkg-olsrr-c25-fu2; follow-up to <a href="https://github.com/rsquaredacademy/olsrr/issues/254" class="external-link">#254</a>).</li>
@@ -389,7 +390,14 @@
         <a href="#" data-rsa-analytics-optout>Turn off analytics</a>
       </nav></div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>
