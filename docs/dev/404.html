@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found • Rsquared Academy</title>
+<script src="js/theme-init.js"></script>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/rsatemplate.css">
+<link rel="stylesheet" href="site-kit/rsa-consent.css">
+<link rel="stylesheet" href="site-kit/rsa-signup.css">
+<style>
+  body.rsa-404 {
+    padding-top: 0 !important;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .rsa-404-header {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .rsa-404-header .rsa-404-inner {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .rsa-404-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    font-size: 0.85rem;
+  }
+  .rsa-404-nav a {
+    color: var(--ink-muted);
+    text-decoration: none;
+  }
+  .rsa-404-nav a:hover { color: var(--brand); }
+  .rsa-404-wrap {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 56px 20px 40px;
+    text-align: center;
+  }
+  .rsa-404-code {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 18vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--brand);
+    margin-bottom: 8px;
+  }
+  .rsa-404-wrap h1 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    margin-bottom: 10px;
+  }
+  .rsa-404-wrap p {
+    color: var(--ink-muted);
+    max-width: 46ch;
+    margin: 0 auto 22px;
+  }
+  .rsa-404-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .rsa-404-footer {
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+    padding: 22px 20px;
+  }
+  .rsa-404-footer .rsa-404-inner {
+    width: 100%;
+    max-width: var(--content-max);
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+    color: var(--ink-muted);
+    font-size: 0.84rem;
+    box-sizing: border-box;
+  }
+  .rsa-404-footer [data-rsa-signup],
+  .rsa-404-footer .rsa-signup {
+    width: 100%;
+    max-width: 360px;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .rsa-404-footer .rsa-signup {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+  }
+  .rsa-404-footer .rsa-signup * {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  @media (max-width: 560px) {
+    .rsa-404-wrap { padding-top: 36px; }
+    .rsa-404-header .rsa-404-inner {
+      padding: 12px 16px;
+      flex-wrap: wrap;
+    }
+    .rsa-404 .rsa-brand-text { max-width: none; }
+    .rsa-404-nav {
+      width: 100%;
+      justify-content: flex-start;
+    }
+    .rsa-404-footer .rsa-404-inner { flex-direction: column; }
+    .rsa-404-footer [data-rsa-signup],
+    .rsa-404-footer .rsa-signup { max-width: 100%; }
+  }
+</style>
+</head>
+<body class="rsa-404">
+  <header class="rsa-404-header">
+    <div class="rsa-404-inner">
+      <a class="rsa-brand" href="index.html">
+        <span class="rsa-brand-mark" aria-hidden="true">R</span>
+        <span class="rsa-brand-text">Rsquared Academy</span>
+      </a>
+      <nav class="rsa-404-nav" aria-label="Site links">
+        <a href="index.html">Home</a>
+        <a href="reference/index.html">Reference</a>
+        <button type="button" class="rsa-chip" data-rsa-theme-toggle aria-label="Switch theme">Theme</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="rsa-404-wrap" id="main">
+    <div class="rsa-404-code">404</div>
+    <h1>This page is not in the package</h1>
+    <p>The URL may be outdated, or the topic may have moved. Try the function reference or a guide instead.</p>
+    <div class="rsa-404-actions">
+      <a class="rsa-btn rsa-btn-primary" href="index.html">Back to the package</a>
+      <a class="rsa-btn rsa-btn-secondary" href="reference/index.html">Function reference</a>
+    </div>
+  </main>
+
+  <footer class="rsa-404-footer">
+    <div class="rsa-404-inner">
+      <div>
+        <strong>Rsquared Academy</strong><br>
+        Made by Rsquared Academy — interactive data courses.
+      </div>
+      <div data-rsa-signup
+           data-site="rsquaredacademy"
+           data-heading="Get package updates"
+           data-text="New releases, tutorials and course updates. Free."
+           data-button="Subscribe"
+           data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+    </div>
+  </footer>
+
+  <script src="js/rsatemplate.js"></script>
+  <script src="site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script>
+  <script src="site-kit/rsa-signup.js" defer></script>
+</body>
+</html>

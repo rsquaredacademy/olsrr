@@ -1,5 +1,8 @@
 url: https://olsrr.rsquaredacademy.com
 
+development:
+  mode: auto
+
 template:
   package: rsatemplate
   params:

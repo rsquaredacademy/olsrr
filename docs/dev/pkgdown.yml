@@ -1,0 +1,19 @@
+pandoc: 3.12.1
+pkgdown: 2.2.1
+pkgdown_sha: ~
+articles:
+  getting-started: getting-started.html
+  heteroskedasticity: heteroskedasticity.html
+  influence_measures: influence_measures.html
+  intro: intro.html
+  reference-media: reference-media.html
+  regression-output: regression-output.html
+  regression_diagnostics: regression_diagnostics.html
+  residual-diagnostics: residual-diagnostics.html
+  residual_diagnostics: residual_diagnostics.html
+  variable_selection: variable_selection.html
+  variance-normality-tests: variance-normality-tests.html
+last_built: 2026-11-21T10:33Z
+urls:
+  reference: https://olsrr.rsquaredacademy.com/reference
+  article: https://olsrr.rsquaredacademy.com/articles
