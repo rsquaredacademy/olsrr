@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This guide has moved to [What does a braking-distance model miss?](residual-diagnostics.html).
+This guide has moved to [What does a customer-spending model miss?](residual-diagnostics.html).
 
 Follow that link for the worked example and its interpreted results.
 This page preserves links to the previous article address.

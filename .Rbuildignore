@@ -27,3 +27,5 @@ TODO.md
 ^tests/testthat/Rplots\.pdf$
 ^\.git$
 ^docs-dev$
+^data-raw$
+^BIZDATA-REPORT\.md$

@@ -14,6 +14,9 @@ library(gridExtra)
 library(nortest)
 ```
 
+The examples use annual spending by 440 wholesale customers. They ask how milk spending relates to spending in other product categories; these are observational associations. See `?wholesale_customers` for source and units.
+
+
 ## Collinearity Diagnostics
 
 Collinearity implies two variables are near perfect linear combinations of one
@@ -40,7 +43,7 @@ Steps to calculate VIF:
 $$VIF = \frac{1}{1 - {R}^{2}_{k}} = \frac{1}{Tolerance}$$
 
 ```{r viftol}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_vif_tol(model)
 ```
 
@@ -63,14 +66,14 @@ Most multivariate statistical approaches involve decomposing a correlation matri
 
 
 ```{r cindex}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_eigen_cindex(model)
 ```
 
 ### Collinearity Diagnostics
 
 ```{r colldiag}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_coll_diag(model)
 ```
 
@@ -81,7 +84,7 @@ ols_coll_diag(model)
 Plot to detect non-linearity, influential observations and outliers. Consists of side-by-side quantile plots of the centered fit and the residuals. It shows how much variation in the data is explained by the fit and how much remains in the residuals. For inappropriate models, the spread of the residuals in such a plot is often greater than the spread of the centered fit.
 
 ```{r rfsplot, fig.width=10, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_resid_fit_spread(model)
 ```
 
@@ -109,7 +112,7 @@ How much of the variance in **Y**, which is not estimated by the other
 independent variables in the model, is estimated by the specific variable?
 
 ```{r partcor}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_correlations(model)
 ```
 
@@ -118,7 +121,7 @@ ols_correlations(model)
 Plot of observed vs fitted values to assess the fit of the model. Ideally, all your points should be close to a regressed diagonal line. Draw such a diagonal line within your graph and check out where the points lie. If your model had a high R Square, all the points would be close to this diagonal line. The lower the R Square, the weaker the Goodness of fit of your model, the more foggy or dispersed your points are from this diagonal line.
 
 ```{r obspred, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_obs_fit(model)
 ```
 
@@ -132,7 +135,7 @@ Assess how much of the error in prediction is due to lack of model fit. The resi
 If most of the error is due to lack of fit and not just random error, the model should be discarded and a new model must be built. The lack of fit F test works only with simple linear regression. Moreover, it is important that the data contains repeat observations i.e. replicates for at least one of the values of the predictor x. This test generally only applies to datasets with plenty of replicates.
 
 ```{r lackfit}
-model <- lm(mpg ~ disp, data = mtcars)
+model <- lm(milk ~ grocery, data = wholesale_customers)
 ols_pure_error_anova(model)
 ```
 
@@ -141,7 +144,7 @@ ols_pure_error_anova(model)
 Panel of plots for regression diagnostics
 
 ```{r diagpanel, fig.width=10, fig.height=10, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_diagnostics(model)
 ```
  
@@ -155,8 +158,8 @@ The residuals from the model is regressed on the new predictor and if the plot s
 you should consider adding the new predictor to the model.
 
 ```{r rvsrplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
-ols_plot_resid_regressor(model, 'drat')
+model <- lm(milk ~ grocery + detergents_paper + fresh, data = wholesale_customers)
+ols_plot_resid_regressor(model, 'frozen')
 ```
 
 
@@ -191,7 +194,7 @@ importance of the contribution of **X** to the model already containing the
 other predictors.
 
 ```{r avplot, fig.width=10, fig.height=10, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_added_variable(model)
 ```
 
@@ -212,7 +215,7 @@ in the relationship between **Y** and **X** and can suggest possible transformat
 for linearizing the data.
 
 ```{r cplusr, fig.width=10, fig.height=10, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_comp_plus_resid(model)
 ```
 

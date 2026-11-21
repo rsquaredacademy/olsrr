@@ -14,6 +14,9 @@ library(gridExtra)
 library(nortest)
 ```
 
+The examples use annual spending by 440 wholesale customers. They ask how milk spending relates to spending in other product categories; these are observational associations. See `?wholesale_customers` for source and units.
+
+
 <style type="text/css">
 #best-subset-regression pre { /* Code block */
   font-size: 10px
@@ -35,7 +38,7 @@ educational purpose.
 All subset regression tests all possible subsets of the set of potential independent variables. If there are K potential independent variables (besides the constant), then there are $2^{k}$ distinct subsets of them to be tested. For example, if you have 10 candidate independent variables, the number of subsets to be tested is $2^{10}$, which is 1024, and if you have 20 candidate variables, the number is $2^{20}$, which is more than one million.
 
 ```{r allsub}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_step_all_possible(model)
 ```
 
@@ -45,7 +48,7 @@ Select the subset of predictors that do the best at meeting some well-defined ob
 such as having the largest R2 value or the smallest MSE, Mallow's Cp or AIC.
 
 ```{r bestsub, size='tiny'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_step_best_subset(model)
 ```
 
@@ -62,10 +65,10 @@ least statistically significant variables one at a time.
 ### Model
 
 We will use the below model throughout this article except in the case of hierarchical selection. 
-You can learn more about the data [here](https://olsrr.rsquaredacademy.com/reference/surgical).
+The wholesale customer data record annual spending by product category. Can spending in the other categories help explain milk spending?
 
 ```{r model}
-model <- lm(y ~ ., data = surgical)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen + delicassen, data = wholesale_customers)
 summary(model)
 ```
 
@@ -107,13 +110,13 @@ variables may be specified either by name or position in the model specified.
 ##### By name
 
 ```{r include_name}
-ols_step_forward_p(model, include = c("age", "alc_mod"))
+ols_step_forward_p(model, include = c("grocery", "fresh"))
 ```
 
 ##### By index
 
 ```{r include_index}
-ols_step_forward_p(model, include = c(5, 7))
+ols_step_forward_p(model, include = c(2, 4))
 ```
 
 ### Standardized output
@@ -170,13 +173,11 @@ ols_step_forward_adj_r2(model, progress = TRUE)
 
 When using `p` values as the criterion for selecting/eliminating variables, we can enable hierarchical
 selection. In this method, the search for the most significant variable is restricted to the next available
-variable. In the below example, as `liver_test` does not meet the threshold for selection, none of the 
-variables after `liver_test` are considered for further selection i.e. the stepwise selection ends as soon
-as it comes across a variable that does not meet the selection threshold. You can learn more about hierachichal
+variable. In the example below, selection stops at the first spending category that does not meet the threshold; later categories are not considered. You can learn more about hierachichal
 selection [here](https://www.stata.com/manuals/rstepwise.pdf).
 
 ```{r hierarchical}
 # hierarchical selection
-m <- lm(y ~ bcs + alc_heavy + pindex + enzyme_test + liver_test + age + gender + alc_mod, data = surgical)
+m <- lm(milk ~ grocery + detergents_paper + fresh + frozen + delicassen, data = wholesale_customers)
 ols_step_forward_p(m, 0.1, hierarchical = TRUE)
 ```

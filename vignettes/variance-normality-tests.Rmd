@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Do formal tests support the concerns in a braking-distance residual plot?
+Do formal tests support the concerns in a customer-spending residual plot?
 We will use the same model as the
 [residual diagnostics guide](residual-diagnostics.html), distinguish two
 null hypotheses and interpret the results together. Here both the
@@ -16,13 +16,9 @@ They identify questions for further investigation, without choosing a remedy.
 
 ## Keep the model and observations fixed
 
-**Example data: R's built-in cars dataset**
+**Example data: wholesale customer spending**
 
-The 50 historic observations record speed in miles per hour and stopping
-distance in feet. All measurements are present. The earlier plots showed
-wider residual spread at higher fitted distances and an upper tail that
-bends above the normal Q-Q line. Fit exactly the same straight-line model
-so that the tests address those findings.
+The 440 observations record annual spending in monetary units, with currency unspecified. The earlier plots showed uneven residual spread and departures from normality. Fit the same milk-on-grocery model so that the tests address those findings. See `?wholesale_customers` for the source and licence.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
@@ -30,12 +26,12 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ```{r model, message=FALSE}
 library(olsrr)
-braking_data <- datasets::cars
-stopifnot(nrow(braking_data) == 50L, !anyNA(braking_data))
-braking_model <- lm(dist ~ speed, data = braking_data)
+customer_data <- wholesale_customers[c("milk", "grocery")]
+stopifnot(nrow(customer_data) == 440L, !anyNA(customer_data))
+spending_model <- lm(milk ~ grocery, data = customer_data)
 ```
 
-The assumptions concern unobserved model errors conditional on speed.
+The assumptions concern unobserved model errors conditional on grocery spending.
 The functions use fitted residuals to investigate them. Residuals inherit
 constraints and dependence from fitting, so formal distribution tests
 applied to them are diagnostic approximations, not a complete validation
@@ -51,11 +47,11 @@ errors for its reference calibration, as well as an appropriate mean
 model and independent observations.
 
 ```{r variance-test}
-variance_test <- ols_test_breusch_pagan(braking_model)
+variance_test <- ols_test_breusch_pagan(spending_model)
 variance_test
 ```
 
-The chi-square statistic is 4.650 with one degree of freedom and p = 0.0310.
+The chi-square statistic is 936.089 with one degree of freedom and p < 0.0001.
 At a prespecified 5% significance level, that is evidence against the
 constant-variance null in the tested direction. It agrees with the visual
 concern about widening spread, but does not prove which variance function
@@ -78,14 +74,13 @@ independent confirmations. The Kolmogorov-Smirnov row uses the Lilliefors
 correction for estimating the normal mean and standard deviation.
 
 ```{r normality-tests}
-normality_tests <- ols_test_normality(braking_model)
+normality_tests <- ols_test_normality(spending_model)
 normality_tests
 ```
 
-The Shapiro-Wilk p-value is 0.0215; the Lilliefors, Cramer-von Mises and
-Anderson-Darling p-values are 0.0353, 0.0483 and 0.0369. These results
+The Shapiro-Wilk, Lilliefors, Cramer-von Mises and Anderson-Darling p-values are all below 0.0001. These results
 indicate departures from a normal shape at a 5% threshold, consistent
-with the Q-Q plot's upper tail. They do not distinguish skewness caused
+with the Q-Q plot's tails. They do not distinguish skewness caused
 by changing variance from a missed mean relationship or unusual observations.
 
 A large p-value would mean insufficient evidence against the particular
@@ -93,7 +88,7 @@ null, not proof that an assumption holds. Small samples can miss relevant
 departures and large samples can detect minor ones. Normality is useful
 for exact small-sample inference under the model; it is not necessary
 just to compute least-squares coefficients. No test here establishes
-independence or the suitability of the model for new vehicles.
+independence or the suitability of the model for new customers.
 
 ## Keep other test options in context
 
@@ -111,23 +106,15 @@ individual function help before extending the example.
 
 ### Separate sidebar: compare genuinely grouped variances
 
-**Example data: R's built-in PlantGrowth dataset**
+**Example data: wholesale customer regions**
 
-Bartlett's test asks whether population variances are equal across groups.
-Here dried plant weights have 10 observations in each of three groups:
-a control and two treatments. The dataset documentation does not specify
-the weight unit. This is a separate grouped question, not a replacement
-test of the cars regression's residual variance.
+Bartlett's test asks whether population variances are equal across groups. Here the question concerns milk spending in Lisbon, Porto and the other regions. This is a separate grouped question, not a replacement test of regression residual variance.
 
 ```{r grouped-variance}
-ols_test_bartlett(datasets::PlantGrowth, "weight", group_var = "group")
+ols_test_bartlett(wholesale_customers, "milk", group_var = "region")
 ```
 
-The statistic is 2.879 on two degrees of freedom, with p = 0.2371.
-There is insufficient evidence against equal group variances; equality
-is not established. Bartlett's calibration is sensitive to departures
-from normality and assumes independent observations within and between
-groups. Group distributions deserve inspection before relying on it.
+The statistic is 16.350 on two degrees of freedom, with p = 0.0003. This is evidence against equal group variances. Bartlett's calibration is sensitive to departures from normality and assumes independent observations within and between groups. Inspect the group distributions before relying on it.
 
 Next, revisit the [two residual plots](residual-diagnostics.html) and
 investigate the mean shape and spread together. The help pages for
