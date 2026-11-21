@@ -1,5 +1,7 @@
 # olsrr (development version)
 
+- Rewrote the getting-started, regression output, residual diagnostics and variance/normality vignettes
+
 ## Bug Fixes
 
 - Printed p-values use four decimals and show `< 0.0001` below that resolution across regression, ANOVA, normality, heteroskedasticity and stepwise tables; returned numeric values and the documented Cramer-von Mises floor are unchanged (@aravindhebbali, pkg-olsrr-c25-fu2; follow-up to [#254](https://github.com/rsquaredacademy/olsrr/issues/254)).
