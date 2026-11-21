@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This guide has moved to [Can weight and horsepower explain fuel economy?](getting-started.html).
+This guide has moved to [Can product spending explain milk spending?](getting-started.html).
 
 Follow that link for the worked example and its interpreted results.
 This page preserves links to the previous article address.

@@ -41,7 +41,7 @@ ols_model_info(model)
 #> 
 #> $formula
 #> mpg ~ wt + cyl * hp * disp + gear * drat
-#> <environment: 0x0000024abea659a8>
+#> <environment: 0x0000015bf197fbd8>
 #> 
 #> $has_intercept
 #> [1] TRUE

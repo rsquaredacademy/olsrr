@@ -7,7 +7,7 @@ Source:
 
 `residual_diagnostics.Rmd`
 
-This guide has moved to [What does a braking-distance model
+This guide has moved to [What does a customer-spending model
 miss?](https://olsrr.rsquaredacademy.com/dev/articles/residual-diagnostics.md).
 
 Follow that link for the worked example and its interpreted results.

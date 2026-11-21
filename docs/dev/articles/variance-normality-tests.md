@@ -7,7 +7,7 @@ Source:
 
 `variance-normality-tests.Rmd`
 
-Do formal tests support the concerns in a braking-distance residual
+Do formal tests support the concerns in a customer-spending residual
 plot? We will use the same model as the [residual diagnostics
 guide](https://olsrr.rsquaredacademy.com/dev/articles/residual-diagnostics.md),
 distinguish two null hypotheses and interpret the results together. Here
@@ -17,25 +17,26 @@ choosing a remedy.
 
 ## Keep the model and observations fixed
 
-**Example data: R’s built-in cars dataset**
+**Example data: wholesale customer spending**
 
-The 50 historic observations record speed in miles per hour and stopping
-distance in feet. All measurements are present. The earlier plots showed
-wider residual spread at higher fitted distances and an upper tail that
-bends above the normal Q-Q line. Fit exactly the same straight-line
-model so that the tests address those findings.
+The 440 observations record annual spending in monetary units, with
+currency unspecified. The earlier plots showed uneven residual spread
+and departures from normality. Fit the same milk-on-grocery model so
+that the tests address those findings. See
+[`?wholesale_customers`](https://olsrr.rsquaredacademy.com/dev/reference/wholesale_customers.md)
+for the source and licence.
 
 \
 [`library`](https://rdrr.io/r/base/library.html)`(`[`olsrr`](https://olsrr.rsquaredacademy.com/)`)`\
-`braking_data`` ``<-`` ``datasets``::`[`cars`](https://rdrr.io/r/datasets/cars.html)\
-[`stopifnot`](https://rdrr.io/r/base/stopifnot.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``braking_data``)`` ``==`` ``50L``, ``!`[`anyNA`](https://rdrr.io/r/base/NA.html)`(``braking_data``)``)`\
-`braking_model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``dist`` ``~`` ``speed``, data ``=`` ``braking_data``)`
+`customer_data`` ``<-`` ``wholesale_customers``[`[`c`](https://rdrr.io/r/base/c.html)`(``"milk"``, ``"grocery"``)``]`\
+[`stopifnot`](https://rdrr.io/r/base/stopifnot.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``customer_data``)`` ``==`` ``440L``, ``!`[`anyNA`](https://rdrr.io/r/base/NA.html)`(``customer_data``)``)`\
+`spending_model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery``, data ``=`` ``customer_data``)`
 
-The assumptions concern unobserved model errors conditional on speed.
-The functions use fitted residuals to investigate them. Residuals
-inherit constraints and dependence from fitting, so formal distribution
-tests applied to them are diagnostic approximations, not a complete
-validation of the error model.
+The assumptions concern unobserved model errors conditional on grocery
+spending. The functions use fitted residuals to investigate them.
+Residuals inherit constraints and dependence from fitting, so formal
+distribution tests applied to them are diagnostic approximations, not a
+complete validation of the error model.
 
 ## Test a specified variance pattern
 
@@ -47,7 +48,7 @@ assumes normal errors for its reference calibration, as well as an
 appropriate mean model and independent observations.
 
 \
-`variance_test`` ``<-`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/dev/reference/ols_test_breusch_pagan.md)`(``braking_model``)`\
+`variance_test`` ``<-`` `[`ols_test_breusch_pagan`](https://olsrr.rsquaredacademy.com/dev/reference/ols_test_breusch_pagan.md)`(``spending_model``)`\
 `variance_test`\
 `#> `\
 `#>  Breusch Pagan Test for Heteroskedasticity`\
@@ -57,17 +58,17 @@ appropriate mean model and independent observations.
 `#> `\
 `#>               Data               `\
 `#>  --------------------------------`\
-`#>  Response : dist `\
-`#>  Variables: fitted values of dist `\
+`#>  Response : milk `\
+`#>  Variables: fitted values of milk `\
 `#> `\
 `#>        Test Summary         `\
 `#>  ---------------------------`\
 `#>  DF            =    1 `\
-`#>  Chi2          =    4.650233 `\
-`#>  Prob > Chi2   =    0.0310`
+`#>  Chi2          =    936.0886 `\
+`#>  Prob > Chi2   =    < 0.0001`
 
-The chi-square statistic is 4.650 with one degree of freedom and p =
-0.0310. At a prespecified 5% significance level, that is evidence
+The chi-square statistic is 936.089 with one degree of freedom and p \<
+0.0001. At a prespecified 5% significance level, that is evidence
 against the constant-variance null in the tested direction. It agrees
 with the visual concern about widening spread, but does not prove which
 variance function is correct. An incorrect mean model can also create a
@@ -92,23 +93,24 @@ Lilliefors correction for estimating the normal mean and standard
 deviation.
 
 \
-`normality_tests`` ``<-`` `[`ols_test_normality`](https://olsrr.rsquaredacademy.com/dev/reference/ols_test_normality.md)`(``braking_model``)`\
+`normality_tests`` ``<-`` `[`ols_test_normality`](https://olsrr.rsquaredacademy.com/dev/reference/ols_test_normality.md)`(``spending_model``)`\
+`#> Warning in nortest::cvm.test(y): p-value is smaller than 7.37e-10, cannot be`\
+`#> computed more accurately`\
 `normality_tests`\
-`#> ------------------------------------------------------------`\
-`#>              Test                    Statistic       pvalue  `\
-`#> ------------------------------------------------------------`\
-`#> Shapiro-Wilk                           0.9451         0.0215 `\
-`#> Kolmogorov-Smirnov (Lilliefors)        0.1296         0.0353 `\
-`#> Cramer-von Mises                       0.1257         0.0483 `\
-`#> Anderson-Darling                       0.7941         0.0369 `\
-`#> ------------------------------------------------------------`
+`#> -------------------------------------------------------------`\
+`#>              Test                    Statistic        pvalue  `\
+`#> -------------------------------------------------------------`\
+`#> Shapiro-Wilk                           0.6334        < 0.0001 `\
+`#> Kolmogorov-Smirnov (Lilliefors)        0.2084        < 0.0001 `\
+`#> Cramer-von Mises                       7.4861        < 0.0001 `\
+`#> Anderson-Darling                      39.4027        < 0.0001 `\
+`#> -------------------------------------------------------------`
 
-The Shapiro-Wilk p-value is 0.0215; the Lilliefors, Cramer-von Mises and
-Anderson-Darling p-values are 0.0353, 0.0483 and 0.0369. These results
-indicate departures from a normal shape at a 5% threshold, consistent
-with the Q-Q plot’s upper tail. They do not distinguish skewness caused
-by changing variance from a missed mean relationship or unusual
-observations.
+The Shapiro-Wilk, Lilliefors, Cramer-von Mises and Anderson-Darling
+p-values are all below 0.0001. These results indicate departures from a
+normal shape at a 5% threshold, consistent with the Q-Q plot’s tails.
+They do not distinguish skewness caused by changing variance from a
+missed mean relationship or unusual observations.
 
 A large p-value would mean insufficient evidence against the particular
 null, not proof that an assumption holds. Small samples can miss
@@ -116,7 +118,7 @@ relevant departures and large samples can detect minor ones. Normality
 is useful for exact small-sample inference under the model; it is not
 necessary just to compute least-squares coefficients. No test here
 establishes independence or the suitability of the model for new
-vehicles.
+customers.
 
 ## Keep other test options in context
 
@@ -134,16 +136,15 @@ individual function help before extending the example.
 
 ### Separate sidebar: compare genuinely grouped variances
 
-**Example data: R’s built-in PlantGrowth dataset**
+**Example data: wholesale customer regions**
 
 Bartlett’s test asks whether population variances are equal across
-groups. Here dried plant weights have 10 observations in each of three
-groups: a control and two treatments. The dataset documentation does not
-specify the weight unit. This is a separate grouped question, not a
-replacement test of the cars regression’s residual variance.
+groups. Here the question concerns milk spending in Lisbon, Porto and
+the other regions. This is a separate grouped question, not a
+replacement test of regression residual variance.
 
 \
-[`ols_test_bartlett`](https://olsrr.rsquaredacademy.com/dev/reference/ols_test_bartlett.md)`(``datasets``::`[`PlantGrowth`](https://rdrr.io/r/datasets/PlantGrowth.html)`, ``"weight"``, group_var ``=`` ``"group"``)`\
+[`ols_test_bartlett`](https://olsrr.rsquaredacademy.com/dev/reference/ols_test_bartlett.md)`(``wholesale_customers``, ``"milk"``, group_var ``=`` ``"region"``)`\
 `#> `\
 `#>     Bartlett's Test of Homogenity of Variances    `\
 `#> ------------------------------------------------`\
@@ -153,14 +154,14 @@ replacement test of the cars regression’s residual variance.
 `#>        Test Summary         `\
 `#>  ---------------------------`\
 `#>  DF            =    2 `\
-`#>  Chi2          =    2.878574 `\
-`#>  Prob > Chi2   =    0.2371`
+`#>  Chi2          =    16.35007 `\
+`#>  Prob > Chi2   =    0.0003`
 
-The statistic is 2.879 on two degrees of freedom, with p = 0.2371. There
-is insufficient evidence against equal group variances; equality is not
-established. Bartlett’s calibration is sensitive to departures from
-normality and assumes independent observations within and between
-groups. Group distributions deserve inspection before relying on it.
+The statistic is 16.350 on two degrees of freedom, with p = 0.0003. This
+is evidence against equal group variances. Bartlett’s calibration is
+sensitive to departures from normality and assumes independent
+observations within and between groups. Inspect the group distributions
+before relying on it.
 
 Next, revisit the [two residual
 plots](https://olsrr.rsquaredacademy.com/dev/articles/residual-diagnostics.md)

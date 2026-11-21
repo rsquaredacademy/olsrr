@@ -14,6 +14,9 @@ library(gridExtra)
 library(nortest)
 ```
 
+The examples use annual spending by 440 wholesale customers. They ask how milk spending relates to spending in other product categories; these are observational associations. See `?wholesale_customers` for source and units.
+
+
 # Introduction
 
 It is possible for a single observation to have a great influence on the results of a regression analysis. It is therefore important to detect influential observations and to take them into consideration when interpreting the results.
@@ -44,7 +47,7 @@ Bar Plot of Cook's distance to detect observations that strongly influence fitte
 A data point having a large cook's d indicates that the data point strongly influences the fitted values.
 
 ```{r ckdbp, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_cooksd_bar(model)
 ```
 
@@ -53,7 +56,7 @@ ols_plot_cooksd_bar(model)
 Chart of Cook's distance to detect observations that strongly influence fitted values of the model.
 
 ```{r ckchart, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_cooksd_chart(model)
 ```
 
@@ -63,7 +66,7 @@ DFBETA measures the difference in each parameter estimate with and without the i
 $\frac{2}{\sqrt{n}}$ as a size-adjusted cutoff.
 
 ```{r dfbpanel, fig.width=7, fig.height=7, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh, data = wholesale_customers)
 ols_plot_dfbetas(model)
 ```
 
@@ -90,7 +93,7 @@ where n is the number of observations and p is the number of predictors includin
 olsrr uses the size adjusted cutoff by default.
 
 ```{r dfitsplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_dffits(model)
 ```
 
@@ -99,7 +102,7 @@ ols_plot_dffits(model)
 Plot for detecting outliers. Studentized deleted residuals (or externally studentized residuals) is the deleted residual divided by its estimated standard deviation. Studentized residuals are going to be more effective for  detecting outlying Y observations than standardized residuals. If an observation has an externally studentized residual that is larger than 3 (in absolute value) we can call it an outlier.
 
 ```{r srplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_resid_stud(model)
 ```
 
@@ -108,16 +111,16 @@ ols_plot_resid_stud(model)
 Chart for detecting outliers. Standardized residual (internally studentized) is the residual divided by estimated standard deviation.
 
 ```{r srchart, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_resid_stand(model)
 ```
 
 ## Studentized Residuals vs Leverage Plot
 
-Graph for detecting influential observations.
+Graph for detecting influential observations. The wholesale data include customers with unusual spending combinations; inspect them rather than deleting them automatically.
 
 ```{r studlev, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(read ~ write + math + science, data = hsb)
+model <- lm(milk ~ grocery + detergents_paper + fresh, data = wholesale_customers)
 ols_plot_resid_lev(model)
 ```
 
@@ -126,7 +129,7 @@ ols_plot_resid_lev(model)
 Graph for detecting outliers.
 
 ```{r dsrvsp, fig.width=7, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_resid_stud_fit(model)
 ```
 
@@ -137,7 +140,7 @@ the response variable or in the predictors or both. The plot is used to detect i
 based on Hadi's measure.
 
 ```{r hadiplot, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_hadi(model)
 ```
 
@@ -146,6 +149,6 @@ ols_plot_hadi(model)
 Plot to aid in classifying unusual observations as high-leverage points, outliers, or a combination of both.
 
 ```{r potres, fig.width=5, fig.height=5, fig.align='center'}
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+model <- lm(milk ~ grocery + detergents_paper + fresh + frozen, data = wholesale_customers)
 ols_plot_resid_pot(model)
 ```

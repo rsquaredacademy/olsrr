@@ -97,7 +97,7 @@
 
     
     
-<p>Do formal tests support the concerns in a braking-distance residual
+<p>Do formal tests support the concerns in a customer-spending residual
 plot? We will use the same model as the <a href="residual-diagnostics.html">residual diagnostics guide</a>,
 distinguish two null hypotheses and interpret the results together. Here
 both the variance test and normality checks give evidence against their
@@ -106,22 +106,22 @@ choosing a remedy.</p>
 <div class="section level2">
 <h2 id="keep-the-model-and-observations-fixed">Keep the model and observations fixed<a class="anchor" aria-label="anchor" href="#keep-the-model-and-observations-fixed"></a>
 </h2>
-<p><strong>Example data: R’s built-in cars dataset</strong></p>
-<p>The 50 historic observations record speed in miles per hour and
-stopping distance in feet. All measurements are present. The earlier
-plots showed wider residual spread at higher fitted distances and an
-upper tail that bends above the normal Q-Q line. Fit exactly the same
-straight-line model so that the tests address those findings.</p>
+<p><strong>Example data: wholesale customer spending</strong></p>
+<p>The 440 observations record annual spending in monetary units, with
+currency unspecified. The earlier plots showed uneven residual spread
+and departures from normality. Fit the same milk-on-grocery model so
+that the tests address those findings. See
+<code><a href="../reference/wholesale_customers.html">?wholesale_customers</a></code> for the source and licence.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://olsrr.rsquaredacademy.com/">olsrr</a></span><span class="op">)</span></span>
-<span><span class="va">braking_data</span> <span class="op">&lt;-</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/cars.html" class="external-link">cars</a></span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">braking_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">50L</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">braking_data</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">braking_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">dist</span> <span class="op">~</span> <span class="va">speed</span>, data <span class="op">=</span> <span class="va">braking_data</span><span class="op">)</span></span></code></pre></div>
-<p>The assumptions concern unobserved model errors conditional on speed.
-The functions use fitted residuals to investigate them. Residuals
-inherit constraints and dependence from fitting, so formal distribution
-tests applied to them are diagnostic approximations, not a complete
-validation of the error model.</p>
+<span><span class="va">customer_data</span> <span class="op">&lt;-</span> <span class="va">wholesale_customers</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"milk"</span>, <span class="st">"grocery"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">440L</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">spending_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span>, data <span class="op">=</span> <span class="va">customer_data</span><span class="op">)</span></span></code></pre></div>
+<p>The assumptions concern unobserved model errors conditional on
+grocery spending. The functions use fitted residuals to investigate
+them. Residuals inherit constraints and dependence from fitting, so
+formal distribution tests applied to them are diagnostic approximations,
+not a complete validation of the error model.</p>
 </div>
 <div class="section level2">
 <h2 id="test-a-specified-variance-pattern">Test a specified variance pattern<a class="anchor" aria-label="anchor" href="#test-a-specified-variance-pattern"></a>
@@ -134,7 +134,7 @@ variance. This implementation assumes normal errors for its reference
 calibration, as well as an appropriate mean model and independent
 observations.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">variance_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">braking_model</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">variance_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_test_breusch_pagan.html">ols_test_breusch_pagan</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span>
 <span><span class="va">variance_test</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  Breusch Pagan Test for Heteroskedasticity</span></span>
@@ -144,16 +144,16 @@ observations.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;               Data               </span></span>
 <span><span class="co">#&gt;  --------------------------------</span></span>
-<span><span class="co">#&gt;  Response : dist </span></span>
-<span><span class="co">#&gt;  Variables: fitted values of dist </span></span>
+<span><span class="co">#&gt;  Response : milk </span></span>
+<span><span class="co">#&gt;  Variables: fitted values of milk </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;        Test Summary         </span></span>
 <span><span class="co">#&gt;  ---------------------------</span></span>
 <span><span class="co">#&gt;  DF            =    1 </span></span>
-<span><span class="co">#&gt;  Chi2          =    4.650233 </span></span>
-<span><span class="co">#&gt;  Prob &gt; Chi2   =    0.0310</span></span></code></pre></div>
-<p>The chi-square statistic is 4.650 with one degree of freedom and p =
-0.0310. At a prespecified 5% significance level, that is evidence
+<span><span class="co">#&gt;  Chi2          =    936.0886 </span></span>
+<span><span class="co">#&gt;  Prob &gt; Chi2   =    &lt; 0.0001</span></span></code></pre></div>
+<p>The chi-square statistic is 936.089 with one degree of freedom and p
+&lt; 0.0001. At a prespecified 5% significance level, that is evidence
 against the constant-variance null in the tested direction. It agrees
 with the visual concern about widening spread, but does not prove which
 variance function is correct. An incorrect mean model can also create a
@@ -177,29 +177,30 @@ results are not four independent confirmations. The Kolmogorov-Smirnov
 row uses the Lilliefors correction for estimating the normal mean and
 standard deviation.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">normality_tests</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_test_normality.html">ols_test_normality</a></span><span class="op">(</span><span class="va">braking_model</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">normality_tests</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_test_normality.html">ols_test_normality</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in nortest::cvm.test(y): p-value is smaller than 7.37e-10, cannot be</span></span>
+<span><span class="co">#&gt; computed more accurately</span></span>
 <span><span class="va">normality_tests</span></span>
-<span><span class="co">#&gt; ------------------------------------------------------------</span></span>
-<span><span class="co">#&gt;              Test                    Statistic       pvalue  </span></span>
-<span><span class="co">#&gt; ------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Shapiro-Wilk                           0.9451         0.0215 </span></span>
-<span><span class="co">#&gt; Kolmogorov-Smirnov (Lilliefors)        0.1296         0.0353 </span></span>
-<span><span class="co">#&gt; Cramer-von Mises                       0.1257         0.0483 </span></span>
-<span><span class="co">#&gt; Anderson-Darling                       0.7941         0.0369 </span></span>
-<span><span class="co">#&gt; ------------------------------------------------------------</span></span></code></pre></div>
-<p>The Shapiro-Wilk p-value is 0.0215; the Lilliefors, Cramer-von Mises
-and Anderson-Darling p-values are 0.0353, 0.0483 and 0.0369. These
-results indicate departures from a normal shape at a 5% threshold,
-consistent with the Q-Q plot’s upper tail. They do not distinguish
-skewness caused by changing variance from a missed mean relationship or
-unusual observations.</p>
+<span><span class="co">#&gt; -------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;              Test                    Statistic        pvalue  </span></span>
+<span><span class="co">#&gt; -------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Shapiro-Wilk                           0.6334        &lt; 0.0001 </span></span>
+<span><span class="co">#&gt; Kolmogorov-Smirnov (Lilliefors)        0.2084        &lt; 0.0001 </span></span>
+<span><span class="co">#&gt; Cramer-von Mises                       7.4861        &lt; 0.0001 </span></span>
+<span><span class="co">#&gt; Anderson-Darling                      39.4027        &lt; 0.0001 </span></span>
+<span><span class="co">#&gt; -------------------------------------------------------------</span></span></code></pre></div>
+<p>The Shapiro-Wilk, Lilliefors, Cramer-von Mises and Anderson-Darling
+p-values are all below 0.0001. These results indicate departures from a
+normal shape at a 5% threshold, consistent with the Q-Q plot’s tails.
+They do not distinguish skewness caused by changing variance from a
+missed mean relationship or unusual observations.</p>
 <p>A large p-value would mean insufficient evidence against the
 particular null, not proof that an assumption holds. Small samples can
 miss relevant departures and large samples can detect minor ones.
 Normality is useful for exact small-sample inference under the model; it
 is not necessary just to compute least-squares coefficients. No test
 here establishes independence or the suitability of the model for new
-vehicles.</p>
+customers.</p>
 </div>
 <div class="section level2">
 <h2 id="keep-other-test-options-in-context">Keep other test options in context<a class="anchor" aria-label="anchor" href="#keep-other-test-options-in-context"></a>
@@ -249,14 +250,13 @@ individual function help before extending the example.</p>
 <div class="section level3">
 <h3 id="separate-sidebar-compare-genuinely-grouped-variances">Separate sidebar: compare genuinely grouped variances<a class="anchor" aria-label="anchor" href="#separate-sidebar-compare-genuinely-grouped-variances"></a>
 </h3>
-<p><strong>Example data: R’s built-in PlantGrowth dataset</strong></p>
+<p><strong>Example data: wholesale customer regions</strong></p>
 <p>Bartlett’s test asks whether population variances are equal across
-groups. Here dried plant weights have 10 observations in each of three
-groups: a control and two treatments. The dataset documentation does not
-specify the weight unit. This is a separate grouped question, not a
-replacement test of the cars regression’s residual variance.</p>
+groups. Here the question concerns milk spending in Lisbon, Porto and
+the other regions. This is a separate grouped question, not a
+replacement test of regression residual variance.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_test_bartlett.html">ols_test_bartlett</a></span><span class="op">(</span><span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/PlantGrowth.html" class="external-link">PlantGrowth</a></span>, <span class="st">"weight"</span>, group_var <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_test_bartlett.html">ols_test_bartlett</a></span><span class="op">(</span><span class="va">wholesale_customers</span>, <span class="st">"milk"</span>, group_var <span class="op">=</span> <span class="st">"region"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     Bartlett's Test of Homogenity of Variances    </span></span>
 <span><span class="co">#&gt; ------------------------------------------------</span></span>
@@ -266,13 +266,13 @@ replacement test of the cars regression’s residual variance.</p>
 <span><span class="co">#&gt;        Test Summary         </span></span>
 <span><span class="co">#&gt;  ---------------------------</span></span>
 <span><span class="co">#&gt;  DF            =    2 </span></span>
-<span><span class="co">#&gt;  Chi2          =    2.878574 </span></span>
-<span><span class="co">#&gt;  Prob &gt; Chi2   =    0.2371</span></span></code></pre></div>
-<p>The statistic is 2.879 on two degrees of freedom, with p = 0.2371.
-There is insufficient evidence against equal group variances; equality
-is not established. Bartlett’s calibration is sensitive to departures
-from normality and assumes independent observations within and between
-groups. Group distributions deserve inspection before relying on it.</p>
+<span><span class="co">#&gt;  Chi2          =    16.35007 </span></span>
+<span><span class="co">#&gt;  Prob &gt; Chi2   =    0.0003</span></span></code></pre></div>
+<p>The statistic is 16.350 on two degrees of freedom, with p = 0.0003.
+This is evidence against equal group variances. Bartlett’s calibration
+is sensitive to departures from normality and assumes independent
+observations within and between groups. Inspect the group distributions
+before relying on it.</p>
 <p>Next, revisit the <a href="residual-diagnostics.html">two residual
 plots</a> and investigate the mean shape and spread together. The help
 pages for <a href="https://olsrr.rsquaredacademy.com/reference/ols_test_breusch_pagan.html"><code>ols_test_breusch_pagan()</code></a>,
@@ -302,7 +302,14 @@ using the data context and compare its diagnostics on the same rows.</p>
       </nav>
 </div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>

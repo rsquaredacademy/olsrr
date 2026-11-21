@@ -62,42 +62,41 @@ functions in olsrr. Below is a quick demo:
 #### Regression
 
 ``` r
-model <- lm(mpg ~ disp + hp + wt + qsec, data = mtcars)
+# annual spend of 440 wholesale customers (UCI, CC BY 4.0; see ?wholesale_customers)
+model <- lm(milk ~ grocery + detergents_paper, data = wholesale_customers)
 ols_regress(model)
-#>                          Model Summary                          
-#> ---------------------------------------------------------------
-#> R                       0.914       RMSE                 2.622 
-#> R-Squared               0.835       MSE                  6.875 
-#> Adj. R-Squared          0.811       Coef. Var           13.051 
-#> Pred R-Squared          0.771       AIC                159.070 
-#> MAE                     1.858       SBC                167.864 
-#> ---------------------------------------------------------------
+#>                              Model Summary                              
+#> -----------------------------------------------------------------------
+#> R                          0.729       RMSE                   5063.711 
+#> R-Squared                  0.531       MSE                25641169.793 
+#> Adj. R-Squared             0.529       Coef. Var                87.362 
+#> Pred R-Squared             0.490       AIC                    8759.928 
+#> MAE                     2563.777       SBC                    8776.275 
+#> -----------------------------------------------------------------------
 #>  RMSE: Root Mean Square Error 
 #>  MSE: Mean Square Error 
 #>  MAE: Mean Absolute Error 
 #>  AIC: Akaike Information Criteria 
 #>  SBC: Schwarz Bayesian Criteria 
 #> 
-#>                                ANOVA                                 
-#> --------------------------------------------------------------------
-#>                 Sum of                                              
-#>                Squares        DF    Mean Square      F         Sig. 
-#> --------------------------------------------------------------------
-#> Regression     940.412         4        235.103    34.195    0.0000 
-#> Residual       185.635        27          6.875                     
-#> Total         1126.047        31                                    
-#> --------------------------------------------------------------------
+#>                                       ANOVA                                        
+#> ----------------------------------------------------------------------------------
+#>                        Sum of                                                     
+#>                       Squares         DF       Mean Square       F           Sig. 
+#> ----------------------------------------------------------------------------------
+#> Regression    12707124418.370          2    6353562209.185    247.788    < 0.0001 
+#> Residual      11205191199.519        437      25641169.793                        
+#> Total         23912315617.889        439                                          
+#> ----------------------------------------------------------------------------------
 #> 
-#>                                   Parameter Estimates                                    
-#> ----------------------------------------------------------------------------------------
-#>       model      Beta    Std. Error    Std. Beta      t        Sig      lower     upper 
-#> ----------------------------------------------------------------------------------------
-#> (Intercept)    27.330         8.639                  3.164    0.004     9.604    45.055 
-#>        disp     0.003         0.011        0.055     0.248    0.806    -0.019     0.025 
-#>          hp    -0.019         0.016       -0.212    -1.196    0.242    -0.051     0.013 
-#>          wt    -4.609         1.266       -0.748    -3.641    0.001    -7.206    -2.012 
-#>        qsec     0.544         0.466        0.161     1.166    0.254    -0.413     1.501 
-#> ----------------------------------------------------------------------------------------
+#>                                          Parameter Estimates                                          
+#> -----------------------------------------------------------------------------------------------------
+#>            model        Beta    Std. Error    Std. Beta      t         Sig         lower       upper 
+#> -----------------------------------------------------------------------------------------------------
+#>      (Intercept)    1198.484       332.724                  3.602      0.0004    544.545    1852.423 
+#>          grocery       0.623         0.067        0.802     9.333    < 0.0001      0.492       0.754 
+#> detergents_paper      -0.124         0.133       -0.080    -0.933      0.3515     -0.386       0.137 
+#> -----------------------------------------------------------------------------------------------------
 ```
 
 ## Getting Help
@@ -111,8 +110,3 @@ questions and clarifications, ask on Stack Overflow with the `r` tag.
 Please note that the olsrr project is released with a [Contributor Code
 of Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
-
-<div data-rsa-signup="" data-site="olsrr.rsquaredacademy.com"
-data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html">
-
-</div>

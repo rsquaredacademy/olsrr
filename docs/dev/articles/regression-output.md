@@ -1,170 +1,144 @@
-# Read a tree-volume regression model
+# Read a customer-spending regression model
 
-# Read a tree-volume regression model
+# Read a customer-spending regression model
 
 Source:
 [`vignettes/regression-output.Rmd`](https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/regression-output.Rmd)
 
 `regression-output.Rmd`
 
-How much does a tree’s estimated timber volume change with trunk
-diameter, after accounting for height? We will read one regression
-result and connect its coefficients, uncertainty and residual error. In
-this sample, an extra inch of diameter is associated with about 4.71
-extra cubic feet of volume at a fixed height. The remaining residual
-scatter is about 3.88 cubic feet.
+How does milk spending vary with grocery spending, after accounting for
+detergent and paper spending? We read one regression result and connect
+its coefficients, uncertainty and residual error.
 
 ## Understand the measurements
 
-**Example data: R’s built-in trees dataset**
-
-The 31 observations are felled black cherry trees. `Volume` is timber
-volume in cubic feet and `Height` is height in feet. Despite its name,
-`Girth` is trunk **diameter**, measured in inches at 4 feet 6 inches
-above the ground. Reading the data documentation matters: interpreting
-this column as circumference would give the slope the wrong physical
-meaning.
+The `wholesale_customers` data contain annual spending by 440 wholesale
+customers in monetary units; the currency is unspecified. Each row is a
+customer. See
+[`?wholesale_customers`](https://olsrr.rsquaredacademy.com/dev/reference/wholesale_customers.md)
+for the source and licence.
 
 \
 [`library`](https://rdrr.io/r/base/library.html)`(`[`olsrr`](https://olsrr.rsquaredacademy.com/)`)`\
-`tree_data`` ``<-`` ``datasets``::`[`trees`](https://rdrr.io/r/datasets/trees.html)\
-[`stopifnot`](https://rdrr.io/r/base/stopifnot.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``tree_data``)`` ``==`` ``31L``, ``!`[`anyNA`](https://rdrr.io/r/base/NA.html)`(``tree_data``)``)`\
-[`head`](https://rdrr.io/r/utils/head.html)`(``tree_data``)`\
-`#>   Girth Height Volume`\
-`#> 1   8.3     70   10.3`\
-`#> 2   8.6     65   10.3`\
-`#> 3   8.8     63   10.2`\
-`#> 4  10.5     72   16.4`\
-`#> 5  10.7     81   18.8`\
-`#> 6  10.8     83   19.7`
+`customer_data`` ``<-`` ``wholesale_customers``[`[`c`](https://rdrr.io/r/base/c.html)`(``"milk"``, ``"grocery"``, ``"detergents_paper"``)``]`\
+[`stopifnot`](https://rdrr.io/r/base/stopifnot.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``customer_data``)`` ``==`` ``440L``, ``!`[`anyNA`](https://rdrr.io/r/base/NA.html)`(``customer_data``)``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(``customer_data``)`\
+`#>   milk grocery detergents_paper`\
+`#> 1 9656    7561             2674`\
+`#> 2 9810    9568             3293`\
+`#> 3 8808    7684             3516`\
+`#> 4 1196    4221              507`\
+`#> 5 5410    7198             1777`\
+`#> 6 8259    5126             1795`
 
-Every row has all three measurements, so no tree is dropped. This
-example describes associations in the observed trees. It does not
-establish a growth law or show what an intervention on height would
-cause. Keeping the units beside the data helps distinguish a coefficient
-from a measure without units, such as R-squared.
+All three measurements are present. The model describes observed
+associations, not the effect of an intervention on purchases.
 
 ## Fit one model
 
 \
-`volume_model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``Volume`` ``~`` ``Girth`` ``+`` ``Height``, data ``=`` ``tree_data``)`
+`spending_model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper``, data ``=`` ``customer_data``)`
 
-This additive model lets volume change linearly with diameter and
-height. Each slope describes a comparison holding the other predictor
-fixed. The formula does not encode the geometric relationship between
-diameter and volume, which might motivate a curved or transformed model
-later. For now the aim is to understand exactly what this fitted summary
-says.
+Each additive slope compares customers holding the other predictor
+fixed. The model does not include interactions or curved relationships.
 
 ## Read the regression table
 
 \
-[`ols_regress`](https://olsrr.rsquaredacademy.com/dev/reference/ols_regress.md)`(``volume_model``)`\
-`#>                          Model Summary                          `\
-`#> ---------------------------------------------------------------`\
-`#> R                       0.974       RMSE                 3.882 `\
-`#> R-Squared               0.948       MSE                 15.069 `\
-`#> Adj. R-Squared          0.944       Coef. Var           12.866 `\
-`#> Pred R-Squared          0.931       AIC                176.910 `\
-`#> MAE                     2.956       SBC                182.646 `\
-`#> ---------------------------------------------------------------`\
+[`ols_regress`](https://olsrr.rsquaredacademy.com/dev/reference/ols_regress.md)`(``spending_model``)`\
+`#>                              Model Summary                              `\
+`#> -----------------------------------------------------------------------`\
+`#> R                          0.729       RMSE                   5063.711 `\
+`#> R-Squared                  0.531       MSE                25641169.793 `\
+`#> Adj. R-Squared             0.529       Coef. Var                87.362 `\
+`#> Pred R-Squared             0.490       AIC                    8759.928 `\
+`#> MAE                     2563.777       SBC                    8776.275 `\
+`#> -----------------------------------------------------------------------`\
 `#>  RMSE: Root Mean Square Error `\
 `#>  MSE: Mean Square Error `\
 `#>  MAE: Mean Absolute Error `\
 `#>  AIC: Akaike Information Criteria `\
 `#>  SBC: Schwarz Bayesian Criteria `\
 `#> `\
-`#>                                  ANOVA                                  `\
-`#> -----------------------------------------------------------------------`\
-`#>                 Sum of                                                 `\
-`#>                Squares        DF    Mean Square       F           Sig. `\
-`#> -----------------------------------------------------------------------`\
-`#> Regression    7684.163         2       3842.081    254.972    < 0.0001 `\
-`#> Residual       421.921        28         15.069                        `\
-`#> Total         8106.084        30                                       `\
-`#> -----------------------------------------------------------------------`\
+`#>                                       ANOVA                                        `\
+`#> ----------------------------------------------------------------------------------`\
+`#>                        Sum of                                                     `\
+`#>                       Squares         DF       Mean Square       F           Sig. `\
+`#> ----------------------------------------------------------------------------------`\
+`#> Regression    12707124418.370          2    6353562209.185    247.788    < 0.0001 `\
+`#> Residual      11205191199.519        437      25641169.793                        `\
+`#> Total         23912315617.889        439                                          `\
+`#> ----------------------------------------------------------------------------------`\
 `#> `\
-`#>                                      Parameter Estimates                                       `\
-`#> ----------------------------------------------------------------------------------------------`\
-`#>       model       Beta    Std. Error    Std. Beta      t         Sig         lower      upper `\
-`#> ----------------------------------------------------------------------------------------------`\
-`#> (Intercept)    -57.988         8.638                 -6.713    < 0.0001    -75.682    -40.293 `\
-`#>       Girth      4.708         0.264        0.899    17.816    < 0.0001      4.167      5.249 `\
-`#>      Height      0.339         0.130        0.132     2.607      0.0145      0.073      0.606 `\
-`#> ----------------------------------------------------------------------------------------------`
+`#>                                          Parameter Estimates                                          `\
+`#> -----------------------------------------------------------------------------------------------------`\
+`#>            model        Beta    Std. Error    Std. Beta      t         Sig         lower       upper `\
+`#> -----------------------------------------------------------------------------------------------------`\
+`#>      (Intercept)    1198.484       332.724                  3.602      0.0004    544.545    1852.423 `\
+`#>          grocery       0.623         0.067        0.802     9.333    < 0.0001      0.492       0.754 `\
+`#> detergents_paper      -0.124         0.133       -0.080    -0.933      0.3515     -0.386       0.137 `\
+`#> -----------------------------------------------------------------------------------------------------`
 
-The **Beta** estimate for `Girth`, 4.708, means about 4.71 additional
-cubic feet per additional inch of diameter, comparing trees of the same
-height. For `Height`, 0.339 means about 0.34 additional cubic feet per
-extra foot of height at a fixed diameter. Standardized betas express
-effects on a different scale; use the unstandardized Beta column for
-these statements in inches, feet and cubic feet.
+The **Beta** estimate for `grocery`, 0.623, means about 0.623 additional
+monetary units of milk spending per additional unit of grocery spending,
+holding detergent and paper spending fixed. The corresponding detergent
+slope is -0.124. Standardized betas use a different scale.
 
-The **Std. Error** column measures uncertainty in each estimated slope.
-The **lower** and **upper** columns give its 95% confidence interval
-under the model assumptions: about 4.17 to 5.25 for diameter and 0.073
-to 0.606 for height. The height estimate is less precise relative to its
-size. These intervals concern conditional mean slopes, not the volumes
-of individual trees. The p-values test zero coefficients conditional on
-the other term; they do not measure the probability that a predictor
-matters.
-
-The intercept is about -57.99 cubic feet at zero diameter and zero
-height. Neither value describes a tree in this sample. This is a warning
-against extrapolation, rather than evidence of negative timber volume.
+The **lower** and **upper** columns give 95% confidence intervals under
+the model assumptions: 0.492 to 0.754 for grocery and -0.386 to 0.137
+for detergents and paper. These describe uncertainty in conditional mean
+slopes, not individual customer spending. The intercept is 1198.484
+units when both predictors are zero; extrapolation requires care.
 
 ## Connect the output to base R
 
 \
-`base_summary`` ``<-`` `[`summary`](https://rdrr.io/r/base/summary.html)`(``volume_model``)`\
+`base_summary`` ``<-`` `[`summary`](https://rdrr.io/r/base/summary.html)`(``spending_model``)`\
 `knitr``::`[`kable`](https://rdrr.io/pkg/knitr/man/kable.html)`(``base_summary``$``coefficients``[``, `[`c`](https://rdrr.io/r/base/c.html)`(``"Estimate"``, ``"Std. Error"``)``]``,`\
 `             digits ``=`` ``3``, caption ``=`` ``"The same coefficients and standard errors from summary(lm(...))."``)`
 
-|             | Estimate | Std. Error |
-|:------------|---------:|-----------:|
-| (Intercept) |  -57.988 |      8.638 |
-| Girth       |    4.708 |      0.264 |
-| Height      |    0.339 |      0.130 |
+|                  | Estimate | Std. Error |
+|:-----------------|---------:|-----------:|
+| (Intercept)      | 1198.484 |    332.724 |
+| grocery          |    0.623 |      0.067 |
+| detergents_paper |   -0.124 |      0.133 |
 
 The same coefficients and standard errors from summary(lm(…)). {.table}
 
-The estimates and standard errors agree with the parameter table above:
-olsrr presents information from the same fitted model. R’s residual
-standard error, `base_summary$sigma`, is the RMSE reported here. Its
-value of 3.882 cubic feet is the square root of residual sum of squares
-divided by 28 residual degrees of freedom. It describes remaining
-scatter, not a fixed error allowance for each new prediction.
+The estimates and standard errors agree. R’s residual standard error is
+the RMSE, 5063.711, calculated from the residual sum of squares and 437
+residual degrees of freedom. It describes scatter rather than a
+prediction error bound.
 
 ## Understand the ANOVA decomposition
 
-The regression output already includes an ANOVA table.
-[`ols_anova()`](https://olsrr.rsquaredacademy.com/dev/reference/ols_anova.md)
-lets you request just that part when the overall fit is your question.
-
 \
-`volume_anova`` ``<-`` `[`ols_anova`](https://olsrr.rsquaredacademy.com/dev/reference/ols_anova.md)`(``volume_model``)`\
-`volume_anova`
+`spending_anova`` ``<-`` `[`ols_anova`](https://olsrr.rsquaredacademy.com/dev/reference/ols_anova.md)`(``spending_model``)`\
+`spending_anova`\
+`#>                                       ANOVA                                        `\
+`#> ----------------------------------------------------------------------------------`\
+`#>                        Sum of                                                     `\
+`#>                       Squares         DF       Mean Square       F           Sig. `\
+`#> ----------------------------------------------------------------------------------`\
+`#> Regression    12707124418.370          2    6353562209.185    247.788    < 0.0001 `\
+`#> Residual      11205191199.519        437      25641169.793                        `\
+`#> Total         23912315617.889        439                                          `\
+`#> ----------------------------------------------------------------------------------`
 
-In that table, the total sum of squares, 8106.084, divides into 7684.163
-attributed to the regression and 421.921 left in the residuals. Dividing
-7684.163 by 8106.084 gives R-squared, 0.948. This is variation explained
-in these trees, not a percentage accuracy guarantee for future volumes.
+The total sum of squares is 23912315617.889, comprising 12707124418.370
+for regression and 11205191199.519 for residuals. Their ratio gives
+R-squared of 0.531. There are two regression and 437 residual degrees of
+freedom. The overall F statistic is 247.788 and tests whether both
+slopes are zero; it does not validate the model’s shape or error
+assumptions.
 
-There are two regression degrees of freedom, one for each slope, and 28
-residual degrees of freedom: 31 observations minus three estimated
-coefficients, including the intercept. Dividing each sum of squares by
-its degrees of freedom gives the mean squares. Their ratio is the
-overall F statistic, 254.972. Its null is that both slopes are zero.
-This joint test does not identify which model shape is adequate or
-validate the error assumptions.
-
-The concrete next task is to inspect residual shape and spread before
-relying on the confidence intervals. Continue with [residual
+Continue with [residual
 diagnostics](https://olsrr.rsquaredacademy.com/dev/articles/residual-diagnostics.md),
 or revisit [getting
 started](https://olsrr.rsquaredacademy.com/dev/articles/getting-started.md).
-The help for
-[`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.html)
+See
+[`?ols_regress`](https://olsrr.rsquaredacademy.com/dev/reference/ols_regress.md)
 and
-[`ols_anova()`](https://olsrr.rsquaredacademy.com/reference/ols_anova.html)
-covers the remaining table fields and supported interfaces.
+[`?ols_anova`](https://olsrr.rsquaredacademy.com/dev/reference/ols_anova.md)
+for the remaining fields.

@@ -161,42 +161,41 @@
 <h4 id="regression">Regression<a class="anchor" aria-label="anchor" href="#regression"></a>
 </h4>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span> <span class="op">+</span> <span class="va">qsec</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># annual spend of 440 wholesale customers (UCI, CC BY 4.0; see ?wholesale_customers)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span>, data <span class="op">=</span> <span class="va">wholesale_customers</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/ols_regress.html">ols_regress</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                          Model Summary                          </span></span>
-<span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; R                       0.914       RMSE                 2.622 </span></span>
-<span><span class="co">#&gt; R-Squared               0.835       MSE                  6.875 </span></span>
-<span><span class="co">#&gt; Adj. R-Squared          0.811       Coef. Var           13.051 </span></span>
-<span><span class="co">#&gt; Pred R-Squared          0.771       AIC                159.070 </span></span>
-<span><span class="co">#&gt; MAE                     1.858       SBC                167.864 </span></span>
-<span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;                              Model Summary                              </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; R                          0.729       RMSE                   5063.711 </span></span>
+<span><span class="co">#&gt; R-Squared                  0.531       MSE                25641169.793 </span></span>
+<span><span class="co">#&gt; Adj. R-Squared             0.529       Coef. Var                87.362 </span></span>
+<span><span class="co">#&gt; Pred R-Squared             0.490       AIC                    8759.928 </span></span>
+<span><span class="co">#&gt; MAE                     2563.777       SBC                    8776.275 </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt;  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">#&gt;  MSE: Mean Square Error </span></span>
 <span><span class="co">#&gt;  MAE: Mean Absolute Error </span></span>
 <span><span class="co">#&gt;  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">#&gt;  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                                ANOVA                                 </span></span>
-<span><span class="co">#&gt; --------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt;                 Sum of                                              </span></span>
-<span><span class="co">#&gt;                Squares        DF    Mean Square      F         Sig. </span></span>
-<span><span class="co">#&gt; --------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Regression     940.412         4        235.103    34.195    0.0000 </span></span>
-<span><span class="co">#&gt; Residual       185.635        27          6.875                     </span></span>
-<span><span class="co">#&gt; Total         1126.047        31                                    </span></span>
-<span><span class="co">#&gt; --------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;                                       ANOVA                                        </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;                        Sum of                                                     </span></span>
+<span><span class="co">#&gt;                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Regression    12707124418.370          2    6353562209.185    247.788    &lt; 0.0001 </span></span>
+<span><span class="co">#&gt; Residual      11205191199.519        437      25641169.793                        </span></span>
+<span><span class="co">#&gt; Total         23912315617.889        439                                          </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                                   Parameter Estimates                                    </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt;       model      Beta    Std. Error    Std. Beta      t        Sig      lower     upper </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; (Intercept)    27.330         8.639                  3.164    0.004     9.604    45.055 </span></span>
-<span><span class="co">#&gt;        disp     0.003         0.011        0.055     0.248    0.806    -0.019     0.025 </span></span>
-<span><span class="co">#&gt;          hp    -0.019         0.016       -0.212    -1.196    0.242    -0.051     0.013 </span></span>
-<span><span class="co">#&gt;          wt    -4.609         1.266       -0.748    -3.641    0.001    -7.206    -2.012 </span></span>
-<span><span class="co">#&gt;        qsec     0.544         0.466        0.161     1.166    0.254    -0.413     1.501 </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------------------------</span></span></code></pre></div>
+<span><span class="co">#&gt;                                          Parameter Estimates                                          </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;            model        Beta    Std. Error    Std. Beta      t         Sig         lower       upper </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;      (Intercept)    1198.484       332.724                  3.602      0.0004    544.545    1852.423 </span></span>
+<span><span class="co">#&gt;          grocery       0.623         0.067        0.802     9.333    &lt; 0.0001      0.492       0.754 </span></span>
+<span><span class="co">#&gt; detergents_paper      -0.124         0.133       -0.080    -0.933      0.3515     -0.386       0.137 </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -208,9 +207,6 @@
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h2>
 <p>Please note that the olsrr project is released with a <a href="https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
-<div data-rsa-signup="" data-site="olsrr.rsquaredacademy.com" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html">
-
-</div>
 </div>
 </div>
   </main><aside class="col-md-3 rsa-home-sidebar"><div class="rsa-course-card">
@@ -291,7 +287,14 @@
       </nav>
 </div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>

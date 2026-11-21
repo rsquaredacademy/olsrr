@@ -141,6 +141,14 @@
   }
 
   onReady(function () {
+    var footerSignup = document.querySelector("footer .rsa-footer form[data-rsa-signup]");
+    if (footerSignup) {
+      footerSignup.setAttribute("data-site", window.location.hostname);
+      document.querySelectorAll("#main [data-rsa-signup]").forEach(function (signup) {
+        signup.hidden = true;
+        signup.removeAttribute("data-rsa-signup");
+      });
+    }
     fixCanonical();
     initCopyButtons();
     initReferenceFilter();

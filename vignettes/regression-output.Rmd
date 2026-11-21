@@ -1,27 +1,17 @@
 ---
-title: "Read a tree-volume regression model"
+title: "Read a customer-spending regression model"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Read a tree-volume regression model}
+  %\VignetteIndexEntry{Read a customer-spending regression model}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-How much does a tree's estimated timber volume change with trunk diameter,
-after accounting for height? We will read one regression result and connect
-its coefficients, uncertainty and residual error. In this sample, an extra
-inch of diameter is associated with about 4.71 extra cubic feet of volume
-at a fixed height. The remaining residual scatter is about 3.88 cubic feet.
+How does milk spending vary with grocery spending, after accounting for detergent and paper spending? We read one regression result and connect its coefficients, uncertainty and residual error.
 
 ## Understand the measurements
 
-**Example data: R's built-in trees dataset**
-
-The 31 observations are felled black cherry trees. `Volume` is timber volume
-in cubic feet and `Height` is height in feet. Despite its name, `Girth` is
-trunk **diameter**, measured in inches at 4 feet 6 inches above the ground.
-Reading the data documentation matters: interpreting this column as
-circumference would give the slope the wrong physical meaning.
+The `wholesale_customers` data contain annual spending by 440 wholesale customers in monetary units; the currency is unspecified. Each row is a customer. See `?wholesale_customers` for the source and licence.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
@@ -29,96 +19,48 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ```{r data, message=FALSE}
 library(olsrr)
-tree_data <- datasets::trees
-stopifnot(nrow(tree_data) == 31L, !anyNA(tree_data))
-head(tree_data)
+customer_data <- wholesale_customers[c("milk", "grocery", "detergents_paper")]
+stopifnot(nrow(customer_data) == 440L, !anyNA(customer_data))
+head(customer_data)
 ```
 
-Every row has all three measurements, so no tree is dropped. This example
-describes associations in the observed trees. It does not establish a
-growth law or show what an intervention on height would cause. Keeping the
-units beside the data helps distinguish a coefficient from a measure without
-units, such as R-squared.
+All three measurements are present. The model describes observed associations, not the effect of an intervention on purchases.
 
 ## Fit one model
 
 ```{r model}
-volume_model <- lm(Volume ~ Girth + Height, data = tree_data)
+spending_model <- lm(milk ~ grocery + detergents_paper, data = customer_data)
 ```
 
-This additive model lets volume change linearly with diameter and height.
-Each slope describes a comparison holding the other predictor fixed.
-The formula does not encode the geometric relationship between diameter
-and volume, which might motivate a curved or transformed model later.
-For now the aim is to understand exactly what this fitted summary says.
+Each additive slope compares customers holding the other predictor fixed. The model does not include interactions or curved relationships.
 
 ## Read the regression table
 
 ```{r regression}
-ols_regress(volume_model)
+ols_regress(spending_model)
 ```
 
-The **Beta** estimate for `Girth`, 4.708, means about 4.71 additional cubic
-feet per additional inch of diameter, comparing trees of the same height.
-For `Height`, 0.339 means about 0.34 additional cubic feet per extra foot of
-height at a fixed diameter. Standardized betas express effects on a
-different scale; use the unstandardized Beta column for these statements
-in inches, feet and cubic feet.
+The **Beta** estimate for `grocery`, 0.623, means about 0.623 additional monetary units of milk spending per additional unit of grocery spending, holding detergent and paper spending fixed. The corresponding detergent slope is -0.124. Standardized betas use a different scale.
 
-The **Std. Error** column measures uncertainty in each estimated slope.
-The **lower** and **upper** columns give its 95% confidence interval under
-the model assumptions: about 4.17 to 5.25 for diameter and 0.073 to 0.606
-for height. The height estimate is less precise relative to its size.
-These intervals concern conditional mean slopes, not the volumes of
-individual trees. The p-values test zero coefficients conditional on the
-other term; they do not measure the probability that a predictor matters.
-
-The intercept is about -57.99 cubic feet at zero diameter and zero height.
-Neither value describes a tree in this sample. This is a warning against
-extrapolation, rather than evidence of negative timber volume.
+The **lower** and **upper** columns give 95% confidence intervals under the model assumptions: 0.492 to 0.754 for grocery and -0.386 to 0.137 for detergents and paper. These describe uncertainty in conditional mean slopes, not individual customer spending. The intercept is 1198.484 units when both predictors are zero; extrapolation requires care.
 
 ## Connect the output to base R
 
 ```{r base-comparison}
-base_summary <- summary(volume_model)
+base_summary <- summary(spending_model)
 knitr::kable(base_summary$coefficients[, c("Estimate", "Std. Error")],
              digits = 3, caption = "The same coefficients and standard errors from summary(lm(...)).")
 ```
 
-The estimates and standard errors agree with the parameter table above:
-olsrr presents information from the same fitted model. R's residual
-standard error, `base_summary$sigma`, is the RMSE reported here. Its value
-of 3.882 cubic feet is the square root of residual sum of squares divided
-by 28 residual degrees of freedom. It describes remaining scatter, not a
-fixed error allowance for each new prediction.
+The estimates and standard errors agree. R's residual standard error is the RMSE, 5063.711, calculated from the residual sum of squares and 437 residual degrees of freedom. It describes scatter rather than a prediction error bound.
 
 ## Understand the ANOVA decomposition
 
-The regression output already includes an ANOVA table. `ols_anova()` lets
-you request just that part when the overall fit is your question.
-
-```{r anova, results="hide"}
-volume_anova <- ols_anova(volume_model)
-volume_anova
+```{r anova}
+spending_anova <- ols_anova(spending_model)
+spending_anova
 ```
 
-In that table, the total sum of squares, 8106.084, divides into 7684.163
-attributed to the regression and 421.921 left in the residuals. Dividing
-7684.163 by 8106.084 gives R-squared, 0.948. This is variation explained
-in these trees, not a percentage accuracy guarantee for future volumes.
+The total sum of squares is 23912315617.889, comprising 12707124418.370 for regression and 11205191199.519 for residuals. Their ratio gives R-squared of 0.531. There are two regression and 437 residual degrees of freedom. The overall F statistic is 247.788 and tests whether both slopes are zero; it does not validate the model's shape or error assumptions.
 
-There are two regression degrees of freedom, one for each slope, and
-28 residual degrees of freedom: 31 observations minus three estimated
-coefficients, including the intercept. Dividing each sum of squares by
-its degrees of freedom gives the mean squares. Their ratio is the overall
-F statistic, 254.972. Its null is that both slopes are zero. This joint
-test does not identify which model shape is adequate or validate the
-error assumptions.
-
-The concrete next task is to inspect residual shape and spread before
-relying on the confidence intervals. Continue with
-[residual diagnostics](residual-diagnostics.html), or revisit
-[getting started](getting-started.html). The help for
-[`ols_regress()`](https://olsrr.rsquaredacademy.com/reference/ols_regress.html) and
-[`ols_anova()`](https://olsrr.rsquaredacademy.com/reference/ols_anova.html) covers the remaining table fields
-and supported interfaces.
+Continue with [residual diagnostics](residual-diagnostics.html), or revisit [getting started](getting-started.html). See `?ols_regress` and `?ols_anova` for the remaining fields.

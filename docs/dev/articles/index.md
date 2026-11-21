@@ -2,11 +2,11 @@
 
 ### Start here
 
-- [Can weight and horsepower explain fuel
-  economy?](https://olsrr.rsquaredacademy.com/dev/articles/getting-started.md):
-- [Read a tree-volume regression
+- [Can product spending explain milk
+  spending?](https://olsrr.rsquaredacademy.com/dev/articles/getting-started.md):
+- [Read a customer-spending regression
   model](https://olsrr.rsquaredacademy.com/dev/articles/regression-output.md):
-- [What does a braking-distance model
+- [What does a customer-spending model
   miss?](https://olsrr.rsquaredacademy.com/dev/articles/residual-diagnostics.md):
 - [What do variance and normality tests
   establish?](https://olsrr.rsquaredacademy.com/dev/articles/variance-normality-tests.md):

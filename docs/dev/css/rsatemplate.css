@@ -9,6 +9,7 @@
 
 html {
   max-width: 100%;
+  container-type: inline-size;
 }
 
 body {
@@ -861,6 +862,16 @@ table {
 
 /* ---------------------------------------------------------------- footer */
 
+html:has(footer .rsa-footer [data-rsa-signup]) #main [data-rsa-signup] {
+  display: none;
+}
+
+.container > footer {
+  border: 0;
+  padding: 0;
+  display: block;
+}
+
 .rsa-footer {
   border-top: 1px solid var(--line);
   background: var(--surface);
@@ -868,6 +879,9 @@ table {
   padding: 28px 0;
   color: var(--ink-muted);
   font-size: 0.86rem;
+  position: relative;
+  width: 100cqw;
+  margin-left: calc(50% - 50cqw);
 }
 
 .rsa-footer-inner {
@@ -876,6 +890,14 @@ table {
   align-items: flex-start;
   justify-content: space-between;
   gap: 24px;
+  width: 100%;
+  max-width: 1104px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.template-article .rsa-footer-inner {
+  max-width: 800px;
 }
 
 .rsa-footer-brand {
@@ -913,6 +935,23 @@ table {
   width: 100%;
   max-width: 380px;
   min-width: 0;
+}
+
+.rsa-footer-form { color: var(--ink); line-height: 1.25; }
+.rsa-footer-form label { display: block; font-weight: 700; margin-bottom: 5px; }
+.rsa-footer-form-row { display: flex; gap: 8px; }
+.rsa-footer-form-row input { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 8px 10px; color: var(--ink); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 6px; }
+.rsa-footer-form-row button { min-height: 44px; padding: 8px 12px; color: #fff; background: #1d4ed8; border: 1px solid #1d4ed8; border-radius: 6px; font-weight: 600; }
+.rsa-footer-form-row :focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+.rsa-footer-privacy { margin: 4px 0 0; font-size: 0.78rem; color: var(--ink-muted); }
+.rsa-footer-status { margin: 4px 0 0; }
+.rsa-footer-status:empty { display: none; }
+.rsa-footer-status.rsa-signup__status--error { color: var(--danger); }
+
+@media (min-width: 992px) {
+  .rsa-footer { padding: 16px 0; }
+  .rsa-footer-brand { gap: 3px; }
+  .rsa-footer-links { margin-top: 3px; }
 }
 
 .rsa-footer-signup .rsa-signup {

@@ -7,6 +7,12 @@ Source:
 
 `regression_diagnostics.Rmd`
 
+The examples use annual spending by 440 wholesale customers. They ask
+how milk spending relates to spending in other product categories; these
+are observational associations. See
+[`?wholesale_customers`](https://olsrr.rsquaredacademy.com/dev/reference/wholesale_customers.md)
+for source and units.
+
 ## Collinearity Diagnostics
 
 Collinearity implies two variables are near perfect linear combinations
@@ -38,14 +44,14 @@ VIF = \frac{1}{1 - {R}^{2}_{k}} = \frac{1}{Tolerance}
 ```
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_vif_tol`](https://olsrr.rsquaredacademy.com/dev/reference/ols_coll_diag.md)`(``model``)`
 
-    ##   Variables Tolerance      VIF
-    ## 1      disp 0.1252279 7.985439
-    ## 2        hp 0.1935450 5.166758
-    ## 3        wt 0.1445726 6.916942
-    ## 4      qsec 0.3191708 3.133119
+    ##          Variables Tolerance      VIF
+    ## 1          grocery 0.1348612 7.415033
+    ## 2 detergents_paper 0.1322542 7.561198
+    ## 3            fresh 0.8553521 1.169109
+    ## 4           frozen 0.8501081 1.176321
 
 ### Tolerance
 
@@ -78,51 +84,51 @@ large condition indices. A rule of thumb is to label as large those
 condition indices in the range of 30 or larger.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_eigen_cindex`](https://olsrr.rsquaredacademy.com/dev/reference/ols_coll_diag.md)`(``model``)`
 
-    ##    Eigenvalue Condition Index   intercept        disp          hp           wt
-    ## 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094 0.0005253393
-    ## 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289 0.0002096014
-    ## 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164 0.0377028008
-    ## 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623 0.7017528428
-    ## 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831 0.2598094157
-    ##           qsec
-    ## 1 0.0001277169
-    ## 2 0.0046789491
-    ## 3 0.0001952599
-    ## 4 0.0024577686
-    ## 5 0.9925403056
+    ##   Eigenvalue Condition Index   intercept     grocery detergents_paper
+    ## 1 3.08390879        1.000000 0.028794166 0.006312157      0.006041615
+    ## 2 1.16799690        1.624912 0.006925816 0.012139420      0.026175969
+    ## 3 0.43623383        2.658833 0.094496708 0.002336154      0.005299550
+    ## 4 0.26717906        3.397422 0.823205357 0.003758104      0.010295133
+    ## 5 0.04468142        8.307824 0.046577952 0.975454164      0.952187733
+    ##        fresh       frozen
+    ## 1 0.02696372 0.0256552880
+    ## 2 0.07049102 0.1556714255
+    ## 3 0.28987276 0.7892768496
+    ## 4 0.58569189 0.0003723044
+    ## 5 0.02698060 0.0290241326
 
 ### Collinearity Diagnostics
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_coll_diag`](https://olsrr.rsquaredacademy.com/dev/reference/ols_coll_diag.md)`(``model``)`
 
     ## Tolerance and Variance Inflation Factor
     ## ---------------------------------------
-    ##   Variables Tolerance      VIF
-    ## 1      disp 0.1252279 7.985439
-    ## 2        hp 0.1935450 5.166758
-    ## 3        wt 0.1445726 6.916942
-    ## 4      qsec 0.3191708 3.133119
+    ##          Variables Tolerance      VIF
+    ## 1          grocery 0.1348612 7.415033
+    ## 2 detergents_paper 0.1322542 7.561198
+    ## 3            fresh 0.8553521 1.169109
+    ## 4           frozen 0.8501081 1.176321
     ## 
     ## 
     ## Eigenvalue and Condition Index
     ## ------------------------------
-    ##    Eigenvalue Condition Index   intercept        disp          hp           wt
-    ## 1 4.721487187        1.000000 0.000123237 0.001132468 0.001413094 0.0005253393
-    ## 2 0.216562203        4.669260 0.002617424 0.036811051 0.027751289 0.0002096014
-    ## 3 0.050416837        9.677242 0.001656551 0.120881424 0.392366164 0.0377028008
-    ## 4 0.010104757       21.616057 0.025805998 0.777260487 0.059594623 0.7017528428
-    ## 5 0.001429017       57.480524 0.969796790 0.063914571 0.518874831 0.2598094157
-    ##           qsec
-    ## 1 0.0001277169
-    ## 2 0.0046789491
-    ## 3 0.0001952599
-    ## 4 0.0024577686
-    ## 5 0.9925403056
+    ##   Eigenvalue Condition Index   intercept     grocery detergents_paper
+    ## 1 3.08390879        1.000000 0.028794166 0.006312157      0.006041615
+    ## 2 1.16799690        1.624912 0.006925816 0.012139420      0.026175969
+    ## 3 0.43623383        2.658833 0.094496708 0.002336154      0.005299550
+    ## 4 0.26717906        3.397422 0.823205357 0.003758104      0.010295133
+    ## 5 0.04468142        8.307824 0.046577952 0.975454164      0.952187733
+    ##        fresh       frozen
+    ## 1 0.02696372 0.0256552880
+    ## 2 0.07049102 0.1556714255
+    ## 3 0.28987276 0.7892768496
+    ## 4 0.58569189 0.0003723044
+    ## 5 0.02698060 0.0290241326
 
 ## Model Fit Assessment
 
@@ -136,7 +142,7 @@ spread of the residuals in such a plot is often greater than the spread
 of the centered fit.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_resid_fit_spread`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_fit_spread.md)`(``model``)`
 
 ![](regression_diagnostics_files/figure-html/rfsplot-1.png)
@@ -166,18 +172,18 @@ independent variables in the model, is estimated by the specific
 variable?
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_correlations`](https://olsrr.rsquaredacademy.com/dev/reference/ols_correlations.md)`(``model``)`
 
-    ##                Correlations                 
-    ## -------------------------------------------
-    ## Variable    Zero Order    Partial     Part  
-    ## -------------------------------------------
-    ## disp            -0.848      0.048     0.019 
-    ## hp              -0.776     -0.224    -0.093 
-    ## wt              -0.868     -0.574    -0.285 
-    ## qsec             0.419      0.219     0.091 
-    ## -------------------------------------------
+    ##                    Correlations                    
+    ## --------------------------------------------------
+    ## Variable            Zero Order    Partial    Part  
+    ## --------------------------------------------------
+    ## grocery                  0.728      0.355    0.253 
+    ## detergents_paper         0.662      0.027    0.018 
+    ## fresh                    0.101      0.093    0.062 
+    ## frozen                   0.124      0.184    0.124 
+    ## --------------------------------------------------
 
 ### Observed vs Predicted Plot
 
@@ -190,7 +196,7 @@ Goodness of fit of your model, the more foggy or dispersed your points
 are from this diagonal line.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_obs_fit`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_obs_fit.md)`(``model``)`
 
 ![](regression_diagnostics_files/figure-html/obspred-1.png)
@@ -212,30 +218,30 @@ at least one of the values of the predictor x. This test generally only
 applies to datasets with plenty of replicates.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery``, data ``=`` ``wholesale_customers``)`\
 [`ols_pure_error_anova`](https://olsrr.rsquaredacademy.com/dev/reference/ols_pure_error_anova.md)`(``model``)`
 
-    ## Lack of Fit F Test 
-    ## -----------------
-    ## Response :   mpg 
-    ## Predictor:   disp 
+    ##  Lack of Fit F Test  
+    ## --------------------
+    ## Response :   milk 
+    ## Predictor:   grocery 
     ## 
-    ##                     Analysis of Variance Table                     
-    ## ------------------------------------------------------------------
-    ##                 DF     Sum Sq     Mean Sq     F Value      Pr(>F)  
-    ## ------------------------------------------------------------------
-    ## disp             1    808.8885    808.8885    76.51266    < 0.0001 
-    ## Residual        30    317.1587    10.57196                         
-    ##  Lack of fit    25    304.2787    12.17115    4.724824      0.0456 
-    ##  Pure Error      5       12.88       2.576                         
-    ## ------------------------------------------------------------------
+    ##                           Analysis of Variance Table                            
+    ## -------------------------------------------------------------------------------
+    ##                 DF         Sum Sq           Mean Sq        F Value      Pr(>F)  
+    ## -------------------------------------------------------------------------------
+    ## grocery           1    12684814950.63    12684814950.63    494.8518    < 0.0001 
+    ## Residual        438    11227500667.26       25633563.17                         
+    ##  Lack of fit    428    11202684708.26       26174496.98    10.54745      0.0001 
+    ##  Pure Error      10       24815959.00        2481595.90                         
+    ## -------------------------------------------------------------------------------
 
 ### Diagnostics Panel
 
 Panel of plots for regression diagnostics
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_diagnostics`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_diagnostics.md)`(``model``)`
 
 ![](regression_diagnostics_files/figure-html/diagpanel-1.png)![](regression_diagnostics_files/figure-html/diagpanel-2.png)![](regression_diagnostics_files/figure-html/diagpanel-3.png)
@@ -250,8 +256,8 @@ regressed on the new predictor and if the plot shows non random pattern,
 you should consider adding the new predictor to the model.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt``, data ``=`` ``mtcars``)`\
-[`ols_plot_resid_regressor`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_regressor.md)`(``model``, ``'drat'``)`
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh``, data ``=`` ``wholesale_customers``)`\
+[`ols_plot_resid_regressor`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_resid_regressor.md)`(``model``, ``'frozen'``)`
 
 ![](regression_diagnostics_files/figure-html/rvsrplot-1.png)![](regression_diagnostics_files/figure-html/rvsrplot-2.png)
 
@@ -290,7 +296,7 @@ increased importance of the contribution of **X** to the model already
 containing the other predictors.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_added_variable`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_added_variable.md)`(``model``)`
 
     ## `geom_smooth()` using formula = 'y ~ x'
@@ -318,7 +324,7 @@ present in the relationship between **Y** and **X** and can suggest
 possible transformations for linearizing the data.
 
 \
-`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``mpg`` ``~`` ``disp`` ``+`` ``hp`` ``+`` ``wt`` ``+`` ``qsec``, data ``=`` ``mtcars``)`\
+`model`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``milk`` ``~`` ``grocery`` ``+`` ``detergents_paper`` ``+`` ``fresh`` ``+`` ``frozen``, data ``=`` ``wholesale_customers``)`\
 [`ols_plot_comp_plus_resid`](https://olsrr.rsquaredacademy.com/dev/reference/ols_plot_comp_plus_resid.md)`(``model``)`
 
     ## `geom_smooth()` using formula = 'y ~ x'

@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>What does a braking-distance model miss? • olsrr</title>
+<title>What does a customer-spending model miss? • olsrr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="../css/rsatemplate.css">
 <script defer src="../js/rsatemplate.js"></script><!-- Rsquared Academy site-kit v1.3.0: GA4 + region-based consent + email sign-up. --><link rel="stylesheet" href="../site-kit/rsa-consent.css">
 <script src="../site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script><link rel="stylesheet" href="../site-kit/rsa-signup.css">
-<script src="../site-kit/rsa-signup.js" defer></script><meta property="og:title" content="What does a braking-distance model miss?">
+<script src="../site-kit/rsa-signup.js" defer></script><meta property="og:title" content="What does a customer-spending model miss?">
 <meta name="robots" content="noindex">
 <!-- rsatemplate: the exact canonical URL is filled by rsatemplate.js and
      written statically by rsatemplate::fix_site(). --><link rel="canonical" data-rsa-site-url="https://olsrr.rsquaredacademy.com">
@@ -88,7 +88,7 @@
 <div class="row rsa-article-grid">
   <main id="main" class="col-md-9 rsa-article-main"><div class="page-header rsa-page-header">
 
-      <h1>What does a braking-distance model miss?</h1>
+      <h1>What does a customer-spending model miss?</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/residual-diagnostics.Rmd" class="external-link"><code>vignettes/residual-diagnostics.Rmd</code></a></small>
@@ -97,114 +97,81 @@
 
     
     
-<p>Does a straight line capture how stopping distance changes with
-speed? We will fit one model and read two residual plots. The main
-finding is that the residual spread grows across the fitted distances,
-with a long positive tail. Those features give us specific questions to
-investigate before trusting the model’s usual uncertainty
-calculations.</p>
+<p>Does a straight line capture how milk spending changes with grocery
+spending? We fit one model and inspect two residual plots. Large
+residuals and an uneven spread raise questions about the mean and
+variance.</p>
 <div class="section level2">
 <h2 id="understand-the-data-and-fit">Understand the data and fit<a class="anchor" aria-label="anchor" href="#understand-the-data-and-fit"></a>
 </h2>
-<p><strong>Example data: R’s built-in cars dataset</strong></p>
-<p>These are 50 observations recorded in the 1920s, with speed in miles
-per hour (<code>speed</code>) and stopping distance in feet
-(<code>dist</code>). The speeds range from 4 to 25 miles per hour. This
-historic example is useful for learning diagnostics; it does not
-describe modern vehicles or a road-safety standard. There are repeated
-speeds, and the original row numbers identify observations.</p>
+<p>The <code>wholesale_customers</code> data contain annual spending by
+440 customers in monetary units, with currency unspecified. All
+observations used here are complete. See
+<code><a href="../reference/wholesale_customers.html">?wholesale_customers</a></code> for the source and licence.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://olsrr.rsquaredacademy.com/">olsrr</a></span><span class="op">)</span></span>
-<span><span class="va">braking_data</span> <span class="op">&lt;-</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/cars.html" class="external-link">cars</a></span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">braking_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">50L</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">braking_data</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">braking_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   speed dist</span></span>
-<span><span class="co">#&gt; 1     4    2</span></span>
-<span><span class="co">#&gt; 2     4   10</span></span>
-<span><span class="co">#&gt; 3     7    4</span></span>
-<span><span class="co">#&gt; 4     7   22</span></span>
-<span><span class="co">#&gt; 5     8   16</span></span>
-<span><span class="co">#&gt; 6     9   10</span></span></code></pre></div>
+<span><span class="va">customer_data</span> <span class="op">&lt;-</span> <span class="va">wholesale_customers</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"milk"</span>, <span class="st">"grocery"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">440L</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   milk grocery</span></span>
+<span><span class="co">#&gt; 1 9656    7561</span></span>
+<span><span class="co">#&gt; 2 9810    9568</span></span>
+<span><span class="co">#&gt; 3 8808    7684</span></span>
+<span><span class="co">#&gt; 4 1196    4221</span></span>
+<span><span class="co">#&gt; 5 5410    7198</span></span>
+<span><span class="co">#&gt; 6 8259    5126</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">braking_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">dist</span> <span class="op">~</span> <span class="va">speed</span>, data <span class="op">=</span> <span class="va">braking_data</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">braking_model</span><span class="op">)</span></span>
-<span><span class="co">#&gt; (Intercept)       speed </span></span>
-<span><span class="co">#&gt;  -17.579095    3.932409</span></span></code></pre></div>
-<p>The fitted slope is about 3.93 feet per additional mile per hour.
-That average linear association leaves residuals: each observed distance
-minus its fitted distance. A positive residual means a longer stopping
-distance than the model predicts. Although R-squared is about 0.65, it
-cannot tell us whether the residual pattern is acceptable for a
-particular use.</p>
-<p>The assumptions concern unobserved <strong>model errors</strong>,
-conditional on the predictors. Fitted residuals are estimates of those
-errors. Fitting an intercept forces their sum to zero, and estimating
-the coefficients makes them dependent and gives them different variances
-even under a constant error variance. Do not call fitted residuals
-independent errors or treat their zero mean as evidence that the
-conditional mean is correctly specified.</p>
+<code class="sourceCode R"><span><span class="va">spending_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span>, data <span class="op">=</span> <span class="va">customer_data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Intercept)     grocery </span></span>
+<span><span class="co">#&gt; 1298.689653    0.565642</span></span></code></pre></div>
+<p>The fitted slope is about 0.566 units of milk spending per unit of
+grocery spending. A positive residual means observed milk spending
+exceeds the fitted value. R-squared is about 0.531, but it does not
+establish whether the residual pattern is acceptable.</p>
+<p>The assumptions concern unobserved errors conditional on predictors.
+Fitted residuals estimate those errors; estimating coefficients makes
+residuals dependent and gives them different variances even under
+constant error variance.</p>
 </div>
 <div class="section level2">
 <h2 id="look-for-shape-and-changing-spread">Look for shape and changing spread<a class="anchor" aria-label="anchor" href="#look-for-shape-and-changing-spread"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_plot_resid_fit.html">ols_plot_resid_fit</a></span><span class="op">(</span><span class="va">braking_model</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_plot_resid_fit.html">ols_plot_resid_fit</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="residual-diagnostics_files/figure-html/residual-fit-1.png" class="r-plt" alt="Residuals against fitted stopping distance for 50 cars. The points spread more widely at larger fitted distances, with large positive residuals around 40 feet and negative residuals approaching minus 30 feet." width="672"><p class="caption">
-Stopping-distance residuals against fitted distance for cars; both axes
-are in feet.
+<img src="residual-diagnostics_files/figure-html/residual-fit-1.png" class="r-plt" alt="Residuals against fitted milk spending; residuals vary substantially, with extreme positive and negative observations at high fitted values." width="672"><p class="caption">
+Milk spending residuals against fitted spending, in monetary units.
 </p>
 </div>
-<p>The left side has a relatively narrow band of residuals. Farther
-right, both positive and negative residuals spread out, including
-positive values above 40 feet and a negative value near -30 feet. A
-constant-width band would be more compatible with constant error
-variance. This widening suggests investigating whether the variability
-changes with speed.</p>
-<p>Read shape separately from spread. A systematic bend in the center of
-the residual cloud would suggest that a straight-line mean is missing
-structure. This plot has enough scatter that we should investigate a
-curved mean rather than declare a particular curve established. The
-negative intercept also gives implausible negative fitted distances at
-the lowest speeds. A plausible mean function and a sensible prediction
-range deserve attention alongside the variance question.</p>
-<p>A large residual is a prompt to inspect the observation and its
-context. It does not tell us to delete a row. Check the original
-measurement and compare any proposed refit on the same observations
-before deciding what the pattern means.</p>
+<p>The residual spread is much larger among some customers with high
+fitted spending. Investigate both the variance and whether the
+straight-line mean misses structure. A large residual calls for checking
+the observation and its context; it is not a reason by itself to delete
+a row.</p>
 </div>
 <div class="section level2">
 <h2 id="compare-the-residual-distribution-with-normality">Compare the residual distribution with normality<a class="anchor" aria-label="anchor" href="#compare-the-residual-distribution-with-normality"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_plot_resid_qq.html">ols_plot_resid_qq</a></span><span class="op">(</span><span class="va">braking_model</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_plot_resid_qq.html">ols_plot_resid_qq</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="residual-diagnostics_files/figure-html/residual-qq-1.png" class="r-plt" alt="Normal Q-Q plot of stopping-distance residuals. Middle observations lie near the reference line, while several upper-tail observations bend above it, indicating a long positive tail." width="672"><p class="caption">
-Normal Q-Q plot of the braking model’s residuals, measured in feet.
+<img src="residual-diagnostics_files/figure-html/residual-qq-1.png" class="r-plt" alt="Normal Q-Q plot of residuals with substantial departures from the reference line in both tails." width="672"><p class="caption">
+Normal Q-Q plot of milk spending residuals.
 </p>
 </div>
-<p>The middle observations are fairly close to the reference line, while
-several upper-tail points rise above it. This long positive tail is a
-departure from the normal shape. A Q-Q plot helps locate that departure;
-it does not establish its cause. An incorrect mean, changing variance or
-unusual observations can all affect the residual distribution.</p>
-<p>Normal errors are relevant to exact small-sample t and F inference
-under the usual assumptions. Normality is not required merely to
-calculate OLS coefficients. Neither plot checks independence: that
-question needs knowledge of how the observations were collected, and
-sometimes plots against collection order or another relevant
-grouping.</p>
+<p>The tails depart substantially from the reference line. A missed mean
+relationship, changing variance or unusual observations can affect this
+plot. Normal errors are relevant to exact small-sample inference under
+the usual assumptions, but are not required merely to calculate OLS
+coefficients. Neither plot checks independence.</p>
 </div>
 <div class="section level2">
 <h2 id="choose-the-next-investigation">Choose the next investigation<a class="anchor" aria-label="anchor" href="#choose-the-next-investigation"></a>
 </h2>
-<p>The two plots point to changing spread and an upper-tail departure.
-Continue with <a href="variance-normality-tests.html">variance and
-normality tests</a> using this same model, while keeping those visual
-findings in view. Tests can quantify evidence against specified nulls;
-they cannot choose a transformation or certify the entire model.</p>
-<p>For other views, consult these function help pages rather than
-producing many charts without a question:</p>
+<p>Continue with <a href="variance-normality-tests.html">variance and
+normality tests</a> on this same model. Tests cannot choose a
+transformation or certify the entire model.</p>
 <table class="table">
 <colgroup>
 <col width="50%">
@@ -217,30 +184,28 @@ producing many charts without a question:</p>
 <tbody>
 <tr class="odd">
 <td>View several diagnostic summaries together</td>
-<td><a href="https://olsrr.rsquaredacademy.com/reference/ols_plot_diagnostics.html"><code>ols_plot_diagnostics()</code></a></td>
+<td><code><a href="../reference/ols_plot_diagnostics.html">ols_plot_diagnostics()</a></code></td>
 </tr>
 <tr class="even">
-<td>Inspect the residual distribution as bars or a box plot</td>
+<td>Inspect residuals as bars or a box plot</td>
 <td>
-<a href="https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_hist.html"><code>ols_plot_resid_hist()</code></a>,
-<a href="https://olsrr.rsquaredacademy.com/reference/ols_plot_resid_box.html"><code>ols_plot_resid_box()</code></a>
+<code><a href="../reference/ols_plot_resid_hist.html">ols_plot_resid_hist()</a></code>,
+<code><a href="../reference/ols_plot_resid_box.html">ols_plot_resid_box()</a></code>
 </td>
 </tr>
 <tr class="odd">
 <td>Inspect the observed response before fitting</td>
-<td><a href="https://olsrr.rsquaredacademy.com/reference/ols_plot_response.html"><code>ols_plot_response()</code></a></td>
+<td><code><a href="../reference/ols_plot_response.html">ols_plot_response()</a></code></td>
 </tr>
 <tr class="even">
-<td>Draw a simple regression line from response and predictor
-vectors</td>
-<td><a href="https://olsrr.rsquaredacademy.com/reference/ols_plot_reg_line.html"><code>ols_plot_reg_line(braking_data$dist, braking_data$speed)</code></a></td>
+<td>Draw a simple regression line from vectors</td>
+<td><code>ols_plot_reg_line(customer_data$milk, customer_data$grocery)</code></td>
 </tr>
 </tbody>
 </table>
 <p>Return to <a href="regression-output.html">regression output</a> for
-coefficient and RMSE interpretation. Preserve the fitted model and row
-identities as you move between tables and plots, so each check answers a
-question about the same observations.</p>
+coefficient and RMSE interpretation. Keep the same observations when
+comparing tables and plots.</p>
 </div>
 
 
@@ -262,7 +227,14 @@ question about the same observations.</p>
       </nav>
 </div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>

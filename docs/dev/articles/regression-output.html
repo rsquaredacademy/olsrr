@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Read a tree-volume regression model • olsrr</title>
+<title>Read a customer-spending regression model • olsrr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="../css/rsatemplate.css">
 <script defer src="../js/rsatemplate.js"></script><!-- Rsquared Academy site-kit v1.3.0: GA4 + region-based consent + email sign-up. --><link rel="stylesheet" href="../site-kit/rsa-consent.css">
 <script src="../site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script><link rel="stylesheet" href="../site-kit/rsa-signup.css">
-<script src="../site-kit/rsa-signup.js" defer></script><meta property="og:title" content="Read a tree-volume regression model">
+<script src="../site-kit/rsa-signup.js" defer></script><meta property="og:title" content="Read a customer-spending regression model">
 <meta name="robots" content="noindex">
 <!-- rsatemplate: the exact canonical URL is filled by rsatemplate.js and
      written statically by rsatemplate::fix_site(). --><link rel="canonical" data-rsa-site-url="https://olsrr.rsquaredacademy.com">
@@ -88,7 +88,7 @@
 <div class="row rsa-article-grid">
   <main id="main" class="col-md-9 rsa-article-main"><div class="page-header rsa-page-header">
 
-      <h1>Read a tree-volume regression model</h1>
+      <h1>Read a customer-spending regression model</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/rsquaredacademy/olsrr/blob/HEAD/vignettes/regression-output.Rmd" class="external-link"><code>vignettes/regression-output.Rmd</code></a></small>
@@ -97,115 +97,94 @@
 
     
     
-<p>How much does a tree’s estimated timber volume change with trunk
-diameter, after accounting for height? We will read one regression
-result and connect its coefficients, uncertainty and residual error. In
-this sample, an extra inch of diameter is associated with about 4.71
-extra cubic feet of volume at a fixed height. The remaining residual
-scatter is about 3.88 cubic feet.</p>
+<p>How does milk spending vary with grocery spending, after accounting
+for detergent and paper spending? We read one regression result and
+connect its coefficients, uncertainty and residual error.</p>
 <div class="section level2">
 <h2 id="understand-the-measurements">Understand the measurements<a class="anchor" aria-label="anchor" href="#understand-the-measurements"></a>
 </h2>
-<p><strong>Example data: R’s built-in trees dataset</strong></p>
-<p>The 31 observations are felled black cherry trees.
-<code>Volume</code> is timber volume in cubic feet and
-<code>Height</code> is height in feet. Despite its name,
-<code>Girth</code> is trunk <strong>diameter</strong>, measured in
-inches at 4 feet 6 inches above the ground. Reading the data
-documentation matters: interpreting this column as circumference would
-give the slope the wrong physical meaning.</p>
+<p>The <code>wholesale_customers</code> data contain annual spending by
+440 wholesale customers in monetary units; the currency is unspecified.
+Each row is a customer. See <code><a href="../reference/wholesale_customers.html">?wholesale_customers</a></code> for the
+source and licence.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://olsrr.rsquaredacademy.com/">olsrr</a></span><span class="op">)</span></span>
-<span><span class="va">tree_data</span> <span class="op">&lt;-</span> <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/trees.html" class="external-link">trees</a></span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">tree_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">31L</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">tree_data</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tree_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   Girth Height Volume</span></span>
-<span><span class="co">#&gt; 1   8.3     70   10.3</span></span>
-<span><span class="co">#&gt; 2   8.6     65   10.3</span></span>
-<span><span class="co">#&gt; 3   8.8     63   10.2</span></span>
-<span><span class="co">#&gt; 4  10.5     72   16.4</span></span>
-<span><span class="co">#&gt; 5  10.7     81   18.8</span></span>
-<span><span class="co">#&gt; 6  10.8     83   19.7</span></span></code></pre></div>
-<p>Every row has all three measurements, so no tree is dropped. This
-example describes associations in the observed trees. It does not
-establish a growth law or show what an intervention on height would
-cause. Keeping the units beside the data helps distinguish a coefficient
-from a measure without units, such as R-squared.</p>
+<span><span class="va">customer_data</span> <span class="op">&lt;-</span> <span class="va">wholesale_customers</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"milk"</span>, <span class="st">"grocery"</span>, <span class="st">"detergents_paper"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">440L</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">anyNA</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">customer_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   milk grocery detergents_paper</span></span>
+<span><span class="co">#&gt; 1 9656    7561             2674</span></span>
+<span><span class="co">#&gt; 2 9810    9568             3293</span></span>
+<span><span class="co">#&gt; 3 8808    7684             3516</span></span>
+<span><span class="co">#&gt; 4 1196    4221              507</span></span>
+<span><span class="co">#&gt; 5 5410    7198             1777</span></span>
+<span><span class="co">#&gt; 6 8259    5126             1795</span></span></code></pre></div>
+<p>All three measurements are present. The model describes observed
+associations, not the effect of an intervention on purchases.</p>
 </div>
 <div class="section level2">
 <h2 id="fit-one-model">Fit one model<a class="anchor" aria-label="anchor" href="#fit-one-model"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">volume_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Volume</span> <span class="op">~</span> <span class="va">Girth</span> <span class="op">+</span> <span class="va">Height</span>, data <span class="op">=</span> <span class="va">tree_data</span><span class="op">)</span></span></code></pre></div>
-<p>This additive model lets volume change linearly with diameter and
-height. Each slope describes a comparison holding the other predictor
-fixed. The formula does not encode the geometric relationship between
-diameter and volume, which might motivate a curved or transformed model
-later. For now the aim is to understand exactly what this fitted summary
-says.</p>
+<code class="sourceCode R"><span><span class="va">spending_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">milk</span> <span class="op">~</span> <span class="va">grocery</span> <span class="op">+</span> <span class="va">detergents_paper</span>, data <span class="op">=</span> <span class="va">customer_data</span><span class="op">)</span></span></code></pre></div>
+<p>Each additive slope compares customers holding the other predictor
+fixed. The model does not include interactions or curved
+relationships.</p>
 </div>
 <div class="section level2">
 <h2 id="read-the-regression-table">Read the regression table<a class="anchor" aria-label="anchor" href="#read-the-regression-table"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_regress.html">ols_regress</a></span><span class="op">(</span><span class="va">volume_model</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                          Model Summary                          </span></span>
-<span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; R                       0.974       RMSE                 3.882 </span></span>
-<span><span class="co">#&gt; R-Squared               0.948       MSE                 15.069 </span></span>
-<span><span class="co">#&gt; Adj. R-Squared          0.944       Coef. Var           12.866 </span></span>
-<span><span class="co">#&gt; Pred R-Squared          0.931       AIC                176.910 </span></span>
-<span><span class="co">#&gt; MAE                     2.956       SBC                182.646 </span></span>
-<span><span class="co">#&gt; ---------------------------------------------------------------</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ols_regress.html">ols_regress</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                              Model Summary                              </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; R                          0.729       RMSE                   5063.711 </span></span>
+<span><span class="co">#&gt; R-Squared                  0.531       MSE                25641169.793 </span></span>
+<span><span class="co">#&gt; Adj. R-Squared             0.529       Coef. Var                87.362 </span></span>
+<span><span class="co">#&gt; Pred R-Squared             0.490       AIC                    8759.928 </span></span>
+<span><span class="co">#&gt; MAE                     2563.777       SBC                    8776.275 </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt;  RMSE: Root Mean Square Error </span></span>
 <span><span class="co">#&gt;  MSE: Mean Square Error </span></span>
 <span><span class="co">#&gt;  MAE: Mean Absolute Error </span></span>
 <span><span class="co">#&gt;  AIC: Akaike Information Criteria </span></span>
 <span><span class="co">#&gt;  SBC: Schwarz Bayesian Criteria </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                                  ANOVA                                  </span></span>
-<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt;                 Sum of                                                 </span></span>
-<span><span class="co">#&gt;                Squares        DF    Mean Square       F           Sig. </span></span>
-<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; Regression    7684.163         2       3842.081    254.972    &lt; 0.0001 </span></span>
-<span><span class="co">#&gt; Residual       421.921        28         15.069                        </span></span>
-<span><span class="co">#&gt; Total         8106.084        30                                       </span></span>
-<span><span class="co">#&gt; -----------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;                                       ANOVA                                        </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;                        Sum of                                                     </span></span>
+<span><span class="co">#&gt;                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Regression    12707124418.370          2    6353562209.185    247.788    &lt; 0.0001 </span></span>
+<span><span class="co">#&gt; Residual      11205191199.519        437      25641169.793                        </span></span>
+<span><span class="co">#&gt; Total         23912315617.889        439                                          </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;                                      Parameter Estimates                                       </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt;       model       Beta    Std. Error    Std. Beta      t         Sig         lower      upper </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------------------------------</span></span>
-<span><span class="co">#&gt; (Intercept)    -57.988         8.638                 -6.713    &lt; 0.0001    -75.682    -40.293 </span></span>
-<span><span class="co">#&gt;       Girth      4.708         0.264        0.899    17.816    &lt; 0.0001      4.167      5.249 </span></span>
-<span><span class="co">#&gt;      Height      0.339         0.130        0.132     2.607      0.0145      0.073      0.606 </span></span>
-<span><span class="co">#&gt; ----------------------------------------------------------------------------------------------</span></span></code></pre></div>
-<p>The <strong>Beta</strong> estimate for <code>Girth</code>, 4.708,
-means about 4.71 additional cubic feet per additional inch of diameter,
-comparing trees of the same height. For <code>Height</code>, 0.339 means
-about 0.34 additional cubic feet per extra foot of height at a fixed
-diameter. Standardized betas express effects on a different scale; use
-the unstandardized Beta column for these statements in inches, feet and
-cubic feet.</p>
-<p>The <strong>Std. Error</strong> column measures uncertainty in each
-estimated slope. The <strong>lower</strong> and <strong>upper</strong>
-columns give its 95% confidence interval under the model assumptions:
-about 4.17 to 5.25 for diameter and 0.073 to 0.606 for height. The
-height estimate is less precise relative to its size. These intervals
-concern conditional mean slopes, not the volumes of individual trees.
-The p-values test zero coefficients conditional on the other term; they
-do not measure the probability that a predictor matters.</p>
-<p>The intercept is about -57.99 cubic feet at zero diameter and zero
-height. Neither value describes a tree in this sample. This is a warning
-against extrapolation, rather than evidence of negative timber
-volume.</p>
+<span><span class="co">#&gt;                                          Parameter Estimates                                          </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;            model        Beta    Std. Error    Std. Beta      t         Sig         lower       upper </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;      (Intercept)    1198.484       332.724                  3.602      0.0004    544.545    1852.423 </span></span>
+<span><span class="co">#&gt;          grocery       0.623         0.067        0.802     9.333    &lt; 0.0001      0.492       0.754 </span></span>
+<span><span class="co">#&gt; detergents_paper      -0.124         0.133       -0.080    -0.933      0.3515     -0.386       0.137 </span></span>
+<span><span class="co">#&gt; -----------------------------------------------------------------------------------------------------</span></span></code></pre></div>
+<p>The <strong>Beta</strong> estimate for <code>grocery</code>, 0.623,
+means about 0.623 additional monetary units of milk spending per
+additional unit of grocery spending, holding detergent and paper
+spending fixed. The corresponding detergent slope is -0.124.
+Standardized betas use a different scale.</p>
+<p>The <strong>lower</strong> and <strong>upper</strong> columns give
+95% confidence intervals under the model assumptions: 0.492 to 0.754 for
+grocery and -0.386 to 0.137 for detergents and paper. These describe
+uncertainty in conditional mean slopes, not individual customer
+spending. The intercept is 1198.484 units when both predictors are zero;
+extrapolation requires care.</p>
 </div>
 <div class="section level2">
 <h2 id="connect-the-output-to-base-r">Connect the output to base R<a class="anchor" aria-label="anchor" href="#connect-the-output-to-base-r"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">base_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">volume_model</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">base_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">base_summary</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Estimate"</span>, <span class="st">"Std. Error"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>             digits <span class="op">=</span> <span class="fl">3</span>, caption <span class="op">=</span> <span class="st">"The same coefficients and standard errors from summary(lm(...))."</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -219,54 +198,51 @@ summary(lm(…)).</caption>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">-57.988</td>
-<td align="right">8.638</td>
+<td align="right">1198.484</td>
+<td align="right">332.724</td>
 </tr>
 <tr class="even">
-<td align="left">Girth</td>
-<td align="right">4.708</td>
-<td align="right">0.264</td>
+<td align="left">grocery</td>
+<td align="right">0.623</td>
+<td align="right">0.067</td>
 </tr>
 <tr class="odd">
-<td align="left">Height</td>
-<td align="right">0.339</td>
-<td align="right">0.130</td>
+<td align="left">detergents_paper</td>
+<td align="right">-0.124</td>
+<td align="right">0.133</td>
 </tr>
 </tbody>
 </table>
-<p>The estimates and standard errors agree with the parameter table
-above: olsrr presents information from the same fitted model. R’s
-residual standard error, <code>base_summary$sigma</code>, is the RMSE
-reported here. Its value of 3.882 cubic feet is the square root of
-residual sum of squares divided by 28 residual degrees of freedom. It
-describes remaining scatter, not a fixed error allowance for each new
-prediction.</p>
+<p>The estimates and standard errors agree. R’s residual standard error
+is the RMSE, 5063.711, calculated from the residual sum of squares and
+437 residual degrees of freedom. It describes scatter rather than a
+prediction error bound.</p>
 </div>
 <div class="section level2">
 <h2 id="understand-the-anova-decomposition">Understand the ANOVA decomposition<a class="anchor" aria-label="anchor" href="#understand-the-anova-decomposition"></a>
 </h2>
-<p>The regression output already includes an ANOVA table.
-<code><a href="../reference/ols_anova.html">ols_anova()</a></code> lets you request just that part when the
-overall fit is your question.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">volume_anova</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_anova.html">ols_anova</a></span><span class="op">(</span><span class="va">volume_model</span><span class="op">)</span></span>
-<span><span class="va">volume_anova</span></span></code></pre></div>
-<p>In that table, the total sum of squares, 8106.084, divides into
-7684.163 attributed to the regression and 421.921 left in the residuals.
-Dividing 7684.163 by 8106.084 gives R-squared, 0.948. This is variation
-explained in these trees, not a percentage accuracy guarantee for future
-volumes.</p>
-<p>There are two regression degrees of freedom, one for each slope, and
-28 residual degrees of freedom: 31 observations minus three estimated
-coefficients, including the intercept. Dividing each sum of squares by
-its degrees of freedom gives the mean squares. Their ratio is the
-overall F statistic, 254.972. Its null is that both slopes are zero.
-This joint test does not identify which model shape is adequate or
-validate the error assumptions.</p>
-<p>The concrete next task is to inspect residual shape and spread before
-relying on the confidence intervals. Continue with <a href="residual-diagnostics.html">residual diagnostics</a>, or revisit <a href="getting-started.html">getting started</a>. The help for <a href="https://olsrr.rsquaredacademy.com/reference/ols_regress.html"><code>ols_regress()</code></a>
-and <a href="https://olsrr.rsquaredacademy.com/reference/ols_anova.html"><code>ols_anova()</code></a>
-covers the remaining table fields and supported interfaces.</p>
+<code class="sourceCode R"><span><span class="va">spending_anova</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ols_anova.html">ols_anova</a></span><span class="op">(</span><span class="va">spending_model</span><span class="op">)</span></span>
+<span><span class="va">spending_anova</span></span>
+<span><span class="co">#&gt;                                       ANOVA                                        </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt;                        Sum of                                                     </span></span>
+<span><span class="co">#&gt;                       Squares         DF       Mean Square       F           Sig. </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span>
+<span><span class="co">#&gt; Regression    12707124418.370          2    6353562209.185    247.788    &lt; 0.0001 </span></span>
+<span><span class="co">#&gt; Residual      11205191199.519        437      25641169.793                        </span></span>
+<span><span class="co">#&gt; Total         23912315617.889        439                                          </span></span>
+<span><span class="co">#&gt; ----------------------------------------------------------------------------------</span></span></code></pre></div>
+<p>The total sum of squares is 23912315617.889, comprising
+12707124418.370 for regression and 11205191199.519 for residuals. Their
+ratio gives R-squared of 0.531. There are two regression and 437
+residual degrees of freedom. The overall F statistic is 247.788 and
+tests whether both slopes are zero; it does not validate the model’s
+shape or error assumptions.</p>
+<p>Continue with <a href="residual-diagnostics.html">residual
+diagnostics</a>, or revisit <a href="getting-started.html">getting
+started</a>. See <code><a href="../reference/ols_regress.html">?ols_regress</a></code> and <code><a href="../reference/ols_anova.html">?ols_anova</a></code>
+for the remaining fields.</p>
 </div>
 
 
@@ -288,7 +264,14 @@ covers the remaining table fields and supported interfaces.</p>
       </nav>
 </div>
     <div class="rsa-footer-signup">
-      <div data-rsa-signup data-site="olsrr" data-heading="Get package updates" data-text="New releases, tutorials and course updates. Free, unsubscribe any time." data-button="Subscribe" data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html"></div>
+      <form data-rsa-signup class="rsa-footer-form">
+        <label for="rsa-footer-email">Get package updates</label>
+        <div class="rsa-footer-form-row">
+          <input id="rsa-footer-email" type="email" name="CONTACT_EMAIL" autocomplete="email" aria-label="Email address" placeholder="Email address" required><button type="submit">Subscribe</button>
+        </div>
+        <p class="rsa-footer-privacy">Unsubscribe any time. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy policy</a>.</p>
+        <p class="rsa-footer-status" data-rsa-signup-status></p>
+      </form>
     </div>
   </div>
 </div>
