@@ -19,3 +19,26 @@
 /check.mjs           /404.html   404!
 /hash.mjs            /404.html   404!
 # <<< rsatemplate: blocked paths
+
+# /dev/ (pkgdown development mode): same blocked paths
+/dev/AGENTS.html         /404.html   404!
+/dev/AGENTS.md           /404.html   404!
+/dev/agents              /404.html   404!
+/dev/agents.html         /404.html   404!
+/dev/GEMINI.html         /404.html   404!
+/dev/GEMINI.md           /404.html   404!
+/dev/gemini              /404.html   404!
+/dev/gemini.html         /404.html   404!
+/dev/CLAUDE.html         /404.html   404!
+/dev/CLAUDE.md           /404.html   404!
+/dev/claude              /404.html   404!
+/dev/claude.html         /404.html   404!
+/dev/README.md           /404.html   404!
+/dev/CONTRIBUTING.md     /404.html   404!
+/dev/package.json        /404.html   404!
+/dev/package-lock.json   /404.html   404!
+/dev/build.mjs           /404.html   404!
+/dev/check.mjs           /404.html   404!
+/dev/hash.mjs            /404.html   404!
+/dev/TODO.html       /404.html   404!
+/dev/TODO.md         /404.html   404!

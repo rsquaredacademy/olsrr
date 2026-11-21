@@ -1,0 +1,1046 @@
+/* rsatemplate: Direction B "Structured Workbench" for pkgdown.
+   Loaded after Bootstrap, bslib, pkgdown and site-kit CSS. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  max-width: 100%;
+}
+
+body {
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.625;
+  padding-top: 64px !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--brand-hover);
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+}
+
+code:not(pre code) {
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 1px 5px;
+  font-size: 0.88em;
+  word-break: break-word;
+}
+
+pre {
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+pre code {
+  background: transparent !important;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  white-space: pre;
+}
+
+pre.rsa-has-copy {
+  position: relative;
+  padding-right: 64px;
+}
+
+.rsa-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink-muted);
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 2px 7px;
+  cursor: pointer;
+}
+
+.rsa-copy-btn:hover {
+  color: var(--brand);
+  border-color: var(--brand);
+}
+
+.rsa-copy-btn.is-copied {
+  color: var(--free-ink);
+  border-color: var(--free-ink);
+  background: var(--free-bg);
+}
+
+img,
+svg,
+table {
+  max-width: 100%;
+}
+
+table {
+  display: block;
+  overflow-x: auto;
+}
+
+/* ---------------------------------------------------------------- navbar */
+
+.rsa-navbar {
+  background-color: var(--bg) !important;
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  min-height: 64px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.rsa-navbar .container {
+  max-width: var(--content-max);
+  gap: 8px;
+}
+
+.rsa-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: var(--ink) !important;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.2rem;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.rsa-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-hover));
+  color: var(--on-brand);
+  font-size: 0.95rem;
+  font-weight: 800;
+  flex: 0 0 auto;
+}
+
+.rsa-brand-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.rsa-nav-version {
+  color: var(--ink-muted) !important;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  margin-left: 4px !important;
+  flex: 0 0 auto;
+}
+
+.rsa-navbar .navbar-nav {
+  align-items: center;
+  gap: 2px;
+}
+
+.rsa-navbar .navbar-nav.me-auto {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+}
+
+.rsa-navbar .nav-link {
+  color: var(--ink-muted) !important;
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 6px 13px !important;
+  border-radius: var(--radius-pill);
+  line-height: 1.3;
+}
+
+.rsa-navbar .nav-link:hover,
+.rsa-navbar .nav-link:focus {
+  color: var(--ink) !important;
+  background-color: var(--bg);
+}
+
+.rsa-navbar .nav-link.active,
+.rsa-navbar .nav-item.active > .nav-link {
+  color: var(--brand) !important;
+  background-color: var(--bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.rsa-navbar .rsa-nav-right .nav-link {
+  border-radius: var(--radius-sm);
+}
+
+.rsa-nav-learn .nav-link {
+  color: var(--ink-muted) !important;
+  font-weight: 500;
+}
+
+.rsa-navbar .navbar-toggler {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  color: var(--ink-muted);
+}
+
+.rsa-navbar .navbar-toggler:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.rsa-navbar .dropdown-menu {
+  background-color: var(--bg);
+  border-color: var(--line);
+  box-shadow: var(--shadow-card);
+}
+
+.rsa-navbar .dropdown-item {
+  color: var(--ink);
+}
+
+.rsa-navbar .dropdown-item:hover,
+.rsa-navbar .dropdown-item:focus {
+  background-color: var(--surface);
+  color: var(--brand);
+}
+
+.rsa-navbar .form-control,
+.rsa-navbar input[type="search"] {
+  background-color: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+  border-radius: var(--radius-sm);
+}
+
+.rsa-navbar input[type="search"]:focus {
+  background-color: var(--bg);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ----------------------------------------------------------- page shell */
+
+.template-home .container,
+.template-reference-index .container,
+.template-article .container,
+.template-reference-topic .container,
+.template-news-index .container {
+  max-width: var(--content-max);
+}
+
+.rsa-page-header {
+  padding: 28px 0 8px;
+  border-bottom: 0;
+}
+
+.rsa-page-header h1 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.rsa-page-lede,
+.rsa-article-subtitle {
+  color: var(--ink-muted);
+  font-size: 1.08rem;
+  max-width: 70ch;
+}
+
+.rsa-article-author,
+.rsa-article-date {
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  margin: 0 0 4px;
+}
+
+/* ------------------------------------------------------------- home hero */
+
+.rsa-hero {
+  margin: 24px 0 8px;
+  padding: 36px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--surface-tint) 0%, var(--bg) 100%);
+  box-shadow: var(--shadow-card);
+}
+
+.rsa-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 36px;
+  align-items: center;
+}
+
+.rsa-hero-main {
+  min-width: 0;
+}
+
+.rsa-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.rsa-badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--ink-muted);
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 2px 9px;
+  max-width: 100%;
+}
+
+.rsa-badge-version {
+  background: var(--surface-tint);
+  color: var(--brand);
+  font-family: var(--font-mono);
+}
+
+.rsa-hero-title {
+  font-size: clamp(1.9rem, 4.4vw, 2.85rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  margin: 0 0 12px;
+}
+
+.rsa-hero-desc {
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+  line-height: 1.55;
+  margin: 0 0 20px;
+  max-width: 56ch;
+}
+
+.rsa-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rsa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 9px 17px;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.rsa-btn-primary {
+  background-color: var(--brand);
+  color: var(--on-brand) !important;
+}
+
+.rsa-btn-primary:hover {
+  background-color: var(--brand-hover);
+  color: var(--on-brand) !important;
+  text-decoration: none;
+}
+
+.rsa-btn-secondary {
+  background-color: var(--surface);
+  color: var(--ink) !important;
+  border-color: var(--line);
+}
+
+.rsa-btn-secondary:hover {
+  background-color: var(--surface-tint);
+  border-color: var(--brand);
+  text-decoration: none;
+}
+
+.rsa-install-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 20px;
+  min-width: 0;
+}
+
+.rsa-install-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--ink-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.rsa-mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.72rem;
+}
+
+.rsa-install-pre {
+  margin: 0 0 10px;
+  background-color: var(--code-bg);
+  border-color: var(--code-bg);
+  color: var(--code-ink);
+  font-size: 0.8rem;
+  white-space: pre;
+}
+
+.rsa-install-pre code,
+.rsa-install-pre code span {
+  color: var(--code-ink) !important;
+  background: transparent !important;
+}
+
+.rsa-install-dev,
+.rsa-install-note {
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin: 8px 0 0;
+}
+
+.rsa-install-dev code {
+  font-size: 0.75rem;
+}
+
+/* -------------------------------------------------------- home content */
+
+.rsa-home-grid {
+  margin-top: 28px;
+  margin-bottom: 40px;
+}
+
+.rsa-home-main {
+  min-width: 0;
+}
+
+/* README h1 and badges are already represented by the hero. */
+.rsa-home-main > h1:first-child,
+.rsa-home-main .section.level1 > h1:first-child,
+.rsa-home-main > .badges:first-child {
+  display: none;
+}
+
+.rsa-home-main h2 {
+  font-size: 1.5rem;
+  margin-top: 1.8rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.rsa-home-main h3 {
+  font-size: 1.15rem;
+  margin-top: 1.4rem;
+}
+
+.rsa-home-main > p:first-of-type {
+  font-size: 1.05rem;
+}
+
+.rsa-home-sidebar {
+  min-width: 0;
+}
+
+.rsa-course-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.rsa-course-kicker {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--ink-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  margin-bottom: 8px;
+}
+
+.rsa-home-sidebar .rsa-course-title,
+.rsa-course-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 6px;
+  color: var(--ink);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.rsa-course-desc {
+  color: var(--ink-muted);
+  font-size: 0.83rem;
+  line-height: 1.45;
+  margin: 0 0 8px;
+}
+
+.rsa-course-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--link);
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.rsa-course-link:hover {
+  text-decoration: underline;
+}
+
+.rsa-home-sidebar .pkgdown-sidebar,
+.rsa-home-sidebar .sidebar {
+  margin-top: 0;
+}
+
+.rsa-home-sidebar h2 {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 18px;
+}
+
+.rsa-home-sidebar .list-unstyled,
+.rsa-home-sidebar ul {
+  padding-left: 0;
+  list-style: none;
+  font-size: 0.88rem;
+}
+
+.rsa-home-sidebar li {
+  margin-bottom: 6px;
+}
+
+/* ------------------------------------------------------- reference cards */
+
+.template-reference-index .container {
+  position: relative;
+}
+
+.rsa-ref-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 24px;
+}
+
+.rsa-chip {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-muted);
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  line-height: 1.4;
+}
+
+.rsa-chip:hover,
+.rsa-chip.is-active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+
+.rsa-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+  padding-bottom: 24px;
+}
+
+.rsa-ref-heading,
+.rsa-ref-subheading,
+.rsa-ref-desc {
+  grid-column: 1 / -1;
+}
+
+.rsa-ref-heading {
+  font-size: 1.35rem;
+  margin: 18px 0 0;
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.rsa-ref-subheading {
+  font-size: 1rem;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.rsa-ref-desc {
+  color: var(--ink-muted);
+  font-size: 0.92rem;
+  margin-top: -8px;
+}
+
+.rsa-ref-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  min-width: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.15s ease;
+}
+
+.rsa-ref-card:hover {
+  border-color: var(--brand);
+}
+
+.rsa-ref-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.rsa-ref-name {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  font-size: 0.88rem !important;
+  font-weight: 600;
+  color: var(--brand);
+}
+
+.rsa-ref-name a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.rsa-ref-name a:hover {
+  text-decoration: underline;
+}
+
+.rsa-lifecycle {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--ink-muted);
+  font-size: 0.68rem;
+  padding: 1px 6px;
+}
+
+.rsa-ref-card-title {
+  color: var(--ink-muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  margin: 0 0 10px;
+  flex: 1 1 auto;
+}
+
+.rsa-ref-card-foot {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  font-size: 0.8rem;
+}
+
+.rsa-ref-card-foot a {
+  color: var(--ink-muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.rsa-ref-card-foot a:hover {
+  color: var(--brand);
+}
+
+.rsa-ref-sidebar {
+  padding: 0 0 36px;
+}
+
+.rsa-ref-note {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  font-size: 0.88rem;
+}
+
+.rsa-ref-note p {
+  color: var(--ink-muted);
+  margin: 4px 0 8px;
+}
+
+/* --------------------------------------------------------------- article */
+
+.template-article .container,
+.template-reference-topic .container {
+  max-width: var(--content-max);
+}
+
+.rsa-article-main,
+.rsa-topic-main {
+  max-width: var(--text-max);
+  min-width: 0;
+}
+
+.rsa-article-main h2,
+.rsa-topic-main h2 {
+  font-size: 1.4rem;
+  margin-top: 2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.rsa-article-main h3,
+.rsa-topic-main h3 {
+  font-size: 1.12rem;
+  margin-top: 1.5rem;
+}
+
+.rsa-article-toc,
+.rsa-topic-toc {
+  min-width: 0;
+}
+
+.rsa-article-toc #toc,
+.rsa-topic-toc #toc {
+  position: sticky;
+  top: 84px;
+  border-left: 2px solid var(--line);
+  padding-left: 14px;
+  font-size: 0.84rem;
+}
+
+.rsa-article-toc #toc h2,
+.rsa-topic-toc #toc h2 {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 0;
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.rsa-article-toc #toc ul,
+.rsa-topic-toc #toc ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.rsa-article-toc #toc li,
+.rsa-topic-toc #toc li {
+  margin-bottom: 5px;
+}
+
+.rsa-article-toc #toc a,
+.rsa-topic-toc #toc a {
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.rsa-article-toc #toc a:hover,
+.rsa-topic-toc #toc a:hover {
+  color: var(--brand);
+}
+
+.rsa-topic-main h1 code {
+  font-size: 0.82em;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+/* ------------------------------------------------------- practise box */
+
+.rsa-practise {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin: 36px 0 24px;
+}
+
+.rsa-practise[hidden] {
+  display: none !important;
+}
+
+.rsa-practise-kicker {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--ink-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  margin-bottom: 8px;
+}
+
+.rsa-practise-title {
+  font-size: 1.02rem;
+  margin: 0 0 6px;
+}
+
+.rsa-practise-desc {
+  color: var(--ink-muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+
+.rsa-practise-link {
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------- footer */
+
+.rsa-footer {
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  margin-top: 32px;
+  padding: 28px 0;
+  color: var(--ink-muted);
+  font-size: 0.86rem;
+}
+
+.rsa-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.rsa-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  max-width: 46ch;
+}
+
+.rsa-footer-title {
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+
+.rsa-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 6px;
+}
+
+.rsa-footer-links a {
+  color: var(--ink-muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+}
+
+.rsa-footer-links a:hover {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+.rsa-footer-signup {
+  width: 100%;
+  max-width: 380px;
+  min-width: 0;
+}
+
+.rsa-footer-signup .rsa-signup {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: none;
+  margin: 0;
+}
+
+.rsa-footer-signup .rsa-signup__heading {
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  margin-bottom: 4px;
+}
+
+.rsa-footer-signup .rsa-signup__text {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+
+.rsa-footer-signup .rsa-signup__input {
+  font-size: 0.84rem;
+}
+
+.rsa-footer-signup .rsa-signup__button {
+  font-size: 0.84rem;
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 991.98px) {
+  body {
+    padding-top: 60px !important;
+  }
+
+  .rsa-navbar {
+    min-height: 60px;
+  }
+
+  .rsa-navbar .navbar-collapse {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px;
+    margin-top: 8px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .rsa-navbar .navbar-nav.me-auto {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .rsa-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .rsa-ref-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rsa-article-toc,
+  .rsa-topic-toc {
+    display: none;
+  }
+
+  .rsa-article-main,
+  .rsa-topic-main {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .rsa-hero {
+    padding: 24px 18px;
+    margin-top: 16px;
+  }
+
+  .rsa-hero-title {
+    font-size: 1.9rem;
+  }
+
+  .rsa-home-grid {
+    display: block;
+  }
+
+  .rsa-home-sidebar {
+    margin-top: 28px;
+  }
+
+  .rsa-footer-inner {
+    flex-direction: column;
+  }
+
+  .rsa-footer-signup {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .rsa-brand-text {
+    max-width: 120px;
+  }
+
+  .rsa-nav-version {
+    display: none;
+  }
+
+  .rsa-hero {
+    padding: 20px 14px;
+  }
+
+  .rsa-page-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .rsa-ref-card {
+    padding: 14px;
+  }
+
+  pre {
+    font-size: 0.78rem;
+    padding: 12px;
+  }
+}

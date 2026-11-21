@@ -1,0 +1,476 @@
+/**
+ * Rsquared Academy Site-Kit — Email Sign-up Styles
+ * Version: v1.3.0
+ *
+ * Compact, dependency-free styles for the Zoho Campaigns sign-up card.
+ * Reuses the shared --rsa-* custom properties (with local fallbacks so the
+ * file also works when rsa-consent.css is not loaded) and supports light and
+ * dark colour schemes. Every rule is scoped to .rsa-signup, plus the opt-in
+ * Quarto margin box (`[data-rsa-signup-layout="compact"]`) and the A/B sticky
+ * bar (`[data-rsa-signup-layout="bar"]`).
+ */
+
+.rsa-signup {
+  --rsa-accent: #2563EB;
+  --rsa-accent-hover: #1D4ED8;
+  --rsa-ink: #0F172A;
+  --rsa-ink-secondary: #475569;
+  --rsa-bg: #FFFFFF;
+  --rsa-border: #E2E8F0;
+  --rsa-focus-ring: #2563EB;
+  --rsa-error: #B91C1C;
+  --rsa-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+  --rsa-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+  margin: 0;
+  padding: 1.5rem;
+  background-color: var(--rsa-bg, #FFFFFF);
+  color: var(--rsa-ink, #0F172A);
+  border: 1px solid var(--rsa-border, #E2E8F0);
+  border-radius: 10px;
+  box-shadow: var(--rsa-shadow, 0 1px 3px rgba(15, 23, 42, 0.08));
+  font-family: var(--rsa-font, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rsa-signup {
+    --rsa-accent: #3B82F6;
+    --rsa-accent-hover: #60A5FA;
+    --rsa-ink: #F8FAFC;
+    --rsa-ink-secondary: #94A3B8;
+    --rsa-bg: #0F172A;
+    --rsa-border: #334155;
+    --rsa-focus-ring: #60A5FA;
+    --rsa-error: #FCA5A5;
+    --rsa-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.rsa-signup *,
+.rsa-signup *::before,
+.rsa-signup *::after {
+  box-sizing: inherit;
+}
+
+.rsa-signup__heading {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--rsa-ink, #0F172A);
+}
+
+.rsa-signup__text {
+  margin: 0 0 1rem 0;
+  font-size: 0.9375rem;
+  color: var(--rsa-ink-secondary, #475569);
+}
+
+.rsa-signup__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.rsa-signup__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 0.875rem;
+}
+
+.rsa-signup__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--rsa-ink, #0F172A);
+}
+
+.rsa-signup__optional {
+  font-weight: 400;
+  color: var(--rsa-ink-secondary, #475569);
+}
+
+.rsa-signup__input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.625rem 0.75rem;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--rsa-ink, #0F172A);
+  background-color: var(--rsa-bg, #FFFFFF);
+  border: 1px solid var(--rsa-border, #E2E8F0);
+  border-radius: 6px;
+}
+
+.rsa-signup__input:focus-visible {
+  outline: 2px solid var(--rsa-focus-ring, #2563EB);
+  outline-offset: 2px;
+  border-color: var(--rsa-accent, #2563EB);
+}
+
+.rsa-signup__input[aria-invalid="true"] {
+  border-color: var(--rsa-error, #B91C1C);
+}
+
+.rsa-signup__button {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.625rem 1.25rem;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background-color: var(--rsa-accent, #2563EB);
+  border: 1px solid var(--rsa-accent, #2563EB);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.rsa-signup__button:hover {
+  background-color: var(--rsa-accent-hover, #1D4ED8);
+  border-color: var(--rsa-accent-hover, #1D4ED8);
+}
+
+.rsa-signup__button:focus-visible {
+  outline: 2px solid var(--rsa-focus-ring, #2563EB);
+  outline-offset: 2px;
+}
+
+.rsa-signup__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rsa-signup__status {
+  margin: 0.75rem 0 0 0;
+  font-size: 0.875rem;
+  color: var(--rsa-ink, #0F172A);
+}
+
+.rsa-signup__status--error {
+  color: var(--rsa-error, #B91C1C);
+}
+
+.rsa-signup__status--success {
+  color: var(--rsa-ink, #0F172A);
+}
+
+.rsa-signup__privacy {
+  margin: 0.75rem 0 0 0;
+  font-size: 0.8125rem;
+  color: var(--rsa-ink-secondary, #475569);
+}
+
+.rsa-signup__privacy-link {
+  color: var(--rsa-accent, #2563EB);
+  text-decoration: underline;
+}
+
+.rsa-signup__privacy-link:focus-visible {
+  outline: 2px solid var(--rsa-focus-ring, #2563EB);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Honeypot: moved off-screen (not display:none) so bots still fill it. */
+.rsa-signup__hp {
+  position: absolute !important;
+  left: -9999px !important;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rsa-signup__button {
+    transition: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+ * v1.3.0 — Quarto eBook margin box (compact render mode)
+ *
+ * Appended under the TOC inside #quarto-margin-sidebar. Hidden below 992px
+ * (Quarto's lg breakpoint) so phones only show the end-of-chapter card.
+ * Colours inherit from the page (Quarto flatly/darkly), so the box follows
+ * whichever theme is active instead of hard-coding a light palette.
+ * ---------------------------------------------------------------------- */
+
+[data-rsa-signup-layout="compact"] {
+  display: none;
+  max-width: 100%;
+  margin: 1.25rem 0 0 0;
+  padding: 0.875rem;
+  background-color: transparent;
+  color: inherit;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  border-radius: 8px;
+  box-shadow: none;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 992px) {
+  [data-rsa-signup-layout="compact"] {
+    display: block;
+  }
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__heading {
+  margin: 0 0 0.625rem 0;
+  font-size: 0.9375rem;
+  color: inherit;
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__field {
+  gap: 0.25rem;
+  margin-bottom: 0.625rem;
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__label {
+  font-size: 0.8125rem;
+  color: inherit;
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__input {
+  min-height: 44px;
+  padding: 0.5rem 0.625rem;
+  color: inherit;
+  background-color: transparent;
+  border-color: rgba(127, 127, 127, 0.5);
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__input:focus-visible {
+  outline-color: currentColor;
+  border-color: currentColor;
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__button {
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--bs-btn-color, #FFFFFF);
+  background-color: var(--bs-primary, #2563EB);
+  border-color: var(--bs-primary, #2563EB);
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__button:hover {
+  background-color: var(--bs-primary, #2563EB);
+  border-color: var(--bs-primary, #2563EB);
+  filter: brightness(0.92);
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__status {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: inherit;
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__status--error {
+  color: var(--bs-danger, #B91C1C);
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__privacy {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: inherit;
+  opacity: 0.8;
+}
+
+[data-rsa-signup-layout="compact"] .rsa-signup__privacy-link {
+  color: inherit;
+}
+
+/* -------------------------------------------------------------------------
+ * v1.3.0 — A/B sticky bar (variant B)
+ *
+ * A slim, fixed bar, not a modal: no overlay, no focus trap, no focus move.
+ * It stays visibility:hidden while closed so its controls are not focusable.
+ * On a 360x640 screen the closed/open bar is ~79px tall (12% of the viewport),
+ * under Google's 15% intrusive-interstitial limit.
+ * ---------------------------------------------------------------------- */
+
+[data-rsa-signup-layout="bar"] {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1200;
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0.375rem 0.75rem calc(0.375rem + env(safe-area-inset-bottom, 0px));
+  background-color: #FFFFFF;
+  background-color: var(--bs-body-bg, Canvas);
+  color: #0F172A;
+  color: var(--bs-body-color, CanvasText);
+  border: 0;
+  border-top: 1px solid rgba(127, 127, 127, 0.35);
+  border-radius: 0;
+  box-shadow: 0 -2px 12px rgba(15, 23, 42, 0.15);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  color-scheme: light dark;
+  transform: translateY(110%);
+  visibility: hidden;
+  transition: transform 0.2s ease, visibility 0s linear 0.2s;
+}
+
+[data-rsa-signup-layout="bar"][data-rsa-signup-bar-visible] {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.2s ease;
+}
+
+.rsa-signup-bar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.rsa-signup-bar__text {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 640px) {
+  .rsa-signup-bar__text {
+    flex: 1 1 auto;
+  }
+}
+
+.rsa-signup-bar__form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.rsa-signup-bar__form .rsa-signup__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 0;
+  margin: 0;
+}
+
+.rsa-signup-bar__form .rsa-signup__input {
+  min-height: 44px;
+  padding: 0.375rem 0.625rem;
+  color: inherit;
+  background-color: transparent;
+  border-color: rgba(127, 127, 127, 0.5);
+}
+
+.rsa-signup-bar__form .rsa-signup__input:focus-visible {
+  outline-color: currentColor;
+  border-color: currentColor;
+}
+
+.rsa-signup-bar__form .rsa-signup__button {
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 44px;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+  color: var(--bs-btn-color, #FFFFFF);
+  background-color: var(--bs-primary, #2563EB);
+  border-color: var(--bs-primary, #2563EB);
+}
+
+.rsa-signup-bar__form .rsa-signup__button:hover {
+  background-color: var(--bs-primary, #2563EB);
+  border-color: var(--bs-primary, #2563EB);
+  filter: brightness(0.92);
+}
+
+/* Status floats above the bar, so feedback never grows the bar's height. */
+.rsa-signup-bar__status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  margin: 0;
+  padding: 0.375rem 0.75rem;
+  background-color: #FFFFFF;
+  background-color: var(--bs-body-bg, Canvas);
+  border-top: 1px solid rgba(127, 127, 127, 0.35);
+  font-size: 0.8125rem;
+  color: inherit;
+}
+
+.rsa-signup-bar__status:empty {
+  display: none;
+}
+
+.rsa-signup-bar__status.rsa-signup__status--error {
+  color: var(--bs-danger, #B91C1C);
+}
+
+.rsa-signup-bar__close {
+  flex: 0 0 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: inherit;
+  background-color: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.rsa-signup-bar__close:hover {
+  background-color: rgba(127, 127, 127, 0.15);
+}
+
+.rsa-signup-bar__close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Visually hidden label (used by the bar's single-row email field). */
+.rsa-signup__label--sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-rsa-signup-layout="bar"],
+  [data-rsa-signup-layout="bar"][data-rsa-signup-bar-visible] {
+    transition: none;
+  }
+}
