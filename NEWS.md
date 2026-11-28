@@ -1,6 +1,6 @@
 # olsrr (development version)
 
-- Rewrote the README to the Rsquared Academy package README template, with a wholesale-customer example, real output and real plots (@aravindhebbali, olsrr-readme).
+- The README has a new quick example on wholesale customer data, with real output and plots.
 
 - New business datasets: wholesale customer spending is used in the vignettes (@aravindhebbali, pkg-olsrr-bizdata-vign).
 

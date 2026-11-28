@@ -30,7 +30,7 @@ pak::pak("rsquaredacademy/olsrr")
 
 ### Read the regression output
 
-Can grocery and household paper spending explain milk spending?
+Can grocery and detergents-and-paper spending explain milk spending?
 
 ``` r
 # annual spend of 440 wholesale customers (UCI, CC BY 4.0; see ?wholesale_customers)
@@ -71,8 +71,9 @@ ols_regress(model)
 ```
 
 The two spend variables explain 53.1% of the variation in milk spend.
-Grocery spend has a positive coefficient of 0.62; household paper spend
-is not significant (p = 0.35).
+
+- Each extra 1 spent on groceries goes with about 0.62 more spent on milk.
+- Detergents and paper spend adds little once grocery spend is in the model (p = 0.35).
 
 ### Check the residuals
 
