@@ -5,61 +5,32 @@
 
 <!-- badges: start -->
 
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/olsrr)](https://cran.r-project.org/package=olsrr)
-[![R build
-status](https://github.com/rsquaredacademy/olsrr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/olsrr/actions)
-[![Coverage
-status](https://codecov.io/gh/rsquaredacademy/olsrr/branch/master/graph/badge.svg)](https://app.codecov.io/github/rsquaredacademy/olsrr?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/olsrr)](https://CRAN.R-project.org/package=olsrr)
+[![R-CMD-check](https://github.com/rsquaredacademy/olsrr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rsquaredacademy/olsrr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/rsquaredacademy/olsrr/branch/develop/graph/badge.svg)](https://app.codecov.io/gh/rsquaredacademy/olsrr?branch=develop)
 <!-- badges: end -->
 
-## Overview
-
-The olsrr package provides following tools for building OLS regression
-models using R:
-
-- Comprehensive Regression Output
-- Variable Selection Procedures
-- Heteroskedasticity Tests
-- Collinearity Diagnostics
-- Model Fit Assessment
-- Measures of Influence
-- Residual Diagnostics
-- Variable Contribution Assessment
+olsrr helps analysts build and check linear regression models, with
+tools for diagnostics, variable selection and clear reports.
 
 ## Installation
 
 ``` r
-# Install release version from CRAN
+# Release version from CRAN
 install.packages("olsrr")
 
-# Install development version from GitHub
+# Development version from GitHub
 # install.packages("pak")
 pak::pak("rsquaredacademy/olsrr")
 ```
 
-## Articles
+## Quick example
 
-- [Quick
-  Overview](https://olsrr.rsquaredacademy.com/articles/intro.html)
-- [Variable Selection
-  Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
-- [Residual
-  Diagnostics](https://olsrr.rsquaredacademy.com/articles/residual_diagnostics.html)
-- [Heteroskedasticity](https://olsrr.rsquaredacademy.com/articles/heteroskedasticity.html)
-- [Measures of
-  Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
-- [Collinearity
-  Diagnostics](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
+### Read the regression output
 
-## Usage
-
-olsrr uses consistent prefix `ols_` for easy tab completion. If you know
-how to write a `formula` or build models using `lm`, you will find olsrr
-very useful. Most of the functions use an object of class `lm` as input.
-So you just need to build a model using `lm` and then pass it onto the
-functions in olsrr. Below is a quick demo:
-
-#### Regression
+Can grocery and detergents-and-paper spending explain milk spending?
 
 ``` r
 # annual spend of 440 wholesale customers (UCI, CC BY 4.0; see ?wholesale_customers)
@@ -99,14 +70,87 @@ ols_regress(model)
 #> -----------------------------------------------------------------------------------------------------
 ```
 
-## Getting Help
+The two spend variables explain 53.1% of the variation in milk spend.
 
-If you encounter a bug, please file a minimal reproducible example using
-[reprex](https://reprex.tidyverse.org/index.html) on github. For
-questions and clarifications, ask on Stack Overflow with the `r` tag.
+- Each extra unit of money spent on groceries goes with about 0.62 more
+  units spent on milk.
+- Detergents and paper spend adds little once grocery spend is in the
+  model. Its p-value, 0.35, is well above 0.05, so the link could be
+  chance.
 
-## Code of Conduct
+### Check the residuals
 
-Please note that the olsrr project is released with a [Contributor Code
-of Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By
+Are the residuals (the prediction errors) spread evenly, or do they hide
+a pattern?
+
+``` r
+ols_plot_resid_fit(model)
+```
+
+<img src="README-resid-fit-1.png" alt="Scatter plot of residuals against fitted milk spend. The residuals spread wider as fitted spend rises."  />
+
+Residuals are the gaps between actual and predicted milk spend. They fan
+out as predicted spend rises, so the spread of the errors is not
+constant.
+
+### Select variables by AIC
+
+Which spend variables belong in the model?
+
+``` r
+selection <- ols_step_both_aic(
+  lm(milk ~ fresh + grocery + frozen + detergents_paper + delicassen, data = wholesale_customers)
+)
+selection$metrics[, c("step", "variable", "aic", "adj_r2")]
+#>   step         variable      aic    adj_r2
+#> 1    1          grocery 8758.803 0.5294001
+#> 2    2       delicassen 8691.088 0.5974372
+#> 3    3 detergents_paper 8689.441 0.5998442
+#> 4    4           frozen 8687.574 0.6024338
+```
+
+The search adds four of the five variables, one per step.
+
+- AIC, a score where lower is better, falls from 8758.8 to 8687.6.
+- Adjusted R-squared, the share of variation explained, rises from 0.53
+  to 0.60.
+
+## Learn more
+
+- [Documentation site](https://olsrr.rsquaredacademy.com)
+- Vignettes:
+  - [Can product spending explain milk
+    spending?](https://olsrr.rsquaredacademy.com/articles/getting-started.html)
+  - [Read a customer-spending regression
+    model](https://olsrr.rsquaredacademy.com/articles/regression-output.html)
+  - [What does a customer-spending model
+    miss?](https://olsrr.rsquaredacademy.com/articles/residual-diagnostics.html)
+  - [What do variance and normality tests
+    establish?](https://olsrr.rsquaredacademy.com/articles/variance-normality-tests.html)
+  - [Collinearity Diagnostics, Model Fit & Variable
+    Contribution](https://olsrr.rsquaredacademy.com/articles/regression_diagnostics.html)
+  - [Measures of
+    Influence](https://olsrr.rsquaredacademy.com/articles/influence_measures.html)
+  - [Variable Selection
+    Methods](https://olsrr.rsquaredacademy.com/articles/variable_selection.html)
+  - [Media](https://olsrr.rsquaredacademy.com/articles/reference-media.html)
+- [NEWS](https://olsrr.rsquaredacademy.com/news/index.html)
+
+## Getting help and contributing
+
+**Help:** open an
+[issue](https://github.com/rsquaredacademy/olsrr/issues) with a minimal
+reproducible example, built with
+[reprex](https://reprex.tidyverse.org/).
+
+**Contributing:** read the [contributing
+guide](https://github.com/rsquaredacademy/olsrr/blob/develop/.github/CONTRIBUTING.md).
+
+**Code of Conduct:** Please note that the olsrr project is released with
+a [Contributor Code of
+Conduct](https://olsrr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
+
+**Citation:** run `citation("olsrr")`. The [authors
+page](https://olsrr.rsquaredacademy.com/authors.html) lists the package
+authors.

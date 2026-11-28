@@ -1,5 +1,7 @@
 # olsrr (development version)
 
+- The README has a new quick example on wholesale customer data, with real output and plots.
+
 - New business datasets: wholesale customer spending is used in the vignettes (@aravindhebbali, pkg-olsrr-bizdata-vign).
 
 - Rewrote the getting-started, regression output, residual diagnostics and variance/normality vignettes
