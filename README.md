@@ -72,82 +72,48 @@ ols_regress(model)
 
 The two spend variables explain 53.1% of the variation in milk spend.
 
-- Each extra 1 spent on groceries goes with about 0.62 more spent on milk.
-- Detergents and paper spend adds little once grocery spend is in the model (p = 0.35).
+- Each extra unit of money spent on groceries goes with about 0.62 more
+  units spent on milk.
+- Detergents and paper spend adds little once grocery spend is in the
+  model. Its p-value, 0.35, is well above 0.05, so the link could be
+  chance.
 
 ### Check the residuals
 
-Is the error pattern random, or does it hide structure?
+Are the residuals (the prediction errors) spread evenly, or do they hide
+a pattern?
 
 ``` r
 ols_plot_resid_fit(model)
 ```
 
-![](README-resid-fit-1.png)<!-- -->
+<img src="README-resid-fit-1.png" alt="Scatter plot of residuals against fitted milk spend. The residuals spread wider as fitted spend rises."  />
 
-Residuals fan out as fitted milk spend rises, which casts doubt on the
-constant variance assumption.
+Residuals are the gaps between actual and predicted milk spend. They fan
+out as predicted spend rises, so the spread of the errors is not
+constant.
 
 ### Select variables by AIC
 
 Which spend variables belong in the model?
 
 ``` r
-ols_step_both_aic(lm(milk ~ fresh + grocery + frozen + detergents_paper + delicassen, data = wholesale_customers))
-#> 
-#> 
-#>                                     Stepwise Summary                                    
-#> --------------------------------------------------------------------------------------
-#> Step    Variable                  AIC         SBC         SBIC        R2       Adj. R2 
-#> --------------------------------------------------------------------------------------
-#>  0      Base Model              9089.455    9097.629    7838.859    0.00000    0.00000 
-#>  1      grocery (+)             8758.803    8771.063    7509.478    0.53047    0.52940 
-#>  2      delicassen (+)          8691.088    8707.435    7442.376    0.59927    0.59744 
-#>  3      detergents_paper (+)    8689.441    8709.875    7440.780    0.60258    0.59984 
-#>  4      frozen (+)              8687.574    8712.095    7439.003    0.60606    0.60243 
-#> --------------------------------------------------------------------------------------
-#> 
-#> Final Model Output 
-#> ------------------
-#> 
-#>                              Model Summary                              
-#> -----------------------------------------------------------------------
-#> R                          0.778       RMSE                   4653.538 
-#> R-Squared                  0.606       MSE                21655415.516 
-#> Adj. R-Squared             0.602       Coef. Var                80.285 
-#> Pred R-Squared             0.566       AIC                    8687.574 
-#> MAE                     2367.923       SBC                    8712.095 
-#> -----------------------------------------------------------------------
-#>  RMSE: Root Mean Square Error 
-#>  MSE: Mean Square Error 
-#>  MAE: Mean Absolute Error 
-#>  AIC: Akaike Information Criteria 
-#>  SBC: Schwarz Bayesian Criteria 
-#> 
-#>                                       ANOVA                                        
-#> ----------------------------------------------------------------------------------
-#>                        Sum of                                                     
-#>                       Squares         DF       Mean Square       F           Sig. 
-#> ----------------------------------------------------------------------------------
-#> Regression    14492209868.247          4    3623052467.062    167.305    < 0.0001 
-#> Residual       9420105749.641        435      21655415.516                        
-#> Total         23912315617.889        439                                          
-#> ----------------------------------------------------------------------------------
-#> 
-#>                                         Parameter Estimates                                          
-#> ----------------------------------------------------------------------------------------------------
-#>            model       Beta    Std. Error    Std. Beta      t        Sig          lower       upper 
-#> ----------------------------------------------------------------------------------------------------
-#>      (Intercept)    487.099       331.482                 1.469      0.1424    -164.407    1138.605 
-#>          grocery      0.395         0.066        0.509    5.958    < 0.0001       0.265       0.525 
-#>       delicassen      0.690         0.091        0.264    7.577    < 0.0001       0.511       0.869 
-#> detergents_paper      0.281         0.130        0.182    2.156      0.0316       0.025       0.538 
-#>           frozen      0.099         0.051        0.065    1.960      0.0507       0.000       0.199 
-#> ----------------------------------------------------------------------------------------------------
+selection <- ols_step_both_aic(
+  lm(milk ~ fresh + grocery + frozen + detergents_paper + delicassen, data = wholesale_customers)
+)
+selection$metrics[, c("step", "variable", "aic", "adj_r2")]
+#>   step         variable      aic    adj_r2
+#> 1    1          grocery 8758.803 0.5294001
+#> 2    2       delicassen 8691.088 0.5974372
+#> 3    3 detergents_paper 8689.441 0.5998442
+#> 4    4           frozen 8687.574 0.6024338
 ```
 
-The search adds four variables and lowers AIC from 9089.5 to 8687.6,
-with an adjusted R-squared of 0.60.
+The search adds four of the five variables, one per step.
+
+- AIC, a score where lower is better, falls from 8758.8 to 8687.6.
+- Adjusted R-squared, the share of variation explained, rises from 0.53
+  to 0.60.
 
 ## Learn more
 
